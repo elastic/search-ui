@@ -20,8 +20,8 @@ If you're using React, it can be as simple as this:
     ]}
   />
   <Facets>
-    <Facet field="author" label="Author">
-    <Facet field="title" label="Title">
+    <Facet field="author" label="Author" />
+    <Facet field="title" label="Title" />
   </Facets>
 </AppSearchProvider>
 ```
