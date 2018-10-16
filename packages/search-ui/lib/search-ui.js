@@ -1,7 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = searchUi;
 
 function searchUi() {
-    // TODO
+  console.log("searchUi");
+  // TODO
 }

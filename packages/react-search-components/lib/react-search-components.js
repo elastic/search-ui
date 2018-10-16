@@ -1,7 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = reactSearchComponents;
 
 function reactSearchComponents() {
-    // TODO
+  console.log("reactSearchComponents");
+  // TODO
 }
