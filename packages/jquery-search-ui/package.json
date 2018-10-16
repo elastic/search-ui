@@ -18,7 +18,9 @@
     "url": "git+https://github.com/elastic/search-ui.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "babel src --out-dir lib",
+    "prepare": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
@@ -26,5 +28,10 @@
   "dependencies": {
     "@elastic/jquery-search-components": "^0.1.0",
     "@elastic/search-ui": "^0.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0"
   }
 }

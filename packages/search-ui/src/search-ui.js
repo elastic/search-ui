@@ -1,8 +1,6 @@
 "use strict";
 
-module.exports = searchUi;
-
-function searchUi() {
+export default function searchUi() {
   console.log("searchUi");
   // TODO
 }

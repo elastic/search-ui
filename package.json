@@ -4,10 +4,12 @@
   "license": "Apache-2.0",
   "scripts": {
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "build": "lerna run build"
   },
   "devDependencies": {
     "jest": "^23.6.0",
     "lerna": "^3.4.3"
-  }
+  },
+  "dependencies": {}
 }
