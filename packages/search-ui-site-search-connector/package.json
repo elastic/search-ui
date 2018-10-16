@@ -1,0 +1,26 @@
+{
+  "name": "@elastic/search-ui-site-search-connector",
+  "version": "0.1.0",
+  "description": "A Search UI connector for Elastic's Site Search Service",
+  "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
+  "homepage": "https://github.com/elastic/search-ui#readme",
+  "license": "Apache-2.0",
+  "main": "lib/search-ui-site-search-connector.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elastic/search-ui.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/elastic/search-ui/issues"
+  }
+}

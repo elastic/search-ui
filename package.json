@@ -1,6 +1,7 @@
 {
   "name": "root",
   "private": true,
+  "license": "Apache-2.0",
   "devDependencies": {
     "lerna": "^3.4.3"
   }
