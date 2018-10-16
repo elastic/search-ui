@@ -1,7 +1,9 @@
-'use strict';
+"use strict";
 
-const jquerySearchComponents = require('..');
+const jquerySearchComponents = require("..");
 
-describe('jquery-search-components', () => {
-    it('needs tests');
+describe("jquery-search-components", () => {
+  it("needs tests", () => {
+    expect(true).toBe(true);
+  });
 });

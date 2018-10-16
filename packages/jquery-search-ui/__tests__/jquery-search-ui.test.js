@@ -1,7 +1,9 @@
-'use strict';
+"use strict";
 
-const jquerySearchUi = require('..');
+const jquerySearchUi = require("..");
 
-describe('jquery-search-ui', () => {
-    it('needs tests');
+describe("jquery-search-ui", () => {
+  it("needs tests", () => {
+    expect(true).toBe(true);
+  });
 });

@@ -1,7 +1,9 @@
-'use strict';
+"use strict";
 
-const reactSearchComponents = require('..');
+const reactSearchComponents = require("..");
 
-describe('react-search-components', () => {
-    it('needs tests');
+describe("react-search-components", () => {
+  it("needs tests", () => {
+    expect(true).toBe(true);
+  });
 });

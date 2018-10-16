@@ -1,7 +1,9 @@
-'use strict';
+"use strict";
 
-const searchUiElasticsearchConnector = require('..');
+const searchUiElasticsearchConnector = require("..");
 
-describe('search-ui-elasticsearch-connector', () => {
-    it('needs tests');
+describe("search-ui-elasticsearch-connector", () => {
+  it("needs tests", () => {
+    expect(true).toBe(true);
+  });
 });
