@@ -1,6 +1,6 @@
 "use strict";
 
-const reactSearchComponents = require("..");
+import reactSearchComponents from "..";
 
 describe("react-search-components", () => {
   it("needs tests", () => {

@@ -1,6 +1,6 @@
 "use strict";
 
-const jquerySearchUi = require("..");
+import jquerySearchUi from "..";
 
 describe("jquery-search-ui", () => {
   it("needs tests", () => {

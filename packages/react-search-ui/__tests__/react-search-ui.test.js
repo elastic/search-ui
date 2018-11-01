@@ -1,6 +1,6 @@
 "use strict";
 
-const reactSearchUi = require("..");
+import reactSearchUi from "..";
 
 describe("react-search-ui", () => {
   it("needs tests", () => {

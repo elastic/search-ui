@@ -1,9 +1,9 @@
 "use strict";
 
-const searchUi = require("..");
+import searchUi from "..";
 
 describe("search-ui", () => {
   it("needs tests", () => {
-    expect(true).toBe(true);
+    expect(searchUi()).toEqual(undefined);
   });
 });

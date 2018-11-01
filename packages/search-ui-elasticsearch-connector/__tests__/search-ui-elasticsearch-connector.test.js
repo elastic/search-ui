@@ -1,6 +1,6 @@
 "use strict";
 
-const searchUiElasticsearchConnector = require("..");
+import searchUiElasticsearchConnector from "..";
 
 describe("search-ui-elasticsearch-connector", () => {
   it("needs tests", () => {

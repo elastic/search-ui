@@ -1,6 +1,6 @@
 "use strict";
 
-const searchUiAppSearchConnector = require("..");
+import searchUiAppSearchConnector from "..";
 
 describe("search-ui-app-search-connector", () => {
   it("needs tests", () => {

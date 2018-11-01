@@ -1,6 +1,6 @@
 "use strict";
 
-const jquerySearchComponents = require("..");
+import jquerySearchComponents from "..";
 
 describe("jquery-search-components", () => {
   it("needs tests", () => {
