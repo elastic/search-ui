@@ -1,0 +1,558 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly when there is a selected value 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ResultsPerPage
+    onChange={[Function]}
+    options={
+      Array [
+        20,
+        40,
+      ]
+    }
+    value={40}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <label
+        htmlFor="results-per-page"
+      >
+        Show
+         
+        <select
+          id="results-per-page"
+          name="results-per-page"
+          onChange={[Function]}
+          value={40}
+        >
+          <option
+            value={20}
+          >
+            20
+          </option>
+          <option
+            value={40}
+          >
+            40
+          </option>
+        </select>
+      </label>,
+      "className": "results-per-page",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          "Show",
+          " ",
+          <select
+            id="results-per-page"
+            name="results-per-page"
+            onChange={[Function]}
+            value={40}
+          >
+            <option
+              value={20}
+            >
+              20
+            </option>
+            <option
+              value={40}
+            >
+              40
+            </option>
+          </select>,
+        ],
+        "htmlFor": "results-per-page",
+      },
+      "ref": null,
+      "rendered": Array [
+        "Show",
+        " ",
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <option
+                value={20}
+              >
+                20
+              </option>,
+              <option
+                value={40}
+              >
+                40
+              </option>,
+            ],
+            "id": "results-per-page",
+            "name": "results-per-page",
+            "onChange": [Function],
+            "value": 40,
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": "20",
+              "nodeType": "host",
+              "props": Object {
+                "children": 20,
+                "value": 20,
+              },
+              "ref": null,
+              "rendered": 20,
+              "type": "option",
+            },
+            Object {
+              "instance": null,
+              "key": "40",
+              "nodeType": "host",
+              "props": Object {
+                "children": 40,
+                "value": 40,
+              },
+              "ref": null,
+              "rendered": 40,
+              "type": "option",
+            },
+          ],
+          "type": "select",
+        },
+      ],
+      "type": "label",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <label
+          htmlFor="results-per-page"
+        >
+          Show
+           
+          <select
+            id="results-per-page"
+            name="results-per-page"
+            onChange={[Function]}
+            value={40}
+          >
+            <option
+              value={20}
+            >
+              20
+            </option>
+            <option
+              value={40}
+            >
+              40
+            </option>
+          </select>
+        </label>,
+        "className": "results-per-page",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            "Show",
+            " ",
+            <select
+              id="results-per-page"
+              name="results-per-page"
+              onChange={[Function]}
+              value={40}
+            >
+              <option
+                value={20}
+              >
+                20
+              </option>
+              <option
+                value={40}
+              >
+                40
+              </option>
+            </select>,
+          ],
+          "htmlFor": "results-per-page",
+        },
+        "ref": null,
+        "rendered": Array [
+          "Show",
+          " ",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <option
+                  value={20}
+                >
+                  20
+                </option>,
+                <option
+                  value={40}
+                >
+                  40
+                </option>,
+              ],
+              "id": "results-per-page",
+              "name": "results-per-page",
+              "onChange": [Function],
+              "value": 40,
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "20",
+                "nodeType": "host",
+                "props": Object {
+                  "children": 20,
+                  "value": 20,
+                },
+                "ref": null,
+                "rendered": 20,
+                "type": "option",
+              },
+              Object {
+                "instance": null,
+                "key": "40",
+                "nodeType": "host",
+                "props": Object {
+                  "children": 40,
+                  "value": 40,
+                },
+                "ref": null,
+                "rendered": 40,
+                "type": "option",
+              },
+            ],
+            "type": "select",
+          },
+        ],
+        "type": "label",
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`renders correctly when there is not a selected value 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ResultsPerPage
+    onChange={[Function]}
+    options={
+      Array [
+        20,
+        40,
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <label
+        htmlFor="results-per-page"
+      >
+        Show
+         
+        <select
+          id="results-per-page"
+          name="results-per-page"
+          onChange={[Function]}
+        >
+          <option
+            value={20}
+          >
+            20
+          </option>
+          <option
+            value={40}
+          >
+            40
+          </option>
+        </select>
+      </label>,
+      "className": "results-per-page",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          "Show",
+          " ",
+          <select
+            id="results-per-page"
+            name="results-per-page"
+            onChange={[Function]}
+          >
+            <option
+              value={20}
+            >
+              20
+            </option>
+            <option
+              value={40}
+            >
+              40
+            </option>
+          </select>,
+        ],
+        "htmlFor": "results-per-page",
+      },
+      "ref": null,
+      "rendered": Array [
+        "Show",
+        " ",
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <option
+                value={20}
+              >
+                20
+              </option>,
+              <option
+                value={40}
+              >
+                40
+              </option>,
+            ],
+            "id": "results-per-page",
+            "name": "results-per-page",
+            "onChange": [Function],
+            "value": undefined,
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": "20",
+              "nodeType": "host",
+              "props": Object {
+                "children": 20,
+                "value": 20,
+              },
+              "ref": null,
+              "rendered": 20,
+              "type": "option",
+            },
+            Object {
+              "instance": null,
+              "key": "40",
+              "nodeType": "host",
+              "props": Object {
+                "children": 40,
+                "value": 40,
+              },
+              "ref": null,
+              "rendered": 40,
+              "type": "option",
+            },
+          ],
+          "type": "select",
+        },
+      ],
+      "type": "label",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <label
+          htmlFor="results-per-page"
+        >
+          Show
+           
+          <select
+            id="results-per-page"
+            name="results-per-page"
+            onChange={[Function]}
+          >
+            <option
+              value={20}
+            >
+              20
+            </option>
+            <option
+              value={40}
+            >
+              40
+            </option>
+          </select>
+        </label>,
+        "className": "results-per-page",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            "Show",
+            " ",
+            <select
+              id="results-per-page"
+              name="results-per-page"
+              onChange={[Function]}
+            >
+              <option
+                value={20}
+              >
+                20
+              </option>
+              <option
+                value={40}
+              >
+                40
+              </option>
+            </select>,
+          ],
+          "htmlFor": "results-per-page",
+        },
+        "ref": null,
+        "rendered": Array [
+          "Show",
+          " ",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <option
+                  value={20}
+                >
+                  20
+                </option>,
+                <option
+                  value={40}
+                >
+                  40
+                </option>,
+              ],
+              "id": "results-per-page",
+              "name": "results-per-page",
+              "onChange": [Function],
+              "value": undefined,
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "20",
+                "nodeType": "host",
+                "props": Object {
+                  "children": 20,
+                  "value": 20,
+                },
+                "ref": null,
+                "rendered": 20,
+                "type": "option",
+              },
+              Object {
+                "instance": null,
+                "key": "40",
+                "nodeType": "host",
+                "props": Object {
+                  "children": 40,
+                  "value": 40,
+                },
+                "ref": null,
+                "rendered": 40,
+                "type": "option",
+              },
+            ],
+            "type": "select",
+          },
+        ],
+        "type": "label",
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
