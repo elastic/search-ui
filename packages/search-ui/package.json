@@ -5,7 +5,7 @@
   "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
   "homepage": "https://github.com/elastic/search-ui#readme",
   "license": "Apache-2.0",
-  "main": "lib/search-ui.js",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -28,10 +28,17 @@
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
     "regenerator-runtime": "^0.12.1"
+  },
+  "dependencies": {
+    "date-fns": "^1.29.0",
+    "history": "^4.7.2",
+    "qs": "^6.5.2",
+    "swiftype-app-search-javascript": "^2.1.0"
   }
 }

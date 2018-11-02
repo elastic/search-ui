@@ -1,9 +1,9 @@
 "use strict";
 
 import reactSearchComponents from "@elastic/react-search-components";
-import searchUi from "@elastic/search-ui";
+import { SearchDriver } from "@elastic/search-ui";
 
 export default function reactSearchUi() {
   reactSearchComponents();
-  searchUi();
+  console.log(SearchDriver);
 }
