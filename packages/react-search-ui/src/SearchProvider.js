@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { SearchDriver } from "@elastic/search-ui";
 
 import SearchContext from "./SearchContext";
 
@@ -19,25 +20,29 @@ import SearchContext from "./SearchContext";
 class SearchProvider extends Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
-    driver: PropTypes.shape({
-      getActions: PropTypes.func.isRequired,
-      getState: PropTypes.func.isRequired,
-      subscribeToStateChanges: PropTypes.func.isRequired
-    }).isRequired
+    // TODO These should all be TS types
+    config: PropTypes.shape({
+      apiConnector: PropTypes.object.isRequired,
+      facetConfig: PropTypes.object,
+      initialState: PropTypes.object,
+      searchOptions: PropTypes.object,
+      trackUrlState: PropTypes.bool
+    })
   };
 
   constructor(props) {
     super(props);
-    this.state = props.driver.getState();
-    props.driver.subscribeToStateChanges(state => this.setState(state));
+    this.driver = new SearchDriver(props.config);
+    this.state = this.driver.getState();
+    this.driver.subscribeToStateChanges(state => this.setState(state));
   }
 
   render() {
-    const { children, driver } = this.props;
+    const { children } = this.props;
 
     const providerValue = {
       ...this.state,
-      ...driver.getActions()
+      ...this.driver.getActions()
     };
 
     return (
