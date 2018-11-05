@@ -1,15 +1,9 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
-import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
-import AppSearchAPIConnector from "../AppSearchAPIConnector";
 
-jest.mock("swiftype-app-search-javascript");
-
-const mockClient = {
+const mockApiConnector = {
   search: jest.fn().mockReturnValue({ then: cb => cb(resultList) }),
   click: jest.fn().mockReturnValue(Promise.resolve())
 };
-
-SwiftypeAppSearch.createClient.mockReturnValue(mockClient);
 
 const resultList = {
   info: {
@@ -37,17 +31,15 @@ const resultListWithoutFacets = {
 };
 
 const params = {
-  apiConnector: new AppSearchAPIConnector({
-    engineName: "some-engine",
-    hostIdentifier: "host-XXXX",
-    searchKey: "search-XXXXX"
-  }),
+  apiConnector: mockApiConnector,
   trackUrlState: false
 };
 
 beforeEach(() => {
-  mockClient.search = jest.fn().mockReturnValue({ then: cb => cb(resultList) });
-  mockClient.click = jest.fn().mockReturnValue({ then: () => {} });
+  mockApiConnector.search = jest
+    .fn()
+    .mockReturnValue({ then: cb => cb(resultList) });
+  mockApiConnector.click = jest.fn().mockReturnValue({ then: () => {} });
 });
 
 it("can be initialized", () => {
@@ -86,7 +78,7 @@ it("will default facets to {} in state if facets is missing from the response", 
     searchTerm: "test"
   };
 
-  mockClient.search = jest
+  mockApiConnector.search = jest
     .fn()
     .mockReturnValue({ then: cb => cb(resultListWithoutFacets) });
 

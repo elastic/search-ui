@@ -22,7 +22,10 @@ class SearchProvider extends Component {
     children: PropTypes.func.isRequired,
     // TODO These should all be TS types
     config: PropTypes.shape({
-      apiConnector: PropTypes.object.isRequired,
+      apiConnector: PropTypes.shape({
+        click: PropTypes.func.isRequired,
+        search: PropTypes.func.isRequired
+      }).isRequired,
       facetConfig: PropTypes.object,
       initialState: PropTypes.object,
       searchOptions: PropTypes.object,

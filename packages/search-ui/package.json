@@ -38,7 +38,6 @@
   "dependencies": {
     "date-fns": "^1.29.0",
     "history": "^4.7.2",
-    "qs": "^6.5.2",
-    "swiftype-app-search-javascript": "^2.1.0"
+    "qs": "^6.5.2"
   }
 }
