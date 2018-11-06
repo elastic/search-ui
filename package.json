@@ -3,7 +3,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "test": "lerna run test",
+    "test": "lerna run test --stream",
     "build": "lerna run build"
   },
   "devDependencies": {
