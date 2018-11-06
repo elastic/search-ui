@@ -69,7 +69,7 @@ export default class AppSearchAPIConnector {
 
     return this.client.search(searchTerm, {
       ...searchOptions,
-      disjunctiveFacets
+      ...(disjunctiveFacets.length && { disjunctiveFacets })
     });
   }
 }
