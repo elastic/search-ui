@@ -1,87 +1,182 @@
 # Search UI
 
-A flexible collection of JavaScript library for building search experiences.
+A flexible collection of JavaScript libraries for building search experiences.
 
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
-This is the top level workspace for all of the related libraries. You won't find any code here, to find individual libraries, look in the [packages](packages) directory.
+This is the top level workspace for all Search UI libraries. You won't find any code here; to find individual libraries, look in the [packages](packages) directory.
 
-## What it looks like
+## What Search UI Provides
 
-If you're using React, it can be as simple as this:
-
-```jsx
-<SearchUIProvider driver={appSearchConnector}>
-  <SearchBox />
-  <Sorting
-    sortOptions={[
-      {name: "Relevance", value: "", direction: ""},
-      {name: "Published", value: "published_at", direction: "desc"}
-    ]}
-  />
-  <Facets>
-    <Facet field="author" label="Author" />
-    <Facet field="title" label="Title" />
-  </Facets>
-</SearchUIProvider>
-```
-
-That's it. We'll handle all of the state management, API calls, and url management for you. All you need to do is compose the UI.
-
-Using JQuery? No problem, we're flexible.
-
-```javascript
-
-new SearchBox(".search-box", appSearchConnector);
-new Sorting(".sorting", appSearchConnector, {
-  sortOptions: [
-    {name: "Relevance", value: "", direction: ""},
-    {name: "Published", value: "published_at", direction: "desc"}
-  ]
-});
-new Facet(".author-facet", appSearchConnector, {
-  field: "author",
-  label: "Author"
-});
-new Facet(".title-facet", appSearchConnector, {
-  field: "title",
-  label: "Title"
-});
-```
-
-Using some other framework? Just using vanilla JavaScript? Using [elasticsearch](https://www.elastic.co/products/elasticsearch)? We support just about any configuration. Read on to learn more.
+- Component-based libraries to quickly compose search experiences
+- Full state management with optional URL synchronization
+- API Connectors so that you can use this with any Search API
+- Optional layers of abstraction that let you customize and integrate at a level that suits your needs
 
 ## Quick Start
 
-We'll point you in the right direction, depending on your setup:
+Pick an [Implementation](#implementation), and a [Connector](#connectors), then get to work:
 
-First off, what framework are you using?
-- [React](packages/react-search-ui)
-- [JQuery](packages/jquery-search-ui)
-- [None of the above](packages/search-ui)
+```sh
+npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
+```
 
-What search service are you using?
+```jsx
+import React from "react";
+import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import { SearchProvider, Results, SearchBox } from "@elastic/react-search-ui";
 
-- [Elastic App Search](packages/search-ui-app-search-connector)
-- [Elastic Site Search](packages/search-ui-site-search-connector)
-- [elasticsearch](packages/search-ui-elasticsearch-connector)
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
+  engineName: "national-parks-demo",
+  hostIdentifier: "host-2376rb"
+});
 
-"I'm just looking for some snazzy looking UI components, I don't care about state management, and I'm using..."
+const config = {
+  apiConnector: connector,
+  facetConfig: { states: { type: "value" } },
+  searchOptions: {
+    search_fields: { title: {} },
+    result_fields: { title: { snippet: { size: 300, fallback: true } } }
+  }
+};
+
+export default function App() {
+  return (
+    <SearchProvider config={config}>
+      {_ => (
+        <div className="App">
+          <SearchBox />
+          <Results />
+        </div>
+      )}
+    </SearchProvider>
+  );
+}
+```
+
+## Libraries
+
+### The main Framework Implementations <a id="implementation"></a>
+
+These are our full featured, framework specific libraries.
+
+- [react-search-ui](packages/react-search-ui)
+- [jquery-search-ui](packages/jquery-search-ui)
+
+### The core
+
+Both `react-search-ui` and `jquery-search-ui` are built on top of `search-ui`. If you're
+using some other framework, or just want a lower-level API, you can still leverage
+the core `search-ui` library to build a great search experience.
+
+- [search-ui](packages/search-ui)
+
+### The Service Connectors <a id="connectors"></a>
+
+Search UI can be used on top of any search API ... as long as there is a connector
+for it. We provide the following:
+
+- [search-ui-app-search-connector](packages/search-ui-app-search-connector)
+- [search-ui-site-search-connector](packages/search-ui-site-search-connector)
+- [search-ui-elasticsearch-connector](packages/search-ui-elasticsearch-connector)
+
+We also provide our views in standalone libraries. You'll find our component
+markup and CSS here. If you'd like to simply leverage some out of the box styles
+in your own app, feel free to use them.
 
 - [React](packages/react-search-components)
 - [JQuery](packages/jquery-search-components)
 
-## Overview
+## A bit more about the technical design
 
-Search UI is built in layers, which allows you to find the right level of abstraction for your particular use case.
+```
+  +--------------------+
+  | Search Service API | (elasticsearch, etc.)
+  +--------------------+
+      ^
+      |
+      |
+  +-------------------+
+  | Service Connector | (search-ui-elasticsearch-connector, etc.)
+  +-------------------+
+      ^ (common connector interface)
+      |
+      |
+    (State manager)       (Syncs state with URL)
+  +--------------+        +--------------+
+  | Search UI    | <----> | URL Manager  |
+  +--------------+        +--------------+
+      |
+      | (actions / state)
+      v
+  +-----------------+
+  | Implementation  | (react-search-ui, etc.)
+  +-----------------+
+      |
+      v
+  +------------+
+  | Components | (react-search-components, etc.)
+  +------------+
+```
 
-### search-ui
-At the heart of the library is [search-ui](packages/search-ui), which we refer to as a "Headless Search Experience". It handles all of the state management concerns of a search experience, and simply exposes that state as a `state` objects and a group of `actions` to act on that state. If you've used Redux before, you will feel right at home using `search-ui`. It is built with plain old javascript, and serves as the heart of our React and JQuery libraries, but can also be used independently if you are using another framework, or just vanilla JavaScript.
+### Search UI
 
-### search service connectors
-`search-ui` expects a REST API to be available for searching. We'd like to be able to use this
-library with any number of APIs, including Elastic's [Site Search](https://www.elastic.co/cloud/site-search-service), [App Search](https://www.elastic.co/cloud/app-search-service), and [elasticsearch](https://www.elastic.co/products/elasticsearch). We provide connectors for [each](packages/search-ui-site-search-connector) of [those](packages/search-ui-app-search-connector) [services](packages/search-ui-elasticsearch-connector). Don't see your search service on this list? Just create a new connector!
+At the heart of the library is [search-ui](packages/search-ui), which we refer to as a "Headless Search Experience". It handles all of the state management concerns of a search experience, and simply exposes that state as a `state` objects and a group of `actions` to act on that state. If you've used Redux before, you will feel right at home using `search-ui`. It is built with plain old javascript, and serves as the base for our Framework Implementations, but can also be used independently if you are using another framework, or just vanilla JavaScript.
 
-### framework support
+### Framework Integrations
 
-If you're using this library, you're most likely using it within a framework like React. We currently have first class support for both [React](packages/react-search-components) and [JQuery](packages/jquery-search-components).
+Our integrations provide first class support for [React](packages/react-search-components) and [JQuery](packages/jquery-search-components). They provide out of the box components that you can use to
+easily compose a search experience.
+
+### Service Connectors
+
+[search-ui](packages/search-ui) expects an API to be available for searching. We'd like to be able to use this
+library with any number of APIs, including Elastic's [Site Search](https://www.elastic.co/cloud/site-search-service), [App Search](https://www.elastic.co/cloud/app-search-service), and [elasticsearch](https://www.elastic.co/products/elasticsearch). We provide connectors for [each](packages/search-ui-site-search-connector) of [those](packages/search-ui-app-search-connector) [services](packages/search-ui-elasticsearch-connector).
+
+### Components
+
+Our Framework Integrations are technically "Headless". They provide no view of their own,
+they use views and styles provided by our component libraries.
+
+## Development
+
+### Setup
+
+```shell
+git clone git@github.com:elastic/search-ui.git
+npm install
+npx lerna bootstrap
+```
+
+### Testing
+
+All packages:
+
+```shell
+# from project root
+npm run test
+```
+
+Single package:
+
+```shell
+# from inside a package
+npm run test
+```
+
+### Building
+
+All packages:
+
+```shell
+# from project root
+npm run build
+```
+
+Single package:
+
+```shell
+# from inside a package
+npm run build
+```
