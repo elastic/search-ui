@@ -4,6 +4,10 @@ A flexible collection of JavaScript libraries for building search experiences.
 
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
+Most search experiences follow similar patterns; search bar, results, paging, sorting, filters, url state... the list goes on. Search UI gives you a means of quickly implementing these pattern without re-inventing the wheel.
+
+We understand that no two experiences are exactly the same. Because of this, so we aim to provide a toolset that is flexible enough to meet any demand, be it a completely out of the box experience or a highly custom UI that requires just some low level APIs.
+
 This is the top level workspace for all Search UI libraries. You won't find any code here; to find individual libraries, look in the [packages](packages) directory.
 
 ## What Search UI Provides

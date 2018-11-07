@@ -146,78 +146,8 @@ function matchFilter(filter1, filter2) {
 }
 
 /*
- * The Driver is a framework agnostic state manager for App Search apps. Meaning,
- * it is the source of truth for state in this React App, but it has no
- * dependencies on React itself.
- *
- * The public interface of the Driver can be thought about as "state" and
- * "actions."
- *
- * Ways to GET state:
- * - getState - Get the initial app state
- * - subscribeToStateChanges - Get updated state whenever it changes.
- *
- * Ways to SET state, using actions. All actions can be found in 'getActions'.
- *
- * const {addFilter} = getActions().
- *
- * addFilter, and most actions, will typically update the state and trigger
- * new queries to be run against the search API.
- *
- * Configuration:
- *
- * - apiConnector: APIConnector
- *   Instance of an API Connector. For instance, AppSearchAPIConnector
- *
- * - facetConfig: Facet
- *   Configuration for Facet filters to be used within this application. The
- *   syntax for Facet configuration follows the API syntax:
- *   https://swiftype.com/documentation/app-search/api/search/facets. In
- *   addition to the options provided by the API, the following per Facet
- *   configuration is also available:
- *     - conditional[function]
- *       This facet will only be applied if the condition specified returns
- *       true, based on the current applied filters.
- *     - disjunctive[boolean]
- *       When returning counts for disjunctive facets, the counts will be
- *       returned as if no filter is applied on this field, even if one is
- *       applied. A common use case for this is tabbed filters.
- *
- *   ex.
- *   facetConfig: {
- *     author: {
- *       type: "value",
- *       size: 40,
- *       disjunctive: true,
- *       conditional: ({ filters }) =>
- *         ["blog", "videos"].includes(filters.filter(f => f["website_area"]))
- *     }
- *   }
- *
- * - initialState: Object
- *   Set initial input state, or search parameters. For example, initializing
- *   the search page with certain parameters already set:
- *`
- *   initialState: {
- *     searchTerm: "test",
- *     resultsPerPage: 40
- *   }
- *
- *   Valid search parameters are:
- *     current: Integer
- *     filters: Array[Object]
- *     resultsPerPage: Integer
- *     searchTerm: String
- *     sortDirection: String ["asc"|"desc"]
- *     sortField: String
- *
- * - searchOptions: Object
- *   This is low level configuration which lets you configure
- *   the options used on the Search API endpoint, ex: `result_fields`.
- *   https://swiftype.com/documentation/app-search/api/search
- *
- * - trackURLState: Boolean
- *   URL State management can be disabled completely
+ * The Driver is a framework agnostic search state manager that is capable
+ * syncing state to the url.
  */
 export default class SearchDriver {
   state = DEFAULT_STATE;
@@ -531,27 +461,6 @@ export default class SearchDriver {
   };
 
   /**
-   * Report a click through event. A click through event is when a user
-   * clicks on a result link. Click events can be reviewed in the App Search
-   * Analytics Dashboard.
-   *
-   * @param documentId String The document ID associated with result that was
-   * clicked
-   * @param tag Array[String] Optional Tags which can be used to categorize
-   * this click event in App Search Analytics dashboard
-   */
-  trackClickThrough = (documentId, tags = []) => {
-    const { requestId, searchTerm } = this.state;
-
-    this.apiConnector.click({
-      query: searchTerm,
-      documentId,
-      requestId,
-      tags
-    });
-  };
-
-  /**
    * Set the current page
    *
    * Will trigger new search
@@ -561,6 +470,27 @@ export default class SearchDriver {
   setCurrent = current => {
     this._updateSearchResults({
       current
+    });
+  };
+
+  /**
+   * Report a click through event. A click through event is when a user
+   * clicks on a result link. Click events can be reviewed in the App Search
+   * Analytics Dashboard.
+   *
+   * @param documentId String The document ID associated with result that was
+   * clicked
+   * @param tag Array[String] Optional Tags which can be used to categorize
+   * this click event
+   */
+  trackClickThrough = (documentId, tags = []) => {
+    const { requestId, searchTerm } = this.state;
+
+    this.apiConnector.click({
+      query: searchTerm,
+      documentId,
+      requestId,
+      tags
     });
   };
 }
