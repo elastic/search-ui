@@ -16,6 +16,7 @@ export class FacetContainer extends Component {
     render: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
+    show: PropTypes.number,
     // State
     filters: PropTypes.arrayOf(Filter).isRequired,
     facets: PropTypes.objectOf(FacetDetail).isRequired,
@@ -25,9 +26,12 @@ export class FacetContainer extends Component {
     setFilter: PropTypes.func.isRequired
   };
 
-  state = {
-    more: 5
-  };
+  constructor(props) {
+    super();
+    this.state = {
+      more: props.show || 5
+    };
+  }
 
   handleClickMore = () => {
     this.setState(({ more }) => ({

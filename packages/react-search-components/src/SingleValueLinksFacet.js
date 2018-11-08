@@ -1,13 +1,20 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { FacetOption } from "./types";
+import { ValueFacetOption, ValueFilterValue } from "./types";
 
-function Facet({ name, onRemove, onSelect, options, value }) {
+function SingleValueLinksFacet({
+  label,
+  onRemove,
+  onSelect,
+  options,
+  values = []
+}) {
+  const value = values[0];
   return (
-    <div className="facet">
+    <div className="facet eco-search-facet">
       <div>
-        <div className="facet__title">{name}</div>
+        <div className="facet__title">{label}</div>
         <ul className="facet__list">
           {value && (
             <li className="facet__selected">
@@ -15,7 +22,10 @@ function Facet({ name, onRemove, onSelect, options, value }) {
               <span className="facet__remove">
                 (
                 <a
-                  onClick={clickEvent => onRemove({ clickEvent, value })}
+                  onClick={e => {
+                    e.preventDefault();
+                    onRemove(value);
+                  }}
                   href="/"
                 >
                   Remove
@@ -30,9 +40,10 @@ function Facet({ name, onRemove, onSelect, options, value }) {
                 <a
                   className="facet__link"
                   href="/"
-                  onClick={clickEvent =>
-                    onSelect({ clickEvent, value: option.value })
-                  }
+                  onClick={e => {
+                    e.preventDefault();
+                    onSelect(option.value);
+                  }}
                 >
                   {option.value}
                 </a>{" "}
@@ -45,12 +56,12 @@ function Facet({ name, onRemove, onSelect, options, value }) {
   );
 }
 
-Facet.propTypes = {
-  name: PropTypes.string.isRequired,
+SingleValueLinksFacet.propTypes = {
+  label: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetOption).isRequired,
-  value: PropTypes.string
+  options: PropTypes.arrayOf(ValueFacetOption).isRequired,
+  values: PropTypes.arrayOf(ValueFilterValue)
 };
 
-export default Facet;
+export default SingleValueLinksFacet;

@@ -1,20 +1,22 @@
 import React from "react";
-import Facet from "../Facet";
+import SingleValueLinksFacet from "../SingleValueLinksFacet";
 import { shallow } from "enzyme";
 
 const requiredProps = {
-  name: "Facet",
+  label: "Facet",
   onRemove: () => {},
   onSelect: () => {},
   options: [{ value: "1", count: 1 }, { value: "2", count: 1 }]
 };
 
 it("renders correctly when a value is selected", () => {
-  const wrapper = shallow(<Facet {...requiredProps} value="value" />);
+  const wrapper = shallow(
+    <SingleValueLinksFacet {...requiredProps} value="value" />
+  );
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when a value is not selected", () => {
-  const wrapper = shallow(<Facet {...requiredProps} />);
+  const wrapper = shallow(<SingleValueLinksFacet {...requiredProps} />);
   expect(wrapper).toMatchSnapshot();
 });

@@ -3,8 +3,8 @@
 exports[`renders correctly when a value is not selected 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Facet
-    name="Facet"
+  Symbol(enzyme.__unrendered__): <SingleValueLinksFacet
+    label="Facet"
     onRemove={[Function]}
     onSelect={[Function]}
     options={
@@ -78,7 +78,7 @@ ShallowWrapper {
           </li>
         </ul>
       </div>,
-      "className": "facet",
+      "className": "facet eco-search-facet",
     },
     "ref": null,
     "rendered": Object {
@@ -362,7 +362,7 @@ ShallowWrapper {
             </li>
           </ul>
         </div>,
-        "className": "facet",
+        "className": "facet eco-search-facet",
       },
       "ref": null,
       "rendered": Object {
@@ -619,8 +619,8 @@ ShallowWrapper {
 exports[`renders correctly when a value is selected 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Facet
-    name="Facet"
+  Symbol(enzyme.__unrendered__): <SingleValueLinksFacet
+    label="Facet"
     onRemove={[Function]}
     onSelect={[Function]}
     options={
@@ -660,26 +660,42 @@ ShallowWrapper {
           className="facet__list"
         >
           <li
-            className="facet__selected"
+            className="facet__item"
           >
-            value
+            <a
+              className="facet__link"
+              href="/"
+              onClick={[Function]}
+            >
+              1
+            </a>
              
             <span
-              className="facet__remove"
+              className="facet__count"
             >
-              (
-              <a
-                href="/"
-                onClick={[Function]}
-              >
-                Remove
-              </a>
-              )
+              1
+            </span>
+          </li>
+          <li
+            className="facet__item"
+          >
+            <a
+              className="facet__link"
+              href="/"
+              onClick={[Function]}
+            >
+              2
+            </a>
+             
+            <span
+              className="facet__count"
+            >
+              1
             </span>
           </li>
         </ul>
       </div>,
-      "className": "facet",
+      "className": "facet eco-search-facet",
     },
     "ref": null,
     "rendered": Object {
@@ -697,21 +713,37 @@ ShallowWrapper {
             className="facet__list"
           >
             <li
-              className="facet__selected"
+              className="facet__item"
             >
-              value
+              <a
+                className="facet__link"
+                href="/"
+                onClick={[Function]}
+              >
+                1
+              </a>
                
               <span
-                className="facet__remove"
+                className="facet__count"
               >
-                (
-                <a
-                  href="/"
-                  onClick={[Function]}
-                >
-                  Remove
-                </a>
-                )
+                1
+              </span>
+            </li>
+            <li
+              className="facet__item"
+            >
+              <a
+                className="facet__link"
+                href="/"
+                onClick={[Function]}
+              >
+                2
+              </a>
+               
+              <span
+                className="facet__count"
+              >
+                1
               </span>
             </li>
           </ul>,
@@ -737,98 +769,157 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <li
-                className="facet__selected"
-              >
-                value
-                 
-                <span
-                  className="facet__remove"
+              undefined,
+              Array [
+                <li
+                  className="facet__item"
                 >
-                  (
                   <a
+                    className="facet__link"
                     href="/"
                     onClick={[Function]}
                   >
-                    Remove
+                    1
                   </a>
-                  )
-                </span>
-              </li>,
-              false,
+                   
+                  <span
+                    className="facet__count"
+                  >
+                    1
+                  </span>
+                </li>,
+                <li
+                  className="facet__item"
+                >
+                  <a
+                    className="facet__link"
+                    href="/"
+                    onClick={[Function]}
+                  >
+                    2
+                  </a>
+                   
+                  <span
+                    className="facet__count"
+                  >
+                    1
+                  </span>
+                </li>,
+              ],
             ],
             "className": "facet__list",
           },
           "ref": null,
           "rendered": Array [
+            undefined,
             Object {
               "instance": null,
-              "key": undefined,
+              "key": "1",
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "value",
+                  <a
+                    className="facet__link"
+                    href="/"
+                    onClick={[Function]}
+                  >
+                    1
+                  </a>,
                   " ",
                   <span
-                    className="facet__remove"
+                    className="facet__count"
                   >
-                    (
-                    <a
-                      href="/"
-                      onClick={[Function]}
-                    >
-                      Remove
-                    </a>
-                    )
+                    1
                   </span>,
                 ],
-                "className": "facet__selected",
+                "className": "facet__item",
               },
               "ref": null,
               "rendered": Array [
-                "value",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "1",
+                    "className": "facet__link",
+                    "href": "/",
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": "1",
+                  "type": "a",
+                },
                 " ",
                 Object {
                   "instance": null,
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": Array [
-                      "(",
-                      <a
-                        href="/"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </a>,
-                      ")",
-                    ],
-                    "className": "facet__remove",
+                    "children": 1,
+                    "className": "facet__count",
                   },
                   "ref": null,
-                  "rendered": Array [
-                    "(",
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": "Remove",
-                        "href": "/",
-                        "onClick": [Function],
-                      },
-                      "ref": null,
-                      "rendered": "Remove",
-                      "type": "a",
-                    },
-                    ")",
-                  ],
+                  "rendered": 1,
                   "type": "span",
                 },
               ],
               "type": "li",
             },
-            false,
+            Object {
+              "instance": null,
+              "key": "2",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <a
+                    className="facet__link"
+                    href="/"
+                    onClick={[Function]}
+                  >
+                    2
+                  </a>,
+                  " ",
+                  <span
+                    className="facet__count"
+                  >
+                    1
+                  </span>,
+                ],
+                "className": "facet__item",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "2",
+                    "className": "facet__link",
+                    "href": "/",
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": "2",
+                  "type": "a",
+                },
+                " ",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": 1,
+                    "className": "facet__count",
+                  },
+                  "ref": null,
+                  "rendered": 1,
+                  "type": "span",
+                },
+              ],
+              "type": "li",
+            },
           ],
           "type": "ul",
         },
@@ -853,26 +944,42 @@ ShallowWrapper {
             className="facet__list"
           >
             <li
-              className="facet__selected"
+              className="facet__item"
             >
-              value
+              <a
+                className="facet__link"
+                href="/"
+                onClick={[Function]}
+              >
+                1
+              </a>
                
               <span
-                className="facet__remove"
+                className="facet__count"
               >
-                (
-                <a
-                  href="/"
-                  onClick={[Function]}
-                >
-                  Remove
-                </a>
-                )
+                1
+              </span>
+            </li>
+            <li
+              className="facet__item"
+            >
+              <a
+                className="facet__link"
+                href="/"
+                onClick={[Function]}
+              >
+                2
+              </a>
+               
+              <span
+                className="facet__count"
+              >
+                1
               </span>
             </li>
           </ul>
         </div>,
-        "className": "facet",
+        "className": "facet eco-search-facet",
       },
       "ref": null,
       "rendered": Object {
@@ -890,21 +997,37 @@ ShallowWrapper {
               className="facet__list"
             >
               <li
-                className="facet__selected"
+                className="facet__item"
               >
-                value
+                <a
+                  className="facet__link"
+                  href="/"
+                  onClick={[Function]}
+                >
+                  1
+                </a>
                  
                 <span
-                  className="facet__remove"
+                  className="facet__count"
                 >
-                  (
-                  <a
-                    href="/"
-                    onClick={[Function]}
-                  >
-                    Remove
-                  </a>
-                  )
+                  1
+                </span>
+              </li>
+              <li
+                className="facet__item"
+              >
+                <a
+                  className="facet__link"
+                  href="/"
+                  onClick={[Function]}
+                >
+                  2
+                </a>
+                 
+                <span
+                  className="facet__count"
+                >
+                  1
                 </span>
               </li>
             </ul>,
@@ -930,98 +1053,157 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                <li
-                  className="facet__selected"
-                >
-                  value
-                   
-                  <span
-                    className="facet__remove"
+                undefined,
+                Array [
+                  <li
+                    className="facet__item"
                   >
-                    (
                     <a
+                      className="facet__link"
                       href="/"
                       onClick={[Function]}
                     >
-                      Remove
+                      1
                     </a>
-                    )
-                  </span>
-                </li>,
-                false,
+                     
+                    <span
+                      className="facet__count"
+                    >
+                      1
+                    </span>
+                  </li>,
+                  <li
+                    className="facet__item"
+                  >
+                    <a
+                      className="facet__link"
+                      href="/"
+                      onClick={[Function]}
+                    >
+                      2
+                    </a>
+                     
+                    <span
+                      className="facet__count"
+                    >
+                      1
+                    </span>
+                  </li>,
+                ],
               ],
               "className": "facet__list",
             },
             "ref": null,
             "rendered": Array [
+              undefined,
               Object {
                 "instance": null,
-                "key": undefined,
+                "key": "1",
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
-                    "value",
+                    <a
+                      className="facet__link"
+                      href="/"
+                      onClick={[Function]}
+                    >
+                      1
+                    </a>,
                     " ",
                     <span
-                      className="facet__remove"
+                      className="facet__count"
                     >
-                      (
-                      <a
-                        href="/"
-                        onClick={[Function]}
-                      >
-                        Remove
-                      </a>
-                      )
+                      1
                     </span>,
                   ],
-                  "className": "facet__selected",
+                  "className": "facet__item",
                 },
                 "ref": null,
                 "rendered": Array [
-                  "value",
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "1",
+                      "className": "facet__link",
+                      "href": "/",
+                      "onClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": "1",
+                    "type": "a",
+                  },
                   " ",
                   Object {
                     "instance": null,
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": Array [
-                        "(",
-                        <a
-                          href="/"
-                          onClick={[Function]}
-                        >
-                          Remove
-                        </a>,
-                        ")",
-                      ],
-                      "className": "facet__remove",
+                      "children": 1,
+                      "className": "facet__count",
                     },
                     "ref": null,
-                    "rendered": Array [
-                      "(",
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "host",
-                        "props": Object {
-                          "children": "Remove",
-                          "href": "/",
-                          "onClick": [Function],
-                        },
-                        "ref": null,
-                        "rendered": "Remove",
-                        "type": "a",
-                      },
-                      ")",
-                    ],
+                    "rendered": 1,
                     "type": "span",
                   },
                 ],
                 "type": "li",
               },
-              false,
+              Object {
+                "instance": null,
+                "key": "2",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <a
+                      className="facet__link"
+                      href="/"
+                      onClick={[Function]}
+                    >
+                      2
+                    </a>,
+                    " ",
+                    <span
+                      className="facet__count"
+                    >
+                      1
+                    </span>,
+                  ],
+                  "className": "facet__item",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "2",
+                      "className": "facet__link",
+                      "href": "/",
+                      "onClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": "2",
+                    "type": "a",
+                  },
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": 1,
+                      "className": "facet__count",
+                    },
+                    "ref": null,
+                    "rendered": 1,
+                    "type": "span",
+                  },
+                ],
+                "type": "li",
+              },
             ],
             "type": "ul",
           },

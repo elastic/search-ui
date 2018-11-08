@@ -90,8 +90,8 @@ it("should still render if there are no options available, but there is a select
 describe("show more", () => {
   let wrapper;
 
-  beforeAll(() => {
-    wrapper = shallow(
+  function subject(additionalProps = {}) {
+    return shallow(
       <FacetContainer
         {...{
           ...params,
@@ -121,14 +121,25 @@ describe("show more", () => {
                 type: "value"
               }
             ]
-          }
+          },
+          ...additionalProps
         }}
       />
     );
+  }
+
+  beforeAll(() => {
+    wrapper = subject();
   });
 
   it("should limit options to 5 initially", () => {
     expect(wrapper.find("div").prop("options").length).toEqual(5);
+  });
+
+  it("should start at more than 5 initially if a show prop is passed", () => {
+    const initialCount = 10;
+    const newWrapper = subject({ show: initialCount });
+    expect(newWrapper.find("div").prop("options").length).toEqual(initialCount);
   });
 
   it("should have a show more button", () => {
