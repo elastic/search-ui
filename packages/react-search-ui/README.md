@@ -66,14 +66,14 @@ The SearchProvider is the core engine behind Search UI. It provides [actions](..
 and [state](../search-ui/README.md#state) in a React [context](https://reactjs.org/docs/context.html). If
 you are familiar with Redux, you should recognize this model.
 
-`SearchProvider` is essentially a wrapper around our `search-ui` [README](../search-ui/README).
+`SearchProvider` is essentially a wrapper around our [`search-ui`](../search-ui).
 
 Params:
 
-| name     | type                                       | description                                                                                                                                                                     |
-| -------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config   | [Config](../search-ui/README#driverconfig) |                                                                                                                                                                                 |
-| children | function                                   | A render prop function that receives [state](../search-ui/README.md#state) and [actions](../search-ui/README.md#actions) in a flattened object<br/><br/>`state => return <div>` |
+| name     | type                                          | description                                                                                                                                                                     |
+| -------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config   | [Config](../search-ui/README.md#driverconfig) |                                                                                                                                                                                 |
+| children | function                                      | A render prop function that receives [state](../search-ui/README.md#state) and [actions](../search-ui/README.md#actions) in a flattened object<br/><br/>`state => return <div>` |
 
 **Connectors**
 
@@ -97,6 +97,8 @@ TODO Update after I add Facet
 - Sorting
 
 ## Customization
+
+TODO: document withSearch
 
 TODO: Use with Redux or React Router
 
