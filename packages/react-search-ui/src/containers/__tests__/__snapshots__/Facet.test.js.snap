@@ -1,0 +1,508 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FacetContainer
+    addFilter={[MockFunction]}
+    facets={
+      Object {
+        "field1": Array [
+          Object {
+            "data": Array [
+              Object {
+                "count": 20,
+                "value": "field1value1",
+              },
+              Object {
+                "count": 10,
+                "value": "field1value2",
+              },
+            ],
+            "type": "value",
+          },
+        ],
+        "field2": Array [
+          Object {
+            "data": Array [
+              Object {
+                "count": 10,
+                "value": "field2value1",
+              },
+            ],
+            "type": "value",
+          },
+        ],
+        "field3": Array [
+          Object {
+            "data": Array [],
+            "type": "value",
+          },
+        ],
+      }
+    }
+    field="field1"
+    filters={
+      Array [
+        Object {
+          "field1": Array [
+            "field1value1",
+          ],
+        },
+      ]
+    }
+    label="Field 1"
+    removeFilter={[MockFunction]}
+    render={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "label": "Field 1",
+              "onChange": [Function],
+              "onMoreClick": [Function],
+              "onRemove": [Function],
+              "onSelect": [Function],
+              "options": Array [
+                Object {
+                  "count": 20,
+                  "value": "field1value1",
+                },
+                Object {
+                  "count": 10,
+                  "value": "field1value2",
+                },
+              ],
+              "showMore": false,
+              "values": Array [
+                "field1value1",
+              ],
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": <div
+              label="Field 1"
+              onChange={[Function]}
+              onMoreClick={[Function]}
+              onRemove={[Function]}
+              onSelect={[Function]}
+              options={
+                Array [
+                  Object {
+                    "count": 20,
+                    "value": "field1value1",
+                  },
+                  Object {
+                    "count": 10,
+                    "value": "field1value2",
+                  },
+                ]
+              }
+              showMore={false}
+              values={
+                Array [
+                  "field1value1",
+                ]
+              }
+            />,
+          },
+        ],
+      }
+    }
+    setFilter={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "label": "Field 1",
+      "onChange": [Function],
+      "onMoreClick": [Function],
+      "onRemove": [Function],
+      "onSelect": [Function],
+      "options": Array [
+        Object {
+          "count": 20,
+          "value": "field1value1",
+        },
+        Object {
+          "count": 10,
+          "value": "field1value2",
+        },
+      ],
+      "showMore": false,
+      "values": Array [
+        "field1value1",
+      ],
+    },
+    "ref": null,
+    "rendered": null,
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "label": "Field 1",
+        "onChange": [Function],
+        "onMoreClick": [Function],
+        "onRemove": [Function],
+        "onSelect": [Function],
+        "options": Array [
+          Object {
+            "count": 20,
+            "value": "field1value1",
+          },
+          Object {
+            "count": 10,
+            "value": "field1value2",
+          },
+        ],
+        "showMore": false,
+        "values": Array [
+          "field1value1",
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`should not render a Facet if there are no facet values available 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FacetContainer
+    addFilter={[MockFunction]}
+    facets={Object {}}
+    field="field1"
+    filters={
+      Array [
+        Object {
+          "field1": Array [
+            "field1value1",
+          ],
+        },
+      ]
+    }
+    label="Field 1"
+    removeFilter={[MockFunction]}
+    render={[MockFunction]}
+    setFilter={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): null,
+  Symbol(enzyme.__nodes__): Array [
+    null,
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`should not render a Facet if there are no options available 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FacetContainer
+    addFilter={[MockFunction]}
+    facets={
+      Object {
+        "field1": Array [
+          Object {
+            "data": Array [
+              Object {
+                "count": 20,
+                "value": "field1value1",
+              },
+              Object {
+                "count": 10,
+                "value": "field1value2",
+              },
+            ],
+            "type": "value",
+          },
+        ],
+        "field2": Array [
+          Object {
+            "data": Array [
+              Object {
+                "count": 10,
+                "value": "field2value1",
+              },
+            ],
+            "type": "value",
+          },
+        ],
+        "field3": Array [
+          Object {
+            "data": Array [],
+            "type": "value",
+          },
+        ],
+      }
+    }
+    field="field3"
+    filters={
+      Array [
+        Object {
+          "field1": Array [
+            "field1value1",
+          ],
+        },
+      ]
+    }
+    label="Field 1"
+    removeFilter={[MockFunction]}
+    render={[MockFunction]}
+    setFilter={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): null,
+  Symbol(enzyme.__nodes__): Array [
+    null,
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`should still render if there are no options available, but there is a selected value 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FacetContainer
+    addFilter={[MockFunction]}
+    facets={
+      Object {
+        "field1": Array [
+          Object {
+            "data": Array [
+              Object {
+                "count": 20,
+                "value": "field1value1",
+              },
+              Object {
+                "count": 10,
+                "value": "field1value2",
+              },
+            ],
+            "type": "value",
+          },
+        ],
+        "field2": Array [
+          Object {
+            "data": Array [
+              Object {
+                "count": 10,
+                "value": "field2value1",
+              },
+            ],
+            "type": "value",
+          },
+        ],
+        "field3": Array [
+          Object {
+            "data": Array [],
+            "type": "value",
+          },
+        ],
+      }
+    }
+    field="field3"
+    filters={
+      Array [
+        Object {
+          "field3": Array [
+            "field3value1",
+          ],
+        },
+      ]
+    }
+    label="Field 1"
+    removeFilter={[MockFunction]}
+    render={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "label": "Field 1",
+              "onChange": [Function],
+              "onMoreClick": [Function],
+              "onRemove": [Function],
+              "onSelect": [Function],
+              "options": Array [],
+              "showMore": false,
+              "values": Array [
+                "field3value1",
+              ],
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": <div
+              label="Field 1"
+              onChange={[Function]}
+              onMoreClick={[Function]}
+              onRemove={[Function]}
+              onSelect={[Function]}
+              options={Array []}
+              showMore={false}
+              values={
+                Array [
+                  "field3value1",
+                ]
+              }
+            />,
+          },
+        ],
+      }
+    }
+    setFilter={[MockFunction]}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "label": "Field 1",
+      "onChange": [Function],
+      "onMoreClick": [Function],
+      "onRemove": [Function],
+      "onSelect": [Function],
+      "options": Array [],
+      "showMore": false,
+      "values": Array [
+        "field3value1",
+      ],
+    },
+    "ref": null,
+    "rendered": null,
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "label": "Field 1",
+        "onChange": [Function],
+        "onMoreClick": [Function],
+        "onRemove": [Function],
+        "onSelect": [Function],
+        "options": Array [],
+        "showMore": false,
+        "values": Array [
+          "field3value1",
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

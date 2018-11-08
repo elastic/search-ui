@@ -1,5 +1,5 @@
 export { default as ErrorBoundary } from "./ErrorBoundary";
-export { default as Facets } from "./Facets";
+export { default as Facet } from "./Facet";
 export { default as Paging } from "./Paging";
 export { default as PagingInfo } from "./PagingInfo";
 export { default as Results } from "./Results";

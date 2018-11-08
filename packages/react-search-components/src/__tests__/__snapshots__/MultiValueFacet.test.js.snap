@@ -1,0 +1,1273 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MultiValueFacet
+    label="A Facet"
+    onMoreClick={[MockFunction]}
+    onRemove={[MockFunction]}
+    onSelect={[MockFunction]}
+    options={
+      Array [
+        Object {
+          "count": 10,
+          "value": "fieldValue1",
+        },
+        Object {
+          "count": 5,
+          "value": "fieldValue2",
+        },
+      ]
+    }
+    showMore={true}
+    values={
+      Array [
+        "fieldValue2",
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="eco-search-facet-label"
+        >
+          A Facet
+        </div>,
+        <div
+          className="eco-search-facet-options"
+        >
+          <label
+            className="eco-search-facet-option"
+            htmlFor="example_facet_A FacetfieldValue1"
+          >
+            <input
+              checked={false}
+              className="eco-search-facet-option__input"
+              id="example_facet_A FacetfieldValue1"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <span
+              className="eco-search-facet-option__label"
+            >
+              fieldValue1
+            </span>
+            <span
+              className="eco-search-facet-option__count"
+            >
+              10
+            </span>
+          </label>
+          <label
+            className="eco-search-facet-option"
+            htmlFor="example_facet_A FacetfieldValue2"
+          >
+            <input
+              checked={true}
+              className="eco-search-facet-option__input"
+              id="example_facet_A FacetfieldValue2"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <span
+              className="eco-search-facet-option__label"
+            >
+              fieldValue2
+            </span>
+            <span
+              className="eco-search-facet-option__count"
+            >
+              5
+            </span>
+          </label>
+        </div>,
+        <div
+          className="eco-search-facet__view-more"
+          onClick={[MockFunction]}
+        >
+          + More
+        </div>,
+      ],
+      "className": "eco-search-facet",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "A Facet",
+          "className": "eco-search-facet-label",
+        },
+        "ref": null,
+        "rendered": "A Facet",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue1"
+            >
+              <input
+                checked={false}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue1"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue1
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                10
+              </span>
+            </label>,
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue2"
+            >
+              <input
+                checked={true}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue2"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue2
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                5
+              </span>
+            </label>,
+          ],
+          "className": "eco-search-facet-options",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": "fieldValue1",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <input
+                  checked={false}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue1"
+                  onChange={[Function]}
+                  type="checkbox"
+                />,
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue1
+                </span>,
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  10
+                </span>,
+              ],
+              "className": "eco-search-facet-option",
+              "htmlFor": "example_facet_A FacetfieldValue1",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "checked": false,
+                  "className": "eco-search-facet-option__input",
+                  "id": "example_facet_A FacetfieldValue1",
+                  "onChange": [Function],
+                  "type": "checkbox",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "input",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "fieldValue1",
+                  "className": "eco-search-facet-option__label",
+                },
+                "ref": null,
+                "rendered": "fieldValue1",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "10",
+                  "className": "eco-search-facet-option__count",
+                },
+                "ref": null,
+                "rendered": "10",
+                "type": "span",
+              },
+            ],
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": "fieldValue2",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <input
+                  checked={true}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue2"
+                  onChange={[Function]}
+                  type="checkbox"
+                />,
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue2
+                </span>,
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  5
+                </span>,
+              ],
+              "className": "eco-search-facet-option",
+              "htmlFor": "example_facet_A FacetfieldValue2",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "checked": true,
+                  "className": "eco-search-facet-option__input",
+                  "id": "example_facet_A FacetfieldValue2",
+                  "onChange": [Function],
+                  "type": "checkbox",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "input",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "fieldValue2",
+                  "className": "eco-search-facet-option__label",
+                },
+                "ref": null,
+                "rendered": "fieldValue2",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "5",
+                  "className": "eco-search-facet-option__count",
+                },
+                "ref": null,
+                "rendered": "5",
+                "type": "span",
+              },
+            ],
+            "type": "label",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "+ More",
+          "className": "eco-search-facet__view-more",
+          "onClick": [MockFunction],
+        },
+        "ref": null,
+        "rendered": "+ More",
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="eco-search-facet-label"
+          >
+            A Facet
+          </div>,
+          <div
+            className="eco-search-facet-options"
+          >
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue1"
+            >
+              <input
+                checked={false}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue1"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue1
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                10
+              </span>
+            </label>
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue2"
+            >
+              <input
+                checked={true}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue2"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue2
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                5
+              </span>
+            </label>
+          </div>,
+          <div
+            className="eco-search-facet__view-more"
+            onClick={[MockFunction]}
+          >
+            + More
+          </div>,
+        ],
+        "className": "eco-search-facet",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "A Facet",
+            "className": "eco-search-facet-label",
+          },
+          "ref": null,
+          "rendered": "A Facet",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <label
+                className="eco-search-facet-option"
+                htmlFor="example_facet_A FacetfieldValue1"
+              >
+                <input
+                  checked={false}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue1"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue1
+                </span>
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  10
+                </span>
+              </label>,
+              <label
+                className="eco-search-facet-option"
+                htmlFor="example_facet_A FacetfieldValue2"
+              >
+                <input
+                  checked={true}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue2"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue2
+                </span>
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  5
+                </span>
+              </label>,
+            ],
+            "className": "eco-search-facet-options",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": "fieldValue1",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <input
+                    checked={false}
+                    className="eco-search-facet-option__input"
+                    id="example_facet_A FacetfieldValue1"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />,
+                  <span
+                    className="eco-search-facet-option__label"
+                  >
+                    fieldValue1
+                  </span>,
+                  <span
+                    className="eco-search-facet-option__count"
+                  >
+                    10
+                  </span>,
+                ],
+                "className": "eco-search-facet-option",
+                "htmlFor": "example_facet_A FacetfieldValue1",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "checked": false,
+                    "className": "eco-search-facet-option__input",
+                    "id": "example_facet_A FacetfieldValue1",
+                    "onChange": [Function],
+                    "type": "checkbox",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "fieldValue1",
+                    "className": "eco-search-facet-option__label",
+                  },
+                  "ref": null,
+                  "rendered": "fieldValue1",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "10",
+                    "className": "eco-search-facet-option__count",
+                  },
+                  "ref": null,
+                  "rendered": "10",
+                  "type": "span",
+                },
+              ],
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": "fieldValue2",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <input
+                    checked={true}
+                    className="eco-search-facet-option__input"
+                    id="example_facet_A FacetfieldValue2"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />,
+                  <span
+                    className="eco-search-facet-option__label"
+                  >
+                    fieldValue2
+                  </span>,
+                  <span
+                    className="eco-search-facet-option__count"
+                  >
+                    5
+                  </span>,
+                ],
+                "className": "eco-search-facet-option",
+                "htmlFor": "example_facet_A FacetfieldValue2",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "checked": true,
+                    "className": "eco-search-facet-option__input",
+                    "id": "example_facet_A FacetfieldValue2",
+                    "onChange": [Function],
+                    "type": "checkbox",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "fieldValue2",
+                    "className": "eco-search-facet-option__label",
+                  },
+                  "ref": null,
+                  "rendered": "fieldValue2",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "5",
+                    "className": "eco-search-facet-option__count",
+                  },
+                  "ref": null,
+                  "rendered": "5",
+                  "type": "span",
+                },
+              ],
+              "type": "label",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "+ More",
+            "className": "eco-search-facet__view-more",
+            "onClick": [MockFunction],
+          },
+          "ref": null,
+          "rendered": "+ More",
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`won't render more if more param is false 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MultiValueFacet
+    label="A Facet"
+    onMoreClick={[MockFunction]}
+    onRemove={[MockFunction]}
+    onSelect={[MockFunction]}
+    options={
+      Array [
+        Object {
+          "count": 10,
+          "value": "fieldValue1",
+        },
+        Object {
+          "count": 5,
+          "value": "fieldValue2",
+        },
+      ]
+    }
+    showMore={false}
+    values={
+      Array [
+        "fieldValue2",
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="eco-search-facet-label"
+        >
+          A Facet
+        </div>,
+        <div
+          className="eco-search-facet-options"
+        >
+          <label
+            className="eco-search-facet-option"
+            htmlFor="example_facet_A FacetfieldValue1"
+          >
+            <input
+              checked={false}
+              className="eco-search-facet-option__input"
+              id="example_facet_A FacetfieldValue1"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <span
+              className="eco-search-facet-option__label"
+            >
+              fieldValue1
+            </span>
+            <span
+              className="eco-search-facet-option__count"
+            >
+              10
+            </span>
+          </label>
+          <label
+            className="eco-search-facet-option"
+            htmlFor="example_facet_A FacetfieldValue2"
+          >
+            <input
+              checked={true}
+              className="eco-search-facet-option__input"
+              id="example_facet_A FacetfieldValue2"
+              onChange={[Function]}
+              type="checkbox"
+            />
+            <span
+              className="eco-search-facet-option__label"
+            >
+              fieldValue2
+            </span>
+            <span
+              className="eco-search-facet-option__count"
+            >
+              5
+            </span>
+          </label>
+        </div>,
+        false,
+      ],
+      "className": "eco-search-facet",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "A Facet",
+          "className": "eco-search-facet-label",
+        },
+        "ref": null,
+        "rendered": "A Facet",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue1"
+            >
+              <input
+                checked={false}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue1"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue1
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                10
+              </span>
+            </label>,
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue2"
+            >
+              <input
+                checked={true}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue2"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue2
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                5
+              </span>
+            </label>,
+          ],
+          "className": "eco-search-facet-options",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": "fieldValue1",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <input
+                  checked={false}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue1"
+                  onChange={[Function]}
+                  type="checkbox"
+                />,
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue1
+                </span>,
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  10
+                </span>,
+              ],
+              "className": "eco-search-facet-option",
+              "htmlFor": "example_facet_A FacetfieldValue1",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "checked": false,
+                  "className": "eco-search-facet-option__input",
+                  "id": "example_facet_A FacetfieldValue1",
+                  "onChange": [Function],
+                  "type": "checkbox",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "input",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "fieldValue1",
+                  "className": "eco-search-facet-option__label",
+                },
+                "ref": null,
+                "rendered": "fieldValue1",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "10",
+                  "className": "eco-search-facet-option__count",
+                },
+                "ref": null,
+                "rendered": "10",
+                "type": "span",
+              },
+            ],
+            "type": "label",
+          },
+          Object {
+            "instance": null,
+            "key": "fieldValue2",
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <input
+                  checked={true}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue2"
+                  onChange={[Function]}
+                  type="checkbox"
+                />,
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue2
+                </span>,
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  5
+                </span>,
+              ],
+              "className": "eco-search-facet-option",
+              "htmlFor": "example_facet_A FacetfieldValue2",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "checked": true,
+                  "className": "eco-search-facet-option__input",
+                  "id": "example_facet_A FacetfieldValue2",
+                  "onChange": [Function],
+                  "type": "checkbox",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "input",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "fieldValue2",
+                  "className": "eco-search-facet-option__label",
+                },
+                "ref": null,
+                "rendered": "fieldValue2",
+                "type": "span",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "5",
+                  "className": "eco-search-facet-option__count",
+                },
+                "ref": null,
+                "rendered": "5",
+                "type": "span",
+              },
+            ],
+            "type": "label",
+          },
+        ],
+        "type": "div",
+      },
+      false,
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="eco-search-facet-label"
+          >
+            A Facet
+          </div>,
+          <div
+            className="eco-search-facet-options"
+          >
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue1"
+            >
+              <input
+                checked={false}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue1"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue1
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                10
+              </span>
+            </label>
+            <label
+              className="eco-search-facet-option"
+              htmlFor="example_facet_A FacetfieldValue2"
+            >
+              <input
+                checked={true}
+                className="eco-search-facet-option__input"
+                id="example_facet_A FacetfieldValue2"
+                onChange={[Function]}
+                type="checkbox"
+              />
+              <span
+                className="eco-search-facet-option__label"
+              >
+                fieldValue2
+              </span>
+              <span
+                className="eco-search-facet-option__count"
+              >
+                5
+              </span>
+            </label>
+          </div>,
+          false,
+        ],
+        "className": "eco-search-facet",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "A Facet",
+            "className": "eco-search-facet-label",
+          },
+          "ref": null,
+          "rendered": "A Facet",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <label
+                className="eco-search-facet-option"
+                htmlFor="example_facet_A FacetfieldValue1"
+              >
+                <input
+                  checked={false}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue1"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue1
+                </span>
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  10
+                </span>
+              </label>,
+              <label
+                className="eco-search-facet-option"
+                htmlFor="example_facet_A FacetfieldValue2"
+              >
+                <input
+                  checked={true}
+                  className="eco-search-facet-option__input"
+                  id="example_facet_A FacetfieldValue2"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <span
+                  className="eco-search-facet-option__label"
+                >
+                  fieldValue2
+                </span>
+                <span
+                  className="eco-search-facet-option__count"
+                >
+                  5
+                </span>
+              </label>,
+            ],
+            "className": "eco-search-facet-options",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": "fieldValue1",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <input
+                    checked={false}
+                    className="eco-search-facet-option__input"
+                    id="example_facet_A FacetfieldValue1"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />,
+                  <span
+                    className="eco-search-facet-option__label"
+                  >
+                    fieldValue1
+                  </span>,
+                  <span
+                    className="eco-search-facet-option__count"
+                  >
+                    10
+                  </span>,
+                ],
+                "className": "eco-search-facet-option",
+                "htmlFor": "example_facet_A FacetfieldValue1",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "checked": false,
+                    "className": "eco-search-facet-option__input",
+                    "id": "example_facet_A FacetfieldValue1",
+                    "onChange": [Function],
+                    "type": "checkbox",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "fieldValue1",
+                    "className": "eco-search-facet-option__label",
+                  },
+                  "ref": null,
+                  "rendered": "fieldValue1",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "10",
+                    "className": "eco-search-facet-option__count",
+                  },
+                  "ref": null,
+                  "rendered": "10",
+                  "type": "span",
+                },
+              ],
+              "type": "label",
+            },
+            Object {
+              "instance": null,
+              "key": "fieldValue2",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <input
+                    checked={true}
+                    className="eco-search-facet-option__input"
+                    id="example_facet_A FacetfieldValue2"
+                    onChange={[Function]}
+                    type="checkbox"
+                  />,
+                  <span
+                    className="eco-search-facet-option__label"
+                  >
+                    fieldValue2
+                  </span>,
+                  <span
+                    className="eco-search-facet-option__count"
+                  >
+                    5
+                  </span>,
+                ],
+                "className": "eco-search-facet-option",
+                "htmlFor": "example_facet_A FacetfieldValue2",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "checked": true,
+                    "className": "eco-search-facet-option__input",
+                    "id": "example_facet_A FacetfieldValue2",
+                    "onChange": [Function],
+                    "type": "checkbox",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "input",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "fieldValue2",
+                    "className": "eco-search-facet-option__label",
+                  },
+                  "ref": null,
+                  "rendered": "fieldValue2",
+                  "type": "span",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "5",
+                    "className": "eco-search-facet-option__count",
+                  },
+                  "ref": null,
+                  "rendered": "5",
+                  "type": "span",
+                },
+              ],
+              "type": "label",
+            },
+          ],
+          "type": "div",
+        },
+        false,
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

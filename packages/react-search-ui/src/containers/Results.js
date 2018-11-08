@@ -1,12 +1,9 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-
-import { withSearch } from "..";
 import { Result, Results } from "@elastic/react-search-components";
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+import { withSearch } from "..";
+import { Result as ResultType } from "../types";
 
 function htmlEscape(str) {
   return String(str)
@@ -31,27 +28,21 @@ function formatResultFields(result) {
     // will not have a snippet fallback. Raw values MUST be html escaped.
     let value = result.getSnippet(n) || htmlEscape(result.getRaw(n));
     value = Array.isArray(value) ? value.join(", ") : value;
-    acc[`${capitalizeFirstLetter(n)}`] = value;
+    acc[n] = value;
     return acc;
   }, {});
 }
 export class ResultsContainer extends Component {
   static propTypes = {
-    results: PropTypes.arrayOf(
-      PropTypes.shape({
-        data: PropTypes.object.isRequired,
-        getRaw: PropTypes.func.isRequired,
-        getSnippet: PropTypes.func.isRequired
-      })
-    ).isRequired,
-    titleField: PropTypes.string.isRequired,
-    trackClickThrough: PropTypes.func.isRequired,
-    urlField: PropTypes.string.isRequired
+    results: PropTypes.arrayOf(ResultType).isRequired,
+    titleField: PropTypes.string,
+    trackClickThrough: PropTypes.func,
+    urlField: PropTypes.string
   };
 
   handleClickLink = id => {
     const { trackClickThrough } = this.props;
-    trackClickThrough(id);
+    !!trackClickThrough && trackClickThrough(id);
   };
 
   render() {

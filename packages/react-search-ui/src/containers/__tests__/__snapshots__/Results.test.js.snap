@@ -43,7 +43,7 @@ ShallowWrapper {
         <Result
           fields={
             Object {
-              "Foo": "<em>foo</em>",
+              "foo": "<em>foo</em>",
             }
           }
           onClickLink={[Function]}
@@ -53,7 +53,7 @@ ShallowWrapper {
         <Result
           fields={
             Object {
-              "Bar": "<em>bar</em>",
+              "bar": "<em>bar</em>",
             }
           }
           onClickLink={[Function]}
@@ -70,7 +70,7 @@ ShallowWrapper {
         "nodeType": "function",
         "props": Object {
           "fields": Object {
-            "Foo": "<em>foo</em>",
+            "foo": "<em>foo</em>",
           },
           "onClickLink": [Function],
           "title": "<em>title</em>",
@@ -86,7 +86,7 @@ ShallowWrapper {
         "nodeType": "function",
         "props": Object {
           "fields": Object {
-            "Bar": "<em>bar</em>",
+            "bar": "<em>bar</em>",
           },
           "onClickLink": [Function],
           "title": "<em>title</em>",
@@ -109,7 +109,7 @@ ShallowWrapper {
           <Result
             fields={
               Object {
-                "Foo": "<em>foo</em>",
+                "foo": "<em>foo</em>",
               }
             }
             onClickLink={[Function]}
@@ -119,7 +119,7 @@ ShallowWrapper {
           <Result
             fields={
               Object {
-                "Bar": "<em>bar</em>",
+                "bar": "<em>bar</em>",
               }
             }
             onClickLink={[Function]}
@@ -136,7 +136,7 @@ ShallowWrapper {
           "nodeType": "function",
           "props": Object {
             "fields": Object {
-              "Foo": "<em>foo</em>",
+              "foo": "<em>foo</em>",
             },
             "onClickLink": [Function],
             "title": "<em>title</em>",
@@ -152,7 +152,7 @@ ShallowWrapper {
           "nodeType": "function",
           "props": Object {
             "fields": Object {
-              "Bar": "<em>bar</em>",
+              "bar": "<em>bar</em>",
             },
             "onClickLink": [Function],
             "title": "<em>title</em>",

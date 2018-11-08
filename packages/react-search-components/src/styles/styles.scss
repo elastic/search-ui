@@ -433,3 +433,125 @@ a {
   font-size: 16px;
   line-height: 1.5;
 }
+
+// TODO clean up, added by Jason for new components
+.eco-search-facet + .eco-search-facet {
+  margin-top: 20px;
+}
+
+.eco-search-facet {
+  margin-right: 20px;
+
+  .eco-search-facet-label {
+    padding: 5px 0;
+    font-size: 1.2em;
+  }
+
+  .eco-search-facet-option {
+    display: block;
+
+    .eco-search-facet-option__input {
+      margin-right: 10px;
+    }
+
+    .eco-search-facet-option__count {
+      float: right;
+    }
+  }
+}
+
+.eco-search-select-container {
+  font-size: 0.875rem;
+
+  .eco-search-select {
+    &__control {
+      border: 0;
+      border-radius: 2px;
+      background: #f2f2f2;
+      min-height: 0;
+      height: 30px;
+
+      &--is-focused {
+        border: 0;
+        box-shadow: 0 0 0 1px #00a9e5;
+      }
+    }
+
+    &__value-container {
+      padding-top: 0;
+      padding-bottom: 0;
+      font-weight: 600;
+    }
+
+    &__placeholder {
+      white-space: nowrap;
+      position: static;
+      transform: none;
+      color: #000;
+    }
+
+    &__indicator-separator {
+      display: none;
+    }
+
+    &__indicator {
+      background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI2IiB2aWV3Qm94PSIwIDAgMTIgNiI+DQogIDxwb2x5Z29uIGZpbGw9IiMwMEE5RTUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgcG9pbnRzPSI0NjQgNTM3IDQ1OCA1NDMgNDUyIDUzNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQ1MiAtNTM3KSIvPg0KPC9zdmc+")
+        no-repeat center center;
+      svg {
+        visibility: hidden;
+      }
+    }
+
+    &__menu {
+      border-radius: 0;
+    }
+
+    &__menu-list {
+      padding: 0;
+    }
+
+    &__option {
+      padding: 0 12px 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+
+      span {
+        font-size: 0.875rem;
+      }
+
+      &--is-focused {
+        background: #fafafa;
+      }
+
+      &--is-selected {
+        color: #000;
+        background: #e8f6fb;
+        position: relative;
+        font-weight: 600;
+
+        .eco-search-select__option-label {
+          font-weight: 600;
+          color: #000;
+        }
+
+        &:before {
+          content: "";
+          width: 30px;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTEgOSI+DQogIDxwb2x5Z29uIGZpbGw9IiMwMEE5RTUiIHBvaW50cz0iMjAuNDk5IDE3LjI5MyAyMS45MTQgMTguNzA3IDE1LjQ2OCAyNS4xNTMgMTEuMjkzIDIwLjk3OCAxMi43MDcgMTkuNTY0IDE1LjQ2OCAyMi4zMjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMSAtMTcpIi8+DQo8L3N2Zz4=")
+            no-repeat center center;
+          pointer-events: none;
+        }
+      }
+    }
+
+    &__option-count {
+      color: #9b9b9b;
+    }
+  }
+}

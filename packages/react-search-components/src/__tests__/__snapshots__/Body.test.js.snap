@@ -17,10 +17,155 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
+      "children": <div
+        className="search-results"
+      >
+        <div
+          className="sidebar"
+        />
+        <div
+          className="results"
+        >
+          <div
+            className="results__header"
+          >
+            <div
+              className="meta"
+            />
+          </div>
+          <div
+            className="results__body"
+          />
+          <div
+            className="results__footer"
+          />
+        </div>
+      </div>,
       "className": "reference-ui-body",
     },
     "ref": null,
-    "rendered": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="sidebar"
+          />,
+          <div
+            className="results"
+          >
+            <div
+              className="results__header"
+            >
+              <div
+                className="meta"
+              />
+            </div>
+            <div
+              className="results__body"
+            />
+            <div
+              className="results__footer"
+            />
+          </div>,
+        ],
+        "className": "search-results",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": undefined,
+            "className": "sidebar",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="results__header"
+              >
+                <div
+                  className="meta"
+                />
+              </div>,
+              <div
+                className="results__body"
+              />,
+              <div
+                className="results__footer"
+              />,
+            ],
+            "className": "results",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  className="meta"
+                />,
+                "className": "results__header",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": undefined,
+                  "className": "meta",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "div",
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "results__body",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": undefined,
+                "className": "results__footer",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
     "type": "div",
   },
   Symbol(enzyme.__nodes__): Array [
@@ -29,10 +174,155 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
+        "children": <div
+          className="search-results"
+        >
+          <div
+            className="sidebar"
+          />
+          <div
+            className="results"
+          >
+            <div
+              className="results__header"
+            >
+              <div
+                className="meta"
+              />
+            </div>
+            <div
+              className="results__body"
+            />
+            <div
+              className="results__footer"
+            />
+          </div>
+        </div>,
         "className": "reference-ui-body",
       },
       "ref": null,
-      "rendered": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="sidebar"
+            />,
+            <div
+              className="results"
+            >
+              <div
+                className="results__header"
+              >
+                <div
+                  className="meta"
+                />
+              </div>
+              <div
+                className="results__body"
+              />
+              <div
+                className="results__footer"
+              />
+            </div>,
+          ],
+          "className": "search-results",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": undefined,
+              "className": "sidebar",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <div
+                  className="results__header"
+                >
+                  <div
+                    className="meta"
+                  />
+                </div>,
+                <div
+                  className="results__body"
+                />,
+                <div
+                  className="results__footer"
+                />,
+              ],
+              "className": "results",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <div
+                    className="meta"
+                  />,
+                  "className": "results__header",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": undefined,
+                    "className": "meta",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "div",
+                },
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": undefined,
+                  "className": "results__body",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "div",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": undefined,
+                  "className": "results__footer",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
       "type": "div",
     },
   ],

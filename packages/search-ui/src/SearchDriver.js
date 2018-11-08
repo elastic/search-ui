@@ -91,35 +91,6 @@ function formatORFiltersAsAND(filters = []) {
   }, []);
 }
 
-/*
- * Facet values for dates come back as Integer from the API. However, the API
- * expects them as a formatted date String when applying that same value
- * as a filter.
- */
-function convertRangeFiltersToDateString(filters = []) {
-  const val = filters.map(filter => {
-    return Object.entries(filter).reduce((acc, [filterName, filterValues]) => {
-      return {
-        ...acc,
-        [filterName]: filterValues.map(filterValue => {
-          if (!filterValue.from && !filterValue.to) {
-            return filterValue;
-          }
-
-          return {
-            ...(filterValue.from && {
-              from: format(new Date(filterValue.from))
-            }),
-            ...(filterValue.to && { to: format(new Date(filterValue.to)) })
-          };
-        })
-      };
-    }, {});
-  });
-
-  return val;
-}
-
 function removeConditionalFacets(facets = {}, filters = []) {
   return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
     if (
@@ -229,7 +200,7 @@ export default class SearchDriver {
       },
       facets: removeConditionalFacets(this.facetConfig, filters),
       filters: {
-        all: formatORFiltersAsAND(convertRangeFiltersToDateString(filters))
+        all: formatORFiltersAsAND(filters)
       }
     };
 
