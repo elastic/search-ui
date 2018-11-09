@@ -63,6 +63,11 @@ export default class AppSearchAPIConnector {
 
   search(searchTerm, searchOptions) {
     const disjunctiveFacets = getListOfDisjunctiveFacets(searchOptions.facets);
+
+    if (searchOptions.facets && !Object.keys(searchOptions.facets).length) {
+      // Because our API will bomb if these options are empty
+      searchOptions.facets = undefined;
+    }
     if (searchOptions.facets) {
       searchOptions.facets = toAPIFacetSyntax(searchOptions.facets);
     }
