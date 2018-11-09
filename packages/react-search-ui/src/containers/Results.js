@@ -55,7 +55,10 @@ export class ResultsContainer extends Component {
             fields={formatResultFields(result)}
             key={`result-${result.getRaw("id")}`}
             onClickLink={() => this.handleClickLink(result.getRaw("id"))}
-            title={result.getSnippet(titleField)}
+            title={
+              result.getSnippet(titleField) ||
+              htmlEscape(result.getRaw(titleField))
+            }
             url={result.getRaw(urlField)}
           />
         ))}
