@@ -245,4 +245,142 @@ import {
 />
 ```
 
-OK, now, take a look at what you've done. You've just re-created the Reference UI!
+Here's another example of how you might use the render prop to customize the view. Let's update the paging info so it just says
+"1 - 20".
+
+```jsx
+<PagingInfo
+  render={({ start, end }) => (
+    <div className="paging-info">
+      <strong>
+        {start} - {end}
+      </strong>
+    </div>
+  )}
+/>
+```
+
+For each component, a render prop will simply take a fixed set of parameters and return some markup.
+
+You can think of this just like swapping out a view template in Rails.
+
+For instance, PagingInfo takes the following parameters:
+
+- end
+- searchTerm
+- start
+- totalResults
+
+You could see this by looking at the default view component: https://github.com/elastic/search-ui/blob/master/packages/react-search-components/src/PagingInfo.js.
+
+Sidenote: in React, your render prop could be expressed using a functional component instead.
+
+```jsx
+const PagingInfoView = ({ start, end }) => (
+  <div className="paging-info">
+    <strong>
+      {start} - {end}
+    </strong>
+  </div>
+);
+
+<PagingInfo render={PagingInfoView} />
+/>
+```
+
+# Manipulating data in a component
+
+You may simply wish to manipulate data from a component before rendering it. You
+_could_ do this with the method we showed previously, but you could also do this
+with `mapContextToProps`.
+
+An example would be changing the order of facet values programmatically.
+
+Like if we wanted to order states alphabetically:
+
+```jsx
+<Facet
+  mapContextToProps={context => {
+    if (!context.facets.states) return context;
+    return {
+      ...context,
+      facets: {
+        ...(context.facets || {}),
+        states: context.facets.states.map(s => ({
+          ...s,
+          data: s.data.sort((a, b) => {
+            if (a.value > b.value) return 1;
+            if (a.value < b.value) return -1;
+            return 0;
+          })
+        }))
+      }
+    };
+  }}
+  field="states"
+  label="States"
+  show={10}
+  render={SingleValueLinksFacet}
+/>
+```
+
+This is really ugly. That's because in our core state, we're relying on the
+App Search API response, which is highly nested. If we can normalize our state
+this then becomes much simpler.
+
+This is basically a hook to manipulate data before it is processed by
+this components
+
+Other hooks we could provide.
+
+- A hook to manipulate server data before it is stored in core state, so that
+  this data could be ordered not just for this component, but for the entire store.
+- A hook in each component that let's you manipulate properties before they are
+  passed to the view component.
+
+# Creating new components
+
+There's some components we just don't offer. You can easily create a new component
+with a HOC we provide called `withState`.
+
+Let's add a new component called "ClearFilters".
+
+Under src create `ClearFilters.js`
+
+```jsx
+import React from "react";
+import { withSearch } from "@elastic/react-search-ui";
+
+function ClearFilters({ filters, clearFilters }) {
+  return (
+    <div>
+      <button onClick={() => clearFilters()}>
+        Clear {filters.length} Filters
+      </button>
+    </div>
+  );
+}
+
+export default withSearch(ClearFilters);
+```
+
+Then in App.js add:
+
+```jsx
+import ClearFilters from "./ClearFilters";
+
+...
+
+<Body>
+  sideContent={
+    <div>
+      <ClearFilters />
+      ...
+```
+
+Using `withSearch` gives us access to all state properties and all actions. In
+this example, we simply pulled out `filters` from state and an action
+called `clearFilters`.
+
+If you select a state, then click "ClearFilters", it should clear out all of
+your current filters.
