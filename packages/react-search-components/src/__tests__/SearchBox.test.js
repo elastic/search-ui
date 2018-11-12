@@ -17,3 +17,10 @@ it("renders correctly when `isFocused` is false", () => {
   const wrapper = shallow(<SearchBox {...requiredProps} />);
   expect(wrapper).toMatchSnapshot();
 });
+
+it("passes through inputProps", () => {
+  const wrapper = shallow(
+    <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
+  );
+  expect(wrapper).toMatchSnapshot();
+});

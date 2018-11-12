@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`passes through inputProps 1`] = `
+<form
+  className="searchbox"
+  onSubmit={[Function]}
+>
+  <input
+    className="searchbox__text-input "
+    onChange={[Function]}
+    placeholder="test"
+    type="text"
+    value="test"
+  />
+  <input
+    className="button searchbox__submit"
+    type="submit"
+    value="Search"
+  />
+</form>
+`;
+
 exports[`renders correctly when \`isFocused\` is false 1`] = `
 <form
   className="searchbox"

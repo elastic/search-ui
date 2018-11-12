@@ -28,6 +28,7 @@ SearchBox.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
+  inputProps: PropTypes.object,
   isFocused: PropTypes.bool
 };
 
