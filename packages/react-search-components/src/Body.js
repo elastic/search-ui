@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Body({
+  children,
   sideContent,
   bodyContent,
   bodyHeader,
@@ -14,7 +15,7 @@ export default function Body({
           <div className="results__header">
             <div className="meta">{bodyHeader}</div>
           </div>
-          <div className="results__body">{bodyContent}</div>
+          <div className="results__body">{children || bodyContent}</div>
           <div className="results__footer">{bodyFooter}</div>
         </div>
       </div>

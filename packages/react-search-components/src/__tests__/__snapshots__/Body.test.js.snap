@@ -9,7 +9,11 @@ exports[`renders correctly 1`] = `
   >
     <div
       className="sidebar"
-    />
+    >
+      <div>
+        Side
+      </div>
+    </div>
     <div
       className="results"
     >
@@ -18,14 +22,26 @@ exports[`renders correctly 1`] = `
       >
         <div
           className="meta"
-        />
+        >
+          <div>
+            Header
+          </div>
+        </div>
       </div>
       <div
         className="results__body"
-      />
+      >
+        <div>
+          Main Content
+        </div>
+      </div>
       <div
         className="results__footer"
-      />
+      >
+        <div>
+          Footer
+        </div>
+      </div>
     </div>
   </div>
 </div>
