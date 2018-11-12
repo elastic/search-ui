@@ -34,10 +34,15 @@ function formatResultFields(result) {
 }
 export class ResultsContainer extends Component {
   static propTypes = {
-    results: PropTypes.arrayOf(ResultType).isRequired,
+    // Props
+    render: PropTypes.func,
+    renderResult: PropTypes.func,
     titleField: PropTypes.string,
-    trackClickThrough: PropTypes.func,
-    urlField: PropTypes.string
+    urlField: PropTypes.string,
+    // State
+    results: PropTypes.arrayOf(ResultType).isRequired,
+    // Actions
+    trackClickThrough: PropTypes.func
   };
 
   handleClickLink = id => {
@@ -46,12 +51,15 @@ export class ResultsContainer extends Component {
   };
 
   render() {
-    const { results, titleField, urlField } = this.props;
+    const { render, renderResult, results, titleField, urlField } = this.props;
+
+    const View = render || Results;
+    const ResultView = renderResult || Result;
 
     return (
-      <Results>
+      <View>
         {results.map(result => (
-          <Result
+          <ResultView
             fields={formatResultFields(result)}
             key={`result-${result.getRaw("id")}`}
             onClickLink={() => this.handleClickLink(result.getRaw("id"))}
@@ -62,7 +70,7 @@ export class ResultsContainer extends Component {
             url={result.getRaw(urlField)}
           />
         ))}
-      </Results>
+      </View>
     );
   }
 }

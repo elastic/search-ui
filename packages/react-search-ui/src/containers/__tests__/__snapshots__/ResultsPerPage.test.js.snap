@@ -15,3 +15,9 @@ exports[`renders correctly 1`] = `
 `;
 
 exports[`renders empty when it doesn't have enough data 1`] = `""`;
+
+exports[`supports a render prop 1`] = `
+<div>
+  20
+</div>
+`;

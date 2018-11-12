@@ -24,18 +24,21 @@ function formatSelectOption(sortOption) {
 }
 export class SortingContainer extends Component {
   static propTypes = {
-    // Injected
+    // Props
+    render: PropTypes.func,
+    sortOptions: PropTypes.arrayOf(SortOption).isRequired,
+    // State
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
     searchTerm: PropTypes.string.isRequired,
-    setSort: PropTypes.func.isRequired,
     sortDirection: PropTypes.oneOf(["asc", "desc", ""]).isRequired,
     sortField: PropTypes.string.isRequired,
-    // Passed
-    sortOptions: PropTypes.arrayOf(SortOption).isRequired
+    // Actions
+    setSort: PropTypes.func.isRequired
   };
 
   render() {
     const {
+      render,
       results,
       searchTerm,
       setSort,
@@ -46,8 +49,10 @@ export class SortingContainer extends Component {
 
     if (!searchTerm && results.length === 0) return null;
 
+    const View = render || Sorting;
+
     return (
-      <Sorting
+      <View
         onChange={e => {
           const sortOption = findSortOption(sortOptions, e.currentTarget.value);
           setSort(sortOption.value, sortOption.direction);

@@ -18,6 +18,16 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("supports a render prop", () => {
+  const render = ({ value }) => {
+    return <div>{value}</div>;
+  };
+  const wrapper = shallow(
+    <ResultsPerPageContainer {...params} render={render} />
+  );
+  expect(wrapper.find(render).dive()).toMatchSnapshot();
+});
+
 it("renders empty when it doesn't have enough data", () => {
   const wrapper = shallow(
     <ResultsPerPageContainer

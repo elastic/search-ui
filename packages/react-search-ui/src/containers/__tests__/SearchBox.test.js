@@ -16,6 +16,14 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("supports a render prop", () => {
+  const render = ({ value }) => {
+    return <div>{value}</div>;
+  };
+  const wrapper = shallow(<SearchBoxContainer {...params} render={render} />);
+  expect(wrapper.find(render).dive()).toMatchSnapshot();
+});
+
 it("will keep focus prop in sync with view component", () => {
   const wrapper = shallow(<SearchBoxContainer {...params} />);
 

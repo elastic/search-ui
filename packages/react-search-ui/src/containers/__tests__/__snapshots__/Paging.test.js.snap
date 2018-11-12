@@ -41,3 +41,9 @@ exports[`renders correctly 1`] = `
 `;
 
 exports[`renders empty when there are no results 1`] = `""`;
+
+exports[`supports a render prop 1`] = `
+<div>
+  1
+</div>
+`;

@@ -14,3 +14,9 @@ exports[`renders correctly 1`] = `
   value="test"
 />
 `;
+
+exports[`supports a render prop 1`] = `
+<div>
+  test
+</div>
+`;

@@ -12,10 +12,8 @@ exports[`renders correctly 1`] = `
 exports[`renders empty when it doesn't have enough data 1`] = `""`;
 
 exports[`supports a render prop 1`] = `
-<render
-  end={20}
-  searchTerm="test"
-  start={1}
-  totalResults={100}
-/>
+<div>
+  1
+  20
+</div>
 `;

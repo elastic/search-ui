@@ -18,6 +18,14 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("supports a render prop", () => {
+  const render = ({ current }) => {
+    return <div>{current}</div>;
+  };
+  const wrapper = shallow(<PagingContainer {...params} render={render} />);
+  expect(wrapper.find(render).dive()).toMatchSnapshot();
+});
+
 it("limits total results if they would result in over 100 pages", () => {
   const wrapper = shallow(
     <PagingContainer

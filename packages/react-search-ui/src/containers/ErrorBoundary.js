@@ -5,12 +5,19 @@ import { ErrorBoundary } from "@elastic/react-search-components";
 
 export class ErrorBoundaryContainer extends Component {
   static propTypes = {
+    // Props
     children: PropTypes.node.isRequired,
+    render: PropTypes.func,
+    // State
     error: PropTypes.string.isRequired
   };
 
   render() {
-    return <ErrorBoundary {...this.props} />;
+    const { render, ...rest } = this.props;
+
+    const View = render || ErrorBoundary;
+
+    return <View {...rest} />;
   }
 }
 

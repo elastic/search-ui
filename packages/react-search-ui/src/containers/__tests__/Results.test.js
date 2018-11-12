@@ -29,6 +29,24 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("supports a render prop", () => {
+  const render = ({ children }) => {
+    return <div>{children}</div>;
+  };
+  const wrapper = shallow(<ResultsContainer {...params} render={render} />);
+  expect(wrapper.find(render).dive()).toMatchSnapshot();
+});
+
+it("supports an individual result render prop", () => {
+  const renderResult = ({ title }) => {
+    return <li>{title}</li>;
+  };
+  const wrapper = shallow(
+    <ResultsContainer {...params} renderResult={renderResult} />
+  );
+  expect(wrapper.find(renderResult).map(n => n.dive())).toMatchSnapshot();
+});
+
 it("will call back when a document link is clicked in the view", () => {
   const wrapper = shallow(<ResultsContainer {...params} />);
 

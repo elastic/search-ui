@@ -25,7 +25,7 @@ it("supports a render prop", () => {
     );
   };
   const wrapper = shallow(<PagingInfoContainer {...params} render={render} />);
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 
 it("renders empty when it doesn't have enough data", () => {

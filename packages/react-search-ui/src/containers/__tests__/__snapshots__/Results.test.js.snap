@@ -26,3 +26,41 @@ exports[`renders correctly 1`] = `
   />
 </Results>
 `;
+
+exports[`supports a render prop 1`] = `
+<div>
+  <Result
+    fields={
+      Object {
+        "foo": "<em>foo</em>",
+      }
+    }
+    key="result-id"
+    onClickLink={[Function]}
+    title="<em>title</em>"
+    url="url"
+  />
+  <Result
+    fields={
+      Object {
+        "bar": "<em>bar</em>",
+      }
+    }
+    key="result-id"
+    onClickLink={[Function]}
+    title="<em>title</em>"
+    url="url"
+  />
+</div>
+`;
+
+exports[`supports an individual result render prop 1`] = `
+Array [
+  <li>
+    &lt;em&gt;title&lt;/em&gt;
+  </li>,
+  <li>
+    &lt;em&gt;title&lt;/em&gt;
+  </li>,
+]
+`;

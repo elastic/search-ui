@@ -5,8 +5,10 @@ import { PagingInfo } from "@elastic/react-search-components";
 
 export class PagingInfoContainer extends Component {
   static propTypes = {
-    current: PropTypes.number.isRequired,
+    // Props
     render: PropTypes.func,
+    // State
+    current: PropTypes.number.isRequired,
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
     resultsPerPage: PropTypes.number.isRequired,
     resultSearchTerm: PropTypes.string.isRequired,
