@@ -6,6 +6,7 @@ import { PagingInfo } from "@elastic/react-search-components";
 export class PagingInfoContainer extends Component {
   static propTypes = {
     current: PropTypes.number.isRequired,
+    render: PropTypes.func,
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
     resultsPerPage: PropTypes.number.isRequired,
     resultSearchTerm: PropTypes.string.isRequired,
@@ -15,6 +16,7 @@ export class PagingInfoContainer extends Component {
   render() {
     const {
       current,
+      render,
       results,
       resultsPerPage,
       resultSearchTerm,
@@ -28,8 +30,10 @@ export class PagingInfoContainer extends Component {
 
     if (!resultSearchTerm && results.length === 0) return null;
 
+    const View = render || PagingInfo;
+
     return (
-      <PagingInfo
+      <View
         end={end}
         searchTerm={resultSearchTerm}
         start={start}
