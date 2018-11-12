@@ -5,9 +5,7 @@ Flexible React library for building search experiences.
 This is the React Implementation of Search UI. For a more broad overview
 of Search UI, see the [README](../../README.md) at the top.
 
-## Usage
-
-### Install
+## Install
 
 ```sh
 # Install React Search UI
@@ -17,7 +15,7 @@ npm install --save @elastic/react-search-ui
 npm install --save  @elastic/search-ui-app-search-connector
 ```
 
-### Example
+## Example
 
 ```jsx
 import React from "react";
@@ -60,7 +58,7 @@ export default function App() {
 
 TODO: Add Facets and to the main example
 
-**SearchProvider**
+### SearchProvider <a id="searchprovider"></a>
 
 The SearchProvider is the core engine behind Search UI. It provides [actions](../search-ui/README.md#actions)
 and [state](../search-ui/README.md#state) in a React [context](https://reactjs.org/docs/context.html). If
@@ -75,13 +73,13 @@ Params:
 | config   | [Config](../search-ui/README.md#driverconfig) |                                                                                                                                                                                 |
 | children | function                                      | A render prop function that receives [state](../search-ui/README.md#state) and [actions](../search-ui/README.md#actions) in a flattened object<br/><br/>`state => return <div>` |
 
-**Connectors**
+### Connectors
 
 Connectors are explained in the top level [README](../../README.md). The first
 thing you'll need to do is configure a Connector, which lets Search UI make
 all the appropriate API calls as a user interacts with your UI.
 
-## Components
+### Components
 
 TODO List all available components here, along with their parameters
 
@@ -96,7 +94,7 @@ TODO Update after I add Facet
 - SearchBox
 - Sorting
 
-## Customization
+### Customization
 
 TODO: document withSearch
 

@@ -80,11 +80,13 @@ Additionally, the following can also be found:
 
 ### SearchDriver Configuration <a id="driverconfig"></a>
 
-| option         | type                                   | required? | source                                                                                                           |
-| -------------- | -------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------- |
-| `apiConnector` | APIConnector                           | required  | Instance of an API Connector. For instance, [search-ui-app-search-connector](../search-ui-app-search-connector). |
-| `facetConfig`  | [Facet Configuration](#facetconfig)    | optional  | Which values to provide Facet values for.                                                                        |
-| `initialState` | [Search Parameters](#searchparameters) | optional  | Set initial state of the search. ex:<br/><br/>`{ searchTerm: "test", resultsPerPage: 40 }`                       |
+| option          | type                                   | required? | source                                                                                                                         |
+| --------------- | -------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `apiConnector`  | APIConnector                           | required  | Instance of an API Connector. For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).               |
+| `facetConfig`   | [Facet Configuration](#facetconfig)    | optional  | Which values to provide Facet values for.                                                                                      |
+| `initialState`  | [Search Parameters](#searchparameters) | optional  | Set initial state of the search. ex:<br/><br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                     |
+| `searchOptions` | Object                                 | optional  | Any additional, arbitrary search config to be passed to the Search API to further tune your queries. Ex, `result_fields`, etc. |
+| `trackURLState` | boolean                                | optional  | By default, state will be synced with the browser url. To turn this off, pass `false`                                          |
 
 ### Facet Configuration <a id="facetconfig"></a>
 
@@ -97,13 +99,11 @@ The syntax for Facet configuration follows the App Search API syntax: https://sw
 
 ### Search Parameters <a id="searchparameters"></a>
 
-| option           | type                     | required? | source                                                                                                                         |
-| ---------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `current`        | Integer                  | optional  | current page number                                                                                                            |
-| `filters`        | Array[Object]            | optional  | Follows the filter syntax for App Search: https://swiftype.com/documentation/app-search/api/search/filters                     |
-| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                                                         |
-| `searchTerm`     | String                   | optional  | String to search for                                                                                                           |
-| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                                                                              |
-| `sortField`      | String                   | optional  | Name of field to sort on                                                                                                       |
-| `searchOptions`  | Object                   | optional  | Any additional, arbitrary search config to be passed to the Search API to further tune your queries. Ex, `result_fields`, etc. |
-| `trackURLState`  | boolean                  | optional  | By default, state will be synced with the browser url. To turn this off, pass `false`                                          |
+| option           | type                     | required? | source                                                                                                     |
+| ---------------- | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------------- |
+| `current`        | Integer                  | optional  | current page number                                                                                        |
+| `filters`        | Array[Object]            | optional  | Follows the filter syntax for App Search: https://swiftype.com/documentation/app-search/api/search/filters |
+| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                                     |
+| `searchTerm`     | String                   | optional  | String to search for                                                                                       |
+| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                                                          |
+| `sortField`      | String                   | optional  | Name of field to sort on                                                                                   |
