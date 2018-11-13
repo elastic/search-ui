@@ -10,6 +10,7 @@ const resultList = {
     facets: {},
     meta: {
       page: {
+        total_pages: 100,
         total_results: 1000
       },
       request_id: "12345"
@@ -22,6 +23,7 @@ const resultListWithoutFacets = {
   info: {
     meta: {
       page: {
+        total_pages: 100,
         total_results: 1000
       },
       request_id: "12345"
@@ -94,6 +96,7 @@ it("will default facets to {} in state if facets is missing from the response", 
     requestId: "12345",
     resultSearchTerm: "test",
     results: [{}, {}],
+    totalPages: 100,
     totalResults: 1000,
     wasSearched: true
   });
@@ -117,6 +120,7 @@ it("will trigger a search if searchTerm or filters are provided in initial state
     resultSearchTerm: "test",
     requestId: "12345",
     results: [{}, {}],
+    totalPages: 100,
     totalResults: 1000,
     wasSearched: true
   });

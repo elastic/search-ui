@@ -54,6 +54,7 @@ export const DEFAULT_STATE = {
   requestId: "",
   results: [],
   resultSearchTerm: "",
+  totalPages: 0,
   totalResults: 0,
   wasSearched: false
 };
@@ -229,6 +230,7 @@ export default class SearchDriver {
           requestId: resultList.info.meta.request_id,
           results: resultList.results,
           resultSearchTerm: searchTerm,
+          totalPages: resultList.info.meta.page.total_pages,
           totalResults: resultList.info.meta.page.total_results,
           wasSearched: true
         });

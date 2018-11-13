@@ -27,8 +27,7 @@
   },
   "dependencies": {
     "@elastic/react-search-components": "^0.1.0",
-    "@elastic/search-ui": "^0.1.0",
-    "rc-pagination": "^1.17.3"
+    "@elastic/search-ui": "^0.1.0"
   },
   "peerDependencies": {
     "react": "^16.6.0"

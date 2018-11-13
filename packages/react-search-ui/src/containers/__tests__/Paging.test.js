@@ -6,7 +6,7 @@ const params = {
   current: 1,
   resultsPerPage: 20,
   setCurrent: jest.fn(),
-  totalResults: 100
+  totalPages: 5
 };
 
 beforeEach(() => {
@@ -26,26 +26,12 @@ it("supports a render prop", () => {
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 
-it("limits total results if they would result in over 100 pages", () => {
-  const wrapper = shallow(
-    <PagingContainer
-      {...{
-        ...params,
-        resultsPerPage: 10,
-        totalResults: 398183013080
-      }}
-    />
-  );
-
-  expect(wrapper.find("Pagination").prop("total")).toEqual(1000);
-});
-
 it("renders empty when there are no results", () => {
   const wrapper = shallow(
     <PagingContainer
       {...{
         ...params,
-        totalResults: 0
+        totalPages: 0
       }}
     />
   );
@@ -55,7 +41,7 @@ it("renders empty when there are no results", () => {
 it("will call back when a the page is changed", () => {
   const wrapper = shallow(<PagingContainer {...params} />);
 
-  wrapper.find("Pagination").prop("onChange")(2);
+  wrapper.find("Paging").prop("onChange")(2);
 
   const current = params.setCurrent.mock.calls[0][0];
   expect(current).toEqual(2);
