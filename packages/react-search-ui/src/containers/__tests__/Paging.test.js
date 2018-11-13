@@ -37,7 +37,7 @@ it("limits total results if they would result in over 100 pages", () => {
     />
   );
 
-  expect(wrapper.find("Pagination").prop("total")).toEqual(1000);
+  expect(wrapper.find("Paging").prop("totalPages")).toEqual(100);
 });
 
 it("renders empty when there are no results", () => {
@@ -55,7 +55,7 @@ it("renders empty when there are no results", () => {
 it("will call back when a the page is changed", () => {
   const wrapper = shallow(<PagingContainer {...params} />);
 
-  wrapper.find("Pagination").prop("onChange")(2);
+  wrapper.find("Paging").prop("onChange")(2);
 
   const current = params.setCurrent.mock.calls[0][0];
   expect(current).toEqual(2);

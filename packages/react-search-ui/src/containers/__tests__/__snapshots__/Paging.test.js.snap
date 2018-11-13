@@ -2,40 +2,11 @@
 
 exports[`renders correctly 1`] = `
 <div>
-  <Pagination
-    className=""
+  <Paging
     current={1}
-    defaultCurrent={1}
-    defaultPageSize={10}
-    hideOnSinglePage={false}
-    itemRender={[Function]}
-    locale={
-      Object {
-        "items_per_page": "条/页",
-        "jump_to": "跳至",
-        "jump_to_confirm": "确定",
-        "next_3": "向后 3 页",
-        "next_5": "向后 5 页",
-        "next_page": "下一页",
-        "page": "页",
-        "prev_3": "向前 3 页",
-        "prev_5": "向前 5 页",
-        "prev_page": "上一页",
-      }
-    }
     onChange={[MockFunction]}
-    onShowSizeChange={[Function]}
-    pageSize={20}
-    prefixCls="rc-pagination"
-    selectComponentClass={null}
-    selectPrefixCls="rc-select"
-    showLessItems={false}
-    showPrevNextJumpers={true}
-    showQuickJumper={false}
-    showSizeChanger={false}
-    showTitle={true}
-    style={Object {}}
-    total={100}
+    resultsPerPage={20}
+    totalPages={5}
   />
 </div>
 `;
