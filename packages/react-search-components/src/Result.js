@@ -18,6 +18,7 @@ function Result({ fields, onClickLink, title, url }) {
             href={url}
             onClick={onClickLink}
             target="_blank"
+            rel="noopener noreferrer"
           />
         )}
       </div>
