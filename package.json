@@ -5,14 +5,19 @@
   "scripts": {
     "test": "lerna run test --stream",
     "build": "lerna run build",
-    "format": "prettier --write \"**/packages/**/src/*.js\""
+    "format": "prettier --write \"packages/*/src/*.js\"",
+    "lint": "eslint \"packages/*/src/*.js\""
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-react": "^7.11.1",
     "husky": "^1.1.4",
     "jest": "^23.6.0",
     "lerna": "^3.4.3",
@@ -27,8 +32,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
+    "*.js": [
       "prettier --write",
+      "eslint",
       "git add"
     ]
   }
