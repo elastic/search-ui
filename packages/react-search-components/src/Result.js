@@ -5,23 +5,22 @@ function Result({ fields, onClickLink, title, url }) {
   return (
     <li className="result">
       <div className="result__header">
-        {title &&
-          !url && (
-            <span
-              className="result__title"
-              dangerouslySetInnerHTML={{ __html: title }}
-            />
-          )}
-        {title &&
-          url && (
-            <a
-              className="result__title"
-              dangerouslySetInnerHTML={{ __html: title }}
-              href={url}
-              onClick={onClickLink}
-              target="_blank"
-            />
-          )}
+        {title && !url && (
+          <span
+            className="result__title"
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
+        )}
+        {title && url && (
+          <a
+            className="result__title"
+            dangerouslySetInnerHTML={{ __html: title }}
+            href={url}
+            onClick={onClickLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        )}
       </div>
       <div className="result__body">
         <ul className="result__details">

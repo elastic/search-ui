@@ -1,12 +1,7 @@
+import PropTypes from "prop-types";
 import React from "react";
 
-export default function Body({
-  children,
-  sideContent,
-  bodyContent,
-  bodyHeader,
-  bodyFooter
-}) {
+function Body({ children, sideContent, bodyContent, bodyHeader, bodyFooter }) {
   return (
     <div className="reference-ui-body">
       <div className="search-results">
@@ -22,3 +17,13 @@ export default function Body({
     </div>
   );
 }
+
+Body.propTypes = {
+  children: PropTypes.node,
+  sideContent: PropTypes.node,
+  bodyContent: PropTypes.node,
+  bodyHeader: PropTypes.node,
+  bodyFooter: PropTypes.node
+};
+
+export default Body;

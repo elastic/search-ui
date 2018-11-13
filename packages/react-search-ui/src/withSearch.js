@@ -11,7 +11,7 @@ import SearchConsumer from "./SearchConsumer";
  * before they are passed on to the container.
  */
 export default function withSearch(Component) {
-  return function(props) {
+  return function WithSearch(props) {
     const { mapContextToProps = context => context, ...rest } = props;
 
     return (
