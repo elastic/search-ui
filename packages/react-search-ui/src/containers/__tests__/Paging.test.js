@@ -6,7 +6,7 @@ const params = {
   current: 1,
   resultsPerPage: 20,
   setCurrent: jest.fn(),
-  totalResults: 100
+  totalPages: 5
 };
 
 beforeEach(() => {
@@ -26,26 +26,12 @@ it("supports a render prop", () => {
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 
-it("limits total results if they would result in over 100 pages", () => {
-  const wrapper = shallow(
-    <PagingContainer
-      {...{
-        ...params,
-        resultsPerPage: 10,
-        totalResults: 398183013080
-      }}
-    />
-  );
-
-  expect(wrapper.find("Paging").prop("totalPages")).toEqual(100);
-});
-
 it("renders empty when there are no results", () => {
   const wrapper = shallow(
     <PagingContainer
       {...{
         ...params,
-        totalResults: 0
+        totalPages: 0
       }}
     />
   );
