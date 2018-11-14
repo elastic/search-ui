@@ -59,7 +59,7 @@ function getResults(records, documentType) {
   });
 
   return records[documentType].map(record => {
-    const { highlight, sort, ...rest } = record;
+    const { highlight, sort, ...rest } = record; //eslint-disable-line
 
     const result = Object.entries(rest)
       .filter(([fieldName]) => !isMetaField(fieldName))

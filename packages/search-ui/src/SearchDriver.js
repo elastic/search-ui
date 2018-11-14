@@ -1,5 +1,4 @@
 import URLManager from "./URLManager";
-import { format } from "date-fns";
 
 function filterSearchParameters({
   current,

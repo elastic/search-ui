@@ -4,7 +4,12 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: ["plugin:react/recommended", "prettier", "prettier/react"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/react"
+  ],
   parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
@@ -18,5 +23,8 @@ module.exports = {
     react: {
       version: "6.0"
     }
+  },
+  rules: {
+    "no-console": ["error", { allow: ["warn", "error"] }]
   }
 };

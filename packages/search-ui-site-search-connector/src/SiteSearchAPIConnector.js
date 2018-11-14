@@ -28,7 +28,7 @@ export default class SiteSearchAPIConnector {
     this._request = _request.bind(this, documentType, engineKey);
   }
 
-  click(props) {
+  click() {
     // TODO
   }
 
