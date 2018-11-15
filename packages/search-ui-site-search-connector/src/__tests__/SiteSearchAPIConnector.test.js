@@ -1,23 +1,99 @@
 import SiteSearchAPIConnector from "..";
 
-describe("SiteSearchAPIConnector", () => {
-  const params = {
-    documentType: "national-parks",
-    engineKey: "12345"
-  };
+import exampleAPIResponse from "../../resources/example-response.json";
 
-  const mockClient = {
-    search: jest.fn().mockReturnValue({ then: cb => cb(resultList) }),
-    click: jest.fn().mockReturnValue(Promise.resolve())
-  };
+function fetchResponse(response) {
+  return Promise.resolve({
+    json: () => Promise.resolve(response)
+  });
+}
 
-  beforeEach(() => {
-    mockClient.search = jest.fn().mockReturnValue({ then: cb => cb() });
-    mockClient.click = jest.fn().mockReturnValue({ then: () => {} });
+beforeEach(() => {
+  global.Headers = jest.fn();
+  global.fetch = jest.fn().mockReturnValue(fetchResponse(exampleAPIResponse));
+});
+
+const engineKey = 12345;
+const documentType = "national-parks";
+const params = {
+  documentType,
+  engineKey
+};
+
+it("can be initialized", () => {
+  const connector = new SiteSearchAPIConnector(params);
+  expect(connector).toBeInstanceOf(SiteSearchAPIConnector);
+});
+
+describe("#search", () => {
+  function subject(searchTerm = "searchTerm", options = {}) {
+    const connector = new SiteSearchAPIConnector(params);
+    return connector.search(searchTerm, options);
+  }
+
+  it("will call the API with the correct body params", async () => {
+    await subject("searchTerm", {
+      arbitraryParameter: "shouldRemain",
+      page: {
+        current: 1,
+        size: 10
+      },
+      sort: {
+        name: "desc"
+      },
+      facets: {
+        states: {
+          type: "value",
+          size: 30
+        }
+      },
+      filters: {
+        all: [
+          {
+            title: ["Acadia"]
+          },
+          {
+            title: ["Grand Canyon"]
+          },
+          {
+            world_heritage_site: ["true"]
+          }
+        ]
+      }
+    });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      arbitraryParameter: "shouldRemain",
+      page: 1,
+      per_page: 10,
+      filters: {
+        [documentType]: {
+          title: {
+            type: "and",
+            values: ["Acadia", "Grand Canyon"]
+          },
+          world_heritage_site: {
+            type: "and",
+            values: ["true"]
+          }
+        }
+      },
+      sort_direction: {
+        "national-parks": "desc"
+      },
+      sort_field: {
+        "national-parks": "name"
+      },
+      facets: {
+        "national-parks": ["states"]
+      },
+      q: "searchTerm"
+    });
   });
 
-  it("can be initialized", () => {
-    const connector = new SiteSearchAPIConnector(params);
-    expect(connector).toBeInstanceOf(SiteSearchAPIConnector);
+  it("will correctly format an API response", async () => {
+    const response = await subject();
+    expect(response).toMatchSnapshot();
   });
 });

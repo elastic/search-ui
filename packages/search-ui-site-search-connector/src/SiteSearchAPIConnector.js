@@ -33,17 +33,40 @@ export default class SiteSearchAPIConnector {
   }
 
   search(searchTerm, searchOptions) {
-    const facets = adaptFacetConfig(searchOptions.facets);
-    const filters = adaptFilterConfig(searchOptions.filters);
+    const safeDestructureSort = obj => Object.entries(obj || {})[0] || [];
+
+    const { facets, filters, page, sort, ...rest } = searchOptions;
+    const [sortField, sortDirection] = safeDestructureSort(sort);
+    const updatedFacets = adaptFacetConfig(facets);
+    const updatedFilters = adaptFilterConfig(filters);
     return this._request("POST", "engines/search.json", {
-      ...(facets && {
-        facets: {
-          [this.documentType]: facets
+      ...rest,
+      ...(page &&
+        page.size && {
+          per_page: page.size
+        }),
+      ...(page &&
+        page.current && {
+          page: page.current
+        }),
+      ...(sortDirection && {
+        sort_direction: {
+          [this.documentType]: sortDirection
         }
       }),
-      ...(filters && {
+      ...(sortField && {
+        sort_field: {
+          [this.documentType]: sortField
+        }
+      }),
+      ...(updatedFacets && {
+        facets: {
+          [this.documentType]: updatedFacets
+        }
+      }),
+      ...(updatedFilters && {
         filters: {
-          [this.documentType]: filters
+          [this.documentType]: updatedFilters
         }
       }),
       q: searchTerm
