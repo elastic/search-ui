@@ -25,4 +25,8 @@ TODO Properly document interface once we decide what this interface should look 
 | method   | params                                             | return | description |
 | -------- | -------------------------------------------------- | ------ | ----------- |
 | `click`  | `props` - Object                                   |        |             |
+|          | - `query` - String                                 |        |             |
+|          | - `documentId` - String                            |        |             |
+|          | - `requestId` - String                             |        |             |
+|          | - `tags` - Array[String]                           |        |             |
 | `search` | `searchTerm` - String<br/>`searchOptions` - Object |        |             |
