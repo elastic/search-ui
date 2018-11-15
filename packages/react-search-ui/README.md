@@ -68,10 +68,10 @@ you are familiar with Redux, you should recognize this model.
 
 Params:
 
-| name     | type                                          | description                                                                                                                                                                     |
-| -------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config   | [Config](../search-ui/README.md#driverconfig) |                                                                                                                                                                                 |
-| children | function                                      | A render prop function that receives [state](../search-ui/README.md#state) and [actions](../search-ui/README.md#actions) in a flattened object<br/><br/>`state => return <div>` |
+| name     | type                                          | description                                                                                                                                                                                                           |
+| -------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config   | [Config](../search-ui/README.md#driverconfig) |                                                                                                                                                                                                                       |
+| children | function                                      | A render prop function that receives [state](../search-ui/README.md#state) and [actions](../search-ui/README.md#actions) in a flattened object<br/><br/>`({someState, someOtherState, someAction}) => return <div />` |
 
 ### Connectors
 
