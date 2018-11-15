@@ -1,7 +1,23 @@
 import { toResultList } from "./ResponseAdapter";
 import { adaptFacetConfig, adaptFilterConfig } from "./RequestAdapter";
 
-function _request(documentType, engineKey, method, path, params) {
+function _get(engineKey, path, params) {
+  const query = Object.entries({ engine_key: engineKey, ...params })
+    .map(([paramName, paramValue]) => {
+      return `${paramName}=${encodeURIComponent(paramValue)}`;
+    })
+    .join("&");
+
+  return fetch(
+    `https://search-api.swiftype.com/api/v1/public/${path}?${query}`,
+    {
+      method: "GET",
+      credentials: "include"
+    }
+  );
+}
+
+function _request(engineKey, method, path, params) {
   const headers = new Headers({
     "Content-Type": "application/json"
   });
@@ -15,9 +31,7 @@ function _request(documentType, engineKey, method, path, params) {
     }),
     credentials: "include"
   }).then(response => {
-    return response.json().then(json => {
-      return toResultList(json, documentType);
-    });
+    return response.json();
   });
 }
 
@@ -25,11 +39,19 @@ export default class SiteSearchAPIConnector {
   constructor({ documentType, engineKey }) {
     this.documentType = documentType;
     this.engineKey = engineKey;
-    this._request = _request.bind(this, documentType, engineKey);
+    this._request = _request.bind(this, engineKey);
+    this._get = _get.bind(this, engineKey);
   }
 
-  click() {
-    // TODO
+  click({ query, documentId, tags }) {
+    if (tags) {
+      console.warn("Site Search does not support tags on click");
+    }
+    this._get("analytics/pc", {
+      t: new Date().getTime(),
+      q: query,
+      doc_id: documentId
+    });
   }
 
   search(searchTerm, searchOptions) {
@@ -70,6 +92,8 @@ export default class SiteSearchAPIConnector {
         }
       }),
       q: searchTerm
+    }).then(json => {
+      return toResultList(json, this.documentType);
     });
   }
 }

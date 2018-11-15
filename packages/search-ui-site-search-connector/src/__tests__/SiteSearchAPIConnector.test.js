@@ -97,3 +97,27 @@ describe("#search", () => {
     expect(response).toMatchSnapshot();
   });
 });
+
+describe("#click", () => {
+  function subject(clickData) {
+    const connector = new SiteSearchAPIConnector(params);
+    return connector.click(clickData);
+  }
+
+  it("will call the API with the correct body params", async () => {
+    const query = "test";
+    const documentId = "12345";
+
+    await subject({
+      query,
+      documentId
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    const url = global.fetch.mock.calls[0][0];
+    const urlWithoutTimestamp = url.replace(/&t=\d*/, "").replace(/t=\d*&/, "");
+    expect(urlWithoutTimestamp).toEqual(
+      `https://search-api.swiftype.com/api/v1/public/analytics/pc?engine_key=${engineKey}&q=${query}&doc_id=${documentId}`
+    );
+  });
+});
