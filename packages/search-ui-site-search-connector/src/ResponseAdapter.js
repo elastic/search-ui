@@ -6,11 +6,12 @@ export function toResultList(response, documentType) {
   return new ResultList(results, info);
 }
 
+const addEachKeyValueToObject = (acc, [key, value]) => ({
+  ...acc,
+  [key]: value
+});
+
 function getFacets(docInfo) {
-  const addEachKeyValueToObject = (acc, [key, value]) => ({
-    ...acc,
-    [key]: value
-  });
   return Object.entries(docInfo.facets)
     .map(([facetName, facetValue]) => {
       return [
@@ -53,10 +54,6 @@ function getInfo(info, documentType) {
 function getResults(records, documentType) {
   const isMetaField = key => key.startsWith("_");
   const toObjectWithRaw = value => ({ raw: value });
-  const addEachKeyValueToObject = (acc, [key, value]) => ({
-    ...acc,
-    [key]: value
-  });
 
   return records[documentType].map(record => {
     const { highlight, sort, ...rest } = record; //eslint-disable-line
