@@ -57,8 +57,8 @@ export default class AppSearchAPIConnector {
     });
   }
 
-  click(props) {
-    return this.client.click(props);
+  click({ query, documentId, requestId, tags }) {
+    return this.client.click({ query, documentId, requestId, tags });
   }
 
   search(searchTerm, searchOptions) {

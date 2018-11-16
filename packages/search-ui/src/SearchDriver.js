@@ -1,5 +1,4 @@
 import URLManager from "./URLManager";
-import { format } from "date-fns";
 
 function filterSearchParameters({
   current,
@@ -247,6 +246,7 @@ export default class SearchDriver {
         }
       },
       error => {
+        console.error(error);
         this._setState({
           error: `An unexpected error occurred: ${error.message}`
         });

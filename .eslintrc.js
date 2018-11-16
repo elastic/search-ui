@@ -4,7 +4,13 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: ["plugin:react/recommended", "prettier", "prettier/react"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jest/recommended",
+    "prettier",
+    "prettier/react"
+  ],
   parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
@@ -13,10 +19,13 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
-  plugins: ["react"],
+  plugins: ["react", "jest"],
   settings: {
     react: {
       version: "6.0"
     }
+  },
+  rules: {
+    "no-console": ["error", { allow: ["warn", "error"] }]
   }
 };
