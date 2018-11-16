@@ -1,5 +1,5 @@
-import { toResultList } from "./ResponseAdapter";
-import { adaptFacetConfig, adaptFilterConfig } from "./RequestAdapter";
+import { toResultList } from "./responseAdapters";
+import { adaptFacetConfig, adaptFilterConfig } from "./requestAdapters";
 
 function _get(engineKey, path, params) {
   const query = Object.entries({ engine_key: engineKey, ...params })
