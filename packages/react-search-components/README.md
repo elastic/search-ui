@@ -47,3 +47,11 @@ export default function App() {
 ```
 
 TODO: List all components here
+
+## Storybook
+
+A visual component reference is available locally. It is built with [Storybook](https://storybook.js.org/), and can be run locally with the following command:
+
+```
+npm run storybook
+```

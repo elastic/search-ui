@@ -23,7 +23,9 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
     "build": "npm-run-all build-css build-js",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
@@ -50,7 +52,13 @@
     "node-sass-chokidar": "^1.3.4",
     "npm-run-all": "^4.1.3",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "@storybook/react": "^4.1.0",
+    "@storybook/addon-actions": "^4.1.0",
+    "@storybook/addon-links": "^4.1.0",
+    "@storybook/addons": "^4.1.0",
+    "@babel/core": "^7.2.0",
+    "babel-loader": "^8.0.4"
   },
   "dependencies": {
     "rc-pagination": "^1.17.3",
