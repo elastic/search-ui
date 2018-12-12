@@ -1,5 +1,5 @@
 import elasticsearch from "elasticsearch";
-import { toResultList } from "./ResponseAdapter";
+import { toResultList } from "./responseAdapters";
 
 /*eslint-disable*/
 export default class ElasticsearchAPIConnector {
