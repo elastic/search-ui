@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-const jquerySearchComponents = require('jquery-search-components');
+const JQuerySearchComponents = require('jquery-search-components');
 
 // TODO: DEMONSTRATE API
 ```

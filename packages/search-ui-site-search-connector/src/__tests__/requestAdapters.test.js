@@ -1,4 +1,4 @@
-import { adaptFacetConfig, adaptFilterConfig } from "../RequestAdapter";
+import { adaptFacetConfig, adaptFilterConfig } from "../requestAdapters";
 
 const valueFacet = {
   states: {
@@ -42,7 +42,7 @@ const filterConfig = {
   ]
 };
 
-describe("RequestAdapter", () => {
+describe("requestAdapters", () => {
   describe("adaptFacetConfig", () => {
     it("adapts app config to site search facet config", () => {
       expect(adaptFacetConfig({ ...valueFacet })).toEqual(["states"]);

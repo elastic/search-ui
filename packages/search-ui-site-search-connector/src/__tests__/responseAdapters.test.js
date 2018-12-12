@@ -1,9 +1,9 @@
-import { toResultList } from "../ResponseAdapter";
+import { toResultList } from "../responseAdapters";
 import ResultList from "../ResultList";
 
 import response from "../../resources/example-response.json";
 
-describe("ResponseAdapter", () => {
+describe("responseAdapters", () => {
   describe("toResultList", () => {
     it("returns a ResultList", () => {
       expect(toResultList(response, "national-parks")).toBeInstanceOf(
