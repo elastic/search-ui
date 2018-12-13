@@ -3,6 +3,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
     "test": "lerna run test --stream",
     "build": "lerna run build",
     "format": "prettier --write \"packages/*/src/*.js\"",
