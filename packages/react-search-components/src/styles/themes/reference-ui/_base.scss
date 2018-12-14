@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+@import 'modules/normalize';
+@import 'modules/variables';
+@import 'modules/mixins';
+@import 'components/error-boundary';
+@import 'components/facets';
+@import 'components/paging';
+@import 'components/paging-info';
+@import 'components/results';
+@import 'components/results-per-page';
+@import 'components/search-box';
+@import 'components/sorting';
+
+[class^="sui-"] {
+  box-sizing: border-box;
+
+  & > *,
+  & > *::after,
+  & > *::before {
+    box-sizing: border-box;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: underline;
+  color: $linkColor;
+}

@@ -1,0 +1,39 @@
+.rc-pagination {
+  display: flex;
+  justify-content: center;
+  a {
+    color: $linkColor;
+  }
+  > li {
+    border: none;
+    background: transparent;
+  }
+}
+.rc-pagination-disabled {
+  a {
+    color: #ccc;
+  }
+}
+.rc-pagination-item-active {
+  a {
+    color: $facetLinkColor;
+    font-weight: 900;
+  }
+  &:hover {
+    a {
+      color: $facetLinkColor;
+      cursor: not-allowed;
+    }
+    cursor: not-allowed;
+  }
+}
+.rc-pagination-jump-next:hover:after {
+  content: "\BB";
+  font-size: 16px;
+  line-height: 1.5;
+}
+.rc-pagination-jump-prev:hover:after {
+  content: "\AB";
+  font-size: 16px;
+  line-height: 1.5;
+}

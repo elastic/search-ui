@@ -3,7 +3,7 @@ import React from "react";
 
 function PagingInfo({ end, searchTerm, start, totalResults }) {
   return (
-    <div className="paging-info">
+    <div className="sui-paging-info">
       Showing{" "}
       <strong>
         {start} - {end}

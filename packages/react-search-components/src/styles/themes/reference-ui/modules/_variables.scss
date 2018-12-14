@@ -1,0 +1,41 @@
+// General Colors
+$black: #333333 !default;
+$linkColor: #3a56e4 !default;
+$textMatchColor: #3a56e4 !default;
+$facetLinkColor: #4f4f4f !default;
+$facetCountColor: #888888 !default;
+$metaTextColor: #4a4b4b !default;
+$helpTextGrayColor: #888888 !default;
+
+// Layout Colors
+$appContainerBackgroundColor: #ffffff !default;
+$resultsLeftBorderColor: #eeeeee !default;
+
+// Header Colors
+$headerBackgroundColor: #f9f9f9 !default;
+$headerBorderColor: #eeeeee !default;
+$searchboxBorderColor: #abb1b7 !default;
+
+// Result Colors
+$resultBackgroundColor: #fcfcfc !default;
+$resultBorderColor: #eeeeee !default;
+$fieldHoverColor: #f6f6f6 !default;
+$resultKeyTextColor: #777777 !default;
+
+// Font Variables
+$fontFamily: 'Roboto', sans-serif !default;
+$fontWeightNormal: 400 !default;
+$fontWeightBold: 700 !default;
+$lineHeight: 1.5 !default;
+
+// Sizes
+$sizeXXS: 2px !default;
+$sizeXS: 4px !default;
+$sizeS: 8px !default;
+$sizeM: 12px !default;
+$sizeL: 24px !default;
+$sizeXL: 32px !default;
+$sizeXXL: 48px !default;
+
+$maxWidth: 1300px !default;
+$offset: 175px !default;

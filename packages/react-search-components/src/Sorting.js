@@ -3,8 +3,13 @@ import React from "react";
 
 function Sorting({ onChange, options, value }) {
   return (
-    <div className="sorting">
-      <select id="sorting" name="sorting" value={value} onChange={onChange}>
+    <div className="sui-sorting">
+      <select
+        id="sui-sorting__select"
+        name="sorting"
+        value={value}
+        onChange={onChange}
+      >
         {options.map(option => (
           <option key={option.value} value={option.value}>
             {option.name}

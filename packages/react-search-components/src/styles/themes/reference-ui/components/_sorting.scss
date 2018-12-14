@@ -1,0 +1,7 @@
+@include block(sorting) {
+  display: inline-block;
+
+  @include element(select) {
+    width: calc(100% - #{$sizeXL});
+  }
+}
