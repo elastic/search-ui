@@ -1,31 +1,35 @@
-.facets {
+// Facet Container
+@include block(facet-container) {
   padding: $sizeXXL $sizeXL $sizeXXL 0;
 }
 
-.facet {
+// Single Facet
+@include block(facet) {
+  @include themeTypography;
+
   & + & {
     margin-top: 30px;
   }
 
-  &__title {
+  @include element(title) {
     text-transform: uppercase;
     font-size: 12px;
     color: #8b9bad;
     letter-spacing: 1px;
   }
 
-  &__list {
+  @include element(list) {
     line-height: 1.5;
     font-size: 13px;
     margin: $sizeS 0;
   }
 
-  &__item {
+  @include element(item) {
     display: flex;
     justify-content: space-between;
   }
 
-  &__link {
+  @include element(link) {
     color: $facetLinkColor;
     position: relative;
     text-decoration: none;
@@ -42,7 +46,7 @@
       pointer-events: none;
     }
 
-    &--active {
+    @include modifier(active) {
       color: $linkColor;
     }
 
@@ -55,7 +59,7 @@
     }
   }
 
-  &__count {
+  @include element(count) {
     color: $facetCountColor;
     font-size: 0.85em;
     margin-left: 20px;
@@ -63,7 +67,7 @@
     padding-top: 2px;
   }
 
-  &__selected {
+  @include element(selected) {
     font-weight: 900;
 
     a {
@@ -72,129 +76,8 @@
     }
   }
 
-  &__remove {
+  @include element(remove) {
     color: #666;
     margin-left: 10px;
-  }
-}
-
-
-.eco-search-facet {
-  margin-top: 20px;
-  margin-right: 20px;
-
-  .eco-search-facet-label {
-    padding: 5px 0;
-    font-size: 1.2em;
-  }
-
-  .eco-search-facet-option {
-    display: block;
-
-    .eco-search-facet-option__input {
-      margin-right: 10px;
-    }
-
-    .eco-search-facet-option__count {
-      float: right;
-    }
-  }
-}
-
-
-
-.eco-search-select-container {
-  font-size: 0.875rem;
-
-  .eco-search-select {
-    &__control {
-      border: 0;
-      border-radius: 2px;
-      background: #f2f2f2;
-      min-height: 0;
-      height: 30px;
-
-      &--is-focused {
-        border: 0;
-        box-shadow: 0 0 0 1px #00a9e5;
-      }
-    }
-
-    &__value-container {
-      padding-top: 0;
-      padding-bottom: 0;
-      font-weight: 600;
-    }
-
-    &__placeholder {
-      white-space: nowrap;
-      position: static;
-      transform: none;
-      color: #000;
-    }
-
-    &__indicator-separator {
-      display: none;
-    }
-
-    &__indicator {
-      background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI2IiB2aWV3Qm94PSIwIDAgMTIgNiI+DQogIDxwb2x5Z29uIGZpbGw9IiMwMEE5RTUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgcG9pbnRzPSI0NjQgNTM3IDQ1OCA1NDMgNDUyIDUzNyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQ1MiAtNTM3KSIvPg0KPC9zdmc+")
-        no-repeat center center;
-      svg {
-        visibility: hidden;
-      }
-    }
-
-    &__menu {
-      border-radius: 0;
-    }
-
-    &__menu-list {
-      padding: 0;
-    }
-
-    &__option {
-      padding: 0 12px 0 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 40px;
-
-      span {
-        font-size: 0.875rem;
-      }
-
-      &--is-focused {
-        background: #fafafa;
-      }
-
-      &--is-selected {
-        color: #000;
-        background: #e8f6fb;
-        position: relative;
-        font-weight: 600;
-
-        .eco-search-select__option-label {
-          font-weight: 600;
-          color: #000;
-        }
-
-        &:before {
-          content: "";
-          width: 30px;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          background: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMSIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgMTEgOSI+DQogIDxwb2x5Z29uIGZpbGw9IiMwMEE5RTUiIHBvaW50cz0iMjAuNDk5IDE3LjI5MyAyMS45MTQgMTguNzA3IDE1LjQ2OCAyNS4xNTMgMTEuMjkzIDIwLjk3OCAxMi43MDcgMTkuNTY0IDE1LjQ2OCAyMi4zMjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMSAtMTcpIi8+DQo8L3N2Zz4=")
-            no-repeat center center;
-          pointer-events: none;
-        }
-      }
-    }
-
-    &__option-count {
-      color: #9b9b9b;
-    }
   }
 }

@@ -1,0 +1,25 @@
+// Search Facet
+@include block('search-facet') {
+  @include themeTypography;
+  margin-top: 20px;
+  margin-right: 20px;
+
+  @include element('label') {
+    padding: 5px 0;
+    font-size: 1.2em;
+  }
+}
+
+// Search Facet Option
+@include block('search-facet-option') {
+  @include themeTypography;
+  display: block;
+
+  @include element('input') {
+    margin-right: 10px;
+  }
+
+  @include element('count') {
+    float: right;
+  }
+}

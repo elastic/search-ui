@@ -3,12 +3,4 @@
   color: $metaTextColor;
   font-size: 12px;
   display: inline-block;
-
-  @include element(label) {
-
-  }
-
-  @include element(select) {
-
-  }
 }

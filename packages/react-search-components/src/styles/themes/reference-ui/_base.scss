@@ -10,6 +10,8 @@
 @import 'components/results-per-page';
 @import 'components/search-box';
 @import 'components/sorting';
+@import 'components/search-facet';
+@import 'components/search-select';
 
 [class^="sui-"] {
   box-sizing: border-box;
