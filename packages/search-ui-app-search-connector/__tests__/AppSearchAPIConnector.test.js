@@ -87,41 +87,7 @@ describe("AppSearchAPIConnector", () => {
         }
       };
       await subject("searchTerm", options);
-      const [_, passedOptions] = getLastSearchCall();
-      expect(passedOptions).toEqual({
-        facets: {
-          field1: {
-            type: "value"
-          },
-          field2: {
-            type: "value"
-          },
-          field3: {
-            type: "value"
-          }
-        },
-        disjunctiveFacets: ["field1", "field3"]
-      });
-    });
-
-    it("will parse out disjunctive facet configuration", async () => {
-      const options = {
-        facets: {
-          field1: {
-            type: "value",
-            disjunctive: true
-          },
-          field2: {
-            type: "value"
-          },
-          field3: {
-            type: "value",
-            disjunctive: true
-          }
-        }
-      };
-      await subject("searchTerm", options);
-      const [_, passedOptions] = getLastSearchCall();
+      const passedOptions = getLastSearchCall()[1];
       expect(passedOptions).toEqual({
         facets: {
           field1: {
@@ -148,7 +114,7 @@ describe("AppSearchAPIConnector", () => {
         }
       };
       await subject("searchTerm", options);
-      const [_, passedOptions] = getLastSearchCall();
+      const passedOptions = getLastSearchCall()[1];
       expect(passedOptions).toEqual({
         facets: {
           field1: {
