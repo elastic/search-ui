@@ -8,18 +8,23 @@ import { SingleRangeSelectFacet } from "../src";
 const baseProps = {
   onChange: action("changed"),
   label: "The label",
+  options: [],
+  values: []
+};
+
+const optionsProps = {
   options: [
     {
-      count: 100,
+      count: 1,
       from: 1,
       to: 10,
-      name: "One"
+      name: "The first option"
     },
     {
-      count: 1000,
-      from: 1,
-      to: 10,
-      name: "Two"
+      count: 11,
+      from: 11,
+      to: 20,
+      name: "The second option"
     }
   ],
   values: [
@@ -34,6 +39,23 @@ const baseProps = {
   ]
 };
 
-storiesOf("Rangle Select Facet", module).add("basic", () => (
-  <SingleRangeSelectFacet {...{ ...baseProps }} />
-));
+const valuesProps = {
+  values: [
+    {
+      from: 1,
+      to: 10
+    },
+    {
+      from: 11,
+      to: 20
+    }
+  ]
+};
+
+storiesOf("Facets: Rangle Select", module)
+  .add("no options", () => <SingleRangeSelectFacet {...{ ...baseProps }} />)
+  .add("option selected", () => (
+    <SingleRangeSelectFacet
+      {...{ ...baseProps, ...optionsProps, ...valuesProps }}
+    />
+  ));

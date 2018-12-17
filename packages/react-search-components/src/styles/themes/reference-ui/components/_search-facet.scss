@@ -1,12 +1,12 @@
 // Search Facet
 @include block('search-facet') {
   @include themeTypography;
-  margin-top: 20px;
-  margin-right: 20px;
 
   @include element('label') {
-    padding: 5px 0;
-    font-size: 1.2em;
+    font-size: $sizeM;
+    color: $facetLabel;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 }
 

@@ -38,6 +38,13 @@ function toFilterValue(selectOption) {
   };
 }
 
+const setDefaultStyle = {
+  option: () => ({}),
+  control: () => ({}),
+  dropdownIndicator: () => ({}),
+  indicatorSeparator: () => ({})
+};
+
 function SingleRangeSelectFacet({ label, onChange, options, values }) {
   const selectedFilterValue = values[0];
 
@@ -62,6 +69,7 @@ function SingleRangeSelectFacet({ label, onChange, options, values }) {
         onChange={o => onChange(toFilterValue(o))}
         options={selectOptions}
         isSearchable={false}
+        styles={setDefaultStyle}
       />
     </div>
   );

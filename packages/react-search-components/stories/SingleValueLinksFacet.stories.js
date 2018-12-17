@@ -12,21 +12,30 @@ const baseProps = {
   label: "The label",
   options: [
     {
-      value: "One",
-      count: 10
+      value: "Compact Cars",
+      count: 100
     },
     {
-      value: "Two",
-      count: 20
+      value: "Subcompact Cars",
+      count: 150
     },
     {
-      value: "Three",
-      count: 30
+      value: "Mini Compact Cars",
+      count: 300
+    },
+    {
+      value: "Hatchback",
+      count: 120
+    },
+    {
+      value: "Sport Utility Vehicles",
+      count: 80
     }
-  ],
-  values: ["one", "two", "three"]
+  ]
 };
 
-storiesOf("Single Facet Value with Link", module).add("basic", () => (
-  <SingleValueLinksFacet {...{ ...baseProps }} />
-));
+storiesOf("Facets: Single Value", module)
+  .add("none selected", () => <SingleValueLinksFacet {...{ ...baseProps }} />)
+  .add("selected", () => (
+    <SingleValueLinksFacet {...{ values: ["Compact Cars"], ...baseProps }} />
+  ));

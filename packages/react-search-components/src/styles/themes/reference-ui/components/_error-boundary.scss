@@ -1,19 +1,19 @@
-.initial-state-message,
-.search-error {
+@include block('search-error') {
+  @include themeTypography;
+  color: $red;
   margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   height: calc(100vh - 180px);
-  color: $helpTextGrayColor;
-}
 
-.initial-state-message {
-  .active-search & {
-    display: none;
+  &.no-error {
+    @include themeTypography;
+    color: $black;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 180px);
   }
-}
-
-.search-error {
-  color: red;
 }

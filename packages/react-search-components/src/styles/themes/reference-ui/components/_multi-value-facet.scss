@@ -1,0 +1,46 @@
+@include block('multi-value-facet') {
+  @include themeTypography;
+  color: $facetLinkColor;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+
+  @include element('label') {
+    font-size: $sizeM;
+    color: $facetLabel;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  @include element('options-list') {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  @include element('option-label') {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @include element('option-input-wrapper') {
+    flex: 1;
+  }
+
+  @include element('checkbox') {
+    margin-right: $sizeS;
+  }
+
+  @include element('option-count') {
+    color: #888888;
+    font-size: 0.85em;
+    margin-left: $sizeL;
+  }
+
+  @include element('view-more') {
+    cursor: pointer;
+    color: $linkColor;
+  }
+}

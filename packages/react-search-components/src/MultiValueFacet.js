@@ -13,30 +13,32 @@ function MultiValueFacet({
   values
 }) {
   return (
-    <div className="sui-search-facet">
-      <div className="sui-search-facet-label">{label}</div>
-      <div className="sui-search-facet-options">
+    <div className="sui-multi-value-facet">
+      <div className="sui-multi-value-facet__label">{label}</div>
+      <div className="sui-multi-value-facet__options-list">
         {options.map(option => {
           const checked = values.includes(option.value);
           return (
             <label
               key={`${option.value}`}
               htmlFor={`example_facet_${label}${option.value}`}
-              className="sui-search-facet-option"
+              className="sui-multi-value-facet__option-label"
             >
-              <input
-                id={`example_facet_${label}${option.value}`}
-                type="checkbox"
-                className="sui-search-facet-option__input"
-                checked={checked}
-                onChange={() =>
-                  checked ? onRemove(option.value) : onSelect(option.value)
-                }
-              />
-              <span className="sui-search-facet-option__label">
-                {option.value}
-              </span>
-              <span className="sui-search-facet-option__count">
+              <div className="sui-multi-value-facet__option-input-wrapper">
+                <input
+                  id={`example_facet_${label}${option.value}`}
+                  type="checkbox"
+                  className="sui-multi-value-facet__checkbox"
+                  checked={checked}
+                  onChange={() =>
+                    checked ? onRemove(option.value) : onSelect(option.value)
+                  }
+                />
+                <span className="sui-multi-value-facet__input-text">
+                  {option.value}
+                </span>
+              </div>
+              <span className="sui-multi-value-facet__option-count">
                 {option.count.toLocaleString("en")}
               </span>
             </label>
@@ -44,7 +46,7 @@ function MultiValueFacet({
         })}
       </div>
       {showMore && (
-        <div className="sui-search-facet__view-more" onClick={onMoreClick}>
+        <div className="sui-multi-value-facet__view-more" onClick={onMoreClick}>
           + More
         </div>
       )}

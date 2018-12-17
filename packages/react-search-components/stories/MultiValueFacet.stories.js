@@ -24,10 +24,13 @@ const baseProps = {
       count: 30
     }
   ],
-  showMore: true,
-  values: ["one", "two", "three"]
+  values: ["two", "three"]
 };
 
-storiesOf("Multi-value Facet", module).add("basic", () => (
-  <MultiValueFacet {...{ ...baseProps }} />
-));
+storiesOf("Facets: Multi-value", module)
+  .add("basic", () => (
+    <MultiValueFacet {...{ showMore: false, ...baseProps }} />
+  ))
+  .add("with More", () => (
+    <MultiValueFacet {...{ showMore: true, ...baseProps }} />
+  ));
