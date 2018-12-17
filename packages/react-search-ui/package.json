@@ -5,13 +5,16 @@
   "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
   "homepage": "https://github.com/elastic/search-ui#readme",
   "license": "Apache-2.0",
-  "main": "lib/index.js",
+  "main": "lib",
+  "module": "es",
+  "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "es"
   ],
   "repository": {
     "type": "git",
@@ -19,7 +22,10 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "babel src --out-dir lib --ignore '**/*.test.js'",
+    "clean": "rimraf es lib",
+    "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
+    "build-js-es": "BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'",
+    "build": "npm-run-all clean build-js build-js-es",
     "prepare": "npm run build"
   },
   "bugs": {
@@ -48,7 +54,9 @@
     "enzyme-adapter-react-16": "^1.6.0",
     "enzyme-to-json": "^3.3.4",
     "jest": "^23.6.0",
+    "npm-run-all": "^4.1.5",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "rimraf": "^2.6.2"
   }
 }
