@@ -1,39 +1,5 @@
 import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
 
-/*
- * We simply pass our Facet configuration through to the App Search API
- * call. There are, however, certain properties that the API does not
- * support in that configuration. For that reason, we need to filter
- * those properties out before passing them to the API.
- *
- * An example is 'disjunctive', and 'conditional'.
- */
-function toAPIFacetSyntax(facetConfig = {}) {
-  return Object.entries(facetConfig).reduce((acc, [key, value]) => {
-    acc[key] = Object.entries(value).reduce((propAcc, [propKey, propValue]) => {
-      if (!["disjunctive", "conditional"].includes(propKey)) {
-        propAcc[propKey] = propValue;
-      }
-      return propAcc;
-    }, {});
-    return acc;
-  }, {});
-}
-
-/*
- * 'disjunctive' flags are embedded in individual facet configurations, like
- * so:
- *
- * facets
- */
-function getListOfDisjunctiveFacets(facetConfig = {}) {
-  return Object.entries(facetConfig).reduce((acc, [key, value]) => {
-    if (value && value.disjunctive === true) {
-      return acc.concat(key);
-    }
-    return acc;
-  }, []);
-}
 export default class AppSearchAPIConnector {
   /**
    * @param options Object
@@ -62,19 +28,13 @@ export default class AppSearchAPIConnector {
   }
 
   search(searchTerm, searchOptions) {
-    const disjunctiveFacets = getListOfDisjunctiveFacets(searchOptions.facets);
-
     if (searchOptions.facets && !Object.keys(searchOptions.facets).length) {
       // Because our API will bomb if these options are empty
       searchOptions.facets = undefined;
     }
-    if (searchOptions.facets) {
-      searchOptions.facets = toAPIFacetSyntax(searchOptions.facets);
-    }
 
     return this.client.search(searchTerm, {
-      ...searchOptions,
-      ...(disjunctiveFacets.length && { disjunctiveFacets })
+      ...searchOptions
     });
   }
 }
