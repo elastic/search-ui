@@ -5,7 +5,9 @@
   "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
   "homepage": "https://github.com/elastic/search-ui#readme",
   "license": "Apache-2.0",
-  "main": "lib/index.js",
+  "main": "lib",
+  "module": "es",
+  "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,7 +24,8 @@
     "build-css": "node-sass-chokidar src/ -o lib/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
-    "build": "npm-run-all build-css build-js",
+    "build-js-es": "BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'",
+    "build": "npm-run-all build-css build-js build-js-es",
     "prepare": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
