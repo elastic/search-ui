@@ -91,12 +91,16 @@ function formatORFiltersAsAND(filters = []) {
   }, []);
 }
 
-function removeConditionalFacets(facets = {}, filters = []) {
+function removeConditionalFacets(
+  facets = {},
+  conditionalFacets = {},
+  filters = []
+) {
   return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
     if (
-      facet.conditional &&
-      typeof facet.conditional === "function" &&
-      !facet.conditional({ filters })
+      conditionalFacets[facetKey] &&
+      typeof conditionalFacets[facetKey] === "function" &&
+      !conditionalFacets[facetKey]({ filters })
     ) {
       return acc;
     }
@@ -125,6 +129,7 @@ export default class SearchDriver {
 
   constructor({
     apiConnector,
+    conditionalFacets,
     facets,
     initialState,
     searchOptions,
@@ -134,6 +139,7 @@ export default class SearchDriver {
       throw Error("apiConnector required");
     }
     this.apiConnector = apiConnector;
+    this.conditionalFacets = conditionalFacets;
     this.facets = facets;
     this.subscriptions = [];
     this.searchOptions = searchOptions || {};
@@ -198,7 +204,11 @@ export default class SearchDriver {
         current,
         size: resultsPerPage
       },
-      facets: removeConditionalFacets(this.facets, filters),
+      facets: removeConditionalFacets(
+        this.facets,
+        this.conditionalFacets,
+        filters
+      ),
       filters: {
         all: formatORFiltersAsAND(filters)
       }

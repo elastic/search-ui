@@ -25,6 +25,7 @@
     "clean": "rimraf es lib",
     "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
     "build-js-es": "BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'",
+    "dev": " npm-run-all --parallel \"build-* -- --watch\"",
     "build": "npm-run-all clean build-js build-js-es",
     "prepare": "npm run build"
   },
