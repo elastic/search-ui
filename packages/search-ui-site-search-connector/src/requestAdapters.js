@@ -1,5 +1,5 @@
-export function adaptFacetConfig(facetConfig) {
-  if (!facetConfig) return;
+export function adaptFacetConfig(facets) {
+  if (!facets) return;
 
   const convertInvalidFacetsToUndefined = ([fieldName, config]) => {
     if (config.type != "value") {
@@ -13,7 +13,7 @@ export function adaptFacetConfig(facetConfig) {
 
   const getKey = ([key]) => key;
 
-  const config = Object.entries(facetConfig)
+  const config = Object.entries(facets)
     .map(convertInvalidFacetsToUndefined)
     .filter(v => v)
     .map(getKey);

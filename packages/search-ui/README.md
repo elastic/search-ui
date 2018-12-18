@@ -19,7 +19,7 @@ const connector = new AppSearchAPIConnector({
 
 const config = {
   apiConnector: connector,
-  facetConfig: { states: { type: "value" } },
+  facets: { states: { type: "value" } },
   searchOptions: {
     search_fields: { title: {} },
     result_fields: { title: { snippet: { size: 300, fallback: true } } }

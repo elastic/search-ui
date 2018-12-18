@@ -125,7 +125,7 @@ export default class SearchDriver {
 
   constructor({
     apiConnector,
-    facetConfig,
+    facets,
     initialState,
     searchOptions,
     trackUrlState = true
@@ -134,7 +134,7 @@ export default class SearchDriver {
       throw Error("apiConnector required");
     }
     this.apiConnector = apiConnector;
-    this.facetConfig = facetConfig;
+    this.facets = facets;
     this.subscriptions = [];
     this.searchOptions = searchOptions || {};
     this.trackUrlState = trackUrlState;
@@ -198,7 +198,7 @@ export default class SearchDriver {
         current,
         size: resultsPerPage
       },
-      facets: removeConditionalFacets(this.facetConfig, filters),
+      facets: removeConditionalFacets(this.facets, filters),
       filters: {
         all: formatORFiltersAsAND(filters)
       }

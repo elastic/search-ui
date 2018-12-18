@@ -26,7 +26,7 @@ class SearchProvider extends Component {
         click: PropTypes.func.isRequired,
         search: PropTypes.func.isRequired
       }).isRequired,
-      facetConfig: PropTypes.object,
+      facets: PropTypes.object,
       initialState: PropTypes.object,
       searchOptions: PropTypes.object,
       trackUrlState: PropTypes.bool
