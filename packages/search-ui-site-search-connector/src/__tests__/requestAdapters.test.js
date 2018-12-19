@@ -36,9 +36,9 @@ const rangeFacet = {
 
 const filterConfig = {
   all: [
-    { states: ["Maine"] },
-    { states: ["Georgia"] },
-    { national_landmark: ["true"] }
+    { states: "Maine" },
+    { states: "Georgia" },
+    { national_landmark: "true" }
   ]
 };
 

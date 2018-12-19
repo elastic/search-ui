@@ -35,7 +35,7 @@ export function adaptFilterConfig(filterConfig) {
       };
     }
 
-    acc[fieldName].values.push(fieldValue[0]);
+    acc[fieldName].values.push(fieldValue);
 
     return acc;
   }, {});

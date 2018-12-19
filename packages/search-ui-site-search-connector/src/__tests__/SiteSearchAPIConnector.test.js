@@ -50,13 +50,13 @@ describe("#search", () => {
       filters: {
         all: [
           {
-            title: ["Acadia"]
+            title: "Acadia"
           },
           {
-            title: ["Grand Canyon"]
+            title: "Grand Canyon"
           },
           {
-            world_heritage_site: ["true"]
+            world_heritage_site: "true"
           }
         ]
       }
