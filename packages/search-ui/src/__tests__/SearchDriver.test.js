@@ -166,6 +166,40 @@ describe("conditional facets", () => {
   });
 });
 
+// disjunctiveFacetsAnalyticsTags
+describe("disjunctive facets", () => {
+  function subject({ disjunctiveFacets, disjunctiveFacetsAnalyticsTags }) {
+    const driver = new SearchDriver({
+      ...params,
+      facets: {
+        initial: {
+          type: "value"
+        }
+      },
+      disjunctiveFacets,
+      disjunctiveFacetsAnalyticsTags
+    });
+
+    driver.setSearchTerm("test");
+  }
+
+  it("will pass through disjunctive facet configuration", () => {
+    const disjunctiveFacets = ["initial"];
+    subject({ disjunctiveFacets });
+    expect(mockApiConnector.search.mock.calls[0][1].disjunctiveFacets).toEqual([
+      "initial"
+    ]);
+  });
+
+  it("will pass through disjunctive facet analytics tags", () => {
+    const disjunctiveFacetsAnalyticsTags = ["Test"];
+    subject({ disjunctiveFacetsAnalyticsTags });
+    expect(
+      mockApiConnector.search.mock.calls[0][1].disjunctiveFacetsAnalyticsTags
+    ).toEqual(["Test"]);
+  });
+});
+
 describe("#getState", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);

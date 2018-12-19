@@ -130,6 +130,8 @@ export default class SearchDriver {
   constructor({
     apiConnector,
     conditionalFacets,
+    disjunctiveFacets,
+    disjunctiveFacetsAnalyticsTags,
     facets,
     initialState,
     searchOptions,
@@ -140,6 +142,8 @@ export default class SearchDriver {
     }
     this.apiConnector = apiConnector;
     this.conditionalFacets = conditionalFacets;
+    this.disjunctiveFacets = disjunctiveFacets;
+    this.disjunctiveFacetsAnalyticsTags = disjunctiveFacetsAnalyticsTags;
     this.facets = facets;
     this.subscriptions = [];
     this.searchOptions = searchOptions || {};
@@ -204,6 +208,8 @@ export default class SearchDriver {
         current,
         size: resultsPerPage
       },
+      disjunctiveFacets: this.disjunctiveFacets,
+      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
       facets: removeConditionalFacets(
         this.facets,
         this.conditionalFacets,

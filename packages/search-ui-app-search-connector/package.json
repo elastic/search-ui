@@ -39,6 +39,6 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "swiftype-app-search-javascript": "^2.1.0"
+    "swiftype-app-search-javascript": "^2.2.0"
   }
 }
