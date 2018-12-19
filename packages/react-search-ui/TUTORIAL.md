@@ -175,7 +175,7 @@ a couple of additional [options].(https://github.com/elastic/search-ui/tree/mast
 <SearchProvider
   config={{
     apiConnector: connector,
-    facetConfig: {
+    facets: {
       states: { type: "value", size: 30 },
       acres: {
         type: "range",

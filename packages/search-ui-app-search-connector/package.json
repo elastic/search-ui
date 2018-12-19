@@ -23,6 +23,7 @@
   "scripts": {
     "test": "jest",
     "clean": "rimraf es lib",
+    "watch-js": " npm-run-all --parallel \"build-* -- --watch\"",
     "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
     "build-js-es": "BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'",
     "build": "npm-run-all clean build-js build-js-es",
@@ -38,6 +39,6 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "swiftype-app-search-javascript": "^2.1.0"
+    "swiftype-app-search-javascript": "^2.2.0"
   }
 }

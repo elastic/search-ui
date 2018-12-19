@@ -126,6 +126,80 @@ it("will trigger a search if searchTerm or filters are provided in initial state
   });
 });
 
+describe("conditional facets", () => {
+  function subject(conditional) {
+    const driver = new SearchDriver({
+      ...params,
+      initialState: {
+        filters: [{ initial: ["value"] }],
+        searchTerm: "test"
+      },
+      facets: {
+        initial: {
+          type: "value"
+        }
+      },
+      conditionalFacets: {
+        initial: conditional
+      }
+    });
+
+    driver.setSearchTerm("test");
+  }
+
+  it("will fetch a conditional facet that passes its check", () => {
+    subject(filters => !!filters);
+
+    // 'initial' WAS included in request to server
+    expect(mockApiConnector.search.mock.calls[1][1].facets).toEqual({
+      initial: {
+        type: "value"
+      }
+    });
+  });
+
+  it("will not fetch a conditional facet that fails its check", () => {
+    subject(filters => !filters);
+
+    // 'initial' was NOT included in request to server
+    expect(mockApiConnector.search.mock.calls[1][1].facets).toEqual({});
+  });
+});
+
+// disjunctiveFacetsAnalyticsTags
+describe("disjunctive facets", () => {
+  function subject({ disjunctiveFacets, disjunctiveFacetsAnalyticsTags }) {
+    const driver = new SearchDriver({
+      ...params,
+      facets: {
+        initial: {
+          type: "value"
+        }
+      },
+      disjunctiveFacets,
+      disjunctiveFacetsAnalyticsTags
+    });
+
+    driver.setSearchTerm("test");
+  }
+
+  it("will pass through disjunctive facet configuration", () => {
+    const disjunctiveFacets = ["initial"];
+    subject({ disjunctiveFacets });
+    expect(mockApiConnector.search.mock.calls[0][1].disjunctiveFacets).toEqual([
+      "initial"
+    ]);
+  });
+
+  it("will pass through disjunctive facet analytics tags", () => {
+    const disjunctiveFacetsAnalyticsTags = ["Test"];
+    subject({ disjunctiveFacetsAnalyticsTags });
+    expect(
+      mockApiConnector.search.mock.calls[0][1].disjunctiveFacetsAnalyticsTags
+    ).toEqual(["Test"]);
+  });
+});
+
 describe("#getState", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
