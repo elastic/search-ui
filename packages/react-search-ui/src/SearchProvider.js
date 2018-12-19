@@ -30,7 +30,6 @@ class SearchProvider extends Component {
       disjunctiveFacets: PropTypes.arrayOf(PropTypes.string),
       facets: PropTypes.object,
       initialState: PropTypes.object,
-      searchOptions: PropTypes.object,
       trackUrlState: PropTypes.bool
     })
   };

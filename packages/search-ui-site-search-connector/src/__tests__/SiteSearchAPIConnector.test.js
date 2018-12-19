@@ -26,13 +26,21 @@ it("can be initialized", () => {
 });
 
 describe("#search", () => {
-  function subject(searchTerm = "searchTerm", options = {}) {
-    const connector = new SiteSearchAPIConnector(params);
+  function subject({
+    additionalOptions,
+    searchTerm = "searchTerm",
+    options = {}
+  }) {
+    const connector = new SiteSearchAPIConnector({
+      ...params,
+      additionalOptions
+    });
     return connector.search(searchTerm, options);
   }
 
   it("will call the API with the correct body params", async () => {
-    await subject("searchTerm", {
+    const searchTerm = "searchTerm";
+    const options = {
       arbitraryParameter: "shouldRemain",
       page: {
         current: 1,
@@ -60,7 +68,8 @@ describe("#search", () => {
           }
         ]
       }
-    });
+    };
+    await subject({ searchTerm, options });
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
@@ -93,8 +102,29 @@ describe("#search", () => {
   });
 
   it("will correctly format an API response", async () => {
-    const response = await subject();
+    const response = await subject({});
     expect(response).toMatchSnapshot();
+  });
+
+  it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
+    const options = {};
+    const fetchFields = {
+      fetch_fields: ["title"]
+    };
+    const additionalOptions = () => fetchFields;
+    const searchTerm = "searchTerm";
+    await subject({ additionalOptions, searchTerm, options });
+    // const [passedSearchTerm, passedOptions] = getLastSearchCall();
+    // expect(passedSearchTerm).toEqual(searchTerm);
+    // expect(passedOptions).toEqual({
+    //   ...options,
+    //   ...fetchFields
+    // });
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      q: "searchTerm",
+      ...fetchFields
+    });
   });
 });
 

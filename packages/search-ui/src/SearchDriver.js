@@ -134,7 +134,6 @@ export default class SearchDriver {
     disjunctiveFacetsAnalyticsTags,
     facets,
     initialState,
-    searchOptions,
     trackUrlState = true
   }) {
     if (!apiConnector) {
@@ -146,7 +145,6 @@ export default class SearchDriver {
     this.disjunctiveFacetsAnalyticsTags = disjunctiveFacetsAnalyticsTags;
     this.facets = facets;
     this.subscriptions = [];
-    this.searchOptions = searchOptions || {};
     this.trackUrlState = trackUrlState;
 
     let urlState;
@@ -203,7 +201,6 @@ export default class SearchDriver {
     if (isLoading) return;
 
     const searchOptions = {
-      ...this.searchOptions,
       page: {
         current,
         size: resultsPerPage

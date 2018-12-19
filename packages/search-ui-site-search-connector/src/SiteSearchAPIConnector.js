@@ -36,9 +36,10 @@ function _request(engineKey, method, path, params) {
 }
 
 export default class SiteSearchAPIConnector {
-  constructor({ documentType, engineKey }) {
+  constructor({ documentType, engineKey, additionalOptions = () => ({}) }) {
     this.documentType = documentType;
     this.engineKey = engineKey;
+    this.additionalOptions = additionalOptions;
     this._request = _request.bind(this, engineKey);
     this._get = _get.bind(this, engineKey);
   }
@@ -56,12 +57,11 @@ export default class SiteSearchAPIConnector {
 
   search(searchTerm, searchOptions) {
     const safeDestructureSort = obj => Object.entries(obj || {})[0] || [];
-
     const { facets, filters, page, sort, ...rest } = searchOptions;
     const [sortField, sortDirection] = safeDestructureSort(sort);
     const updatedFacets = adaptFacetConfig(facets);
     const updatedFilters = adaptFilterConfig(filters);
-    return this._request("POST", "engines/search.json", {
+    const options = {
       ...rest,
       ...(page &&
         page.size && {
@@ -92,6 +92,10 @@ export default class SiteSearchAPIConnector {
         }
       }),
       q: searchTerm
+    };
+    return this._request("POST", "engines/search.json", {
+      ...options,
+      ...this.additionalOptions(options)
     }).then(json => {
       return toResultList(json, this.documentType);
     });

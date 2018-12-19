@@ -9,8 +9,16 @@ export default class AppSearchAPIConnector {
    * endpointBase - (optional) Overrides the base of the Swiftype API endpoint
    *   completely. Useful when proxying the Swiftype API or developing against
    *   a local API server.
+   * additionalOptions - (optional) Append additional options / parameter to the
+   *   request before sending to the API.
    */
-  constructor({ searchKey, engineName, hostIdentifier, endpointBase = "" }) {
+  constructor({
+    searchKey,
+    engineName,
+    hostIdentifier,
+    additionalOptions = () => ({}),
+    endpointBase = ""
+  }) {
     if (!engineName || !hostIdentifier || !searchKey) {
       throw Error("engineName, hostIdentifier, and searchKey are required");
     }
@@ -21,6 +29,7 @@ export default class AppSearchAPIConnector {
       apiKey: searchKey,
       engineName: engineName
     });
+    this.additionalOptions = additionalOptions;
   }
 
   click({ query, documentId, requestId, tags }) {
@@ -34,7 +43,8 @@ export default class AppSearchAPIConnector {
     }
 
     return this.client.search(searchTerm, {
-      ...searchOptions
+      ...searchOptions,
+      ...this.additionalOptions(searchOptions)
     });
   }
 }

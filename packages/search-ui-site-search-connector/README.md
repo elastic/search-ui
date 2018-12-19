@@ -25,7 +25,10 @@ import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
 
 const connector = new SiteSearchAPIConnector({
   documentType: "national-parks",
-  engineKey: "Z41R5U3Hi4s5gp1aw7kA"
+  engineKey: "Z41R5U3Hi4s5gp1aw7kA",
+  additionalOptions: () => ({
+    fetch_fields: ["title"]
+  })
 });
 ```
 

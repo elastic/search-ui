@@ -14,7 +14,10 @@ import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
   engineName: "national-parks-demo",
-  hostIdentifier: "host-2376rb"
+  hostIdentifier: "host-2376rb",
+  additionalOptions: () => ({
+    result_fields: { title: { raw: {} } }
+  })
 });
 ```
 

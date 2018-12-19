@@ -14,16 +14,16 @@ import { SearchDriver } from "@elastic/search-ui";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
   engineName: "national-parks-demo",
-  hostIdentifier: "host-2376rb"
+  hostIdentifier: "host-2376rb",
+  additionalOptions: () => ({
+    search_fields: { title: {} },
+    result_fields: { title: { snippet: { size: 300, fallback: true } } }
+  })
 });
 
 const config = {
   apiConnector: connector,
-  facets: { states: { type: "value" } },
-  searchOptions: {
-    search_fields: { title: {} },
-    result_fields: { title: { snippet: { size: 300, fallback: true } } }
-  }
+  facets: { states: { type: "value" } }
 };
 
 const driver = new SearchDriver(config);
@@ -88,7 +88,6 @@ Additionally, the following can also be found:
 | `disjunctiveFacetsAnalyticsTags` | Array[String]                          | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Queries will be tagged with "Facet-Only" in the Analytics Dashboard unless specified here.                                                                                                                                                         |
 | `conditionalFacets`              | Object[String, function]               | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>`{ facetName: (filters) => return true` }                                                                                         |  |
 | `initialState`                   | [Search Parameters](#searchparameters) | optional  | Set initial state of the search. ex:<br/><br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                                                                                                                                                                                                     |
-| `searchOptions`                  | Object                                 | optional  | Any additional, arbitrary search config to be passed to the Search API to further tune your queries. Ex, `result_fields`, etc.                                                                                                                                                                                 |
 | `trackURLState`                  | boolean                                | optional  | By default, state will be synced with the browser url. To turn this off, pass `false`                                                                                                                                                                                                                          |
 
 ### Facet Configuration <a id="facetconfig"></a>
