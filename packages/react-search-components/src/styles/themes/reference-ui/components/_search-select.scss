@@ -61,6 +61,7 @@
     align-items: center;
     font-weight: $fontWeightNormal;
     padding: $sizeS $sizeM;
+    cursor: pointer;
 
     @include modifier('is-selected') {
       color: $black;

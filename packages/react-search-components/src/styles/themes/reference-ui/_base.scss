@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
-@import 'modules/normalize';
 @import 'modules/variables';
 @import 'modules/mixins';
 @import 'components/error-boundary';
@@ -7,29 +6,9 @@
 @import 'components/multi-value-facet';
 @import 'components/paging';
 @import 'components/paging-info';
-@import 'components/results';
+@import 'components/result';
 @import 'components/results-per-page';
 @import 'components/search-box';
 @import 'components/sorting';
 @import 'components/search-facet';
 @import 'components/search-select';
-
-[class^="sui-"] {
-  box-sizing: border-box;
-
-  & > *,
-  & > *::after,
-  & > *::before {
-    box-sizing: border-box;
-  }
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-a {
-  text-decoration: underline;
-  color: $linkColor;
-}

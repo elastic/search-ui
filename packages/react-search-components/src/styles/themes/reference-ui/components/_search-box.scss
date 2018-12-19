@@ -1,4 +1,4 @@
-@include block(search-box) {
+@include block('search-box') {
   display: flex;
   overflow: hidden;
   justify-content: center;
@@ -6,12 +6,13 @@
   align-items: stretch;
   font-family: $fontFamily;
 
-  @include element(text-input) {
+  @include element('text-input') {
     width: 100%;
-    border-radius: 3px;
+    border-radius: $borderRadius;
     border: 1px solid $searchboxBorderColor;
     padding: 0 1em;
     outline: none;
+    font-size: 14px;
 
     &::placeholder {
       color: #aaaaaa;
@@ -22,7 +23,8 @@
     }
   }
 
-  @include element(submit) {
+  @include element('submit') {
+    font-size: 14px;
     padding: 0 2em;
     margin-left: 10px;
     text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
@@ -33,7 +35,7 @@
     background: linear-gradient(rgb(45, 160, 250), rgb(49, 88, 238))
       rgb(47, 124, 244);
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: $borderRadius;
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,

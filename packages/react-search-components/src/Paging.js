@@ -9,6 +9,7 @@ function Paging({ current, resultsPerPage, onChange, totalPages }) {
       onChange={onChange}
       pageSize={resultsPerPage}
       total={totalPages * resultsPerPage}
+      className="sui-paging"
     />
   );
 }

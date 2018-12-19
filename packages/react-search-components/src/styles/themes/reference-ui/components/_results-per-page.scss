@@ -1,4 +1,4 @@
-@include block(results-per-page) {
+@include block('results-per-page') {
   @include themeTypography;
   color: $metaTextColor;
   font-size: 12px;

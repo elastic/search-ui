@@ -1,38 +1,41 @@
 // Facet Container
-@include block(facet-container) {
+@include block('facet-container') {
   padding: $sizeXXL $sizeXL $sizeXXL 0;
 }
 
 // Single Facet
-@include block(facet) {
+@include block('facet') {
   @include themeTypography;
 
   & + & {
     margin-top: 30px;
   }
 
-  @include element(title) {
+  @include element('title') {
     text-transform: uppercase;
     font-size: 12px;
     color: #8b9bad;
     letter-spacing: 1px;
   }
 
-  @include element(list) {
+  @include element('list') {
     line-height: 1.5;
     font-size: 13px;
     margin: $sizeS 0;
+    padding: 0;
   }
 
-  @include element(item) {
+  @include element('item') {
     display: flex;
     justify-content: space-between;
   }
 
-  @include element(link) {
+  @include element('link') {
     color: $facetLinkColor;
     position: relative;
     text-decoration: none;
+    list-style: none;
+    padding: 0;
 
     &:after {
       content: "";
@@ -46,7 +49,7 @@
       pointer-events: none;
     }
 
-    @include modifier(active) {
+    @include modifier('active') {
       color: $linkColor;
     }
 
@@ -59,7 +62,7 @@
     }
   }
 
-  @include element(count) {
+  @include element('count') {
     color: $facetCountColor;
     font-size: 0.85em;
     margin-left: 20px;
@@ -67,7 +70,7 @@
     padding-top: 2px;
   }
 
-  @include element(selected) {
+  @include element('selected') {
     font-weight: 900;
 
     a {
@@ -76,7 +79,7 @@
     }
   }
 
-  @include element(remove) {
+  @include element('remove') {
     color: #666;
     margin-left: 10px;
   }

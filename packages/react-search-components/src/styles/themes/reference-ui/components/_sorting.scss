@@ -1,8 +1,4 @@
-@include block(sorting) {
+@include block('sorting') {
   @include themeTypography;
   display: inline-block;
-
-  @include element(select) {
-    width: calc(100% - #{$sizeXL});
-  }
 }

@@ -1,6 +1,6 @@
-@include block(paging-info) {
+@include block('paging-info') {
   @include themeTypography;
   color: $metaTextColor;
-  font-size: 12px;
+  font-size: $sizeM;
   display: inline-block;
 }

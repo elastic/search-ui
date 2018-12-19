@@ -1,6 +1,7 @@
 // Search Facet
 @include block('search-facet') {
   @include themeTypography;
+  list-style: none;
 
   @include element('label') {
     font-size: $sizeM;
