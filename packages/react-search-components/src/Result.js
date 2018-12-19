@@ -13,7 +13,7 @@ function Result({ fields, onClickLink, title, url }) {
         )}
         {title && url && (
           <a
-            className="sui-result__title"
+            className="sui-result__title sui-result__title-link"
             dangerouslySetInnerHTML={{ __html: title }}
             href={url}
             onClick={onClickLink}

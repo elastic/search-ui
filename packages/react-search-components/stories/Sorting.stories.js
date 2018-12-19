@@ -6,15 +6,16 @@ import { action } from "@storybook/addon-actions";
 import { Sorting } from "../src";
 
 const baseProps = {
-  onChange: action("changed"),
+  label: "Sort by",
+  onChange: action("Changed"),
   options: [
-    { name: "one", value: "1" },
-    { name: "two", value: "2" },
-    { name: "three", value: "3" }
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" }
   ],
-  value: "value"
+  value: "chocolate"
 };
 
-storiesOf("Sorting", module).add("Basic", () => (
-  <Sorting {...{ ...baseProps }} />
-));
+storiesOf("Sorting", module)
+  .add("basic", () => <Sorting {...{ ...baseProps }} />)
+  .add("no value", () => <Sorting {...{ ...baseProps, value: null }} />);

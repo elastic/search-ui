@@ -199,7 +199,9 @@
     align-items: center; }
   .sui-result__title {
     font-size: 1.8em;
-    font-weight: 700;
+    font-weight: 400;
+    color: #333333; }
+  .sui-result__title-link {
     color: #3a56e4; }
   .sui-result__key {
     font-family: monospace;
@@ -307,7 +309,8 @@
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  display: inline-block; }
+  display: inline-block;
+  width: 100%; }
 
 .sui-search-facet {
   font-family: "Roboto", sans-serif;

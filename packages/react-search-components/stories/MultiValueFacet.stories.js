@@ -7,9 +7,9 @@ import { MultiValueFacet } from "../src";
 
 const baseProps = {
   label: "Label",
-  onMoreClick: action("changed"),
-  onRemove: action("changed"),
-  onSelect: action("changed"),
+  onMoreClick: action("Clicked More"),
+  onRemove: action("Removed"),
+  onSelect: action("Selected"),
   options: [
     {
       value: "value",

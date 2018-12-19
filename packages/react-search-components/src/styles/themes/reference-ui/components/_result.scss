@@ -34,7 +34,11 @@
 
   @include element('title') {
     font-size: 1.8em;
-    font-weight: $fontWeightBold;
+    font-weight: $fontWeightNormal;
+    color: $black;
+  }
+
+  @include element('title-link') {
     color: $linkColor;
   }
 
