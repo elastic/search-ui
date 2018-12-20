@@ -1,8 +1,12 @@
 // Search Select
-@include block('search-select') {
+@include block('select') {
   @include themeTypography;
   font-size: 0.875rem;
   margin-top: $sizeS;
+
+  @include modifier('inline') {
+    margin-top: 0;
+  }
 
   @include modifier('is-disabled') {
     opacity: 0.5;

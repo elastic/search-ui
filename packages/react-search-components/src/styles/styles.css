@@ -264,7 +264,11 @@
   font-weight: 400;
   color: #4a4b4b;
   font-size: 12px;
-  display: inline-block; }
+  display: flex;
+  align-items: center;
+  height: 100%; }
+  .sui-results-per-page__label {
+    margin-right: 8px; }
 
 .sui-search-box {
   display: flex;
@@ -311,6 +315,11 @@
   font-weight: 400;
   display: inline-block;
   width: 100%; }
+  .sui-sorting__label {
+    font-size: 12px;
+    color: #8b9bad;
+    text-transform: uppercase;
+    letter-spacing: 1px; }
 
 .sui-search-facet {
   font-family: "Roboto", sans-serif;
@@ -333,58 +342,60 @@
   .sui-search-facet-option__count {
     float: right; }
 
-.sui-search-select {
+.sui-select {
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-size: 0.875rem;
   margin-top: 8px; }
-  .sui-search-select--is-disabled {
+  .sui-select--inline {
+    margin-top: 0; }
+  .sui-select--is-disabled {
     opacity: 0.5; }
-  .sui-search-select__control {
+  .sui-select__control {
     background-color: #f8f8f8;
     border: 1px solid #a6a6a6;
     border-radius: 4px;
     display: flex;
     align-items: stretch;
     justify-content: space-between; }
-    .sui-search-select__control--is-focused {
+    .sui-select__control--is-focused {
       border: 1px solid #3a56e4; }
-  .sui-search-select__value-container {
+  .sui-select__value-container {
     padding-top: 0;
     padding-bottom: 0; }
-    .sui-search-select__value-container--has-value {
+    .sui-select__value-container--has-value {
       font-weight: 700;
       color: #333333; }
-  .sui-search-select__placeholder {
+  .sui-select__placeholder {
     white-space: nowrap;
     position: static;
     transform: none;
     color: #333333; }
-  .sui-search-select__dropdown-indicator {
+  .sui-select__dropdown-indicator {
     display: flex;
     height: 32px;
     width: 32px;
     align-items: center;
     justify-content: center; }
-  .sui-search-select__option-count {
+  .sui-select__option-count {
     color: #888888;
     font-size: 0.8em; }
-  .sui-search-select__option-label {
+  .sui-select__option-label {
     color: #4f4f4f; }
-  .sui-search-select__option {
+  .sui-select__option {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 400;
     padding: 8px 12px;
     cursor: pointer; }
-    .sui-search-select__option--is-selected {
+    .sui-select__option--is-selected {
       color: #333333;
       background: #ffffff;
       font-weight: 700; }
-      .sui-search-select__option--is-selected .sui-search-select__option-label {
+      .sui-select__option--is-selected .sui-search-select__option-label {
         color: #333333;
         position: relative; }
-    .sui-search-select__option:hover {
+    .sui-select__option:hover {
       background: #f8f8f8; }

@@ -20,8 +20,8 @@ function Sorting({ label, onChange, options, value }) {
     <div className="sui-sorting">
       {label && <div className="sui-sorting__label">{label}</div>}
       <Select
-        className="sui-search-select"
-        classNamePrefix="sui-search-select"
+        className="sui-select"
+        classNamePrefix="sui-select"
         value={selectedOption}
         onChange={o => onChange(o.value)}
         options={options}

@@ -2,5 +2,11 @@
   @include themeTypography;
   color: $metaTextColor;
   font-size: 12px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  @include element('label') {
+    margin-right: $sizeS;
+  }
 }

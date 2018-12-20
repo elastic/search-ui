@@ -7,10 +7,8 @@ import { RangeFacetOption, RangeFilterValue } from "./types";
 function Option(props) {
   return (
     <components.Option {...props}>
-      <span className="sui-search-select__option-label">
-        {props.data.label}
-      </span>
-      <span className="sui-search-select__option-count">
+      <span className="sui-select__option-label">{props.data.label}</span>
+      <span className="sui-select__option-count">
         {props.data.count.toLocaleString("en")}
       </span>
     </components.Option>
@@ -62,8 +60,8 @@ function SingleRangeSelectFacet({ label, onChange, options, values }) {
     <div className="sui-search-facet">
       <div className="sui-search-facet__label">{label}</div>
       <Select
-        className="sui-search-select"
-        classNamePrefix="sui-search-select"
+        className="sui-select"
+        classNamePrefix="sui-select"
         components={{ Option }}
         value={selectedOption}
         onChange={o => onChange(toFilterValue(o))}

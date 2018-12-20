@@ -2,4 +2,11 @@
   @include themeTypography;
   display: inline-block;
   width: 100%;
+
+  @include element('label') {
+    font-size: $sizeM;
+    color: $facetLabel;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 }

@@ -1,24 +1,33 @@
 import PropTypes from "prop-types";
 import React from "react";
+import Select from "react-select";
+
+const setDefaultStyle = {
+  option: () => ({}),
+  control: () => ({}),
+  dropdownIndicator: () => ({}),
+  indicatorSeparator: () => ({})
+};
 
 function ResultsPerPage({ onChange, options, value }) {
+  const selectedValue = value;
+
+  const selectedOption = selectedValue
+    ? options.find(option => option === selectedValue)
+    : null;
+
   return (
     <div className="sui-results-per-page">
-      <label htmlFor="sui-results-per-page__label">
-        Show{" "}
-        <select
-          name="results-per-page"
-          id="sui-results-per-page__select"
-          value={value}
-          onChange={onChange}
-        >
-          {options.map(option => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className="sui-results-per-page__label">Show</div>
+      <Select
+        className="sui-select sui-select--inline"
+        classNamePrefix="sui-select"
+        value={selectedOption}
+        onChange={o => onChange(o)}
+        options={options}
+        isSearchable={false}
+        styles={setDefaultStyle}
+      />
     </div>
   );
 }
