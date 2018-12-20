@@ -40,3 +40,28 @@ export function adaptFilterConfig(filterConfig) {
     return acc;
   }, {});
 }
+
+export function adaptResultFieldsConfig(resultFieldsConfig) {
+  if (!resultFieldsConfig) return [];
+
+  const fetchFields = Object.keys(resultFieldsConfig);
+
+  const highlightFields = Object.entries(resultFieldsConfig).reduce(
+    (acc, [fieldName, fieldConfig]) => {
+      if (!fieldConfig.snippet) return acc;
+      return {
+        ...acc,
+        [fieldName]: fieldConfig.snippet
+      };
+    },
+    {}
+  );
+
+  return [fetchFields, highlightFields];
+}
+
+export function adaptSearchFieldsConfig(searchFieldsConfig) {
+  if (!searchFieldsConfig) return [];
+
+  return Object.keys(searchFieldsConfig);
+}

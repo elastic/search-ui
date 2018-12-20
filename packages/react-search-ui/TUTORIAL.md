@@ -426,6 +426,8 @@ So on your configuration object, you could use the following for app search...
 
 # TODO Update this to additionalOptions and pass through to the driver
 
+# TODO Update because search_fields now has first class support
+
 ```js
 searchOptions: {
   search_fields: {

@@ -28,16 +28,11 @@ import "@elastic/react-search-components/lib/styles/styles.css";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
   engineName: "national-parks-demo",
-  hostIdentifier: "host-2376rb",
-  additionalOptions: () => ({
-    search_fields: { title: {} },
-    result_fields: { title: { snippet: { size: 300, fallback: true } } }
-  })
+  hostIdentifier: "host-2376rb"
 });
 
 const config = {
-  apiConnector: connector,
-  facets: { states: { type: "value" } }
+  apiConnector: connector
 };
 
 export default function App() {

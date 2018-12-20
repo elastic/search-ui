@@ -67,6 +67,14 @@ describe("#search", () => {
             world_heritage_site: "true"
           }
         ]
+      },
+      result_fields: {
+        title: { raw: {}, snippet: { size: 20, fallback: true } }
+      },
+      search_fields: {
+        title: {},
+        description: {},
+        states: {}
       }
     };
     await subject({ searchTerm, options });
@@ -97,6 +105,25 @@ describe("#search", () => {
       facets: {
         "national-parks": ["states"]
       },
+      fetch_fields: {
+        [documentType]: ["title"]
+      },
+      search_fields: {
+        [documentType]: ["title", "description", "states"]
+      },
+      highlight_fields: {
+        [documentType]: {
+          title: { size: 20, fallback: true }
+        }
+      },
+      q: "searchTerm"
+    });
+  });
+
+  it("will only add body parameters if the corresponding configuration has been provided", async () => {
+    await subject({});
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
       q: "searchTerm"
     });
   });
@@ -108,22 +135,16 @@ describe("#search", () => {
 
   it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
     const options = {};
-    const fetchFields = {
-      fetch_fields: ["title"]
+    const groupFields = {
+      group: { field: "title" }
     };
-    const additionalOptions = () => fetchFields;
+    const additionalOptions = () => groupFields;
     const searchTerm = "searchTerm";
     await subject({ additionalOptions, searchTerm, options });
-    // const [passedSearchTerm, passedOptions] = getLastSearchCall();
-    // expect(passedSearchTerm).toEqual(searchTerm);
-    // expect(passedOptions).toEqual({
-    //   ...options,
-    //   ...fetchFields
-    // });
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
       q: "searchTerm",
-      ...fetchFields
+      ...groupFields
     });
   });
 });

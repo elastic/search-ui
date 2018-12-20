@@ -28,8 +28,11 @@ class SearchProvider extends Component {
       }).isRequired,
       conditionalFacets: PropTypes.objectOf(PropTypes.func),
       disjunctiveFacets: PropTypes.arrayOf(PropTypes.string),
+      disjunctiveFacetsAnalyticsTags: PropTypes.arrayOf(PropTypes.string),
       facets: PropTypes.object,
       initialState: PropTypes.object,
+      result_fields: PropTypes.objectOf(PropTypes.object),
+      search_fields: PropTypes.objectOf(PropTypes.object),
       trackUrlState: PropTypes.bool
     })
   };

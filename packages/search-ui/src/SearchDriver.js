@@ -134,6 +134,8 @@ export default class SearchDriver {
     disjunctiveFacetsAnalyticsTags,
     facets,
     initialState,
+    result_fields,
+    search_fields,
     trackUrlState = true
   }) {
     if (!apiConnector) {
@@ -144,6 +146,8 @@ export default class SearchDriver {
     this.disjunctiveFacets = disjunctiveFacets;
     this.disjunctiveFacetsAnalyticsTags = disjunctiveFacetsAnalyticsTags;
     this.facets = facets;
+    this.result_fields = result_fields;
+    this.search_fields = search_fields;
     this.subscriptions = [];
     this.trackUrlState = trackUrlState;
 
@@ -201,10 +205,6 @@ export default class SearchDriver {
     if (isLoading) return;
 
     const searchOptions = {
-      page: {
-        current,
-        size: resultsPerPage
-      },
       disjunctiveFacets: this.disjunctiveFacets,
       disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
       facets: removeConditionalFacets(
@@ -214,7 +214,13 @@ export default class SearchDriver {
       ),
       filters: {
         all: formatORFiltersAsAND(filters)
-      }
+      },
+      page: {
+        current,
+        size: resultsPerPage
+      },
+      result_fields: this.result_fields,
+      search_fields: this.search_fields
     };
 
     if (sortField && sortDirection) {
