@@ -2,18 +2,18 @@
 
 exports[`passes through inputProps 1`] = `
 <form
-  className="searchbox"
+  className="sui-search-box"
   onSubmit={[Function]}
 >
   <input
-    className="searchbox__text-input "
+    className="sui-search-box__text-input "
     onChange={[Function]}
     placeholder="test"
     type="text"
     value="test"
   />
   <input
-    className="button searchbox__submit"
+    className="button sui-search-box__submit"
     type="submit"
     value="Search"
   />
@@ -22,18 +22,18 @@ exports[`passes through inputProps 1`] = `
 
 exports[`renders correctly when \`isFocused\` is false 1`] = `
 <form
-  className="searchbox"
+  className="sui-search-box"
   onSubmit={[Function]}
 >
   <input
-    className="searchbox__text-input "
+    className="sui-search-box__text-input "
     onChange={[Function]}
     placeholder="Search your documents…"
     type="text"
     value="test"
   />
   <input
-    className="button searchbox__submit"
+    className="button sui-search-box__submit"
     type="submit"
     value="Search"
   />
@@ -42,18 +42,18 @@ exports[`renders correctly when \`isFocused\` is false 1`] = `
 
 exports[`renders correctly when \`isFocused\` is true 1`] = `
 <form
-  className="searchbox"
+  className="sui-search-box"
   onSubmit={[Function]}
 >
   <input
-    className="searchbox__text-input focus"
+    className="sui-search-box__text-input focus"
     onChange={[Function]}
     placeholder="Search your documents…"
     type="text"
     value="test"
   />
   <input
-    className="button searchbox__submit"
+    className="button sui-search-box__submit"
     type="submit"
     value="Search"
   />

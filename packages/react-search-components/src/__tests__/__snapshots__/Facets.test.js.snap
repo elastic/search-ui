@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="facets"
+  className="sui-facet-container"
 >
   <div>
     Children

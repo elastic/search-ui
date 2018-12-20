@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="paging-info"
+  className="sui-paging-info"
 >
   Showing
    

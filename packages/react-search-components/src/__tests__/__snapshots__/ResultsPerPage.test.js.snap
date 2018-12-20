@@ -2,63 +2,89 @@
 
 exports[`renders correctly when there is a selected value 1`] = `
 <div
-  className="results-per-page"
+  className="sui-results-per-page"
 >
-  <label
-    htmlFor="results-per-page"
+  <div
+    className="sui-results-per-page__label"
   >
     Show
-     
-    <select
-      id="results-per-page"
-      name="results-per-page"
-      onChange={[Function]}
-      value={40}
-    >
-      <option
-        key="20"
-        value={20}
-      >
-        20
-      </option>
-      <option
-        key="40"
-        value={40}
-      >
-        40
-      </option>
-    </select>
-  </label>
+  </div>
+  <StateManager
+    className="sui-select sui-select--inline"
+    classNamePrefix="sui-select"
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": 20,
+          "value": 20,
+        },
+        Object {
+          "label": 40,
+          "value": 40,
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
+    }
+    value={
+      Object {
+        "label": 40,
+        "value": 40,
+      }
+    }
+  />
 </div>
 `;
 
 exports[`renders correctly when there is not a selected value 1`] = `
 <div
-  className="results-per-page"
+  className="sui-results-per-page"
 >
-  <label
-    htmlFor="results-per-page"
+  <div
+    className="sui-results-per-page__label"
   >
     Show
-     
-    <select
-      id="results-per-page"
-      name="results-per-page"
-      onChange={[Function]}
-    >
-      <option
-        key="20"
-        value={20}
-      >
-        20
-      </option>
-      <option
-        key="40"
-        value={40}
-      >
-        40
-      </option>
-    </select>
-  </label>
+  </div>
+  <StateManager
+    className="sui-select sui-select--inline"
+    classNamePrefix="sui-select"
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": 20,
+          "value": 20,
+        },
+        Object {
+          "label": 40,
+          "value": 40,
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
+    }
+    value={null}
+  />
 </div>
 `;

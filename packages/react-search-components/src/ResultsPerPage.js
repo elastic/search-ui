@@ -11,9 +11,10 @@ const setDefaultStyle = {
 
 function ResultsPerPage({ onChange, options, value }) {
   const selectedValue = value;
+  const wrapOption = option => ({ label: option, value: option });
 
   const selectedOption = selectedValue
-    ? options.find(option => option === selectedValue)
+    ? wrapOption(options.find(option => option === selectedValue))
     : null;
 
   return (
@@ -23,8 +24,8 @@ function ResultsPerPage({ onChange, options, value }) {
         className="sui-select sui-select--inline"
         classNamePrefix="sui-select"
         value={selectedOption}
-        onChange={o => onChange(o)}
-        options={options}
+        onChange={o => onChange(o.value)}
+        options={options.map(wrapOption)}
         isSearchable={false}
         styles={setDefaultStyle}
       />

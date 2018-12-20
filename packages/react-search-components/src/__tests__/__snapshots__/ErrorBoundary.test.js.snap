@@ -2,7 +2,7 @@
 
 exports[`renders an error when there is an error 1`] = `
 <div
-  className="search-error"
+  className="sui-search-error"
 >
   I am an error
 </div>

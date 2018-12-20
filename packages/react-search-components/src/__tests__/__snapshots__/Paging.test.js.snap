@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <Pagination
-  className=""
+  className="sui-paging"
   current={1}
   defaultCurrent={1}
   defaultPageSize={10}
