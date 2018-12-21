@@ -174,15 +174,13 @@
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  border-top: 1px solid #eeeeee;
-  padding: 24px 0;
   list-style: none; }
   .sui-result + .sui-result {
-    margin-top: 20px; }
+    margin-top: 24px; }
   .sui-result em {
     position: relative;
     color: #3a56e4;
-    font-weight: 900;
+    font-weight: 700;
     font-style: inherit; }
     .sui-result em:after {
       content: "";
@@ -238,13 +236,9 @@
     position: relative;
     overflow: hidden;
     overflow-y: auto;
-    padding: 24px;
+    padding: 12px;
     list-style: none;
     background-color: #f9f9f9; }
-  .sui-result__footer {
-    padding: 0 2rem;
-    margin-top: 1rem;
-    line-height: 1; }
 
 .sui-results {
   width: 100%;
@@ -347,7 +341,8 @@
   line-height: 1.5;
   font-weight: 400;
   font-size: 0.875rem;
-  margin-top: 8px; }
+  margin-top: 8px;
+  width: 100%; }
   .sui-select--inline {
     margin-top: 0; }
   .sui-select--is-disabled {

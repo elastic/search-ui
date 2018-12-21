@@ -3,6 +3,7 @@
   @include themeTypography;
   font-size: 0.875rem;
   margin-top: $sizeS;
+  width: 100%;
 
   @include modifier('inline') {
     margin-top: 0;

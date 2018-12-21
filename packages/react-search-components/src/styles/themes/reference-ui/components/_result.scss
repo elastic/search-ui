@@ -1,17 +1,15 @@
 @include block('result') {
   @include themeTypography;
-  border-top: 1px solid $resultBorderColor;
-  padding: $sizeL 0;
   list-style: none;
 
   & + & {
-    margin-top: 20px;
+    margin-top: $sizeL;
   }
 
   em {
     position: relative;
     color: $textMatchColor;
-    font-weight: 900;
+    font-weight: $fontWeightBold;
     font-style: inherit;
 
     &:after {
@@ -92,15 +90,9 @@
     position: relative;
     overflow: hidden;
     overflow-y: auto;
-    padding: $sizeL;
+    padding: $sizeM;
     list-style: none;
     background-color: $headerBackgroundColor;
-  }
-
-  @include element('footer') {
-    padding: 0 2rem;
-    margin-top: 1rem;
-    line-height: 1;
   }
 }
 
