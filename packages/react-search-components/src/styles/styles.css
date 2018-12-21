@@ -21,9 +21,6 @@
     align-items: center;
     height: calc(100vh - 180px); }
 
-.sui-facet-container {
-  padding: 48px 32px 48px 0; }
-
 .sui-facet {
   font-family: "Roboto", sans-serif;
   line-height: 1.5;

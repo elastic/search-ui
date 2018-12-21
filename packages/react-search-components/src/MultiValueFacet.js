@@ -13,7 +13,7 @@ function MultiValueFacet({
   values
 }) {
   return (
-    <div className="sui-multi-value-facet">
+    <div className="sui-multi-value-facet sui-facet">
       <div className="sui-multi-value-facet__label">{label}</div>
       <div className="sui-multi-value-facet__options-list">
         {options.map(option => {

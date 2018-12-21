@@ -57,7 +57,7 @@ function SingleRangeSelectFacet({ label, onChange, options, values }) {
     : null;
 
   return (
-    <div className="sui-search-facet">
+    <div className="sui-search-facet sui-facet">
       <div className="sui-search-facet__label">{label}</div>
       <Select
         className="sui-select"

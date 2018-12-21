@@ -6,7 +6,7 @@ import { action } from "@storybook/addon-actions";
 import { MultiValueFacet } from "../src";
 
 const baseProps = {
-  label: "Label",
+  label: "The Label",
   onMoreClick: action("Clicked More"),
   onRemove: action("Removed"),
   onSelect: action("Selected"),

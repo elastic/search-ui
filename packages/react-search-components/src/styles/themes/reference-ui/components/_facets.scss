@@ -1,8 +1,3 @@
-// Facet Container
-@include block('facet-container') {
-  padding: $sizeXXL $sizeXL $sizeXXL 0;
-}
-
 // Single Facet
 @include block('facet') {
   @include themeTypography;
