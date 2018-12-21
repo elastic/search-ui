@@ -91,12 +91,16 @@ function formatORFiltersAsAND(filters = []) {
   }, []);
 }
 
-function removeConditionalFacets(facets = {}, filters = []) {
+function removeConditionalFacets(
+  facets = {},
+  conditionalFacets = {},
+  filters = []
+) {
   return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
     if (
-      facet.conditional &&
-      typeof facet.conditional === "function" &&
-      !facet.conditional({ filters })
+      conditionalFacets[facetKey] &&
+      typeof conditionalFacets[facetKey] === "function" &&
+      !conditionalFacets[facetKey]({ filters })
     ) {
       return acc;
     }
@@ -125,18 +129,26 @@ export default class SearchDriver {
 
   constructor({
     apiConnector,
-    facetConfig,
+    conditionalFacets,
+    disjunctiveFacets,
+    disjunctiveFacetsAnalyticsTags,
+    facets,
     initialState,
-    searchOptions,
+    result_fields,
+    search_fields,
     trackUrlState = true
   }) {
     if (!apiConnector) {
       throw Error("apiConnector required");
     }
     this.apiConnector = apiConnector;
-    this.facetConfig = facetConfig;
+    this.conditionalFacets = conditionalFacets;
+    this.disjunctiveFacets = disjunctiveFacets;
+    this.disjunctiveFacetsAnalyticsTags = disjunctiveFacetsAnalyticsTags;
+    this.facets = facets;
+    this.result_fields = result_fields;
+    this.search_fields = search_fields;
     this.subscriptions = [];
-    this.searchOptions = searchOptions || {};
     this.trackUrlState = trackUrlState;
 
     let urlState;
@@ -193,15 +205,22 @@ export default class SearchDriver {
     if (isLoading) return;
 
     const searchOptions = {
-      ...this.searchOptions,
+      disjunctiveFacets: this.disjunctiveFacets,
+      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
+      facets: removeConditionalFacets(
+        this.facets,
+        this.conditionalFacets,
+        filters
+      ),
+      filters: {
+        all: formatORFiltersAsAND(filters)
+      },
       page: {
         current,
         size: resultsPerPage
       },
-      facets: removeConditionalFacets(this.facetConfig, filters),
-      filters: {
-        all: formatORFiltersAsAND(filters)
-      }
+      result_fields: this.result_fields,
+      search_fields: this.search_fields
     };
 
     if (sortField && sortDirection) {

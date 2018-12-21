@@ -51,112 +51,46 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("search", () => {
-    function subject(searchTerm = "searchTerm", options = {}) {
-      const connector = new AppSearchAPIConnector(params);
+    function subject({
+      searchTerm = "searchTerm",
+      options = {},
+      additionalOptions
+    }) {
+      const connector = new AppSearchAPIConnector({
+        ...params,
+        additionalOptions
+      });
       return connector.search(searchTerm, options);
     }
 
     it("will return a search response", async () => {
-      const response = await subject();
+      const response = await subject({});
       expect(response).toBe(resultList);
     });
 
     it("will pass params through to search endpoint", async () => {
       const options = {};
-      const query = "searchTerm";
-      await subject(query, options);
-      const [passedQuery, passedOptions] = getLastSearchCall();
-      expect(passedQuery).toEqual(query);
+      const searchTerm = "searchTerm";
+      await subject({ searchTerm, options });
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(searchTerm);
       expect(passedOptions).toEqual(options);
     });
 
-    it("will parse out disjunctive facet configuration", async () => {
-      const options = {
-        facets: {
-          field1: {
-            type: "value",
-            disjunctive: true
-          },
-          field2: {
-            type: "value"
-          },
-          field3: {
-            type: "value",
-            disjunctive: true
-          }
-        }
+    it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
+      const options = {};
+      const resultFields = {
+        result_fields: { title: { raw: {} } }
       };
-      await subject("searchTerm", options);
-      const [_, passedOptions] = getLastSearchCall();
+      const additionalOptions = () => resultFields;
+      const searchTerm = "searchTerm";
+      await subject({ additionalOptions, searchTerm, options });
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(searchTerm);
       expect(passedOptions).toEqual({
-        facets: {
-          field1: {
-            type: "value"
-          },
-          field2: {
-            type: "value"
-          },
-          field3: {
-            type: "value"
-          }
-        },
-        disjunctiveFacets: ["field1", "field3"]
-      });
-    });
-
-    it("will parse out disjunctive facet configuration", async () => {
-      const options = {
-        facets: {
-          field1: {
-            type: "value",
-            disjunctive: true
-          },
-          field2: {
-            type: "value"
-          },
-          field3: {
-            type: "value",
-            disjunctive: true
-          }
-        }
-      };
-      await subject("searchTerm", options);
-      const [_, passedOptions] = getLastSearchCall();
-      expect(passedOptions).toEqual({
-        facets: {
-          field1: {
-            type: "value"
-          },
-          field2: {
-            type: "value"
-          },
-          field3: {
-            type: "value"
-          }
-        },
-        disjunctiveFacets: ["field1", "field3"]
-      });
-    });
-
-    it("will filter out the conditional keyword", async () => {
-      const options = {
-        facets: {
-          field1: {
-            type: "value",
-            conditional: () => {}
-          }
-        }
-      };
-      await subject("searchTerm", options);
-      const [_, passedOptions] = getLastSearchCall();
-      expect(passedOptions).toEqual({
-        facets: {
-          field1: {
-            type: "value"
-          }
-        }
+        ...options,
+        ...resultFields
       });
     });
   });
-  describe("click", () => {});
 });

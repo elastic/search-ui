@@ -1,5 +1,10 @@
 import { toResultList } from "./responseAdapters";
-import { adaptFacetConfig, adaptFilterConfig } from "./requestAdapters";
+import {
+  adaptFacetConfig,
+  adaptFilterConfig,
+  adaptResultFieldsConfig,
+  adaptSearchFieldsConfig
+} from "./requestAdapters";
 
 function _get(engineKey, path, params) {
   const query = Object.entries({ engine_key: engineKey, ...params })
@@ -36,9 +41,10 @@ function _request(engineKey, method, path, params) {
 }
 
 export default class SiteSearchAPIConnector {
-  constructor({ documentType, engineKey }) {
+  constructor({ documentType, engineKey, additionalOptions = () => ({}) }) {
     this.documentType = documentType;
     this.engineKey = engineKey;
+    this.additionalOptions = additionalOptions;
     this._request = _request.bind(this, engineKey);
     this._get = _get.bind(this, engineKey);
   }
@@ -56,12 +62,23 @@ export default class SiteSearchAPIConnector {
 
   search(searchTerm, searchOptions) {
     const safeDestructureSort = obj => Object.entries(obj || {})[0] || [];
-
-    const { facets, filters, page, sort, ...rest } = searchOptions;
+    const {
+      facets,
+      filters,
+      page,
+      sort,
+      result_fields,
+      search_fields,
+      ...rest
+    } = searchOptions;
     const [sortField, sortDirection] = safeDestructureSort(sort);
     const updatedFacets = adaptFacetConfig(facets);
     const updatedFilters = adaptFilterConfig(filters);
-    return this._request("POST", "engines/search.json", {
+    const [fetchFields, highlightFields] = adaptResultFieldsConfig(
+      result_fields
+    );
+    const updatedSearchFields = adaptSearchFieldsConfig(search_fields);
+    const options = {
       ...rest,
       ...(page &&
         page.size && {
@@ -91,7 +108,27 @@ export default class SiteSearchAPIConnector {
           [this.documentType]: updatedFilters
         }
       }),
+      ...(fetchFields && {
+        fetch_fields: {
+          [this.documentType]: fetchFields
+        }
+      }),
+      ...(highlightFields && {
+        highlight_fields: {
+          [this.documentType]: highlightFields
+        }
+      }),
+      ...(updatedSearchFields &&
+        !!updatedSearchFields.length && {
+          search_fields: {
+            [this.documentType]: updatedSearchFields
+          }
+        }),
       q: searchTerm
+    };
+    return this._request("POST", "engines/search.json", {
+      ...options,
+      ...this.additionalOptions(options)
     }).then(json => {
       return toResultList(json, this.documentType);
     });

@@ -26,13 +26,21 @@ it("can be initialized", () => {
 });
 
 describe("#search", () => {
-  function subject(searchTerm = "searchTerm", options = {}) {
-    const connector = new SiteSearchAPIConnector(params);
+  function subject({
+    additionalOptions,
+    searchTerm = "searchTerm",
+    options = {}
+  }) {
+    const connector = new SiteSearchAPIConnector({
+      ...params,
+      additionalOptions
+    });
     return connector.search(searchTerm, options);
   }
 
   it("will call the API with the correct body params", async () => {
-    await subject("searchTerm", {
+    const searchTerm = "searchTerm";
+    const options = {
       arbitraryParameter: "shouldRemain",
       page: {
         current: 1,
@@ -50,17 +58,26 @@ describe("#search", () => {
       filters: {
         all: [
           {
-            title: ["Acadia"]
+            title: "Acadia"
           },
           {
-            title: ["Grand Canyon"]
+            title: "Grand Canyon"
           },
           {
-            world_heritage_site: ["true"]
+            world_heritage_site: "true"
           }
         ]
+      },
+      result_fields: {
+        title: { raw: {}, snippet: { size: 20, fallback: true } }
+      },
+      search_fields: {
+        title: {},
+        description: {},
+        states: {}
       }
-    });
+    };
+    await subject({ searchTerm, options });
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
@@ -88,13 +105,47 @@ describe("#search", () => {
       facets: {
         "national-parks": ["states"]
       },
+      fetch_fields: {
+        [documentType]: ["title"]
+      },
+      search_fields: {
+        [documentType]: ["title", "description", "states"]
+      },
+      highlight_fields: {
+        [documentType]: {
+          title: { size: 20, fallback: true }
+        }
+      },
+      q: "searchTerm"
+    });
+  });
+
+  it("will only add body parameters if the corresponding configuration has been provided", async () => {
+    await subject({});
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
       q: "searchTerm"
     });
   });
 
   it("will correctly format an API response", async () => {
-    const response = await subject();
+    const response = await subject({});
     expect(response).toMatchSnapshot();
+  });
+
+  it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
+    const options = {};
+    const groupFields = {
+      group: { field: "title" }
+    };
+    const additionalOptions = () => groupFields;
+    const searchTerm = "searchTerm";
+    await subject({ additionalOptions, searchTerm, options });
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      q: "searchTerm",
+      ...groupFields
+    });
   });
 });
 

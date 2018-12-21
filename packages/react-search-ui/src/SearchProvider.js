@@ -26,9 +26,13 @@ class SearchProvider extends Component {
         click: PropTypes.func.isRequired,
         search: PropTypes.func.isRequired
       }).isRequired,
-      facetConfig: PropTypes.object,
+      conditionalFacets: PropTypes.objectOf(PropTypes.func),
+      disjunctiveFacets: PropTypes.arrayOf(PropTypes.string),
+      disjunctiveFacetsAnalyticsTags: PropTypes.arrayOf(PropTypes.string),
+      facets: PropTypes.object,
       initialState: PropTypes.object,
-      searchOptions: PropTypes.object,
+      result_fields: PropTypes.objectOf(PropTypes.object),
+      search_fields: PropTypes.objectOf(PropTypes.object),
       trackUrlState: PropTypes.bool
     })
   };

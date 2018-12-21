@@ -33,16 +33,15 @@ import { SearchProvider, Results, SearchBox } from "@elastic/react-search-ui";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
   engineName: "national-parks-demo",
-  hostIdentifier: "host-2376rb"
+  hostIdentifier: "host-2376rb",
+  additionalOptions: () => ({
+    result_fields: { title: { raw: {} } }
+  })
 });
 
 const config = {
   apiConnector: connector,
-  facetConfig: { states: { type: "value" } },
-  searchOptions: {
-    search_fields: { title: {} },
-    result_fields: { title: { snippet: { size: 300, fallback: true } } }
-  }
+  facets: { states: { type: "value" } }
 };
 
 export default function App() {
@@ -66,7 +65,6 @@ export default function App() {
 These are our full featured, framework specific libraries.
 
 - [react-search-ui](packages/react-search-ui)
-- [jquery-search-ui](packages/jquery-search-ui)
 
 ### The core
 
@@ -94,7 +92,6 @@ markup and CSS here. If you'd like to simply leverage some of these out of the b
 in your own app, feel free to use them.
 
 - [React](packages/react-search-components)
-- [JQuery](packages/jquery-search-components)
 
 ## A bit more about the technical design
 
@@ -134,7 +131,7 @@ At the heart of the library is [search-ui](packages/search-ui), which we refer t
 
 ### Framework Integrations
 
-Our integrations provide first class support for [React](packages/react-search-components) and [JQuery](packages/jquery-search-components). They provide out of the box components that you can use to
+Our integrations provide first class support for [React](packages/react-search-components). They provide out of the box components that you can use to
 easily compose a search experience.
 
 ### Service Connectors
