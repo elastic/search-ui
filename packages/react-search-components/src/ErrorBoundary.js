@@ -3,7 +3,7 @@ import React from "react";
 
 function ErrorBoundary({ children, error }) {
   if (error) {
-    return <div className="search-error">{error}</div>;
+    return <div className="sui-search-error">{error}</div>;
   }
 
   return children;

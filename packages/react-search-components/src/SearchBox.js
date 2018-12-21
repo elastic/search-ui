@@ -6,9 +6,9 @@ function SearchBox(props) {
   const focusedClass = isFocused ? "focus" : "";
 
   return (
-    <form className="searchbox" onSubmit={onSubmit}>
+    <form className="sui-search-box" onSubmit={onSubmit}>
       <input
-        className={`searchbox__text-input ${focusedClass}`}
+        className={`sui-search-box__text-input ${focusedClass}`}
         onChange={onChange}
         type="text"
         value={value}
@@ -18,7 +18,7 @@ function SearchBox(props) {
       <input
         type="submit"
         value="Search"
-        className="button searchbox__submit"
+        className="button sui-search-box__submit"
       />
     </form>
   );

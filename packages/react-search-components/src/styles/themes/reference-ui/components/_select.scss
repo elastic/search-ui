@@ -1,0 +1,88 @@
+// Search Select
+@include block('select') {
+  @include themeTypography;
+  font-size: 0.875rem;
+  margin-top: $sizeS;
+  width: 100%;
+
+  @include modifier('inline') {
+    margin-top: 0;
+  }
+
+  @include modifier('is-disabled') {
+    opacity: 0.5;
+  }
+
+  @include element('control') {
+    background-color: $facetSelectBackground;
+    border: 1px solid $facetSelectBorder;
+    border-radius: $borderRadius;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+
+    @include modifier('is-focused') {
+      border: 1px solid $linkColor;
+    }
+  }
+
+  @include element('value-container') {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @include modifier('has-value') {
+      font-weight: $fontWeightBold;
+      color: $black;
+    }
+  }
+
+  @include element('placeholder') {
+    white-space: nowrap;
+    position: static;
+    transform: none;
+    color: $black;
+  }
+
+  @include element('dropdown-indicator') {
+    display: flex;
+    height: $sizeXL;
+    width: $sizeXL;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include element('option-count') {
+    color: $facetCountColor;
+    font-size: 0.8em;
+  }
+
+  @include element('option-label') {
+    color: $facetLinkColor;
+  }
+
+  @include element('option') {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: $fontWeightNormal;
+    padding: $sizeS $sizeM;
+    cursor: pointer;
+
+    @include modifier('is-selected') {
+      color: $black;
+      background: $white;
+      font-weight: $fontWeightBold;
+
+      @include block('search-select') {
+        @include element('option-label') {
+          color: $black;
+          position: relative;
+        }
+      }
+    }
+
+    &:hover {
+      background: $facetSelectBackground;
+    }
+  }
+}

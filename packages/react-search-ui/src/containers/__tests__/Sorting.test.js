@@ -33,6 +33,7 @@ it("renders correctly", () => {
 });
 
 it("supports a render prop", () => {
+  // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
@@ -56,9 +57,7 @@ it("renders empty when it doesn't have enough data", () => {
 it("will call back when sort is changed in view", () => {
   const wrapper = shallow(<SortingContainer {...params} />);
 
-  wrapper.find("Sorting").prop("onChange")({
-    currentTarget: { value: "field|||desc" }
-  });
+  wrapper.find("Sorting").prop("onChange")("field|||desc");
 
   const [sortField, sortDirection] = params.setSort.mock.calls[0];
   expect(sortField).toEqual("field");

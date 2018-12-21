@@ -30,8 +30,8 @@ export class ResultsPerPageContainer extends Component {
 
     return (
       <View
-        onChange={e => {
-          setResultsPerPage(parseInt(e.currentTarget.value, 10));
+        onChange={value => {
+          setResultsPerPage(value);
         }}
         options={[20, 40, 60]}
         value={resultsPerPage}

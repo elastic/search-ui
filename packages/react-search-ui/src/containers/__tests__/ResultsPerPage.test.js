@@ -19,6 +19,7 @@ it("renders correctly", () => {
 });
 
 it("supports a render prop", () => {
+  // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
@@ -44,11 +45,7 @@ it("renders empty when it doesn't have enough data", () => {
 it("will call back when a selection is made in the view", () => {
   const wrapper = shallow(<ResultsPerPageContainer {...params} />);
 
-  wrapper.find("ResultsPerPage").prop("onChange")({
-    currentTarget: {
-      value: 40
-    }
-  });
+  wrapper.find("ResultsPerPage").prop("onChange")(40);
 
   const resultsPerPage = params.setResultsPerPage.mock.calls[0][0];
   expect(resultsPerPage).toEqual(40);

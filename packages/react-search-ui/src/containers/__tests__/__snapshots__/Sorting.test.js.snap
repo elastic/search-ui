@@ -6,11 +6,11 @@ exports[`renders correctly 1`] = `
   options={
     Array [
       Object {
-        "name": "name",
+        "label": "name",
         "value": "field|||asc",
       },
       Object {
-        "name": "name",
+        "label": "name",
         "value": "field|||desc",
       },
     ]

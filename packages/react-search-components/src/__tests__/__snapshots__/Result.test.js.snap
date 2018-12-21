@@ -2,28 +2,28 @@
 
 exports[`renders correctly when there is a URL 1`] = `
 <li
-  className="result"
+  className="sui-result"
 >
   <div
-    className="result__header"
+    className="sui-result__header"
   />
   <div
-    className="result__body"
+    className="sui-result__body"
   >
     <ul
-      className="result__details"
+      className="sui-result__details"
     >
       <li
         key="field"
       >
         <span
-          className="result__key"
+          className="sui-result__key"
         >
           field
         </span>
          
         <span
-          className="result__value"
+          className="sui-result__value"
           dangerouslySetInnerHTML={
             Object {
               "__html": "value",
@@ -38,13 +38,13 @@ exports[`renders correctly when there is a URL 1`] = `
 
 exports[`renders correctly when there is a title 1`] = `
 <li
-  className="result"
+  className="sui-result"
 >
   <div
-    className="result__header"
+    className="sui-result__header"
   >
     <span
-      className="result__title"
+      className="sui-result__title"
       dangerouslySetInnerHTML={
         Object {
           "__html": "Title",
@@ -53,22 +53,22 @@ exports[`renders correctly when there is a title 1`] = `
     />
   </div>
   <div
-    className="result__body"
+    className="sui-result__body"
   >
     <ul
-      className="result__details"
+      className="sui-result__details"
     >
       <li
         key="field"
       >
         <span
-          className="result__key"
+          className="sui-result__key"
         >
           field
         </span>
          
         <span
-          className="result__value"
+          className="sui-result__value"
           dangerouslySetInnerHTML={
             Object {
               "__html": "value",
@@ -83,13 +83,13 @@ exports[`renders correctly when there is a title 1`] = `
 
 exports[`renders correctly when there is a title and url 1`] = `
 <li
-  className="result"
+  className="sui-result"
 >
   <div
-    className="result__header"
+    className="sui-result__header"
   >
     <a
-      className="result__title"
+      className="sui-result__title sui-result__title-link"
       dangerouslySetInnerHTML={
         Object {
           "__html": "Title",
@@ -102,22 +102,22 @@ exports[`renders correctly when there is a title and url 1`] = `
     />
   </div>
   <div
-    className="result__body"
+    className="sui-result__body"
   >
     <ul
-      className="result__details"
+      className="sui-result__details"
     >
       <li
         key="field"
       >
         <span
-          className="result__key"
+          className="sui-result__key"
         >
           field
         </span>
          
         <span
-          className="result__value"
+          className="sui-result__value"
           dangerouslySetInnerHTML={
             Object {
               "__html": "value",
@@ -132,28 +132,28 @@ exports[`renders correctly when there is a title and url 1`] = `
 
 exports[`renders correctly when there is not a URL or title 1`] = `
 <li
-  className="result"
+  className="sui-result"
 >
   <div
-    className="result__header"
+    className="sui-result__header"
   />
   <div
-    className="result__body"
+    className="sui-result__body"
   >
     <ul
-      className="result__details"
+      className="sui-result__details"
     >
       <li
         key="field"
       >
         <span
-          className="result__key"
+          className="sui-result__key"
         >
           field
         </span>
          
         <span
-          className="result__value"
+          className="sui-result__value"
           dangerouslySetInnerHTML={
             Object {
               "__html": "value",

@@ -3,17 +3,17 @@ import React from "react";
 
 function Result({ fields, onClickLink, title, url }) {
   return (
-    <li className="result">
-      <div className="result__header">
+    <li className="sui-result">
+      <div className="sui-result__header">
         {title && !url && (
           <span
-            className="result__title"
+            className="sui-result__title"
             dangerouslySetInnerHTML={{ __html: title }}
           />
         )}
         {title && url && (
           <a
-            className="result__title"
+            className="sui-result__title sui-result__title-link"
             dangerouslySetInnerHTML={{ __html: title }}
             href={url}
             onClick={onClickLink}
@@ -22,13 +22,13 @@ function Result({ fields, onClickLink, title, url }) {
           />
         )}
       </div>
-      <div className="result__body">
-        <ul className="result__details">
+      <div className="sui-result__body">
+        <ul className="sui-result__details">
           {Object.keys(fields).map(key => (
             <li key={key}>
-              <span className="result__key">{key}</span>{" "}
+              <span className="sui-result__key">{key}</span>{" "}
               <span
-                className="result__value"
+                className="sui-result__value"
                 dangerouslySetInnerHTML={{ __html: fields[key] }}
               />
             </li>

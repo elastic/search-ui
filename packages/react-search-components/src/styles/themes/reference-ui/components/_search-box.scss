@@ -1,0 +1,59 @@
+@include block('search-box') {
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  height: 50px;
+  align-items: stretch;
+  font-family: $fontFamily;
+
+  @include element('text-input') {
+    width: 100%;
+    border-radius: $borderRadius;
+    border: 1px solid $searchboxBorderColor;
+    padding: 0 1em;
+    outline: none;
+    font-size: 14px;
+
+    &::placeholder {
+      color: #aaaaaa;
+    }
+
+    &.focus {
+      border: 1px solid $linkColor;
+    }
+  }
+
+  @include element('submit') {
+    font-size: 14px;
+    padding: 0 2em;
+    margin-left: 10px;
+    text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+    color: rgb(255, 255, 255);
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset,
+      rgba(59, 69, 79, 0.05) 0px 1px 0px;
+    background: linear-gradient(rgb(45, 160, 250), rgb(49, 88, 238))
+      rgb(47, 124, 244);
+    cursor: pointer;
+    border-radius: $borderRadius;
+
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
+        rgba(59, 69, 79, 0.3) 0px 2px 4px;
+      background: linear-gradient(rgb(60, 171, 255), rgb(64, 99, 240))
+        rgb(61, 132, 247);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
+        rgba(59, 69, 79, 0.3) 0px 2px 4px;
+      background: linear-gradient(rgb(34, 153, 245), rgb(39, 78, 236))
+        rgb(32, 113, 245);
+    }
+
+    .live-filtering & {
+      display: none;
+    }
+  }
+}

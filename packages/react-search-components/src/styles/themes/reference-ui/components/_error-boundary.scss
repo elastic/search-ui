@@ -1,0 +1,19 @@
+@include block('search-error') {
+  @include themeTypography;
+  color: $red;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 180px);
+
+  &.no-error {
+    @include themeTypography;
+    color: $black;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 180px);
+  }
+}

@@ -1,0 +1,84 @@
+@include block('paging') {
+  @import "~rc-pagination/dist/rc-pagination.min.css";
+
+  > li {
+    border: none;
+    background: transparent;
+  }
+
+  .rc-pagination-disabled {
+    a {
+      color: #ccc;
+      opacity: 0.5;
+    }
+  }
+
+  .rc-pagination-item {
+    a {
+      color: $linkColor;
+      text-decoration: none;
+    }
+
+    &:hover {
+      background: $pagingHoverBackground;
+      a {
+        color: $linkColor;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .rc-pagination-item-active {
+    a {
+      color: $facetLinkColor;
+      font-weight: $fontWeightBold;
+    }
+
+    &:hover {
+      background: transparent;
+      cursor: not-allowed;
+
+      a {
+        color: $facetLinkColor;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .rc-pagination-next {
+    &:hover {
+      background: $pagingHoverBackground;
+      a {
+        color: $linkColor;
+      }
+    }
+  }
+
+  .rc-pagination-jump-next:hover {
+    background: $pagingHoverBackground;
+    a {
+      color: $linkColor;
+    }
+  }
+
+  .rc-pagination-jump-next:hover:after {
+    color: $linkColor;
+    content: "\BB";
+    font-size: 16px;
+    line-height: $lineHeight;
+  }
+
+  .rc-pagination-jump-prev:hover {
+    background: $pagingHoverBackground;
+    a {
+      color: $linkColor;
+    }
+  }
+
+  .rc-pagination-jump-prev:hover:after {
+    color: $linkColor;
+    content: "\AB";
+    font-size: 16px;
+    line-height: $lineHeight;
+  }
+}

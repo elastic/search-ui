@@ -26,7 +26,19 @@ it("renders", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("won't render more if more param is false", () => {
+it("will render 'more' button if more param is true", () => {
+  const wrapper = shallow(
+    <MultiValueFacet
+      {...{
+        ...params,
+        showMore: true
+      }}
+    />
+  );
+  expect(wrapper.find(".sui-multi-value-facet__view-more")).toHaveLength(1);
+});
+
+it("won't render 'more' button if more param is false", () => {
   const wrapper = shallow(
     <MultiValueFacet
       {...{
@@ -35,5 +47,5 @@ it("won't render more if more param is false", () => {
       }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.find(".sui-multi-value-facet__view-more")).toHaveLength(0);
 });

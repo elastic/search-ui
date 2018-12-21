@@ -2,51 +2,79 @@
 
 exports[`renders correctly when there is a value 1`] = `
 <div
-  className="sorting"
+  className="sui-sorting"
 >
-  <select
-    id="sorting"
-    name="sorting"
+  <StateManager
+    className="sui-select"
+    classNamePrefix="sui-select"
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
     onChange={[Function]}
-    value="name|||desc"
-  >
-    <option
-      key="name|||asc"
-      value="name|||asc"
-    >
-      Name ASC
-    </option>
-    <option
-      key="name|||desc"
-      value="name|||desc"
-    >
-      Name DESC
-    </option>
-  </select>
+    options={
+      Array [
+        Object {
+          "name": "Name ASC",
+          "value": "name|||asc",
+        },
+        Object {
+          "name": "Name DESC",
+          "value": "name|||desc",
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
+    }
+    value={
+      Object {
+        "name": "Name DESC",
+        "value": "name|||desc",
+      }
+    }
+  />
 </div>
 `;
 
 exports[`renders correctly when there is not a value 1`] = `
 <div
-  className="sorting"
+  className="sui-sorting"
 >
-  <select
-    id="sorting"
-    name="sorting"
+  <StateManager
+    className="sui-select"
+    classNamePrefix="sui-select"
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
     onChange={[Function]}
-  >
-    <option
-      key="name|||asc"
-      value="name|||asc"
-    >
-      Name ASC
-    </option>
-    <option
-      key="name|||desc"
-      value="name|||desc"
-    >
-      Name DESC
-    </option>
-  </select>
+    options={
+      Array [
+        Object {
+          "name": "Name ASC",
+          "value": "name|||asc",
+        },
+        Object {
+          "name": "Name DESC",
+          "value": "name|||desc",
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
+    }
+    value={null}
+  />
 </div>
 `;

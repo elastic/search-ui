@@ -2,23 +2,23 @@
 
 exports[`renders correctly when a value is not selected 1`] = `
 <div
-  className="facet eco-search-facet"
+  className="sui-facet sui-search-facet"
 >
   <div>
     <div
-      className="facet__title"
+      className="sui-facet__title"
     >
       Facet
     </div>
     <ul
-      className="facet__list"
+      className="sui-facet__list"
     >
       <li
-        className="facet__item"
+        className="sui-facet__item"
         key="1"
       >
         <a
-          className="facet__link"
+          className="sui-facet__link"
           href="/"
           onClick={[Function]}
         >
@@ -26,17 +26,17 @@ exports[`renders correctly when a value is not selected 1`] = `
         </a>
          
         <span
-          className="facet__count"
+          className="sui-facet__count"
         >
           1
         </span>
       </li>
       <li
-        className="facet__item"
+        className="sui-facet__item"
         key="2"
       >
         <a
-          className="facet__link"
+          className="sui-facet__link"
           href="/"
           onClick={[Function]}
         >
@@ -44,7 +44,7 @@ exports[`renders correctly when a value is not selected 1`] = `
         </a>
          
         <span
-          className="facet__count"
+          className="sui-facet__count"
         >
           1
         </span>
@@ -56,23 +56,23 @@ exports[`renders correctly when a value is not selected 1`] = `
 
 exports[`renders correctly when a value is selected 1`] = `
 <div
-  className="facet eco-search-facet"
+  className="sui-facet sui-search-facet"
 >
   <div>
     <div
-      className="facet__title"
+      className="sui-facet__title"
     >
       Facet
     </div>
     <ul
-      className="facet__list"
+      className="sui-facet__list"
     >
       <li
-        className="facet__item"
+        className="sui-facet__item"
         key="1"
       >
         <a
-          className="facet__link"
+          className="sui-facet__link"
           href="/"
           onClick={[Function]}
         >
@@ -80,17 +80,17 @@ exports[`renders correctly when a value is selected 1`] = `
         </a>
          
         <span
-          className="facet__count"
+          className="sui-facet__count"
         >
           1
         </span>
       </li>
       <li
-        className="facet__item"
+        className="sui-facet__item"
         key="2"
       >
         <a
-          className="facet__link"
+          className="sui-facet__link"
           href="/"
           onClick={[Function]}
         >
@@ -98,7 +98,7 @@ exports[`renders correctly when a value is selected 1`] = `
         </a>
          
         <span
-          className="facet__count"
+          className="sui-facet__count"
         >
           1
         </span>

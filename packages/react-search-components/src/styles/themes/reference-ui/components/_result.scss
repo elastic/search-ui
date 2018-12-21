@@ -1,0 +1,97 @@
+@include block('result') {
+  @include themeTypography;
+  list-style: none;
+
+  & + & {
+    margin-top: $sizeXL;
+  }
+
+  em {
+    position: relative;
+    color: $textMatchColor;
+    font-weight: $fontWeightBold;
+    font-style: inherit;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: calc(100% + 6px);
+      height: calc(100% + 6px);
+      background: rgba(37, 139, 248, 0.08);
+      pointer-events: none;
+    }
+  }
+
+  @include element('header') {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @include element('title') {
+    font-size: 1.8em;
+    font-weight: $fontWeightNormal;
+    color: $black;
+  }
+
+  @include element('title-link') {
+    color: $linkColor;
+  }
+
+  @include element('key') {
+    font-family: monospace;
+    font-weight: $fontWeightNormal;
+    font-size: 14px;
+    flex: 0 1 50%;
+    color: $resultKeyTextColor;
+
+    &:before {
+      content: '"';
+    }
+    &:after {
+      content: '": ';
+    }
+  }
+
+  @include element('value') {
+    font-weight: $fontWeightNormal;
+    font-size: 14px;
+  }
+
+  @include element('version') {
+    font-size: 12px;
+    display: inline;
+    vertical-align: bottom;
+  }
+
+  @include element('license') {
+    font-size: 12px;
+    color: #999999;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    line-height: 1;
+    padding: 4px 4px 3px 4px;
+  }
+
+  @include element('body') {
+    margin-top: 1rem;
+    line-height: 1.5;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  @include element('details') {
+    max-height: 300px;
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: $sizeM;
+    list-style: none;
+    background-color: $headerBackgroundColor;
+  }
+}

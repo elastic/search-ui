@@ -12,14 +12,14 @@ function SingleValueLinksFacet({
 }) {
   const value = values[0];
   return (
-    <div className="facet eco-search-facet">
+    <div className="sui-facet sui-search-facet">
       <div>
-        <div className="facet__title">{label}</div>
-        <ul className="facet__list">
+        <div className="sui-facet__title">{label}</div>
+        <ul className="sui-facet__list">
           {value && (
-            <li className="facet__selected">
+            <li className="sui-facet__selected">
               {value}{" "}
-              <span className="facet__remove">
+              <span className="sui-facet__remove">
                 (
                 <a
                   onClick={e => {
@@ -36,9 +36,9 @@ function SingleValueLinksFacet({
           )}
           {!value &&
             options.map(option => (
-              <li className="facet__item" key={option.value}>
+              <li className="sui-facet__item" key={option.value}>
                 <a
-                  className="facet__link"
+                  className="sui-facet__link"
                   href="/"
                   onClick={e => {
                     e.preventDefault();
@@ -47,7 +47,7 @@ function SingleValueLinksFacet({
                 >
                   {option.value}
                 </a>{" "}
-                <span className="facet__count">{option.count}</span>
+                <span className="sui-facet__count">{option.count}</span>
               </li>
             ))}
         </ul>

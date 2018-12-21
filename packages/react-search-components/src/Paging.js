@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import RCPagination from "rc-pagination";
 
-import "rc-pagination/assets/index.css";
-
 function Paging({ current, resultsPerPage, onChange, totalPages }) {
   return (
     <RCPagination
@@ -11,6 +9,7 @@ function Paging({ current, resultsPerPage, onChange, totalPages }) {
       onChange={onChange}
       pageSize={resultsPerPage}
       total={totalPages * resultsPerPage}
+      className="sui-paging"
     />
   );
 }

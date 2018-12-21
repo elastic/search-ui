@@ -7,10 +7,8 @@ import { RangeFacetOption, RangeFilterValue } from "./types";
 function Option(props) {
   return (
     <components.Option {...props}>
-      <span className="eco-search-select__option-label">
-        {props.data.label}
-      </span>
-      <span className="eco-search-select__option-count">
+      <span className="sui-select__option-label">{props.data.label}</span>
+      <span className="sui-select__option-count">
         {props.data.count.toLocaleString("en")}
       </span>
     </components.Option>
@@ -38,6 +36,13 @@ function toFilterValue(selectOption) {
   };
 }
 
+const setDefaultStyle = {
+  option: () => ({}),
+  control: () => ({}),
+  dropdownIndicator: () => ({}),
+  indicatorSeparator: () => ({})
+};
+
 function SingleRangeSelectFacet({ label, onChange, options, values }) {
   const selectedFilterValue = values[0];
 
@@ -52,16 +57,17 @@ function SingleRangeSelectFacet({ label, onChange, options, values }) {
     : null;
 
   return (
-    <div className="eco-search-facet">
-      <div className="eco-search-facet-label">{label}</div>
+    <div className="sui-search-facet sui-facet">
+      <div className="sui-search-facet__label">{label}</div>
       <Select
-        className="eco-search-select-container"
-        classNamePrefix="eco-search-select"
+        className="sui-select"
+        classNamePrefix="sui-select"
         components={{ Option }}
         value={selectedOption}
         onChange={o => onChange(toFilterValue(o))}
         options={selectOptions}
         isSearchable={false}
+        styles={setDefaultStyle}
       />
     </div>
   );

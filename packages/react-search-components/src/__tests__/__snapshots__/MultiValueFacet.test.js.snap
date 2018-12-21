@@ -2,130 +2,76 @@
 
 exports[`renders 1`] = `
 <div
-  className="eco-search-facet"
+  className="sui-multi-value-facet sui-facet"
 >
   <div
-    className="eco-search-facet-label"
+    className="sui-multi-value-facet__label"
   >
     A Facet
   </div>
   <div
-    className="eco-search-facet-options"
+    className="sui-multi-value-facet__options-list"
   >
     <label
-      className="eco-search-facet-option"
+      className="sui-multi-value-facet__option-label"
       htmlFor="example_facet_A FacetfieldValue1"
       key="fieldValue1"
     >
-      <input
-        checked={false}
-        className="eco-search-facet-option__input"
-        id="example_facet_A FacetfieldValue1"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <span
-        className="eco-search-facet-option__label"
+      <div
+        className="sui-multi-value-facet__option-input-wrapper"
       >
-        fieldValue1
-      </span>
+        <input
+          checked={false}
+          className="sui-multi-value-facet__checkbox"
+          id="example_facet_A FacetfieldValue1"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="sui-multi-value-facet__input-text"
+        >
+          fieldValue1
+        </span>
+      </div>
       <span
-        className="eco-search-facet-option__count"
+        className="sui-multi-value-facet__option-count"
       >
         10
       </span>
     </label>
     <label
-      className="eco-search-facet-option"
+      className="sui-multi-value-facet__option-label"
       htmlFor="example_facet_A FacetfieldValue2"
       key="fieldValue2"
     >
-      <input
-        checked={true}
-        className="eco-search-facet-option__input"
-        id="example_facet_A FacetfieldValue2"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <span
-        className="eco-search-facet-option__label"
+      <div
+        className="sui-multi-value-facet__option-input-wrapper"
       >
-        fieldValue2
-      </span>
+        <input
+          checked={true}
+          className="sui-multi-value-facet__checkbox"
+          id="example_facet_A FacetfieldValue2"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="sui-multi-value-facet__input-text"
+        >
+          fieldValue2
+        </span>
+      </div>
       <span
-        className="eco-search-facet-option__count"
+        className="sui-multi-value-facet__option-count"
       >
         5
       </span>
     </label>
   </div>
   <div
-    className="eco-search-facet__view-more"
+    className="sui-multi-value-facet__view-more"
     onClick={[MockFunction]}
   >
     + More
-  </div>
-</div>
-`;
-
-exports[`won't render more if more param is false 1`] = `
-<div
-  className="eco-search-facet"
->
-  <div
-    className="eco-search-facet-label"
-  >
-    A Facet
-  </div>
-  <div
-    className="eco-search-facet-options"
-  >
-    <label
-      className="eco-search-facet-option"
-      htmlFor="example_facet_A FacetfieldValue1"
-      key="fieldValue1"
-    >
-      <input
-        checked={false}
-        className="eco-search-facet-option__input"
-        id="example_facet_A FacetfieldValue1"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <span
-        className="eco-search-facet-option__label"
-      >
-        fieldValue1
-      </span>
-      <span
-        className="eco-search-facet-option__count"
-      >
-        10
-      </span>
-    </label>
-    <label
-      className="eco-search-facet-option"
-      htmlFor="example_facet_A FacetfieldValue2"
-      key="fieldValue2"
-    >
-      <input
-        checked={true}
-        className="eco-search-facet-option__input"
-        id="example_facet_A FacetfieldValue2"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <span
-        className="eco-search-facet-option__label"
-      >
-        fieldValue2
-      </span>
-      <span
-        className="eco-search-facet-option__count"
-      >
-        5
-      </span>
-    </label>
   </div>
 </div>
 `;

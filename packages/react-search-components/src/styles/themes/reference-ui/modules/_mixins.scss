@@ -1,0 +1,38 @@
+// Block
+@mixin block($block) {
+  .sui-#{$block} {
+    @content;
+  }
+}
+
+// Block Element
+@mixin element($element) {
+  &__#{$element} {
+    @content;
+  }
+}
+
+// Block Modifier
+@mixin modifier($modifier) {
+  &--#{$modifier} {
+    @content;
+  }
+}
+
+//------------------------------------------------------
+
+@mixin box-sizing {
+  box-sizing: border-box;
+
+  & > *,
+  & > *::after,
+  & > *::before {
+    box-sizing: border-box;
+  }
+}
+
+@mixin themeTypography {
+  font-family: $fontFamily;
+  line-height: $lineHeight;
+  font-weight: $fontWeightNormal;
+}

@@ -2,16 +2,16 @@
 
 exports[`renders 1`] = `
 <div
-  className="eco-search-facet"
+  className="sui-search-facet sui-facet"
 >
   <div
-    className="eco-search-facet-label"
+    className="sui-search-facet__label"
   >
     A Facet
   </div>
   <StateManager
-    className="eco-search-select-container"
-    classNamePrefix="eco-search-select"
+    className="sui-select"
+    classNamePrefix="sui-select"
     components={
       Object {
         "Option": [Function],
@@ -35,6 +35,14 @@ exports[`renders 1`] = `
           "value": "11_20",
         },
       ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
     }
     value={
       Object {
