@@ -41,14 +41,6 @@ const moreFields = {
   vingt: 20
 };
 
-// storiesOf("Results Container", module)
-//   .add("basic", () => <Result {...{ ...baseProps }} />)
-//   .add("no URL", () => <Result {...{ ...baseProps, url: null }} />)
-//   .add("no title", () => <Result {...{ ...baseProps, title: null }} />)
-//   .add("fields overflow container", () => (
-//     <Result {...{ ...baseProps, fields: moreFields }} />
-//   ));
-
 storiesOf("Results Container", module)
   .add("results", () => (
     <Results>
