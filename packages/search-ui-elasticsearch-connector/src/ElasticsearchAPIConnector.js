@@ -1,7 +1,6 @@
 import elasticsearch from "elasticsearch";
 import { toResultList } from "./responseAdapters";
 
-/*eslint-disable*/
 export default class ElasticsearchAPIConnector {
   constructor({ indexName, host }) {
     this.host = host;
@@ -11,17 +10,17 @@ export default class ElasticsearchAPIConnector {
     });
   }
 
+  //eslint-disable-next-line
   click({ query, documentId, tags }) {
     //TODO
   }
 
+  //eslint-disable-next-line
   search(searchTerm, searchOptions) {
-    //eslint-disable-line
     const query = searchTerm
       ? {
           multi_match: {
             query: searchTerm
-            //fields: ["title", "description"]
           }
         }
       : { match_all: {} };
