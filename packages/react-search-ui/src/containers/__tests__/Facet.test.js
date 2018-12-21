@@ -5,7 +5,7 @@ import { shallow } from "enzyme";
 const View = () => <div />;
 
 const params = {
-  render: jest.fn().mockImplementation(props => <View {...props} />),
+  view: jest.fn().mockImplementation(props => <View {...props} />),
   field: "field1",
   label: "Field 1",
   filters: [{ field1: ["field1value1"] }],
@@ -38,7 +38,7 @@ const params = {
 };
 
 beforeEach(() => {
-  params.render.mockClear();
+  params.view.mockClear();
   params.addFilter.mockClear();
   params.removeFilter.mockClear();
   params.setFilter.mockClear();

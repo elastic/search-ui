@@ -90,7 +90,7 @@ We also provide our views in standalone libraries. You'll find our component
 markup and CSS here. If you'd like to simply leverage some of these out of the box styles
 in your own app, feel free to use them.
 
-- [React](packages/react-search-ui-view)
+- [React](packages/react-search-ui-views)
 
 ## A bit more about the technical design
 
@@ -120,7 +120,7 @@ in your own app, feel free to use them.
       |
       v
   +------------+
-  | Views      | (react-search-ui-view, etc.)
+  | Views      | (react-search-ui-views, etc.)
   +------------+
 ```
 
@@ -130,7 +130,7 @@ At the heart of the library is [search-ui](packages/search-ui), which we refer t
 
 ### Framework Integrations
 
-Our integrations provide first class support for [React](packages/react-search-ui-view). They provide out of the box components that you can use to
+Our integrations provide first class support for [React](packages/react-search-ui-views). They provide out of the box components that you can use to
 easily compose a search experience.
 
 ### Service Connectors
