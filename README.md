@@ -2,7 +2,7 @@
 
 A flexible collection of JavaScript libraries for building search experiences.
 
-[![CircleCI](https://circleci.com/gh/elastic/search-ui.svg?style=svg)](https://circleci.com/gh/elastic/search-ui)
+[![CircleCI](https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76)](https://circleci.com/gh/elastic/search-ui/tree/master)
 
 Most search experiences follow similar patterns; search bar, results, paging, sorting, filters, url state... the list goes on. Search UI gives you a means of quickly implementing these pattern without re-inventing the wheel.
 
