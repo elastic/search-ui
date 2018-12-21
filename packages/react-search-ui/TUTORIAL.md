@@ -108,6 +108,8 @@ All of this is provided by `@elastic/react-search-components`.
 
 Add the following:
 
+# TODO Update, remove Body and Header
+
 ```jsx
 import { Body, Header } from "@elastic/react-search-components";
 import "@elastic/react-search-components/lib/styles/styles.css";
@@ -193,6 +195,8 @@ a couple of additional [options].(https://github.com/elastic/search-ui/tree/mast
 
 Adding that config just makes the data available. We'll actually need
 to add components on the page in order to take advantage of those facets.
+
+# TODO Update how we use Facet
 
 ```jsx
 import {
@@ -419,6 +423,10 @@ passed through to your API call.
 We'll use `searchOptions` for this, for now.
 
 So on your configuration object, you could use the following for app search...
+
+# TODO Update this to additionalOptions and pass through to the driver
+
+# TODO Update because search_fields now has first class support
 
 ```js
 searchOptions: {

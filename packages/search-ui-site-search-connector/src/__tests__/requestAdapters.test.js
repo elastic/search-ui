@@ -1,4 +1,9 @@
-import { adaptFacetConfig, adaptFilterConfig } from "../requestAdapters";
+import {
+  adaptFacetConfig,
+  adaptFilterConfig,
+  adaptResultFieldsConfig,
+  adaptSearchFieldsConfig
+} from "../requestAdapters";
 
 const valueFacet = {
   states: {
@@ -36,15 +41,15 @@ const rangeFacet = {
 
 const filterConfig = {
   all: [
-    { states: ["Maine"] },
-    { states: ["Georgia"] },
-    { national_landmark: ["true"] }
+    { states: "Maine" },
+    { states: "Georgia" },
+    { national_landmark: "true" }
   ]
 };
 
 describe("requestAdapters", () => {
   describe("adaptFacetConfig", () => {
-    it("adapts app config to site search facet config", () => {
+    it("adapts config to site search facet config", () => {
       expect(adaptFacetConfig({ ...valueFacet })).toEqual(["states"]);
     });
 
@@ -60,7 +65,7 @@ describe("requestAdapters", () => {
   });
 
   describe("adaptFilterConfig", () => {
-    it("adapts app config to site search filter config", () => {
+    it("adapts config to site search filter config", () => {
       expect(adaptFilterConfig(filterConfig)).toEqual({
         states: {
           type: "and",
@@ -71,6 +76,32 @@ describe("requestAdapters", () => {
           values: ["true"]
         }
       });
+    });
+  });
+
+  describe("adaptResultFieldsConfig", () => {
+    it("adapts config to site search fetch and highlight config", () => {
+      expect(
+        adaptResultFieldsConfig({
+          title: { raw: {}, snippet: { size: 20, fallback: true } },
+          description: { raw: {} }
+        })
+      ).toEqual([
+        ["title", "description"],
+        { title: { size: 20, fallback: true } }
+      ]);
+    });
+  });
+
+  describe("adaptSearchFieldsConfig", () => {
+    it("adapts config to site search search fields config", () => {
+      expect(
+        adaptSearchFieldsConfig({
+          title: {},
+          description: {},
+          states: {}
+        })
+      ).toEqual(["title", "description", "states"]);
     });
   });
 });

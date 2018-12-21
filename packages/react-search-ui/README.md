@@ -32,12 +32,7 @@ const connector = new AppSearchAPIConnector({
 });
 
 const config = {
-  apiConnector: connector,
-  facets: { states: { type: "value" } },
-  searchOptions: {
-    search_fields: { title: {} },
-    result_fields: { title: { snippet: { size: 300, fallback: true } } }
-  }
+  apiConnector: connector
 };
 
 export default function App() {

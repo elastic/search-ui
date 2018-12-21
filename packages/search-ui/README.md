@@ -18,12 +18,7 @@ const connector = new AppSearchAPIConnector({
 });
 
 const config = {
-  apiConnector: connector,
-  facets: { states: { type: "value" } },
-  searchOptions: {
-    search_fields: { title: {} },
-    result_fields: { title: { snippet: { size: 300, fallback: true } } }
-  }
+  apiConnector: connector
 };
 
 const driver = new SearchDriver(config);
@@ -80,16 +75,50 @@ Additionally, the following can also be found:
 
 ### SearchDriver Configuration <a id="driverconfig"></a>
 
+SearchDriver configuration largely follows the same API as the App Search Search API. So parameters
+like `facets`, `result_fields`, and `search_fields`. These configuration parameters
+affect the search call that is made from your UI.
+
+Note that if there is a parameter on the particular API you're calling that is NOT
+supported in SearchDriver, you can use the `additionalOptions` configuration
+on the `apiConnector`. This allows you to inject additional, API specific configuration
+options before the request is sent to the server.
+
+ex. Adding grouping logic
+
+```js
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
+  engineName: "national-parks-demo",
+  hostIdentifier: "host-2376rb",
+  additionalOptions: () => ({
+    group: {
+      field: "title"
+    }
+  })
+});
+```
+
+There are a few parameters that also affect search API calls that are NOT found
+in the Search API, those would be `disjunctiveFacets`, `disjunctiveFacetsAnalyticsTags`,
+and `conditionalFacets`. Those do some additional logic before making API calls.
+
+Other parameters affect the behavior of the driver itself, like `trackURLState`.
+
 | option                           | type                                   | required? | source                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | -------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `apiConnector`                   | APIConnector                           | required  | Instance of an API Connector. For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                                                                                                                               |
-| `facets`                         | [Facet Configuration](#facetconfig)    | optional  | Which values to provide Facet values for.                                                                                                                                                                                                                                                                      |
+| `facets`                         | [Facet Configuration](#facetconfig)    | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/facets)                                                                                                                                                                                                                                   |
 | `disjunctiveFacets`              | Array[String]                          | optional  | An array of field names. Every field listed here must also be provided as a facet in the `facets` field. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. |
 | `disjunctiveFacetsAnalyticsTags` | Array[String]                          | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Queries will be tagged with "Facet-Only" in the Analytics Dashboard unless specified here.                                                                                                                                                         |
 | `conditionalFacets`              | Object[String, function]               | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>`{ facetName: (filters) => return true` }                                                                                         |  |
 | `initialState`                   | [Search Parameters](#searchparameters) | optional  | Set initial state of the search. ex:<br/><br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                                                                                                                                                                                                     |
-| `searchOptions`                  | Object                                 | optional  | Any additional, arbitrary search config to be passed to the Search API to further tune your queries. Ex, `result_fields`, etc.                                                                                                                                                                                 |
 | `trackURLState`                  | boolean                                | optional  | By default, state will be synced with the browser url. To turn this off, pass `false`                                                                                                                                                                                                                          |
+| `search_fields`                  | Object[String, Object]                 | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                            |
+| `result_fields`                  | boolean                                | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                            |
+
+search_fields: { title: {} },
+result_fields: { title: { snippet: { size: 300, fallback: true } } }
 
 ### Facet Configuration <a id="facetconfig"></a>
 
@@ -97,11 +126,11 @@ The syntax for Facet configuration follows the App Search API syntax: https://sw
 
 ### Search Parameters <a id="searchparameters"></a>
 
-| option           | type                     | required? | source                                                                                                     |
-| ---------------- | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `current`        | Integer                  | optional  | current page number                                                                                        |
-| `filters`        | Array[Object]            | optional  | Follows the filter syntax for App Search: https://swiftype.com/documentation/app-search/api/search/filters |
-| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                                     |
-| `searchTerm`     | String                   | optional  | String to search for                                                                                       |
-| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                                                          |
-| `sortField`      | String                   | optional  | Name of field to sort on                                                                                   |
+| option           | type                     | required? | source                                                                        |
+| ---------------- | ------------------------ | --------- | ----------------------------------------------------------------------------- |
+| `current`        | Integer                  | optional  | current page number                                                           |
+| `filters`        | Array[Object]            | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
+| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                        |
+| `searchTerm`     | String                   | optional  | String to search for                                                          |
+| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                             |
+| `sortField`      | String                   | optional  | Name of field to sort on                                                      |
