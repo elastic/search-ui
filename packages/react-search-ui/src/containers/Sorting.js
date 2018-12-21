@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { Sorting } from "@elastic/react-search-components";
+import { Sorting } from "@elastic/react-search-ui-view";
 
 import { SortOption } from "../types";
 

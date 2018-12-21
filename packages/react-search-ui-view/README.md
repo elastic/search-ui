@@ -1,4 +1,4 @@
-# react-search-components
+# react-search-ui-view
 
 This is the view layers for react-search-ui.
 
@@ -15,8 +15,8 @@ import {
   Header,
   Result,
   SearchBox
-} from "@elastic/react-search-components";
-import "@elastic/react-search-components/lib/styles/styles.css";
+} from "@elastic/react-search-ui-view";
+import "@elastic/react-search-ui-view/lib/styles/styles.css";
 
 export default function App() {
   return (

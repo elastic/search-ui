@@ -28,7 +28,7 @@ rm -r node_modules
 npm install # Switching from yarn to npm now
 npm install ../search-ui/packages/search-ui-app-search-connector/
 npm install ../search-ui/packages/search-ui/
-npm install ../search-ui/packages/react-search-components/
+npm install ../search-ui/packages/react-search-ui-view/
 npm install ../search-ui/packages/react-search-ui/
 npm start
 ```
@@ -104,15 +104,15 @@ Another thing you may have noticed is that this looks like shit. We'll provide t
 
 Many people will want to provide all of their own CSS and layout, so this is an optional step.
 
-All of this is provided by `@elastic/react-search-components`.
+All of this is provided by `@elastic/react-search-ui-view`.
 
 Add the following:
 
 # TODO Update, remove Body and Header
 
 ```jsx
-import { Body, Header } from "@elastic/react-search-components";
-import "@elastic/react-search-components/lib/styles/styles.css";
+import { Body, Header } from "@elastic/react-search-ui-view";
+import "@elastic/react-search-ui-view/lib/styles/styles.css";
 
 <Header>
   <SearchBox />
@@ -207,7 +207,7 @@ import {
   ...
   MultiValueFacet,
   SingleRangeSelectFacet
-} from "@elastic/react-search-components";
+} from "@elastic/react-search-ui-view";
 
 ...
 
@@ -248,7 +248,7 @@ another view component that provides slightly different markup.
 import {
   ...
   SingleValueLinksFacet
-} from "@elastic/react-search-components";
+} from "@elastic/react-search-ui-view";
 
 ...
 
@@ -289,7 +289,7 @@ For instance, `PagingInfo` takes the following parameters:
 - start
 - totalResults
 
-You could see this by looking at the default view component: https://github.com/elastic/search-ui/blob/master/packages/react-search-components/src/PagingInfo.js.
+You could see this by looking at the default view component: https://github.com/elastic/search-ui/blob/master/packages/react-search-ui-view/src/PagingInfo.js.
 
 Sidenote: in React, your render prop could be expressed using a functional component instead.
 

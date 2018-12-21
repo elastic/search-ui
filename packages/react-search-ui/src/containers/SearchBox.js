@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { SearchBox } from "@elastic/react-search-components";
+import { SearchBox } from "@elastic/react-search-ui-view";
 
 export class SearchBoxContainer extends Component {
   static propTypes = {
     // Props
     render: PropTypes.func,
+    inputProps: PropTypes.object,
     // State
     searchTerm: PropTypes.string.isRequired,
     // Actions
@@ -23,13 +24,13 @@ export class SearchBoxContainer extends Component {
     this.state.value = props.searchTerm;
   }
 
-  handleFocus = e => {
+  handleFocus = () => {
     this.setState({
       isFocused: true
     });
   };
 
-  handleBlur = e => {
+  handleBlur = () => {
     this.setState({
       isFocused: false
     });
