@@ -27,9 +27,7 @@
     "prettier": "1.15.2",
     "regenerator-runtime": "^0.12.1"
   },
-  "dependencies": {
-    "elasticsearch": "^15.2.0"
-  },
+  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
