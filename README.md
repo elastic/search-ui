@@ -33,10 +33,7 @@ import { SearchProvider, Results, SearchBox } from "@elastic/react-search-ui";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
   engineName: "national-parks-demo",
-  hostIdentifier: "host-2376rb",
-  additionalOptions: () => ({
-    result_fields: { title: { raw: {} } }
-  })
+  hostIdentifier: "host-2376rb"
 });
 
 const config = {
@@ -47,7 +44,7 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      {_ => (
+      {() => (
         <div className="App">
           <SearchBox />
           <Results />
@@ -66,7 +63,7 @@ These are our full featured, framework specific libraries.
 
 - [react-search-ui](packages/react-search-ui)
 
-### The core
+### The Core
 
 All of our Framework Implementations are built on top of `search-ui`. If you're
 using some other framework, or just want a lower-level API, you can still leverage
@@ -83,9 +80,11 @@ Search UI can be used with any Search API. We provide connectors for some popula
 - [search-ui-elasticsearch-connector](packages/search-ui-elasticsearch-connector)
 
 It is also possible to create your own connector if you don't see your service in the list above.
-Connectors just need to implement a common interface that Search UI understands. (TODO)
+Connectors just need to implement a common interface that Search UI understands. The interface
+is documented in the [search-ui-app-search-connector](packages/search-ui-app-search-connector)
+connector's README.
 
-### Just the view
+### The View
 
 We also provide our views in standalone libraries. You'll find our component
 markup and CSS here. If you'd like to simply leverage some of these out of the box styles

@@ -1,6 +1,6 @@
 # react-search-ui
 
-Flexible React library for building search experiences.
+A React library for building search experiences.
 
 This is the React Implementation of Search UI. For a more broad overview
 of Search UI, see the [README](../../README.md) at the top.
@@ -38,7 +38,7 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      {_ => (
+      {() => (
         <div className="App">
           <Header>
             <SearchBox />
@@ -51,12 +51,10 @@ export default function App() {
 }
 ```
 
-TODO: Add Facets and to the main example
-
 ### SearchProvider <a id="searchprovider"></a>
 
 The SearchProvider is the core engine behind Search UI. It provides [actions](../search-ui/README.md#actions)
-and [state](../search-ui/README.md#state) in a React [context](https://reactjs.org/docs/context.html). If
+and [state](../search-ui/README.md#state) in a React [Context](https://reactjs.org/docs/context.html). If
 you are familiar with Redux, you should recognize this model.
 
 `SearchProvider` is essentially a wrapper around our [`search-ui`](../search-ui).
@@ -76,18 +74,8 @@ all the appropriate API calls as a user interacts with your UI.
 
 ### Components
 
-TODO List all available components here, along with their parameters
-
-TODO Update after I add Facet
-
-- ErrorBoundary
-- Facets
-- Paging
-- PagingInfo
-- Results
-- ResultsPerPage
-- SearchBox
-- Sorting
+For a list of available components, check out the [containers](./src/containers)
+directory.
 
 ### Customization
 
