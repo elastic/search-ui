@@ -17,10 +17,11 @@ it("renders correctly", () => {
 });
 
 it("supports a render prop", () => {
+  // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<SearchBoxContainer {...params} render={render} />);
+  const wrapper = shallow(<SearchBoxContainer {...params} view={render} />);
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 

@@ -214,11 +214,11 @@ import {
 <Body
   sideContent={
     <div>
-      <Facet field="states" label="States" render={MultiValueFacet} />
+      <Facet field="states" label="States" view={MultiValueFacet} />
       <Facet
         field="acres"
         label="Acres"
-        render={SingleRangeSelectFacet}
+        view={SingleRangeSelectFacet}
       />
     </div>
   }
@@ -256,7 +256,7 @@ import {
   field="states"
   label="States"
   show={10}
-  render={SingleValueLinksFacet}
+  view={SingleValueLinksFacet}
 />
 ```
 
@@ -267,7 +267,7 @@ Here's another example of how you might use the render prop to customize the vie
 
 ```jsx
 <PagingInfo
-  render={({ start, end }) => (
+  view={({ start, end }) => (
     <div className="paging-info">
       <strong>
         {start} - {end}
@@ -302,7 +302,7 @@ const PagingInfoView = ({ start, end }) => (
   </div>
 );
 
-<PagingInfo render={PagingInfoView} />
+<PagingInfo view={PagingInfoView} />
 />
 ```
 
@@ -339,7 +339,7 @@ Like if we wanted to order states alphabetically:
   field="states"
   label="States"
   show={10}
-  render={SingleValueLinksFacet}
+  view={SingleValueLinksFacet}
 />
 ```
 
