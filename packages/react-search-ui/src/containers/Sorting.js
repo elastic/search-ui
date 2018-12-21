@@ -18,7 +18,7 @@ function formatValue(sortField, sortDirection) {
 
 function formatSelectOption(sortOption) {
   return {
-    name: sortOption.name,
+    label: sortOption.name,
     value: formatValue(sortOption.value, sortOption.direction)
   };
 }
@@ -53,8 +53,8 @@ export class SortingContainer extends Component {
 
     return (
       <View
-        onChange={e => {
-          const sortOption = findSortOption(sortOptions, e.currentTarget.value);
+        onChange={o => {
+          const sortOption = findSortOption(sortOptions, o);
           setSort(sortOption.value, sortOption.direction);
         }}
         options={sortOptions.map(formatSelectOption)}
