@@ -65,7 +65,6 @@ export default function App() {
 These are our full featured, framework specific libraries.
 
 - [react-search-ui](packages/react-search-ui)
-- [jquery-search-ui](packages/jquery-search-ui)
 
 ### The core
 
@@ -93,7 +92,6 @@ markup and CSS here. If you'd like to simply leverage some of these out of the b
 in your own app, feel free to use them.
 
 - [React](packages/react-search-components)
-- [JQuery](packages/jquery-search-components)
 
 ## A bit more about the technical design
 
@@ -133,7 +131,7 @@ At the heart of the library is [search-ui](packages/search-ui), which we refer t
 
 ### Framework Integrations
 
-Our integrations provide first class support for [React](packages/react-search-components) and [JQuery](packages/jquery-search-components). They provide out of the box components that you can use to
+Our integrations provide first class support for [React](packages/react-search-components). They provide out of the box components that you can use to
 easily compose a search experience.
 
 ### Service Connectors
