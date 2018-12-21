@@ -2,8 +2,10 @@ import React from "react";
 import { FacetContainer } from "../Facet";
 import { shallow } from "enzyme";
 
+const View = () => <div />;
+
 const params = {
-  render: jest.fn().mockImplementation(props => <div {...props} />),
+  render: jest.fn().mockImplementation(props => <View {...props} />),
   field: "field1",
   label: "Field 1",
   filters: [{ field1: ["field1value1"] }],
@@ -57,7 +59,7 @@ it("should not render a Facet if there are no facet values available", () => {
     />
   );
 
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.html()).toEqual(null);
 });
 
 it("should not render a Facet if there are no options available", () => {
@@ -70,7 +72,7 @@ it("should not render a Facet if there are no options available", () => {
     />
   );
 
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.html()).toEqual(null);
 });
 
 it("should still render if there are no options available, but there is a selected value", () => {
@@ -84,7 +86,7 @@ it("should still render if there are no options available, but there is a select
     />
   );
 
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.html()).not.toEqual(null);
 });
 
 describe("show more", () => {
@@ -133,44 +135,44 @@ describe("show more", () => {
   });
 
   it("should limit options to 5 initially", () => {
-    expect(wrapper.find("div").prop("options").length).toEqual(5);
+    expect(wrapper.find(View).prop("options").length).toEqual(5);
   });
 
   it("should start at more than 5 initially if a show prop is passed", () => {
     const initialCount = 10;
     const newWrapper = subject({ show: initialCount });
-    expect(newWrapper.find("div").prop("options").length).toEqual(initialCount);
+    expect(newWrapper.find(View).prop("options").length).toEqual(initialCount);
   });
 
   it("should have a show more button", () => {
-    expect(wrapper.find("div").prop("showMore")).toEqual(true);
+    expect(wrapper.find(View).prop("showMore")).toEqual(true);
   });
 
   describe("after a show more click", () => {
     beforeAll(() => {
-      wrapper.find("div").prop("onMoreClick")();
+      wrapper.find(View).prop("onMoreClick")();
     });
 
     it("should have 10 more options", () => {
-      expect(wrapper.find("div").prop("options").length).toEqual(15);
+      expect(wrapper.find(View).prop("options").length).toEqual(15);
     });
 
     it("should still have a show more button", () => {
-      expect(wrapper.find("div").prop("showMore")).toEqual(true);
+      expect(wrapper.find(View).prop("showMore")).toEqual(true);
     });
   });
 
   describe("after more more show more click", () => {
     beforeAll(() => {
-      wrapper.find("div").prop("onMoreClick")();
+      wrapper.find(View).prop("onMoreClick")();
     });
 
     it("should be showing all options", () => {
-      expect(wrapper.find("div").prop("options").length).toEqual(17);
+      expect(wrapper.find(View).prop("options").length).toEqual(17);
     });
 
     it("should hide the show more button", () => {
-      expect(wrapper.find("div").prop("showMore")).toEqual(false);
+      expect(wrapper.find(View).prop("showMore")).toEqual(false);
     });
   });
 });
@@ -178,7 +180,7 @@ describe("show more", () => {
 it("will add a filter when a facet value is selected with onSelect", () => {
   const wrapper = shallow(<FacetContainer {...params} />);
 
-  wrapper.find("div").prop("onSelect")("field1value2");
+  wrapper.find(View).prop("onSelect")("field1value2");
 
   const [fieldName, fieldValue] = params.addFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
@@ -188,7 +190,7 @@ it("will add a filter when a facet value is selected with onSelect", () => {
 it("will overwrite a filter when a facet value is selected with onChange", () => {
   const wrapper = shallow(<FacetContainer {...params} />);
 
-  wrapper.find("div").prop("onChange")("field1value2");
+  wrapper.find(View).prop("onChange")("field1value2");
 
   const [fieldName, fieldValue] = params.setFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
@@ -198,7 +200,7 @@ it("will overwrite a filter when a facet value is selected with onChange", () =>
 it("will remove a filter when a facet value removed", () => {
   const wrapper = shallow(<FacetContainer {...params} />);
 
-  wrapper.find("div").prop("onRemove")("field1value2");
+  wrapper.find(View).prop("onRemove")("field1value2");
 
   const [fieldName, fieldValue] = params.removeFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");

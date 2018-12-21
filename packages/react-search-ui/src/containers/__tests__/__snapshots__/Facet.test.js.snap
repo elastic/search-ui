@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
+<View
   label="Field 1"
   onChange={[Function]}
   onMoreClick={[Function]}
@@ -23,27 +23,6 @@ exports[`renders correctly 1`] = `
   values={
     Array [
       "field1value1",
-    ]
-  }
-/>
-`;
-
-exports[`should not render a Facet if there are no facet values available 1`] = `""`;
-
-exports[`should not render a Facet if there are no options available 1`] = `""`;
-
-exports[`should still render if there are no options available, but there is a selected value 1`] = `
-<div
-  label="Field 1"
-  onChange={[Function]}
-  onMoreClick={[Function]}
-  onRemove={[Function]}
-  onSelect={[Function]}
-  options={Array []}
-  showMore={false}
-  values={
-    Array [
-      "field3value1",
     ]
   }
 />
