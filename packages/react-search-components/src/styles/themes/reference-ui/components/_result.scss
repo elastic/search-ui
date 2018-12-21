@@ -3,7 +3,7 @@
   list-style: none;
 
   & + & {
-    margin-top: $sizeL;
+    margin-top: $sizeXL;
   }
 
   em {
@@ -93,22 +93,5 @@
     padding: $sizeM;
     list-style: none;
     background-color: $headerBackgroundColor;
-  }
-}
-
-@include block('results') {
-  width: 100%;
-  padding: 2rem 0;
-
-  @include element('header') {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .active-search & {
-    padding: $sizeXL 0 0 $sizeXL;
-    border-left: 1px solid $resultsLeftBorderColor;
   }
 }
