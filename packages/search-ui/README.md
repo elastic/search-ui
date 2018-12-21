@@ -1,6 +1,6 @@
 # `search-ui`
 
-A "Headless Search UI". It handles all of the state management, API calls, and url management concerns of a search experience, and exposes that as a [state](packages/search-ui/README.md#state) object and a group of [actions](packages/search-ui/README.md#actions) to act on that state. It is built with plain old javascript, and serves as the base for our [React](packages/react-search-components) and [JQuery](packages/jquery-search-components) Framework Implementations.
+A "Headless Search UI". It handles all of the state management, API calls, and url management concerns of a search experience, and exposes that as a [state](packages/search-ui/README.md#state) object and a group of [actions](packages/search-ui/README.md#actions) to act on that state. It is built with plain old javascript, and serves as the base for our [React](packages/react-search-components) Framework Implementations.
 
 ## Usage
 
