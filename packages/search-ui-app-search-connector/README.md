@@ -16,7 +16,7 @@ const connector = new AppSearchAPIConnector({
   engineName: "national-parks-demo",
   hostIdentifier: "host-2376rb",
   additionalOptions: () => ({
-    result_fields: { title: { raw: {} } }
+    group: { field: "title" }
   })
 });
 ```
