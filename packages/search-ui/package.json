@@ -1,9 +1,7 @@
 {
   "name": "@elastic/search-ui",
   "version": "0.1.0",
-  "description": "A headless search ui",
-  "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
-  "homepage": "https://github.com/elastic/search-ui#readme",
+  "description": "A Headless Search UI library",
   "license": "Apache-2.0",
   "main": "lib",
   "module": "es",

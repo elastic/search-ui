@@ -2,8 +2,6 @@
   "name": "@elastic/react-search-ui",
   "version": "0.1.0",
   "description": "A React library for building search experiences",
-  "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
-  "homepage": "https://github.com/elastic/search-ui#readme",
   "license": "Apache-2.0",
   "main": "lib",
   "module": "es",

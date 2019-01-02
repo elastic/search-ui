@@ -2,8 +2,6 @@
   "name": "@elastic/search-ui-elasticsearch-connector",
   "version": "0.1.0",
   "description": "A Search UI connector for elasticsearch",
-  "author": "Jason Stoltzfus <jastoltz24@gmail.com>",
-  "homepage": "https://github.com/elastic/search-ui#readme",
   "license": "Apache-2.0",
   "main": "lib",
   "module": "es",
