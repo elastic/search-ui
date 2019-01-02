@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { PagingInfo } from "@elastic/react-search-components";
+import { PagingInfo } from "@elastic/react-search-ui-views";
 
 export class PagingInfoContainer extends Component {
   static propTypes = {
     // Props
-    render: PropTypes.func,
+    view: PropTypes.func,
     // State
     current: PropTypes.number.isRequired,
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -18,11 +18,11 @@ export class PagingInfoContainer extends Component {
   render() {
     const {
       current,
-      render,
       results,
       resultsPerPage,
       resultSearchTerm,
-      totalResults
+      totalResults,
+      view
     } = this.props;
     const start = totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
     const end =
@@ -32,7 +32,7 @@ export class PagingInfoContainer extends Component {
 
     if (!resultSearchTerm && results.length === 0) return null;
 
-    const View = render || PagingInfo;
+    const View = view || PagingInfo;
 
     return (
       <View

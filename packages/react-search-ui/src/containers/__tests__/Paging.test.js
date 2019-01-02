@@ -19,10 +19,11 @@ it("renders correctly", () => {
 });
 
 it("supports a render prop", () => {
+  // eslint-disable-next-line react/prop-types
   const render = ({ current }) => {
     return <div>{current}</div>;
   };
-  const wrapper = shallow(<PagingContainer {...params} render={render} />);
+  const wrapper = shallow(<PagingContainer {...params} view={render} />);
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 

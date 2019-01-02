@@ -33,7 +33,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
-    "@elastic/react-search-components": "^0.1.0",
+    "@elastic/react-search-ui-views": "^0.1.0",
     "@elastic/search-ui": "^0.1.0"
   },
   "peerDependencies": {

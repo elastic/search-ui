@@ -37,7 +37,7 @@ it("supports a render prop", () => {
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<SortingContainer {...params} render={render} />);
+  const wrapper = shallow(<SortingContainer {...params} view={render} />);
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 

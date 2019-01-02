@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Result, Results } from "@elastic/react-search-components";
+import { Result, Results } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
 import { Result as ResultType } from "../types";
@@ -35,10 +35,10 @@ function formatResultFields(result) {
 export class ResultsContainer extends Component {
   static propTypes = {
     // Props
-    render: PropTypes.func,
     renderResult: PropTypes.func,
     titleField: PropTypes.string,
     urlField: PropTypes.string,
+    view: PropTypes.func,
     // State
     results: PropTypes.arrayOf(ResultType).isRequired,
     // Actions
@@ -51,9 +51,9 @@ export class ResultsContainer extends Component {
   };
 
   render() {
-    const { render, renderResult, results, titleField, urlField } = this.props;
+    const { renderResult, results, titleField, urlField, view } = this.props;
 
-    const View = render || Results;
+    const View = view || Results;
     const ResultView = renderResult || Result;
 
     return (

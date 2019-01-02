@@ -24,7 +24,7 @@ it("supports a render prop", () => {
     return <div>{value}</div>;
   };
   const wrapper = shallow(
-    <ResultsPerPageContainer {...params} render={render} />
+    <ResultsPerPageContainer {...params} view={render} />
   );
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });

@@ -21,9 +21,9 @@ npm install --save  @elastic/search-ui-app-search-connector
 import React from "react";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import { SearchProvider, Results, SearchBox } from "@elastic/react-search-ui";
-import { Body, Header } from "@elastic/react-search-components";
+import { Body, Header } from "@elastic/react-search-ui-views";
 
-import "@elastic/react-search-components/lib/styles/styles.css";
+import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",

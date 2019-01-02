@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { ResultsPerPage } from "@elastic/react-search-components";
+import { ResultsPerPage } from "@elastic/react-search-ui-views";
 
 export class ResultsPerPageContainer extends Component {
   static propTypes = {
     // Props
-    render: PropTypes.func,
+    view: PropTypes.func,
     // State
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
     resultsPerPage: PropTypes.number.isRequired,
@@ -17,16 +17,16 @@ export class ResultsPerPageContainer extends Component {
 
   render() {
     const {
-      render,
       results,
       resultsPerPage,
       searchTerm,
-      setResultsPerPage
+      setResultsPerPage,
+      view
     } = this.props;
 
     if (!searchTerm && results.length === 0) return null;
 
-    const View = render || ResultsPerPage;
+    const View = view || ResultsPerPage;
 
     return (
       <View

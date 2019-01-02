@@ -30,14 +30,16 @@ it("renders correctly", () => {
 });
 
 it("supports a render prop", () => {
+  // eslint-disable-next-line react/prop-types
   const render = ({ children }) => {
     return <div>{children}</div>;
   };
-  const wrapper = shallow(<ResultsContainer {...params} render={render} />);
+  const wrapper = shallow(<ResultsContainer {...params} view={render} />);
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 
 it("supports an individual result render prop", () => {
+  // eslint-disable-next-line react/prop-types
   const renderResult = ({ title }) => {
     return <li>{title}</li>;
   };

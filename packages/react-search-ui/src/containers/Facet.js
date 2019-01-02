@@ -13,10 +13,10 @@ function findFacetValueInFilters(name, filters) {
 export class FacetContainer extends Component {
   static propTypes = {
     // Props
-    render: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     show: PropTypes.number,
+    view: PropTypes.func.isRequired,
     // State
     filters: PropTypes.arrayOf(Filter).isRequired,
     facets: PropTypes.objectOf(FacetDetail).isRequired,
@@ -42,14 +42,14 @@ export class FacetContainer extends Component {
   render() {
     const { more } = this.state;
     const {
-      render,
-      field,
-      label,
       addFilter,
-      filters,
       facets,
+      field,
+      filters,
+      label,
       removeFilter,
-      setFilter
+      setFilter,
+      view
     } = this.props;
     const facetValues = facets[field];
     if (!facetValues) return null;
@@ -58,7 +58,7 @@ export class FacetContainer extends Component {
     const selectedValues = findFacetValueInFilters(field, filters) || [];
     if (!options.length && !selectedValues.length) return null;
 
-    return render({
+    return view({
       label: label,
       onMoreClick: this.handleClickMore,
       onRemove: value => {

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { Sorting } from "@elastic/react-search-components";
+import { Sorting } from "@elastic/react-search-ui-views";
 
 import { SortOption } from "../types";
 
@@ -25,8 +25,8 @@ function formatSelectOption(sortOption) {
 export class SortingContainer extends Component {
   static propTypes = {
     // Props
-    render: PropTypes.func,
     sortOptions: PropTypes.arrayOf(SortOption).isRequired,
+    view: PropTypes.func,
     // State
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
     searchTerm: PropTypes.string.isRequired,
@@ -38,18 +38,18 @@ export class SortingContainer extends Component {
 
   render() {
     const {
-      render,
       results,
       searchTerm,
       setSort,
       sortDirection,
       sortField,
-      sortOptions
+      sortOptions,
+      view
     } = this.props;
 
     if (!searchTerm && results.length === 0) return null;
 
-    const View = render || Sorting;
+    const View = view || Sorting;
 
     return (
       <View

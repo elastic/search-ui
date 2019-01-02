@@ -28,7 +28,7 @@ rm -r node_modules
 npm install # Switching from yarn to npm now
 npm install ../search-ui/packages/search-ui-app-search-connector/
 npm install ../search-ui/packages/search-ui/
-npm install ../search-ui/packages/react-search-components/
+npm install ../search-ui/packages/react-search-ui-views/
 npm install ../search-ui/packages/react-search-ui/
 npm start
 ```
@@ -104,15 +104,15 @@ Another thing you may have noticed is that this looks like shit. We'll provide t
 
 Many people will want to provide all of their own CSS and layout, so this is an optional step.
 
-All of this is provided by `@elastic/react-search-components`.
+All of this is provided by `@elastic/react-search-ui-views`.
 
 Add the following:
 
 # TODO Update, remove Body and Header
 
 ```jsx
-import { Body, Header } from "@elastic/react-search-components";
-import "@elastic/react-search-components/lib/styles/styles.css";
+import { Body, Header } from "@elastic/react-search-ui-views";
+import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 <Header>
   <SearchBox />
@@ -207,18 +207,18 @@ import {
   ...
   MultiValueFacet,
   SingleRangeSelectFacet
-} from "@elastic/react-search-components";
+} from "@elastic/react-search-ui-views";
 
 ...
 
 <Body
   sideContent={
     <div>
-      <Facet field="states" label="States" render={MultiValueFacet} />
+      <Facet field="states" label="States" view={MultiValueFacet} />
       <Facet
         field="acres"
         label="Acres"
-        render={SingleRangeSelectFacet}
+        view={SingleRangeSelectFacet}
       />
     </div>
   }
@@ -248,7 +248,7 @@ another view component that provides slightly different markup.
 import {
   ...
   SingleValueLinksFacet
-} from "@elastic/react-search-components";
+} from "@elastic/react-search-ui-views";
 
 ...
 
@@ -256,7 +256,7 @@ import {
   field="states"
   label="States"
   show={10}
-  render={SingleValueLinksFacet}
+  view={SingleValueLinksFacet}
 />
 ```
 
@@ -267,7 +267,7 @@ Here's another example of how you might use the render prop to customize the vie
 
 ```jsx
 <PagingInfo
-  render={({ start, end }) => (
+  view={({ start, end }) => (
     <div className="paging-info">
       <strong>
         {start} - {end}
@@ -289,7 +289,7 @@ For instance, `PagingInfo` takes the following parameters:
 - start
 - totalResults
 
-You could see this by looking at the default view component: https://github.com/elastic/search-ui/blob/master/packages/react-search-components/src/PagingInfo.js.
+You could see this by looking at the default view component: https://github.com/elastic/search-ui/blob/master/packages/react-search-ui-views/src/PagingInfo.js.
 
 Sidenote: in React, your render prop could be expressed using a functional component instead.
 
@@ -302,7 +302,7 @@ const PagingInfoView = ({ start, end }) => (
   </div>
 );
 
-<PagingInfo render={PagingInfoView} />
+<PagingInfo view={PagingInfoView} />
 />
 ```
 
@@ -339,7 +339,7 @@ Like if we wanted to order states alphabetically:
   field="states"
   label="States"
   show={10}
-  render={SingleValueLinksFacet}
+  view={SingleValueLinksFacet}
 />
 ```
 
