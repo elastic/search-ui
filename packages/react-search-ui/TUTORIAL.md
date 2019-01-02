@@ -223,7 +223,8 @@ configure whether making a selection makes an OR selection or an AND selection.
 OK, so, you have facets. Use them. What do you think? Personally, I don't think
 that range facet is quite right. Play around with it, you'll see what I mean...
 
-This is because that facet needs to be disjunctive. Add a new property in the
+This is because that facet needs to be
+[disjunctive](../search-ui/README.md#driverconfig). Add a new property in the
 `SearchProvider` `config` prop, called `disjunctiveFacets`, and give it a value
 of `["acres"]`, to specify that we want to treat the `acres` facet as
 a disjunctive.
