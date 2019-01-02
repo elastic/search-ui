@@ -18,13 +18,13 @@ function Layout({
         <div className="sui-layout-body__inner">
           <div className="sui-layout-sidebar">{sideContent}</div>
           <div className="sui-layout-main">
-            <div className="sui-layout-main__header">
-              <div className="sui-layout-main__header__inner">{bodyHeader}</div>
+            <div className="sui-layout-main-header">
+              <div className="sui-layout-main-header__inner">{bodyHeader}</div>
             </div>
-            <div className="sui-layout-main__body">
+            <div className="sui-layout-main-body">
               {children || bodyContent}
             </div>
-            <div className="sui-layout-main__footer">{bodyFooter}</div>
+            <div className="sui-layout-main-footer">{bodyFooter}</div>
           </div>
         </div>
       </div>

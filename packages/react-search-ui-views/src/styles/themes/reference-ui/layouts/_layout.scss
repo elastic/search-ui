@@ -28,7 +28,7 @@
       padding: 32px 0 0 32px;
       border-left: 1px solid #eeeeee;
 
-      @include element("header") {
+      @include block("layout-main-header") {
         display: flex;
         width: 100%;
         justify-content: space-between;

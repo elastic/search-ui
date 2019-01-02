@@ -34,10 +34,10 @@ exports[`renders correctly 1`] = `
         className="sui-layout-main"
       >
         <div
-          className="sui-layout-main__header"
+          className="sui-layout-main-header"
         >
           <div
-            className="sui-layout-main__header__inner"
+            className="sui-layout-main-header__inner"
           >
             <div>
               Body Header
@@ -45,14 +45,14 @@ exports[`renders correctly 1`] = `
           </div>
         </div>
         <div
-          className="sui-layout-main__body"
+          className="sui-layout-main-body"
         >
           <div>
             Body Content
           </div>
         </div>
         <div
-          className="sui-layout-main__footer"
+          className="sui-layout-main-footer"
         >
           <div>
             Body Footer
@@ -98,10 +98,10 @@ exports[`will accept children instead of bodyContent 1`] = `
         className="sui-layout-main"
       >
         <div
-          className="sui-layout-main__header"
+          className="sui-layout-main-header"
         >
           <div
-            className="sui-layout-main__header__inner"
+            className="sui-layout-main-header__inner"
           >
             <div>
               Body Header
@@ -109,14 +109,14 @@ exports[`will accept children instead of bodyContent 1`] = `
           </div>
         </div>
         <div
-          className="sui-layout-main__body"
+          className="sui-layout-main-body"
         >
           <div>
             Body Content
           </div>
         </div>
         <div
-          className="sui-layout-main__footer"
+          className="sui-layout-main-footer"
         >
           <div>
             Body Footer
