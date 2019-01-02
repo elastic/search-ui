@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="sui-layout"
+>
+  <div
+    className="sui-layout-header"
+  >
+    <div
+      className="sui-layout-header__inner"
+    >
+      <div>
+        Header
+      </div>
+    </div>
+  </div>
+  <div
+    className="sui-layout-body"
+  >
+    <div
+      className="sui-layout-body__inner"
+    >
+      <div
+        className="sui-layout-sidebar"
+      >
+        <div>
+          <div>
+            Side Content
+          </div>
+        </div>
+      </div>
+      <div
+        className="sui-layout-main"
+      >
+        <div
+          className="sui-layout-main-header"
+        >
+          <div
+            className="sui-layout-main-header__inner"
+          >
+            <div>
+              Body Header
+            </div>
+          </div>
+        </div>
+        <div
+          className="sui-layout-main-body"
+        >
+          <div>
+            Body Content
+          </div>
+        </div>
+        <div
+          className="sui-layout-main-footer"
+        >
+          <div>
+            Body Footer
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`will accept children instead of bodyContent 1`] = `
+<div
+  className="sui-layout"
+>
+  <div
+    className="sui-layout-header"
+  >
+    <div
+      className="sui-layout-header__inner"
+    >
+      <div>
+        Header
+      </div>
+    </div>
+  </div>
+  <div
+    className="sui-layout-body"
+  >
+    <div
+      className="sui-layout-body__inner"
+    >
+      <div
+        className="sui-layout-sidebar"
+      >
+        <div>
+          <div>
+            Side Content
+          </div>
+        </div>
+      </div>
+      <div
+        className="sui-layout-main"
+      >
+        <div
+          className="sui-layout-main-header"
+        >
+          <div
+            className="sui-layout-main-header__inner"
+          >
+            <div>
+              Body Header
+            </div>
+          </div>
+        </div>
+        <div
+          className="sui-layout-main-body"
+        >
+          <div>
+            Body Content
+          </div>
+        </div>
+        <div
+          className="sui-layout-main-footer"
+        >
+          <div>
+            Body Footer
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -10,3 +10,4 @@ export { default as SearchBox } from "./SearchBox";
 export { default as SingleRangeSelectFacet } from "./SingleRangeSelectFacet";
 export { default as SingleValueLinksFacet } from "./SingleValueLinksFacet";
 export { default as Sorting } from "./Sorting";
+export { Layout } from "./layouts";
