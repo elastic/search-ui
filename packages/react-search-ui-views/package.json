@@ -24,7 +24,7 @@
     "test": "jest",
     "clean": "rimraf es lib",
     "build-css": "node-sass-chokidar src/ -o lib/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css": "node-sass-chokidar src/ -o src/ --watch --recursive",
     "watch-js": " npm-run-all --parallel \"build-* -- --watch\"",
     "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
     "build-js-es": "BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'",
