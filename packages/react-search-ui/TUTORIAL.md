@@ -63,7 +63,7 @@ export default function App() {
         apiConnector: connector
       }}
     >
-      {_ => <div className="App">{/*We'll add our components here*/}</div>}
+      {() => <div className="App">{/*We'll add our components here*/}</div>}
     </SearchProvider>
   );
 }
@@ -89,15 +89,13 @@ import { SearchProvider, SearchBox, Results } from "@elastic/react-search-ui";
 </div>
 ```
 
-Now go to your browser. You should see a search box. Search for something. You should see results appear below.
-
-Whaaat?? You see that? How cool is that? Super easy right?
+Now go to your browser. You should see a search box. Search for something. You should see results appear below. Super easy right?
 
 Note that in addition to the UI, you also have URL state being tracked. Try performing a search, then refreshing the page. Rad right? You get full url state management for free. This, however, IS optional. Not everyone will want to use that. There is a flag (`trackURLState`) to turn it off in the SearchProvider [configuration](https://github.com/elastic/search-ui/blob/master/packages/search-ui/README.md#driverconfig).
 
 ## Styles and Markup
 
-Another thing you may have noticed is that this looks like shit. We'll provide the following for Search UI:
+Another thing you may have noticed is that this doesn't look great. We'll provide the following for Search UI:
 
 1. A stylesheet containing basic styles for all components and layout
 2. A few layout components to help layout a basic search page. Basically, enough to implement the Reference UI.
@@ -108,16 +106,11 @@ All of this is provided by `@elastic/react-search-ui-views`.
 
 Add the following:
 
-# TODO Update, remove Body and Header
-
 ```jsx
-import { Body, Header } from "@elastic/react-search-ui-views";
+import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
-<Header>
-  <SearchBox />
-</Header>
-<Body bodyContent={<Results />}/>
+<Layout header={<SearchBox />} bodyContent={<Results />} />;
 ```
 
 OK, now you should see the same functionality, but with some styles. `Results`
@@ -134,29 +127,27 @@ import {
 
 ...
 
-<Header>
-  <SearchBox />
-</Header>
-<Body
+<Layout
+  header={<SearchBox />}
   bodyContent={<Results titleField="title" urlField="nps_link" />}
   bodyHeader={
-    <div className="meta">
+    <React.Fragment>
       <PagingInfo />
       <ResultsPerPage />
-    </div>
+    </React.Fragment>
   }
   bodyFooter={<Paging />}
 />
 ```
 
-Do you follow what we did? We just used `Header` and `Body` to layout the page.
+Do you follow what we did? We just used `Layout` to layout the page.
 Most people probably wouldn't event use these, unless they're really expecting
 something completely out of the box.
 
 `PagingInfo`, `ResultsPerPage`, and `Paging` are pretty standard search ui
 components.
 
-`titleField` just lets use specify which field we want to use as the title, and
+`titleField` just lets us specify which field we want to use as the title, and
 ditto for `urlField`, but for the link in the `Results`.
 
 Note that using the `Results` component is really just a convenience. We could
@@ -196,8 +187,6 @@ a couple of additional [options].(https://github.com/elastic/search-ui/tree/mast
 Adding that config just makes the data available. We'll actually need
 to add components on the page in order to take advantage of those facets.
 
-# TODO Update how we use Facet
-
 ```jsx
 import {
   ...
@@ -211,7 +200,7 @@ import {
 
 ...
 
-<Body
+<Layout
   sideContent={
     <div>
       <Facet field="states" label="States" view={MultiValueFacet} />
@@ -234,14 +223,25 @@ configure whether making a selection makes an OR selection or an AND selection.
 OK, so, you have facets. Use them. What do you think? Personally, I don't think
 that range facet is quite right. Play around with it, you'll see what I mean...
 
-This is because that facet needs to be disjunctive. Add `disjunctive: true` to
-the `acres` config in `facetConfig`. That should help
+This is because that facet needs to be
+[disjunctive](../search-ui/README.md#driverconfig). Add a new property in the
+`SearchProvider` `config` prop, called `disjunctiveFacets`, and give it a value
+of `["acres"]`, to specify that we want to treat the `acres` facet as
+a disjunctive.
+
+```jsx
+<SearchProvider
+    config={{
+      ...
+      disjunctiveFacets: ["acres"]
+      ,,,
+```
 
 ## View customization
 
 OK, so, one more thing. Functionality is great, but let's change the view component
 for the `states` facet. ALL components in `react-search-ui` will support a
-`render` prop, which lets you customize the view. We're just going to swap in
+`view` prop, which lets you customize the view. We're just going to swap in
 another view component that provides slightly different markup.
 
 ```jsx
@@ -277,7 +277,7 @@ Here's another example of how you might use the render prop to customize the vie
 />
 ```
 
-For each Component, a `render` prop will simply be a function that takes a fixed
+For each Component, a `view` prop will simply be a function that takes a fixed
 set of parameters and returns some markup.
 
 You can think of this just like swapping out a view template in Rails.
@@ -291,7 +291,7 @@ For instance, `PagingInfo` takes the following parameters:
 
 You could see this by looking at the default view component: https://github.com/elastic/search-ui/blob/master/packages/react-search-ui-views/src/PagingInfo.js.
 
-Sidenote: in React, your render prop could be expressed using a functional component instead.
+Sidenote: in React, your view prop could be expressed using a functional component instead.
 
 ```jsx
 const PagingInfoView = ({ start, end }) => (
@@ -414,74 +414,36 @@ your current filters.
 
 Some configuration we're normalizing in the Provider configuration.
 
-Like `facetConfig`. No matter what Connector or Back-end you're using, the
+Like `facets`. No matter what Connector or Back-end you're using, the
 configuration would be the same.
 
 There's some stuff that won't be normalized right now, and just need to be
 passed through to your API call.
 
-We'll use `searchOptions` for this, for now.
+We'll use `additionalOptions` for this.
 
-So on your configuration object, you could use the following for app search...
-
-# TODO Update this to additionalOptions and pass through to the driver
-
-# TODO Update because search_fields now has first class support
+So on your connector object, you could use the following for app search...
 
 ```js
-searchOptions: {
-  search_fields: {
-    title: {},
-    description: {}
-  },
-  result_fields: {
-    nps_link: {
-      raw: {}
-    },
-    title: {
-      raw: {},
-      snippet: {
-        size: 100,
-        fallback: true
-      }
-    },
-    description: {
-      raw: {},
-      snippet: {
-        size: 100,
-        fallback: true
-      }
+const connector = new AppSearchAPIConnector({
+  ...
+  additionalOptions: () => ({
+    group: {
+      field: "title"
     }
-  }
-}
+  })
+});
 ```
 
 So, some configuration will be normalized, other configuration will just be
 pass through.
 
-## Things to consider
-
-- Naming things, do the package names make sense? Is "Search UI" the right name?
-- What was clunky about this?
-- What could be improved?
-- Do these patterns seem flexible?
-- What would adding an AutoComplete to this look like, where it's performing
-  a separate query?
-- Do we need to namespace data? Like if we had a page that needed multiple queries,
-  or would we just configure two separate providers?
-- What am I missing?
-- Would it make sense to move Reference UI into the monolith?
-- At what point should we make this public?
-
 ## Things still to do
 
 https://github.com/elastic/search-ui/projects/1
 
-- SiteSearch and ES connectors POC
 - Instead of providing ALL custom component, rely on EUI for as much as we can
-- Create actual styles for all of these components.
-- Determine minimum set of components we should have.
 - Normalize state configuration - It's hard to work with right now
 - Facets need work -- OR filters, different use cases.
-- Use Typescript
+- Typescript definitions
 - Managed mode - Just a pass through. Support for Redux / React Router.

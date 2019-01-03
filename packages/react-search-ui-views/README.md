@@ -1,30 +1,24 @@
 # react-search-ui-views
 
-This is the view layers for react-search-ui.
+This is the view layer for [react-search-ui](../react-search-ui).
 
-This library provides view implementations for all of Search UI's components along with corresponding CSS, and a few layout components.
+This library provides view implementations for all of React Search UI's
+components along with corresponding CSS, and a few layout components.
 
-The components provided here have no logic behind them, they are simple, stateless,
-view-only components.
+The components provided here have no logic behind them, they are simple,
+stateless, view-only components.
 
 ## Usage
 
 ```jsx
-import {
-  Body,
-  Header,
-  Result,
-  SearchBox
-} from "@elastic/react-search-ui-views";
+import { Layout, Result, SearchBox } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 export default function App() {
   return (
-    <div className="reference-ui">
-      <Header>
-        <SearchBox value="test" />
-      </Header>
-      <Body
+    <div>
+      <Layout
+        header={<SearchBox value="test" />}
         bodyHeader={
           <div class="meta">
             <PagingInfo
@@ -45,8 +39,6 @@ export default function App() {
   );
 }
 ```
-
-TODO: List all components here
 
 ## Storybook
 

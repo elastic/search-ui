@@ -20,7 +20,7 @@ import SearchContext from "./SearchContext";
 class SearchProvider extends Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
-    // TODO These should all be TS types
+
     config: PropTypes.shape({
       apiConnector: PropTypes.shape({
         click: PropTypes.func.isRequired,
