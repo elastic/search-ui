@@ -5,11 +5,12 @@ A "Headless Search UI". It handles all of the state management, API calls, and u
 ## Usage
 
 ```shell
-npm install --save import @elastic/search-ui
+npm install --save @elastic/search-ui
 ```
 
 ```js
 import { SearchDriver } from "@elastic/search-ui";
+import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
 const connector = new AppSearchAPIConnector({
   searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
