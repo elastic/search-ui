@@ -1,7 +1,7 @@
 # React Search UI testing tutorial
 
 This tutorial guides you through a scenario where you're building a
-SERP (Search Enbgine Results Page) using search-ui.
+SERP (Search Engine Results Page) using search-ui.
 
 Because this is meant to solicit feedback and test the usability of the library,
 it doesn't tell you explicitly _how_ to do things, it just tells you what

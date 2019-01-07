@@ -83,7 +83,7 @@ all the appropriate API calls as a user interacts with your UI.
 #### ErrorBoundary<a id="c_errorboundary"></a>
 
 Use this to handle unexpected errors. Any content passed to this component will
-be show unless an unexpected Error is thrown. it will then replaced with an
+be shown unless an unexpected Error is thrown. it will then replaced with an
 error message.
 
 Properties:
@@ -233,10 +233,10 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 
 Properties:
 
-| Name       | type      | Required? | Default                                                | Options | Description                                           |
-| ---------- | --------- | --------- | ------------------------------------------------------ | ------- | ----------------------------------------------------- |
-| inputProps | Object    | no        |                                                        |         | Props of 'input' element to be passed through.        |
-| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. |
+| Name       | type      | Required? | Default                                                | Options | Description                                                                |
+| ---------- | --------- | --------- | ------------------------------------------------------ | ------- | -------------------------------------------------------------------------- |
+| inputProps | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}` |
+| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component.                      |
 
 Example:
 
