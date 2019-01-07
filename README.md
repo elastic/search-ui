@@ -22,7 +22,11 @@ This is the top level workspace for all Search UI libraries. You won't find any 
 Pick an [Implementation](#implementation), and a [Connector](#connectors), then get to work. For example:
 
 ```sh
+# For npm:
 npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
+
+# For yarn:
+yarn add @elastic/react-search-ui @elastic/search-ui-app-search-connector
 ```
 
 ```jsx

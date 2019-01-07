@@ -69,10 +69,218 @@ Connectors are explained in the top level [README](../../README.md). The first
 thing you'll need to do is configure a Connector, which lets Search UI make
 all the appropriate API calls as a user interacts with your UI.
 
-### Components
+### Components<a id="components"></a>
 
-For a list of available components, check out the [containers](./src/containers)
-directory.
+- [ErrorBoundary](#c_errorboundary)
+- [Facet](#c_facet)
+- [Paging](#c_paging)
+- [PagingInfo](#c_paginginfo)
+- [Results](#results)
+- [ResultsPerPage](#c_resultsperpage)
+- [SearchBox](#c_searchbox)
+- [Sorting](#c_sorting)
+
+#### ErrorBoundary<a id="c_errorboundary"></a>
+
+Use this to handle unexpected errors. Any content passed to this component will
+be shown unless an unexpected Error is thrown. it will then replaced with an
+error message.
+
+Properties:
+
+| Name     | type       | Required? | Default                                                        | Options | Description                                                                                           |
+| -------- | ---------- | --------- | -------------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------- |
+| children | React node | yes       |                                                                |         | Markup to show if no error has occurred, will be replaced with error messaging if there was an error. |
+| view     | Component  | no        | [ErrorBoundary](../react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component.                                                 |
+
+Example:
+
+```jsx
+import { ErrorBoundary } from "@elastic/react-search-ui";
+
+...
+
+<ErrorBoundary>
+  <div>Some Content</div>
+</ErrorBoundary>
+```
+
+#### Facet<a id="c_facet"></a>
+
+Show a Facet filter for a particular field. This requires that the
+corresponding field has been configured in
+[facets](../search-ui/README.md#driverconfig) on the top level Provider.
+
+Properties:
+
+| Name  | type      | Required? | Default | Options                                                                                                                                                                                                                                        | Description                                                                                                                                    |
+| ----- | --------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| field | String    | yes       |         |                                                                                                                                                                                                                                                | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider. |
+| label | String    | yes       |         |                                                                                                                                                                                                                                                | A static label to show in the facet filter.                                                                                                    |
+| show  | Number    | no        | 10      |                                                                                                                                                                                                                                                | The number of facet filter options to show before concatenating with a "more" link.                                                            |
+| view  | Component | yes       |         | [SingleValueLinksFacet](../react-search-ui-views/src/SingleValueLinksFacet.js) <br/> [SingleRangeSelectFacet](../react-search-ui-views/src/SingleRangeSelectFacet.js) <br/> [MultiValueFacet](../react-search-ui-views/src/MultiValueFacet.js) | The view for this component.                                                                                                                   |
+
+Example:
+
+```jsx
+import { Facet } from "@elastic/react-search-ui";
+import { MultiValueFacet } from "@elastic/react-search-ui-views";
+
+...
+
+<SearchProvider config={{
+  ...otherConfig,
+  facets: {
+    states: { type: "value", size: 30 }
+  }
+}}>
+  {() => (
+    <Facet field="states" label="States" view={MultiValueFacet} />
+  )}
+</SearchProvider>
+```
+
+#### Paging<a id="c_paging"></a>
+
+Paging navigation.
+
+Properties:
+
+| Name | type      | Required? | Default                                          | Options | Description                                           |
+| ---- | --------- | --------- | ------------------------------------------------ | ------- | ----------------------------------------------------- |
+| view | Component | no        | [Paging](../react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. |
+
+Example:
+
+```jsx
+
+import { Paging } from "@elastic/react-search-ui";
+
+...
+
+<Paging />
+```
+
+#### PagingInfo<a id="c_paginginfo"></a>
+
+Paging details, like "1 - 20 of 100 results".
+
+Properties:
+
+| Name | type      | Required? | Default                                                  | Options | Description                                           |
+| ---- | --------- | --------- | -------------------------------------------------------- | ------- | ----------------------------------------------------- |
+| view | Component | no        | [PagingInfo](../react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. |
+
+Example:
+
+```jsx
+
+import { PagingInfo } from "@elastic/react-search-ui";
+
+...
+
+<PagingInfo />
+```
+
+#### Results<a id="results"></a>
+
+Shows all results. This is a convenience, you could also iterate over the
+results yourself and render each result.
+
+Properties:
+
+| Name         | type      | Required? | Default                                            | Options | Description                                           |
+| ------------ | --------- | --------- | -------------------------------------------------- | ------- | ----------------------------------------------------- |
+| renderResult | Component | no        | [Result](../react-search-ui-views/src/Result.js)   |         | Used to override individual Result views.             |
+| titleField   | String    | no        |                                                    |         | Name of field to use as the title from each result.   |
+| urlField     | String    | no        |                                                    |         | Name of field to use as the href from each result.    |
+| view         | Component | no        | [Results](../react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. |
+
+Example:
+
+```jsx
+
+import { Results } from "@elastic/react-search-ui";
+
+...
+
+<Results titleField="title" urlField="nps_link" />
+```
+
+#### ResultsPerPage<a id="c_resultsperpage"></a>
+
+Shows a selector for selecting the number of results to show per page. Uses
+20, 40, 60 as options.
+
+Properties:
+
+| Name | type      | Required? | Default                                                          | Options | Description                                           |
+| ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | ----------------------------------------------------- |
+| view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. |
+
+Example:
+
+```jsx
+
+import { ResultsPerPage } from "@elastic/react-search-ui";
+
+...
+
+<ResultsPerPage />
+```
+
+#### SearchBox<a id="c_searchbox"></a>
+
+Properties:
+
+| Name       | type      | Required? | Default                                                | Options | Description                                                                |
+| ---------- | --------- | --------- | ------------------------------------------------------ | ------- | -------------------------------------------------------------------------- |
+| inputProps | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}` |
+| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component.                      |
+
+Example:
+
+```jsx
+
+import { SearchBox } from "@elastic/react-search-ui";
+
+...
+
+<SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
+```
+
+#### Sorting<a id="c_sorting"></a>
+
+Properties:
+
+| Name | type                                           | Required? | Default                                            | Options | Description                                           |
+| ---- | ---------------------------------------------- | --------- | -------------------------------------------------- | ------- | ----------------------------------------------------- |
+| view | Array[[SortOption](./src/types/SortOption.js)] | yes       |                                                    |         |                                                       |
+| view | Component                                      | no        | [Sorting](../react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. |
+
+Example:
+
+```jsx
+
+import { Sorting } from "@elastic/react-search-ui";
+
+...
+
+<Sorting
+  sortOptions={[
+    {
+      name: "Relevance",
+      value: "",
+      direction: ""
+    },
+    {
+      name: "Title",
+      value: "title",
+      direction: "asc"
+    }
+  ]}
+/>
+```
 
 ### Using the default styles and layout
 

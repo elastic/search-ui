@@ -26,10 +26,10 @@ export class FacetContainer extends Component {
     setFilter: PropTypes.func.isRequired
   };
 
-  constructor(props) {
+  constructor({ show = 5 }) {
     super();
     this.state = {
-      more: props.show || 5
+      more: show
     };
   }
 
