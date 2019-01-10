@@ -489,7 +489,7 @@ For instance, `PagingInfo` takes the following parameters:
 You could see this by looking at the default
 [view component](../react-search-ui-views/src/PagingInfo.js).
 
-NOTE: in React, your view prop could be expressed using a functional component
+NOTE: In React, your view prop could be expressed using a functional component
 instead:
 
 ```jsx

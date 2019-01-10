@@ -1,6 +1,6 @@
 # react-search-ui-views
 
-This is the view layer for [react-search-ui](../react-search-ui).
+This is the view layer for [react-search-ui](../react-search-ui/README.md).
 
 This library provides view implementations for all of React Search UI's
 components along with corresponding CSS, and a few layout components.
