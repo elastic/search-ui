@@ -1,5 +1,7 @@
 # search-ui-app-search-connector
 
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+
 This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/cloud/app-search-service) API.
 
 ## Usage

@@ -1,4 +1,6 @@
-# `search-ui`
+# search-ui
+
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
 
 The "Headless Search UI" that serves as a foundation for the [react-search-ui](../react-search-ui/README.md) library.
 

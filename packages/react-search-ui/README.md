@@ -1,5 +1,7 @@
 # Search UI
 
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+
 Most search experiences follow similar patterns; search box, search results, paging, sorting, filters, url state, etc.
 Search UI gives you a means of quickly implementing these patterns without re-inventing the wheel.
 

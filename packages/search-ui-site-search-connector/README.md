@@ -1,5 +1,7 @@
 # search-ui-site-search-connector
 
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+
 This Connector is used to connect Search UI to Elastic's [Site Search](https://www.elastic.co/cloud/site-search-service) API.
 
 While Site Search supports multiple document types, Search UI will only

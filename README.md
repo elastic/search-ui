@@ -1,5 +1,7 @@
 # Search UI
 
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+
 [![CircleCI](https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76)](https://circleci.com/gh/elastic/search-ui/tree/master)
 
 This is the top level workspace for all Search UI libraries. You won't find any code here. For more information and

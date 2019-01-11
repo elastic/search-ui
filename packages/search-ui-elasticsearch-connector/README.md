@@ -1,5 +1,7 @@
 # search-ui-app-search-connector
 
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+
 This Connector is used to connect Search UI to [elasticsearch](https://github.com/elastic/elasticsearch).
 
 ** NOTE: This connector is experimental and a work in progress. Do not use this in production. **

@@ -1,5 +1,7 @@
 # react-search-ui-views
 
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+
 This is the view layer for [react-search-ui](../react-search-ui/README.md).
 
 This library provides view implementations for all of React Search UI's
