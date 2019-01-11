@@ -6,3 +6,35 @@
 
 This is the top level workspace for all Search UI libraries. You won't find any code here. For more information and
 documentation, head to the [react-search-ui](packages/react-search-ui/README.md) project.
+
+### Testing
+
+All packages:
+
+```shell
+# from project root
+npm run test
+```
+
+Single package:
+
+```shell
+# from inside a package
+npm run test
+```
+
+### Building
+
+All packages:
+
+```shell
+# from project root
+npm run build
+```
+
+Single package:
+
+```shell
+# from inside a package
+npm run build
+```

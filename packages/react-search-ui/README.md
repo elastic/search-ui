@@ -174,10 +174,10 @@ your search experience into calls to your configured Search API.
 
 Params:
 
-| name     | type     | description                                                                                                                                                                                                                                                                                                                                                                                            |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| config   | Object   | [Search UI Configuration](#config)                                                                                                                                                                                                                                                                                                                                                                     |
-| children | function | A render prop function that receives [state](#state) and [actions](#actions) in a flattened object. These are primarily available if you'd like to work directly with state or actions outside of a component. See the [Working with Search UI outside of Components](#searchproviderrenderprop) section for more information. <br/><br/>`({someState, someOtherState, someAction}) => return <div />` |
+| name     | type     | description                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config   | Object   | [Search UI Configuration](#config)                                                                                                                                                                                                                                                                                                                                                                                           |
+| children | function | A render prop function that receives [State](#state) and [Actions](#actions) in a flattened object. These are primarily available if you'd like to work directly with [State](#state) or [Actions](#actions) outside of a component. See the [Working with Search UI outside of Components](#searchproviderrenderprop) section for more information. <br/><br/>`({someState, someOtherState, someAction}) => return <div />` |
 
 <a id="config"></a>
 
@@ -206,8 +206,8 @@ For this reason, the configuration for Search UI largely follows the same API as
 | `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
 | `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
 | `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
-| `initialState`                   | Object                   | optional  | Set initial state of the search. Any [Request State](#requeststate) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                                                                                                                                                                                                |
-| `trackURLState`                  | boolean                  | optional  | By default, state will be synced with the browser url. To turn this off, pass `false`                                                                                                                                                                                                                                                                                                                                          |
+| `initialState`                   | Object                   | optional  | Set initial [State](#state) of the search. Any [Request State](#requeststate) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                                                                                                                                                                                      |
+| `trackURLState`                  | boolean                  | optional  | By default, [Request State](#requeststate) will be synced with the browser url. To turn this off, pass `false`                                                                                                                                                                                                                                                                                                                 |
 | `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term. [Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                                                          |
 | `result_fields`                  | boolean                  | optional  | Fields which should be returned in results. [Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                                                                |
 
@@ -563,7 +563,7 @@ return <PagingInfo view={PagingInfoView} />;
 
 All components support two hooks for customizing their behavior.
 
-- mapContextToProps - Lets you override the state and actions (i.e., context) before they are passed to your Component as
+- mapContextToProps - Lets you override the [State](#state) and [Actions](#actions) (i.e., context) before they are passed to your Component as
   props.
 - mapViewProps - Lets you overrides the props before they are passed to the view.
 
@@ -637,15 +637,18 @@ As a reminder, the "context" is a flatted object of all [State](#state) and [Act
 
 If you're not working with an existing component, so you're either building your own
 component (see [Creating your own components](#customcomponents)) or just wish to do something with Search UI outside of a particular component,
-then you'll need to know about 2 things: state and actions.
+then you'll need to know about 2 things: [State](#state) and [Actions](#actions).
 
-- "State" - The current state of your application, (so things like the current search term, selected filters, etc.)
-- "Actions" - Function that let you update the state (setSearchTerm, applyFilter, etc.)
+- "[State](#state)" - The current state of your application, (so things like the current search term, selected filters, etc.)
+- "[Actions](#actions)" - Function that let you update the [State](#state) (setSearchTerm, applyFilter, etc.)
 
-Search UI provides these state and actions, and components simply read from the state when rendering, and call actions
+Note: If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as `State` and `Actions`
+in Redux.
+
+Search UI provides these [State](#state) and [Actions](#actions), and components simply read from the [State](#state) when rendering, and call [Actions](#actions)
 when a user interacts with the search experience.
 
-It's totally possible to use state and actions directly, outside of components. Here's how you'd do that:
+It's totally possible to use [State](#state) and [Actions](#actions) directly, outside of components. Here's how you'd do that:
 
 <a id="searchproviderrenderprop"></a>
 
@@ -654,7 +657,7 @@ It's totally possible to use state and actions directly, outside of components. 
 [back](#nav)
 
 When you configure a SearchProvider, you need to provide a function as the child of the provider. That function
-is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes all state and actions to you.
+is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes all [State](#state) and [Actions](#actions) to you.
 
 For comparison, this is the same pattern used by the popular [formik](https://github.com/jaredpalmer/formik) library.
 
@@ -742,8 +745,8 @@ import { SearchConsumer } from "@elastic/react-search-ui";
 
 State can be divided up into two types.
 
-1. Request state - Reflects the state of the most recent request. It is updated at the time a request is made.
-2. Result state - Result state is updated AFTER a response is received.
+1. Request State - Reflects the state of the most recent request. It is updated at the time a request is made.
+2. Result State - Result State is updated AFTER a response is received.
 
 For this reason, there are often two versions of state. For instance, `searchTerm` and `resultSearchTerm`. This can
 be relevant in the UI, where you might not want the search term on the page to change until AFTER a response is
@@ -789,7 +792,7 @@ need, or, the components we provide need extensive customization in order
 to work properly.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html), [withSearch](./src/withSearch.js), which gives
-you access to the applications core state and actions (See [Working with Search UI outside of Components - state and actions](#directsearchui)), which allows you to create your own
+you access to the applications core state and [Actions](#actions) (See [Working with Search UI outside of Components](#directsearchui)), which allows you to create your own
 components, connected to Search UI.
 
 Ex. Creating a component for clearing all filters
