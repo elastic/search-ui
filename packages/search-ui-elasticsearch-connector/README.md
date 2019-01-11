@@ -1,4 +1,4 @@
-# search-ui-app-search-connector
+# search-ui-elasticsearch-connector
 
 **NOTE: This library is in an early Beta period, it is not yet recommended for production use**
 
