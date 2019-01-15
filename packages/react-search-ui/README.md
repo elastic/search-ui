@@ -104,8 +104,6 @@ export default function App() {
 
 [back](#nav)
 
-To configure Search UI, you must create a [SearchProvider](#searchprovider), and pass it a [configuration object](#config).
-
 Example:
 
 ```jsx
@@ -166,9 +164,15 @@ return (
 
 ### SearchProvider
 
-`SearchProvider` is what connects Search UI to your Components. Components you place
-within `SearchProvider` will be connected to your search experience. It translates the actions users take within
-your search experience into calls to your configured Search API.
+As you'll see in the [Components](#components) section, Search UI provides an extensive library of
+Components which you can use to build a search experience.
+However, before you can start dropping in those Components, you'll first need to create a
+`SearchProvider`, which will tie all of your Components together so that they
+work as a cohesive application.
+
+`SearchProvider` ultimately converts user actions into API calls to your Search API, so you'll need to
+configure it so that it knows where to direct those API calls. A comprehensive list of
+configuration options are included below in the [Search UI Configuration](#config) section.
 
 Params:
 
