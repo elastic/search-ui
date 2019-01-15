@@ -4,8 +4,8 @@
 
 [![CircleCI](https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76)](https://circleci.com/gh/elastic/search-ui/tree/master)
 
-This is the top level workspace for all Search UI libraries. You won't find any code here. For more information and
-documentation, head to the [react-search-ui](packages/react-search-ui/README.md) project.
+Search UI is a group of libraries that enable fast development of excellent search experiences using any search engine provider.
+You can get started by visiting the primary [React Search UI Library](packages/react-search-ui/README.md).
 
 ### Testing
 

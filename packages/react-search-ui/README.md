@@ -1,4 +1,4 @@
-# Search UI
+# Search UI: React Framework
 
 **NOTE: This library is in an early Beta period, it is not yet recommended for production use**
 
@@ -16,9 +16,7 @@ flexible enough to meet any demand, be it a completely out of the box experience
 - Full state management solution with optional URL synchronization.
 - Out of the box styles and layouts for building quick UIs.
 - Full control over the view -- styles and layouts are optional, and all markup is override-able.
-- API Connectors so that Search UI can be used with any web-based Search API.
-- API Connectors for Elastic's [Site Search](https://www.elastic.co/cloud/site-search-service) and
-  [App Search](https://www.elastic.co/cloud/app-search-service) services.
+- Support for any web-based Search API, with pre-built connectors for Elastic [Site Search].(https://www.elastic.co/cloud/site-search-service) and Elastic [App Search](https://www.elastic.co/cloud/app-search-service).
 - Built on top of a ["Headless" version of Search UI](../search-ui/README.md), which can be used with any JavaScript library, or even vanilla
   JavaScript.
 
@@ -32,12 +30,12 @@ flexible enough to meet any demand, be it a completely out of the box experience
 - [Components](#components)
 - [Using the default styles and layout](#layoutandstyles)
 - [Using your own styles and layout](#ownlayoutandstyles)
-- [Customizing component views and html](#customizeviews)
-- [Customizing component behavior - mapContextToProps and mapViewProps](#customizebehavior)
+- [Customizing Component views and html](#customizeviews)
+- [Customizing Component behavior - mapContextToProps and mapViewProps](#customizebehavior)
 - [Working with Search UI outside of Components](#directsearchui)
   - [Actions](#actions)
   - [State](#state)
-- [Creating your own components](#customcomponents)
+- [Creating your own Components](#customcomponents)
 - [Customizing API calls - additionalOptions](#apicalls)
 - [Connectors](#connectors)
   - [Use existing Connectors to connect to Elastic's App Search or Site Search APIs](#existingconnectors)
@@ -64,7 +62,7 @@ npm install --save  @elastic/search-ui-app-search-connector
 [back](#nav)
 
 Search UI can be used to create experiences very quickly. Especially if you use the out of the box
-styles and layout. The following is a very simplistic UI for an App Search engine.
+styles and layout. The following is a basic UI for an App Search engine.
 
 ```jsx
 import React from "react";
@@ -106,7 +104,7 @@ export default function App() {
 
 [back](#nav)
 
-Search UI is configured via the `SearchProvider`.
+To configure Search UI, you must create a [SearchProvider](#searchprovider), and pass it a [configuration object](#config).
 
 Example:
 
@@ -168,7 +166,7 @@ return (
 
 ### SearchProvider
 
-`SearchProvider` is what connects Search UI to your components. Components you place
+`SearchProvider` is what connects Search UI to your Components. Components you place
 within `SearchProvider` will be connected to your search experience. It translates the actions users take within
 your search experience into calls to your configured Search API.
 
@@ -177,7 +175,7 @@ Params:
 | name     | type     | description                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | config   | Object   | [Search UI Configuration](#config)                                                                                                                                                                                                                                                                                                                                                                                           |
-| children | function | A render prop function that receives [State](#state) and [Actions](#actions) in a flattened object. These are primarily available if you'd like to work directly with [State](#state) or [Actions](#actions) outside of a component. See the [Working with Search UI outside of Components](#searchproviderrenderprop) section for more information. <br/><br/>`({someState, someOtherState, someAction}) => return <div />` |
+| children | function | A render prop function that receives [State](#state) and [Actions](#actions) in a flattened object. These are primarily available if you'd like to work directly with [State](#state) or [Actions](#actions) outside of a Component. See the [Working with Search UI outside of Components](#searchproviderrenderprop) section for more information. <br/><br/>`({someState, someOtherState, someAction}) => return <div />` |
 
 <a id="config"></a>
 
@@ -189,9 +187,9 @@ All configuration for Search UI is provided in a single configuration object. Co
 - Configure Search API calls, like `facets`, `result_fields`, and `search_fields`.
 
 For the latter, this means that often times you will need to add configuration to Search UI before using
-a particular component. For example, to use a [Facet](#componentfacet) component to show facet filters, you would first need
+a particular Component. For example, to use a [Facet](#componentfacet) Component to show facet filters, you would first need
 to provide `facets` configuration. By configuring facets, you're asking for facet details to be returned on your API
-calls. These can then be consumed by the `Facet` component to show facet filters.
+calls. These can then be consumed by the `Facet` Component to show facet filters.
 
 Note that this is not the only way to customize API calls. Check out the [Customizing API calls - additionalOptions](#apicalls) for some
 more details.
@@ -202,7 +200,7 @@ For this reason, the configuration for Search UI largely follows the same API as
 | option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `apiConnector`                   | APIConnector             | required  | Instance of an [API Connector](#connectors). For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                                                                                                                                                                                                                                |
-| `facets`                         | Object                   | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build `Facet` components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                                                                     |
+| `facets`                         | Object                   | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build `Facet` Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                                                                     |
 | `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
 | `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
 | `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
@@ -217,7 +215,7 @@ For this reason, the configuration for Search UI largely follows the same API as
 
 [back](#nav)
 
-The following components are available:
+The following Components are available:
 
 - [ErrorBoundary](#componenterrorboundary)
 - [Facet](#componentfacet)
@@ -233,7 +231,7 @@ The following components are available:
 
 ### ErrorBoundary
 
-Use this to handle unexpected errors. Any content passed to this component will
+Use this to handle unexpected errors. Any content passed to this Component will
 be shown unless an unexpected Error is thrown. it will then replaced with an
 error message.
 
@@ -242,7 +240,7 @@ Properties:
 | Name     | type       | Required? | Default                                                        | Options | Description                                                                                                                                          |
 | -------- | ---------- | --------- | -------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | children | React node | yes       |                                                                |         | Markup to show if no error has occurred, will be replaced with error messaging if there was an error.                                                |
-| view     | Component  | no        | [ErrorBoundary](../react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view     | Component  | no        | [ErrorBoundary](../react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -271,7 +269,7 @@ Properties:
 | field | String    | yes       |         |                                                                                                                                                                                                                                                | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider. |
 | label | String    | yes       |         |                                                                                                                                                                                                                                                | A static label to show in the facet filter.                                                                                                    |
 | show  | Number    | no        | 10      |                                                                                                                                                                                                                                                | The number of facet filter options to show before concatenating with a "more" link.                                                            |
-| view  | Component | yes       |         | [SingleValueLinksFacet](../react-search-ui-views/src/SingleValueLinksFacet.js) <br/> [SingleRangeSelectFacet](../react-search-ui-views/src/SingleRangeSelectFacet.js) <br/> [MultiValueFacet](../react-search-ui-views/src/MultiValueFacet.js) | The view for this component. See the [Customizing component views and html](#customizeviews") section for more information.                    |
+| view  | Component | yes       |         | [SingleValueLinksFacet](../react-search-ui-views/src/SingleValueLinksFacet.js) <br/> [SingleRangeSelectFacet](../react-search-ui-views/src/SingleRangeSelectFacet.js) <br/> [MultiValueFacet](../react-search-ui-views/src/MultiValueFacet.js) | The view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information.                    |
 
 Example:
 
@@ -303,7 +301,7 @@ Properties:
 
 | Name | type      | Required? | Default                                          | Options | Description                                                                                                                                          |
 | ---- | --------- | --------- | ------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [Paging](../react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view | Component | no        | [Paging](../react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -326,7 +324,7 @@ Properties:
 
 | Name | type      | Required? | Default                                                  | Options | Description                                                                                                                                          |
 | ---- | --------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [PagingInfo](../react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view | Component | no        | [PagingInfo](../react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -353,7 +351,7 @@ Properties:
 | renderResult | Component | no        | [Result](../react-search-ui-views/src/Result.js)   |         | Used to override individual Result views.                                                                                                            |
 | titleField   | String    | no        |                                                    |         | Name of field to use as the title from each result.                                                                                                  |
 | urlField     | String    | no        |                                                    |         | Name of field to use as the href from each result.                                                                                                   |
-| view         | Component | no        | [Results](../react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view         | Component | no        | [Results](../react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -377,7 +375,7 @@ Properties:
 
 | Name | type      | Required? | Default                                                          | Options | Description                                                                                                                                          |
 | ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -399,7 +397,7 @@ Properties:
 | Name       | type      | Required? | Default                                                | Options | Description                                                                                                                                          |
 | ---------- | --------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | inputProps | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                           |
-| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -421,7 +419,7 @@ Properties:
 | Name | type                                           | Required? | Default                                            | Options | Description                                                                                                                                          |
 | ---- | ---------------------------------------------- | --------- | -------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | view | Array[[SortOption](./src/types/SortOption.js)] | yes       |                                                    |         |                                                                                                                                                      |
-| view | Component                                      | no        | [Sorting](../react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See the [Customizing component views and html](#customizeviews") section for more information. |
+| view | Component                                      | no        | [Sorting](../react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
 
 Example:
 
@@ -470,7 +468,7 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 <a id="layoutcomponent"></a>
 
 For a basic layout, which often helps quickly get a UI bootstrapped,
-use the [Layout](../react-search-ui-views/src/layouts/Layout.js) component.
+use the [Layout](../react-search-ui-views/src/layouts/Layout.js) Component.
 
 ```jsx
 import { Layout } from "@elastic/react-search-ui-views";
@@ -490,38 +488,38 @@ styles and layout are optional.
 To provide custom styles:
 
 - Option 1: Provide all of your own styles. To do this, simply write your own styles that target the class names
-  in the individual components, and do NOT include `styles.css`.
+  in the individual Components, and do NOT include `styles.css`.
 - Option 2: Override or customize the default styles. So include `styles.css`, and then write your own
   styles which override those styles.
 
-For layout, simply provide your own layout instead of using the `Layout` component.
+For layout, simply provide your own layout instead of using the `Layout` Component.
 
 If you still need more view customization, check out the section for [Customizing views and html](#customizeviews).
 
 <a id="customizeviews"></a>
 
-## Customizing component views and html
+## Customizing Component views and html
 
 [back](#nav)
 
-All components in this library can be customized by providing a `view` prop.
-Each component's `view` will have a custom signature.
+All Components in this library can be customized by providing a `view` prop.
+Each Component's `view` will have a custom signature.
 
 (Note, if you're familiar with the [Render Props](https://reactjs.org/docs/render-props.html) pattern, that is all these are)
 
-The easiest way to determine a component's `view` function signature is to
-look at the corresponding view components in
-[react-search-ui-views](../react-search-ui-views). Each component in that
-library implements a `view` function for a component in this library, so it
+The easiest way to determine a Component's `view` function signature is to
+look at the corresponding view Components in
+[react-search-ui-views](../react-search-ui-views). Each Component in that
+library implements a `view` function for a Component in this library, so it
 serves as a great reference.
 
-Ex. Customizing the `PagingInfo` component.
+Ex. Customizing the `PagingInfo` Component.
 
 First off, look up the default view from the [Components](#componentpaginginfo) section, for the
-`PagingInfo` components. You'll find that the corresponding view is the
+`PagingInfo` Components. You'll find that the corresponding view is the
 [PagingInfo](../react-search-ui-views/src/PagingInfo.js). (See how the naming matches up?).
 
-After viewing that component's source, you'll see it accepts 4 props:
+After viewing that Component's source, you'll see it accepts 4 props:
 
 1. `end`
 2. `searchTerm`
@@ -543,7 +541,7 @@ that uses those two props.
 />
 ```
 
-You could also accomplish this with a functional component:
+You could also accomplish this with a functional Component:
 
 ```jsx
 const PagingInfoView = ({ start, end }) => (
@@ -559,9 +557,9 @@ return <PagingInfo view={PagingInfoView} />;
 
 <a id="customizebehavior"></a>
 
-## Customizing component behavior - mapContextToProps and mapViewProps
+## Customizing Component behavior - mapContextToProps and mapViewProps
 
-All components support two hooks for customizing their behavior.
+All Components support two hooks for customizing their behavior.
 
 - mapContextToProps - Lets you override the [State](#state) and [Actions](#actions) (i.e., context) before they are passed to your Component as
   props.
@@ -581,7 +579,7 @@ Search UI
   |
   | { searchTerm, setSearchTerm } <- This is the "context"
   v
-  // Updates the searchTerm before passing it to the SearchBox component
+  // Updates the searchTerm before passing it to the SearchBox Component
   mapContextToProps( context => { ...context, searchTerm: "new search terms" } )
   |
   |
@@ -635,8 +633,8 @@ As a reminder, the "context" is a flatted object of all [State](#state) and [Act
 
 [back](#nav)
 
-If you're not working with an existing component, so you're either building your own
-component (see [Creating your own components](#customcomponents)) or just wish to do something with Search UI outside of a particular component,
+If you're not working with an existing Component, so you're either building your own
+Component (see [Creating your own Components](#customcomponents)) or just wish to do something with Search UI outside of a particular Component,
 then you'll need to know about 2 things: [State](#state) and [Actions](#actions).
 
 - "[State](#state)" - The current state of your application, (so things like the current search term, selected filters, etc.)
@@ -645,10 +643,10 @@ then you'll need to know about 2 things: [State](#state) and [Actions](#actions)
 Note: If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as `State` and `Actions`
 in Redux.
 
-Search UI provides these [State](#state) and [Actions](#actions), and components simply read from the [State](#state) when rendering, and call [Actions](#actions)
+Search UI provides these [State](#state) and [Actions](#actions), and Components simply read from the [State](#state) when rendering, and call [Actions](#actions)
 when a user interacts with the search experience.
 
-It's totally possible to use [State](#state) and [Actions](#actions) directly, outside of components. Here's how you'd do that:
+It's totally possible to use [State](#state) and [Actions](#actions) directly, outside of Components. Here's how you'd do that:
 
 <a id="searchproviderrenderprop"></a>
 
@@ -702,7 +700,7 @@ You could also use it to add a clear filters button, for example:
 
 <a id="withsearch"></a>
 
-### 2. `withSearch` HOC when [Creating your own components](#customcomponents)
+### 2. `withSearch` HOC when [Creating your own Components](#customcomponents)
 
 <a id="searchconsumer"></a>
 
@@ -782,20 +780,20 @@ _Response State_
 
 <a id="customcomponents"></a>
 
-## Creating your own components
+## Creating your own Components
 
 [back](#nav)
 
-We provide a fair variety of components out of the box. However, there most
-certainly will be cases where you find we simply don't have a component you
-need, or, the components we provide need extensive customization in order
+We provide a fair variety of Components out of the box. However, there most
+certainly will be cases where you find we simply don't have a Component you
+need, or, the Components we provide need extensive customization in order
 to work properly.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html), [withSearch](./src/withSearch.js), which gives
 you access to the applications core state and [Actions](#actions) (See [Working with Search UI outside of Components](#directsearchui)), which allows you to create your own
-components, connected to Search UI.
+Components, connected to Search UI.
 
-Ex. Creating a component for clearing all filters
+Ex. Creating a Component for clearing all filters
 
 ```jsx
 import React from "react";
