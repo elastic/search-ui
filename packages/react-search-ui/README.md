@@ -17,7 +17,7 @@ flexible enough to meet any demand, be it a completely out of the box experience
 - Out of the box styles and layouts for building quick UIs.
 - Full control over the view -- styles and layouts are optional, and all markup is override-able.
 - Support for any web-based Search API, with pre-built connectors for Elastic [Site Search].(https://www.elastic.co/cloud/site-search-service) and Elastic [App Search](https://www.elastic.co/cloud/app-search-service).
-- Built on top of a ["Headless" version of Search UI](../search-ui/README.md), which can be used with any JavaScript library, or even vanilla
+- Built on top of a ["Headless" version of Search UI](#the-headless-search-ui), which can be used with any JavaScript library, or even vanilla
   JavaScript.
 
 <a id="nav"></a>
@@ -1120,7 +1120,8 @@ Each Result Item is a wrapped around an individual result, in the
 
 #### Search API response example
 
-More details [here](https://swiftype.com/documentation/app-search/api/search).
+More details can be found in the
+[App Search Search API documentation](https://swiftype.com/documentation/app-search/api/search).
 
 For `results`, each result can have one of two fields: `raw` and `snippet`. The
 `raw` value is the raw from the server. Search UI considers this "unsafe" html,
