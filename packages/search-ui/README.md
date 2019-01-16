@@ -5,7 +5,8 @@
 The "Headless Search UI" that serves as a foundation for the [react-search-ui](../react-search-ui/README.md) library.
 
 If you are not using React, this library can be used in conjunction with
-any other framework. Instead of working with components as you do in React, you simply work directly with state and actions. These are documented [here](../react-search-ui/README.md#state) and [here](../react-search-ui/README.md#actions).
+any other framework. Instead of working with components as you do in React, you simply work directly with state and actions. These are documented in the [Search UI core](#core) section of the react-search-ui
+README.
 
 You'll get all of the benefit of Search UI, just with no view. The view is up to you.
 

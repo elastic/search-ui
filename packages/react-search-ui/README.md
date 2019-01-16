@@ -31,19 +31,22 @@ flexible enough to meet any demand, be it a completely out of the box experience
   - [SearchProvider](#basicsearchprovider)
   - [Styles and Layout](#layoutandstyles)
   - [Components](#components)
-- [Advanced Usage]
+- [Advanced Usage](#advanced)
+  - [Search UI core](#core)
+    - [Context](#context)
+    - [Actions](#actions)
+    - [State](#state)
+    - [The Headless Search UI](#headless)
   - [Configuring Search UI](#searchuiconfig)
-  - [Connectors](#connectors)
-  - [Using the default styles and layout](#layoutandstyles)
-  - [Using your own styles and layout](#ownlayoutandstyles)
+    - [SearchProvider](#advancedsearchprovider)
+    - [Configuration Options](#config)
+  - [Customizing Styles and Layout](#ownlayoutandstyles)
   - [Customizing Component views and html](#customizeviews)
   - [Customizing Component behavior - mapContextToProps and mapViewProps](#customizebehavior)
   - [Working with Search UI outside of Components](#directsearchui)
-    - [Actions](#actions)
-    - [State](#state)
   - [Creating your own Components](#customcomponents)
   - [Customizing API calls - additionalOptions](#apicalls)
-  - TODO: Rename [Create your own Connector to connect to some other API](#buildaconnector)
+  - [Creating your own Connector](#buildaconnector)
 
 <a id="basic"></a>
 
@@ -173,10 +176,6 @@ Example:
 
 For more details on configuring SearchProvider, see the [Configuring Search UI](#searchuiconfig) section of the Advanced Usage guide.
 
-`SearchProvider` ultimately converts user actions into API calls to your Search API, so you'll need to
-configure it so that it knows where to direct those API calls. A comprehensive list of
-configuration options are included below in the [Search UI Configuration](#config) section.
-
 <a id="layoutandstyles"></a>
 
 ### Styles and Layout
@@ -206,7 +205,7 @@ import { Layout } from "@elastic/react-search-ui-views";
 <Layout header={<SearchBox />} bodyContent={<Results />} />;
 ```
 
-For more information on customizing styles, see the [Using your own styles and layout](#ownlayoutandstyles)
+For more information on customizing styles, see the [Customizing Styles and Layout](#ownlayoutandstyles)
 section in the Advanced Usage guide.
 
 <a id="components"></a>
@@ -479,13 +478,161 @@ import { Sorting } from "@elastic/react-search-ui";
 />
 ```
 
+<a id="advanced"></a>
+
 ## Advanced Usage
+
+[back](#nav)
+
+<a id="core"></a>
+
+### Search UI core
+
+[back](#nav)
+
+Much of the Advanced Guide requires you to have an understanding of a layer that exists between
+the [SearchProvider](#basicsearchprovider) and [Components](#components). This layer is
+called the "Context", and is comprised of "State" and "Actions".
+
+- "[State](#state)" - The current state of your application, (so things like the current search term,
+  selected filters, etc.)
+- "[Actions](#actions)" - Function that let you update the State (setSearchTerm, applyFilter, etc.)
+- "[Context](#context)" - A flattened object containing, as keys, all State and Actions.
+
+Note: If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as State and Actions.
+in Redux.
+
+If you're just using our out of the box Components, you won't need to be concerned about these concepts. However,
+if you are [Creating your own Components](#customcomponents), or
+[Working with Search UI outside of Components](#directsearchui), they will be important.
+
+<a id="context"></a>
+
+#### Context
+
+[back](#nav)
+
+The "Context" is a flattened object containing, as keys, all [State](#state) and [Actions](#actions).
+We refer to it as "Context" because it is implemented with a
+[React Context](https://reactjs.org/docs/context.html).
+
+ex.
+
+```js
+{
+  error: '',
+  isLoading: false,
+  totalResults: 1000,
+  resultsPerPage: 10,
+  setResultsPerPage: () => {},
+  current: 1,
+  setCurrent: () => {},
+  ...
+}
+```
+
+<a id="actions"></a>
+
+#### Actions
+
+[back](#nav)
+
+| method              | params                                                                                                                                                                     | return | description                                                                                 |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------- |
+| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Add a filter in addition to current filters values                                          |
+| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Set a filter value, replacing current filter values                                         |
+| `removeFilter`      | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Remove a single filter value                                                                |
+| `clearFilters`      |                                                                                                                                                                            |        | Clear all filters                                                                           |
+| `setCurrent`        | Integer                                                                                                                                                                    |        |                                                                                             |
+| `setResultsPerPage` | Integer                                                                                                                                                                    |        |                                                                                             |
+| `setSearchTerm`     | String                                                                                                                                                                     |        |                                                                                             |
+| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                         |        |                                                                                             |
+| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event |        | Report a click through event. A click through event is when a user clicks on a result link. |
+
+<a id="state"></a>
+
+#### State
+
+[back](#nav)
+
+State can be divided up into two types.
+
+1. Request State - Reflects the state of the most recent request. It is updated at the time a request is made.
+2. Result State - Result State is updated AFTER a response is received.
+
+For this reason, there are often two versions of state. For instance, `searchTerm` and `resultSearchTerm`. This can
+be relevant in the UI, where you might not want the search term on the page to change until AFTER a response is
+received, so you'd use the `resultSearchTerm` state.
+
+<a id="requeststate"></a>
+
+_Request State_
+
+| option           | type                     | required? | source                                                                        |
+| ---------------- | ------------------------ | --------- | ----------------------------------------------------------------------------- |
+| `current`        | Integer                  | optional  | current page number                                                           |
+| `filters`        | Array[Object]            | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
+| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                        |
+| `searchTerm`     | String                   | optional  | String to search for                                                          |
+| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                             |
+| `sortField`      | String                   | optional  | Name of field to sort on                                                      |
+
+<a id="responsestate"></a>
+
+_Response State_
+
+| field              | type          | description                                                                                                                                                                                                                                                               |
+| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `error`            | String        | Error message, if an error was thrown.                                                                                                                                                                                                                                    |
+| `isLoading`        | boolean       | Whether or not a search is currently being performed                                                                                                                                                                                                                      |
+| `facets`           | Object        | Follows the facet syntax in App Search responses                                                                                                                                                                                                                          |
+| `requestId`        | String        | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`          | Array[Object] | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm` | String        | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`     | Integer       | Total number of hits for the current query                                                                                                                                                                                                                                |
+| `wasSearched`      | boolean       | Was a search performed yet since this driver was created. Can be useful for displaying initial states in the UI.                                                                                                                                                          |
+
+<a id="headless"></a>
+
+#### The Headless Search UI
+
+[back](#nav)
+
+As it turns out, the [Actions](#actions), and [State](#state) mentioned above are actually provided by a
+"Headless" version of Search UI, called [search-ui](../search-ui/README.md). This library is
+effectively a React "Head" for the "Headless Search UI". The way that pieces together is as follows:
+
+1. [search-ui](../search-ui/README.md) exposes State and Actions.
+2. [SearchProvider](#basicsearchprovider) wraps `search-ui` and exposes those State and Actions
+   in a Context.
+3. [Components](#components) simply read from the Context, render data from the current State,
+   and map user input to Actions.
+
+```
+  search-ui
+      |
+      | State and Actions
+      v
+  SearchProvider
+      |
+      | Context
+      v
+  Components
+
+```
+
+What that means, is it's actually possible to use the "Headless" version of this library as a base
+for any other, non-React implementation.
 
 <a id="searchuiconfig"></a>
 
 ### Configuring Search UI
 
 [back](#nav)
+
+Configuration of Search UI is done through the `SearchProvider`. The [SearchProvider](#basicsearchprovider)
+section of the Basic Usage guide explains the basics of using `SearchProvider`. This section elaborates on
+that and explains the available configuration options.
 
 Example:
 
@@ -543,41 +690,48 @@ return (
 );
 ```
 
-<a id="searchprovider"></a>
+<a id="advancedsearchprovider"></a>
 
-### SearchProvider
+[back](#nav)
+
+#### SearchProvider
+
+[back](#nav)
+
+The basics of working with `SearchProvider` are explained in the [SearchProvider](#basicsearchprovider) section of
+the Basic Usage guide.
 
 Params:
 
-| name     | type     | description                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config   | Object   | [Search UI Configuration](#config)                                                                                                                                                                                                                                                                                                                                                                                           |
-| children | function | A render prop function that receives [State](#state) and [Actions](#actions) in a flattened object. These are primarily available if you'd like to work directly with [State](#state) or [Actions](#actions) outside of a Component. See the [Working with Search UI outside of Components](#searchproviderrenderprop) section for more information. <br/><br/>`({someState, someOtherState, someAction}) => return <div />` |
+| name     | type     | description                                                                                                                                                                                                                                    |
+| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config   | Object   | See the [Configuration Options](#config) section.                                                                                                                                                                                              |
+| children | function | A render prop function that accepts the [Context](#context) as a parameter. Read more about this render prop in the [Working with Search UI outside of Components](#searchproviderrenderprop) section. <br/><br/>`(context) => return <div />` |
 
 <a id="config"></a>
 
-### Search UI Configuration
+#### Configuration Options
+
+[back](#nav)
 
 All configuration for Search UI is provided in a single configuration object. Configuration is used to:
 
 - Configure application behavior, like `trackUrlState`.
 - Configure Search API calls, like `facets`, `result_fields`, and `search_fields`.
 
-For the latter, this means that often times you will need to add configuration to Search UI before using
-a particular Component. For example, to use a [Facet](#componentfacet) Component to show facet filters, you would first need
-to provide `facets` configuration. By configuring facets, you're asking for facet details to be returned on your API
-calls. These can then be consumed by the `Facet` Component to show facet filters.
-
-Note that this is not the only way to customize API calls. Check out the [Customizing API calls - additionalOptions](#apicalls) for some
-more details.
-
-For this reason, the configuration for Search UI largely follows the same API as the
+In regards to the latter, The configuration for Search UI largely follows the same API as the
 [App Search Search API](https://swiftype.com/documentation/app-search/api/search).
+
+For example, if you add a `search_fields` configuration option, it will control which
+fields are actually returned from the API.
+
+Note: The App Search API syntax is used for convenience, when the calls are actually made to the API,
+the [Connector](#connectors) that you have configured will convert the call to the appropriate API syntax.
 
 | option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `apiConnector`                   | APIConnector             | required  | Instance of an [API Connector](#connectors). For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                                                                                                                                                                                                                                |
-| `facets`                         | Object                   | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build `Facet` Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                                                                     |
+| `facets`                         | Object                   | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                                                    |
 | `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
 | `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
 | `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
@@ -588,12 +742,13 @@ For this reason, the configuration for Search UI largely follows the same API as
 
 <a id="ownlayoutandstyles"></a>
 
-## Using your own styles and layout
+### Customizing Styles and Layout
 
 [back](#nav)
 
-As noted in the [Using the default styles and layout](#layoutandstyles) section, all out of the box
-styles and layout are optional.
+The out-of-the-box styles and layout provided by Search UI are discussed in the
+[Styles and Layout](#layoutandstyles) section of the Basic Usage guide. These are all optional;
+you can choose not to use them, or customize them.
 
 To provide custom styles:
 
@@ -608,7 +763,7 @@ If you still need more view customization, check out the section for [Customizin
 
 <a id="customizeviews"></a>
 
-## Customizing Component views and html
+### Customizing Component views and html
 
 [back](#nav)
 
@@ -626,7 +781,7 @@ serves as a great reference.
 Ex. Customizing the `PagingInfo` Component.
 
 First off, look up the default view from the [Components](#componentpaginginfo) section, for the
-`PagingInfo` Components. You'll find that the corresponding view is the
+`PagingInfo` Components. You'll find that the corresponding view is
 [PagingInfo](../react-search-ui-views/src/PagingInfo.js). (See how the naming matches up?).
 
 After viewing that Component's source, you'll see it accepts 4 props:
@@ -667,13 +822,13 @@ return <PagingInfo view={PagingInfoView} />;
 
 <a id="customizebehavior"></a>
 
-## Customizing Component behavior - mapContextToProps and mapViewProps
+### Customizing Component behavior - mapContextToProps and mapViewProps
 
 All Components support two hooks for customizing their behavior.
 
-- mapContextToProps - Lets you override the [State](#state) and [Actions](#actions) (i.e., context) before they are passed to your Component as
+- `mapContextToProps` - Lets you override the [Context](#context) before it is passed to your Component as
   props.
-- mapViewProps - Lets you overrides the props before they are passed to the view.
+- `mapViewProps` - Lets you overrides view props before they are passed to the view.
 
 (If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as `mapStateToProps`)
 
@@ -687,7 +842,7 @@ To visualize these hooks a bit:
 ```
 Search UI
   |
-  | { searchTerm, setSearchTerm } <- This is the "context"
+  | { searchTerm, setSearchTerm } <- This is the "Context"
   v
   // Updates the searchTerm before passing it to the SearchBox Component
   mapContextToProps( context => { ...context, searchTerm: "new search terms" } )
@@ -709,8 +864,6 @@ view (SearchBox or custom view)
 
 A practical example might be putting a custom sort on your facet data, This example orders
 a list of states by name.
-
-As a reminder, the "context" is a flatted object of all [State](#state) and [Actions](#actions).
 
 ```jsx
 <Facet
@@ -739,33 +892,24 @@ As a reminder, the "context" is a flatted object of all [State](#state) and [Act
 
 <a id="directsearchui"></a>
 
-## Working with Search UI outside of Components
+### Working with Search UI outside of Components
 
 [back](#nav)
 
-If you're not working with an existing Component, so you're either building your own
-Component (see [Creating your own Components](#customcomponents)) or just wish to do something with Search UI outside of a particular Component,
-then you'll need to know about 2 things: [State](#state) and [Actions](#actions).
+If you wish to work with Search UI outside of a particular Component, then you'll need to work
+directly with the [Context](#context).
 
-- "[State](#state)" - The current state of your application, (so things like the current search term, selected filters, etc.)
-- "[Actions](#actions)" - Function that let you update the [State](#state) (setSearchTerm, applyFilter, etc.)
-
-Note: If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as `State` and `Actions`
-in Redux.
-
-Search UI provides these [State](#state) and [Actions](#actions), and Components simply read from the [State](#state) when rendering, and call [Actions](#actions)
-when a user interacts with the search experience.
-
-It's totally possible to use [State](#state) and [Actions](#actions) directly, outside of Components. Here's how you'd do that:
+There's 3 ways you can do this:
 
 <a id="searchproviderrenderprop"></a>
 
-### 1. render prop on SearchProvider
+#### 1. The Render Prop on SearchProvider
 
 [back](#nav)
 
-When you configure a SearchProvider, you need to provide a function as the child of the provider. That function
-is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes all [State](#state) and [Actions](#actions) to you.
+When you configure a [SearchProvider](#basicsearchprovider), you need to provide a function as the child of the provider. That function
+is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes the [Context](#context) for you
+to work with.
 
 For comparison, this is the same pattern used by the popular [formik](https://github.com/jaredpalmer/formik) library.
 
@@ -810,13 +954,17 @@ You could also use it to add a clear filters button, for example:
 
 <a id="withsearch"></a>
 
-### 2. `withSearch` HOC when [Creating your own Components](#customcomponents)
+#### 2. `withSearch`
+
+This is typically used for creating your own components. Read
+more in the [Creating your own Components](#customcomponents) section.
 
 <a id="searchconsumer"></a>
 
-### 3. With `SearchConsumer`
+#### 3. With `SearchConsumer`
 
-If you prefer a render props approach to the HOC approach of `withSearch`, you can use
+If you prefer a [Render Props](https://reactjs.org/docs/render-props.html) approach rather than
+the [Higher Order Components](https://reactjs.org/docs/higher-order-components.html) approach of `withSearch`, you can use
 `SearchConsumer`.
 
 ```jsx
@@ -831,77 +979,18 @@ import { SearchConsumer } from "@elastic/react-search-ui";
 </SearchConsumer>
 ```
 
-<a id="actions"></a>
-
-### Actions
-
-| method              | params                                                                                                                                                                     | return | description                                                                                 |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Add a filter in addition to current filters values                                          |
-| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Set a filter value, replacing current filter values                                         |
-| `removeFilter`      | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Remove a single filter value                                                                |
-| `clearFilters`      |                                                                                                                                                                            |        | Clear all filters                                                                           |
-| `setCurrent`        | Integer                                                                                                                                                                    |        |                                                                                             |
-| `setResultsPerPage` | Integer                                                                                                                                                                    |        |                                                                                             |
-| `setSearchTerm`     | String                                                                                                                                                                     |        |                                                                                             |
-| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                         |        |                                                                                             |
-| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event |        | Report a click through event. A click through event is when a user clicks on a result link. |
-
-<a id="state"></a>
-
-### State
-
-State can be divided up into two types.
-
-1. Request State - Reflects the state of the most recent request. It is updated at the time a request is made.
-2. Result State - Result State is updated AFTER a response is received.
-
-For this reason, there are often two versions of state. For instance, `searchTerm` and `resultSearchTerm`. This can
-be relevant in the UI, where you might not want the search term on the page to change until AFTER a response is
-received, so you'd use the `resultSearchTerm` state.
-
-<a id="requeststate"></a>
-
-_Request State_
-
-| option           | type                     | required? | source                                                                        |
-| ---------------- | ------------------------ | --------- | ----------------------------------------------------------------------------- |
-| `current`        | Integer                  | optional  | current page number                                                           |
-| `filters`        | Array[Object]            | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
-| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                        |
-| `searchTerm`     | String                   | optional  | String to search for                                                          |
-| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                             |
-| `sortField`      | String                   | optional  | Name of field to sort on                                                      |
-
-<a id="responsestate"></a>
-
-_Response State_
-
-| field              | type          | description                                                                                                                                                                                                                                                               |
-| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `error`            | String        | Error message, if an error was thrown.                                                                                                                                                                                                                                    |
-| `isLoading`        | boolean       | Whether or not a search is currently being performed                                                                                                                                                                                                                      |
-| `facets`           | Object        | Follows the facet syntax in App Search responses                                                                                                                                                                                                                          |
-| `requestId`        | String        | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`          | Array[Object] | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm` | String        | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`     | Integer       | Total number of hits for the current query                                                                                                                                                                                                                                |
-| `wasSearched`      | boolean       | Was a search performed yet since this driver was created. Can be useful for displaying initial states in the UI.                                                                                                                                                          |
-
 <a id="customcomponents"></a>
 
-## Creating your own Components
+### Creating your own Components
 
 [back](#nav)
 
-We provide a fair variety of Components out of the box. However, there most
-certainly will be cases where you find we simply don't have a Component you
-need, or, the Components we provide need extensive customization in order
-to work properly.
+We provide a variety of [Components](#components) out of the box. However, there will be cases
+where you we don't have a Component you need.
 
-In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html), [withSearch](./src/withSearch.js), which gives
-you access to the applications core state and [Actions](#actions) (See [Working with Search UI outside of Components](#directsearchui)), which allows you to create your own
-Components, connected to Search UI.
+In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html),
+called [withSearch](./src/withSearch.js), which gives you access to work directly with Search UI's [Context](#context).
+This let's you create your own components for Search UI.
 
 Ex. Creating a Component for clearing all filters
 
@@ -924,14 +1013,17 @@ export default withSearch(ClearFilters);
 
 <a id="apicalls"></a>
 
-## Customizing API calls - additionalOptions
+### Customizing API calls - additionalOptions
 
 [back](#nav)
 
-Search UI is translates user actions into Search API calls. Those calls are initiated by Search UI
-when a user takes an action based on the current application state, and converted to API specific
-calls by connectors. There are cases where certain operations that your specific API supports are not supported
-by Search UI. In this case, we provide a hook on connectors called `additionalOptions`.
+As mentioned earlier, Search UI makes all of the API calls for your application. You
+can control what these API calls look like to some degree with [Configuration](#config)
+options like `search_fields`, `result_fields`, and `facets`.
+
+There are cases where certain operations that your specific API supports are not supported
+by Search UI. In this case, we provide a hook on our [Connectors](#connectors) called `additionalOptions`, so
+that you can still use them.
 
 For example, [App Search](https://www.elastic.co/cloud/app-search-service) supports a "grouping" feature,
 which Search UI does not support out of the box. However, we can work around that by using the `additionalOptions`
@@ -953,9 +1045,9 @@ const connector = new AppSearchAPIConnector({
 
 <a id="buildaconnector"></a>
 
-[back](#nav)
+### Creating your own Connector
 
-## Create your own Connector to connect to some other API
+[back](#nav)
 
 It is also possible to create your own connector if you don't see your service in the list above.
 Connectors just need to implement a common interface that Search UI understands.
@@ -978,7 +1070,7 @@ convert your data to this format and wrap it in a `ResultList` object, which is 
 
 <a id="connectorconfig"></a>
 
-### Configuration
+#### Configuration
 
 Each connector will need to be instantiated with its own set of properties. The only properties that connectors
 should have in common is an `additionalOptions` parameter.
@@ -989,7 +1081,7 @@ should have in common is an `additionalOptions` parameter.
 
 <a id="connectormethods"></a>
 
-### Methods
+#### Methods
 
 | method   | params                   | return                    | description                                                                                                                                                                                                                                                                                                                                                 |
 | -------- | ------------------------ | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1002,7 +1094,7 @@ should have in common is an `additionalOptions` parameter.
 
 <a id="resultlist"></a>
 
-### ResultList
+#### ResultList
 
 A ResultList object wraps the `results` object from a [Response](#appsearchresponse).
 
@@ -1014,7 +1106,7 @@ A ResultList object wraps the `results` object from a [Response](#appsearchrespo
 
 <a id="resultItem"></a>
 
-### ResultItem
+#### ResultItem
 
 Each Result Item is a wrapped around an individual result, in the
 
@@ -1026,7 +1118,7 @@ Each Result Item is a wrapped around an individual result, in the
 
 <a id="appsearchresponse"></a>
 
-## Search API response example
+#### Search API response example
 
 More details [here](https://swiftype.com/documentation/app-search/api/search).
 
