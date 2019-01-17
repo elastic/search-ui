@@ -12,12 +12,13 @@ flexible enough to meet any demand, be it a completely out of the box experience
 
 ## Features
 
-- A Component-based library to quickly compose search experiences.
-- Full state management solution with optional URL synchronization.
-- Out of the box styles and layouts for building quick UIs.
-- Full control over the view -- styles and layouts are optional, and all markup is override-able.
-- Support for any web-based Search API, with pre-built Connectors for [Elastic Site Search](https://www.elastic.co/cloud/site-search-service) and [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
-- Built on top of a ["Headless" version of Search UI](#the-headless-search-ui), which can be used with any JavaScript library, or even vanilla
+- **Out-of-the-box Components** - Create a UI in just a few lines of code
+- **Highly customizable** - Customize Component markup, styles, and behavior
+- **Headless Core** - Leverage our application logic and provide your own Components or view.
+- **URL query string synchronization** - Searches, filtering, paging, etc. is all captured in the URL, which enables direct linking to results.
+- **Compatible with any API** - Can be used with any web-based Search API,
+  with pre-built Connectors for [Elastic Site Search](https://www.elastic.co/cloud/site-search-service) and [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
+- **Not just for React** - Underlying library, [search-ui](../search-ui/README.md), can be used used with any JavaScript library, or even vanilla
   JavaScript.
 
 <a id="nav"></a>
@@ -32,13 +33,12 @@ flexible enough to meet any demand, be it a completely out of the box experience
   - [Styles and Layout](#layoutandstyles)
   - [Components](#components)
 - [Advanced Usage](#advanced)
-  - [Search UI core](#core)
+  - [The Headless Core](#core)
+    - [SearchProvider](#advancedsearchprovider)
     - [Context](#context)
     - [Actions](#actions)
     - [State](#state)
-    - [The Headless Search UI](#headless)
   - [Configuring Search UI](#searchuiconfig)
-    - [SearchProvider](#advancedsearchprovider)
     - [Configuration Options](#config)
   - [Customizing Styles and Layout](#ownlayoutandstyles)
   - [Customizing Component views and html](#customizeviews)
@@ -170,11 +170,12 @@ Example:
     apiConnector: connector
   }}
 >
-  {() => <div className="App">{/* Place components here! */}</div>}
+  {() => <div className="App">{/* Place Components here! */}</div>}
 </SearchProvider>
 ```
 
-For more details on configuring SearchProvider, see the [Configuring Search UI](#searchuiconfig) section of the Advanced Usage guide.
+For more details on `SearchProvider`, see the [SearchProvider](#advancedsearchprovider) section of the
+Advanced Usage guide.
 
 <a id="layoutandstyles"></a>
 
@@ -486,25 +487,83 @@ import { Sorting } from "@elastic/react-search-ui";
 
 <a id="core"></a>
 
-### Search UI core
+### The Headless Core
 
 [back](#nav)
 
-Much of the Advanced Guide requires you to have an understanding of a layer that exists between
-the [SearchProvider](#basicsearchprovider) and [Components](#components). This layer is
-called the "Context", and is comprised of "State" and "Actions".
+NOTE: We refer to the Headless Core conceptually in this documentation. Physically, it is a separate library
+which can be used for non-React implementations, [search-ui](../search-ui/README.md).
 
-- "[State](#state)" - The current state of your application, (so things like the current search term,
+All of the [Components](#components) in this library use the the Headless Core under the hood. Using those
+out-of-the-box Components is super convenient for building quick UIs, because it's all abstracted away from you; you
+drop them in and "they just work".
+
+However, it's totally acceptable, and encouraged even, to work directly with the Headless Core when the Components
+we provide are not sufficient.
+
+The Headless Core is managed by the `SearchProvider`, which provides a "Context", which is
+comprised of "State" and "Actions"
+
+- [SearchProvider](#advancedsearchprovider) - The top-level Component which manages the Headless Core and exposes
+  the Context to your application.
+- [State](#state) - The current state of your application, (so things like the current search term,
   selected filters, etc.)
-- "[Actions](#actions)" - Functions that let you update the State (setSearchTerm, applyFilter, etc.)
-- "[Context](#context)" - A flattened object containing, as keys, all State and Actions
+- [Actions](#actions) - Functions that let you update the State (setSearchTerm, applyFilter, etc.)
+- [Context](#context) - A flattened object containing, as keys, all State and Actions
 
-Note: If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as State and Actions.
-in Redux.
+That effectively looks like this:
 
-If you're just using our out of the box Components, you won't need to be concerned about these concepts. However,
-if you are [Creating your own Components](#customcomponents), or
-[Working with Search UI outside of Components](#directsearchui), they will be important.
+```jsx
+<SearchProvider config={config}>
+  {/*SearchProvider exposes the "Context"*/}
+  {context => {
+    // Context contains state, like "searchTerm"
+    const searchTerm = context.searchTerm;
+    // Context also contains actions, like "setSearchTerm"
+    const setSearchTerm = context.setSearchTerm;
+    return (
+      <div className="App">
+        {/*An out-of-the-box Component like SearchBox uses State and Actions under the hood*/}
+        <SearchBox />
+        {/*We could work directly with those State and Actions also */}
+        <input value={searchTerm} onChange={setSearchTerm} />
+      </div>
+    );
+  }}
+</SearchProvider>
+```
+
+Some notes :
+
+- If you are familiar with Redux, these follow the same pattern as State and Actions in Redux.
+- Some other popular libraries, like [formik](https://github.com/jaredpalmer/formik), use a similar pattern. They
+  provide a headless top-level Component which exposes State and Actions, and you can choose to work
+  directly with those State and Actions, or drop in out-of-the-box Components.
+- All of our [Components](#components) work with the Context directly, so there's plenty of examples
+  of how to do this.
+
+More information on working directly with the Headless Core can be found in the
+[Working with Search UI outside of Components](#directsearchui) and [Creating your own Components](#customcomponents)
+sections.
+
+<a id="advancedsearchprovider"></a>
+
+#### SearchProvider
+
+[back](#nav)
+
+The basics of `SearchProvider` are explained in the [SearchProvider](#basicsearchprovider) section of
+the Basic Usage guide.
+
+The `SearchProvider` is a top-level Component which is essentially a wrapper around [Headless Headless Core](#core), and
+exposes the [State](#state) and [Actions](#actions) of the Headless Core in a [Context](#context).
+
+Params:
+
+| name     | type     | description                                                                                                                                                                                                                                    |
+| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config   | Object   | See the [Configuration Options](#config) section.                                                                                                                                                                                              |
+| children | function | A render prop function that accepts the [Context](#context) as a parameter. Read more about this render prop in the [Working with Search UI outside of Components](#searchproviderrenderprop) section. <br/><br/>`(context) => return <div />` |
 
 <a id="context"></a>
 
@@ -520,13 +579,13 @@ ex.
 
 ```js
 {
-  error: '',
-  isLoading: false,
-  totalResults: 1000,
-  resultsPerPage: 10,
-  setResultsPerPage: () => {},
-  current: 1,
-  setCurrent: () => {},
+  resultsPerPage: 10, // Request State
+  setResultsPerPage: () => {}, // Action
+  current: 1, // Request State
+  setCurrent: () => {}, // Action
+  error: '', // Response State
+  isLoading: false, // Response State
+  totalResults: 1000, // Response State
   ...
 }
 ```
@@ -570,7 +629,7 @@ _Request State_
 
 | option           | type                     | required? | source                                                                                               |
 | ---------------- | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------- |
-| `current`        | Integer                  | optional  | current page number                                                                                  |
+| `current`        | Integer                  | optional  | Current page number                                                                                  |
 | `filters`        | Array[Object]            | optional  | [App Search Filters API Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
 | `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                               |
 | `searchTerm`     | String                   | optional  | String to search for                                                                                 |
@@ -592,52 +651,19 @@ _Response State_
 | `totalResults`     | Integer       | Total number of hits for the current query                                                                                                                                                                                                                                |
 | `wasSearched`      | boolean       | Was a search performed yet since this driver was created. Can be useful for displaying initial states in the UI.                                                                                                                                                          |
 
-<a id="headless"></a>
-
-#### The Headless Search UI
-
-[back](#nav)
-
-As it turns out, the [Actions](#actions), and [State](#state) mentioned above are actually provided by a
-"Headless" version of Search UI, called [search-ui](../search-ui/README.md). This library is
-effectively a React "Head" for the "Headless Search UI". The way that pieces together is as follows:
-
-1. [search-ui](../search-ui/README.md) exposes State and Actions.
-2. [SearchProvider](#basicsearchprovider) wraps `search-ui` and exposes those State and Actions
-   in a Context.
-3. [Components](#components) simply read from the Context, render data from the current State,
-   and map user input to Actions.
-
-```
-  search-ui
-      |
-      | State and Actions
-      v
-  SearchProvider
-      |
-      | Context
-      v
-  Components
-
-```
-
-What that means, is it's actually possible to use the "Headless" version of this library as a base
-for any other, non-React implementation.
-
 <a id="searchuiconfig"></a>
 
 ### Configuring Search UI
 
 [back](#nav)
 
-Configuration of Search UI is done through the `SearchProvider`. The [SearchProvider](#basicsearchprovider)
-section of the Basic Usage guide explains the basics of using `SearchProvider`. This section elaborates on
-that and explains the available configuration options.
+Configuration of Search UI is done through the [SearchProvider](#basicsearchprovider). The following
+is an example of a more sophisticated configuration being passed to `SearchProvider`.
 
 Example:
 
 ```jsx
-const config = {
+const configurationOptions = {
   apiConnector: connector,
   disjunctiveFacets: ["acres"],
   disjunctiveFacetsAnalyticsTags: ["Ignore"],
@@ -677,7 +703,7 @@ const config = {
 };
 
 return (
-  <SearchProvider config={config}>
+  <SearchProvider config={configurationOptions}>
     {() => (
       <div className="App">
         <Layout
@@ -689,24 +715,6 @@ return (
   </SearchProvider>
 );
 ```
-
-<a id="advancedsearchprovider"></a>
-
-[back](#nav)
-
-#### SearchProvider
-
-[back](#nav)
-
-The basics of working with `SearchProvider` are explained in the [SearchProvider](#basicsearchprovider) section of
-the Basic Usage guide.
-
-Params:
-
-| name     | type     | description                                                                                                                                                                                                                                    |
-| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config   | Object   | See the [Configuration Options](#config) section.                                                                                                                                                                                              |
-| children | function | A render prop function that accepts the [Context](#context) as a parameter. Read more about this render prop in the [Working with Search UI outside of Components](#searchproviderrenderprop) section. <br/><br/>`(context) => return <div />` |
 
 <a id="config"></a>
 
@@ -724,9 +732,6 @@ In regards to the latter, The configuration for Search UI largely follows the sa
 
 For example, if you add a `search_fields` configuration option, it will control which
 fields are actually returned from the API.
-
-Note: The App Search API syntax is used for convenience, when the calls are actually made to the API,
-the [Connector](#connectors) that you have configured will convert the call to the appropriate API syntax.
 
 | option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -897,7 +902,7 @@ a list of states by name.
 [back](#nav)
 
 If you wish to work with Search UI outside of a particular Component, then you'll need to work
-directly with the [Context](#context).
+directly with [The Headless Core](#core).
 
 There's 3 ways you can do this:
 
@@ -910,8 +915,6 @@ There's 3 ways you can do this:
 When you configure a [SearchProvider](#basicsearchprovider), you need to provide a function as the child of the provider. That function
 is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes the [Context](#context) for you
 to work with.
-
-For comparison, this is the same pattern used by the popular [formik](https://github.com/jaredpalmer/formik) library.
 
 A good use case for that could be to render a "loading" indicator any time the application is fetching data. For example:
 
@@ -956,7 +959,7 @@ You could also use it to add a clear filters button, for example:
 
 #### 2. `withSearch`
 
-This is typically used for creating your own components. Read
+This is typically used for creating your own Components. Read
 more in the [Creating your own Components](#customcomponents) section.
 
 <a id="searchconsumer"></a>
@@ -990,7 +993,7 @@ where you we don't have a Component you need.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html),
 called [withSearch](./src/withSearch.js), which gives you access to work directly with Search UI's [Context](#context).
-This let's you create your own components for Search UI.
+This let's you create your own Components for Search UI.
 
 Ex. Creating a Component for clearing all filters
 
