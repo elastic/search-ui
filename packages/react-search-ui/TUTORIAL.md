@@ -16,9 +16,9 @@ Create a new React application with `create-react-app`.
 
 ```
 npm install -g create-react-app
-create-react-app search-ui-tutorial
+create-react-app test-npm-project --use-npm
 cd search-ui-tutorial
-yarn start
+npm start
 ```
 
 That should open up a new window with a bare bones
@@ -73,7 +73,7 @@ Note that in addition to the UI, you also have URL state being tracked. Try
 performing a search, then refreshing the page. You get full url state management
 for free. This, however, IS optional. Not everyone will want to use that. There
 is a flag (`trackURLState`) to turn it off in the SearchProvider
-[configuration](../search-ui/README.md#driverconfig).
+[configuration](./README.md#config).
 
 ## Styles and Markup
 
@@ -128,8 +128,7 @@ where making a selection won't change the options in that dropdown, the options
 need to remain available so that the selection can be easily changed.
 
 This is because that facet needs to be declared as
-[disjunctive](../search-ui/README.md#driverconfig). Add a new property in the
-`SearchProvider` `config` prop, called `disjunctiveFacets`, and give it a value
+disjunctive. See `disjunctiveFacets` configuration option in the [README](./README.md#config). Add a new property in the `SearchProvider` `config` prop, called `disjunctiveFacets`, and give it a value
 of `["acres"]`, to specify that we want to treat the `acres` facet as
 a disjunctive.
 
@@ -163,64 +162,6 @@ end (ex. "0 - 20").
 
 <a id="question8"></a>
 [Solution](#solution8)
-
-## Manipulating data in a component
-
-You may wish to manipulate data from a component before rendering it. You
-_could_ do this with the method we showed previously, but you could also do this
-with `mapContextToProps`. In this case, you're happy with the view, you just
-need to make some adjustments to the data before the component is rendered.
-
-An example would be changing the order of facet values programmatically.
-
-Like if we wanted to order states alphabetically:
-
-```jsx
-<Facet
-  mapContextToProps={context => {
-    if (!context.facets.states) return context;
-    return {
-      ...context,
-      facets: {
-        ...(context.facets || {}),
-        states: context.facets.states.map(s => ({
-          ...s,
-          data: s.data.sort((a, b) => {
-            if (a.value > b.value) return 1;
-            if (a.value < b.value) return -1;
-            return 0;
-          })
-        }))
-      }
-    };
-  }}
-  field="states"
-  label="States"
-  show={10}
-  view={SingleValueLinksFacet}
-/>
-```
-
-The states facet data should now be ordered alphabetically.
-
-This looks really ugly. That's because in our core state, we're relying on the
-App Search API response, which is highly nested. In the future, we plan to
-normalize our state representation so this looks nicer.
-
-Additionally, we need to make sure in our `mapContextToProps` function that
-we're not mutating the underlying state. That's not going to change but it is
-another reason that looks a bit ugly.
-
-This is basically a hook to manipulate data before it is processed by
-the Components.
-
-Other hooks we could provide, but don't yet have:
-
-- A hook to manipulate server data before it is stored in core state, so that
-  this data could be ordered not just for this component, but for the entire
-  app.
-- A hook in each component that let's you manipulate properties before they are
-  passed to the view component.
 
 # Creating new components
 
@@ -269,7 +210,7 @@ That's it, happy searching!
 ### Solution <a id="solution1"></a>
 
 ```shell
-yarn add @elastic/react-search-ui @elastic/search-ui-app-search-connector
+npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
 ```
 
 [Back](#question1)
@@ -358,6 +299,10 @@ import {
 
 The `Results` component accepts a `titleField` and `urlField` property
 which lets you control which fields are used for the title and link.
+
+In order to get know what field names are available to check here, you'll
+need to be familiar with your Schema. For App Search, simply check out the
+fields available in the Schema view in the Dashboard.
 
 Note that using the `Results` component is really just a convenience. We could
 choose to iterate over results ourselves and show results any way we choose, OR,
@@ -474,36 +419,8 @@ import {
 />
 ```
 
-For each Component, a `view` prop will simply be a function that takes a fixed
-set of parameters and returns some markup.
-
-You can think of this just like swapping out a view template in Rails.
-
-For instance, `PagingInfo` takes the following parameters:
-
-- end
-- searchTerm
-- start
-- totalResults
-
-You could see this by looking at the default
-[view component](../react-search-ui-views/src/PagingInfo.js).
-
-NOTE: in React, your view prop could be expressed using a functional component
-instead:
-
-```jsx
-const PagingInfoView = ({ start, end }) => (
-  <div className="paging-info">
-    <strong>
-      {start} - {end}
-    </strong>
-  </div>
-);
-
-<PagingInfo view={PagingInfoView} />
-/>
-```
+The details for how this work can be found in the
+[Customizing component views and html](./README.md#customizeviews) section of the README.
 
 [Back](#question8)
 
@@ -544,12 +461,9 @@ import ClearFilters from "./ClearFilters";
       ...
 ```
 
-Using `withSearch` gives us access to all state properties and all actions. In
-this example, we simply pulled out `filters` from state and an action
-called `clearFilters`.
-
-If you select a state, then click "ClearFilters", it should clear out all of
-your current filters.
+The details for how this work can be found in the
+[Creating your own components](./README.md#customcomponents)
+section of the README.
 
 [Back](#question9)
 
@@ -557,7 +471,11 @@ your current filters.
 
 We'll use `additionalOptions` for this.
 
-So on your connector object, you could use the following for app search...
+The details for how this work can be found in the
+[Customizing API calls - additionalOptions](./README.md#apicalls)
+section of the README.
+
+So on your connector object, you could use the following for App Search:
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -575,7 +493,7 @@ const connector = new AppSearchAPIConnector({
 ### Solution <a id="solution11"></a>
 
 ```shell
-yarn add @elastic/search-ui-site-search-connector
+npm install --save @elastic/search-ui-site-search-connector
 ```
 
 ```js
@@ -597,5 +515,9 @@ in your browser console.
 For example, range facets are not supported by Site Search's API, so you
 will see a message about that in the console, and that facet filter simply will
 not appear in your UI.
+
+The details for how this work can be found in the
+[Connectors](./README.md#connectors)
+section of the README.
 
 [Back](#question11)

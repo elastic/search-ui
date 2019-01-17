@@ -1,4 +1,6 @@
-# search-ui-app-search-connector
+# search-ui-elasticsearch-connector
+
+**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
 
 This Connector is used to connect Search UI to [elasticsearch](https://github.com/elastic/elasticsearch).
 
@@ -25,26 +27,3 @@ const connector = new ElasticsearchAPIConnector({
 | ----------- | ------ | --------- | ------------------------------------------ |
 | `indexName` | String | required  | From your App Search Account's Credentials |
 | `host`      | String | required  | From your App Search Engine's Name         |
-
-### Methods
-
-| method   | params                                             | return                    | description     |
-| -------- | -------------------------------------------------- | ------------------------- | --------------- |
-| `click`  |                                                    |                           | Not Implemented |
-| `search` | `searchTerm` - String<br/>`searchOptions` - Object | [ResultList](#resultlist) |                 |
-
-### ResultList<a id="resultlist"></a>
-
-| field        | type                             | description                                                                                      |
-| ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `rawResults` | Array[Object]                    | Raw list of result data: [Reference](https://swiftype.com/documentation/app-search/api/search)   |
-| `results`    | Array[[ResultItem](#resultItem)] |                                                                                                  |
-| `info`       | Object                           | `meta` data from response: [Reference](https://swiftype.com/documentation/app-search/api/search) |
-
-### ResultItem<a id="resultItem"></a>
-
-| field        | type             | description                                                                            |
-| ------------ | ---------------- | -------------------------------------------------------------------------------------- |
-| `data`       | Array[Object]    | Raw result data: [Reference](https://swiftype.com/documentation/app-search/api/search) |
-| `getRaw`     | Function(String) | Convenience function for getting raw field data                                        |
-| `getSnippet` | Function(String) | Convenience function for getting snippet field data                                    |
