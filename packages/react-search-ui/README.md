@@ -16,7 +16,7 @@ flexible enough to meet any demand, be it a completely out of the box experience
 - Full state management solution with optional URL synchronization.
 - Out of the box styles and layouts for building quick UIs.
 - Full control over the view -- styles and layouts are optional, and all markup is override-able.
-- Support for any web-based Search API, with pre-built connectors for [Elastic Site Search](https://www.elastic.co/cloud/site-search-service) and [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
+- Support for any web-based Search API, with pre-built Connectors for [Elastic Site Search](https://www.elastic.co/cloud/site-search-service) and [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
 - Built on top of a ["Headless" version of Search UI](#the-headless-search-ui), which can be used with any JavaScript library, or even vanilla
   JavaScript.
 
@@ -64,7 +64,7 @@ flexible enough to meet any demand, be it a completely out of the box experience
 # Install React Search UI
 npm install --save @elastic/react-search-ui
 
-# Install a connector, like the Elastic's App Search connector
+# Install a Connector, like the Elastic's App Search Connector
 npm install --save  @elastic/search-ui-app-search-connector
 ```
 
@@ -112,7 +112,7 @@ export default function App() {
 ```
 
 The following sections of the Basic Usage guide break down that
-example into pieces and explores each piece in a bit more depth.
+example into pieces and explore each piece in a bit more depth.
 
 <a id="connectors"></a>
 
@@ -123,12 +123,12 @@ example into pieces and explores each piece in a bit more depth.
 Search UI will handle making API calls for you. "Connectors" are modules
 that tell Search UI how to connect and communicate with a particular API.
 
-Search UI currently provides the following two connectors:
+Search UI currently provides the following two Connectors:
 
 - Elastic App Search: [search-ui-app-search-connector](packages/search-ui-app-search-connector)
 - Elastic Site Search: [search-ui-site-search-connector](packages/search-ui-site-search-connector)
 
-Our [simple UI](#simple-ui) above uses the Elastic App Search connector:
+Our [simple UI](#simple-ui) above uses the Elastic App Search Connector:
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -138,8 +138,8 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-In additional to our out of the box Connectors, Search UI can be
-used to connect to any web-based Search API. Check out the [Create your own Connector to connect to some other API](#buildaconnector) section of the Advanced Usage guide for more information.
+In additiona to our out of the box Connectors, Search UI can be
+used to connect to any web-based Search API. Check out the [Creating your own Connector](#buildaconnector) section of the Advanced Usage guide for more information.
 
 <a id="basicsearchprovider"></a>
 
@@ -1027,7 +1027,7 @@ that you can still use them.
 
 For example, [App Search](https://www.elastic.co/cloud/app-search-service) supports a "grouping" feature,
 which Search UI does not support out of the box. However, we can work around that by using the `additionalOptions`
-hook on the particular connector.
+hook on the particular Connector.
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -1049,10 +1049,13 @@ const connector = new AppSearchAPIConnector({
 
 [back](#nav)
 
-It is also possible to create your own connector if you don't see your service in the list above.
+The [Connectors](#connectors) section of the Basic Usage guide explain what exactly
+a Connector is and lists our out-of-the-box Connectors.
+
+It is also possible to create your own Connector if you don't see your service in the list above.
 Connectors just need to implement a common interface that Search UI understands.
 
-An example of this is the [Site Search API connector](../search-ui-site-search-connector/README.md).
+An example of this is the [Site Search API Connector](../search-ui-site-search-connector/README.md).
 
 What you're effectively doing here is two things:
 
@@ -1072,7 +1075,7 @@ convert your data to this format and wrap it in a `ResultList` object, which is 
 
 #### Configuration
 
-Each connector will need to be instantiated with its own set of properties. The only properties that connectors
+Each Connector will need to be instantiated with its own set of properties. The only properties that Connectors
 should have in common is an `additionalOptions` parameter.
 
 | option              | type             | required? | source                                                                                                                                                                        |
