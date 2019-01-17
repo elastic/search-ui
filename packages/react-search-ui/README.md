@@ -12,8 +12,8 @@ flexible enough to meet any demand, be it a completely out of the box experience
 
 ## Features
 
-- **Out-of-the-box Components** - Create a UI in just a few lines of code
-- **Highly customizable** - Customize Component markup, styles, and behavior
+- **Out-of-the-box Components** - Create a UI in just a few lines of code.
+- **Highly customizable** - Customize Component markup, styles, and behavior.
 - **Headless Core** - Leverage our application logic and provide your own Components or view.
 - **URL query string synchronization** - Searches, filtering, paging, etc. is all captured in the URL, which enables direct linking to results.
 - **Compatible with any API** - Can be used with any web-based Search API,
