@@ -16,7 +16,7 @@ flexible enough to meet any demand, be it a completely out of the box experience
 - Full state management solution with optional URL synchronization.
 - Out of the box styles and layouts for building quick UIs.
 - Full control over the view -- styles and layouts are optional, and all markup is override-able.
-- Support for any web-based Search API, with pre-built connectors for Elastic [Site Search].(https://www.elastic.co/cloud/site-search-service) and Elastic [App Search](https://www.elastic.co/cloud/app-search-service).
+- Support for any web-based Search API, with pre-built connectors for [Elastic Site Search](https://www.elastic.co/cloud/site-search-service) and [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
 - Built on top of a ["Headless" version of Search UI](#the-headless-search-ui), which can be used with any JavaScript library, or even vanilla
   JavaScript.
 
@@ -251,7 +251,7 @@ The following Components are available:
 [back](#components)
 
 Use this to handle unexpected errors. Any content passed to this Component will
-be shown unless an unexpected Error is thrown. it will then be replaced with an
+be shown unless an unexpected error is thrown. it will then be replaced with an
 error message.
 
 Properties:
@@ -496,8 +496,8 @@ called the "Context", and is comprised of "State" and "Actions".
 
 - "[State](#state)" - The current state of your application, (so things like the current search term,
   selected filters, etc.)
-- "[Actions](#actions)" - Function that let you update the State (setSearchTerm, applyFilter, etc.)
-- "[Context](#context)" - A flattened object containing, as keys, all State and Actions.
+- "[Actions](#actions)" - Functions that let you update the State (setSearchTerm, applyFilter, etc.)
+- "[Context](#context)" - A flattened object containing, as keys, all State and Actions
 
 Note: If you are familiar with [Redux](https://redux.js.org/), these follow the same pattern as State and Actions.
 in Redux.
@@ -537,17 +537,17 @@ ex.
 
 [back](#nav)
 
-| method              | params                                                                                                                                                                     | return | description                                                                                 |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Add a filter in addition to current filters values                                          |
-| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Set a filter value, replacing current filter values                                         |
-| `removeFilter`      | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Remove a single filter value                                                                |
-| `clearFilters`      |                                                                                                                                                                            |        | Clear all filters                                                                           |
-| `setCurrent`        | Integer                                                                                                                                                                    |        |                                                                                             |
-| `setResultsPerPage` | Integer                                                                                                                                                                    |        |                                                                                             |
-| `setSearchTerm`     | String                                                                                                                                                                     |        |                                                                                             |
-| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                         |        |                                                                                             |
-| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event |        | Report a click through event. A click through event is when a user clicks on a result link. |
+| method              | params                                                                                                                                                                     | return | description                                                                               |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------- |
+| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Add a filter in addition to current filters values                                        |
+| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Set a filter value, replacing current filter values                                       |
+| `removeFilter`      | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                      |        | Remove a single filter value                                                              |
+| `clearFilters`      |                                                                                                                                                                            |        | Clear all filters                                                                         |
+| `setCurrent`        | Integer                                                                                                                                                                    |        |                                                                                           |
+| `setResultsPerPage` | Integer                                                                                                                                                                    |        |                                                                                           |
+| `setSearchTerm`     | String                                                                                                                                                                     |        |                                                                                           |
+| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                         |        |                                                                                           |
+| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event |        | Report a clickthrough event. A clickthrough event is when a user clicks on a result link. |
 
 <a id="state"></a>
 
@@ -568,14 +568,14 @@ received, so you'd use the `resultSearchTerm` state.
 
 _Request State_
 
-| option           | type                     | required? | source                                                                        |
-| ---------------- | ------------------------ | --------- | ----------------------------------------------------------------------------- |
-| `current`        | Integer                  | optional  | current page number                                                           |
-| `filters`        | Array[Object]            | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
-| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                        |
-| `searchTerm`     | String                   | optional  | String to search for                                                          |
-| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                             |
-| `sortField`      | String                   | optional  | Name of field to sort on                                                      |
+| option           | type                     | required? | source                                                                                               |
+| ---------------- | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------- |
+| `current`        | Integer                  | optional  | current page number                                                                                  |
+| `filters`        | Array[Object]            | optional  | [App Search Filters API Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
+| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                               |
+| `searchTerm`     | String                   | optional  | String to search for                                                                                 |
+| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                                                    |
+| `sortField`      | String                   | optional  | Name of field to sort on                                                                             |
 
 <a id="responsestate"></a>
 
@@ -731,14 +731,14 @@ the [Connector](#connectors) that you have configured will convert the call to t
 | option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `apiConnector`                   | APIConnector             | required  | Instance of an [API Connector](#connectors). For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                                                                                                                                                                                                                                |
-| `facets`                         | Object                   | optional  | [Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                                                    |
+| `facets`                         | Object                   | optional  | [App Search Facets API Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                              |
 | `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
 | `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
 | `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
 | `initialState`                   | Object                   | optional  | Set initial [State](#state) of the search. Any [Request State](#requeststate) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                                                                                                                                                                                      |
 | `trackURLState`                  | boolean                  | optional  | By default, [Request State](#requeststate) will be synced with the browser url. To turn this off, pass `false`                                                                                                                                                                                                                                                                                                                 |
-| `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term. [Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                                                          |
-| `result_fields`                  | boolean                  | optional  | Fields which should be returned in results. [Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                                                                |
+| `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term. [App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                             |
+| `result_fields`                  | boolean                  | optional  | Fields which should be returned in results. [App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                                   |
 
 <a id="ownlayoutandstyles"></a>
 
@@ -1128,8 +1128,10 @@ For `results`, each result can have one of two fields: `raw` and `snippet`. The
 so if it contains any sort of html, it will be escaped before rendering. `snippet`
 values should contain a representation of the value that contains highlighted
 values, using `em` tags. It is considered "safe", and will be rendered as
-is to the dom, without escaping. Be aware of that, as if your underlying
+is to the DOM, without escaping. Be aware of that, as if your underlying
 data is not "safe", it could be a potential XSS vulnerability.
+
+More information on this can be found in the [Elastic App Search Sanitation Guide](https://swiftype.com/documentation/app-search/guides/sanitization).
 
 Depending on the type of `facet` that is being used, `facet` could have a few different
 response [formats](https://swiftype.com/documentation/app-search/api/search/facets).
