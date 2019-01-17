@@ -183,7 +183,7 @@ Advanced Usage guide.
 
 [back](#nav)
 
-Using the provided styles and layout can a super effective way to get up and running fast,
+Using the provided styles and layout can be a super effective way to get up and running fast,
 as you can see in our [simple UI](#simple-ui) above.
 
 The provided styles and layout can be found in the [react-search-ui-views](../react-search-ui-views)
@@ -257,10 +257,10 @@ error message.
 
 Properties:
 
-| Name     | type       | Required? | Default                                                        | Options | Description                                                                                                                                          |
-| -------- | ---------- | --------- | -------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| children | React node | yes       |                                                                |         | Markup to show if no error has occurred, will be replaced with error messaging if there was an error.                                                |
-| view     | Component  | no        | [ErrorBoundary](../react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name     | type       | Required? | Default                                                        | Options | Description                                                                                                                                         |
+| -------- | ---------- | --------- | -------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| children | React node | yes       |                                                                |         | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                              |
+| view     | Component  | no        | [ErrorBoundary](../react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
@@ -291,7 +291,7 @@ Properties:
 | field | String    | yes       |         |                                                                                                                                                                                                                                                | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider. |
 | label | String    | yes       |         |                                                                                                                                                                                                                                                | A static label to show in the facet filter.                                                                                                    |
 | show  | Number    | no        | 10      |                                                                                                                                                                                                                                                | The number of facet filter options to show before concatenating with a "more" link.                                                            |
-| view  | Component | yes       |         | [SingleValueLinksFacet](../react-search-ui-views/src/SingleValueLinksFacet.js) <br/> [SingleRangeSelectFacet](../react-search-ui-views/src/SingleRangeSelectFacet.js) <br/> [MultiValueFacet](../react-search-ui-views/src/MultiValueFacet.js) | The view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information.                    |
+| view  | Component | yes       |         | [SingleValueLinksFacet](../react-search-ui-views/src/SingleValueLinksFacet.js) <br/> [SingleRangeSelectFacet](../react-search-ui-views/src/SingleRangeSelectFacet.js) <br/> [MultiValueFacet](../react-search-ui-views/src/MultiValueFacet.js) | The view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information.                     |
 
 Example:
 
@@ -323,9 +323,9 @@ Paging navigation.
 
 Properties:
 
-| Name | type      | Required? | Default                                          | Options | Description                                                                                                                                          |
-| ---- | --------- | --------- | ------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [Paging](../react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name | type      | Required? | Default                                          | Options | Description                                                                                                                                         |
+| ---- | --------- | --------- | ------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| view | Component | no        | [Paging](../react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
@@ -348,9 +348,9 @@ Paging details, like "1 - 20 of 100 results".
 
 Properties:
 
-| Name | type      | Required? | Default                                                  | Options | Description                                                                                                                                          |
-| ---- | --------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [PagingInfo](../react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name | type      | Required? | Default                                                  | Options | Description                                                                                                                                         |
+| ---- | --------- | --------- | -------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| view | Component | no        | [PagingInfo](../react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
@@ -374,12 +374,12 @@ results yourself and render each result.
 
 Properties:
 
-| Name         | type      | Required? | Default                                            | Options | Description                                                                                                                                          |
-| ------------ | --------- | --------- | -------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| renderResult | Component | no        | [Result](../react-search-ui-views/src/Result.js)   |         | Used to override individual Result views.                                                                                                            |
-| titleField   | String    | no        |                                                    |         | Name of field to use as the title from each result.                                                                                                  |
-| urlField     | String    | no        |                                                    |         | Name of field to use as the href from each result.                                                                                                   |
-| view         | Component | no        | [Results](../react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name         | type      | Required? | Default                                            | Options | Description                                                                                                                                         |
+| ------------ | --------- | --------- | -------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| renderResult | Component | no        | [Result](../react-search-ui-views/src/Result.js)   |         | Used to override individual Result views.                                                                                                           |
+| titleField   | String    | no        |                                                    |         | Name of field to use as the title from each result.                                                                                                 |
+| urlField     | String    | no        |                                                    |         | Name of field to use as the href from each result.                                                                                                  |
+| view         | Component | no        | [Results](../react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
@@ -403,9 +403,9 @@ Shows a selector for selecting the number of results to show per page. Uses
 
 Properties:
 
-| Name | type      | Required? | Default                                                          | Options | Description                                                                                                                                          |
-| ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name | type      | Required? | Default                                                          | Options | Description                                                                                                                                         |
+| ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
@@ -426,10 +426,10 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 
 Properties:
 
-| Name       | type      | Required? | Default                                                | Options | Description                                                                                                                                          |
-| ---------- | --------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| inputProps | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                           |
-| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name       | type      | Required? | Default                                                | Options | Description                                                                                                                                         |
+| ---------- | --------- | --------- | ------------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| inputProps | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                          |
+| view       | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
@@ -450,10 +450,10 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 Properties:
 
-| Name | type                                           | Required? | Default                                            | Options | Description                                                                                                                                          |
-| ---- | ---------------------------------------------- | --------- | -------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Array[[SortOption](./src/types/SortOption.js)] | yes       |                                                    |         |                                                                                                                                                      |
-| view | Component                                      | no        | [Sorting](../react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews") section for more information. |
+| Name | type                                           | Required? | Default                                            | Options | Description                                                                                                                                         |
+| ---- | ---------------------------------------------- | --------- | -------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| view | Array[[SortOption](./src/types/SortOption.js)] | yes       |                                                    |         |                                                                                                                                                     |
+| view | Component                                      | no        | [Sorting](../react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
