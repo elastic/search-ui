@@ -8,7 +8,7 @@ Search UI gives you a means of quickly implementing these patterns without re-in
 <img src="./resources/screenshot.png" width="600">
 
 We understand that no two experiences are exactly the same. Because of this, we aim to provide a toolset that is
-flexible enough to meet any demand, be it a completely out of the box experience or a completely custom UI.
+flexible enough to meet any demand, be it a completely out-of-the-box experience or a completely custom UI.
 
 ## Features
 
@@ -74,7 +74,7 @@ npm install --save  @elastic/search-ui-app-search-connector
 
 [back](#nav)
 
-Search UI can be used to create experiences very quickly. Especially if you use the out of the box
+Search UI can be used to create experiences very quickly. Especially if you use the out-of-the-box
 styles and layout. The following is a basic UI for an App Search engine.
 
 ```jsx
@@ -138,7 +138,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-In additiona to our out of the box Connectors, Search UI can be
+In addition to our out-of-the-box Connectors, Search UI can be
 used to connect to any web-based Search API. Check out the [Creating your own Connector](#buildaconnector) section of the Advanced Usage guide for more information.
 
 <a id="basicsearchprovider"></a>
