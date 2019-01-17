@@ -5,7 +5,7 @@
 Most search experiences follow similar patterns; search box, search results, paging, sorting, filters, url state, etc.
 Search UI gives you a means of quickly implementing these patterns without re-inventing the wheel.
 
-<img src="./resources/screenshot.png" width="400">
+<img src="./resources/screenshot.png" width="500">
 
 We understand that no two experiences are exactly the same. Because of this, we aim to provide a toolset that is
 flexible enough to meet any demand, be it a completely out of the box experience or a completely custom UI.
