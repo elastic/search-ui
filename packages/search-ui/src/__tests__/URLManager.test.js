@@ -74,7 +74,7 @@ describe("#getStateFromURL", () => {
   it("will parse range filter types", () => {
     const manager = createManager();
     manager.history.location.search =
-      "?filters[0][date][0][from]=12&filters[0][date][0][to]=4000&filters[0][date][1][to]=4000&filters[1][cost][0][from]=50&filters[2][keywords][0]=node";
+      "?filters[0][date][0][from]=n_12_n&filters[0][date][0][to]=n_4000_n&filters[0][date][1][to]=n_4000_n&filters[1][cost][0][from]=n_50_n&filters[2][keywords][0]=node";
 
     const state = manager.getStateFromURL();
     expect(state).toMatchSnapshot();
@@ -105,7 +105,7 @@ describe("#pushStateToURL", () => {
     manager.pushStateToURL(basicParameterState);
     const queryString = manager.history.push.mock.calls[0][0].search;
     expect(queryString).toEqual(
-      "?q=node&size=20&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
+      "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
     );
   });
 
@@ -115,7 +115,7 @@ describe("#pushStateToURL", () => {
       manager.pushStateToURL(parameterStateWithRangeFilters);
       const queryString = manager.history.push.mock.calls[0][0].search;
       expect(queryString).toEqual(
-        "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=12&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=4000&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=4000&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=50&filters%5B2%5D%5Bkeywords%5D=node"
+        "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
       );
     });
   });

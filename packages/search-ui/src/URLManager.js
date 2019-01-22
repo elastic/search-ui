@@ -1,6 +1,25 @@
 import createHistory from "history/createBrowserHistory";
 import queryString from "qs";
 
+function preserveTypesEncoder(value, encode) {
+  // Encode numbers to custom 'n_123_n' format so don't
+  // lose typing
+  if (isNumeric(value)) {
+    return `n_${value}_n`;
+  }
+  return encode(value);
+}
+
+function preserveTypesDecoder(value, decode) {
+  // numeric types are encoded like: 'n_123_n'
+  //eslint-disable-next-line
+  if (/n_[\d\.]*_n/.test(value)) {
+    const numericValueString = value.substring(2, value.length - 2);
+    return Number(numericValueString);
+  }
+  return decode(value);
+}
+
 function isNumeric(num) {
   return !isNaN(num);
 }
@@ -84,7 +103,9 @@ function stateToParams({
 }
 
 function stateToQueryString(state) {
-  return queryString.stringify(stateToParams(state));
+  return queryString.stringify(stateToParams(state), {
+    encoder: preserveTypesEncoder
+  });
 }
 
 /**
@@ -114,7 +135,8 @@ export default class URLManager {
   getStateFromURL() {
     return paramsToState(
       queryString.parse(this.history.location.search, {
-        ignoreQueryPrefix: true
+        ignoreQueryPrefix: true,
+        decoder: preserveTypesDecoder
       })
     );
   }
@@ -140,7 +162,8 @@ export default class URLManager {
       callback(
         paramsToState(
           queryString.parse(location.search, {
-            ignoreQueryPrefix: true
+            ignoreQueryPrefix: true,
+            decoder: preserveTypesDecoder
           })
         )
       );
