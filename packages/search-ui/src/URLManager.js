@@ -128,7 +128,7 @@ function stateToParams({
 }
 
 function stateToQueryString(state) {
-  return queryString.stringify(stateToParams(state), { indices: false });
+  return queryString.stringify(stateToParams(state));
 }
 
 /**

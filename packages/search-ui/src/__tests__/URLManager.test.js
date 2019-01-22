@@ -105,17 +105,19 @@ describe("#pushStateToURL", () => {
     manager.pushStateToURL(basicParameterState);
     const queryString = manager.history.push.mock.calls[0][0].search;
     expect(queryString).toEqual(
-      "?fv-dependencies=underscore&fv-dependencies=another&fv-keywords=node&q=node&size=20&sort-field=name&sort-direction=asc"
+      "?fv-dependencies%5B0%5D=underscore&fv-dependencies%5B1%5D=another&fv-keywords%5B0%5D=node&q=node&size=20&sort-field=name&sort-direction=asc"
     );
   });
 
-  it("will update the url with range filter types", () => {
-    const manager = createManager();
-    manager.pushStateToURL(parameterStateWithRangeFilters);
-    const queryString = manager.history.push.mock.calls[0][0].search;
-    expect(queryString).toEqual(
-      "?fr-date=12_4000&fr-date=_4000&fr-cost=50_&fv-keywords=node"
-    );
+  describe("filters", () => {
+    it("will update the url with range filter types", () => {
+      const manager = createManager();
+      manager.pushStateToURL(parameterStateWithRangeFilters);
+      const queryString = manager.history.push.mock.calls[0][0].search;
+      expect(queryString).toEqual(
+        "?fr-date%5B0%5D=12_4000&fr-date%5B1%5D=_4000&fr-cost%5B0%5D=50_&fv-keywords=node"
+      );
+    });
   });
 });
 
