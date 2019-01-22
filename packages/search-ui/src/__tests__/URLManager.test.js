@@ -28,7 +28,7 @@ const basicParameterState = {
 };
 
 const basicParameterStateAsUrl =
-  "?fv-dependencies=underscore&fv-dependencies=another&fv-keywords=node&q=node&size=20&sort-direction=asc&sort-field=name";
+  "?filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=node&size=20&sort-direction=asc&sort-field=name";
 
 const parameterStateWithRangeFilters = {
   filters: [
@@ -65,7 +65,7 @@ describe("#getStateFromURL", () => {
   it("will parse the current state from the URL", () => {
     const manager = createManager();
     manager.history.location.search =
-      "?fv-dependencies=underscore&fv-keywords=node&q=node&size=20&sort-direction=asc&sort-field=name";
+      "?filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&q=node&size=20&sort-direction=asc&sort-field=name";
 
     const state = manager.getStateFromURL();
     expect(state).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe("#getStateFromURL", () => {
   it("will parse range filter types", () => {
     const manager = createManager();
     manager.history.location.search =
-      "?fr-date=12_4000&fr-date=_4000&fr-cost=50_&fv-keywords=node";
+      "?filters[0][date][0][from]=12&filters[0][date][0][to]=4000&filters[0][date][1][to]=4000&filters[1][cost][0][from]=50&filters[2][keywords][0]=node";
 
     const state = manager.getStateFromURL();
     expect(state).toMatchSnapshot();
@@ -92,7 +92,7 @@ describe("#getStateFromURL", () => {
   it("will correctly handle multiple instances of the same parameter", () => {
     const manager = createManager();
     manager.history.location.search =
-      "fv-dependencies=underscore&fv-dependencies=another&fv-keywords=node&q=bad&q=node&size=bad&size=20&sort-direction=bad&sort-direction=asc&sort-field=bad&sort-field=name";
+      "filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=bad&q=node&size=bad&size=20&sort-direction=bad&sort-direction=asc&sort-field=bad&sort-field=name";
 
     const state = manager.getStateFromURL();
     expect(state).toMatchSnapshot();
@@ -105,7 +105,7 @@ describe("#pushStateToURL", () => {
     manager.pushStateToURL(basicParameterState);
     const queryString = manager.history.push.mock.calls[0][0].search;
     expect(queryString).toEqual(
-      "?fv-dependencies%5B0%5D=underscore&fv-dependencies%5B1%5D=another&fv-keywords%5B0%5D=node&q=node&size=20&sort-field=name&sort-direction=asc"
+      "?q=node&size=20&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
     );
   });
 
@@ -115,7 +115,7 @@ describe("#pushStateToURL", () => {
       manager.pushStateToURL(parameterStateWithRangeFilters);
       const queryString = manager.history.push.mock.calls[0][0].search;
       expect(queryString).toEqual(
-        "?fr-date%5B0%5D=12_4000&fr-date%5B1%5D=_4000&fr-cost%5B0%5D=50_&fv-keywords=node"
+        "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=12&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=4000&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=4000&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=50&filters%5B2%5D%5Bkeywords%5D=node"
       );
     });
   });
