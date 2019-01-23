@@ -1,26 +1,7 @@
 import createHistory from "history/createBrowserHistory";
-import queryString from "qs";
+import queryString from "./queryString";
 
-function preserveTypesEncoder(value, encode) {
-  // Encode numbers to custom 'n_123_n' format so don't
-  // lose typing
-  if (isNumeric(value)) {
-    return `n_${value}_n`;
-  }
-  return encode(value);
-}
-
-function preserveTypesDecoder(value, decode) {
-  // numeric types are encoded like: 'n_123_n'
-  //eslint-disable-next-line
-  if (/n_[\d\.]*_n/.test(value)) {
-    const numericValueString = value.substring(2, value.length - 2);
-    return Number(numericValueString);
-  }
-  return decode(value);
-}
-
-function isNumeric(num) {
+function isNumericString(num) {
   return !isNaN(num);
 }
 
@@ -33,7 +14,7 @@ function toSingleValueInteger(num) {
 }
 
 function toInteger(num) {
-  if (!isNumeric(num)) return;
+  if (!isNumericString(num)) return;
   return parseInt(num, 10);
 }
 
@@ -103,9 +84,7 @@ function stateToParams({
 }
 
 function stateToQueryString(state) {
-  return queryString.stringify(stateToParams(state), {
-    encoder: preserveTypesEncoder
-  });
+  return queryString.stringify(stateToParams(state));
 }
 
 /**
@@ -133,12 +112,7 @@ export default class URLManager {
   }
 
   getStateFromURL() {
-    return paramsToState(
-      queryString.parse(this.history.location.search, {
-        ignoreQueryPrefix: true,
-        decoder: preserveTypesDecoder
-      })
-    );
+    return paramsToState(queryString.parse(this.history.location.search));
   }
 
   pushStateToURL(state) {
@@ -159,14 +133,7 @@ export default class URLManager {
       // it so that we don't break back / forward button.
       this.lastPushSearchString = "";
 
-      callback(
-        paramsToState(
-          queryString.parse(location.search, {
-            ignoreQueryPrefix: true,
-            decoder: preserveTypesDecoder
-          })
-        )
-      );
+      callback(paramsToState(queryString.parse(location.search)));
     });
   }
 }
