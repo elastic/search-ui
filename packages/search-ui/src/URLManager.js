@@ -1,14 +1,7 @@
 import createHistory from "history/createBrowserHistory";
-import queryString from "qs";
+import queryString from "./queryString";
 
-function typeOfFilter(filterValue) {
-  const firstFilterValue = filterValue[0];
-  if (typeof firstFilterValue === "string") return "value";
-  if (firstFilterValue.to || firstFilterValue.from) return "range";
-  return "";
-}
-
-function isNumeric(num) {
+function isNumericString(num) {
   return !isNaN(num);
 }
 
@@ -21,40 +14,12 @@ function toSingleValueInteger(num) {
 }
 
 function toInteger(num) {
-  if (!isNumeric(num)) return;
+  if (!isNumericString(num)) return;
   return parseInt(num, 10);
 }
 
 function parseFiltersFromQueryParams(queryParams) {
-  const filters = Object.keys(queryParams).reduce((acc, paramName) => {
-    if (paramName.startsWith("fv-")) {
-      let paramValue = queryParams[paramName];
-      if (!paramValue) return acc;
-      const filterName = paramName.replace("fv-", "");
-      acc.push({
-        [filterName]: Array.isArray(paramValue) ? paramValue : [paramValue]
-      });
-    }
-    if (paramName.startsWith("fr-")) {
-      let paramValue = queryParams[paramName];
-      if (!paramValue) return acc;
-      const filterName = paramName.replace("fr-", "");
-      const value = Array.isArray(paramValue) ? paramValue : [paramValue];
-      acc.push({
-        [filterName]: value.map(v => {
-          const [from, to] = v.split("_");
-          return {
-            ...(from && { from: Number(from) }),
-            ...(to && { to: Number(to) })
-          };
-        })
-      });
-    }
-    return acc;
-  }, []);
-
-  if (filters.length === 0) return;
-  return filters;
+  return queryParams.filters;
 }
 
 function parseCurrentFromQueryParams(queryParams) {
@@ -104,21 +69,12 @@ function stateToParams({
 }) {
   const params = {};
 
-  filters.forEach(filter => {
-    const [key, value] = Object.entries(filter)[0];
-    const valueType = typeOfFilter(value);
-    if (valueType === "range") {
-      params[`fr-${key}`] = value.map(
-        rangeValue => `${rangeValue.from || ""}_${rangeValue.to || ""}`
-      );
-    } else {
-      params[`fv-${key}`] = value;
-    }
-  });
-
   if (current > 1) params.current = current;
   if (searchTerm) params.q = searchTerm;
   if (resultsPerPage) params.size = resultsPerPage;
+  if (filters && filters.length > 0) {
+    params["filters"] = filters;
+  }
   if (sortField) {
     params["sort-field"] = sortField;
     params["sort-direction"] = sortDirection;
@@ -128,7 +84,7 @@ function stateToParams({
 }
 
 function stateToQueryString(state) {
-  return queryString.stringify(stateToParams(state), { indices: false });
+  return queryString.stringify(stateToParams(state));
 }
 
 /**
@@ -156,11 +112,7 @@ export default class URLManager {
   }
 
   getStateFromURL() {
-    return paramsToState(
-      queryString.parse(this.history.location.search, {
-        ignoreQueryPrefix: true
-      })
-    );
+    return paramsToState(queryString.parse(this.history.location.search));
   }
 
   pushStateToURL(state) {
@@ -181,13 +133,7 @@ export default class URLManager {
       // it so that we don't break back / forward button.
       this.lastPushSearchString = "";
 
-      callback(
-        paramsToState(
-          queryString.parse(location.search, {
-            ignoreQueryPrefix: true
-          })
-        )
-      );
+      callback(paramsToState(queryString.parse(location.search)));
     });
   }
 }
