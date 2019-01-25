@@ -38,3 +38,24 @@ Single package:
 # from inside a package
 npm run build
 ```
+
+### Publishing
+
+```
+# Check which files have been changed, verify that
+# the packages you expect to be changed are listed.
+npx lerna changed
+
+# Update package.json to new version for all changed packages
+npx lerna version minor --no-push
+
+# Manually update CHANGELOG files for updated repositories, until this
+# can be automated
+git add .
+# Reword commit and add changelogs
+git commit --amend
+git push
+
+# Then finally, publish
+npx lerna publish 0.2.0
+```
