@@ -57,5 +57,5 @@ git commit --amend
 git push
 
 # Then finally, publish
-npx lerna publish 0.2.0
+npx lerna exec -- npm publish
 ```
