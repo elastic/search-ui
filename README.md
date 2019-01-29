@@ -1,27 +1,35 @@
-# Search UI
+<p align="center"><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
+<img src="https://img.shields.io/badge/version-beta-red.svg" alt="BETA" /></p>
 
-**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+> Libraries for the fast development of modern, engaging search experiences.
 
-[![CircleCI](https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76)](https://circleci.com/gh/elastic/search-ui/tree/master)
+## Contents
 
-Search UI is a group of libraries that enable fast development of excellent search experiences using any search engine provider.
-You can get started by visiting the primary [React Search UI Library](packages/react-search-ui/README.md).
+- [Getting started](#getting-started-)
+- [Developing Search UI](#developing-search-ui)
+- [Running tests](#running-tests)
+- [FAQ](#faq-)
+- [Contribute](#contribute-)
+- [License](#license-)
 
-### Testing
+---
 
-All packages:
+## Getting started 🐣
 
-```shell
-# from project root
-npm run test
-```
+Search UI supports any search engine provider and JavaScript framework.
 
-Single package:
+It is developed and maintained by [Elastic](https://elastic.co).
 
-```shell
-# from inside a package
-npm run test
-```
+You can use Search UI to quickly build robust, enjoyable, fully-featured search experiences.
+
+To begin, choose your framework:
+
++ [React](packages/react-search-ui/README.md)
++ More coming! [Contributions](#contribute-) welcome.
+
+_Note: The Search UI is in beta. We do not recommend production use._
+
+## Developing Search UI
 
 ### Building
 
@@ -37,6 +45,22 @@ Single package:
 ```shell
 # from inside a package
 npm run build
+```
+
+### Testing
+
+All packages:
+
+```shell
+# from project root
+npm run test
+```
+
+Single package:
+
+```shell
+# from inside a package
+npm run test
 ```
 
 ### Publishing
@@ -59,3 +83,33 @@ git push
 # Then finally, publish
 npx lerna exec -- npm publish
 ```
+
+## FAQ 🔮
+
+### Where do I report issues with the Search UI?
+
+If something is not working as expected, please open an [issue](https://github.com/elastic/search-ui/issues/new).
+
+### Where can I learn more about the Search UI?
+
+Your best bet is to explore the READMEs.
+
+### Where else can I go to get help?
+
+If you are using an Elastic solution as your search Engine provider, try the community...
+
++ [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search)
++ [Elastic Site search discuss forums](https://discuss.elastic.co/c/site-search)
+
+## Contribute 🚀
+
+We welcome contributors to the project. Before you begin, a couple notes...
+
+- Prior to opening a pull request, please create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
+- Please write simple code and concise documentation, when appropriate.
+
+## License 📗
+
+[Apache-2.0](https://github.com/elastic/search-ui/blob/master/LICENSE) © [Elastic](https://github.com/elastic)
+
+Thank you to all the [contributors](https://github.com/elastic/search-ui/graphs/contributors)!
