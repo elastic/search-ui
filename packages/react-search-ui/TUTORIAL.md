@@ -16,7 +16,7 @@ Create a new React application with `create-react-app`.
 
 ```
 npm install -g create-react-app
-create-react-app test-npm-project --use-npm
+create-react-app search-ui-tutorial --use-npm
 cd search-ui-tutorial
 npm start
 ```
