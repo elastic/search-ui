@@ -47,12 +47,12 @@ npm run build
 npx lerna changed
 
 # Update package.json to new version for all changed packages
-npx lerna version minor --no-push
+npx lerna version 0.2.1 --no-push -m "Release 0.2.1"
 
 # Manually update CHANGELOG files for updated repositories, until this
 # can be automated
 git add .
-# Reword commit and add changelogs
+# Add CHANGELOG files
 git commit --amend
 git push
 
