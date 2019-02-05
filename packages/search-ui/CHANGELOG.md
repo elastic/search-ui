@@ -6,3 +6,7 @@
 
 - Reworked how query filters are maintained in the URL. Old search results links
   that have been saved will be incompatible with this new version.
+
+## 0.3.0 (February 5, 2019)
+
+- Added a "reset" action
