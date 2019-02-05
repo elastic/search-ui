@@ -19,7 +19,7 @@ does provide. For example:
 ## Usage
 
 ```shell
-npm install --save import @elastic/search-ui-site-search-connector
+npm install --save @elastic/search-ui-site-search-connector
 ```
 
 ```js
