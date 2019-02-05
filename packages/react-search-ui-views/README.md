@@ -13,7 +13,13 @@ stateless, view-only components.
 ## Usage
 
 ```jsx
-import { Layout, Result, SearchBox } from "@elastic/react-search-ui-views";
+import React from "react";
+import {
+  Layout,
+  PagingInfo,
+  Result,
+  SearchBox
+} from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 export default function App() {
@@ -22,7 +28,7 @@ export default function App() {
       <Layout
         header={<SearchBox value="test" />}
         bodyHeader={
-          <div class="meta">
+          <div className="meta">
             <PagingInfo
               end={10}
               searchTerm={"test"}
@@ -33,7 +39,10 @@ export default function App() {
         }
         bodyContent={
           <div>
-            <Result title="A Result" />
+            <Result
+              title="A Result"
+              fields={{ description: "This is an example of a result" }}
+            />
           </div>
         }
       />

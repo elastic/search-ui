@@ -7,7 +7,7 @@ This Connector is used to connect Search UI to Elastic's [App Search](https://ww
 ## Usage
 
 ```shell
-npm install --save import @elastic/search-ui-app-search-connector
+npm install --save @elastic/search-ui-app-search-connector
 ```
 
 ```js
