@@ -24,12 +24,17 @@ You can use Search UI to quickly build robust, enjoyable, fully-featured search 
 
 To begin, choose your framework:
 
-+ [React](packages/react-search-ui/README.md)
-+ More coming! [Contributions](#contribute-) welcome.
+- [React](packages/react-search-ui/README.md)
+- More coming! [Contributions](#contribute-) welcome.
 
 _Note: The Search UI is in beta. We do not recommend production use._
 
 ## Developing Search UI
+
+### Requirements
+
+Node: 8.10
+NPM: 6.4
 
 ### Building
 
@@ -98,8 +103,8 @@ Your best bet is to explore the READMEs.
 
 If you are using an Elastic solution as your search Engine provider, try the community...
 
-+ [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search)
-+ [Elastic Site search discuss forums](https://discuss.elastic.co/c/site-search)
+- [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search)
+- [Elastic Site search discuss forums](https://discuss.elastic.co/c/site-search)
 
 ## Contribute 🚀
 
