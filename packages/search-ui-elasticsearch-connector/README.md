@@ -9,7 +9,7 @@ This Connector is used to connect Search UI to [elasticsearch](https://github.co
 ## Usage
 
 ```shell
-npm install --save import @elastic/search-ui-elasticsearch-connector
+npm install --save @elastic/search-ui-elasticsearch-connector
 ```
 
 ```js
