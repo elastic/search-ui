@@ -162,13 +162,19 @@ export default class SearchDriver {
       urlState = {};
     }
 
+    // Remember the state this application is initialized into, so that we can
+    // reset to it later.
+    this.startingState = {
+      ...this.state,
+      ...initialState
+    };
+
     // We filter these here to disallow anything other than valid search
     // parameters to be passed in initial state, or url state. `results`, etc,
     // should not be allowed to be passed in, that should be generated based on
     // the results of the query
     const searchParameters = filterSearchParameters({
-      ...this.state,
-      ...initialState,
+      ...this.startingState,
       ...urlState
     });
 
@@ -299,6 +305,7 @@ export default class SearchDriver {
       addFilter: this.addFilter,
       clearFilters: this.clearFilters,
       removeFilter: this.removeFilter,
+      reset: this.reset,
       setFilter: this.setFilter,
       setResultsPerPage: this.setResultsPerPage,
       setSearchTerm: this.setSearchTerm,
@@ -363,6 +370,14 @@ export default class SearchDriver {
       current: 1,
       filters: [...filters, { [name]: [value] }]
     });
+  };
+
+  /**
+   * Reset search experience to initial state
+   *
+   */
+  reset = () => {
+    this._setState(this.startingState);
   };
 
   /**

@@ -498,6 +498,35 @@ describe("#removeFilter", () => {
   });
 });
 
+describe("#reset", () => {
+  it("Resets state back to the initial state provided at initialization", () => {
+    const initialState = {
+      resultsPerPage: 60, // KEEP
+      sortField: "name", // KEEP
+      sortDirection: "asc" // KEEP
+    };
+
+    const driver = new SearchDriver({
+      ...params,
+      initialState
+    });
+    const stateAfterCreation = driver.getState();
+
+    let updatedState;
+    driver.subscribeToStateChanges(newState => {
+      updatedState = newState;
+    });
+
+    driver.setCurrent(2);
+
+    expect(updatedState).not.toEqual(stateAfterCreation);
+
+    driver.reset();
+
+    expect(updatedState).toEqual(stateAfterCreation);
+  });
+});
+
 describe("#clearFilters", () => {
   function doTest(except, initialFilters, expectedFilters) {
     const initialState = {
