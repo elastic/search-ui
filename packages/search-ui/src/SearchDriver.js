@@ -1,6 +1,8 @@
 import URLManager from "./URLManager";
 import debounceFn from "debounce-fn";
 
+import RequestSequencer from "./RequestSequencer";
+
 function filterSearchParameters({
   current,
   filters,
@@ -127,6 +129,7 @@ function matchFilter(filter1, filter2) {
  */
 export default class SearchDriver {
   state = DEFAULT_STATE;
+  setSearchTermDebounceCache = {};
 
   constructor({
     apiConnector,
@@ -142,7 +145,7 @@ export default class SearchDriver {
     if (!apiConnector) {
       throw Error("apiConnector required");
     }
-    this.setSearchTermDebounceCache = {};
+    this.requestSequencer = new RequestSequencer();
     this.apiConnector = apiConnector;
     this.conditionalFacets = conditionalFacets;
     this.disjunctiveFacets = disjunctiveFacets;
@@ -254,8 +257,13 @@ export default class SearchDriver {
       sortField
     });
 
+    const requestId = this.requestSequencer.next();
+
     return this.apiConnector.search(searchTerm, searchOptions).then(
       resultList => {
+        if (this.requestSequencer.isOldRequest(requestId)) return;
+        this.requestSequencer.completed(requestId);
+
         this._setState({
           facets: resultList.info.facets || {},
           isLoading: false,
