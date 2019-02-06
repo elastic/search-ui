@@ -6,7 +6,9 @@ import { SearchBox } from "@elastic/react-search-ui-views";
 export class SearchBoxContainer extends Component {
   static propTypes = {
     // Props
+    debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
+    searchAsYouType: PropTypes.bool,
     view: PropTypes.func,
     // State
     searchTerm: PropTypes.string.isRequired,
@@ -15,14 +17,8 @@ export class SearchBoxContainer extends Component {
   };
 
   state = {
-    value: "",
     isFocused: false
   };
-
-  constructor(props) {
-    super();
-    this.state.value = props.searchTerm;
-  }
 
   handleFocus = () => {
     this.setState({
@@ -37,31 +33,37 @@ export class SearchBoxContainer extends Component {
   };
 
   handleSubmit = e => {
-    const { setSearchTerm } = this.props;
-    const { value } = this.state;
+    const { searchTerm, setSearchTerm } = this.props;
 
     e.preventDefault();
-    setSearchTerm(value);
+    setSearchTerm(searchTerm);
   };
 
-  handleChange = e => {
-    this.setState({
-      value: e.currentTarget.value
-    });
+  handleChange = value => {
+    const { searchAsYouType, setSearchTerm, debounceLength } = this.props;
+    const options = searchAsYouType
+      ? {
+          refresh: true,
+          debounce: debounceLength || 200
+        }
+      : {
+          refresh: false
+        };
+    setSearchTerm(value, options);
   };
 
   render() {
-    const { isFocused, value } = this.state;
-    const { inputProps, view } = this.props;
+    const { isFocused } = this.state;
+    const { inputProps, searchTerm, view } = this.props;
 
     const View = view || SearchBox;
 
     return (
       <View
         isFocused={isFocused}
-        onChange={this.handleChange}
+        onChange={e => this.handleChange(e.currentTarget.value)}
         onSubmit={this.handleSubmit}
-        value={value}
+        value={searchTerm}
         inputProps={{
           onFocus: this.handleFocus,
           onBlur: this.handleBlur,

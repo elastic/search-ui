@@ -1,4 +1,5 @@
 import URLManager from "./URLManager";
+import debounceFn from "debounce-fn";
 
 function filterSearchParameters({
   current,
@@ -141,6 +142,7 @@ export default class SearchDriver {
     if (!apiConnector) {
       throw Error("apiConnector required");
     }
+    this.setSearchTermDebounceCache = {};
     this.apiConnector = apiConnector;
     this.conditionalFacets = conditionalFacets;
     this.disjunctiveFacets = disjunctiveFacets;
@@ -156,7 +158,10 @@ export default class SearchDriver {
       this.URLManager = new URLManager();
       urlState = this.URLManager.getStateFromURL();
       this.URLManager.onURLStateChange(urlState => {
-        this._updateSearchResults({ ...DEFAULT_STATE, ...urlState }, true);
+        this._updateSearchResults(
+          { ...DEFAULT_STATE, ...urlState },
+          { skipPushToUrl: true }
+        );
       });
     } else {
       urlState = {};
@@ -194,7 +199,10 @@ export default class SearchDriver {
     }
   }
 
-  _updateSearchResults(searchParameters, skipPushToUrl = false) {
+  _updateSearchResults(
+    searchParameters,
+    { skipPushToUrl = false, ignoreIsLoadingCheck = false } = {}
+  ) {
     const {
       current,
       filters,
@@ -208,7 +216,7 @@ export default class SearchDriver {
       ...searchParameters
     };
 
-    if (isLoading) return;
+    if (isLoading && !ignoreIsLoadingCheck) return;
 
     const searchOptions = {
       disjunctiveFacets: this.disjunctiveFacets,
@@ -436,19 +444,51 @@ export default class SearchDriver {
     });
   };
 
+  maybeDebounceUpdateSearchResults = (options, debounceWait) => {
+    if (!debounceWait) {
+      this._updateSearchResults(options);
+      return;
+    }
+
+    let debounced = this.setSearchTermDebounceCache[debounceWait];
+    if (!debounced) {
+      // We use a cache here so that we can let users pass a debounce length. This
+      // requires that they pass the SAME debounce length on each request, since we
+      // create a separate debounced function for each length passed.
+      this.setSearchTermDebounceCache[debounceWait] = debounceFn(
+        () => {
+          this._updateSearchResults(options, { ignoreIsLoadingCheck: true });
+        },
+        { wait: debounceWait }
+      );
+      debounced = this.setSearchTermDebounceCache[debounceWait];
+    }
+
+    debounced(options);
+  };
+
   /**
    * Set the current search term
    *
    * Will trigger new search
    *
    * @param searchTerm String
+   * @param options Object Additional objects
+   * @param options.refresh Boolean Refresh search results?
+   * @param options.wait Boolean Refresh search results?
    */
-  setSearchTerm = searchTerm => {
-    this._updateSearchResults({
-      current: 1,
-      filters: [],
-      searchTerm
-    });
+  setSearchTerm = (searchTerm, { refresh = true, debounce = 0 } = {}) => {
+    this._setState({ searchTerm });
+
+    if (refresh) {
+      this.maybeDebounceUpdateSearchResults(
+        {
+          current: 1,
+          filters: []
+        },
+        debounce
+      );
+    }
   };
 
   /**

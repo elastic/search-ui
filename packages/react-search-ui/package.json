@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "@elastic/react-search-ui-views": "^0.3.0",
-    "@elastic/search-ui": "^0.3.0"
+    "@elastic/search-ui": "^0.3.0",
+    "debounce-fn": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^16.6.0"
