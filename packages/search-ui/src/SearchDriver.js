@@ -276,14 +276,21 @@ export default class SearchDriver {
         });
 
         if (!skipPushToUrl && this.trackUrlState) {
-          this.URLManager.pushStateToURL({
-            current,
-            filters,
-            resultsPerPage,
-            searchTerm,
-            sortDirection,
-            sortField
-          });
+          // We debounce here so that we don't get a lot of intermediary
+          // URL state if someone is updating a UI really fast, like typing
+          // in a live search box for instance.
+          this.debounceManager.runWithDebounce(
+            500,
+            this.URLManager.pushStateToURL.bind(this.URLManager),
+            {
+              current,
+              filters,
+              resultsPerPage,
+              searchTerm,
+              sortDirection,
+              sortField
+            }
+          );
         }
       },
       error => {
