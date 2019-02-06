@@ -45,7 +45,7 @@ it("will keep focus prop in sync with view component", () => {
   expect(wrapper.find("SearchBox").prop("isFocused")).toBe(false);
 });
 
-it("will keep value prop in sync with view component", () => {
+it("will call back to setSearchTerm with refresh: false when input is changed", () => {
   const wrapper = shallow(<SearchBoxContainer {...params} />);
 
   expect(wrapper.find("SearchBox").prop("value")).toBe("test");
@@ -56,11 +56,16 @@ it("will keep value prop in sync with view component", () => {
     }
   });
 
-  expect(wrapper.find("SearchBox").prop("value")).toBe("new term");
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual(["new term", { refresh: false }]);
 });
 
-it("will call back when form is submitted", () => {
-  const wrapper = shallow(<SearchBoxContainer {...params} />);
+it("will call back to setSearchTerm with refresh: true when input is changed and searchAsYouType is true", () => {
+  const wrapper = shallow(
+    <SearchBoxContainer {...params} searchAsYouType={true} />
+  );
+
+  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
 
   wrapper.find("SearchBox").prop("onChange")({
     currentTarget: {
@@ -68,10 +73,40 @@ it("will call back when form is submitted", () => {
     }
   });
 
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual(["new term", { refresh: true, debounce: 200 }]);
+});
+
+it("will call back to setSearchTerm with a specific debounce when input is changed and searchAsYouType is true and a debounce is provided", () => {
+  const wrapper = shallow(
+    <SearchBoxContainer
+      {...params}
+      searchAsYouType={true}
+      debounceLength={500}
+    />
+  );
+
+  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
+
+  wrapper.find("SearchBox").prop("onChange")({
+    currentTarget: {
+      value: "new term"
+    }
+  });
+
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual(["new term", { refresh: true, debounce: 500 }]);
+});
+
+it("will call back setSearchTerm with refresh: true when form is submitted", () => {
+  const wrapper = shallow(
+    <SearchBoxContainer {...params} searchTerm="a term" />
+  );
+
   wrapper.find("SearchBox").prop("onSubmit")({
     preventDefault: () => {}
   });
 
-  const searchTerm = params.setSearchTerm.mock.calls[0][0];
-  expect(searchTerm).toEqual("new term");
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual(["a term"]);
 });
