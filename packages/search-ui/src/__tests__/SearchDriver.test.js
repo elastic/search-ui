@@ -55,7 +55,7 @@ it("will throw when missing required parameters", () => {
   }).toThrow();
 });
 
-function setupDriver({ initialState, mockSearchResponse }) {
+function setupDriver({ initialState, mockSearchResponse } = {}) {
   const driver = new SearchDriver({
     ...params,
     initialState
@@ -115,6 +115,16 @@ function itFetchesResults(fn) {
   it("fetches results", () => {
     const state = fn();
     expect(doesStateHaveResponseData(state)).toBe(true);
+  });
+}
+
+function getSearchCalls() {
+  return mockApiConnector.search.mock.calls;
+}
+
+function waitABit(length) {
+  return new Promise(function(resolve) {
+    setTimeout(() => resolve(), length);
   });
 }
 
@@ -186,7 +196,7 @@ describe("conditional facets", () => {
     subject(filters => !!filters);
 
     // 'initial' WAS included in request to server
-    expect(mockApiConnector.search.mock.calls[1][1].facets).toEqual({
+    expect(getSearchCalls()[1][1].facets).toEqual({
       initial: {
         type: "value"
       }
@@ -197,7 +207,7 @@ describe("conditional facets", () => {
     subject(filters => !filters);
 
     // 'initial' was NOT included in request to server
-    expect(mockApiConnector.search.mock.calls[1][1].facets).toEqual({});
+    expect(getSearchCalls()[1][1].facets).toEqual({});
   });
 });
 
@@ -228,33 +238,27 @@ describe("pass through values", () => {
   it("will pass through disjunctive facet configuration", () => {
     const disjunctiveFacets = ["initial"];
     subject({ disjunctiveFacets });
-    expect(mockApiConnector.search.mock.calls[0][1].disjunctiveFacets).toEqual([
-      "initial"
-    ]);
+    expect(getSearchCalls()[0][1].disjunctiveFacets).toEqual(["initial"]);
   });
 
   it("will pass through disjunctive facet analytics tags", () => {
     const disjunctiveFacetsAnalyticsTags = ["Test"];
     subject({ disjunctiveFacetsAnalyticsTags });
-    expect(
-      mockApiConnector.search.mock.calls[0][1].disjunctiveFacetsAnalyticsTags
-    ).toEqual(["Test"]);
+    expect(getSearchCalls()[0][1].disjunctiveFacetsAnalyticsTags).toEqual([
+      "Test"
+    ]);
   });
 
   it("will pass through result_fields configuration", () => {
     const result_fields = { test: {} };
     subject({ result_fields });
-    expect(mockApiConnector.search.mock.calls[0][1].result_fields).toEqual(
-      result_fields
-    );
+    expect(getSearchCalls()[0][1].result_fields).toEqual(result_fields);
   });
 
   it("will pass through search_fields configuration", () => {
     const search_fields = { test: {} };
     subject({ search_fields });
-    expect(mockApiConnector.search.mock.calls[0][1].search_fields).toEqual(
-      search_fields
-    );
+    expect(getSearchCalls()[0][1].search_fields).toEqual(search_fields);
   });
 });
 
@@ -284,11 +288,11 @@ describe("#getActions", () => {
 });
 
 describe("#setSearchTerm", () => {
-  function subject(term = "test", { initialState = {} } = {}) {
+  function subject(term, { refresh, initialState = {} } = {}) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
     );
-    driver.setSearchTerm(term);
+    driver.setSearchTerm(term, { refresh });
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation
@@ -306,6 +310,7 @@ describe("#setSearchTerm", () => {
   itResetsCurrent(
     () => subject("test", { initialState: { current: 2 } }).state
   );
+
   itResetsFilters(
     () =>
       subject("test", { initialState: { filters: [{ filter1: ["value1"] }] } })
@@ -325,7 +330,28 @@ describe("#setSearchTerm", () => {
     expect({ resultsPerPage, sortField, sortDirection }).toEqual(initialState);
   });
 
-  itFetchesResults(() => subject().state);
+  itFetchesResults(() => subject("term").state);
+
+  it("Does not fetch results when 'refresh' is set to false", () => {
+    expect(subject("term", { refresh: false }).state.wasSearched).toBe(false);
+  });
+
+  it("Will not debounce requests if there is no debounce specified", async () => {
+    const { driver } = setupDriver();
+    driver.setSearchTerm("term", { refresh: true });
+    driver.setSearchTerm("term", { refresh: true });
+    driver.setSearchTerm("term", { refresh: true });
+    expect(getSearchCalls()).toHaveLength(3);
+  });
+
+  it("Will debounce requests", async () => {
+    const { driver } = setupDriver();
+    driver.setSearchTerm("term", { refresh: true, debounce: 10 });
+    driver.setSearchTerm("term", { refresh: true, debounce: 10 });
+    driver.setSearchTerm("term", { refresh: true, debounce: 10 });
+    await waitABit(100);
+    expect(getSearchCalls()).toHaveLength(1);
+  });
 });
 
 describe("#addFilter", () => {
