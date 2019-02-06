@@ -5,8 +5,8 @@ export default class DebounceManager {
 
   /*
   The purpose of this is to:
-  Dynamically debounce and cache a debounced version of that function at the time of calling a function, so
-  that doesn't need to be done and managed in state at the call site.
+  Dynamically debounce and cache a debounced version of a function at the time of calling that function. This avoids
+  managing debounced version of functions locally.
 
   Assumption:
   Functions are debounced on a combination of unique function and wait times. So debouncing won't work on
@@ -16,7 +16,7 @@ export default class DebounceManager {
   */
   runWithDebounce(wait, fn, ...parameters) {
     if (!wait) {
-      return fn(parameters);
+      return fn(...parameters);
     }
 
     const key = fn.toString() + wait.toString();
