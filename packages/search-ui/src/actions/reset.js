@@ -4,4 +4,7 @@
  */
 export default function reset() {
   this._setState(this.startingState);
+  if (this.trackUrlState) {
+    this.URLManager.pushStateToURL(this.state);
+  }
 }
