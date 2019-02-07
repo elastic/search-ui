@@ -19,7 +19,7 @@
 
     @include block("layout-sidebar") {
       flex: 0 1 30%;
-      padding-right: 32px;
+      padding: 32px 32px 0 0;
     }
 
     @include block("layout-main") {
