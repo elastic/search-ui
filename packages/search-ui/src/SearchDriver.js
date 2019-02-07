@@ -1,5 +1,8 @@
 import URLManager from "./URLManager";
 
+import RequestSequencer from "./RequestSequencer";
+import DebounceManager from "./DebounceManager";
+
 function filterSearchParameters({
   current,
   filters,
@@ -141,6 +144,8 @@ export default class SearchDriver {
     if (!apiConnector) {
       throw Error("apiConnector required");
     }
+    this.requestSequencer = new RequestSequencer();
+    this.debounceManager = new DebounceManager();
     this.apiConnector = apiConnector;
     this.conditionalFacets = conditionalFacets;
     this.disjunctiveFacets = disjunctiveFacets;
@@ -156,7 +161,10 @@ export default class SearchDriver {
       this.URLManager = new URLManager();
       urlState = this.URLManager.getStateFromURL();
       this.URLManager.onURLStateChange(urlState => {
-        this._updateSearchResults({ ...DEFAULT_STATE, ...urlState }, true);
+        this._updateSearchResults(
+          { ...DEFAULT_STATE, ...urlState },
+          { skipPushToUrl: true }
+        );
       });
     } else {
       urlState = {};
@@ -194,7 +202,10 @@ export default class SearchDriver {
     }
   }
 
-  _updateSearchResults(searchParameters, skipPushToUrl = false) {
+  _updateSearchResults = (
+    searchParameters,
+    { skipPushToUrl = false, ignoreIsLoadingCheck = false } = {}
+  ) => {
     const {
       current,
       filters,
@@ -208,7 +219,7 @@ export default class SearchDriver {
       ...searchParameters
     };
 
-    if (isLoading) return;
+    if (isLoading && !ignoreIsLoadingCheck) return;
 
     const searchOptions = {
       disjunctiveFacets: this.disjunctiveFacets,
@@ -246,8 +257,13 @@ export default class SearchDriver {
       sortField
     });
 
+    const requestId = this.requestSequencer.next();
+
     return this.apiConnector.search(searchTerm, searchOptions).then(
       resultList => {
+        if (this.requestSequencer.isOldRequest(requestId)) return;
+        this.requestSequencer.completed(requestId);
+
         this._setState({
           facets: resultList.info.facets || {},
           isLoading: false,
@@ -260,14 +276,21 @@ export default class SearchDriver {
         });
 
         if (!skipPushToUrl && this.trackUrlState) {
-          this.URLManager.pushStateToURL({
-            current,
-            filters,
-            resultsPerPage,
-            searchTerm,
-            sortDirection,
-            sortField
-          });
+          // We debounce here so that we don't get a lot of intermediary
+          // URL state if someone is updating a UI really fast, like typing
+          // in a live search box for instance.
+          this.debounceManager.runWithDebounce(
+            500,
+            this.URLManager.pushStateToURL.bind(this.URLManager),
+            {
+              current,
+              filters,
+              resultsPerPage,
+              searchTerm,
+              sortDirection,
+              sortField
+            }
+          );
         }
       },
       error => {
@@ -277,7 +300,7 @@ export default class SearchDriver {
         });
       }
     );
-  }
+  };
 
   _setState(newState) {
     const state = { ...this.state, ...newState };
@@ -442,13 +465,24 @@ export default class SearchDriver {
    * Will trigger new search
    *
    * @param searchTerm String
+   * @param options Object Additional objects
+   * @param options.refresh Boolean Refresh search results?
+   * @param options.wait Boolean Refresh search results?
    */
-  setSearchTerm = searchTerm => {
-    this._updateSearchResults({
-      current: 1,
-      filters: [],
-      searchTerm
-    });
+  setSearchTerm = (searchTerm, { refresh = true, debounce = 0 } = {}) => {
+    this._setState({ searchTerm });
+
+    if (refresh) {
+      this.debounceManager.runWithDebounce(
+        debounce,
+        this._updateSearchResults,
+        {
+          current: 1,
+          filters: []
+        },
+        { ignoreIsLoadingCheck: true }
+      );
+    }
   };
 
   /**
