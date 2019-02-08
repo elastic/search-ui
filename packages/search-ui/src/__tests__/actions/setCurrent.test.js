@@ -1,5 +1,8 @@
 import { setupDriver } from "../../test/helpers";
 
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+
 describe("#setCurrent", () => {
   function subject(current, { initialState = {} } = {}) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(

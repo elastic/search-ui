@@ -18,8 +18,11 @@ export function setupDriver({ initialState, mockSearchResponse } = {}) {
 
   const driver = new SearchDriver({
     apiConnector: mockApiConnector,
-    trackUrlState: false,
-    initialState
+    trackUrlState: true,
+    initialState,
+    // We don't want to deal with async in our tests, so pass 0 so URL state
+    // pushes happen synchronously
+    urlPushDebounceLength: 0
   });
 
   if (mockSearchResponse) {

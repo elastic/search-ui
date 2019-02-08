@@ -112,7 +112,8 @@ export default class SearchDriver {
     initialState,
     result_fields,
     search_fields,
-    trackUrlState = true
+    trackUrlState = true,
+    urlPushDebounceLength = 500
   }) {
     if (!apiConnector) {
       throw Error("apiConnector required");
@@ -140,6 +141,7 @@ export default class SearchDriver {
     this.search_fields = search_fields;
     this.subscriptions = [];
     this.trackUrlState = trackUrlState;
+    this.urlPushDebounceLength = urlPushDebounceLength;
 
     let urlState;
     if (trackUrlState) {
@@ -265,7 +267,7 @@ export default class SearchDriver {
           // URL state if someone is updating a UI really fast, like typing
           // in a live search box for instance.
           this.debounceManager.runWithDebounce(
-            500,
+            this.urlPushDebounceLength,
             this.URLManager.pushStateToURL.bind(this.URLManager),
             {
               current,

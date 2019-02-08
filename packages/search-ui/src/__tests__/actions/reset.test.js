@@ -1,6 +1,9 @@
 import { DEFAULT_STATE } from "../../SearchDriver";
 import { setupDriver } from "../../test/helpers";
 
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+
 describe("#reset", () => {
   it("Resets state back to the initial state provided at initialization", () => {
     const initialState = {

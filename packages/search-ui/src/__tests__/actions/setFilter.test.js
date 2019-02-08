@@ -1,6 +1,9 @@
 import { setupDriver } from "../../test/helpers";
 import { itResetsCurrent, itFetchesResults } from "../../test/sharedTests";
 
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+
 describe("#setFilter", () => {
   function subject(
     name,
