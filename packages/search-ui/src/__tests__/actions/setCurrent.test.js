@@ -1,7 +1,13 @@
 import { setupDriver } from "../../test/helpers";
+import { itUpdatesURLState } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#setCurrent", () => {
   function subject(current, { initialState = {} } = {}) {
@@ -14,6 +20,10 @@ describe("#setCurrent", () => {
       stateAfterCreation: stateAfterCreation
     };
   }
+
+  itUpdatesURLState(URLManager, () => {
+    subject(2);
+  });
 
   it("Updates searchTerm in state", () => {
     expect(

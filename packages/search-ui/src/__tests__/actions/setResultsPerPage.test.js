@@ -1,8 +1,13 @@
 import { setupDriver } from "../../test/helpers";
-import { itResetsCurrent } from "../../test/sharedTests";
+import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#setResultsPerPage", () => {
   function subject(resultsPerPage, { initialState = {} } = {}) {
@@ -18,6 +23,10 @@ describe("#setResultsPerPage", () => {
 
   it("Updates resultsPerPage in state", () => {
     expect(subject(10).state.resultsPerPage).toEqual(10);
+  });
+
+  itUpdatesURLState(URLManager, () => {
+    subject(20);
   });
 
   itResetsCurrent(() => subject(20, { initialState: { current: 2 } }).state);

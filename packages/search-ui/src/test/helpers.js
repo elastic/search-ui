@@ -9,7 +9,11 @@ export function getMockApiConnector() {
   };
 }
 
-export function setupDriver({ initialState, mockSearchResponse } = {}) {
+export function setupDriver({
+  initialState,
+  mockSearchResponse,
+  trackUrlState = true
+} = {}) {
   const mockApiConnector = getMockApiConnector();
   mockApiConnector.search = jest
     .fn()
@@ -18,7 +22,7 @@ export function setupDriver({ initialState, mockSearchResponse } = {}) {
 
   const driver = new SearchDriver({
     apiConnector: mockApiConnector,
-    trackUrlState: true,
+    trackUrlState,
     initialState,
     // We don't want to deal with async in our tests, so pass 0 so URL state
     // pushes happen synchronously

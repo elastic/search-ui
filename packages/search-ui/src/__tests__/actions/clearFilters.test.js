@@ -1,8 +1,13 @@
 import { setupDriver } from "../../test/helpers";
-import { itResetsCurrent } from "../../test/sharedTests";
+import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#clearFilters", () => {
   function subject(
@@ -23,6 +28,10 @@ describe("#clearFilters", () => {
   }
 
   itResetsCurrent(() => subject(null, { initialState: { current: 2 } }));
+
+  itUpdatesURLState(URLManager, () => {
+    subject();
+  });
 
   it("Does not update other Search Parameter values", () => {
     const initialState = {

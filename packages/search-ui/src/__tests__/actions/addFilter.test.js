@@ -1,8 +1,17 @@
 import { setupDriver } from "../../test/helpers";
-import { itResetsCurrent, itFetchesResults } from "../../test/sharedTests";
+import {
+  itResetsCurrent,
+  itFetchesResults,
+  itUpdatesURLState
+} from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#addFilter", () => {
   function subject(
@@ -24,6 +33,10 @@ describe("#addFilter", () => {
   }
 
   itFetchesResults(() => subject("field", "value"));
+
+  itUpdatesURLState(URLManager, () => {
+    subject("field", "value");
+  });
 
   itResetsCurrent(() =>
     subject("field", "value", { initialState: { current: 2 } })
