@@ -12,13 +12,16 @@ export function getMockApiConnector() {
 export function setupDriver({
   initialState,
   mockSearchResponse,
-  trackUrlState = true
+  trackUrlState
 } = {}) {
   const mockApiConnector = getMockApiConnector();
   mockApiConnector.search = jest
     .fn()
     .mockReturnValue({ then: cb => cb(searchResponse) });
   mockApiConnector.click = jest.fn().mockReturnValue({ then: () => {} });
+
+  trackUrlState =
+    trackUrlState === false || trackUrlState === true ? trackUrlState : true;
 
   const driver = new SearchDriver({
     apiConnector: mockApiConnector,
