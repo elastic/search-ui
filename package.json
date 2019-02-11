@@ -7,7 +7,7 @@
     "test": "lerna run test --stream",
     "build": "lerna run build",
     "format": "prettier --write \"packages/*/src/*.js\"",
-    "lint": "eslint \"packages/*/src/*.js\""
+    "lint": "packages/node_modules/eslint/bin/eslint.js \"packages/*/src/*.js\""
   },
   "husky": {
     "hooks": {
@@ -19,10 +19,6 @@
       "packages/*/src/*.js": [
         "prettier --write",
         "packages/node_modules/eslint/bin/eslint.js",
-        "git add"
-      ],
-      "examples/*/src/*.js": [
-        "packages/node_modules/eslint/bin/eslint.js prettier --write",
         "git add"
       ]
     }
