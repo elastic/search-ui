@@ -4,6 +4,7 @@ import React from "react";
 function SearchBox(props) {
   const { isFocused, inputProps, onChange, onSubmit, value } = props;
   const focusedClass = isFocused ? "focus" : "";
+  const test = "a";
 
   return (
     <form className="sui-search-box" onSubmit={onSubmit}>
@@ -14,6 +15,7 @@ function SearchBox(props) {
         value={value}
         placeholder="Search your documents&#8230;"
         {...inputProps}
+        test={test}
       />
       <input
         type="submit"

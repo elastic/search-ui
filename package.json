@@ -18,17 +18,16 @@
     "linters": {
       "packages/*/src/*.js": [
         "prettier --write",
-        "eslint",
+        "packages/node_modules/eslint/bin/eslint.js",
         "git add"
       ],
       "examples/*/src/*.js": [
-        "prettier --write",
+        "packages/node_modules/eslint/bin/eslint.js prettier --write",
         "git add"
       ]
     }
   },
   "devDependencies": {
-    "eslint": "^5.9.0",
     "husky": "^1.1.4",
     "lerna": "^3.4.3",
     "lint-staged": "^8.0.4",
