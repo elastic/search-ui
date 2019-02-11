@@ -3,6 +3,8 @@ import URLManager from "./URLManager";
 import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
 
+import * as actions from "./actions";
+
 function filterSearchParameters({
   current,
   filters,
@@ -19,25 +21,6 @@ function filterSearchParameters({
     sortDirection,
     sortField
   };
-}
-
-function removeSingleFilterValue(filters, name, value) {
-  return filters.reduce((acc, filter) => {
-    if (filter[name]) {
-      const currentFilterValues = filter[name];
-      const updatedFilterValues = currentFilterValues.filter(
-        filterValue => !matchFilter(filterValue, value)
-      );
-      if (updatedFilterValues.length > 0) {
-        return acc.concat({
-          [name]: updatedFilterValues
-        });
-      } else {
-        return acc;
-      }
-    }
-    return acc.concat(filter);
-  }, []);
 }
 
 export const DEFAULT_STATE = {
@@ -113,16 +96,6 @@ function removeConditionalFacets(
   }, {});
 }
 
-function matchFilter(filter1, filter2) {
-  return (
-    filter1 === filter2 ||
-    (filter1.from &&
-      filter1.from === filter2.from &&
-      filter1.to &&
-      filter1.to === filter2.to)
-  );
-}
-
 /*
  * The Driver is a framework agnostic search state manager that is capable
  * syncing state to the url.
@@ -139,11 +112,24 @@ export default class SearchDriver {
     initialState,
     result_fields,
     search_fields,
-    trackUrlState = true
+    trackUrlState = true,
+    urlPushDebounceLength = 500
   }) {
     if (!apiConnector) {
       throw Error("apiConnector required");
     }
+
+    this.actions = Object.entries(actions).reduce(
+      (acc, [actionName, action]) => {
+        return {
+          ...acc,
+          [actionName]: action.bind(this)
+        };
+      },
+      {}
+    );
+    Object.assign(this, this.actions);
+
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.apiConnector = apiConnector;
@@ -155,6 +141,7 @@ export default class SearchDriver {
     this.search_fields = search_fields;
     this.subscriptions = [];
     this.trackUrlState = trackUrlState;
+    this.urlPushDebounceLength = urlPushDebounceLength;
 
     let urlState;
     if (trackUrlState) {
@@ -280,7 +267,7 @@ export default class SearchDriver {
           // URL state if someone is updating a UI really fast, like typing
           // in a live search box for instance.
           this.debounceManager.runWithDebounce(
-            500,
+            this.urlPushDebounceLength,
             this.URLManager.pushStateToURL.bind(this.URLManager),
             {
               current,
@@ -324,18 +311,7 @@ export default class SearchDriver {
    * @returns Object All actions
    */
   getActions() {
-    return {
-      addFilter: this.addFilter,
-      clearFilters: this.clearFilters,
-      removeFilter: this.removeFilter,
-      reset: this.reset,
-      setFilter: this.setFilter,
-      setResultsPerPage: this.setResultsPerPage,
-      setSearchTerm: this.setSearchTerm,
-      setSort: this.setSort,
-      setCurrent: this.setCurrent,
-      trackClickThrough: this.trackClickThrough
-    };
+    return this.actions;
   }
 
   /**
@@ -349,189 +325,4 @@ export default class SearchDriver {
     // inside of this object remains immutable.
     return { ...this.state };
   }
-
-  /**
-   * Filter results - Adds to current filter value
-   *
-   * Will trigger new search
-   *
-   * @param name String field name to filter on
-   * @param value String field value to filter on
-   */
-  addFilter = (name, value) => {
-    const { filters } = this.state;
-
-    const existingFilterValues = (filters.find(f => f[name]) || {})[name] || [];
-
-    const newFilterValues = existingFilterValues.find(existing =>
-      matchFilter(existing, value)
-    )
-      ? existingFilterValues
-      : existingFilterValues.concat(value);
-
-    const filtersWithoutTargetFilter = filters.filter(f => !f[name]);
-
-    this._updateSearchResults({
-      current: 1,
-      filters: [...filtersWithoutTargetFilter, { [name]: newFilterValues }]
-    });
-  };
-
-  /**
-   * Filter results - Replaces current filter value
-   *
-   * Will trigger new search
-   *
-   * @param name String field name to filter on
-   * @param value String field value to filter on
-   */
-  setFilter = (name, value) => {
-    let { filters } = this.state;
-    filters = filters.filter(filter => Object.keys(filter)[0] !== name);
-
-    this._updateSearchResults({
-      current: 1,
-      filters: [...filters, { [name]: [value] }]
-    });
-  };
-
-  /**
-   * Reset search experience to initial state
-   *
-   */
-  reset = () => {
-    this._setState(this.startingState);
-  };
-
-  /**
-   * Remove filter from results
-   *
-   * Will trigger new search
-   *
-   * @param name String field name for filter to remove
-   * @param value String (Optional) field value for filter to remove
-   */
-  removeFilter = (name, value) => {
-    const { filters } = this.state;
-
-    const updatedFilters = value
-      ? removeSingleFilterValue(filters, name, value)
-      : filters.filter(filter => !filter[name]);
-
-    this._updateSearchResults({
-      current: 1,
-      filters: updatedFilters
-    });
-  };
-
-  /**
-   * Remove all filters
-   *
-   * Will trigger new search
-   *
-   * @param except Array[String] field name of any filters that should remain
-   */
-  clearFilters = (except = []) => {
-    const { filters } = this.state;
-
-    const updatedFilters = filters.filter(filter => {
-      const filterField = Object.keys(filter)[0];
-      return except.includes(filterField);
-    });
-
-    this._updateSearchResults({
-      current: 1,
-      filters: updatedFilters
-    });
-  };
-
-  /**
-   * Set the number of results to show
-   *
-   * Will trigger new search
-   *
-   * @param resultsPerPage Integer
-   */
-  setResultsPerPage = resultsPerPage => {
-    this._updateSearchResults({
-      current: 1,
-      resultsPerPage
-    });
-  };
-
-  /**
-   * Set the current search term
-   *
-   * Will trigger new search
-   *
-   * @param searchTerm String
-   * @param options Object Additional objects
-   * @param options.refresh Boolean Refresh search results?
-   * @param options.wait Boolean Refresh search results?
-   */
-  setSearchTerm = (searchTerm, { refresh = true, debounce = 0 } = {}) => {
-    this._setState({ searchTerm });
-
-    if (refresh) {
-      this.debounceManager.runWithDebounce(
-        debounce,
-        this._updateSearchResults,
-        {
-          current: 1,
-          filters: []
-        },
-        { ignoreIsLoadingCheck: true }
-      );
-    }
-  };
-
-  /**
-   * Set the current sort
-   *
-   * Will trigger new search
-   *
-   * @param sortField String
-   * @param sortDirection String ["asc"|"desc"]
-   */
-  setSort = (sortField, sortDirection) => {
-    this._updateSearchResults({
-      current: 1,
-      sortDirection,
-      sortField
-    });
-  };
-
-  /**
-   * Set the current page
-   *
-   * Will trigger new search
-   *
-   * @param current Integer
-   */
-  setCurrent = current => {
-    this._updateSearchResults({
-      current
-    });
-  };
-
-  /**
-   * Report a click through event. A click through event is when a user
-   * clicks on a result link. Click events can be reviewed in the App Search
-   * Analytics Dashboard.
-   *
-   * @param documentId String The document ID associated with result that was
-   * clicked
-   * @param tag Array[String] Optional Tags which can be used to categorize
-   * this click event
-   */
-  trackClickThrough = (documentId, tags = []) => {
-    const { requestId, searchTerm } = this.state;
-
-    this.apiConnector.click({
-      query: searchTerm,
-      documentId,
-      requestId,
-      tags
-    });
-  };
 }
