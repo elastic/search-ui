@@ -8,12 +8,6 @@ This means as you update library code you can see it updated live in this projec
 
 It is set up to use a pre-configured Elastic App Search engine.
 
-NOTE: This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-There is a setting in `.env` that tells create-react-app not to complain about the fact
-that we have a version of babel-eslint defined explicitly in our package.json. This
-is necessary to avoid conflicts between our development dependencies and the top level
-package.json file.
-
 ## Using
 
 To run:
