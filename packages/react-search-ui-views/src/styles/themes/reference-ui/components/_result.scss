@@ -1,6 +1,13 @@
 @include block('result') {
   @include themeTypography;
   list-style: none;
+  padding: $sizeL 0;
+  text-decoration: none;
+  display: block;
+  border: 1px solid #f0f0f0;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.1);
 
   & + & {
     margin-top: $sizeXL;
@@ -28,16 +35,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 24px;
   }
 
   @include element('title') {
     font-size: 1.8em;
     font-weight: $fontWeightNormal;
     color: $black;
+    text-decoration: none;
   }
 
   @include element('title-link') {
     color: $linkColor;
+    text-decoration: none;
   }
 
   @include element('key') {
@@ -77,8 +87,9 @@
   }
 
   @include element('body') {
-    margin-top: 1rem;
     line-height: 1.5;
+    margin-top: 0;
+    display: flex;
 
     p {
       margin: 0;
@@ -92,6 +103,7 @@
     overflow-y: auto;
     padding: $sizeM;
     list-style: none;
-    background-color: $headerBackgroundColor;
+    background-color: transparent;
+    padding: $sizeM $sizeL
   }
 }
