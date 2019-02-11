@@ -75,6 +75,8 @@ npm run test
 # the packages you expect to be changed are listed.
 npx lerna changed
 
+git checkout -b "release-0.2.1"
+
 # Update package.json to new version for all changed packages
 npx lerna version 0.2.1 --no-push -m "Release 0.2.1"
 
@@ -84,6 +86,11 @@ git add .
 # Add CHANGELOG files
 git commit --amend
 git push --tags
+
+## Go through PR approval and merge to master
+
+git checkout master
+git pull
 
 # Then finally, publish
 npx lerna exec -- npm publish
