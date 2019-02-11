@@ -10,3 +10,8 @@
 ## 0.3.0 (February 5, 2019)
 
 - Added a "reset" action
+
+## 0.4.0 (February 11, 2019)
+
+- Search As You Type support via setSearchTerm with `reset: true`.
+- Fixed issue where reset was not syncing to the URL

@@ -8,3 +8,7 @@
   in the URL. Old search results links that have been saved will be incompatible
   with this new version.
 - Updated type schema of `ValueFilterValue`.
+
+## 0.4.0 (February 11, 2019)
+
+- Search As You Type support via a `searchAsYouType` option on `SearchBox`.

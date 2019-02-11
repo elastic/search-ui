@@ -83,7 +83,7 @@ npx lerna version 0.2.1 --no-push -m "Release 0.2.1"
 git add .
 # Add CHANGELOG files
 git commit --amend
-git push
+git push --tags
 
 # Then finally, publish
 npx lerna exec -- npm publish
