@@ -1,5 +1,13 @@
 import { setupDriver } from "../../test/helpers";
-import { itResetsCurrent } from "../../test/sharedTests";
+import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
+
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#setSort", () => {
   function subject(sortField, sortDirection, { initialState = {} } = {}) {
@@ -12,6 +20,10 @@ describe("#setSort", () => {
       stateAfterCreation: stateAfterCreation
     };
   }
+
+  itUpdatesURLState(URLManager, () => {
+    subject("date", "desc");
+  });
 
   it("Updates sortField in state", () => {
     expect(subject("date", "desc").state.sortField).toEqual("date");

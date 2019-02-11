@@ -20,3 +20,12 @@ export function itFetchesResults(fn) {
     expect(doesStateHaveResponseData(state)).toBe(true);
   });
 }
+
+export function itUpdatesURLState(MockedURLManager, fn) {
+  it("Updates URL state", () => {
+    fn();
+    expect(
+      MockedURLManager.mock.instances[0].pushStateToURL.mock.calls
+    ).toHaveLength(1);
+  });
+}

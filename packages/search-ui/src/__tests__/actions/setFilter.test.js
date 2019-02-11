@@ -1,5 +1,17 @@
 import { setupDriver } from "../../test/helpers";
-import { itResetsCurrent, itFetchesResults } from "../../test/sharedTests";
+import {
+  itResetsCurrent,
+  itFetchesResults,
+  itUpdatesURLState
+} from "../../test/sharedTests";
+
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#setFilter", () => {
   function subject(
@@ -19,6 +31,10 @@ describe("#setFilter", () => {
     driver.setFilter(name, value);
     return updatedStateAfterAction.state;
   }
+
+  itUpdatesURLState(URLManager, () => {
+    subject(2);
+  });
 
   itFetchesResults(() => subject("field", "value"));
 

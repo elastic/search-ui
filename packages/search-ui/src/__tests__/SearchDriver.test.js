@@ -7,6 +7,14 @@ import {
   getMockApiConnector
 } from "../test/helpers";
 
+// We mock this so no state is actually written to the URL
+jest.mock("../URLManager.js");
+import URLManager from "../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
+
 const mockApiConnector = getMockApiConnector();
 
 const params = {
@@ -75,6 +83,30 @@ it("will trigger a search if searchTerm or filters are provided in initial state
   });
 
   expect(doesStateHaveResponseData(stateAfterCreation)).toBe(true);
+});
+
+it("will sync initial state to the URL", () => {
+  const initialState = {
+    filters: [{ initial: ["value"] }],
+    searchTerm: "test"
+  };
+
+  setupDriver({ initialState });
+
+  expect(URLManager.mock.instances[0].pushStateToURL.mock.calls).toHaveLength(
+    1
+  );
+});
+
+it("will not sync initial state to the URL if trackURLState is set to false", () => {
+  const initialState = {
+    filters: [{ initial: ["value"] }],
+    searchTerm: "test"
+  };
+
+  setupDriver({ initialState, trackUrlState: false });
+
+  expect(URLManager.mock.instances).toHaveLength(0);
 });
 
 describe("conditional facets", () => {

@@ -2,8 +2,17 @@ import { getSearchCalls, setupDriver, waitABit } from "../../test/helpers";
 import {
   itResetsCurrent,
   itResetsFilters,
-  itFetchesResults
+  itFetchesResults,
+  itUpdatesURLState
 } from "../../test/sharedTests";
+
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#setSearchTerm", () => {
   function subject(term, { refresh, initialState = {} } = {}) {
@@ -49,6 +58,17 @@ describe("#setSearchTerm", () => {
   });
 
   itFetchesResults(() => subject("term").state);
+
+  itUpdatesURLState(URLManager, () => {
+    subject("term");
+  });
+
+  it("Does not update URL state when 'refresh' is set to false", () => {
+    subject("term", { refresh: false });
+    expect(URLManager.mock.instances[0].pushStateToURL.mock.calls).toHaveLength(
+      0
+    );
+  });
 
   it("Does not fetch results when 'refresh' is set to false", () => {
     expect(subject("term", { refresh: false }).state.wasSearched).toBe(false);

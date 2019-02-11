@@ -9,17 +9,27 @@ export function getMockApiConnector() {
   };
 }
 
-export function setupDriver({ initialState, mockSearchResponse } = {}) {
+export function setupDriver({
+  initialState,
+  mockSearchResponse,
+  trackUrlState
+} = {}) {
   const mockApiConnector = getMockApiConnector();
   mockApiConnector.search = jest
     .fn()
     .mockReturnValue({ then: cb => cb(searchResponse) });
   mockApiConnector.click = jest.fn().mockReturnValue({ then: () => {} });
 
+  trackUrlState =
+    trackUrlState === false || trackUrlState === true ? trackUrlState : true;
+
   const driver = new SearchDriver({
     apiConnector: mockApiConnector,
-    trackUrlState: false,
-    initialState
+    trackUrlState,
+    initialState,
+    // We don't want to deal with async in our tests, so pass 0 so URL state
+    // pushes happen synchronously
+    urlPushDebounceLength: 0
   });
 
   if (mockSearchResponse) {

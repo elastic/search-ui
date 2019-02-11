@@ -1,5 +1,17 @@
 import { setupDriver } from "../../test/helpers";
-import { itResetsCurrent, itFetchesResults } from "../../test/sharedTests";
+import {
+  itResetsCurrent,
+  itFetchesResults,
+  itUpdatesURLState
+} from "../../test/sharedTests";
+
+// We mock this so no state is actually written to the URL
+jest.mock("../../URLManager.js");
+import URLManager from "../../URLManager";
+
+beforeEach(() => {
+  URLManager.mockClear();
+});
 
 describe("#removeFilter", () => {
   function subject(
@@ -25,6 +37,10 @@ describe("#removeFilter", () => {
   itResetsCurrent(() =>
     subject("field", "value", { initialState: { current: 2 } })
   );
+
+  itUpdatesURLState(URLManager, () => {
+    subject("field", "value");
+  });
 
   it("Does not update other Search Parameter values", () => {
     const initialState = {
