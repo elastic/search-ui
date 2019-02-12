@@ -3,27 +3,46 @@
 This example is a sandbox for local development. It sets up a basic page
 using Search UI.
 
-It is wired up to use the local source of the search-ui libraries as dependencies via lerna.
+It is wired up to use the local source of the search-ui libraries as dependencies via Lerna.
 This means as you update library code you can see it updated live in this project.
 
-It is set up to use a pre-configured Elastic App Search engine.
+It is set up to use a pre-configured Elastic App Search Engine. The data
+set is the "Sample Engine" data set provided as an example for App Search
+accounts. More info on that can be found in this [article](https://www.elastic.co/blog/a-walk-in-the-park-with-elastic-app-search-sample-engines).
 
 ## Using
 
-To run:
+First off, you'll need to get the dependencies installed correctly for this
+entire repository. To do this, there's a few commands you'll need to run that are listed
+in the top-level [README](../../README.md#install).
 
-```
-# Bootstrapping with lerna will install all dependencies for this entire
-# repository.
-(cd ../.. && npm run bootstrap)
+After that is done, from this directory, you can actually start the Sandbox application
+by running the following command:
 
-# Start watching search-ui js for changes in the various library repositories
-(cd ../.. && npm run watch-js)
-
-# Run the web application
+```shell
+# Run this from the /examples/sandbox directory,
 npm start
 ```
 
-Note: If you get error about dependency version conflicts, then you've probably
-installed dependencies at the top level of this repository either by adding a
-new dependency, or installing dependencies with hoisting `lerna boostrap --hoist".
+If you're actively developing Search UI and testing in this Sandbox, you'll probably want
+to live reload your changes in this application. To do this, navigate to the root
+level of this repository and run the following command.
+
+```shell
+# Run this from the root of this repository
+npm run watch-js
+```
+
+Note: If you get error about dependency version conflicts when starting this application ...
+
+You've probably installed dependencies at the top level of this repository either by adding a new dependency, or installing dependencies with hoisting (i.e. `lerna boostrap --hoist`).
+
+To resolve this, delete the `node_modules` directory at all levels and try this process again.
+
+```ies
+# Run this to clear all node_modules director
+# Run this from the root of this repository
+rm -rf node_modules
+rm -rf packages/node_modules
+npx lerna exec -- rm -rf node_modules
+```

@@ -53,18 +53,27 @@ Because all examples are declared as "private", when running lerna commands othe
 Dependencies are declared in a package.json hierarchy.
 
 - / package.json - Dependencies for repo tooling, like `husky` and `lerna`.
-- /packages package.json - Common dev dependencies for all Search UI npm packages. Any dev depenency that does not need to be called directly in a package level npm command
-  can be delcared here.
+- /packages package.json - Common dev dependencies for all Search UI npm packages. Any dev Common dev dependencies for al that does not need to be called directly in a package level npm command
+  can be declared here.
 - /packages/{package_name} package.json - Package specific dependencies.
 
 Note that we do not encourage "hoisting" dependencies through lerna. This WILL
 cause the examples applications to error out from dependency version conflicts.
 
+<a id="install"></a>
+
 ### Installing dependencies
 
+From the root level of this repository, run the following commands in order:
+
 ```shell
+# Install top level depenedencies at the root of the project
 npm install
+
+# Install dependencies in the /packages directory
 (cd packages && npm install)
+
+# Install all dependencies for the individual packages
 npm run bootstrap
 ```
 
