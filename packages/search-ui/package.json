@@ -21,11 +21,10 @@
   "scripts": {
     "test": "jest",
     "clean": "rimraf es lib",
-    "watch-js": " npm-run-all --parallel \"build-* -- --watch\"",
-    "build-js": "babel src --out-dir lib --ignore '**/*.test.js'",
-    "build-js-es": "BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'",
-    "dev": " npm-run-all --parallel \"build-* -- --watch\"",
-    "build": "npm-run-all clean build-js build-js-es",
+    "watch-js": "./bin/watch-js",
+    "build-js": "./bin/build-js",
+    "build": "run-s clean build-js",
+    "watch": "run-p watch-js",
     "prepare": "npm run build"
   },
   "bugs": {

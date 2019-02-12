@@ -1,0 +1,2 @@
+babel src --out-dir lib --ignore '**/*.test.js' --watch &
+BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js' --watch &
