@@ -1,4 +1,10 @@
 {
   "packages": ["packages/*", "examples/*"],
-  "version": "independent"
+  "version": "independent",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/src/test/**"],
+      "message": "Release: %s"
+    }
+  }
 }

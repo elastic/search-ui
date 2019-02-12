@@ -36,6 +36,35 @@ _Note: The Search UI is in beta. We do not recommend production use._
 Node: 8.10
 NPM: 6.4
 
+### Mono-repo explanation
+
+This repository is maintained as a Monorepo using [Lerna](https://lernajs.io/).
+
+Lerna configuration is contained in `lerna.json`.
+
+`/packages` - Contains publishable search-ui npm packages.
+`/examples` - Contains non-publishable examples of search-ui usage. They are declared
+as "packages" in `lerna.json` so that `npx lerna bootstrap` will automatically wire up the
+examples to local dependencies.
+
+Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and
+`test`), the `--no-private` flag should be appended.
+
+Dependencies are declared in a package.json hierarchy.
+
+- / package.json - Dependencies for repo tooling, like `husky` and `lerna`.
+- /packages package.json - Common dev dependencies for all Search UI npm packages. Any dev depenency that does not need to be called directly in a package level npm command
+  can be delcared here.
+- /packages/{package_name} package.json - Package specific dependencies.
+
+### Installing dependencies
+
+```shell
+npm install
+(cd packages && npm install)
+npm run bootstrap
+```
+
 ### Building
 
 All packages:
@@ -73,18 +102,16 @@ npm run test
 ```
 # Check which files have been changed, verify that
 # the packages you expect to be changed are listed.
-npx lerna changed
+npm run changed
 
 git checkout -b "release-0.2.1"
 
-# Update package.json to new version for all changed packages
-npx lerna version 0.2.1 --no-push -m "Release 0.2.1"
+# Manually update CHANGELOG files for updated repositories and commit them.
 
-# Manually update CHANGELOG files for updated repositories, until this
-# can be automated
-git add .
-# Add CHANGELOG files
-git commit --amend
+# Creates a new local commit with updated package.json files and tags. It's important
+that you do not rewrite history after this release commit has been created.
+npx lerna version 0.2.1 --no-push
+
 git push --tags
 
 ## Go through PR approval and merge to master
@@ -93,7 +120,7 @@ git checkout master
 git pull
 
 # Then finally, publish
-npx lerna exec -- npm publish
+npm run publish
 ```
 
 ## FAQ 🔮
