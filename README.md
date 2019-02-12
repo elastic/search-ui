@@ -57,6 +57,9 @@ Dependencies are declared in a package.json hierarchy.
   can be delcared here.
 - /packages/{package_name} package.json - Package specific dependencies.
 
+Note that we do not encourage "hoisting" dependencies through lerna. This WILL
+cause the examples applications to error out from dependency version conflicts.
+
 ### Installing dependencies
 
 ```shell
@@ -96,6 +99,13 @@ Single package:
 # from inside a package
 npm run test
 ```
+
+### Sandbox
+
+The [sandbox](examples/sandbox/README.md) app can be used as a local development
+aid.
+
+## Using
 
 ### Publishing
 

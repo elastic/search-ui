@@ -15,13 +15,15 @@ To run:
 ```
 # Bootstrapping with lerna will install all dependencies for this entire
 # repository.
-npx lerna boostrap
+(cd ../.. && npm run bootstrap)
 
-# Start watching js for changes in the various library repositories
-(cd ../../packages/search-ui/ && npm run watch-js)
-(cd ../../packages/react-search-ui/ && npm run watch-js)
-(cd ../../packages/react-search-ui-views/ && npm run watch-js)
+# Start watching search-ui js for changes in the various library repositories
+(cd ../.. && npm run watch-js)
 
 # Run the web application
 npm start
 ```
+
+Note: If you get error about dependency version conflicts, then you've probably
+installed dependencies at the top level of this repository either by adding a
+new dependency, or installing dependencies with hoisting `lerna boostrap --hoist".
