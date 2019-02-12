@@ -10,7 +10,6 @@ function SearchBox(props) {
       <input
         className={`sui-search-box__text-input ${focusedClass}`}
         onChange={onChange}
-        temp={"temp"}
         type="text"
         value={value}
         placeholder="Search your documents&#8230;"
