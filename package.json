@@ -5,7 +5,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "test": "lerna run test --stream",
-    "build": "lerna run build",
+    "build": "lerna run build --parallel ",
+    "watch": "lerna run watch --parallel ",
     "format": "prettier --write \"packages/*/src/*.js\"",
     "lint": "eslint \"packages/*/src/*.js\""
   },
