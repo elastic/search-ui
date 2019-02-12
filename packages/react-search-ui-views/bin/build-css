@@ -1,0 +1,4 @@
+
+node-sass src/ -o .temp/
+postcss .temp/styles/styles.css --use postcss-import -o lib/styles/styles.css
+rimraf .temp
