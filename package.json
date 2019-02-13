@@ -5,8 +5,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --stream --no-private",
-    "watch-js": "lerna run watch-js --stream",
-    "build": "lerna run build --no-private",
+    "watch": "lerna run watch --parallel",
+    "build": "lerna run build --parallel --no-private",
     "format": "prettier --write \"packages/*/src/*.js\"",
     "lint": "packages/node_modules/eslint/bin/eslint.js \"packages/*/src/*.js\"",
     "changed": "lerna changed",

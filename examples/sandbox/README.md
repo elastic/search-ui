@@ -41,7 +41,7 @@ level of this repository and run the following command.
 
 ```shell
 # Run this from the root of this repository
-npm run watch-js
+npm run watch
 ```
 
 Note: If you get error about dependency version conflicts when starting this application ...
