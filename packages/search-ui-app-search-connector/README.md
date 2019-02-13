@@ -14,8 +14,8 @@ npm install --save @elastic/search-ui-app-search-connector
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
-  engineName: "national-parks-demo",
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
   hostIdentifier: "host-2376rb",
   additionalOptions: () => ({
     group: { field: "title" }

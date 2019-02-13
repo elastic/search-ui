@@ -86,8 +86,8 @@ import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
-  engineName: "national-parks-demo",
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
   hostIdentifier: "host-2376rb"
 });
 
@@ -132,8 +132,8 @@ Our [simple UI](#simple-ui) above uses the Elastic App Search Connector:
 
 ```js
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
-  engineName: "national-parks-demo",
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
   hostIdentifier: "host-2376rb"
 });
 ```
@@ -1051,8 +1051,8 @@ hook on the particular Connector.
 
 ```js
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
-  engineName: "national-parks-demo",
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
   hostIdentifier: "host-2376rb",
   additionalOptions: existingSearchOptions => {
     const additionalSearchOptions = {
