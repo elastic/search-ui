@@ -1,0 +1,33 @@
+{
+  "name": "sandbox",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "react-scripts": "2.1.5",
+    "@elastic/search-ui": "^0.4.0",
+    "@elastic/react-search-ui-views": "^0.4.0",
+    "@elastic/react-search-ui": "^0.4.0",
+    "@elastic/search-ui-app-search-connector": "^0.4.0",
+    "@elastic/search-ui-site-search-connector": "^0.4.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "9.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
