@@ -58,8 +58,8 @@ Now update this interface to contains a Search Box, and a Results section,
 connected to the following App Search account:
 
 ```js
-searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
-engineName: "national-parks-demo",
+searchKey: "search-371auk61r2bwqtdzocdgutmg",
+engineName: "search-ui-examples",
 hostIdentifier: "host-2376rb"
 ```
 
@@ -230,8 +230,8 @@ import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import { SearchProvider, SearchBox, Results } from "@elastic/react-search-ui";
 
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-soaewu2ye6uc45dr8mcd54v8",
-  engineName: "national-parks-demo",
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
   hostIdentifier: "host-2376rb"
 });
 

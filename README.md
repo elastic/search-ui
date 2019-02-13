@@ -36,6 +36,47 @@ _Note: The Search UI is in beta. We do not recommend production use._
 Node: 8.10
 NPM: 6.4
 
+### Mono-repo explanation
+
+This repository is maintained as a Monorepo using [Lerna](https://lernajs.io/).
+
+Lerna configuration is contained in `lerna.json`.
+
+`/packages` - Contains publishable search-ui npm packages.
+`/examples` - Contains non-publishable examples of search-ui usage. They are declared
+as "packages" in `lerna.json` so that `npx lerna bootstrap` will automatically wire up the
+examples to local dependencies.
+
+Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and
+`test`), the `--no-private` flag should be appended.
+
+Dependencies are declared in a package.json hierarchy.
+
+- / package.json - Dependencies for repo tooling, like `husky` and `lerna`.
+- /packages package.json - Common dev dependencies for all Search UI npm packages. Any dev Common dev dependencies for al that does not need to be called directly in a package level npm command
+  can be declared here.
+- /packages/{package_name} package.json - Package specific dependencies.
+
+Note that we do not encourage "hoisting" dependencies through lerna. This WILL
+cause the examples applications to error out from dependency version conflicts.
+
+<a id="install"></a>
+
+### Installing dependencies
+
+From the root level of this repository, run the following commands in order:
+
+```shell
+# Install top level depenedencies at the root of the project
+npm install
+
+# Install dependencies in the /packages directory
+(cd packages && npm install)
+
+# Install all dependencies for the individual packages
+npm run bootstrap
+```
+
 ### Building
 
 All packages:
@@ -68,23 +109,28 @@ Single package:
 npm run test
 ```
 
+### Sandbox
+
+The [sandbox](examples/sandbox/README.md) app can be used as a local development
+aid.
+
+## Using
+
 ### Publishing
 
 ```
 # Check which files have been changed, verify that
 # the packages you expect to be changed are listed.
-npx lerna changed
+npm run changed
 
 git checkout -b "release-0.2.1"
 
-# Update package.json to new version for all changed packages
-npx lerna version 0.2.1 --no-push -m "Release 0.2.1"
+# Manually update CHANGELOG files for updated repositories and commit them.
 
-# Manually update CHANGELOG files for updated repositories, until this
-# can be automated
-git add .
-# Add CHANGELOG files
-git commit --amend
+# Creates a new local commit with updated package.json files and tags. It's important
+that you do not rewrite history after this release commit has been created.
+npx lerna version 0.2.1 --no-push
+
 git push --tags
 
 ## Go through PR approval and merge to master
@@ -93,7 +139,7 @@ git checkout master
 git pull
 
 # Then finally, publish
-npx lerna exec -- npm publish
+npm run publish
 ```
 
 ## FAQ 🔮
