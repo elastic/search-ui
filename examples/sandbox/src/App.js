@@ -19,9 +19,11 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-371auk61r2bwqtdzocdgutmg",
-  engineName: "search-ui-examples",
-  hostIdentifier: "host-2376rb"
+  searchKey:
+    process.env.REACT_APP_SEARCH_KEY || "search-371auk61r2bwqtdzocdgutmg",
+  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "search-ui-examples",
+  hostIdentifier: process.env.REACT_APP_SEARCH_HOST_IDENTIFIER || "host-2376rb",
+  endpointBase: process.env.REACT_APP_SEARCH_ENDPOINT_BASE || ""
 });
 
 export default function App() {
