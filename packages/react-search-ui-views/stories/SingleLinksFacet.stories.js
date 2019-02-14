@@ -3,7 +3,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import { SingleValueLinksFacet } from "../src";
+import { SingleLinksFacet } from "../src";
 
 const baseProps = {
   onChange: action("changed"),
@@ -35,7 +35,7 @@ const baseProps = {
 };
 
 storiesOf("Facets: Single Value", module)
-  .add("none selected", () => <SingleValueLinksFacet {...{ ...baseProps }} />)
+  .add("none selected", () => <SingleLinksFacet {...{ ...baseProps }} />)
   .add("selected", () => (
-    <SingleValueLinksFacet {...{ values: ["Compact Cars"], ...baseProps }} />
+    <SingleLinksFacet {...{ values: ["Compact Cars"], ...baseProps }} />
   ));

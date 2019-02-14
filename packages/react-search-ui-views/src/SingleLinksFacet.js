@@ -3,13 +3,7 @@ import React from "react";
 
 import { ValueFacetOption, ValueFilterValue } from "./types";
 
-function SingleValueLinksFacet({
-  label,
-  onRemove,
-  onSelect,
-  options,
-  values = []
-}) {
+function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
   const value = values[0];
   return (
     <div className="sui-facet sui-search-facet">
@@ -56,7 +50,7 @@ function SingleValueLinksFacet({
   );
 }
 
-SingleValueLinksFacet.propTypes = {
+SingleLinksFacet.propTypes = {
   label: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
@@ -64,4 +58,4 @@ SingleValueLinksFacet.propTypes = {
   values: PropTypes.arrayOf(ValueFilterValue)
 };
 
-export default SingleValueLinksFacet;
+export default SingleLinksFacet;

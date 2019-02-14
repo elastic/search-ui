@@ -3,7 +3,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import { SingleRangeSelectFacet } from "../src";
+import { SingleSelectFacet } from "../src";
 
 const baseProps = {
   onChange: action("changed"),
@@ -35,5 +35,5 @@ const baseProps = {
 };
 
 storiesOf("Facets: Rangle Select", module).add("option selected", () => (
-  <SingleRangeSelectFacet {...{ ...baseProps }} />
+  <SingleSelectFacet {...{ ...baseProps }} />
 ));

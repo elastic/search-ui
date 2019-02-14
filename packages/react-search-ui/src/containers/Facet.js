@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Component } from "react";
-import { MultiValueFacet } from "@elastic/react-search-ui-views";
+import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 import { FacetDetail, Filter } from "../types";
 
@@ -60,7 +60,7 @@ export class FacetContainer extends Component {
     const selectedValues = findFacetValueInFilters(field, filters) || [];
     if (!options.length && !selectedValues.length) return null;
 
-    const View = view || MultiValueFacet;
+    const View = view || MultiCheckboxFacet;
 
     return View({
       label: label,
