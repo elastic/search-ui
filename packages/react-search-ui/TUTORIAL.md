@@ -147,7 +147,7 @@ component for the `states` facet. ALL components in `react-search-ui` will
 support a `view` prop, which lets you customize the view. We're just going to
 swap in another view component that provides slightly different markup.
 
-Change the `states` facet filter to use the `SingleValueLinksFacet` view.
+Change the `states` facet filter to use the `SingleLinksFacet` view.
 
 <a id="question7"></a>
 [Solution](#solution7)
@@ -357,8 +357,8 @@ import {
 } from "@elastic/react-search-ui";
 import {
   ...
-  MultiValueFacet,
-  SingleRangeSelectFacet
+  MultiCheckboxFacet,
+  SingleSelectFacet
 } from "@elastic/react-search-ui-views";
 
 ...
@@ -366,11 +366,11 @@ import {
 <Layout
   sideContent={
     <div>
-      <Facet field="states" label="States" view={MultiValueFacet} />
+      <Facet field="states" label="States" view={MultiCheckboxFacet} />
       <Facet
         field="acres"
         label="Acres"
-        view={SingleRangeSelectFacet}
+        view={SingleSelectFacet}
       />
     </div>
   }
@@ -390,7 +390,7 @@ configure whether making a selection makes an OR selection or an AND filter.
 ```jsx
 import {
   ...
-  SingleValueLinksFacet
+  SingleLinksFacet
 } from "@elastic/react-search-ui-views";
 
 ...
@@ -399,7 +399,7 @@ import {
   field="states"
   label="States"
   show={10}
-  view={SingleValueLinksFacet}
+  view={SingleLinksFacet}
 />
 ```
 

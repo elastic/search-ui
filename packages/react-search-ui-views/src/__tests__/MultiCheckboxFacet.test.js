@@ -1,5 +1,5 @@
 import React from "react";
-import MultiValueFacet from "../MultiValueFacet";
+import MultiCheckboxFacet from "../MultiCheckboxFacet";
 import { shallow } from "enzyme";
 
 const params = {
@@ -22,30 +22,30 @@ const params = {
 };
 
 it("renders", () => {
-  const wrapper = shallow(<MultiValueFacet {...params} />);
+  const wrapper = shallow(<MultiCheckboxFacet {...params} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 it("will render 'more' button if more param is true", () => {
   const wrapper = shallow(
-    <MultiValueFacet
+    <MultiCheckboxFacet
       {...{
         ...params,
         showMore: true
       }}
     />
   );
-  expect(wrapper.find(".sui-multi-value-facet__view-more")).toHaveLength(1);
+  expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(1);
 });
 
 it("won't render 'more' button if more param is false", () => {
   const wrapper = shallow(
-    <MultiValueFacet
+    <MultiCheckboxFacet
       {...{
         ...params,
         showMore: false
       }}
     />
   );
-  expect(wrapper.find(".sui-multi-value-facet__view-more")).toHaveLength(0);
+  expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(0);
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import SingleRangeSelectFacet from "../SingleRangeSelectFacet";
+import SingleSelectFacet from "../SingleSelectFacet";
 import { shallow } from "enzyme";
 
 const params = {
@@ -28,6 +28,6 @@ const params = {
 };
 
 it("renders", () => {
-  const wrapper = shallow(<SingleRangeSelectFacet {...params} />);
+  const wrapper = shallow(<SingleSelectFacet {...params} />);
   expect(wrapper).toMatchSnapshot();
 });

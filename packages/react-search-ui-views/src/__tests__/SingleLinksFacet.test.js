@@ -1,5 +1,5 @@
 import React from "react";
-import SingleValueLinksFacet from "../SingleValueLinksFacet";
+import SingleLinksFacet from "../SingleLinksFacet";
 import { shallow } from "enzyme";
 
 const requiredProps = {
@@ -11,12 +11,12 @@ const requiredProps = {
 
 it("renders correctly when a value is selected", () => {
   const wrapper = shallow(
-    <SingleValueLinksFacet {...requiredProps} value="value" />
+    <SingleLinksFacet {...requiredProps} value="value" />
   );
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when a value is not selected", () => {
-  const wrapper = shallow(<SingleValueLinksFacet {...requiredProps} />);
+  const wrapper = shallow(<SingleLinksFacet {...requiredProps} />);
   expect(wrapper).toMatchSnapshot();
 });

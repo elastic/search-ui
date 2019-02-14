@@ -4,9 +4,9 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import { Facets } from "../src";
-import { MultiValueFacet } from "../src";
-import { SingleRangeSelectFacet } from "../src";
-import { SingleValueLinksFacet } from "../src";
+import { MultiCheckboxFacet } from "../src";
+import { SingleSelectFacet } from "../src";
+import { SingleLinksFacet } from "../src";
 
 const multiValueProps = {
   label: "The Label",
@@ -90,8 +90,8 @@ const singleValueLinksProps = {
 
 storiesOf("Facets Container", module).add("facets", () => (
   <Facets>
-    <SingleRangeSelectFacet {...{ ...rangeFacetProps }} />
-    <MultiValueFacet {...{ ...multiValueProps }} />
-    <SingleValueLinksFacet {...{ ...singleValueLinksProps }} />
+    <SingleSelectFacet {...{ ...rangeFacetProps }} />
+    <MultiCheckboxFacet {...{ ...multiValueProps }} />
+    <SingleLinksFacet {...{ ...singleValueLinksProps }} />
   </Facets>
 ));

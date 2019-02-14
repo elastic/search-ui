@@ -3,7 +3,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import { MultiValueFacet } from "../src";
+import { MultiCheckboxFacet } from "../src";
 
 const baseProps = {
   label: "The Label",
@@ -29,8 +29,8 @@ const baseProps = {
 
 storiesOf("Facets: Multi-value", module)
   .add("basic", () => (
-    <MultiValueFacet {...{ showMore: false, ...baseProps }} />
+    <MultiCheckboxFacet {...{ showMore: false, ...baseProps }} />
   ))
   .add("with More", () => (
-    <MultiValueFacet {...{ showMore: true, ...baseProps }} />
+    <MultiCheckboxFacet {...{ showMore: true, ...baseProps }} />
   ));

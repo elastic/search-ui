@@ -11,7 +11,7 @@ import {
   Paging,
   Sorting
 } from "@elastic/react-search-ui";
-import { Layout, SingleRangeSelectFacet } from "@elastic/react-search-ui-views";
+import { Layout, SingleSelectFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
@@ -87,7 +87,7 @@ export default function App() {
                   <Facet
                     field="acres"
                     label="Acres"
-                    view={SingleRangeSelectFacet}
+                    view={SingleSelectFacet}
                   />
                 </div>
               }

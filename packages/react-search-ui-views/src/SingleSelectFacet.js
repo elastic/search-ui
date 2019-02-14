@@ -15,6 +15,10 @@ function Option(props) {
   );
 }
 
+Option.propTypes = {
+  data: PropTypes.object.isRequired
+};
+
 function toValue(from, to) {
   return `${from || ""}_${to || ""}`;
 }
@@ -43,7 +47,7 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleRangeSelectFacet({ label, onChange, options, values }) {
+function SingleSelectFacet({ label, onChange, options, values }) {
   const selectedFilterValue = values[0];
 
   const selectOptions = options.map(toSelectOption);
@@ -73,11 +77,11 @@ function SingleRangeSelectFacet({ label, onChange, options, values }) {
   );
 }
 
-SingleRangeSelectFacet.propTypes = {
+SingleSelectFacet.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(RangeFacetOption).isRequired,
   values: PropTypes.arrayOf(RangeFilterValue).isRequired
 };
 
-export default SingleRangeSelectFacet;
+export default SingleSelectFacet;

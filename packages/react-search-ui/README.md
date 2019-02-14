@@ -286,18 +286,18 @@ corresponding field has been configured in
 
 Properties:
 
-| Name  | type      | Required? | Default                                                            | Options                                                                                                                                                               | Description                                                                                                                                         |
-| ----- | --------- | --------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| field | String    | yes       |                                                                    |                                                                                                                                                                       | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
-| label | String    | yes       |                                                                    |                                                                                                                                                                       | A static label to show in the facet filter.                                                                                                         |
-| show  | Number    | no        | 10                                                                 |                                                                                                                                                                       | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
-| view  | Component | no        | [MultiValueFacet](../react-search-ui-views/src/MultiValueFacet.js) | [SingleValueLinksFacet](../react-search-ui-views/src/SingleValueLinksFacet.js) <br/> [SingleRangeSelectFacet](../react-search-ui-views/src/SingleRangeSelectFacet.js) | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
+| Name  | type      | Required? | Default                                                               | Options                                                                                                                                                     | Description                                                                                                                                         |
+| ----- | --------- | --------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| field | String    | yes       |                                                                       |                                                                                                                                                             | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
+| label | String    | yes       |                                                                       |                                                                                                                                                             | A static label to show in the facet filter.                                                                                                         |
+| show  | Number    | no        | 10                                                                    |                                                                                                                                                             | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
+| view  | Component | no        | [MultiCheckboxFacet](../react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](../react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](../react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
 
 ```jsx
 import { Facet } from "@elastic/react-search-ui";
-import { MultiValueFacet } from "@elastic/react-search-ui-views";
+import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 ...
 
@@ -308,7 +308,7 @@ import { MultiValueFacet } from "@elastic/react-search-ui-views";
   }
 }}>
   {() => (
-    <Facet field="states" label="States" view={MultiValueFacet} />
+    <Facet field="states" label="States" view={MultiCheckboxFacet} />
   )}
 </SearchProvider>
 ```
