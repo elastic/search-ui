@@ -11,11 +11,7 @@ import {
   Paging,
   Sorting
 } from "@elastic/react-search-ui";
-import {
-  Layout,
-  MultiValueFacet,
-  SingleRangeSelectFacet
-} from "@elastic/react-search-ui-views";
+import { Layout, SingleRangeSelectFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
@@ -68,45 +64,43 @@ export default function App() {
     >
       {_ => (
         <div className="App">
-          <Layout
-            header={<SearchBox />}
-            sideContent={
-              <div>
-                <Sorting
-                  sortOptions={[
-                    {
-                      name: "Relevance",
-                      value: "",
-                      direction: ""
-                    },
-                    {
-                      name: "Title",
-                      value: "title",
-                      direction: "asc"
-                    }
-                  ]}
-                />
-                <Facet field="states" label="States" view={MultiValueFacet} />
-                <Facet
-                  field="acres"
-                  label="Acres"
-                  view={SingleRangeSelectFacet}
-                />
-              </div>
-            }
-            bodyContent={
-              <ErrorBoundary>
-                <Results titleField="title" urlField="nps_link" />
-              </ErrorBoundary>
-            }
-            bodyHeader={
-              <React.Fragment>
-                <PagingInfo />
-                <ResultsPerPage />
-              </React.Fragment>
-            }
-            bodyFooter={<Paging />}
-          />
+          <ErrorBoundary>
+            <Layout
+              header={<SearchBox />}
+              sideContent={
+                <div>
+                  <Sorting
+                    sortOptions={[
+                      {
+                        name: "Relevance",
+                        value: "",
+                        direction: ""
+                      },
+                      {
+                        name: "Title",
+                        value: "title",
+                        direction: "asc"
+                      }
+                    ]}
+                  />
+                  <Facet field="states" label="States" />
+                  <Facet
+                    field="acres"
+                    label="Acres"
+                    view={SingleRangeSelectFacet}
+                  />
+                </div>
+              }
+              bodyContent={<Results titleField="title" urlField="nps_link" />}
+              bodyHeader={
+                <React.Fragment>
+                  <PagingInfo />
+                  <ResultsPerPage />
+                </React.Fragment>
+              }
+              bodyFooter={<Paging />}
+            />
+          </ErrorBoundary>
         </div>
       )}
     </SearchProvider>

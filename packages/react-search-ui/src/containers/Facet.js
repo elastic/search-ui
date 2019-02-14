@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { Component } from "react";
+import { MultiValueFacet } from "@elastic/react-search-ui-views";
 
 import { FacetDetail, Filter } from "../types";
+
 import { withSearch } from "..";
 
 function findFacetValueInFilters(name, filters) {
@@ -16,7 +18,7 @@ export class FacetContainer extends Component {
     field: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     show: PropTypes.number,
-    view: PropTypes.func.isRequired,
+    view: PropTypes.func,
     // State
     filters: PropTypes.arrayOf(Filter).isRequired,
     facets: PropTypes.objectOf(FacetDetail).isRequired,
@@ -58,7 +60,9 @@ export class FacetContainer extends Component {
     const selectedValues = findFacetValueInFilters(field, filters) || [];
     if (!options.length && !selectedValues.length) return null;
 
-    return view({
+    const View = view || MultiValueFacet;
+
+    return View({
       label: label,
       onMoreClick: this.handleClickMore,
       onRemove: value => {
