@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { withSearch } from "..";
 import { SearchBox } from "@elastic/react-search-ui-views";
+
+import { withSearch } from "..";
 
 export class SearchBoxContainer extends Component {
   static propTypes = {
