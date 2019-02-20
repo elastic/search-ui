@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ValueFacetOption, ValueFilterValue } from "./types";
+import { ValueFacetOption, FilterValueValue } from "./types";
 
 function MultiCheckboxFacet({
   label,
@@ -64,7 +64,7 @@ MultiCheckboxFacet.propTypes = {
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(ValueFacetOption).isRequired,
   showMore: PropTypes.bool.isRequired,
-  values: PropTypes.arrayOf(ValueFilterValue).isRequired
+  values: PropTypes.arrayOf(FilterValueValue).isRequired
 };
 
 export default MultiCheckboxFacet;

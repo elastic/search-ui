@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ValueFacetOption, ValueFilterValue } from "./types";
+import { ValueFacetOption, FilterValueValue } from "./types";
 
 function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
   const value = values[0];
@@ -55,7 +55,7 @@ SingleLinksFacet.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(ValueFacetOption).isRequired,
-  values: PropTypes.arrayOf(ValueFilterValue)
+  values: PropTypes.arrayOf(FilterValueValue)
 };
 
 export default SingleLinksFacet;

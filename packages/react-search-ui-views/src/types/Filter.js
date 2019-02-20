@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import ValueFilterValue from "./ValueFilterValue";
-import RangeFilterValue from "./RangeFilterValue";
+import FilterValueValue from "./FilterValueValue";
+import FilterValueRange from "./FilterValueRange";
 
 export default PropTypes.objectOf(
-  PropTypes.arrayOf(PropTypes.oneOfType([RangeFilterValue, ValueFilterValue]))
+  PropTypes.arrayOf(PropTypes.oneOfType([FilterValueRange, FilterValueValue]))
 );

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import ValueFilterValue from "./ValueFilterValue";
-import RangeFilterValue from "./RangeFilterValue";
+import FilterValueValue from "./FilterValueValue";
+import FilterValueRange from "./FilterValueRange";
 
-export default PropTypes.oneOfType([RangeFilterValue, ValueFilterValue]);
+export default PropTypes.oneOfType([FilterValueRange, FilterValueValue]);
