@@ -3,6 +3,7 @@ import React from "react";
 import Select, { components } from "react-select";
 
 import { FacetValue, FilterValue } from "./types";
+import { getFilterValueDisplay } from "./view-helpers";
 
 function Option(props) {
   return (
@@ -30,7 +31,7 @@ function deserializeValue(value) {
 function toSelectOption(filterValue) {
   return {
     value: serializeValue(filterValue.value),
-    label: filterValue.label,
+    label: getFilterValueDisplay(filterValue.value),
     count: filterValue.count
   };
 }

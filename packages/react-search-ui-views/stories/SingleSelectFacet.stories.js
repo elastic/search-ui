@@ -10,7 +10,6 @@ const baseProps = {
   label: "The label",
   options: [
     {
-      label: "The first option",
       count: 1,
       value: {
         from: 1,
@@ -19,7 +18,6 @@ const baseProps = {
       }
     },
     {
-      label: "The second option",
       count: 11,
       value: {
         from: 11,
@@ -39,12 +37,10 @@ const baseProps = {
 
 const valueFacetOptions = [
   {
-    label: "Pennsylvania",
     count: 1,
     value: "Pennsylvania"
   },
   {
-    label: "Georgia",
     count: 1,
     value: "Georgia"
   }

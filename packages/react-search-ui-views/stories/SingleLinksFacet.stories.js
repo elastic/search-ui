@@ -10,32 +10,72 @@ const baseProps = {
   onSelect: action("selected"),
   onRemove: action("removed"),
   label: "The label",
+  values: [],
   options: [
     {
-      value: "Compact Cars",
-      count: 100
+      count: 100,
+      value: "Compact Cars"
     },
     {
-      value: "Subcompact Cars",
-      count: 150
+      count: 150,
+      value: "Subcompact Cars"
     },
     {
-      value: "Mini Compact Cars",
-      count: 300
+      count: 300,
+      value: "Mini Compact Cars"
     },
     {
-      value: "Hatchback",
-      count: 120
+      count: 120,
+      value: "Hatchback"
     },
     {
-      value: "Sport Utility Vehicles",
-      count: 80
+      count: 80,
+      value: "Sport Utility Vehicles"
     }
   ]
 };
 
-storiesOf("Facets: Single Value", module)
-  .add("none selected", () => <SingleLinksFacet {...{ ...baseProps }} />)
-  .add("selected", () => (
-    <SingleLinksFacet {...{ values: ["Compact Cars"], ...baseProps }} />
+const rangeOptions = [
+  {
+    count: 1,
+    value: {
+      from: 1,
+      to: 10,
+      name: "The first option"
+    }
+  },
+  {
+    count: 11,
+    value: {
+      from: 11,
+      to: 20,
+      name: "The second option"
+    }
+  }
+];
+
+storiesOf("Facets/SingleLinksFacet", module)
+  .add("with Value Facets not selected", () => (
+    <SingleLinksFacet {...{ ...baseProps }} />
+  ))
+  .add("with Value Facets selected", () => (
+    <SingleLinksFacet {...{ ...baseProps, values: ["Compact Cars"] }} />
+  ))
+  .add("with Range Facets not selected", () => (
+    <SingleLinksFacet {...{ ...baseProps, options: rangeOptions }} />
+  ))
+  .add("with Range Facets selected", () => (
+    <SingleLinksFacet
+      {...{
+        ...baseProps,
+        options: rangeOptions,
+        values: [
+          {
+            from: 11,
+            to: 20,
+            name: "The second option"
+          }
+        ]
+      }}
+    />
   ));
