@@ -77,7 +77,7 @@ it("won't render 'more' button if more param is false", () => {
 });
 
 describe("determining selected option from values", () => {
-  it("correctly determines which of the options is selected based on the provided value", () => {
+  it("will correctly determine which of the options is selected based on the provided value", () => {
     const wrapper = shallow(<MultiCheckboxFacet {...params} />);
     expect(
       wrapper
@@ -94,7 +94,7 @@ describe("determining selected option from values", () => {
     ).toBe(true);
   });
 
-  it("Will correctly determine when no value is selected", () => {
+  it("will correctly determine when no value is selected", () => {
     const wrapper = shallow(<MultiCheckboxFacet {...params} values={[]} />);
 
     expect(
@@ -112,7 +112,7 @@ describe("determining selected option from values", () => {
     ).toBe(false);
   });
 
-  it("correctly determines which of the options is selected when using range filters", () => {
+  it("will correctly determine which of the options is selected when using range filters", () => {
     const wrapper = shallow(
       <MultiCheckboxFacet
         {...params}
@@ -142,7 +142,7 @@ describe("determining selected option from values", () => {
     ).toBe(false);
   });
 
-  it("correctly determines which of the options is selected even if the provided value has differently ordered props", () => {
+  it("will correctly determine which of the options is selected even if the provided value has differently ordered props", () => {
     const wrapper = shallow(
       <MultiCheckboxFacet
         {...params}

@@ -49,12 +49,12 @@ it("renders", () => {
 });
 
 describe("determining selected option from values", () => {
-  it("correctly determines which of the options is selected based on the provided value", () => {
+  it("will correctly determine which of the options is selected based on the provided value", () => {
     const wrapper = render(<SingleSelectFacet {...params} />);
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
   });
 
-  it("correctly determines which of the options is selected even if the provided value has differently ordered props", () => {
+  it("will correctly determine which of the options is selected even if the provided value has differently ordered props", () => {
     const wrapper = render(
       <SingleSelectFacet
         {...params}
@@ -70,7 +70,7 @@ describe("determining selected option from values", () => {
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
   });
 
-  it("correctly determines which of the options is selected when using value filters", () => {
+  it("will correctly determine which of the options is selected when using value filters", () => {
     const wrapper = render(
       <SingleSelectFacet
         {...params}
@@ -83,7 +83,7 @@ describe("determining selected option from values", () => {
     );
   });
 
-  it("Will correctly determine when no value is selected", () => {
+  it("will correctly determine when no value is selected", () => {
     const wrapper = render(
       <SingleSelectFacet {...params} options={valueFacetOptions} values={[]} />
     );
