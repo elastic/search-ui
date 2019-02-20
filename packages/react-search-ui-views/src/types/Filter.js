@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
-import FilterValueValue from "./FilterValueValue";
-import FilterValueRange from "./FilterValueRange";
+import FilterType from "./FilterType";
+import FilterValue from "./FilterValue";
 
-export default PropTypes.objectOf(
-  PropTypes.arrayOf(PropTypes.oneOfType([FilterValueRange, FilterValueValue]))
-);
+export default PropTypes.shape({
+  field: PropTypes.string.isRequired,
+  values: PropTypes.arrayOf(FilterValue).isRequired,
+  type: FilterType.isRequired
+});
