@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
@@ -18,8 +19,8 @@ function MultiCheckboxFacet({
       <div className="sui-multi-checkbox-facet__label">{label}</div>
       <div className="sui-multi-checkbox-facet__options-list">
         {options.map(option => {
-          const checked = !!values.find(
-            value => JSON.stringify(option.value) === JSON.stringify(value)
+          const checked = !!values.find(value =>
+            deepEqual(option.value, value)
           );
           return (
             <label
