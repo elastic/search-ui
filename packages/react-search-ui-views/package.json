@@ -69,6 +69,7 @@
   },
   "dependencies": {
     "autoprefixer": "^9.4.7",
+    "deep-equal": "^1.0.1",
     "rc-pagination": "^1.17.3",
     "react-select": "^2.1.1"
   }

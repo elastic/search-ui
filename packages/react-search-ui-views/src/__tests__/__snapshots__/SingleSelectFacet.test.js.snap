@@ -27,12 +27,20 @@ exports[`renders 1`] = `
         Object {
           "count": 20,
           "label": "Range 1",
-          "value": "1_10",
+          "value": Object {
+            "from": 1,
+            "name": "Range 1",
+            "to": 10,
+          },
         },
         Object {
           "count": 10,
           "label": "Range 2",
-          "value": "11_20",
+          "value": Object {
+            "from": 11,
+            "name": "Range 2",
+            "to": 20,
+          },
         },
       ]
     }
@@ -48,7 +56,11 @@ exports[`renders 1`] = `
       Object {
         "count": 20,
         "label": "Range 1",
-        "value": "1_10",
+        "value": Object {
+          "from": 1,
+          "name": "Range 1",
+          "to": 10,
+        },
       }
     }
   />

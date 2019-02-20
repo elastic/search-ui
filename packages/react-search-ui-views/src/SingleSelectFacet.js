@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
+import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
@@ -20,17 +21,9 @@ Option.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-function serializeValue(value) {
-  return JSON.stringify(value);
-}
-
-function deserializeValue(value) {
-  return JSON.parse(value);
-}
-
 function toSelectOption(filterValue) {
   return {
-    value: serializeValue(filterValue.value),
+    value: filterValue.value,
     label: getFilterValueDisplay(filterValue.value),
     count: filterValue.count
   };
@@ -44,11 +37,11 @@ const setDefaultStyle = {
 };
 
 function SingleSelectFacet({ label, onChange, options, values }) {
-  const selectedFilterValue = values[0];
-
   const selectOptions = options.map(toSelectOption);
-  const value = serializeValue(selectedFilterValue);
-  const selectedOption = selectOptions.find(o => o.value === value);
+  const selectedFilterValue = values[0];
+  const selectedOption = selectOptions.find(o =>
+    deepEqual(o.value, selectedFilterValue)
+  );
 
   return (
     <div className="sui-search-facet sui-facet">
@@ -58,7 +51,7 @@ function SingleSelectFacet({ label, onChange, options, values }) {
         classNamePrefix="sui-select"
         components={{ Option }}
         value={selectedOption}
-        onChange={o => onChange(deserializeValue(o.value))}
+        onChange={o => onChange(o.value)}
         options={selectOptions}
         isSearchable={false}
         styles={setDefaultStyle}

@@ -24,7 +24,7 @@ exports[`renders correctly when a value is not selected 1`] = `
         >
           1
         </a>
-         
+
         <span
           className="sui-facet__count"
         >
@@ -42,7 +42,7 @@ exports[`renders correctly when a value is not selected 1`] = `
         >
           2
         </a>
-         
+
         <span
           className="sui-facet__count"
         >
@@ -78,7 +78,7 @@ exports[`renders correctly when a value is selected 1`] = `
         >
           1
         </a>
-         
+
         <span
           className="sui-facet__count"
         >
@@ -96,7 +96,7 @@ exports[`renders correctly when a value is selected 1`] = `
         >
           2
         </a>
-         
+
         <span
           className="sui-facet__count"
         >
