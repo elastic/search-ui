@@ -10,30 +10,59 @@ const baseProps = {
   label: "The label",
   options: [
     {
+      label: "The first option",
       count: 1,
-      from: 1,
-      to: 10,
-      name: "The first option"
+      value: {
+        from: 1,
+        to: 10,
+        name: "The first option"
+      }
     },
     {
+      label: "The second option",
       count: 11,
-      from: 11,
-      to: 20,
-      name: "The second option"
+      value: {
+        from: 11,
+        to: 20,
+        name: "The second option"
+      }
     }
   ],
   values: [
     {
-      from: 1,
-      to: 10
-    },
-    {
       from: 11,
-      to: 20
+      to: 20,
+      name: "The second option"
     }
   ]
 };
 
-storiesOf("Facets: Rangle Select", module).add("option selected", () => (
-  <SingleSelectFacet {...{ ...baseProps }} />
-));
+const valueFacetOptions = [
+  {
+    label: "Pennsylvania",
+    count: 1,
+    value: "Pennsylvania"
+  },
+  {
+    label: "Georgia",
+    count: 1,
+    value: "Georgia"
+  }
+];
+
+storiesOf("Facets/SingleSelectFacet", module)
+  .add("no options selected", () => (
+    <SingleSelectFacet {...{ ...baseProps, values: [] }} />
+  ))
+  .add("with Range Facets selected", () => (
+    <SingleSelectFacet {...{ ...baseProps }} />
+  ))
+  .add("with Value Facets selected", () => (
+    <SingleSelectFacet
+      {...{
+        ...baseProps,
+        options: valueFacetOptions,
+        values: ["Pennsylvania"]
+      }}
+    />
+  ));
