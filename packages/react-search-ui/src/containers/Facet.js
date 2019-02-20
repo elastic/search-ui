@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
-import { FacetDetail, Filter } from "../types";
+import { Facet, Filter } from "../types";
 
 import { withSearch } from "..";
 
 function findFacetValueInFilters(name, filters) {
-  const filter = filters.find(f => Object.keys(f)[0] === name);
+  const filter = filters.find(f => f.field === name);
   if (!filter) return;
-  return Object.values(filter)[0];
+  return filter.values;
 }
 
 export class FacetContainer extends Component {
@@ -21,7 +21,7 @@ export class FacetContainer extends Component {
     view: PropTypes.func,
     // State
     filters: PropTypes.arrayOf(Filter).isRequired,
-    facets: PropTypes.objectOf(FacetDetail).isRequired,
+    facets: PropTypes.objectOf(PropTypes.arrayOf(Facet)).isRequired,
     // Actions
     addFilter: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired,
