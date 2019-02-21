@@ -2,6 +2,7 @@ import URLManager from "./URLManager";
 
 import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
+import { adaptFacets } from "./responseAdapter";
 
 import * as actions from "./actions";
 
@@ -252,7 +253,7 @@ export default class SearchDriver {
         this.requestSequencer.completed(requestId);
 
         this._setState({
-          facets: resultList.info.facets || {},
+          facets: adaptFacets(resultList.info.facets || {}),
           isLoading: false,
           requestId: resultList.info.meta.request_id,
           results: resultList.results,
