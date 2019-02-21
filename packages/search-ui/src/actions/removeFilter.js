@@ -13,7 +13,7 @@ export default function removeFilter(name, value) {
 
   const updatedFilters = value
     ? removeSingleFilterValue(filters, name, value)
-    : filters.filter(filter => !filter[name]);
+    : filters.filter(filter => filter.field !== name);
 
   this._updateSearchResults({
     current: 1,

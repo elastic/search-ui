@@ -11,7 +11,8 @@ import { matchFilter } from "../helpers";
 export default function addFilter(name, value) {
   const { filters } = this.state;
 
-  const existingFilterValues = (filters.find(f => f[name]) || {})[name] || [];
+  const existingFilterValues =
+    (filters.find(f => f.field === name) || {}).values || [];
 
   const newFilterValues = existingFilterValues.find(existing =>
     matchFilter(existing, value)
@@ -23,6 +24,9 @@ export default function addFilter(name, value) {
 
   this._updateSearchResults({
     current: 1,
-    filters: [...filtersWithoutTargetFilter, { [name]: newFilterValues }]
+    filters: [
+      ...filtersWithoutTargetFilter,
+      { field: name, values: newFilterValues, type: "and" }
+    ]
   });
 }

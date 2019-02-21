@@ -34,7 +34,7 @@ describe("#setResultsPerPage", () => {
   it("Does not update other Search Parameter values", () => {
     const initialState = {
       searchTerm: "test",
-      filters: [{ initial: ["value"] }],
+      filters: [{ field: "initial", values: ["value"], type: "and" }],
       sortField: "date",
       sortDirection: "desc"
     };

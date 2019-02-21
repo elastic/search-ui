@@ -72,9 +72,14 @@ export const DEFAULT_STATE = {
  */
 function formatORFiltersAsAND(filters = []) {
   return filters.reduce((acc, filter) => {
-    const name = Object.keys(filter)[0];
-    const values = Object.values(filter)[0];
-    return acc.concat(values.map(v => ({ [name]: v })));
+    const name = filter.field;
+    const values = filter.values;
+    return acc.concat(
+      values.map(v => ({
+        name,
+        values: [v]
+      }))
+    );
   }, []);
 }
 
