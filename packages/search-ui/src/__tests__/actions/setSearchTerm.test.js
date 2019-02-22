@@ -46,7 +46,7 @@ describe("#setSearchTerm", () => {
             {
               field: "filter1",
               values: ["value1"],
-              type: "and"
+              type: "all"
             }
           ]
         }

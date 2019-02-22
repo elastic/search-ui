@@ -63,13 +63,13 @@ describe("#setFilter", () => {
     expect(
       subject("test", "value2", {
         initialFilters: [
-          { field: "initial", values: ["value"], type: "and" },
-          { field: "test", values: ["value1"], type: "and" }
+          { field: "initial", values: ["value"], type: "all" },
+          { field: "test", values: ["value1"], type: "all" }
         ]
       }).filters
     ).toEqual([
-      { field: "initial", values: ["value"], type: "and" },
-      { field: "test", values: ["value2"], type: "and" }
+      { field: "initial", values: ["value"], type: "all" },
+      { field: "test", values: ["value2"], type: "all" }
     ]);
   });
 });

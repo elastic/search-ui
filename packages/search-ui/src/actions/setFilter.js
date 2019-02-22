@@ -17,7 +17,7 @@ export default function setFilter(name, value) {
       {
         field: name,
         values: [value],
-        type: "and"
+        type: "all"
       }
     ]
   });

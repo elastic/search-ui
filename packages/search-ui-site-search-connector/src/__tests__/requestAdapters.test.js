@@ -68,11 +68,11 @@ describe("requestAdapters", () => {
     it("adapts config to site search filter config", () => {
       expect(adaptFilterConfig(filterConfig)).toEqual({
         states: {
-          type: "and",
+          type: "all",
           values: ["Maine", "Georgia"]
         },
         national_landmark: {
-          type: "and",
+          type: "all",
           values: ["true"]
         }
       });

@@ -53,11 +53,11 @@ describe("#clearFilters", () => {
     expect(
       subject([], {
         initialFilters: [
-          { field: "initial", values: ["value"], type: "and" },
+          { field: "initial", values: ["value"], type: "all" },
           {
             field: "test",
             values: ["anotherValue", "value", "someOtherValue"],
-            type: "and"
+            type: "all"
           }
         ]
       }).filters
@@ -68,14 +68,14 @@ describe("#clearFilters", () => {
     expect(
       subject(["initial"], {
         initialFilters: [
-          { field: "initial", values: ["value"], type: "and" },
+          { field: "initial", values: ["value"], type: "all" },
           {
             field: "test",
             values: ["anotherValue", "value", "someOtherValue"],
-            type: "and"
+            type: "all"
           }
         ]
       }).filters
-    ).toEqual([{ field: "initial", values: ["value"], type: "and" }]);
+    ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
   });
 });

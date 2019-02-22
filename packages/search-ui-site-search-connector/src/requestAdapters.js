@@ -30,7 +30,7 @@ export function adaptFilterConfig(filterConfig) {
 
     if (!acc[fieldName]) {
       acc[fieldName] = {
-        type: "and",
+        type: "all",
         values: []
       };
     }

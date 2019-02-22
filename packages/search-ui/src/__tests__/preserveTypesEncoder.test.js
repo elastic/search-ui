@@ -67,6 +67,11 @@ describe("#encode", () => {
     );
   }
 
+  it("Will pad a 0 value", () => {
+    const value = 0;
+    expect(subject(value)).toEqual("n_0_n");
+  });
+
   it("Will pad an Integer value", () => {
     const value = 1;
     expect(subject(value)).toEqual("n_1_n");

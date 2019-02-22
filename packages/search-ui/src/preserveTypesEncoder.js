@@ -1,5 +1,5 @@
 function isTypeNumber(value) {
-  return value && typeof value === "number";
+  return value !== undefined && value !== null && typeof value === "number";
 }
 
 function isTypeBoolean(value) {

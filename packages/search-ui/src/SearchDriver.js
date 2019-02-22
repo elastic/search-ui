@@ -2,7 +2,9 @@ import URLManager from "./URLManager";
 
 import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
+
 import { adaptFacets } from "./responseAdapter";
+import { adaptFilters } from "./requestAdapters";
 
 import * as actions from "./actions";
 
@@ -44,44 +46,6 @@ export const DEFAULT_STATE = {
   totalResults: 0,
   wasSearched: false
 };
-
-/*
- * This fixes an issue with filtering.
- * Our data structure for filters are the "OR" format for the App Search
- * API:
- *
- *  ```
- *  filters: {
- *   all: [
- *    {author: ["Clinton", "Shay"]}
- *   ]
- *  }
- *  ```
- *
- * However, the intent is for them to be AND filters. So we need
- * to do a quick change in formatting before applying them.
- *
- *  ```
- *   filters: {
- *    all: [
- *     {author: "Clinton"},
- *     {author: "Shay"}
- *    ]
- *   }
- *  ```
- */
-function formatORFiltersAsAND(filters = []) {
-  return filters.reduce((acc, filter) => {
-    const name = filter.field;
-    const values = filter.values;
-    return acc.concat(
-      values.map(v => ({
-        name,
-        values: [v]
-      }))
-    );
-  }, []);
-}
 
 function removeConditionalFacets(
   facets = {},
@@ -222,9 +186,7 @@ export default class SearchDriver {
         this.conditionalFacets,
         filters
       ),
-      filters: {
-        all: formatORFiltersAsAND(filters)
-      },
+      filters: adaptFilters(filters),
       page: {
         current,
         size: resultsPerPage

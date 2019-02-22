@@ -1,7 +1,7 @@
 import { adaptFacets } from "../responseAdapter";
 
 describe("adaptFacets", () => {
-  it("adapts a response", () => {
+  it("adapts facets", () => {
     expect(adaptFacets(facets)).toEqual(adaptedFacets);
   });
 

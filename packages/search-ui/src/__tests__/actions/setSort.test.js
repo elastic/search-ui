@@ -40,7 +40,7 @@ describe("#setSort", () => {
   it("Does not update other Search Parameter values", () => {
     const initialState = {
       searchTerm: "test",
-      filters: [{ field: "initial", values: ["value"], type: "and" }],
+      filters: [{ field: "initial", values: ["value"], type: "all" }],
       resultsPerPage: 60
     };
     const { searchTerm, filters, resultsPerPage } = subject("date", "desc", {

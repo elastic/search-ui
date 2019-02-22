@@ -63,20 +63,20 @@ describe("#removeFilter", () => {
     expect(
       subject("test", "value", {
         initialFilters: [
-          { field: "initial", values: ["value"], type: "and" },
+          { field: "initial", values: ["value"], type: "all" },
           {
             field: "test",
             values: ["anotherValue", "value", "someOtherValue"],
-            type: "and"
+            type: "all"
           }
         ]
       }).filters
     ).toEqual([
-      { field: "initial", values: ["value"], type: "and" },
+      { field: "initial", values: ["value"], type: "all" },
       {
         field: "test",
         values: ["anotherValue", "someOtherValue"],
-        type: "and"
+        type: "all"
       }
     ]);
   });
@@ -85,26 +85,26 @@ describe("#removeFilter", () => {
     expect(
       subject("test", undefined, {
         initialFilters: [
-          { field: "initial", values: ["value"], type: "and" },
+          { field: "initial", values: ["value"], type: "all" },
           {
             field: "test",
             values: ["anotherValue", "value", "someOtherValue"],
-            type: "and"
+            type: "all"
           }
         ]
       }).filters
-    ).toEqual([{ field: "initial", values: ["value"], type: "and" }]);
+    ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
   });
 
   it("Removes all filters when last value", () => {
     expect(
       subject("test", "value", {
         initialFilters: [
-          { field: "initial", values: ["value"], type: "and" },
-          { field: "test", values: ["value"], type: "and" }
+          { field: "initial", values: ["value"], type: "all" },
+          { field: "test", values: ["value"], type: "all" }
         ]
       }).filters
-    ).toEqual([{ field: "initial", values: ["value"], type: "and" }]);
+    ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
   });
 
   it("Removes just 1 range filter value", () => {
@@ -117,21 +117,21 @@ describe("#removeFilter", () => {
         },
         {
           initialFilters: [
-            { field: "initial", values: [{ from: 20, to: 100 }], type: "and" },
+            { field: "initial", values: [{ from: 20, to: 100 }], type: "all" },
             {
               field: "test",
               values: ["anotherValue", { from: 20, to: 100 }, "someOtherValue"],
-              type: "and"
+              type: "all"
             }
           ]
         }
       ).filters
     ).toEqual([
-      { field: "initial", values: [{ from: 20, to: 100 }], type: "and" },
+      { field: "initial", values: [{ from: 20, to: 100 }], type: "all" },
       {
         field: "test",
         values: ["anotherValue", "someOtherValue"],
-        type: "and"
+        type: "all"
       }
     ]);
   });
