@@ -79,30 +79,3 @@ storiesOf("Facets/MultiCheckboxFacet", module)
   .add("with More", () => (
     <MultiCheckboxFacet {...{ ...baseProps, showMore: true, values: [] }} />
   ));
-
-/*
-  .add("with Value Facets not selected", () => (
-    <SingleLinksFacet {...{ ...baseProps }} />
-  ))
-  .add("with Value Facets selected", () => (
-    <SingleLinksFacet {...{ ...baseProps, values: ["Compact Cars"] }} />
-  ))
-  .add("with Range Facets not selected", () => (
-    <SingleLinksFacet {...{ ...baseProps, options: rangeOptions }} />
-  ))
-  .add("with Range Facets selected", () => (
-    <SingleLinksFacet
-      {...{
-        ...baseProps,
-        options: rangeOptions,
-        values: [
-          {
-            from: 11,
-            to: 20,
-            name: "The second option"
-          }
-        ]
-      }}
-    />
-  ));
-  */
