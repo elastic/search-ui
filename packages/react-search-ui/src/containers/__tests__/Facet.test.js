@@ -71,27 +71,6 @@ it("should not render a Facet if there are no facets available", () => {
   expect(wrapper.html()).toEqual(null);
 });
 
-// it("should still render if there are no facets available, but there is a selected value", () => {
-//   const wrapper = shallow(
-//     <FacetContainer
-//       {...{
-//         ...params,
-//         facets: {},
-//         filters: [
-//           {
-//             field: "field3",
-//             values: ["field3value1"],
-//             type: "all"
-//           }
-//         ],
-//         field: "field3"
-//       }}
-//     />
-//   );
-
-//   expect(wrapper.html()).not.toEqual(null);
-// });
-
 describe("show more", () => {
   let wrapper;
 
