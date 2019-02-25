@@ -41,6 +41,14 @@ const rangeFacet = {
 
 const filterConfig = {
   all: [
+    { states: ["Maine"] },
+    { states: ["Georgia"] },
+    { national_landmark: ["true"] }
+  ]
+};
+
+const valueBasedFilterConfig = {
+  all: [
     { states: "Maine" },
     { states: "Georgia" },
     { national_landmark: "true" }
@@ -68,14 +76,29 @@ describe("requestAdapters", () => {
     it("adapts config to site search filter config", () => {
       expect(adaptFilterConfig(filterConfig)).toEqual({
         states: {
-          type: "all",
+          type: "and",
           values: ["Maine", "Georgia"]
         },
         national_landmark: {
-          type: "all",
+          type: "and",
           values: ["true"]
         }
       });
+    });
+    it("adapts value based filter config", () => {
+      expect(adaptFilterConfig(valueBasedFilterConfig)).toEqual({
+        states: {
+          type: "and",
+          values: ["Maine", "Georgia"]
+        },
+        national_landmark: {
+          type: "and",
+          values: ["true"]
+        }
+      });
+    });
+    it("adapts an empty config", () => {
+      expect(adaptFilterConfig({})).toEqual(undefined);
     });
   });
 
