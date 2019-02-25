@@ -13,6 +13,11 @@ describe("#decode", () => {
     expect(subject(value)).toEqual(1);
   });
 
+  it("Will unpad a negative Integer value", () => {
+    const value = "n_-1_n";
+    expect(subject(value)).toEqual(-1);
+  });
+
   it("Will unpad a float value", () => {
     const value = "n_1.1_n";
     expect(subject(value)).toEqual(1.1);
