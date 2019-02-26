@@ -1,3 +1,5 @@
+// TODO Current
+
 import ResultList from "./ResultList";
 
 export function toResultList(response, documentType) {
@@ -44,7 +46,7 @@ function getInfo(info, documentType) {
         size: docInfo.per_page,
         total_results: docInfo.total_result_count
       },
-      request_id: "" // TODO
+      request_id: "" // // TODO Current
     }
   };
 }

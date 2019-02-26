@@ -39,7 +39,7 @@ export default class AppSearchAPIConnector {
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  // TODO - What about errors
+  // TODO Current - What about errors
   async search(state, queryConfig) {
     const { query, ...optionsFromState } = adaptRequest(state);
     const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };

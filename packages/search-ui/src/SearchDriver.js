@@ -44,7 +44,7 @@ export const DEFAULT_STATE = {
   wasSearched: false
 };
 
-// TODO
+// // TODO Current
 // function removeConditionalFacets(
 //   facets = {},
 //   conditionalFacets = {},

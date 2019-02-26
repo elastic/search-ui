@@ -1137,7 +1137,7 @@ Each Result Item is a wrapped around an individual result, in the
 | ------ | ------ | ------------------------------------------------------------------------ |
 | `data` | Object | Raw object from the `results` array on a [Response](#appsearchresponse). |
 
-TODO: Update
+TODO Current: Update
 | `getRaw` | Function(String) | Convenience function for getting `raw` field data. |
 | `getSnippet` | Function(String) | Convenience function for getting `snippet` field data. |
 
