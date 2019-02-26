@@ -204,43 +204,53 @@ export default class SearchDriver {
 
     const requestId = this.requestSequencer.next();
 
-    return this.apiConnector.search(filterSearchParameters(this.state)).then(
-      resultState => {
-        if (this.requestSequencer.isOldRequest(requestId)) return;
-        this.requestSequencer.completed(requestId);
+    const queryConfig = {
+      disjunctiveFacets: this.disjunctiveFacets,
+      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
+      facets: this.facets,
+      result_fields: this.result_fields,
+      search_fields: this.search_fields
+    };
 
-        this._setState({
-          isLoading: false,
-          resultSearchTerm: searchTerm,
-          ...resultState,
-          wasSearched: true
-        });
+    return this.apiConnector
+      .search(filterSearchParameters(this.state), queryConfig)
+      .then(
+        resultState => {
+          if (this.requestSequencer.isOldRequest(requestId)) return;
+          this.requestSequencer.completed(requestId);
 
-        if (!skipPushToUrl && this.trackUrlState) {
-          // We debounce here so that we don't get a lot of intermediary
-          // URL state if someone is updating a UI really fast, like typing
-          // in a live search box for instance.
-          this.debounceManager.runWithDebounce(
-            this.urlPushDebounceLength,
-            this.URLManager.pushStateToURL.bind(this.URLManager),
-            {
-              current,
-              filters,
-              resultsPerPage,
-              searchTerm,
-              sortDirection,
-              sortField
-            }
-          );
+          this._setState({
+            isLoading: false,
+            resultSearchTerm: searchTerm,
+            ...resultState,
+            wasSearched: true
+          });
+
+          if (!skipPushToUrl && this.trackUrlState) {
+            // We debounce here so that we don't get a lot of intermediary
+            // URL state if someone is updating a UI really fast, like typing
+            // in a live search box for instance.
+            this.debounceManager.runWithDebounce(
+              this.urlPushDebounceLength,
+              this.URLManager.pushStateToURL.bind(this.URLManager),
+              {
+                current,
+                filters,
+                resultsPerPage,
+                searchTerm,
+                sortDirection,
+                sortField
+              }
+            );
+          }
+        },
+        error => {
+          console.error(error);
+          this._setState({
+            error: `An unexpected error occurred: ${error.message}`
+          });
         }
-      },
-      error => {
-        console.error(error);
-        this._setState({
-          error: `An unexpected error occurred: ${error.message}`
-        });
-      }
-    );
+      );
   };
 
   _setState(newState) {

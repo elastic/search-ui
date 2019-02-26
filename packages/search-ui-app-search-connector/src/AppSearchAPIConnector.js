@@ -40,19 +40,14 @@ export default class AppSearchAPIConnector {
   }
 
   // TODO - What about errors
-  async search(state) {
-    // if (searchOptions.facets && !Object.keys(searchOptions.facets).length) {
-    //   // Because our API will bomb if these options are empty
-    //   searchOptions.facets = undefined;
-    // }
+  async search(state, queryConfig) {
+    const { query, ...optionsFromState } = adaptRequest(state);
+    const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };
+    const options = {
+      ...withQueryConfigOptions,
+      ...this.additionalOptions(withQueryConfigOptions)
+    };
 
-    // const { filters, ...otherOptions } = searchOptions;
-
-    const { query, ...options } = adaptRequest(state);
-
-    // TODO
-    // ...otherOptions,
-    // ...this.additionalOptions(searchOptions)
     const response = await this.client.search(query, options);
     return adaptResponse(response);
   }

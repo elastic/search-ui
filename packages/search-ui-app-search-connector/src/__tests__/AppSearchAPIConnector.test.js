@@ -58,7 +58,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("search", () => {
-    function subject(state = {}, additionalOptions = {}) {
+    function subject(state = {}, additionalOptions) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
@@ -88,21 +88,26 @@ describe("AppSearchAPIConnector", () => {
       });
     });
 
-    // TODO
-    // it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
-    //   const options = {};
-    //   const resultFields = {
-    //     result_fields: { title: { raw: {} } }
-    //   };
-    //   const additionalOptions = () => resultFields;
-    //   const searchTerm = "searchTerm";
-    //   await subject({ additionalOptions, searchTerm, options });
-    //   const [passedSearchTerm, passedOptions] = getLastSearchCall();
-    //   expect(passedSearchTerm).toEqual(searchTerm);
-    //   expect(passedOptions).toEqual({
-    //     ...options,
-    //     ...resultFields
-    //   });
-    // });
+    it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
+      const current = 2;
+      const searchTerm = "searchTerm";
+      const additionalOptions = currentOptions => {
+        if (currentOptions.page.current === 2) {
+          return {
+            test: "value"
+          };
+        }
+      };
+      await subject({ current, searchTerm }, additionalOptions);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {},
+        page: {
+          current: 2
+        },
+        test: "value"
+      });
+    });
   });
 });
