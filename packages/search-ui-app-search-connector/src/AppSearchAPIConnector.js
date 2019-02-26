@@ -1,5 +1,8 @@
 import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
 
+import { adaptResponse } from "./responseAdapter";
+import { adaptRequest } from "./requestAdapters";
+
 export default class AppSearchAPIConnector {
   /**
    * @param options Object
@@ -36,15 +39,21 @@ export default class AppSearchAPIConnector {
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  search(searchTerm, searchOptions) {
-    if (searchOptions.facets && !Object.keys(searchOptions.facets).length) {
-      // Because our API will bomb if these options are empty
-      searchOptions.facets = undefined;
-    }
+  // TODO - What about errors
+  async search(state) {
+    // if (searchOptions.facets && !Object.keys(searchOptions.facets).length) {
+    //   // Because our API will bomb if these options are empty
+    //   searchOptions.facets = undefined;
+    // }
 
-    return this.client.search(searchTerm, {
-      ...searchOptions,
-      ...this.additionalOptions(searchOptions)
-    });
+    // const { filters, ...otherOptions } = searchOptions;
+
+    const { query, ...options } = adaptRequest(state);
+
+    // TODO
+    // ...otherOptions,
+    // ...this.additionalOptions(searchOptions)
+    const response = await this.client.search(query, options);
+    return adaptResponse(response);
   }
 }

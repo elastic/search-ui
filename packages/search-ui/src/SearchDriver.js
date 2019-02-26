@@ -3,9 +3,6 @@ import URLManager from "./URLManager";
 import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
 
-import { adaptFacets } from "./responseAdapter";
-import { adaptFilters } from "./requestAdapters";
-
 import * as actions from "./actions";
 
 function filterSearchParameters({
@@ -47,24 +44,25 @@ export const DEFAULT_STATE = {
   wasSearched: false
 };
 
-function removeConditionalFacets(
-  facets = {},
-  conditionalFacets = {},
-  filters = []
-) {
-  return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
-    if (
-      conditionalFacets[facetKey] &&
-      typeof conditionalFacets[facetKey] === "function" &&
-      !conditionalFacets[facetKey]({ filters })
-    ) {
-      return acc;
-    }
+// TODO
+// function removeConditionalFacets(
+//   facets = {},
+//   conditionalFacets = {},
+//   filters = []
+// ) {
+//   return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
+//     if (
+//       conditionalFacets[facetKey] &&
+//       typeof conditionalFacets[facetKey] === "function" &&
+//       !conditionalFacets[facetKey]({ filters })
+//     ) {
+//       return acc;
+//     }
 
-    acc[facetKey] = facet;
-    return acc;
-  }, {});
-}
+//     acc[facetKey] = facet;
+//     return acc;
+//   }, {});
+// }
 
 /*
  * The Driver is a framework agnostic search state manager that is capable
@@ -178,28 +176,20 @@ export default class SearchDriver {
 
     if (isLoading && !ignoreIsLoadingCheck) return;
 
-    const searchOptions = {
-      disjunctiveFacets: this.disjunctiveFacets,
-      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
-      facets: removeConditionalFacets(
-        this.facets,
-        this.conditionalFacets,
-        filters
-      ),
-      filters: adaptFilters(filters),
-      page: {
-        current,
-        size: resultsPerPage
-      },
-      result_fields: this.result_fields,
-      search_fields: this.search_fields
-    };
+    // TODO:
+    // disjunctiveFacets: this.disjunctiveFacets,
+    // disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
 
-    if (sortField && sortDirection) {
-      searchOptions.sort = {
-        [sortField]: sortDirection
-      };
-    }
+    // TODO
+    // facets: removeConditionalFacets(
+    //   this.facets,
+    //   this.conditionalFacets,
+    //   filters
+    // ),
+
+    // TODO
+    // result_fields: this.result_fields,
+    // search_fields: this.search_fields
 
     this._setState({
       current,
@@ -214,19 +204,15 @@ export default class SearchDriver {
 
     const requestId = this.requestSequencer.next();
 
-    return this.apiConnector.search(searchTerm, searchOptions).then(
-      resultList => {
+    return this.apiConnector.search(filterSearchParameters(this.state)).then(
+      resultState => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
 
         this._setState({
-          facets: adaptFacets(resultList.info.facets || {}),
           isLoading: false,
-          requestId: resultList.info.meta.request_id,
-          results: resultList.results,
           resultSearchTerm: searchTerm,
-          totalPages: resultList.info.meta.page.total_pages,
-          totalResults: resultList.info.meta.page.total_results,
+          ...resultState,
           wasSearched: true
         });
 
