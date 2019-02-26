@@ -29,7 +29,6 @@ function adaptFilters(filters) {
 }
 
 export function adaptRequest(request) {
-  // TODO: Facets
   const {
     current,
     resultsPerPage,
