@@ -5,6 +5,16 @@ import { Result, Results } from "@elastic/react-search-ui-views";
 import { withSearch } from "..";
 import { Result as ResultType } from "../types";
 
+function getRaw(result, value) {
+  if (!result[value] || !result[value].raw) return;
+  return result[value].raw;
+}
+
+function getSnippet(result, value) {
+  if (!result[value] || !result[value].snippet) return;
+  return result[value].snippet;
+}
+
 function htmlEscape(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -23,10 +33,10 @@ function htmlEscape(str) {
   }
 */
 function formatResultFields(result) {
-  return Object.keys(result.data).reduce((acc, n) => {
+  return Object.keys(result).reduce((acc, n) => {
     // Fallback to raw values here, because non-string fields
     // will not have a snippet fallback. Raw values MUST be html escaped.
-    let value = result.getSnippet(n) || htmlEscape(result.getRaw(n));
+    let value = result[n].snippet || htmlEscape(result[n].raw);
     value = Array.isArray(value) ? value.join(", ") : value;
     acc[n] = value;
     return acc;
@@ -61,13 +71,13 @@ export class ResultsContainer extends Component {
         {results.map(result => (
           <ResultView
             fields={formatResultFields(result)}
-            key={`result-${result.getRaw("id")}`}
-            onClickLink={() => this.handleClickLink(result.getRaw("id"))}
+            key={`result-${getRaw(result, "id")}`}
+            onClickLink={() => this.handleClickLink(getRaw(result, "id"))}
             title={
-              result.getSnippet(titleField) ||
-              htmlEscape(result.getRaw(titleField))
+              getSnippet(result, titleField) ||
+              htmlEscape(getRaw(result, titleField))
             }
-            url={result.getRaw(urlField)}
+            url={getRaw(result, urlField)}
           />
         ))}
       </View>

@@ -52,7 +52,7 @@ export function adaptResponse(response) {
   return {
     ...(facets && { facets: adaptFacets(facets) }),
     requestId,
-    results: response.results,
+    results: response.rawResults,
     ...(totalPages !== undefined && { totalPages }),
     ...(totalResults !== undefined && { totalResults })
   };

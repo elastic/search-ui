@@ -286,11 +286,11 @@ corresponding field has been configured in
 
 Properties:
 
-| Name  | type      | Required? | Default                                                               | Options                                                                                                                                                     | Description                                                                                                                                         |
-| ----- | --------- | --------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| field | String    | yes       |                                                                       |                                                                                                                                                             | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
-| label | String    | yes       |                                                                       |                                                                                                                                                             | A static label to show in the facet filter.                                                                                                         |
-| show  | Number    | no        | 10                                                                    |                                                                                                                                                             | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
+| Name  | type      | Required? | Default                                                                  | Options                                                                                                                                           | Description                                                                                                                                         |
+| ----- | --------- | --------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| field | String    | yes       |                                                                          |                                                                                                                                                   | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
+| label | String    | yes       |                                                                          |                                                                                                                                                   | A static label to show in the facet filter.                                                                                                         |
+| show  | Number    | no        | 10                                                                       |                                                                                                                                                   | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
 | view  | Component | no        | [MultiCheckboxFacet](../react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](../react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](../react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
@@ -1133,11 +1133,13 @@ A ResultList object wraps the `results` object from a [Response](#appsearchrespo
 
 Each Result Item is a wrapped around an individual result, in the
 
-| field        | type             | description                                                              |
-| ------------ | ---------------- | ------------------------------------------------------------------------ |
-| `data`       | Object           | Raw object from the `results` array on a [Response](#appsearchresponse). |
-| `getRaw`     | Function(String) | Convenience function for getting `raw` field data.                       |
-| `getSnippet` | Function(String) | Convenience function for getting `snippet` field data.                   |
+| field  | type   | description                                                              |
+| ------ | ------ | ------------------------------------------------------------------------ |
+| `data` | Object | Raw object from the `results` array on a [Response](#appsearchresponse). |
+
+TODO: Update
+| `getRaw` | Function(String) | Convenience function for getting `raw` field data. |
+| `getSnippet` | Function(String) | Convenience function for getting `snippet` field data. |
 
 <a id="appsearchresponse"></a>
 

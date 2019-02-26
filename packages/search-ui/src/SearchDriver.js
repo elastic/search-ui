@@ -176,20 +176,11 @@ export default class SearchDriver {
 
     if (isLoading && !ignoreIsLoadingCheck) return;
 
-    // TODO:
-    // disjunctiveFacets: this.disjunctiveFacets,
-    // disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
-
-    // TODO
     // facets: removeConditionalFacets(
     //   this.facets,
     //   this.conditionalFacets,
     //   filters
     // ),
-
-    // TODO
-    // result_fields: this.result_fields,
-    // search_fields: this.search_fields
 
     this._setState({
       current,
