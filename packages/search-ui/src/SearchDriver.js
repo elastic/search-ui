@@ -44,25 +44,24 @@ export const DEFAULT_STATE = {
   wasSearched: false
 };
 
-// // TODO Current
-// function removeConditionalFacets(
-//   facets = {},
-//   conditionalFacets = {},
-//   filters = []
-// ) {
-//   return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
-//     if (
-//       conditionalFacets[facetKey] &&
-//       typeof conditionalFacets[facetKey] === "function" &&
-//       !conditionalFacets[facetKey]({ filters })
-//     ) {
-//       return acc;
-//     }
+function removeConditionalFacets(
+  facets = {},
+  conditionalFacets = {},
+  filters = []
+) {
+  return Object.entries(facets).reduce((acc, [facetKey, facet]) => {
+    if (
+      conditionalFacets[facetKey] &&
+      typeof conditionalFacets[facetKey] === "function" &&
+      !conditionalFacets[facetKey]({ filters })
+    ) {
+      return acc;
+    }
 
-//     acc[facetKey] = facet;
-//     return acc;
-//   }, {});
-// }
+    acc[facetKey] = facet;
+    return acc;
+  }, {});
+}
 
 /*
  * The Driver is a framework agnostic search state manager that is capable
@@ -198,50 +197,54 @@ export default class SearchDriver {
     const queryConfig = {
       disjunctiveFacets: this.disjunctiveFacets,
       disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
-      facets: this.facets,
+      facets: removeConditionalFacets(
+        this.facets,
+        this.conditionalFacets,
+        filters
+      ),
       result_fields: this.result_fields,
       search_fields: this.search_fields
     };
 
-    return this.apiConnector
-      .search(filterSearchParameters(this.state), queryConfig)
-      .then(
-        resultState => {
-          if (this.requestSequencer.isOldRequest(requestId)) return;
-          this.requestSequencer.completed(requestId);
+    const requestState = filterSearchParameters(this.state);
 
-          this._setState({
-            isLoading: false,
-            resultSearchTerm: searchTerm,
-            ...resultState,
-            wasSearched: true
-          });
+    return this.apiConnector.search(requestState, queryConfig).then(
+      resultState => {
+        if (this.requestSequencer.isOldRequest(requestId)) return;
+        this.requestSequencer.completed(requestId);
 
-          if (!skipPushToUrl && this.trackUrlState) {
-            // We debounce here so that we don't get a lot of intermediary
-            // URL state if someone is updating a UI really fast, like typing
-            // in a live search box for instance.
-            this.debounceManager.runWithDebounce(
-              this.urlPushDebounceLength,
-              this.URLManager.pushStateToURL.bind(this.URLManager),
-              {
-                current,
-                filters,
-                resultsPerPage,
-                searchTerm,
-                sortDirection,
-                sortField
-              }
-            );
-          }
-        },
-        error => {
-          console.error(error);
-          this._setState({
-            error: `An unexpected error occurred: ${error.message}`
-          });
+        this._setState({
+          isLoading: false,
+          resultSearchTerm: searchTerm,
+          ...resultState,
+          wasSearched: true
+        });
+
+        if (!skipPushToUrl && this.trackUrlState) {
+          // We debounce here so that we don't get a lot of intermediary
+          // URL state if someone is updating a UI really fast, like typing
+          // in a live search box for instance.
+          this.debounceManager.runWithDebounce(
+            this.urlPushDebounceLength,
+            this.URLManager.pushStateToURL.bind(this.URLManager),
+            {
+              current,
+              filters,
+              resultsPerPage,
+              searchTerm,
+              sortDirection,
+              sortField
+            }
+          );
         }
-      );
+      },
+      error => {
+        console.error(error);
+        this._setState({
+          error: `An unexpected error occurred: ${error.message}`
+        });
+      }
+    );
   };
 
   _setState(newState) {
