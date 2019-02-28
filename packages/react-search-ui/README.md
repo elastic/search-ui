@@ -1032,7 +1032,7 @@ where you we don't have a Component you need.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html),
 called [withSearch](./src/withSearch.js), which gives you access to work directly with Search UI's [Context](#context).
-This let's you create your own Components for Search UI.
+This lets you create your own Components for Search UI.
 
 Ex. Creating a Component for clearing all filters
 
@@ -1128,3 +1128,8 @@ need to have in common is an `additionalOptions` parameter.
 |          | - `tags` - Array[String]                     |                                  | Tags used for analytics.                                                                                                                  |
 | `search` | `state` - [Request State](#requeststate)     | [Response State](#responsestate) |                                                                                                                                           |
 |          | `queryConfig` - [Query Config](#queryConfig) |                                  |                                                                                                                                           |
+
+#### Errors
+
+For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
+includes things like 404s, 500s, etc.
