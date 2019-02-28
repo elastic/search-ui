@@ -59,7 +59,9 @@ export default class SiteSearchAPIConnector {
 
   click({ query, documentId, tags }) {
     if (tags) {
-      console.warn("Site Search does not support tags on click");
+      console.warn(
+        "search-ui-site-search-connector: Site Search does not support tags on click"
+      );
     }
     this._get("analytics/pc", {
       t: new Date().getTime(),

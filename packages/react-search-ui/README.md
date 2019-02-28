@@ -641,14 +641,14 @@ state can be set by:
 - The `initialState` option in [Configuration](#config)
 - The URL query string, if `trackUrlState` is enabled in [Configuration](#config)
 
-| option           | type                     | required? | source                                                                                               |
-| ---------------- | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------- |
-| `current`        | Integer                  | optional  | Current page number                                                                                  |
-| `filters`        | Array[Object]            | optional  | [App Search Filters API Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
-| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                               |
-| `searchTerm`     | String                   | optional  | Search terms to search for                                                                           |
-| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                                                    |
-| `sortField`      | String                   | optional  | Name of field to sort on                                                                             |
+| option           | type                                   | required? | source                                 |
+| ---------------- | -------------------------------------- | --------- | -------------------------------------- |
+| `current`        | Integer                                | optional  | Current page number                    |
+| `filters`        | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
+| `resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
+| `searchTerm`     | String                                 | optional  | Search terms to search for             |
+| `sortDirection`  | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
+| `sortField`      | String                                 | optional  | Name of field to sort on               |
 
 <a id="responsestate"></a>
 
@@ -657,13 +657,13 @@ _Response State_
 Response State is updated AFTER an API response is received. It is not directly update-able, it
 is updated indirectly by invoking an action which results in a new API request.
 
-| field              | type          | description                                                                                                                                                                                                                                                               |
-| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `facets`           | Object        | Will be populated if `facets` configured in [Configuration](#configs)                                                                                                                                                                                                     |
-| `requestId`        | String        | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`          | Array[Object] | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm` | String        | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`     | Integer       | Total number of results found for the current query                                                                                                                                                                                                                       |
+| field              | type                                   | description                                                                                                                                                                                                                                                               |
+| ------------------ | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `facets`           | Object[[Facet](./src/types/Facet.js)]  | Will be populated if `facets` configured in [Configuration](#configs)                                                                                                                                                                                                     |
+| `requestId`        | String                                 | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`          | Array[[Result](./src/types/Result.js)] | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm` | String                                 | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`     | Integer                                | Total number of results found for the current query                                                                                                                                                                                                                       |
 
 <a id="applicationstate"></a>
 
