@@ -1,58 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`#search will correctly format an API response 1`] = `
-ResultList {
-  "info": Object {
-    "facets": Object {
-      "states": Array [
-        Object {
-          "data": Array [
-            Object {
-              "count": 2,
-              "value": "Maine",
-            },
-          ],
-          "type": "value",
-        },
-      ],
-    },
-    "meta": Object {
-      "page": Object {
-        "current": 1,
-        "size": 20,
-        "total_pages": 1,
-        "total_results": 2,
+Object {
+  "facets": Object {
+    "states": Array [
+      Object {
+        "data": Array [
+          Object {
+            "count": 2,
+            "value": "Maine",
+          },
+        ],
+        "field": "states",
+        "type": "value",
       },
-      "request_id": "",
-      "warnings": Array [],
-    },
+    ],
   },
-  "rawInfo": Object {
-    "facets": Object {
-      "states": Array [
-        Object {
-          "data": Array [
-            Object {
-              "count": 2,
-              "value": "Maine",
-            },
-          ],
-          "type": "value",
-        },
-      ],
-    },
-    "meta": Object {
-      "page": Object {
-        "current": 1,
-        "size": 20,
-        "total_pages": 1,
-        "total_results": 2,
-      },
-      "request_id": "",
-      "warnings": Array [],
-    },
-  },
-  "rawResults": Array [
+  "requestId": "",
+  "results": Array [
     Object {
       "acres": Object {
         "raw": 49057.36,
@@ -106,63 +71,7 @@ ResultList {
       },
     },
   ],
-  "results": Array [
-    ResultItem {
-      "data": Object {
-        "acres": Object {
-          "raw": 49057.36,
-        },
-        "external_id": Object {
-          "raw": "9000",
-        },
-        "id": Object {
-          "raw": "5beb474f8db2315427beecc7",
-        },
-        "nps_link": Object {
-          "raw": "https://www.nps.gov/acad/index.htm",
-        },
-        "states": Object {
-          "raw": Array [
-            "Maine",
-          ],
-        },
-        "title": Object {
-          "raw": "Acadia",
-          "snippet": "<em>Acadia</em>",
-        },
-        "updated_at": Object {
-          "raw": "2018-11-13T21:51:11+00:00",
-        },
-      },
-    },
-    ResultItem {
-      "data": Object {
-        "acres": Object {
-          "raw": 49057.36,
-        },
-        "external_id": Object {
-          "raw": "0",
-        },
-        "id": Object {
-          "raw": "5beb47b8a1f2532eb09be102",
-        },
-        "nps_link": Object {
-          "raw": "https://www.nps.gov/acad/index.htm",
-        },
-        "states": Object {
-          "raw": Array [
-            "Maine",
-          ],
-        },
-        "title": Object {
-          "raw": "Acadia",
-          "snippet": "<em>Acadia</em>",
-        },
-        "updated_at": Object {
-          "raw": "2018-11-13T21:52:56+00:00",
-        },
-      },
-    },
-  ],
+  "totalPages": 1,
+  "totalResults": 2,
 }
 `;

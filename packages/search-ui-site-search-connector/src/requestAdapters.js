@@ -86,8 +86,6 @@ export function adaptFilterConfig(filters) {
       values: fieldValue
     };
 
-    // TODO Current, what happen in App Search connector if I send an array of range filters?
-
     return acc;
   }, {});
 }

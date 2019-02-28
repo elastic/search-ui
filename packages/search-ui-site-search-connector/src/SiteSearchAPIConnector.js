@@ -1,5 +1,5 @@
-import { toResultList } from "./responseAdapters";
 import adaptRequest from "./requestAdapter";
+import adaptResponse from "./responseAdapter";
 
 function _get(engineKey, path, params) {
   const query = Object.entries({ engine_key: engineKey, ...params })
@@ -62,7 +62,7 @@ export default class SiteSearchAPIConnector {
       ...options,
       ...this.additionalOptions(options)
     }).then(json => {
-      return toResultList(json, this.documentType);
+      return adaptResponse(json, this.documentType);
     });
   }
 }

@@ -1,7 +1,5 @@
 "use strict";
 
-// TODO Current
-
 // TODO This was copied from App Search api client, should probably have a
 // specific type just for Search UI
 
