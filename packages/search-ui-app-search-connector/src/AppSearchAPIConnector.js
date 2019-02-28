@@ -39,7 +39,6 @@ export default class AppSearchAPIConnector {
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  // TODO Current - What about errors ... document this. Needs to reject promise with an object like { message: "" }
   async search(state, queryConfig) {
     const { query, ...optionsFromState } = adaptRequest(state);
     const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };

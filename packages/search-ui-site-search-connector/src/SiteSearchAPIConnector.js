@@ -31,7 +31,20 @@ function _request(engineKey, method, path, params) {
     }),
     credentials: "include"
   }).then(response => {
-    return response.json();
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      return response
+        .json()
+        .then(json => {
+          const message = json.error || String(response.status);
+          throw new Error(message);
+        })
+        .catch(() => {
+          const message = String(response.status);
+          throw new Error(message);
+        });
+    }
   });
 }
 
