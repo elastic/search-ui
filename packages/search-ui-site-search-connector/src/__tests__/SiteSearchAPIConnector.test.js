@@ -87,11 +87,11 @@ describe("#search", () => {
       filters: {
         [documentType]: {
           title: {
-            type: "all",
+            type: "and",
             values: ["Acadia", "Grand Canyon"]
           },
           world_heritage_site: {
-            type: "all",
+            type: "and",
             values: ["true"]
           }
         }
