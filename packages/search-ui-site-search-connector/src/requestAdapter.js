@@ -6,6 +6,20 @@ import {
 } from "./requestAdapters";
 
 export default function adaptRequest(request, queryConfig, documentType) {
+  const { disjunctiveFacets, disjunctiveFacetsAnalyticsTags } = queryConfig;
+
+  if (disjunctiveFacets) {
+    console.warn(
+      `search-ui-site-search-connector: disjunctiveFacets is not supported by Site Search`
+    );
+  }
+
+  if (disjunctiveFacetsAnalyticsTags) {
+    console.warn(
+      `search-ui-site-search-connector: disjunctiveFacetsAnalyticsTags is not supported by Site Search`
+    );
+  }
+
   const updatedFacets = adaptFacetConfig(queryConfig.facets);
   const updatedFilters = adaptFilterConfig(request.filters);
   const page = request.current;
