@@ -4,6 +4,7 @@ import exampleAPIResponse from "../../resources/example-response.json";
 
 function fetchResponse(response) {
   return Promise.resolve({
+    status: 200,
     json: () => Promise.resolve(response)
   });
 }
