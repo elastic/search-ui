@@ -20,7 +20,7 @@ const resultList = {
       request_id: "12345"
     }
   },
-  results: [{}, {}]
+  rawResults: [{}, {}]
 };
 
 const resultState = {

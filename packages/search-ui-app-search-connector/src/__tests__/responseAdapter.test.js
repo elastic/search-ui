@@ -11,7 +11,7 @@ describe("adaptResponse", () => {
 });
 
 const response = {
-  results: [],
+  rawResults: [],
   info: {
     facets: {
       states: [
@@ -55,7 +55,7 @@ const response = {
 };
 
 const emptyResponse = {
-  results: [],
+  rawResults: [],
   info: {
     meta: {
       request_id: "1234"
