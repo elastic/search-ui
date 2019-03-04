@@ -23,7 +23,7 @@ export function adaptFacetConfig(facets) {
 }
 
 export function adaptFilterConfig(filterConfig) {
-  if (!filterConfig) return;
+  if (!filterConfig || !filterConfig.all) return;
 
   return filterConfig.all.reduce((acc, filter) => {
     const [fieldName, fieldValue] = Object.entries(filter)[0];
@@ -35,7 +35,8 @@ export function adaptFilterConfig(filterConfig) {
       };
     }
 
-    acc[fieldName].values.push(fieldValue);
+    const value = Array.isArray(fieldValue) ? fieldValue[0] : fieldValue;
+    acc[fieldName].values.push(value);
 
     return acc;
   }, {});

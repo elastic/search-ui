@@ -8,10 +8,17 @@
  */
 export default function setFilter(name, value) {
   let { filters } = this.state;
-  filters = filters.filter(filter => Object.keys(filter)[0] !== name);
+  filters = filters.filter(filter => filter.field !== name);
 
   this._updateSearchResults({
     current: 1,
-    filters: [...filters, { [name]: [value] }]
+    filters: [
+      ...filters,
+      {
+        field: name,
+        values: [value],
+        type: "all"
+      }
+    ]
   });
 }

@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import React from "react";
+import deepEqual from "deep-equal";
 
-import { ValueFacetOption, ValueFilterValue } from "./types";
+import { FacetValue, FilterValue } from "./types";
+import { getFilterValueDisplay } from "./view-helpers";
 
 function MultiCheckboxFacet({
   label,
@@ -17,16 +19,22 @@ function MultiCheckboxFacet({
       <div className="sui-multi-checkbox-facet__label">{label}</div>
       <div className="sui-multi-checkbox-facet__options-list">
         {options.map(option => {
-          const checked = values.includes(option.value);
+          const checked = !!values.find(value =>
+            deepEqual(option.value, value)
+          );
           return (
             <label
-              key={`${option.value}`}
-              htmlFor={`example_facet_${label}${option.value}`}
+              key={`${getFilterValueDisplay(option.value)}`}
+              htmlFor={`example_facet_${label}${getFilterValueDisplay(
+                option.value
+              )}`}
               className="sui-multi-checkbox-facet__option-label"
             >
               <div className="sui-multi-checkbox-facet__option-input-wrapper">
                 <input
-                  id={`example_facet_${label}${option.value}`}
+                  id={`example_facet_${label}${getFilterValueDisplay(
+                    option.value
+                  )}`}
                   type="checkbox"
                   className="sui-multi-checkbox-facet__checkbox"
                   checked={checked}
@@ -35,7 +43,7 @@ function MultiCheckboxFacet({
                   }
                 />
                 <span className="sui-multi-checkbox-facet__input-text">
-                  {option.value}
+                  {getFilterValueDisplay(option.value)}
                 </span>
               </div>
               <span className="sui-multi-checkbox-facet__option-count">
@@ -62,9 +70,9 @@ MultiCheckboxFacet.propTypes = {
   onMoreClick: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(ValueFacetOption).isRequired,
+  options: PropTypes.arrayOf(FacetValue).isRequired,
   showMore: PropTypes.bool.isRequired,
-  values: PropTypes.arrayOf(ValueFilterValue).isRequired
+  values: PropTypes.arrayOf(FilterValue).isRequired
 };
 
 export default MultiCheckboxFacet;

@@ -8,10 +8,17 @@ const params = {
   view: jest.fn().mockImplementation(props => <View {...props} />),
   field: "field1",
   label: "Field 1",
-  filters: [{ field1: ["field1value1"] }],
+  filters: [
+    {
+      field: "field1",
+      values: ["field1value1"],
+      type: "all"
+    }
+  ],
   facets: {
     field1: [
       {
+        field: "field1",
         data: [
           { count: 20, value: "field1value1" },
           { count: 10, value: "field1value2" }
@@ -21,12 +28,14 @@ const params = {
     ],
     field2: [
       {
+        field: "field2",
         data: [{ count: 10, value: "field2value1" }],
         type: "value"
       }
     ],
     field3: [
       {
+        field: "field3",
         data: [],
         type: "value"
       }
@@ -49,7 +58,7 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("should not render a Facet if there are no facet values available", () => {
+it("should not render a Facet if there are no facets available", () => {
   const wrapper = shallow(
     <FacetContainer
       {...{
@@ -60,33 +69,6 @@ it("should not render a Facet if there are no facet values available", () => {
   );
 
   expect(wrapper.html()).toEqual(null);
-});
-
-it("should not render a Facet if there are no options available", () => {
-  const wrapper = shallow(
-    <FacetContainer
-      {...{
-        ...params,
-        field: "field3"
-      }}
-    />
-  );
-
-  expect(wrapper.html()).toEqual(null);
-});
-
-it("should still render if there are no options available, but there is a selected value", () => {
-  const wrapper = shallow(
-    <FacetContainer
-      {...{
-        ...params,
-        filters: [{ field3: ["field3value1"] }],
-        field: "field3"
-      }}
-    />
-  );
-
-  expect(wrapper.html()).not.toEqual(null);
 });
 
 describe("show more", () => {
@@ -101,6 +83,7 @@ describe("show more", () => {
           facets: {
             field1: [
               {
+                field: "field1",
                 data: [
                   { count: 20, value: "field1value1" },
                   { count: 10, value: "field1value2" },

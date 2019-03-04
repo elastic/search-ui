@@ -48,6 +48,7 @@ export default function App() {
             }
           }
         },
+        disjunctiveFacets: ["acres"],
         facets: {
           states: { type: "value", size: 30 },
           acres: {
@@ -84,11 +85,7 @@ export default function App() {
                     ]}
                   />
                   <Facet field="states" label="States" />
-                  <Facet
-                    field="acres"
-                    label="Acres"
-                    view={SingleSelectFacet}
-                  />
+                  <Facet field="acres" label="Acres" view={SingleSelectFacet} />
                 </div>
               }
               bodyContent={<Results titleField="title" urlField="nps_link" />}

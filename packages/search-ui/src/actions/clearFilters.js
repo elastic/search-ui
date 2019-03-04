@@ -9,7 +9,7 @@ export default function clearFilters(except = []) {
   const { filters } = this.state;
 
   const updatedFilters = filters.filter(filter => {
-    const filterField = Object.keys(filter)[0];
+    const filterField = filter.field;
     return except.includes(filterField);
   });
 

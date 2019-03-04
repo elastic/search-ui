@@ -1,13 +1,17 @@
+import deepEqual from "deep-equal";
+
 export function removeSingleFilterValue(filters, name, value) {
   return filters.reduce((acc, filter) => {
-    if (filter[name]) {
-      const currentFilterValues = filter[name];
-      const updatedFilterValues = currentFilterValues.filter(
+    const { field, values, ...rest } = filter;
+    if (field === name) {
+      const updatedFilterValues = values.filter(
         filterValue => !matchFilter(filterValue, value)
       );
       if (updatedFilterValues.length > 0) {
         return acc.concat({
-          [name]: updatedFilterValues
+          field,
+          values: updatedFilterValues,
+          ...rest
         });
       } else {
         return acc;
@@ -18,11 +22,5 @@ export function removeSingleFilterValue(filters, name, value) {
 }
 
 export function matchFilter(filter1, filter2) {
-  return (
-    filter1 === filter2 ||
-    (filter1.from &&
-      filter1.from === filter2.from &&
-      filter1.to &&
-      filter1.to === filter2.to)
-  );
+  return deepEqual(filter1, filter2);
 }

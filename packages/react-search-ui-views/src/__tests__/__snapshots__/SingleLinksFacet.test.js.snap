@@ -1,60 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly when a value is not selected 1`] = `
-<div
-  className="sui-facet sui-search-facet"
->
-  <div>
-    <div
-      className="sui-facet__title"
-    >
-      Facet
-    </div>
-    <ul
-      className="sui-facet__list"
-    >
-      <li
-        className="sui-facet__item"
-        key="1"
-      >
-        <a
-          className="sui-facet__link"
-          href="/"
-          onClick={[Function]}
-        >
-          1
-        </a>
-         
-        <span
-          className="sui-facet__count"
-        >
-          1
-        </span>
-      </li>
-      <li
-        className="sui-facet__item"
-        key="2"
-      >
-        <a
-          className="sui-facet__link"
-          href="/"
-          onClick={[Function]}
-        >
-          2
-        </a>
-         
-        <span
-          className="sui-facet__count"
-        >
-          1
-        </span>
-      </li>
-    </ul>
-  </div>
-</div>
-`;
-
-exports[`renders correctly when a value is selected 1`] = `
+exports[`renders correctly 1`] = `
 <div
   className="sui-facet sui-search-facet"
 >

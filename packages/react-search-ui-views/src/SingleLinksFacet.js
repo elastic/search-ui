@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ValueFacetOption, ValueFilterValue } from "./types";
+import { FacetValue, FilterValue } from "./types";
+import { getFilterValueDisplay } from "./view-helpers";
 
 function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
   const value = values[0];
@@ -12,7 +13,7 @@ function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
         <ul className="sui-facet__list">
           {value && (
             <li className="sui-facet__selected">
-              {value}{" "}
+              {getFilterValueDisplay(value)}{" "}
               <span className="sui-facet__remove">
                 (
                 <a
@@ -30,7 +31,10 @@ function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
           )}
           {!value &&
             options.map(option => (
-              <li className="sui-facet__item" key={option.value}>
+              <li
+                className="sui-facet__item"
+                key={getFilterValueDisplay(option.value)}
+              >
                 <a
                   className="sui-facet__link"
                   href="/"
@@ -39,7 +43,7 @@ function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
                     onSelect(option.value);
                   }}
                 >
-                  {option.value}
+                  {getFilterValueDisplay(option.value)}
                 </a>{" "}
                 <span className="sui-facet__count">{option.count}</span>
               </li>
@@ -54,8 +58,8 @@ SingleLinksFacet.propTypes = {
   label: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(ValueFacetOption).isRequired,
-  values: PropTypes.arrayOf(ValueFilterValue)
+  options: PropTypes.arrayOf(FacetValue).isRequired,
+  values: PropTypes.arrayOf(FilterValue).isRequired
 };
 
 export default SingleLinksFacet;

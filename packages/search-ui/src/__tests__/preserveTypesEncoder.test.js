@@ -13,6 +13,11 @@ describe("#decode", () => {
     expect(subject(value)).toEqual(1);
   });
 
+  it("Will unpad a negative Integer value", () => {
+    const value = "n_-1_n";
+    expect(subject(value)).toEqual(-1);
+  });
+
   it("Will unpad a float value", () => {
     const value = "n_1.1_n";
     expect(subject(value)).toEqual(1.1);
@@ -66,6 +71,11 @@ describe("#encode", () => {
       () => "value from default encoder"
     );
   }
+
+  it("Will pad a 0 value", () => {
+    const value = 0;
+    expect(subject(value)).toEqual("n_0_n");
+  });
 
   it("Will pad an Integer value", () => {
     const value = 1;

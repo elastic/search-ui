@@ -74,7 +74,7 @@ it("will default facets to {} in state if facets is missing from the response", 
 
 it("will trigger a search if searchTerm or filters are provided in initial state", () => {
   const initialState = {
-    filters: [{ initial: ["value"] }],
+    filters: [{ field: "initial", values: ["value"], type: "all" }],
     searchTerm: "test"
   };
 
@@ -87,7 +87,7 @@ it("will trigger a search if searchTerm or filters are provided in initial state
 
 it("will sync initial state to the URL", () => {
   const initialState = {
-    filters: [{ initial: ["value"] }],
+    filters: [{ field: "initial", values: ["value"], type: "all" }],
     searchTerm: "test"
   };
 
@@ -100,7 +100,7 @@ it("will sync initial state to the URL", () => {
 
 it("will not sync initial state to the URL if trackURLState is set to false", () => {
   const initialState = {
-    filters: [{ initial: ["value"] }],
+    filters: [{ field: "initial", values: ["value"], type: "all" }],
     searchTerm: "test"
   };
 
@@ -114,7 +114,7 @@ describe("conditional facets", () => {
     const driver = new SearchDriver({
       ...params,
       initialState: {
-        filters: [{ initial: ["value"] }],
+        filters: [{ field: "initial", values: ["value"], type: "all" }],
         searchTerm: "test"
       },
       facets: {

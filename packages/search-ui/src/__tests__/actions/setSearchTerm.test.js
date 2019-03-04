@@ -40,8 +40,17 @@ describe("#setSearchTerm", () => {
 
   itResetsFilters(
     () =>
-      subject("test", { initialState: { filters: [{ filter1: ["value1"] }] } })
-        .state
+      subject("test", {
+        initialState: {
+          filters: [
+            {
+              field: "filter1",
+              values: ["value1"],
+              type: "all"
+            }
+          ]
+        }
+      }).state
   );
 
   it("Does not update other Search Parameter values", () => {

@@ -27,10 +27,55 @@ const baseProps = {
   values: ["two", "three"]
 };
 
-storiesOf("Facets: Multi-value", module)
+const rangeOptions = [
+  {
+    count: 1,
+    value: {
+      from: 1,
+      to: 10,
+      name: "The first option"
+    }
+  },
+  {
+    count: 11,
+    value: {
+      from: 11,
+      to: 20,
+      name: "The second option"
+    }
+  }
+];
+
+storiesOf("Facets/MultiCheckboxFacet", module)
+  .add("with Value Facets not selected", () => (
+    <MultiCheckboxFacet {...{ ...baseProps, values: [] }} />
+  ))
+  .add("with Value Facets selected", () => (
+    <MultiCheckboxFacet {...{ ...baseProps }} />
+  ))
+  .add("with Range Facets not selected", () => (
+    <MultiCheckboxFacet
+      {...{ ...baseProps, values: [], options: rangeOptions }}
+    />
+  ))
+  .add("with Range Facets selected", () => (
+    <MultiCheckboxFacet
+      {...{
+        ...baseProps,
+        values: [
+          {
+            from: 11,
+            to: 20,
+            name: "The second option"
+          }
+        ],
+        options: rangeOptions
+      }}
+    />
+  ))
   .add("basic", () => (
     <MultiCheckboxFacet {...{ showMore: false, ...baseProps }} />
   ))
   .add("with More", () => (
-    <MultiCheckboxFacet {...{ showMore: true, ...baseProps }} />
+    <MultiCheckboxFacet {...{ ...baseProps, showMore: true, values: [] }} />
   ));

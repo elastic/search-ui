@@ -61,8 +61,15 @@ describe("#setFilter", () => {
 
   it("Adds a new filter and removes old filters", () => {
     expect(
-      subject("test", "value2", { initialFilters: [{ initial: ["value"] }] })
-        .filters
-    ).toEqual([{ initial: ["value"] }, { test: ["value2"] }]);
+      subject("test", "value2", {
+        initialFilters: [
+          { field: "initial", values: ["value"], type: "all" },
+          { field: "test", values: ["value1"], type: "all" }
+        ]
+      }).filters
+    ).toEqual([
+      { field: "initial", values: ["value"], type: "all" },
+      { field: "test", values: ["value2"], type: "all" }
+    ]);
   });
 });
