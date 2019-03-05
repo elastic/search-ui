@@ -175,12 +175,6 @@ export default class SearchDriver {
 
     if (isLoading && !ignoreIsLoadingCheck) return;
 
-    // facets: removeConditionalFacets(
-    //   this.facets,
-    //   this.conditionalFacets,
-    //   filters
-    // ),
-
     this._setState({
       current,
       error: "",
