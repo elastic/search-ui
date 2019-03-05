@@ -20,7 +20,14 @@ const resultList = {
       request_id: "12345"
     }
   },
-  results: [{}, {}]
+  rawResults: [{}, {}]
+};
+
+const resultState = {
+  facets: {},
+  results: [{}, {}],
+  totalResults: 1000,
+  requestId: "12345"
 };
 
 const params = {
@@ -51,45 +58,55 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("search", () => {
-    function subject({
-      searchTerm = "searchTerm",
-      options = {},
-      additionalOptions
-    }) {
+    function subject(state = {}, additionalOptions) {
+      if (!state.searchTerm) state.searchTerm = "searchTerm";
+
       const connector = new AppSearchAPIConnector({
         ...params,
         additionalOptions
       });
-      return connector.search(searchTerm, options);
+
+      return connector.search(state);
     }
 
-    it("will return a search response", async () => {
-      const response = await subject({});
-      expect(response).toBe(resultList);
+    it("will return updated search state", async () => {
+      const state = await subject();
+      expect(state).toEqual(resultState);
     });
 
     it("will pass params through to search endpoint", async () => {
-      const options = {};
+      const current = 2;
       const searchTerm = "searchTerm";
-      await subject({ searchTerm, options });
-      const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(searchTerm);
-      expect(passedOptions).toEqual(options);
-    });
-
-    it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
-      const options = {};
-      const resultFields = {
-        result_fields: { title: { raw: {} } }
-      };
-      const additionalOptions = () => resultFields;
-      const searchTerm = "searchTerm";
-      await subject({ additionalOptions, searchTerm, options });
+      await subject({ current, searchTerm });
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedSearchTerm).toEqual(searchTerm);
       expect(passedOptions).toEqual({
-        ...options,
-        ...resultFields
+        filters: {},
+        page: {
+          current: 2
+        }
+      });
+    });
+
+    it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
+      const current = 2;
+      const searchTerm = "searchTerm";
+      const additionalOptions = currentOptions => {
+        if (currentOptions.page.current === 2) {
+          return {
+            test: "value"
+          };
+        }
+      };
+      await subject({ current, searchTerm }, additionalOptions);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {},
+        page: {
+          current: 2
+        },
+        test: "value"
       });
     });
   });

@@ -286,11 +286,11 @@ corresponding field has been configured in
 
 Properties:
 
-| Name  | type      | Required? | Default                                                               | Options                                                                                                                                                     | Description                                                                                                                                         |
-| ----- | --------- | --------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| field | String    | yes       |                                                                       |                                                                                                                                                             | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
-| label | String    | yes       |                                                                       |                                                                                                                                                             | A static label to show in the facet filter.                                                                                                         |
-| show  | Number    | no        | 10                                                                    |                                                                                                                                                             | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
+| Name  | type      | Required? | Default                                                                  | Options                                                                                                                                           | Description                                                                                                                                         |
+| ----- | --------- | --------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| field | String    | yes       |                                                                          |                                                                                                                                                   | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
+| label | String    | yes       |                                                                          |                                                                                                                                                   | A static label to show in the facet filter.                                                                                                         |
+| show  | Number    | no        | 10                                                                       |                                                                                                                                                   | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
 | view  | Component | no        | [MultiCheckboxFacet](../react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](../react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](../react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See the [Customizing Component views and html](#customizeviews) section for more information. |
 
 Example:
@@ -641,32 +641,41 @@ state can be set by:
 - The `initialState` option in [Configuration](#config)
 - The URL query string, if `trackUrlState` is enabled in [Configuration](#config)
 
-| option           | type                     | required? | source                                                                                               |
-| ---------------- | ------------------------ | --------- | ---------------------------------------------------------------------------------------------------- |
-| `current`        | Integer                  | optional  | Current page number                                                                                  |
-| `filters`        | Array[Object]            | optional  | [App Search Filters API Reference](https://swiftype.com/documentation/app-search/api/search/filters) |
-| `resultsPerPage` | Integer                  | optional  | Number of results to show on each page                                                               |
-| `searchTerm`     | String                   | optional  | Search terms to search for                                                                           |
-| `sortDirection`  | String ["asc" \| "desc"] | optional  | Direction to sort                                                                                    |
-| `sortField`      | String                   | optional  | Name of field to sort on                                                                             |
+| option           | type                                   | required? | source                                 |
+| ---------------- | -------------------------------------- | --------- | -------------------------------------- |
+| `current`        | Integer                                | optional  | Current page number                    |
+| `filters`        | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
+| `resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
+| `searchTerm`     | String                                 | optional  | Search terms to search for             |
+| `sortDirection`  | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
+| `sortField`      | String                                 | optional  | Name of field to sort on               |
 
 <a id="responsestate"></a>
 
 _Response State_
 
-Result State is updated AFTER an API response is received. It is not directly update-able, it
-is updated indirectly by updating Request State resulting in a new API request.
+Response State is updated AFTER an API response is received. It is not directly update-able, it
+is updated indirectly by invoking an action which results in a new API request.
 
-| field              | type          | description                                                                                                                                                                                                                                                               |
-| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `error`            | String        | Error message, if an error was thrown                                                                                                                                                                                                                                     |
-| `isLoading`        | boolean       | Whether or not a search is currently being performed                                                                                                                                                                                                                      |
-| `facets`           | Object        | Will be populated if `facets` configured in [Configuration](#configs)                                                                                                                                                                                                     |
-| `requestId`        | String        | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`          | Array[Object] | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm` | String        | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`     | Integer       | Total number of results found for the current query                                                                                                                                                                                                                       |
-| `wasSearched`      | boolean       | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI.                                                                                                                                                        |
+| field              | type                                   | description                                                                                                                                                                                                                                                               |
+| ------------------ | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `facets`           | Object[[Facet](./src/types/Facet.js)]  | Will be populated if `facets` configured in [Configuration](#configs)                                                                                                                                                                                                     |
+| `requestId`        | String                                 | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`          | Array[[Result](./src/types/Result.js)] | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm` | String                                 | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`     | Integer                                | Total number of results found for the current query                                                                                                                                                                                                                       |
+
+<a id="applicationstate"></a>
+
+_Application State_
+
+Application state is general application state.
+
+| field         | type    | description                                                                                                        |
+| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
+| `error`       | String  | Error message, if an error was thrown                                                                              |
+| `isLoading`   | boolean | Whether or not a search is currently being performed                                                               |
+| `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
 
 <a id="searchuiconfig"></a>
 
@@ -739,26 +748,39 @@ return (
 
 [back](#nav)
 
-All configuration for Search UI is provided in a single configuration object. Configuration is used to:
+All configuration for Search UI is provided in a single configuration object.
 
-- Configure application behavior, like `trackUrlState`.
-- Configure Search API calls, like `facets`, `result_fields`, and `search_fields`.
+There are 2 types of configuration:
 
-In regards to the latter, The configuration for Search UI largely follows the same API as the
-[App Search Search API](https://swiftype.com/documentation/app-search/api/search).
+- [Application Config](#applicationconfig)
+- [Query Config](#queryconfig)
+
+<a id="applicationconfig"></a>
+
+_Application Config_
+
+| option          | type         | required? | source                                                                                                                                                                                                                    |
+| --------------- | ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiConnector`  | APIConnector | required  | Instance of an [Connector](#connectors). For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                               |
+| `initialState`  | Object       | optional  | Set initial [State](#state) of the search. Any [Request State](#requeststate) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
+| `trackURLState` | boolean      | optional  | By default, [Request State](#requeststate) will be synced with the browser url. To turn this off, pass `false`.                                                                                                           |
+
+<a id="queryconfig"></a>
+
+_Query Config_
+
+Query configuration for Search UI largely follows the same API as the
+[App Search Search API](https://swiftype.com/documentation/app-search/api/search)
 
 For example, if you add a `search_fields` configuration option, it will control which
 fields are actually returned from the API.
 
 | option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `apiConnector`                   | APIConnector             | required  | Instance of an [Connector](#connectors). For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                                                                                                                                                                                                                                    |
 | `facets`                         | Object                   | optional  | [App Search Facets API Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                              |
 | `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
 | `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
 | `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
-| `initialState`                   | Object                   | optional  | Set initial [State](#state) of the search. Any [Request State](#requeststate) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }`                                                                                                                                                                                                      |
-| `trackURLState`                  | boolean                  | optional  | By default, [Request State](#requeststate) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                                                                                                                                                                                                                |
 | `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
 | `result_fields`                  | Object[String, Object]   | optional  | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
 
@@ -1010,7 +1032,7 @@ where you we don't have a Component you need.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html),
 called [withSearch](./src/withSearch.js), which gives you access to work directly with Search UI's [Context](#context).
-This let's you create your own Components for Search UI.
+This lets you create your own Components for Search UI.
 
 Ex. Creating a Component for clearing all filters
 
@@ -1069,7 +1091,7 @@ const connector = new AppSearchAPIConnector({
 
 [back](#nav)
 
-The [Connectors](#connectors) section of the Basic Usage guide explain what exactly
+The [Connectors](#connectors) section of the Basic Usage guide explains what exactly
 a Connector is and lists our out-of-the-box Connectors.
 
 It is also possible to create your own Connector if you don't see your service in the list above.
@@ -1079,24 +1101,16 @@ An example of this is the [Site Search API Connector](../search-ui-site-search-c
 
 What you're effectively doing here is two things:
 
-1. Converting the semantics of an App Search Search API request into the semantics of your particular Search API.
-2. Converting the response from your particular Search API into the semantics of an App Search Search API response.
-
-Why the App Search API Response format? Well, it just so happened to be the easiest format for us to work with
-when building this library. It could change to some sort of neutral format in the future.
-
-For the first part, check out the `click` and `search` methods below, which provide some more details on what the
-App Search API request format looks like.
-
-For the second part, see the [App Search API response example](#appsearchresponse) below. You basically need to
-convert your data to this format and wrap it in a `ResultList` object, which is specified below.
+1. Converting the current [Request State](#requeststate) and [Query Config](#queryconfig) into the search semantics of
+   your particular Search API.
+2. Converting the response from your particular Search API into [Response State](#responsestate).
 
 <a id="connectorconfig"></a>
 
 #### Configuration
 
 Each Connector will need to be instantiated with its own set of properties. The only properties that Connectors
-should have in common is an `additionalOptions` parameter.
+need to have in common is an `additionalOptions` parameter.
 
 | option              | type             | required? | source                                                                                                                                                                        |
 | ------------------- | ---------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1106,119 +1120,16 @@ should have in common is an `additionalOptions` parameter.
 
 #### Methods
 
-| method   | params                   | return                    | description                                                                                                                                                                                                                                                                                                                                                 |
-| -------- | ------------------------ | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `click`  | `props` - Object         |                           | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.                                                                                                                                                                                                                   |
-|          | - `documentId` - String  |                           | The id of the result that a user clicked.                                                                                                                                                                                                                                                                                                                   |
-|          | - `requestId` - String   |                           | A unique id that ties the click to a particular search request.                                                                                                                                                                                                                                                                                             |
-|          | - `tags` - Array[String] |                           | Tags used for analytics.                                                                                                                                                                                                                                                                                                                                    |
-| `search` | `searchTerm` - String    | [ResultList](#resultlist) | The search string to query on.                                                                                                                                                                                                                                                                                                                              |
-|          | `searchOptions` - Object |                           | `searchOptions` follow the format from App Search's [Search API](https://swiftype.com/documentation/app-search/api/search). The following properties are supported:<br/>- facets<br/>- filters<br/>- result_fields<br/>- search_fields<br/>- sorting <br/> <br/> Additionally, we will pass:<br/> - disjunctiveFacets<br />- disjunctiveFacetsAnalyticsTags |
+| method   | params                                       | return                           | description                                                                                                                               |
+| -------- | -------------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `click`  | `props` - Object                             |                                  | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page. |
+|          | - `documentId` - String                      |                                  | The id of the result that a user clicked.                                                                                                 |
+|          | - `requestId` - String                       |                                  | A unique id that ties the click to a particular search request.                                                                           |
+|          | - `tags` - Array[String]                     |                                  | Tags used for analytics.                                                                                                                  |
+| `search` | `state` - [Request State](#requeststate)     | [Response State](#responsestate) |                                                                                                                                           |
+|          | `queryConfig` - [Query Config](#queryConfig) |                                  |                                                                                                                                           |
 
-<a id="resultlist"></a>
+#### Errors
 
-#### ResultList
-
-A ResultList object wraps the `results` object from a [Response](#appsearchresponse).
-
-| field        | type                             | description                                                                             |
-| ------------ | -------------------------------- | --------------------------------------------------------------------------------------- |
-| `rawResults` | Array[Object]                    | Raw `results` field from a [Response](#appsearchresponse).                              |
-| `results`    | Array[[ResultItem](#resultItem)] | The `results` array, mapped to a list of [ResultItem](#resultItem)s.                    |
-| `info`       | Object                           | All of the fields from a response other than `results`. This means `meta` and `facets`. |
-
-<a id="resultItem"></a>
-
-#### ResultItem
-
-Each Result Item is a wrapped around an individual result, in the
-
-| field        | type             | description                                                              |
-| ------------ | ---------------- | ------------------------------------------------------------------------ |
-| `data`       | Object           | Raw object from the `results` array on a [Response](#appsearchresponse). |
-| `getRaw`     | Function(String) | Convenience function for getting `raw` field data.                       |
-| `getSnippet` | Function(String) | Convenience function for getting `snippet` field data.                   |
-
-<a id="appsearchresponse"></a>
-
-#### Search API response example
-
-More details can be found in the
-[App Search Search API documentation](https://swiftype.com/documentation/app-search/api/search).
-
-For `results`, each result can have one of two fields: `raw` and `snippet`. The
-`raw` value is the raw from the server. Search UI considers this "unsafe" html,
-so if it contains any sort of html, it will be escaped before rendering. `snippet`
-values should contain a representation of the value that contains highlighted
-values, using `em` tags. It is considered "safe", and will be rendered as
-is to the DOM, without escaping. Be aware of that, as if your underlying
-data is not "safe", it could be a potential XSS vulnerability.
-
-More information on this can be found in the [Elastic App Search Sanitation Guide](https://swiftype.com/documentation/app-search/guides/sanitization).
-
-Depending on the type of `facet` that is being used, `facet` could have a few different
-response [formats](https://swiftype.com/documentation/app-search/api/search/facets).
-
-```json
-{
-  "meta": {
-    "page": {
-      "current": 2,
-      "total_pages": 3,
-      "total_results": 41,
-      "size": 15
-    }
-  },
-  "facets": {
-    "states": [
-      {
-        "type": "value",
-        "data": [
-          {
-            "value": "California",
-            "count": 8
-          }
-        ]
-      }
-    ]
-  },
-  "results": [
-    {
-      "nps_link": {
-        "raw": "https://www.nps.gov/wrst/index.htm"
-      },
-      "title": {
-        "raw": "Wrangell–St. Elias"
-      },
-      "date_established": {
-        "raw": "1980-12-02T06:00:00+00:00"
-      },
-      "world_heritage_site": {
-        "raw": "true"
-      },
-      "states": {
-        "raw": ["Alaska"]
-      },
-      "description": {
-        "raw": "An over 8 million acres (32,375 km2) plot of mountainous country—the largest National Park in the system—protects the convergence of the Alaska, Chugach, and Wrangell-Saint Elias Ranges, which include many of the continent's tallest mountains and volcanoes, including the 18,008-foot Mount Saint Elias. More than a quarter of the park is covered with glaciers, including the tidewater Hubbard Glacier, piedmont Malaspina Glacier, and valley Nabesna Glacier.",
-        "snippet": "An over 8 <em>million</em> acres (32,375 km2) plot"
-      },
-      "visitors": {
-        "raw": 79047
-      },
-      "id": {
-        "raw": "park_wrangell–st.-elias"
-      },
-      "location": {
-        "raw": "61,-142"
-      },
-      "square_km": {
-        "raw": 33682.6
-      },
-      "acres": {
-        "raw": 8323146.48
-      }
-    }
-  ]
-}
-```
+For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
+includes things like 404s, 500s, etc.

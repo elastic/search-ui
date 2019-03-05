@@ -5,14 +5,32 @@ import { ResultsContainer } from "../Results";
 const params = {
   results: [
     {
-      data: { foo: "foo" },
-      getRaw: val => val,
-      getSnippet: val => `<em>${val}</em>`
+      id: {
+        raw: "id",
+        snippet: "<em>id</em>"
+      },
+      title: {
+        raw: "title",
+        snippet: "<em>title</em>"
+      },
+      url: {
+        raw: "url",
+        snippet: "<em>url</em>"
+      }
     },
     {
-      data: { bar: "bar" },
-      getRaw: val => val,
-      getSnippet: val => `<em>${val}</em>`
+      id: {
+        raw: "id",
+        snippet: "<em>id</em>"
+      },
+      title: {
+        raw: "title",
+        snippet: "<em>title</em>"
+      },
+      url: {
+        raw: "url",
+        snippet: "<em>url</em>"
+      }
     }
   ],
   trackClickThrough: jest.fn(),

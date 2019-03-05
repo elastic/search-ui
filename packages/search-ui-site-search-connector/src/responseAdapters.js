@@ -1,27 +1,21 @@
-import ResultList from "./ResultList";
-
-export function toResultList(response, documentType) {
-  const results = getResults(response.records, documentType);
-  const info = getInfo(response.info, documentType);
-  return new ResultList(results, info);
-}
-
 const addEachKeyValueToObject = (acc, [key, value]) => ({
   ...acc,
   [key]: value
 });
 
-function getFacets(docInfo) {
+export function getFacets(docInfo) {
   return Object.entries(docInfo.facets)
     .map(([facetName, facetValue]) => {
       return [
         facetName,
         [
           {
+            field: facetName,
             data: Object.entries(facetValue).map(([value, count]) => ({
               value,
               count
             })),
+            // Site Search does not support any other type of facet
             type: "value"
           }
         ]
@@ -30,28 +24,7 @@ function getFacets(docInfo) {
     .reduce(addEachKeyValueToObject, {});
 }
 
-function getInfo(info, documentType) {
-  const docInfo = info[documentType];
-  const facets = getFacets(docInfo);
-
-  return {
-    ...(facets && { facets }),
-    meta: {
-      warnings: [], // TODO
-      page: {
-        current: docInfo.current_page,
-        total_pages: docInfo.num_pages,
-        size: docInfo.per_page,
-        total_results: docInfo.total_result_count
-      },
-      request_id: "" // TODO
-    }
-  };
-}
-
-// TODO Handle meta that we're just throwing away right now, like sort and
-// "_" prefixed fields
-function getResults(records, documentType) {
+export function getResults(records, documentType) {
   const isMetaField = key => key.startsWith("_");
   const toObjectWithRaw = value => ({ raw: value });
 

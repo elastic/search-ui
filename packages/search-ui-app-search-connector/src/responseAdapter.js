@@ -17,7 +17,7 @@ function adaptation2AddLabelToFacet(fieldName, facet) {
   };
 }
 
-export function adaptFacets(facets) {
+function adaptFacets(facets) {
   if (!facets || Object.keys(facets).length === 0) return facets;
 
   return Object.entries(facets).reduce((acc, [fieldName, facet]) => {
@@ -35,4 +35,25 @@ export function adaptFacets(facets) {
       [fieldName]: adaptedFacet
     };
   }, {});
+}
+
+export function adaptResponse(response) {
+  const facets = response.info.facets;
+  const requestId = response.info.meta.request_id;
+
+  const totalPages = response.info.meta.page
+    ? response.info.meta.page.total_pages
+    : undefined;
+
+  const totalResults = response.info.meta.page
+    ? response.info.meta.page.total_results
+    : undefined;
+
+  return {
+    ...(facets && { facets: adaptFacets(facets) }),
+    requestId,
+    results: response.rawResults,
+    ...(totalPages !== undefined && { totalPages }),
+    ...(totalResults !== undefined && { totalResults })
+  };
 }

@@ -5,7 +5,9 @@ exports[`renders correctly 1`] = `
   <Result
     fields={
       Object {
-        "foo": "<em>foo</em>",
+        "id": "<em>id</em>",
+        "title": "<em>title</em>",
+        "url": "<em>url</em>",
       }
     }
     key="result-id"
@@ -16,7 +18,9 @@ exports[`renders correctly 1`] = `
   <Result
     fields={
       Object {
-        "bar": "<em>bar</em>",
+        "id": "<em>id</em>",
+        "title": "<em>title</em>",
+        "url": "<em>url</em>",
       }
     }
     key="result-id"
@@ -32,7 +36,9 @@ exports[`supports a render prop 1`] = `
   <Result
     fields={
       Object {
-        "foo": "<em>foo</em>",
+        "id": "<em>id</em>",
+        "title": "<em>title</em>",
+        "url": "<em>url</em>",
       }
     }
     key="result-id"
@@ -43,7 +49,9 @@ exports[`supports a render prop 1`] = `
   <Result
     fields={
       Object {
-        "bar": "<em>bar</em>",
+        "id": "<em>id</em>",
+        "title": "<em>title</em>",
+        "url": "<em>url</em>",
       }
     }
     key="result-id"

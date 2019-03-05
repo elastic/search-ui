@@ -1,6 +1,12 @@
-import { searchResponse, searchResponseWithoutFacets } from "../test/fixtures";
-
 import SearchDriver from "../SearchDriver";
+
+const searchResponse = {
+  totalResults: 1000,
+  totalPages: 100,
+  requestId: "12345",
+  facets: {},
+  results: [{}, {}]
+};
 
 export function getMockApiConnector() {
   return {
@@ -33,9 +39,9 @@ export function setupDriver({
   });
 
   if (mockSearchResponse) {
-    mockApiConnector.search = jest
-      .fn()
-      .mockReturnValue({ then: cb => cb(searchResponseWithoutFacets) });
+    mockApiConnector.search = jest.fn().mockReturnValue({
+      then: cb => cb(mockSearchResponse)
+    });
   }
 
   const updatedStateAfterAction = {};
@@ -61,8 +67,8 @@ export function doesStateHaveResponseData(response) {
   } = response;
   return (
     !!results &&
-    !!requestId &&
     results.length &&
+    !!requestId &&
     totalPages > 0 &&
     totalResults > 0 &&
     !!wasSearched

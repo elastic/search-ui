@@ -8,13 +8,15 @@ While Site Search supports multiple document types, Search UI will only
 support a single document type, and it must be provided up front when
 creating the connector.
 
-Note that Site Search does not support certain features that App Search
-does provide. For example:
+Note that Site Search does not support certain features of Search UI:
 
-- Only `value` facets are allowed, not `range` facets.
-- Analytics tags are not supported.
-- Facets do not have a configurable "size" parameter.
-- Disjunctive faceting is not supported.
+- `disjunctiveFacets` or `disjunctiveFacetsAnalyticsTags` configuration options
+- Only `value` facets are allowed
+- `sort` option is not supported on facets.
+- `size` option is not supported on facets.
+- Does not support multiple filters applied to a single field.
+- Cannot apply more than 1 range filter on a single field.
+- Analytics tags are not supported in `click`.
 
 ## Usage
 

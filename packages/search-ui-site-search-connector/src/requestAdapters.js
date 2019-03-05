@@ -4,9 +4,19 @@ export function adaptFacetConfig(facets) {
   const convertInvalidFacetsToUndefined = ([fieldName, config]) => {
     if (config.type != "value") {
       console.warn(
-        `Dropping ${fieldName} facet, only value facets are supported in Site Search`
+        `search-ui-site-search-connector: Dropping ${fieldName} facet, only value facets are supported in Site Search`
       );
       return;
+    }
+    if (config.sort) {
+      console.warn(
+        `search-ui-site-search-connector: Site Search does not support 'sort' on facets`
+      );
+    }
+    if (config.size) {
+      console.warn(
+        `search-ui-site-search-connector: Site Search does not support 'size' on facets`
+      );
     }
     return [fieldName, config];
   };
@@ -22,21 +32,60 @@ export function adaptFacetConfig(facets) {
   return config;
 }
 
-export function adaptFilterConfig(filterConfig) {
-  if (!filterConfig || !filterConfig.all) return;
+export function adaptFilterConfig(filters) {
+  if (!filters || Object.keys(filters).length === 0) return;
 
-  return filterConfig.all.reduce((acc, filter) => {
-    const [fieldName, fieldValue] = Object.entries(filter)[0];
+  return filters.reduce((acc, filter) => {
+    const fieldName = filter.field;
+    let fieldValue = filter.values;
 
-    if (!acc[fieldName]) {
-      acc[fieldName] = {
-        type: "and",
-        values: []
-      };
+    if (acc[fieldName]) {
+      console.warn(
+        "search-ui-site-search-connector: More than one filter found for a single field"
+      );
+      return acc;
     }
 
-    const value = Array.isArray(fieldValue) ? fieldValue[0] : fieldValue;
-    acc[fieldName].values.push(value);
+    if (filter.type && filter.type !== "all") {
+      console.warn(
+        `search-ui-site-search-connector: Unsupported filter type ${
+          filter.type
+        } found, only "all" is currently supported`
+      );
+      return acc;
+    }
+
+    if (fieldValue.find(v => typeof v === "object") !== undefined) {
+      if (fieldValue.length > 1) {
+        console.warn(
+          "search-ui-site-search-connector: Cannot apply more than 1 none-value filters to a single field"
+        );
+        return acc;
+      }
+
+      const firstValue = fieldValue[0];
+      if (
+        firstValue.from ||
+        firstValue.from === 0 ||
+        firstValue.to ||
+        firstValue.to === 0
+      ) {
+        // eslint-disable-next-line
+        const { name, ...rest } = firstValue;
+        acc[fieldName] = {
+          type: "range",
+          ...rest
+        };
+        return acc;
+      } else {
+        return acc;
+      }
+    }
+
+    acc[fieldName] = {
+      type: "and",
+      values: fieldValue
+    };
 
     return acc;
   }, {});

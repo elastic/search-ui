@@ -4,6 +4,7 @@ import FacetValue from "./FacetValue";
 
 export default PropTypes.shape({
   data: PropTypes.arrayOf(FacetValue).isRequired,
+  // Name of the field this facet is associated with
   field: PropTypes.string.isRequired,
   type: FacetType.isRequired
 });

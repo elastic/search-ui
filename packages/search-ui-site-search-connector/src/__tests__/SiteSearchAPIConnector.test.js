@@ -4,6 +4,7 @@ import exampleAPIResponse from "../../resources/example-response.json";
 
 function fetchResponse(response) {
   return Promise.resolve({
+    status: 200,
     json: () => Promise.resolve(response)
   });
 }
@@ -26,47 +27,41 @@ it("can be initialized", () => {
 });
 
 describe("#search", () => {
-  function subject({
-    additionalOptions,
-    searchTerm = "searchTerm",
-    options = {}
-  }) {
+  function subject({ additionalOptions, state, queryConfig }) {
     const connector = new SiteSearchAPIConnector({
       ...params,
       additionalOptions
     });
-    return connector.search(searchTerm, options);
+    return connector.search(state, queryConfig);
   }
 
   it("will call the API with the correct body params", async () => {
-    const searchTerm = "searchTerm";
-    const options = {
-      arbitraryParameter: "shouldRemain",
-      page: {
-        current: 1,
-        size: 10
-      },
-      sort: {
-        name: "desc"
-      },
+    const state = {
+      searchTerm: "searchTerm",
+      current: 1,
+      resultsPerPage: 10,
+      sortDirection: "desc",
+      sortField: "name",
+      filters: [
+        {
+          field: "title",
+          type: "all",
+          values: ["Acadia", "Grand Canyon"]
+        },
+        {
+          field: "world_heritage_site",
+          values: ["true"],
+          type: "all"
+        }
+      ]
+    };
+
+    const queryConfig = {
       facets: {
         states: {
           type: "value",
           size: 30
         }
-      },
-      filters: {
-        all: [
-          {
-            title: "Acadia"
-          },
-          {
-            title: "Grand Canyon"
-          },
-          {
-            world_heritage_site: "true"
-          }
-        ]
       },
       result_fields: {
         title: { raw: {}, snippet: { size: 20, fallback: true } }
@@ -77,11 +72,11 @@ describe("#search", () => {
         states: {}
       }
     };
-    await subject({ searchTerm, options });
+
+    await subject({ state, queryConfig });
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
-      arbitraryParameter: "shouldRemain",
       page: 1,
       per_page: 10,
       filters: {
@@ -121,7 +116,7 @@ describe("#search", () => {
   });
 
   it("will only add body parameters if the corresponding configuration has been provided", async () => {
-    await subject({});
+    await subject({ state: { searchTerm: "searchTerm" }, queryConfig: {} });
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
       q: "searchTerm"
@@ -129,18 +124,21 @@ describe("#search", () => {
   });
 
   it("will correctly format an API response", async () => {
-    const response = await subject({});
+    const response = await subject({ state: {}, queryConfig: {} });
     expect(response).toMatchSnapshot();
   });
 
   it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
-    const options = {};
     const groupFields = {
       group: { field: "title" }
     };
     const additionalOptions = () => groupFields;
     const searchTerm = "searchTerm";
-    await subject({ additionalOptions, searchTerm, options });
+    await subject({
+      additionalOptions,
+      state: { searchTerm },
+      queryConfig: {}
+    });
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
       q: "searchTerm",

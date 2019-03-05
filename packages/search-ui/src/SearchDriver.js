@@ -3,9 +3,6 @@ import URLManager from "./URLManager";
 import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
 
-import { adaptFacets } from "./responseAdapter";
-import { adaptFilters } from "./requestAdapters";
-
 import * as actions from "./actions";
 
 function filterSearchParameters({
@@ -178,29 +175,6 @@ export default class SearchDriver {
 
     if (isLoading && !ignoreIsLoadingCheck) return;
 
-    const searchOptions = {
-      disjunctiveFacets: this.disjunctiveFacets,
-      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
-      facets: removeConditionalFacets(
-        this.facets,
-        this.conditionalFacets,
-        filters
-      ),
-      filters: adaptFilters(filters),
-      page: {
-        current,
-        size: resultsPerPage
-      },
-      result_fields: this.result_fields,
-      search_fields: this.search_fields
-    };
-
-    if (sortField && sortDirection) {
-      searchOptions.sort = {
-        [sortField]: sortDirection
-      };
-    }
-
     this._setState({
       current,
       error: "",
@@ -214,19 +188,29 @@ export default class SearchDriver {
 
     const requestId = this.requestSequencer.next();
 
-    return this.apiConnector.search(searchTerm, searchOptions).then(
-      resultList => {
+    const queryConfig = {
+      disjunctiveFacets: this.disjunctiveFacets,
+      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
+      facets: removeConditionalFacets(
+        this.facets,
+        this.conditionalFacets,
+        filters
+      ),
+      result_fields: this.result_fields,
+      search_fields: this.search_fields
+    };
+
+    const requestState = filterSearchParameters(this.state);
+
+    return this.apiConnector.search(requestState, queryConfig).then(
+      resultState => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
 
         this._setState({
-          facets: adaptFacets(resultList.info.facets || {}),
           isLoading: false,
-          requestId: resultList.info.meta.request_id,
-          results: resultList.results,
           resultSearchTerm: searchTerm,
-          totalPages: resultList.info.meta.page.total_pages,
-          totalResults: resultList.info.meta.page.total_results,
+          ...resultState,
           wasSearched: true
         });
 

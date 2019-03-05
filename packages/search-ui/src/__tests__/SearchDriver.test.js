@@ -1,6 +1,5 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
 
-import { searchResponseWithoutFacets } from "../test/fixtures";
 import {
   doesStateHaveResponseData,
   setupDriver,
@@ -65,7 +64,12 @@ it("will default facets to {} in state if facets is missing from the response", 
 
   const { stateAfterCreation } = setupDriver({
     initialState,
-    searchResponseWithoutFacets
+    mockSearchResponse: {
+      totalResults: 1000,
+      totalPages: 100,
+      requestId: "12345",
+      results: [{}, {}]
+    }
   });
 
   expect(doesStateHaveResponseData(stateAfterCreation)).toBe(true);
