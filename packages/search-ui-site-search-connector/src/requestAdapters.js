@@ -67,7 +67,8 @@ export function adaptFilterConfig(filters) {
       if (
         firstValue.from ||
         firstValue.from === 0 ||
-        (firstValue.to || firstValue.to === 0)
+        firstValue.to ||
+        firstValue.to === 0
       ) {
         // eslint-disable-next-line
         const { name, ...rest } = firstValue;
