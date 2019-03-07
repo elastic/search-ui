@@ -35,3 +35,7 @@ Breaking Changes:
   created a custom connector, you will need to rework your solution. More details
   on this are documented in the "Creating your own Connector" section of
   the README.
+
+## 0.5.1 (March 7, 2019)
+
+Fixed this error: "ReferenceError: regeneratorRuntime is not defined"
