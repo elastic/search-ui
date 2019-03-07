@@ -133,7 +133,7 @@ npx lerna version 0.2.1 --no-push
 
 git push --tags
 
-## Go through PR approval and merge to master
+# Go through PR approval and rebase+merge to master. Do not create a merge commit, it will throw off the `lerna changed` command
 
 git checkout master
 git pull
