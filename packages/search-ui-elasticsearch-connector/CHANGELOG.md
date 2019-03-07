@@ -11,3 +11,7 @@
 - #114
 
 As of version 0.5.0 this connector is no longer compatible with Search UI.
+
+## 0.5.1 (March 7, 2019)
+
+Fixed this error: "ReferenceError: regeneratorRuntime is not defined"

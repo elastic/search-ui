@@ -27,3 +27,7 @@ Breaking Changes:
   and `results`. If you were working directly with any of these types of state
   you will likely need to rework your solution. The data model can be seen
   here: https://github.com/elastic/search-ui/tree/8ddad47165d17c768a024a134059f215f9096365/packages/react-search-ui/src/types.
+
+## 0.5.1 (March 7, 2019)
+
+Fixed this error: "ReferenceError: regeneratorRuntime is not defined"
