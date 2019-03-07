@@ -68,6 +68,7 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "autoprefixer": "^9.4.7",
     "deep-equal": "^1.0.1",
     "rc-pagination": "^1.17.3",

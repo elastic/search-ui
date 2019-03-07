@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Facets } from "./Facets";
 export { default as MultiCheckboxFacet } from "./MultiCheckboxFacet";
