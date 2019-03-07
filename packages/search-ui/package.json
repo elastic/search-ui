@@ -37,6 +37,7 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "date-fns": "^1.29.0",
     "debounce-fn": "^1.0.0",
     "deep-equal": "^1.0.1",

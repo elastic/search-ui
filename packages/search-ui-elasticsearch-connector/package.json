@@ -37,6 +37,7 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "elasticsearch": "^15.2.0"
   }
 }
