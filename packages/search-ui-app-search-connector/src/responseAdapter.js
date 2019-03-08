@@ -52,7 +52,13 @@ export function adaptResponse(response) {
   return {
     ...(facets && { facets: adaptFacets(facets) }),
     requestId,
-    results: response.rawResults,
+    results: response.rawResults.map(r => {
+      // eslint-disable-next-line
+      const { _meta, ...rest } = r;
+      return {
+        ...rest
+      };
+    }),
     ...(totalPages !== undefined && { totalPages }),
     ...(totalResults !== undefined && { totalResults })
   };
