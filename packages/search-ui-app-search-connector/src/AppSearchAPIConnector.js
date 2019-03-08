@@ -50,4 +50,16 @@ export default class AppSearchAPIConnector {
     const response = await this.client.search(query, options);
     return adaptResponse(response);
   }
+
+  async autocompleteResults({ searchTerm }, queryConfig) {
+    const { query, ...optionsFromState } = adaptRequest({ searchTerm });
+    const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };
+    const options = {
+      ...withQueryConfigOptions,
+      ...this.additionalOptions(withQueryConfigOptions)
+    };
+
+    const response = await this.client.search(query, options);
+    return adaptResponse(response);
+  }
 }
