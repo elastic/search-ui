@@ -72,13 +72,8 @@ export default class SearchDriver {
 
   constructor({
     apiConnector,
-    conditionalFacets,
-    disjunctiveFacets,
-    disjunctiveFacetsAnalyticsTags,
-    facets,
     initialState,
-    result_fields,
-    search_fields,
+    searchQuery = {},
     trackUrlState = true,
     urlPushDebounceLength = 500
   }) {
@@ -100,12 +95,7 @@ export default class SearchDriver {
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.apiConnector = apiConnector;
-    this.conditionalFacets = conditionalFacets;
-    this.disjunctiveFacets = disjunctiveFacets;
-    this.disjunctiveFacetsAnalyticsTags = disjunctiveFacetsAnalyticsTags;
-    this.facets = facets;
-    this.result_fields = result_fields;
-    this.search_fields = search_fields;
+    this.searchQuery = searchQuery;
     this.subscriptions = [];
     this.trackUrlState = trackUrlState;
     this.urlPushDebounceLength = urlPushDebounceLength;
@@ -189,15 +179,12 @@ export default class SearchDriver {
     const requestId = this.requestSequencer.next();
 
     const queryConfig = {
-      disjunctiveFacets: this.disjunctiveFacets,
-      disjunctiveFacetsAnalyticsTags: this.disjunctiveFacetsAnalyticsTags,
+      ...this.searchQuery,
       facets: removeConditionalFacets(
-        this.facets,
-        this.conditionalFacets,
+        this.searchQuery.facets,
+        this.searchQuery.conditionalFacets,
         filters
-      ),
-      result_fields: this.result_fields,
-      search_fields: this.search_fields
+      )
     };
 
     const requestState = filterSearchParameters(this.state);

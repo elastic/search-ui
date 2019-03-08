@@ -26,41 +26,43 @@ export default function App() {
   return (
     <SearchProvider
       config={{
-        apiConnector: connector,
-        search_fields: {
-          title: {},
-          description: {}
-        },
-        result_fields: {
-          title: {
-            snippet: {
-              size: 100,
-              fallback: true
+        searchQuery: {
+          search_fields: {
+            title: {},
+            description: {}
+          },
+          result_fields: {
+            title: {
+              snippet: {
+                size: 100,
+                fallback: true
+              }
+            },
+            nps_link: {
+              raw: {}
+            },
+            description: {
+              snippet: {
+                size: 100,
+                fallback: true
+              }
             }
           },
-          nps_link: {
-            raw: {}
-          },
-          description: {
-            snippet: {
-              size: 100,
-              fallback: true
+          disjunctiveFacets: ["acres"],
+          facets: {
+            states: { type: "value", size: 30 },
+            acres: {
+              type: "range",
+              ranges: [
+                { from: -1, name: "Any" },
+                { from: 0, to: 1000, name: "Small" },
+                { from: 1001, to: 100000, name: "Medium" },
+                { from: 100001, name: "Large" }
+              ]
             }
           }
         },
-        disjunctiveFacets: ["acres"],
-        facets: {
-          states: { type: "value", size: 30 },
-          acres: {
-            type: "range",
-            ranges: [
-              { from: -1, name: "Any" },
-              { from: 0, to: 1000, name: "Small" },
-              { from: 1001, to: 100000, name: "Medium" },
-              { from: 100001, name: "Large" }
-            ]
-          }
-        }
+        apiConnector: connector
       }}
     >
       {_ => (

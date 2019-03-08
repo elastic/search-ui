@@ -113,94 +113,113 @@ it("will not sync initial state to the URL if trackURLState is set to false", ()
   expect(URLManager.mock.instances).toHaveLength(0);
 });
 
-describe("conditional facets", () => {
-  function subject(conditional) {
-    const driver = new SearchDriver({
-      ...params,
-      initialState: {
-        filters: [{ field: "initial", values: ["value"], type: "all" }],
-        searchTerm: "test"
-      },
-      facets: {
+describe("searchQuery config", () => {
+  describe("conditional facets", () => {
+    function subject(conditional) {
+      const driver = new SearchDriver({
+        ...params,
+        initialState: {
+          filters: [{ field: "initial", values: ["value"], type: "all" }],
+          searchTerm: "test"
+        },
+        searchQuery: {
+          facets: {
+            initial: {
+              type: "value"
+            }
+          },
+          conditionalFacets: {
+            initial: conditional
+          }
+        }
+      });
+
+      driver.setSearchTerm("test");
+    }
+
+    it("will fetch a conditional facet that passes its check", () => {
+      subject(filters => !!filters);
+
+      // 'initial' WAS included in request to server
+      expect(getSearchCalls()[1][1].facets).toEqual({
         initial: {
           type: "value"
         }
-      },
-      conditionalFacets: {
-        initial: conditional
-      }
+      });
     });
 
-    driver.setSearchTerm("test");
-  }
+    it("will not fetch a conditional facet that fails its check", () => {
+      subject(filters => !filters);
 
-  it("will fetch a conditional facet that passes its check", () => {
-    subject(filters => !!filters);
-
-    // 'initial' WAS included in request to server
-    expect(getSearchCalls()[1][1].facets).toEqual({
-      initial: {
-        type: "value"
-      }
+      // 'initial' was NOT included in request to server
+      expect(getSearchCalls()[1][1].facets).toEqual({});
     });
   });
 
-  it("will not fetch a conditional facet that fails its check", () => {
-    subject(filters => !filters);
-
-    // 'initial' was NOT included in request to server
-    expect(getSearchCalls()[1][1].facets).toEqual({});
-  });
-});
-
-// disjunctiveFacetsAnalyticsTags
-describe("pass through values", () => {
-  function subject({
-    disjunctiveFacets,
-    disjunctiveFacetsAnalyticsTags,
-    result_fields,
-    search_fields
-  }) {
-    const driver = new SearchDriver({
-      ...params,
-      facets: {
-        initial: {
-          type: "value"
-        }
-      },
+  describe("pass through values", () => {
+    function subject({
       disjunctiveFacets,
       disjunctiveFacetsAnalyticsTags,
       result_fields,
       search_fields
+    }) {
+      const driver = new SearchDriver({
+        ...params,
+        searchQuery: {
+          facets: {
+            initial: {
+              type: "value"
+            }
+          },
+          disjunctiveFacets,
+          disjunctiveFacetsAnalyticsTags,
+          result_fields,
+          search_fields
+        }
+      });
+
+      driver.setSearchTerm("test");
+    }
+
+    it("will pass through facet configuration", () => {
+      const facets = {
+        initial: {
+          type: "value"
+        }
+      };
+      subject({ facets });
+      expect(getSearchCalls()[0][1].facets).toEqual({
+        initial: {
+          type: "value"
+        }
+      });
     });
 
-    driver.setSearchTerm("test");
-  }
+    it("will pass through disjunctive facet configuration", () => {
+      const disjunctiveFacets = ["initial"];
+      subject({ disjunctiveFacets });
+      expect(getSearchCalls()[0][1].disjunctiveFacets).toEqual(["initial"]);
+    });
 
-  it("will pass through disjunctive facet configuration", () => {
-    const disjunctiveFacets = ["initial"];
-    subject({ disjunctiveFacets });
-    expect(getSearchCalls()[0][1].disjunctiveFacets).toEqual(["initial"]);
-  });
+    it("will pass through disjunctive facet analytics tags", () => {
+      const disjunctiveFacetsAnalyticsTags = ["Test"];
+      subject({ disjunctiveFacetsAnalyticsTags });
+      expect(getSearchCalls()[0][1].disjunctiveFacetsAnalyticsTags).toEqual([
+        "Test"
+      ]);
+    });
 
-  it("will pass through disjunctive facet analytics tags", () => {
-    const disjunctiveFacetsAnalyticsTags = ["Test"];
-    subject({ disjunctiveFacetsAnalyticsTags });
-    expect(getSearchCalls()[0][1].disjunctiveFacetsAnalyticsTags).toEqual([
-      "Test"
-    ]);
-  });
+    it("will pass through result_fields configuration", () => {
+      const result_fields = { test: {} };
+      subject({ result_fields });
+      expect(getSearchCalls()[0][1].result_fields).toEqual(result_fields);
+    });
 
-  it("will pass through result_fields configuration", () => {
-    const result_fields = { test: {} };
-    subject({ result_fields });
-    expect(getSearchCalls()[0][1].result_fields).toEqual(result_fields);
-  });
-
-  it("will pass through search_fields configuration", () => {
-    const search_fields = { test: {} };
-    subject({ search_fields });
-    expect(getSearchCalls()[0][1].search_fields).toEqual(search_fields);
+    it("will pass through search_fields configuration", () => {
+      const search_fields = { test: {} };
+      subject({ search_fields });
+      expect(getSearchCalls()[0][1].search_fields).toEqual(search_fields);
+    });
   });
 });
 
