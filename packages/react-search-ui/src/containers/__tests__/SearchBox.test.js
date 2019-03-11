@@ -57,7 +57,10 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
   });
 
   const call = params.setSearchTerm.mock.calls[0];
-  expect(call).toEqual(["new term", { refresh: false }]);
+  expect(call).toEqual([
+    "new term",
+    { refresh: false, autocompleteResults: false }
+  ]);
 });
 
 it("will call back to setSearchTerm with refresh: true when input is changed and searchAsYouType is true", () => {
@@ -74,7 +77,10 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
   });
 
   const call = params.setSearchTerm.mock.calls[0];
-  expect(call).toEqual(["new term", { refresh: true, debounce: 200 }]);
+  expect(call).toEqual([
+    "new term",
+    { refresh: true, debounce: 200, autocompleteResults: false }
+  ]);
 });
 
 it("will call back to setSearchTerm with a specific debounce when input is changed and searchAsYouType is true and a debounce is provided", () => {
@@ -95,7 +101,34 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   });
 
   const call = params.setSearchTerm.mock.calls[0];
-  expect(call).toEqual(["new term", { refresh: true, debounce: 500 }]);
+  expect(call).toEqual([
+    "new term",
+    { refresh: true, debounce: 500, autocompleteResults: false }
+  ]);
+});
+
+it("will call back to setSearchTerm with a specific debounce when input is changed and autocompleteResults is true and a debounce is provided", () => {
+  const wrapper = shallow(
+    <SearchBoxContainer
+      {...params}
+      autocompleteResults={true}
+      debounceLength={500}
+    />
+  );
+
+  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
+
+  wrapper.find("SearchBox").prop("onChange")({
+    currentTarget: {
+      value: "new term"
+    }
+  });
+
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual([
+    "new term",
+    { refresh: false, debounce: 500, autocompleteResults: true }
+  ]);
 });
 
 it("will call back setSearchTerm with refresh: true when form is submitted", () => {

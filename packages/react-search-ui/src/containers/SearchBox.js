@@ -7,6 +7,7 @@ import { withSearch } from "..";
 export class SearchBoxContainer extends Component {
   static propTypes = {
     // Props
+    autocompleteResults: PropTypes.bool,
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
     searchAsYouType: PropTypes.bool,
@@ -41,15 +42,21 @@ export class SearchBoxContainer extends Component {
   };
 
   handleChange = value => {
-    const { searchAsYouType, setSearchTerm, debounceLength } = this.props;
-    const options = searchAsYouType
-      ? {
-          refresh: true,
-          debounce: debounceLength || 200
-        }
-      : {
-          refresh: false
-        };
+    const {
+      autocompleteResults,
+      searchAsYouType,
+      setSearchTerm,
+      debounceLength
+    } = this.props;
+
+    const options = {
+      ...((autocompleteResults || searchAsYouType) && {
+        debounce: debounceLength || 200
+      }),
+      refresh: !!searchAsYouType,
+      autocompleteResults: !!autocompleteResults
+    };
+
     setSearchTerm(value, options);
   };
 
