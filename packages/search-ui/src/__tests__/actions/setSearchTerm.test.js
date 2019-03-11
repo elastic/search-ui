@@ -15,11 +15,14 @@ beforeEach(() => {
 });
 
 describe("#setSearchTerm", () => {
-  function subject(term, { refresh, initialState = {} } = {}) {
+  function subject(
+    term,
+    { autocompleteResults, refresh, initialState = {} } = {}
+  ) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
     );
-    driver.setSearchTerm(term, { refresh });
+    driver.setSearchTerm(term, { autocompleteResults, refresh });
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation
@@ -98,5 +101,40 @@ describe("#setSearchTerm", () => {
     driver.setSearchTerm("term", { refresh: true, debounce: 10 });
     await waitABit(100);
     expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+  });
+
+  describe("when autocompleteResults is true", () => {
+    it("updates autocompletedResults", () => {
+      expect(
+        subject("term", { autocompleteResults: true }).state
+          .autocompletedResults
+      ).toEqual([{}, {}]);
+    });
+
+    it("Will not debounce requests if there is no debounce specified", async () => {
+      const { driver, mockApiConnector } = setupDriver();
+      driver.setSearchTerm("term", { autocompleteResults: true });
+      driver.setSearchTerm("term", { autocompleteResults: true });
+      driver.setSearchTerm("term", { autocompleteResults: true });
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(3);
+    });
+
+    it("Will debounce requests", async () => {
+      const { driver, mockApiConnector } = setupDriver();
+      driver.setSearchTerm("term", { autocompleteResults: true, debounce: 10 });
+      driver.setSearchTerm("term", { autocompleteResults: true, debounce: 10 });
+      driver.setSearchTerm("term", { autocompleteResults: true, debounce: 10 });
+      await waitABit(100);
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+    });
+  });
+
+  describe("when autocompleteResults is false", () => {
+    it("doesn't update autocompletedResults", () => {
+      expect(
+        subject("term", { autocompleteResults: false }).state
+          .autocompletedResults
+      ).toEqual([]);
+    });
   });
 });
