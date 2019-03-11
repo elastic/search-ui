@@ -110,4 +110,22 @@ describe("AppSearchAPIConnector", () => {
       });
     });
   });
+
+  describe("autocompleteResults", () => {
+    function subject(state = {}, additionalOptions) {
+      if (!state.searchTerm) state.searchTerm = "searchTerm";
+
+      const connector = new AppSearchAPIConnector({
+        ...params,
+        additionalOptions
+      });
+
+      return connector.autocompleteResults(state);
+    }
+
+    it("will return updated search state", async () => {
+      const state = await subject();
+      expect(state).toEqual(resultState);
+    });
+  });
 });

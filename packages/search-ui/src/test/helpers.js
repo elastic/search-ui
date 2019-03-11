@@ -10,6 +10,9 @@ const searchResponse = {
 
 export function getMockApiConnector() {
   return {
+    autocompleteResults: jest
+      .fn()
+      .mockReturnValue({ then: cb => cb(searchResponse) }),
     search: jest.fn().mockReturnValue({ then: cb => cb(searchResponse) }),
     click: jest.fn().mockReturnValue({ then: () => {} })
   };
