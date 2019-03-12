@@ -2,60 +2,81 @@
 
 exports[`passes through inputProps 1`] = `
 <form
-  className="sui-search-box"
   onSubmit={[Function]}
 >
-  <input
-    className="sui-search-box__text-input "
+  <Downshift
+    defaultHighlightedIndex={null}
+    defaultIsOpen={false}
+    environment={[Window]}
+    getA11yStatusMessage={[Function]}
+    inputValue="test"
+    itemToString={[Function]}
     onChange={[Function]}
-    placeholder="test"
-    type="text"
-    value="test"
-  />
-  <input
-    className="button sui-search-box__submit"
-    type="submit"
-    value="Search"
-  />
+    onInputValueChange={[Function]}
+    onOuterClick={[Function]}
+    onSelect={[Function]}
+    onStateChange={[Function]}
+    onUserAction={[Function]}
+    scrollIntoView={[Function]}
+    selectedItemChanged={[Function]}
+    stateReducer={[Function]}
+    suppressRefError={false}
+  >
+    <Component />
+  </Downshift>
 </form>
 `;
 
 exports[`renders correctly when \`isFocused\` is false 1`] = `
 <form
-  className="sui-search-box"
   onSubmit={[Function]}
 >
-  <input
-    className="sui-search-box__text-input "
+  <Downshift
+    defaultHighlightedIndex={null}
+    defaultIsOpen={false}
+    environment={[Window]}
+    getA11yStatusMessage={[Function]}
+    inputValue="test"
+    itemToString={[Function]}
     onChange={[Function]}
-    placeholder="Search your documents…"
-    type="text"
-    value="test"
-  />
-  <input
-    className="button sui-search-box__submit"
-    type="submit"
-    value="Search"
-  />
+    onInputValueChange={[Function]}
+    onOuterClick={[Function]}
+    onSelect={[Function]}
+    onStateChange={[Function]}
+    onUserAction={[Function]}
+    scrollIntoView={[Function]}
+    selectedItemChanged={[Function]}
+    stateReducer={[Function]}
+    suppressRefError={false}
+  >
+    <Component />
+  </Downshift>
 </form>
 `;
 
 exports[`renders correctly when \`isFocused\` is true 1`] = `
 <form
-  className="sui-search-box"
   onSubmit={[Function]}
 >
-  <input
-    className="sui-search-box__text-input focus"
+  <Downshift
+    defaultHighlightedIndex={null}
+    defaultIsOpen={false}
+    environment={[Window]}
+    getA11yStatusMessage={[Function]}
+    inputValue="test"
+    itemToString={[Function]}
     onChange={[Function]}
-    placeholder="Search your documents…"
-    type="text"
-    value="test"
-  />
-  <input
-    className="button sui-search-box__submit"
-    type="submit"
-    value="Search"
-  />
+    onInputValueChange={[Function]}
+    onOuterClick={[Function]}
+    onSelect={[Function]}
+    onStateChange={[Function]}
+    onUserAction={[Function]}
+    scrollIntoView={[Function]}
+    selectedItemChanged={[Function]}
+    stateReducer={[Function]}
+    suppressRefError={false}
+  >
+    <Component />
+  </Downshift>
 </form>
 `;

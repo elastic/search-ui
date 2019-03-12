@@ -69,7 +69,7 @@ export class SearchBoxContainer extends Component {
     return (
       <View
         isFocused={isFocused}
-        onChange={e => this.handleChange(e.currentTarget.value)}
+        onChange={value => this.handleChange(value)}
         onSubmit={this.handleSubmit}
         value={searchTerm}
         inputProps={{
