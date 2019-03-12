@@ -50,11 +50,7 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
 
   expect(wrapper.find("SearchBox").prop("value")).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")({
-    currentTarget: {
-      value: "new term"
-    }
-  });
+  wrapper.find("SearchBox").prop("onChange")("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -70,11 +66,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
 
   expect(wrapper.find("SearchBox").prop("value")).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")({
-    currentTarget: {
-      value: "new term"
-    }
-  });
+  wrapper.find("SearchBox").prop("onChange")("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -94,11 +86,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 
   expect(wrapper.find("SearchBox").prop("value")).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")({
-    currentTarget: {
-      value: "new term"
-    }
-  });
+  wrapper.find("SearchBox").prop("onChange")("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -118,11 +106,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 
   expect(wrapper.find("SearchBox").prop("value")).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")({
-    currentTarget: {
-      value: "new term"
-    }
-  });
+  wrapper.find("SearchBox").prop("onChange")("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
