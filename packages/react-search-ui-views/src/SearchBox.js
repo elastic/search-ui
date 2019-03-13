@@ -23,31 +23,37 @@ function SearchBox(props) {
 
   // TODO Remove inline styles
   return (
-    <form onSubmit={onSubmit}>
-      <Downshift
-        inputValue={value}
-        onChange={onSelectAutocomplete}
-        onInputValueChange={onChange}
-        itemToString={item =>
-          // TODO
-          item
-            ? item[autocompleteResults.titleField]
-              ? item[autocompleteResults.titleField].raw ||
-                item[autocompleteResults.titleField].snippet
-              : item.suggestion
-            : ""
-        }
-      >
-        {({
-          getInputProps,
-          getItemProps,
-          getMenuProps,
-          isOpen,
-          highlightedIndex,
-          selectedItem
-        }) => {
-          let index = 0;
-          return (
+    <Downshift
+      inputValue={value}
+      onChange={onSelectAutocomplete}
+      onInputValueChange={onChange}
+      itemToString={item =>
+        // TODO
+        item
+          ? item[autocompleteResults.titleField]
+            ? item[autocompleteResults.titleField].raw ||
+              item[autocompleteResults.titleField].snippet
+            : item.suggestion
+          : ""
+      }
+    >
+      {({
+        closeMenu,
+        getInputProps,
+        getItemProps,
+        getMenuProps,
+        isOpen,
+        highlightedIndex,
+        selectedItem
+      }) => {
+        let index = 0;
+        return (
+          <form
+            onSubmit={e => {
+              closeMenu();
+              onSubmit(e);
+            }}
+          >
             <div
               className="sui-search-box"
               style={{ position: "relative", overflow: "visible" }}
@@ -172,10 +178,10 @@ function SearchBox(props) {
                 className="button sui-search-box__submit"
               />
             </div>
-          );
-        }}
-      </Downshift>
-    </form>
+          </form>
+        );
+      }}
+    </Downshift>
   );
 }
 
