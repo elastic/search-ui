@@ -131,9 +131,7 @@ function SearchBox(props) {
                                   // eslint-disable-next-line react/jsx-key
                                   <li
                                     {...getItemProps({
-                                      key:
-                                        suggestion.suggestion ||
-                                        suggestion.highlight,
+                                      key: suggestion.suggestion,
                                       index: index - 1,
                                       item: suggestion,
                                       style: {

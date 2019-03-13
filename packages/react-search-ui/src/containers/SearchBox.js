@@ -71,6 +71,18 @@ export class SearchBoxContainer extends Component {
     setSearchTerm(value, options);
   };
 
+  handleSelectAutocomplete = value => {
+    if (value.suggestion) {
+      //TODO
+      console.log(value);
+    } else {
+      const {
+        autocompleteResults: { urlField }
+      } = this.props;
+      window.open(value[urlField].raw, "_blank");
+    }
+  };
+
   render() {
     const { isFocused } = this.state;
     const {
@@ -92,6 +104,7 @@ export class SearchBoxContainer extends Component {
         autocompletedSuggestions={{}}
         isFocused={isFocused}
         onChange={value => this.handleChange(value)}
+        onSelectAutocomplete={this.handleSelectAutocomplete}
         onSubmit={this.handleSubmit}
         value={searchTerm}
         inputProps={{
