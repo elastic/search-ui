@@ -54,7 +54,7 @@ class Wrapper extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: ""
+      value: "b"
     };
   }
 
@@ -64,6 +64,7 @@ class Wrapper extends React.Component {
         autocomplete={true}
         autocompleteItems={autocompleteItems}
         value={this.state.value}
+        isFocused={true}
         onSelectAutocomplete={selection => {
           action("selectAutocomplete")(selection);
         }}

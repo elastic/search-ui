@@ -14,8 +14,8 @@ function SearchBox(props) {
     value
   } = props;
   const focusedClass = isFocused ? "focus" : "";
+  const autocompleteClass = autocomplete ? "autocomplete" : "";
 
-  // TODO Remove inline styles
   return (
     <form onSubmit={onSubmit}>
       <Downshift
@@ -34,71 +34,66 @@ function SearchBox(props) {
         }) => {
           let index = 0;
           return (
-            <div
-              className="sui-search-box"
-              style={{ position: "relative", overflow: "visible" }}
-            >
-              <input
-                {...getInputProps({
-                  placeholder: "Search your documents",
-                  ...inputProps,
-                  className: `sui-search-box__text-input ${focusedClass}`
-                })}
-              />
-              <ul
-                {...getMenuProps({
-                  style: {
-                    position: "absolute",
-                    top: "100%",
-                    width: "100%"
-                  }
-                })}
-              >
-                {autocomplete && isOpen
-                  ? autocompleteItems.map((section, i) => {
-                      return (
-                        <div key={i}>
-                          {section.title && <div>{section.title}</div>}
-                          <ul>
-                            {section.items.map(item => {
-                              index++;
-                              return (
-                                // eslint-disable-next-line react/jsx-key
-                                <li
-                                  {...getItemProps({
-                                    key: item.id,
-                                    index: index - 1,
-                                    item,
-                                    style: {
-                                      backgroundColor:
-                                        highlightedIndex === index - 1
-                                          ? "lightgray"
-                                          : "white",
-                                      fontWeight:
-                                        selectedItem === item
-                                          ? "bold"
-                                          : "normal"
-                                    }
-                                  })}
-                                >
-                                  {item.snippet ? (
-                                    <span
-                                      dangerouslySetInnerHTML={{
-                                        __html: item.snippet
-                                      }}
-                                    />
-                                  ) : (
-                                    <span>{item.raw}</span>
-                                  )}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      );
-                    })
-                  : null}
-              </ul>
+            <div className={"sui-search-box " + autocompleteClass}>
+              <div className={"sui-search-box__wrapper " + focusedClass}>
+                <input
+                  {...getInputProps({
+                    placeholder: "Search your documents",
+                    ...inputProps,
+                    className: "sui-search-box__text-input"
+                  })}
+                />
+                <div
+                  {...getMenuProps({
+                    className: "sui-search-box__autocomplete"
+                  })}
+                >
+                  {autocomplete && isOpen
+                    ? autocompleteItems.map((section, i) => {
+                        return (
+                          <div key={i}>
+                            {section.title && <div>{section.title}</div>}
+                            <ul>
+                              {section.items.map(item => {
+                                index++;
+                                return (
+                                  // eslint-disable-next-line react/jsx-key
+                                  <li
+                                    {...getItemProps({
+                                      key: item.id,
+                                      index: index - 1,
+                                      item,
+                                      style: {
+                                        backgroundColor:
+                                          highlightedIndex === index - 1
+                                            ? "lightgray"
+                                            : "white",
+                                        fontWeight:
+                                          selectedItem === item
+                                            ? "bold"
+                                            : "normal"
+                                      }
+                                    })}
+                                  >
+                                    {item.snippet ? (
+                                      <span
+                                        dangerouslySetInnerHTML={{
+                                          __html: item.snippet
+                                        }}
+                                      />
+                                    ) : (
+                                      <span>{item.raw}</span>
+                                    )}
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        );
+                      })
+                    : null}
+                </div>
+              </div>
               <input
                 type="submit"
                 value="Search"
