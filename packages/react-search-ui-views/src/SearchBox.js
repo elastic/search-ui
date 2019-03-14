@@ -2,10 +2,16 @@ import PropTypes from "prop-types";
 import React from "react";
 import Downshift from "downshift";
 
+import { Result } from "./types";
+import { Suggestion } from "./types";
+
 function SearchBox(props) {
   const {
-    autocomplete,
-    autocompleteItems = [],
+    useAutocomplete,
+    autocompleteResults,
+    autocompletedResults,
+    autocompleteSuggestions,
+    autocompletedSuggestions,
     isFocused,
     inputProps,
     onChange,
@@ -14,7 +20,7 @@ function SearchBox(props) {
     value
   } = props;
   const focusedClass = isFocused ? "focus" : "";
-  const autocompleteClass = autocomplete ? "autocomplete" : "";
+  // const autocompleteClass = autocomplete ? "autocomplete" : "";
 
   return (
     <form onSubmit={onSubmit}>
@@ -22,7 +28,15 @@ function SearchBox(props) {
         inputValue={value}
         onChange={onSelectAutocomplete}
         onInputValueChange={onChange}
-        itemToString={item => (item ? item.value : "")}
+        itemToString={item =>
+          // TODO
+          item
+            ? item[autocompleteResults.titleField]
+              ? item[autocompleteResults.titleField].raw ||
+                item[autocompleteResults.titleField].snippet
+              : item.suggestion
+            : ""
+        }
       >
         {({
           getInputProps,
@@ -34,65 +48,125 @@ function SearchBox(props) {
         }) => {
           let index = 0;
           return (
-            <div className={"sui-search-box " + autocompleteClass}>
-              <div className={"sui-search-box__wrapper " + focusedClass}>
-                <input
-                  {...getInputProps({
-                    placeholder: "Search your documents",
-                    ...inputProps,
-                    className: "sui-search-box__text-input"
-                  })}
-                />
-                <div
-                  {...getMenuProps({
-                    className: "sui-search-box__autocomplete"
-                  })}
-                >
-                  {autocomplete && isOpen
-                    ? autocompleteItems.map((section, i) => {
+            <div
+              className="sui-search-box"
+              style={{ position: "relative", overflow: "visible" }}
+            >
+              <input
+                {...getInputProps({
+                  placeholder: "Search your documents",
+                  ...inputProps,
+                  className: `sui-search-box__text-input ${focusedClass}`
+                })}
+              />
+              <div
+                {...getMenuProps({
+                  style: {
+                    position: "absolute",
+                    top: "100%",
+                    width: "100%"
+                  }
+                })}
+              >
+                {useAutocomplete && isOpen ? (
+                  <div>
+                    {autocompleteResults.sectionTitle && (
+                      <div>{autocompleteResults.sectionTitle}</div>
+                    )}
+                    <ul>
+                      {autocompletedResults.map(result => {
+                        index++;
                         return (
-                          <div key={i}>
-                            {section.title && <div>{section.title}</div>}
+                          // eslint-disable-next-line react/jsx-key
+                          <li
+                            {...getItemProps({
+                              key: result.id.raw,
+                              index: index - 1,
+                              item: result,
+                              style: {
+                                backgroundColor:
+                                  highlightedIndex === index - 1
+                                    ? "lightgray"
+                                    : "white",
+                                fontWeight:
+                                  selectedItem === result ? "bold" : "normal"
+                              }
+                            })}
+                          >
+                            {result[autocompleteResults.titleField].snippet ? (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    result[autocompleteResults.titleField]
+                                      .snippet
+                                }}
+                              />
+                            ) : (
+                              <span>
+                                {result[autocompleteResults.titleField].raw}
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    {Object.entries(autocompletedSuggestions).map(
+                      ([suggestionType, suggestions]) => {
+                        return (
+                          <>
+                            {autocompleteSuggestions[suggestionType] &&
+                              autocompleteSuggestions[suggestionType]
+                                .sectionTitle && (
+                                <div>
+                                  {
+                                    autocompleteSuggestions[suggestionType]
+                                      .sectionTitle
+                                  }
+                                </div>
+                              )}
                             <ul>
-                              {section.items.map(item => {
+                              {suggestions.map(suggestion => {
                                 index++;
                                 return (
                                   // eslint-disable-next-line react/jsx-key
                                   <li
                                     {...getItemProps({
-                                      key: item.id,
+                                      key:
+                                        suggestion.suggestion ||
+                                        suggestion.highlight,
                                       index: index - 1,
-                                      item,
+                                      item: suggestion,
                                       style: {
                                         backgroundColor:
                                           highlightedIndex === index - 1
                                             ? "lightgray"
                                             : "white",
                                         fontWeight:
-                                          selectedItem === item
+                                          selectedItem === suggestion
                                             ? "bold"
                                             : "normal"
                                       }
                                     })}
                                   >
-                                    {item.snippet ? (
+                                    {suggestion.highlight ? (
                                       <span
                                         dangerouslySetInnerHTML={{
-                                          __html: item.snippet
+                                          __html: suggestion.highlight
                                         }}
                                       />
                                     ) : (
-                                      <span>{item.raw}</span>
+                                      <span>{suggestion.suggestion}</span>
                                     )}
                                   </li>
                                 );
                               })}
                             </ul>
-                          </div>
+                          </>
                         );
-                      })
-                    : null}
-                </div>
+                      }
+                    )}
+                  </div>
+                ) : null}
               </div>
               <input
                 type="submit"
@@ -111,19 +185,19 @@ SearchBox.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  autocomplete: PropTypes.bool,
-  autocompleteItems: PropTypes.arrayOf(
+  useAutocomplete: PropTypes.bool,
+  autocompleteResults: PropTypes.shape({
+    titleField: PropTypes.string.isRequired,
+    urlField: PropTypes.string.isRequired,
+    sectionTitle: PropTypes.string
+  }),
+  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
+  autocompleteSuggestions: PropTypes.objectOf(
     PropTypes.shape({
-      title: PropTypes.string,
-      items: PropTypes.arrayOf(
-        PropTypes.shape({
-          raw: PropTypes.string,
-          snippet: PropTypes.string,
-          value: PropTypes.any
-        })
-      )
+      sectionTitle: PropTypes.string.isRequired
     })
   ),
+  autocompletedSuggestions: PropTypes.objectOf(Suggestion).isRequired,
   onSelectAutocomplete: PropTypes.func,
   inputProps: PropTypes.object,
   isFocused: PropTypes.bool
