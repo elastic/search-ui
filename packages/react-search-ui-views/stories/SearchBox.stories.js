@@ -14,38 +14,72 @@ const baseProps = {
   value: ""
 };
 
-const autocompleteItems = [
+const autocompletedResults = [
   {
-    title: "Results",
-    items: [
-      { id: "1", snippet: "<em>Bike</em> Cops", raw: "", value: "Bike Cops" },
-      { id: "2", snippet: "<em>Biker</em> Gang", raw: "", value: "Biker Gang" },
-      { id: "3", snippet: "<em>Biker</em> Bar", raw: "", value: "Biker Bar" },
-      {
-        id: "4",
-        snippet: "Best <em>bikes</em> of 2010",
-        raw: "",
-        value: "Best bikes of 2010"
-      },
-      {
-        id: "5",
-        snippet: "<em>Bike</em> seats and accessories",
-        raw: "",
-        value: "Bike seats and accessories"
-      }
-    ]
+    id: { raw: "1" },
+    title: { snippet: "<em>Bike</em> Cops" }
   },
   {
-    title: "Suggestions",
-    items: [
-      { id: "6", snippet: "", raw: "bike", value: "bike" },
-      { id: "7", snippet: "", raw: "bike police", value: "bike police" },
-      { id: "8", snippet: "", raw: "bike police go", value: "bike police go" },
-      { id: "9", snippet: "", raw: "fast bikes", value: "fast bikes" },
-      { id: "10", snippet: "", raw: "bike race", value: "bike race" }
-    ]
+    id: { raw: "2" },
+    title: { snippet: "<em>Biker</em> Gang" }
+  },
+  {
+    id: { raw: "3" },
+    title: { snippet: "<em>Biker</em> Bar" }
+  },
+  {
+    id: { raw: "4" },
+    title: { snippet: "Best <em>bikes</em> of 2010" }
+  },
+  {
+    id: { raw: "5" },
+    title: { snippet: "<em>Bike</em> seats and accessories" }
   }
 ];
+
+const autocompleteSuggestions = {
+  documents: {
+    sectionTitle: "Suggested Queries"
+  },
+  popular_queries: {
+    sectionTitle: "Popular Queries"
+  }
+};
+
+const autocompletedSuggestions = {
+  documents: [
+    { highlight: "", suggestion: "bike" },
+    { highlight: "", suggestion: "bike police" },
+    { highlight: "", suggestion: "bike police go" },
+    { highlight: "", suggestion: "fast bikes" },
+    { highlight: "", suggestion: "bike race" }
+  ],
+  popular_queries: [
+    {
+      highlight: "",
+      suggestion: "how do i know when my bike needs new tires?"
+    },
+    { highlight: "", suggestion: "what is a banana bike?" },
+    { highlight: "", suggestion: "is it cool to ride a bike?" },
+    { highlight: "", suggestion: "when were bikes invented?" },
+    { highlight: "", suggestion: "bike" }
+  ]
+};
+
+const autocompleteProps = {
+  useAutocomplete: true,
+  autocompleteResults: {
+    sectionTitle: "Results Section",
+    titleField: "title",
+    urlField: "nps_link"
+  },
+  autocompletedResults: autocompletedResults,
+  autocompleteSuggestions: autocompleteSuggestions,
+  autocompletedSuggestions: autocompletedSuggestions,
+  onSelectAutocomplete: selection => {
+    action("selectAutocomplete")(selection);
+  }
+};
 
 // This wrapper is here just to store "value" state somewhere, so
 // that when you type in the SearchBox, specifically for autocomplete,
@@ -61,12 +95,8 @@ class Wrapper extends React.Component {
   render() {
     return (
       <SearchBox
-        autocomplete={true}
-        autocompleteItems={autocompleteItems}
+        {...autocompleteProps}
         value={this.state.value}
-        onSelectAutocomplete={selection => {
-          action("selectAutocomplete")(selection);
-        }}
         onSubmit={e => {
           e.preventDefault();
           action("submitted")();
@@ -93,4 +123,12 @@ storiesOf("SearchBox", module)
       inputProps={{ placeholder: "custom placeholder" }}
     />
   ))
-  .add("with autocomplete", () => <Wrapper />);
+  .add("with autocomplete", () => <Wrapper />)
+  .add("with autocomplete no section title", () => (
+    <Wrapper
+      autocompleteResults={{
+        ...{ ...autocompleteProps.autocompleteResults, sectionTitle: "" }
+      }}
+      autocompleteSuggestions={{}}
+    />
+  ));
