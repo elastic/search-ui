@@ -1,32 +1,13 @@
 @include block('search-box') {
   display: flex;
   position: relative;
-  // overflow: hidden;
   justify-content: center;
-  height: 50px;
   align-items: stretch;
   font-family: $fontFamily;
 
-  @include element('text-input') {
-    width: 100%;
-    border-radius: $borderRadius;
-    border: 1px solid $searchboxBorderColor;
-    padding: 0 1em;
-    outline: none;
-    font-size: 14px;
-
-    &::placeholder {
-      color: #aaaaaa;
-    }
-
-    &.focus {
-      border: 1px solid $linkColor;
-    }
-  }
-
   @include element('submit') {
     font-size: 14px;
-    padding: 0 2em;
+    padding: 16px;
     margin-left: 10px;
     text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
     color: rgb(255, 255, 255);
@@ -52,121 +33,118 @@
 
   @include element('wrapper') {
     width: 100%;
-    height: auto;
+    height: 100%;
     outline: none;
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
     border-radius: 3px;
     position: relative;
-
-    // width: 100%;
-    // outline: none;
-    // display: flex;
-    // flex-direction: column;
-    // box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
-
-    // &.focus {
-    //   outline: none;
-    //   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
-    //     rgba(59, 69, 79, 0.3) 0px 2px 4px;
-    //   background: linear-gradient(rgb(34, 153, 245), rgb(39, 78, 236))
-    //     rgb(32, 113, 245);
-    // }
   }
 
-  @include element('autocomplete') {
-    overflow: visible;
-    position: absolute;
-    width: 100%;
+  @include element('text-input') {
+    border-radius: $borderRadius;
+    border: 1px solid #ccc;
+    padding: 16px;
+    outline: none;
+    position: relative;
+    font-size: 14px;
+
+    &::placeholder {
+      color: #aaaaaa;
+    }
+
+    &:focus {
+      box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+      border-top: 1px solid $linkColor;
+      border-left: 1px solid $linkColor;
+      border-right: 1px solid $linkColor;
+      border-bottom: 1px solid $linkColor;
+    }
+
+    .autocomplete & {
+      box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    }
+  }
+
+  @include element('autocomplete-container') {
+    display: none;
+    flex-direction: column;
     left: 0;
     right: 0;
-    top: 50px;
-    z-index: 1;
+    top: 110%;
     margin: 0;
-    padding: 0;
+    padding: $sizeL 0 $sizeM 0;
+    line-height: 1.5;
+    background: white;
+    position: absolute;
+    box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    .autocomplete & {
+      display: flex;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0 0 $sizeL 0;
+      background: transparent;
+      border-radius: 3px;
+    }
+
+    ul:last-child {
+      padding: 0;
+    }
+
+    li {
+      margin: 0 $sizeM;
+      font-size: 0.9em;
+      padding: $sizeXS $sizeM;
+      border-radius: $sizeXS;
+      color: #555;
+
+      em {
+        font-style: normal;
+        color: $linkColor;
+        background: lighten($linkColor, 40%);
+      }
+
+      &:hover {
+        background: $linkColor;
+        color: $white;
+
+        em {
+          background: transparent;
+          color: $white;
+        }
+      }
+    }
+
+    li[aria-selected=true] {
+      background: $linkColor;
+      color: $white;
+
+      em {
+        background: transparent;
+        color: $white;
+      }
+    }
   }
 
-  &.autocomplete {
-
+  @include element('section-title') {
+    color: #888;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    font-weight: normal;
+    padding: 0 0 $sizeXS $sizeL;
+    text-transform: uppercase;
   }
 }
-
-
-// .sui-search-box {
-
-
-//   &.autocomplete {
-//     overflow: visible;
-//     position: absolute;
-//     width: 100%;
-//     left: 0;
-//     right: 0;
-//     z-index: 1;
-
-//     .sui-search-box__text-input {
-//       border-bottom: none;
-//       border-bottom-left-radius: 0;
-//       border-bottom-right-radius: 0;
-//     }
-
-//     .query-suggestions-wrapper {
-//       width: 100%;
-//       outline: none;
-//       display: flex;
-//       flex-direction: column;
-//       // position: relative;
-//       box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
-//     }
-
-//     .query-suggestions {
-//       // position: absolute;
-//       display: flex;
-//       flex-direction: column;
-//       width: 100%;
-//       top: 50px;
-//       margin: 0;
-//       padding: 1em 0;
-//       line-height: 1.5;
-//       background: white;
-//       border-top: 1px solid #f0f0f0;
-//       border-left: 1px solid #abb1b7;
-//       border-right: 1px solid #abb1b7;
-//       border-bottom: 1px solid #abb1b7;
-//       border-top-left-radius: 0;
-//       border-top-right-radius: 0;
-//       border-bottom-left-radius: 3px;
-//       border-bottom-right-radius: 3px;
-//     }
-
-//     .sui-search-box__text-input.focus + .query-suggestions {
-//       border-left: 1px solid $linkColor;
-//       border-right: 1px solid $linkColor;
-//       border-bottom: 1px solid $linkColor;
-//     }
-
-//     .query-suggestions li {
-//       padding: 0;
-//       margin: 0;
-//     }
-
-//     .query-suggestions a {
-//       color: #333333;
-//       text-decoration: none;
-//       display: block;
-//       padding: 0 1em;
-
-//       &:hover {
-//         background: #f0f0f0;
-//       }
-
-//       &:focus {
-//         outline: none;
-//         background: #f0f0f0;
-//       }
-//     }
-
-//     .query-suggestions em {
-//       font-weight: bold;
-//       font-style: normal;
-//     }
-//   }
-// }
