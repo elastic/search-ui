@@ -26,23 +26,15 @@ const autocompletedResults = [
   {
     id: { raw: "3" },
     title: { snippet: "<em>Biker</em> Bar" }
-  },
-  {
-    id: { raw: "4" },
-    title: { snippet: "Best <em>bikes</em> of 2010" }
-  },
-  {
-    id: { raw: "5" },
-    title: { snippet: "<em>Bike</em> seats and accessories" }
   }
 ];
 
 const autocompleteSuggestions = {
   documents: {
-    sectionTitle: "Suggested Queries"
+    sectionTitle: "Suggested"
   },
   popular_queries: {
-    sectionTitle: "Popular Queries"
+    sectionTitle: "Popular"
   }
 };
 
@@ -50,9 +42,7 @@ const autocompletedSuggestions = {
   documents: [
     { highlight: "", suggestion: "bike" },
     { highlight: "", suggestion: "bike police" },
-    { highlight: "", suggestion: "bike police go" },
-    { highlight: "", suggestion: "fast bikes" },
-    { highlight: "", suggestion: "bike race" }
+    { highlight: "", suggestion: "bike police go" }
   ],
   popular_queries: [
     {
@@ -60,16 +50,14 @@ const autocompletedSuggestions = {
       suggestion: "how do i know when my bike needs new tires?"
     },
     { highlight: "", suggestion: "what is a banana bike?" },
-    { highlight: "", suggestion: "is it cool to ride a bike?" },
-    { highlight: "", suggestion: "when were bikes invented?" },
-    { highlight: "", suggestion: "bike" }
+    { highlight: "", suggestion: "is it cool to ride a bike?" }
   ]
 };
 
 const autocompleteProps = {
   useAutocomplete: true,
   autocompleteResults: {
-    sectionTitle: "Results Section",
+    sectionTitle: "Results",
     titleField: "title",
     urlField: "nps_link"
   },
