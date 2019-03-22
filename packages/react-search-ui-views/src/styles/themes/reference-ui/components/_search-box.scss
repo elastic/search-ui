@@ -1,31 +1,13 @@
 @include block('search-box') {
   display: flex;
-  overflow: hidden;
+  position: relative;
   justify-content: center;
-  height: 50px;
   align-items: stretch;
   font-family: $fontFamily;
 
-  @include element('text-input') {
-    width: 100%;
-    border-radius: $borderRadius;
-    border: 1px solid $searchboxBorderColor;
-    padding: 0 1em;
-    outline: none;
-    font-size: 14px;
-
-    &::placeholder {
-      color: #aaaaaa;
-    }
-
-    &.focus {
-      border: 1px solid $linkColor;
-    }
-  }
-
   @include element('submit') {
     font-size: 14px;
-    padding: 0 2em;
+    padding: 16px;
     margin-left: 10px;
     text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
     color: rgb(255, 255, 255);
@@ -44,16 +26,126 @@
         rgb(61, 132, 247);
     }
 
-    &:focus {
-      outline: none;
-      box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
-        rgba(59, 69, 79, 0.3) 0px 2px 4px;
-      background: linear-gradient(rgb(34, 153, 245), rgb(39, 78, 236))
-        rgb(32, 113, 245);
-    }
-
     .live-filtering & {
       display: none;
     }
+  }
+
+  @include element('wrapper') {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  @include element('text-input') {
+    border-radius: $borderRadius;
+    border: 1px solid #ccc;
+    padding: 16px;
+    outline: none;
+    position: relative;
+    font-size: 14px;
+    width: 100%;
+
+    &::placeholder {
+      color: #aaaaaa;
+    }
+
+    &:focus {
+      box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+      border-top: 1px solid $linkColor;
+      border-left: 1px solid $linkColor;
+      border-right: 1px solid $linkColor;
+      border-bottom: 1px solid $linkColor;
+    }
+
+    .autocomplete & {
+      box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    }
+  }
+
+  @include element('autocomplete-container') {
+    display: none;
+    flex-direction: column;
+    left: 0;
+    right: 0;
+    top: 110%;
+    margin: 0;
+    padding: $sizeL 0 $sizeM 0;
+    line-height: 1.5;
+    background: white;
+    position: absolute;
+    box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    .autocomplete & {
+      display: flex;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0 0 $sizeL 0;
+      background: transparent;
+      border-radius: 3px;
+    }
+
+    ul:last-child {
+      padding: 0;
+    }
+
+    li {
+      margin: 0 $sizeM;
+      font-size: 0.9em;
+      padding: $sizeXS $sizeM;
+      border-radius: $sizeXS;
+      color: #555;
+
+      em {
+        font-style: normal;
+        color: $linkColor;
+        background: lighten($linkColor, 40%);
+      }
+
+      &:hover {
+        background: $linkColor;
+        color: $white;
+
+        em {
+          background: transparent;
+          color: $white;
+        }
+      }
+    }
+
+    li[aria-selected=true] {
+      background: $linkColor;
+      color: $white;
+
+      em {
+        background: transparent;
+        color: $white;
+      }
+    }
+  }
+
+  @include element('section-title') {
+    color: #888;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    font-weight: normal;
+    padding: 0 0 $sizeXS $sizeL;
+    text-transform: uppercase;
   }
 }
