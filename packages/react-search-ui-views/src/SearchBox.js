@@ -12,19 +12,32 @@ function SearchBox(props) {
     autocompletedResults,
     autocompleteSuggestions,
     autocompletedSuggestions,
+    notifyAutocompleteResultClick,
     isFocused,
     inputProps,
     onChange,
-    onSelectAutocomplete,
     onSubmit,
     value
   } = props;
   const focusedClass = isFocused ? "focus" : "";
 
+  const onAutocompleteResultClick =
+    props.onAutocompleteResultClick ||
+    (selection => {
+      const url = selection[autocompleteResults.urlField].raw;
+      window.open(url, "_blank");
+    });
+
   return (
     <Downshift
       inputValue={value}
-      onChange={onSelectAutocomplete}
+      onChange={selection => {
+        if (!selection.suggestion) {
+          // TODO This needs to be passed in.
+          notifyAutocompleteResultClick(selection);
+          onAutocompleteResultClick(selection);
+        }
+      }}
       onInputValueChange={onChange}
       stateReducer={(state, changes) => {
         return changes;
@@ -53,12 +66,15 @@ function SearchBox(props) {
                     className: `sui-search-box__text-input ${focusedClass}`
                   })}
                 />
-                <div
-                  {...getMenuProps({
-                    className: "sui-search-box__autocomplete-container"
-                  })}
-                >
-                  {useAutocomplete && isOpen ? (
+                {useAutocomplete &&
+                isOpen &&
+                (autocompletedResults.length > 0 ||
+                  Object.entries(autocompletedSuggestions).length > 0) ? (
+                  <div
+                    {...getMenuProps({
+                      className: "sui-search-box__autocomplete-container"
+                    })}
+                  >
                     <div>
                       {autocompleteResults.sectionTitle && (
                         <div className="sui-search-box__section-title">
@@ -141,8 +157,8 @@ function SearchBox(props) {
                         }
                       )}
                     </div>
-                  ) : null}
-                </div>
+                  </div>
+                ) : null}
               </div>
               <input
                 type="submit"
@@ -158,10 +174,11 @@ function SearchBox(props) {
 }
 
 SearchBox.propTypes = {
+  // Provided by container
+  notifyAutocompleteResultClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  useAutocomplete: PropTypes.bool,
   autocompleteResults: PropTypes.shape({
     titleField: PropTypes.string.isRequired,
     urlField: PropTypes.string.isRequired,
@@ -174,9 +191,13 @@ SearchBox.propTypes = {
     })
   ),
   autocompletedSuggestions: PropTypes.objectOf(Suggestion).isRequired,
-  onSelectAutocomplete: PropTypes.func,
   inputProps: PropTypes.object,
-  isFocused: PropTypes.bool
+  isFocused: PropTypes.bool,
+  useAutocomplete: PropTypes.bool,
+
+  // Specific configuration for this view only
+  // TODO
+  onAutocompleteResultClick: PropTypes.func
 };
 
 export default SearchBox;

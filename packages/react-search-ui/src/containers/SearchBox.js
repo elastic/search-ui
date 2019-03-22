@@ -3,16 +3,22 @@ import React, { Component } from "react";
 import { SearchBox } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
+import { Result } from "../types";
 
 export class SearchBoxContainer extends Component {
   static propTypes = {
     // Props
-    autocompleteResults: PropTypes.bool,
+    autocompleteResults: PropTypes.shape({
+      titleField: PropTypes.string.isRequired,
+      urlField: PropTypes.string.isRequired,
+      sectionTitle: PropTypes.string
+    }),
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
     searchAsYouType: PropTypes.bool,
     view: PropTypes.func,
     // State
+    autocompletedResults: PropTypes.arrayOf(Result).isRequired,
     searchTerm: PropTypes.string.isRequired,
     // Actions
     setSearchTerm: PropTypes.func.isRequired
@@ -54,7 +60,7 @@ export class SearchBoxContainer extends Component {
         debounce: debounceLength || 200
       }),
       refresh: !!searchAsYouType,
-      autocompleteResults: !!autocompleteResults
+      autocompleteResults: !!autocomple teResults
     };
 
     setSearchTerm(value, options);
@@ -62,15 +68,27 @@ export class SearchBoxContainer extends Component {
 
   render() {
     const { isFocused } = this.state;
-    const { inputProps, searchTerm, view } = this.props;
+    const {
+      autocompleteResults,
+      autocompletedResults,
+      inputProps,
+      searchTerm,
+      view
+    } = this.props;
 
     const View = view || SearchBox;
 
     return (
       <View
+        autocompleteResults={autocompleteResults}
+        autocompletedResults={autocompletedResults}
+        autocompletedSuggestions={{}}
         isFocused={isFocused}
+        //TODO
+        notifyAutocompleteResultClick={console.log}
         onChange={value => this.handleChange(value)}
         onSubmit={this.handleSubmit}
+        useAutocomplete={!!autocompleteResults}
         value={searchTerm}
         inputProps={{
           onFocus: this.handleFocus,
