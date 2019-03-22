@@ -22,25 +22,28 @@ function SearchBox(props) {
   const focusedClass = isFocused ? "focus" : "";
 
   return (
-    <form onSubmit={onSubmit}>
-      <Downshift
-        inputValue={value}
-        onChange={onSelectAutocomplete}
-        onInputValueChange={onChange}
-        itemToString={item =>
-          // TODO
-          item
-            ? item[autocompleteResults.titleField]
-              ? item[autocompleteResults.titleField].raw ||
-                item[autocompleteResults.titleField].snippet
-              : item.suggestion
-            : ""
-        }
-      >
-        {({ getInputProps, getItemProps, getMenuProps, isOpen }) => {
-          let index = 0;
-          let autocompleteClass = isOpen === true ? " autocomplete" : "";
-          return (
+    <Downshift
+      inputValue={value}
+      onChange={onSelectAutocomplete}
+      onInputValueChange={onChange}
+      stateReducer={(state, changes) => {
+        return changes;
+      }}
+      // Because when a selection is made, we don't really want to change
+      // the inputValue. This is supposed to be a "controlled" value, and when
+      // this happens we lose control of it.
+      itemToString={() => value}
+    >
+      {({ closeMenu, getInputProps, getItemProps, getMenuProps, isOpen }) => {
+        let index = 0;
+        let autocompleteClass = isOpen === true ? " autocomplete" : "";
+        return (
+          <form
+            onSubmit={e => {
+              closeMenu();
+              onSubmit(e);
+            }}
+          >
             <div className={"sui-search-box" + autocompleteClass}>
               <div className="sui-search-box__wrapper">
                 <input
@@ -147,10 +150,10 @@ function SearchBox(props) {
                 className="button sui-search-box__submit"
               />
             </div>
-          );
-        }}
-      </Downshift>
-    </form>
+          </form>
+        );
+      }}
+    </Downshift>
   );
 }
 
