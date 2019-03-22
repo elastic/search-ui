@@ -1,3 +1,11 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
 @import "modules/variables";
 @import "modules/mixins";
