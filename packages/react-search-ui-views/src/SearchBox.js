@@ -12,7 +12,6 @@ function SearchBox(props) {
     autocompletedResults,
     autocompleteSuggestions,
     autocompletedSuggestions,
-    notifyAutocompleteResultClick,
     isFocused,
     inputProps,
     onChange,
@@ -21,23 +20,19 @@ function SearchBox(props) {
   } = props;
   const focusedClass = isFocused ? "focus" : "";
 
-  const onAutocompleteResultClick =
-    props.onAutocompleteResultClick ||
+  const onSelectAutocomplete =
+    props.onSelectAutocomplete ||
     (selection => {
-      const url = selection[autocompleteResults.urlField].raw;
-      window.open(url, "_blank");
+      if (!selection.suggestion) {
+        const url = selection[autocompleteResults.urlField].raw;
+        window.open(url, "_blank");
+      }
     });
 
   return (
     <Downshift
       inputValue={value}
-      onChange={selection => {
-        if (!selection.suggestion) {
-          // TODO This needs to be passed in.
-          notifyAutocompleteResultClick(selection);
-          onAutocompleteResultClick(selection);
-        }
-      }}
+      onChange={onSelectAutocomplete}
       onInputValueChange={onChange}
       stateReducer={(state, changes) => {
         return changes;
@@ -175,7 +170,6 @@ function SearchBox(props) {
 
 SearchBox.propTypes = {
   // Provided by container
-  notifyAutocompleteResultClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
@@ -196,8 +190,7 @@ SearchBox.propTypes = {
   useAutocomplete: PropTypes.bool,
 
   // Specific configuration for this view only
-  // TODO
-  onAutocompleteResultClick: PropTypes.func
+  onSelectAutocomplete: PropTypes.func
 };
 
 export default SearchBox;
