@@ -90,7 +90,7 @@ class Wrapper extends React.Component {
           action("submitted")();
         }}
         onChange={value => {
-          action("changed")();
+          action("changed")(value);
           this.setState({
             value
           });

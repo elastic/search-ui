@@ -15,6 +15,7 @@ export class SearchBoxContainer extends Component {
     }),
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
+    onSelectAutocomplete: PropTypes.func,
     searchAsYouType: PropTypes.bool,
     view: PropTypes.func,
     // State
@@ -60,7 +61,7 @@ export class SearchBoxContainer extends Component {
         debounce: debounceLength || 200
       }),
       refresh: !!searchAsYouType,
-      autocompleteResults: !!autocomple teResults
+      autocompleteResults: !!autocompleteResults
     };
 
     setSearchTerm(value, options);
@@ -72,6 +73,7 @@ export class SearchBoxContainer extends Component {
       autocompleteResults,
       autocompletedResults,
       inputProps,
+      onSelectAutocomplete,
       searchTerm,
       view
     } = this.props;
@@ -84,9 +86,8 @@ export class SearchBoxContainer extends Component {
         autocompletedResults={autocompletedResults}
         autocompletedSuggestions={{}}
         isFocused={isFocused}
-        //TODO
-        notifyAutocompleteResultClick={console.log}
         onChange={value => this.handleChange(value)}
+        onSelectAutocomplete={onSelectAutocomplete}
         onSubmit={this.handleSubmit}
         useAutocomplete={!!autocompleteResults}
         value={searchTerm}
