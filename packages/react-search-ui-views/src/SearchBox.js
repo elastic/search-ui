@@ -49,9 +49,6 @@ function SearchBox(props) {
       inputValue={value}
       onChange={onSelectAutocomplete}
       onInputValueChange={onChange}
-      stateReducer={(state, changes) => {
-        return changes;
-      }}
       // Because when a selection is made, we don't really want to change
       // the inputValue. This is supposed to be a "controlled" value, and when
       // this happens we lose control of it.
