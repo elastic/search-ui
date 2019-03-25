@@ -5,6 +5,16 @@ import Downshift from "downshift";
 import { Result } from "./types";
 import { Suggestion } from "./types";
 
+function getRaw(result, value) {
+  if (!result[value] || !result[value].raw) return;
+  return result[value].raw;
+}
+
+function getSnippet(result, value) {
+  if (!result[value] || !result[value].snippet) return;
+  return result[value].snippet;
+}
+
 function SearchBox(props) {
   const {
     useAutocomplete,
@@ -24,9 +34,13 @@ function SearchBox(props) {
     props.onSelectAutocomplete ||
     (selection => {
       if (!selection.suggestion) {
-        const url = selection[autocompleteResults.urlField].raw;
-        const target = autocompleteResults.linkTarget || "_self";
-        window.open(url, target);
+        const url = selection[autocompleteResults.urlField]
+          ? selection[autocompleteResults.urlField].raw
+          : "";
+        if (url) {
+          const target = autocompleteResults.linkTarget || "_self";
+          window.open(url, target);
+        }
       }
     });
 
@@ -80,6 +94,14 @@ function SearchBox(props) {
                       <ul>
                         {autocompletedResults.map(result => {
                           index++;
+                          const titleSnippet = getSnippet(
+                            result,
+                            autocompleteResults.titleField
+                          );
+                          const titleRaw = getRaw(
+                            result,
+                            autocompleteResults.titleField
+                          );
                           return (
                             // eslint-disable-next-line react/jsx-key
                             <li
@@ -89,19 +111,14 @@ function SearchBox(props) {
                                 item: result
                               })}
                             >
-                              {result[autocompleteResults.titleField]
-                                .snippet ? (
+                              {titleSnippet ? (
                                 <span
                                   dangerouslySetInnerHTML={{
-                                    __html:
-                                      result[autocompleteResults.titleField]
-                                        .snippet
+                                    __html: titleSnippet
                                   }}
                                 />
                               ) : (
-                                <span>
-                                  {result[autocompleteResults.titleField].raw}
-                                </span>
+                                <span>{titleRaw}</span>
                               )}
                             </li>
                           );
@@ -174,12 +191,15 @@ SearchBox.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  autocompleteResults: PropTypes.shape({
-    titleField: PropTypes.string.isRequired,
-    urlField: PropTypes.string.isRequired,
-    linkTarget: PropTypes.string,
-    sectionTitle: PropTypes.string
-  }),
+  autocompleteResults: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      titleField: PropTypes.string.isRequired,
+      urlField: PropTypes.string.isRequired,
+      linkTarget: PropTypes.string,
+      sectionTitle: PropTypes.string
+    })
+  ]),
   autocompletedResults: PropTypes.arrayOf(Result).isRequired,
   autocompleteSuggestions: PropTypes.objectOf(
     PropTypes.shape({
