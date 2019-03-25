@@ -72,6 +72,7 @@ export default function App() {
               header={
                 <SearchBox
                   autocompleteResults={{
+                    linkTarget: "_blank",
                     sectionTitle: "Results",
                     titleField: "title",
                     urlField: "nps_link"

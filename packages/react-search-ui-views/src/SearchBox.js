@@ -25,7 +25,8 @@ function SearchBox(props) {
     (selection => {
       if (!selection.suggestion) {
         const url = selection[autocompleteResults.urlField].raw;
-        window.open(url, "_blank");
+        const target = autocompleteResults.linkTarget || "_self";
+        window.open(url, target);
       }
     });
 
@@ -176,6 +177,7 @@ SearchBox.propTypes = {
   autocompleteResults: PropTypes.shape({
     titleField: PropTypes.string.isRequired,
     urlField: PropTypes.string.isRequired,
+    linkTarget: PropTypes.string,
     sectionTitle: PropTypes.string
   }),
   autocompletedResults: PropTypes.arrayOf(Result).isRequired,
