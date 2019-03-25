@@ -3,6 +3,8 @@ import { SearchBoxContainer } from "../SearchBox";
 import { shallow } from "enzyme";
 
 const params = {
+  autocompletedResults: [],
+  autocompletedSuggestions: {},
   searchTerm: "test",
   setSearchTerm: jest.fn()
 };
@@ -43,6 +45,28 @@ it("will keep focus prop in sync with view component", () => {
     ["onBlur"]();
 
   expect(wrapper.find("SearchBox").prop("isFocused")).toBe(false);
+});
+
+describe("useAutocomplete", () => {
+  it("will be true  if autocompleteResults configuration has been provided", () => {
+    const wrapper = shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={{
+          titleField: "title",
+          urlField: "nps_link"
+        }}
+      />
+    );
+    wrapper.find("SearchBox").prop("onChange")("new term");
+    expect(wrapper.find("SearchBox").prop("useAutocomplete")).toBe(true);
+  });
+
+  it("will be false if no autocomplete config has been provided", () => {
+    const wrapper = shallow(<SearchBoxContainer {...params} />);
+    wrapper.find("SearchBox").prop("onChange")("new term");
+    expect(wrapper.find("SearchBox").prop("useAutocomplete")).toBe(false);
+  });
 });
 
 it("will call back to setSearchTerm with refresh: false when input is changed", () => {
@@ -99,7 +123,10 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   const wrapper = shallow(
     <SearchBoxContainer
       {...params}
-      autocompleteResults={true}
+      autocompleteResults={{
+        titleField: "title",
+        urlField: "nps_link"
+      }}
       debounceLength={500}
     />
   );
