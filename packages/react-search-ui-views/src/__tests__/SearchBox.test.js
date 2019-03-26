@@ -5,6 +5,8 @@ import { shallow } from "enzyme";
 const requiredProps = {
   onChange: () => {},
   onSubmit: () => {},
+  autocompletedResults: [],
+  autocompletedSuggestions: {},
   value: "test"
 };
 
