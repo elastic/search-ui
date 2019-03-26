@@ -25,7 +25,13 @@ function getSearchCalls(specificMockApiConnector) {
   return (specificMockApiConnector || mockApiConnector).search.mock.calls;
 }
 
+function getAutocompleteResultsCalls(specificMockApiConnector) {
+  return (specificMockApiConnector || mockApiConnector).autocompleteResults.mock
+    .calls;
+}
+
 beforeEach(() => {
+  mockApiConnector.autocompleteResults.mockClear();
   mockApiConnector.search.mockClear();
   mockApiConnector.click.mockClear();
 });
@@ -220,6 +226,35 @@ describe("searchQuery config", () => {
       subject({ search_fields });
       expect(getSearchCalls()[0][1].search_fields).toEqual(search_fields);
     });
+  });
+});
+
+describe("autocompleteQuery config", () => {
+  function subject(config) {
+    const driver = new SearchDriver({
+      ...params,
+      autocompleteQuery: {
+        results: config
+      }
+    });
+
+    driver.setSearchTerm("test", { refresh: false, autocompleteResults: true });
+  }
+
+  it("will pass through result_fields configuration", () => {
+    const result_fields = { test: {} };
+    subject({ result_fields });
+    expect(getAutocompleteResultsCalls()[0][1].result_fields).toEqual(
+      result_fields
+    );
+  });
+
+  it("will pass through search_fields configuration", () => {
+    const search_fields = { test: {} };
+    subject({ search_fields });
+    expect(getAutocompleteResultsCalls()[0][1].search_fields).toEqual(
+      search_fields
+    );
   });
 });
 
