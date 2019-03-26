@@ -62,6 +62,25 @@ export default function App() {
             }
           }
         },
+        autocompleteQuery: {
+          results: {
+            search_fields: {
+              title: {},
+              description: {}
+            },
+            result_fields: {
+              title: {
+                snippet: {
+                  size: 100,
+                  fallback: true
+                }
+              },
+              nps_link: {
+                raw: {}
+              }
+            }
+          }
+        },
         apiConnector: connector
       }}
     >
