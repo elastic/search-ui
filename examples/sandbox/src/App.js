@@ -69,7 +69,16 @@ export default function App() {
         <div className="App">
           <ErrorBoundary>
             <Layout
-              header={<SearchBox autocompleteResults={true} />}
+              header={
+                <SearchBox
+                  autocompleteResults={{
+                    linkTarget: "_blank",
+                    sectionTitle: "Results",
+                    titleField: "title",
+                    urlField: "nps_link"
+                  }}
+                />
+              }
               sideContent={
                 <div>
                   <Sorting

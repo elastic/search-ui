@@ -1,82 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`passes through inputProps 1`] = `
-<form
-  onSubmit={[Function]}
+<Downshift
+  defaultHighlightedIndex={null}
+  defaultIsOpen={false}
+  environment={[Window]}
+  getA11yStatusMessage={[Function]}
+  inputValue="test"
+  itemToString={[Function]}
+  onChange={[Function]}
+  onInputValueChange={[Function]}
+  onOuterClick={[Function]}
+  onSelect={[Function]}
+  onStateChange={[Function]}
+  onUserAction={[Function]}
+  scrollIntoView={[Function]}
+  selectedItemChanged={[Function]}
+  stateReducer={[Function]}
+  suppressRefError={false}
 >
-  <Downshift
-    defaultHighlightedIndex={null}
-    defaultIsOpen={false}
-    environment={[Window]}
-    getA11yStatusMessage={[Function]}
-    inputValue="test"
-    itemToString={[Function]}
-    onChange={[Function]}
-    onInputValueChange={[Function]}
-    onOuterClick={[Function]}
-    onSelect={[Function]}
-    onStateChange={[Function]}
-    onUserAction={[Function]}
-    scrollIntoView={[Function]}
-    selectedItemChanged={[Function]}
-    stateReducer={[Function]}
-    suppressRefError={false}
-  >
-    <Component />
-  </Downshift>
-</form>
+  <Component />
+</Downshift>
 `;
 
 exports[`renders correctly when \`isFocused\` is false 1`] = `
-<form
-  onSubmit={[Function]}
+<Downshift
+  defaultHighlightedIndex={null}
+  defaultIsOpen={false}
+  environment={[Window]}
+  getA11yStatusMessage={[Function]}
+  inputValue="test"
+  itemToString={[Function]}
+  onChange={[Function]}
+  onInputValueChange={[Function]}
+  onOuterClick={[Function]}
+  onSelect={[Function]}
+  onStateChange={[Function]}
+  onUserAction={[Function]}
+  scrollIntoView={[Function]}
+  selectedItemChanged={[Function]}
+  stateReducer={[Function]}
+  suppressRefError={false}
 >
-  <Downshift
-    defaultHighlightedIndex={null}
-    defaultIsOpen={false}
-    environment={[Window]}
-    getA11yStatusMessage={[Function]}
-    inputValue="test"
-    itemToString={[Function]}
-    onChange={[Function]}
-    onInputValueChange={[Function]}
-    onOuterClick={[Function]}
-    onSelect={[Function]}
-    onStateChange={[Function]}
-    onUserAction={[Function]}
-    scrollIntoView={[Function]}
-    selectedItemChanged={[Function]}
-    stateReducer={[Function]}
-    suppressRefError={false}
-  >
-    <Component />
-  </Downshift>
-</form>
+  <Component />
+</Downshift>
 `;
 
 exports[`renders correctly when \`isFocused\` is true 1`] = `
-<form
-  onSubmit={[Function]}
+<Downshift
+  defaultHighlightedIndex={null}
+  defaultIsOpen={false}
+  environment={[Window]}
+  getA11yStatusMessage={[Function]}
+  inputValue="test"
+  itemToString={[Function]}
+  onChange={[Function]}
+  onInputValueChange={[Function]}
+  onOuterClick={[Function]}
+  onSelect={[Function]}
+  onStateChange={[Function]}
+  onUserAction={[Function]}
+  scrollIntoView={[Function]}
+  selectedItemChanged={[Function]}
+  stateReducer={[Function]}
+  suppressRefError={false}
 >
-  <Downshift
-    defaultHighlightedIndex={null}
-    defaultIsOpen={false}
-    environment={[Window]}
-    getA11yStatusMessage={[Function]}
-    inputValue="test"
-    itemToString={[Function]}
-    onChange={[Function]}
-    onInputValueChange={[Function]}
-    onOuterClick={[Function]}
-    onSelect={[Function]}
-    onStateChange={[Function]}
-    onUserAction={[Function]}
-    scrollIntoView={[Function]}
-    selectedItemChanged={[Function]}
-    stateReducer={[Function]}
-    suppressRefError={false}
-  >
-    <Component />
-  </Downshift>
-</form>
+  <Component />
+</Downshift>
 `;
