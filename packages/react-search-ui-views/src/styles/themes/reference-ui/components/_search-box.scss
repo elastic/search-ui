@@ -1,11 +1,11 @@
-@include block('search-box') {
+@include block("search-box") {
   display: flex;
   position: relative;
   justify-content: center;
   align-items: stretch;
   font-family: $fontFamily;
 
-  @include element('submit') {
+  @include element("submit") {
     font-size: 14px;
     padding: 16px;
     margin-left: 10px;
@@ -31,7 +31,7 @@
     }
   }
 
-  @include element('wrapper') {
+  @include element("wrapper") {
     width: 100%;
     height: 100%;
     outline: none;
@@ -42,7 +42,7 @@
     position: relative;
   }
 
-  @include element('text-input') {
+  @include element("text-input") {
     border-radius: $borderRadius;
     border: 1px solid #ccc;
     padding: 16px;
@@ -68,7 +68,7 @@
     }
   }
 
-  @include element('autocomplete-container') {
+  @include element("autocomplete-container") {
     display: none;
     flex-direction: column;
     left: 0;
@@ -91,6 +91,7 @@
 
     .autocomplete & {
       display: flex;
+      z-index: 1;
     }
 
     ul {
@@ -129,7 +130,7 @@
       }
     }
 
-    li[aria-selected=true] {
+    li[aria-selected="true"] {
       background: $linkColor;
       color: $white;
 
@@ -140,7 +141,7 @@
     }
   }
 
-  @include element('section-title') {
+  @include element("section-title") {
     color: #888;
     font-size: 0.7em;
     letter-spacing: 1px;
