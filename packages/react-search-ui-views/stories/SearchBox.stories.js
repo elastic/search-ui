@@ -119,4 +119,13 @@ storiesOf("SearchBox", module)
       }}
       autocompleteSuggestions={{}}
     />
+  ))
+  .add("with custom autocomplete template", () => (
+    <Wrapper
+      autocompleteView={props => (
+        <div className="sui-search-box__autocomplete-container">
+          Custom View
+        </div>
+      )}
+    />
   ));

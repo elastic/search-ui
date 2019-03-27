@@ -8,6 +8,7 @@ import { Result } from "../types";
 export class SearchBoxContainer extends Component {
   static propTypes = {
     // Props
+    autocompleteView: PropTypes.func,
     autocompleteResults: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.shape({
