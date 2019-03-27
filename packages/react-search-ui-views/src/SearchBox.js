@@ -9,17 +9,19 @@ import Autocomplete from "./Autocomplete";
 
 function SearchBox(props) {
   const {
-    useAutocomplete,
     autocompleteResults,
     autocompletedResults,
     autocompletedSuggestions,
+    autocompleteView,
     isFocused,
     inputProps,
     onChange,
     onSubmit,
+    useAutocomplete,
     value
   } = props;
   const focusedClass = isFocused ? "focus" : "";
+  const AutocompleteView = autocompleteView || Autocomplete;
 
   const onSelectAutocomplete =
     props.onSelectAutocomplete ||
@@ -68,7 +70,7 @@ function SearchBox(props) {
                 isOpen &&
                 (autocompletedResults.length > 0 ||
                   Object.entries(autocompletedSuggestions).length > 0) ? (
-                  <Autocomplete {...props} {...downshiftProps} />
+                  <AutocompleteView {...props} {...downshiftProps} />
                 ) : null}
               </div>
               <input
@@ -99,6 +101,7 @@ SearchBox.propTypes = {
     })
   ]),
   autocompletedResults: PropTypes.arrayOf(Result).isRequired,
+  autocompleteView: PropTypes.func,
   autocompleteSuggestions: PropTypes.objectOf(
     PropTypes.shape({
       sectionTitle: PropTypes.string.isRequired
