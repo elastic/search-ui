@@ -94,7 +94,9 @@ export default function App() {
                     linkTarget: "_blank",
                     sectionTitle: "Results",
                     titleField: "title",
-                    urlField: "nps_link"
+                    urlField: "nps_link",
+                    shouldTrackClickThrough: true,
+                    clickThroughTags: ["test"]
                   }}
                 />
               }
@@ -118,7 +120,13 @@ export default function App() {
                   <Facet field="acres" label="Acres" view={SingleSelectFacet} />
                 </div>
               }
-              bodyContent={<Results titleField="title" urlField="nps_link" />}
+              bodyContent={
+                <Results
+                  titleField="title"
+                  urlField="nps_link"
+                  shouldTrackClickThrough={true}
+                />
+              }
               bodyHeader={
                 <React.Fragment>
                   <PagingInfo />

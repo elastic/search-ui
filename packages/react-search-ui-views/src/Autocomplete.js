@@ -68,7 +68,7 @@ function Autocomplete({
         {Object.entries(autocompletedSuggestions).map(
           ([suggestionType, suggestions]) => {
             return (
-              <>
+              <React.Fragment key={suggestionType}>
                 {autocompleteSuggestions[suggestionType] &&
                   autocompleteSuggestions[suggestionType].sectionTitle && (
                     <div className="sui-search-box__section-title">
@@ -100,7 +100,7 @@ function Autocomplete({
                     );
                   })}
                 </ul>
-              </>
+              </React.Fragment>
             );
           }
         )}
@@ -120,12 +120,13 @@ Autocomplete.propTypes = {
     })
   ]),
   autocompletedResults: PropTypes.arrayOf(Result).isRequired,
+  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
+    .isRequired,
   autocompleteSuggestions: PropTypes.objectOf(
     PropTypes.shape({
       sectionTitle: PropTypes.string.isRequired
     })
   ),
-  autocompletedSuggestions: PropTypes.objectOf(Suggestion).isRequired,
   getItemProps: PropTypes.func.isRequired,
   getMenuProps: PropTypes.func.isRequired
 };

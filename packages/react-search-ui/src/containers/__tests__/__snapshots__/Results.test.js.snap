@@ -2,73 +2,106 @@
 
 exports[`renders correctly 1`] = `
 <Results>
-  <Result
-    fields={
+  <WithSearch
+    clickThroughTags={Array []}
+    key="result-id"
+    result={
       Object {
-        "id": "<em>id</em>",
-        "title": "<em>title</em>",
-        "url": "<em>url</em>",
+        "id": Object {
+          "raw": "id",
+          "snippet": "<em>id</em>",
+        },
+        "title": Object {
+          "raw": "title",
+          "snippet": "<em>title</em>",
+        },
+        "url": Object {
+          "raw": "url",
+          "snippet": "<em>url</em>",
+        },
       }
     }
-    key="result-id"
-    onClickLink={[Function]}
-    title="<em>title</em>"
-    url="url"
+    shouldTrackClickThrough={true}
+    titleField="title"
+    urlField="url"
+    view={[Function]}
   />
-  <Result
-    fields={
+  <WithSearch
+    clickThroughTags={Array []}
+    key="result-id"
+    result={
       Object {
-        "id": "<em>id</em>",
-        "title": "<em>title</em>",
-        "url": "<em>url</em>",
+        "id": Object {
+          "raw": "id",
+          "snippet": "<em>id</em>",
+        },
+        "title": Object {
+          "raw": "title",
+          "snippet": "<em>title</em>",
+        },
+        "url": Object {
+          "raw": "url",
+          "snippet": "<em>url</em>",
+        },
       }
     }
-    key="result-id"
-    onClickLink={[Function]}
-    title="<em>title</em>"
-    url="url"
+    shouldTrackClickThrough={true}
+    titleField="title"
+    urlField="url"
+    view={[Function]}
   />
 </Results>
 `;
 
 exports[`supports a render prop 1`] = `
 <div>
-  <Result
-    fields={
+  <WithSearch
+    clickThroughTags={Array []}
+    key="result-id"
+    result={
       Object {
-        "id": "<em>id</em>",
-        "title": "<em>title</em>",
-        "url": "<em>url</em>",
+        "id": Object {
+          "raw": "id",
+          "snippet": "<em>id</em>",
+        },
+        "title": Object {
+          "raw": "title",
+          "snippet": "<em>title</em>",
+        },
+        "url": Object {
+          "raw": "url",
+          "snippet": "<em>url</em>",
+        },
       }
     }
-    key="result-id"
-    onClickLink={[Function]}
-    title="<em>title</em>"
-    url="url"
+    shouldTrackClickThrough={true}
+    titleField="title"
+    urlField="url"
+    view={[Function]}
   />
-  <Result
-    fields={
+  <WithSearch
+    clickThroughTags={Array []}
+    key="result-id"
+    result={
       Object {
-        "id": "<em>id</em>",
-        "title": "<em>title</em>",
-        "url": "<em>url</em>",
+        "id": Object {
+          "raw": "id",
+          "snippet": "<em>id</em>",
+        },
+        "title": Object {
+          "raw": "title",
+          "snippet": "<em>title</em>",
+        },
+        "url": Object {
+          "raw": "url",
+          "snippet": "<em>url</em>",
+        },
       }
     }
-    key="result-id"
-    onClickLink={[Function]}
-    title="<em>title</em>"
-    url="url"
+    shouldTrackClickThrough={true}
+    titleField="title"
+    urlField="url"
+    view={[Function]}
   />
 </div>
-`;
-
-exports[`supports an individual result render prop 1`] = `
-Array [
-  <li>
-    &lt;em&gt;title&lt;/em&gt;
-  </li>,
-  <li>
-    &lt;em&gt;title&lt;/em&gt;
-  </li>,
-]
 `;
