@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="sui-search-box__autocomplete-container"
+>
+  <div>
+    <div
+      className="sui-search-box__section-title"
+    >
+      Results
+    </div>
+    <ul>
+      <li
+        index={0}
+        item={
+          Object {
+            "id": Object {
+              "raw": "1",
+            },
+            "title": Object {
+              "snippet": "<em>Bike</em> Cops",
+            },
+          }
+        }
+        key="1"
+      >
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<em>Bike</em> Cops",
+            }
+          }
+        />
+      </li>
+      <li
+        index={1}
+        item={
+          Object {
+            "id": Object {
+              "raw": "2",
+            },
+            "title": Object {
+              "snippet": "<em>Biker</em> Gang",
+            },
+          }
+        }
+        key="2"
+      >
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<em>Biker</em> Gang",
+            }
+          }
+        />
+      </li>
+      <li
+        index={2}
+        item={
+          Object {
+            "id": Object {
+              "raw": "3",
+            },
+            "title": Object {
+              "snippet": "<em>Biker</em> Bar",
+            },
+          }
+        }
+        key="3"
+      >
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<em>Biker</em> Bar",
+            }
+          }
+        />
+      </li>
+    </ul>
+    <div
+      className="sui-search-box__section-title"
+    >
+      Suggested
+    </div>
+    <ul>
+      <li
+        index={3}
+        item={
+          Object {
+            "highlight": "",
+            "suggestion": "bike",
+          }
+        }
+        key="bike"
+      >
+        <span>
+          bike
+        </span>
+      </li>
+      <li
+        index={4}
+        item={
+          Object {
+            "highlight": "",
+            "suggestion": "bike police",
+          }
+        }
+        key="bike police"
+      >
+        <span>
+          bike police
+        </span>
+      </li>
+      <li
+        index={5}
+        item={
+          Object {
+            "highlight": "",
+            "suggestion": "bike police go",
+          }
+        }
+        key="bike police go"
+      >
+        <span>
+          bike police go
+        </span>
+      </li>
+    </ul>
+    <div
+      className="sui-search-box__section-title"
+    >
+      Popular
+    </div>
+    <ul>
+      <li
+        index={6}
+        item={
+          Object {
+            "highlight": "",
+            "suggestion": "how do i know when my bike needs new tires?",
+          }
+        }
+        key="how do i know when my bike needs new tires?"
+      >
+        <span>
+          how do i know when my bike needs new tires?
+        </span>
+      </li>
+      <li
+        index={7}
+        item={
+          Object {
+            "highlight": "",
+            "suggestion": "what is a banana bike?",
+          }
+        }
+        key="what is a banana bike?"
+      >
+        <span>
+          what is a banana bike?
+        </span>
+      </li>
+      <li
+        index={8}
+        item={
+          Object {
+            "highlight": "",
+            "suggestion": "is it cool to ride a bike?",
+          }
+        }
+        key="is it cool to ride a bike?"
+      >
+        <span>
+          is it cool to ride a bike?
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

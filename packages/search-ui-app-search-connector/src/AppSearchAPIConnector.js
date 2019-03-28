@@ -35,7 +35,13 @@ export default class AppSearchAPIConnector {
     this.additionalOptions = additionalOptions;
   }
 
-  click({ query, documentId, requestId, tags }) {
+  click({ query, documentId, requestId, tags = [] }) {
+    tags = tags.concat("results");
+    return this.client.click({ query, documentId, requestId, tags });
+  }
+
+  autocompleteClick({ query, documentId, requestId, tags = [] }) {
+    tags = tags.concat("autocomplete");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
