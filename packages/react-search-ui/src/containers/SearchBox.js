@@ -12,10 +12,12 @@ export class SearchBoxContainer extends Component {
     autocompleteResults: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.shape({
-        titleField: PropTypes.string.isRequired,
-        urlField: PropTypes.string.isRequired,
+        clickThroughTags: PropTypes.arrayOf(PropTypes.string),
         linkTarget: PropTypes.string,
-        sectionTitle: PropTypes.string
+        sectionTitle: PropTypes.string,
+        shouldTrackClickThrough: PropTypes.bool,
+        titleField: PropTypes.string.isRequired,
+        urlField: PropTypes.string.isRequired
       })
     ]),
     debounceLength: PropTypes.number,
@@ -27,7 +29,8 @@ export class SearchBoxContainer extends Component {
     autocompletedResults: PropTypes.arrayOf(Result).isRequired,
     searchTerm: PropTypes.string.isRequired,
     // Actions
-    setSearchTerm: PropTypes.func.isRequired
+    setSearchTerm: PropTypes.func.isRequired,
+    trackAutocompleteClickThrough: PropTypes.func.isRequired
   };
 
   state = {
@@ -72,6 +75,21 @@ export class SearchBoxContainer extends Component {
     setSearchTerm(value, options);
   };
 
+  handleNotifyAutocompleteSelected = selection => {
+    const { autocompleteResults, trackAutocompleteClickThrough } = this.props;
+    // Because suggestions don't count as clickthroughs, only
+    // results
+    if (
+      autocompleteResults &&
+      autocompleteResults.shouldTrackClickThrough !== false &&
+      !selection.suggestion
+    ) {
+      const { clickThroughTags = [] } = autocompleteResults;
+      const id = selection.id.raw;
+      trackAutocompleteClickThrough(id, clickThroughTags);
+    }
+  };
+
   render() {
     const { isFocused } = this.state;
     const {
@@ -91,6 +109,7 @@ export class SearchBoxContainer extends Component {
         autocompletedResults={autocompletedResults}
         autocompletedSuggestions={{}}
         isFocused={isFocused}
+        notifyAutocompleteSelected={this.handleNotifyAutocompleteSelected}
         onChange={value => this.handleChange(value)}
         onSelectAutocomplete={onSelectAutocomplete}
         onSubmit={this.handleSubmit}

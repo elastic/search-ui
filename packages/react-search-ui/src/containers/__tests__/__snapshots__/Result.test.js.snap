@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Result
+  fields={
+    Object {
+      "id": "<em>id</em>",
+      "title": "<em>title</em>",
+      "url": "<em>url</em>",
+    }
+  }
+  key="result-id"
+  onClickLink={[Function]}
+  title="<em>title</em>"
+  url="url"
+/>
+`;
+
+exports[`supports a render prop 1`] = `<div />`;

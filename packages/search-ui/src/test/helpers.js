@@ -14,7 +14,8 @@ export function getMockApiConnector() {
       .fn()
       .mockReturnValue({ then: cb => cb(searchResponse) }),
     search: jest.fn().mockReturnValue({ then: cb => cb(searchResponse) }),
-    click: jest.fn().mockReturnValue({ then: () => {} })
+    click: jest.fn().mockReturnValue({ then: () => {} }),
+    autocompleteClick: jest.fn().mockReturnValue({ then: () => {} })
   };
 }
 
@@ -28,6 +29,9 @@ export function setupDriver({
     .fn()
     .mockReturnValue({ then: cb => cb(searchResponse) });
   mockApiConnector.click = jest.fn().mockReturnValue({ then: () => {} });
+  mockApiConnector.autocompleteClick = jest
+    .fn()
+    .mockReturnValue({ then: () => {} });
 
   trackUrlState =
     trackUrlState === false || trackUrlState === true ? trackUrlState : true;
@@ -86,4 +90,12 @@ export function waitABit(length) {
 
 export function getSearchCalls(mockApiConnector) {
   return mockApiConnector.search.mock.calls;
+}
+
+export function getClickCalls(mockApiConnector) {
+  return mockApiConnector.click.mock.calls;
+}
+
+export function getAutocompleteClickCalls(mockApiConnector) {
+  return mockApiConnector.autocompleteClick.mock.calls;
 }

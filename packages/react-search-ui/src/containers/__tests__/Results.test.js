@@ -33,14 +33,9 @@ const params = {
       }
     }
   ],
-  trackClickThrough: jest.fn(),
   titleField: "title",
   urlField: "url"
 };
-
-beforeEach(() => {
-  params.trackClickThrough = jest.fn();
-});
 
 it("renders correctly", () => {
   const wrapper = shallow(<ResultsContainer {...params} />);
@@ -56,25 +51,61 @@ it("supports a render prop", () => {
   expect(wrapper.find(render).dive()).toMatchSnapshot();
 });
 
-it("supports an individual result render prop", () => {
+it("passes through props to individual Result items", () => {
   // eslint-disable-next-line react/prop-types
   const renderResult = ({ title }) => {
     return <li>{title}</li>;
   };
   const wrapper = shallow(
-    <ResultsContainer {...params} renderResult={renderResult} />
+    <ResultsContainer
+      {...params}
+      renderResult={renderResult}
+      shouldTrackClickThrough={true}
+      clickThroughTags={["whatever"]}
+    />
   );
-  expect(wrapper.find(renderResult).map(n => n.dive())).toMatchSnapshot();
-});
-
-it("will call back when a document link is clicked in the view", () => {
-  const wrapper = shallow(<ResultsContainer {...params} />);
-
-  wrapper
-    .find("Result")
-    .at(0)
-    .prop("onClickLink")();
-
-  const clickThrough = params.trackClickThrough.mock.calls[0][0];
-  expect(clickThrough).toEqual("id");
+  expect(wrapper.find("WithSearch").map(n => n.props())).toEqual([
+    {
+      result: {
+        id: {
+          raw: "id",
+          snippet: "<em>id</em>"
+        },
+        title: {
+          raw: "title",
+          snippet: "<em>title</em>"
+        },
+        url: {
+          raw: "url",
+          snippet: "<em>url</em>"
+        }
+      },
+      titleField: "title",
+      urlField: "url",
+      shouldTrackClickThrough: true,
+      clickThroughTags: ["whatever"],
+      view: renderResult
+    },
+    {
+      result: {
+        id: {
+          raw: "id",
+          snippet: "<em>id</em>"
+        },
+        title: {
+          raw: "title",
+          snippet: "<em>title</em>"
+        },
+        url: {
+          raw: "url",
+          snippet: "<em>url</em>"
+        }
+      },
+      titleField: "title",
+      urlField: "url",
+      shouldTrackClickThrough: true,
+      clickThroughTags: ["whatever"],
+      view: renderResult
+    }
+  ]);
 });

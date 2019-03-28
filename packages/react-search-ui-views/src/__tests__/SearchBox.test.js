@@ -7,17 +7,20 @@ const requiredProps = {
   onSubmit: () => {},
   autocompletedResults: [],
   autocompletedSuggestions: {},
+  notifyAutocompleteSelected: () => {},
   value: "test"
 };
 
-it("renders correctly when `isFocused` is true", () => {
-  const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
+it("renders correctly", () => {
+  const wrapper = shallow(<SearchBox {...requiredProps} />);
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders correctly when `isFocused` is false", () => {
-  const wrapper = shallow(<SearchBox {...requiredProps} />);
-  expect(wrapper).toMatchSnapshot();
+it("applies 'focused' class when `isFocused` is true", () => {
+  const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
+  const downshift = wrapper.dive("Downshift");
+  const input = downshift.find(".sui-search-box__text-input");
+  expect(input.hasClass("focus")).toBe(true);
 });
 
 it("passes through inputProps", () => {

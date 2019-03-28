@@ -15,6 +15,7 @@ function SearchBox(props) {
     autocompleteView,
     isFocused,
     inputProps,
+    notifyAutocompleteSelected,
     onChange,
     onSubmit,
     useAutocomplete,
@@ -26,6 +27,7 @@ function SearchBox(props) {
   const onSelectAutocomplete =
     props.onSelectAutocomplete ||
     (selection => {
+      notifyAutocompleteSelected(selection);
       if (!selection.suggestion) {
         const url = selection[autocompleteResults.urlField]
           ? selection[autocompleteResults.urlField].raw
@@ -101,13 +103,15 @@ SearchBox.propTypes = {
     })
   ]),
   autocompletedResults: PropTypes.arrayOf(Result).isRequired,
+  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
+    .isRequired,
+  notifyAutocompleteSelected: PropTypes.func.isRequired,
   autocompleteView: PropTypes.func,
   autocompleteSuggestions: PropTypes.objectOf(
     PropTypes.shape({
       sectionTitle: PropTypes.string.isRequired
     })
   ),
-  autocompletedSuggestions: PropTypes.objectOf(Suggestion).isRequired,
   inputProps: PropTypes.object,
   isFocused: PropTypes.bool,
   useAutocomplete: PropTypes.bool,
