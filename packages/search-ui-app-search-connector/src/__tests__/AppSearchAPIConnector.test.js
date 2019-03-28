@@ -45,6 +45,10 @@ function getLastSearchCall() {
   return mockClient.search.mock.calls[0];
 }
 
+function getLastClickCall() {
+  return mockClient.click.mock.calls[0];
+}
+
 describe("AppSearchAPIConnector", () => {
   it("can be initialized", () => {
     const connector = new AppSearchAPIConnector(params);
@@ -55,6 +59,74 @@ describe("AppSearchAPIConnector", () => {
     expect(() => {
       new AppSearchAPIConnector({});
     }).toThrow();
+  });
+
+  describe("click", () => {
+    function subject() {
+      const connector = new AppSearchAPIConnector({
+        ...params
+      });
+
+      return connector.click({
+        query: "test",
+        documentId: "11111",
+        requestId: "12345",
+        tags: ["test"]
+      });
+    }
+
+    it("calls the App Search click endpoint", () => {
+      subject();
+      expect(getLastClickCall()).toBeDefined();
+    });
+
+    it("passes query, documentId, and requestId to the click endpoint", () => {
+      subject();
+      const [{ query, documentId, requestId }] = getLastClickCall();
+      expect(query).toEqual("test");
+      expect(documentId).toEqual("11111");
+      expect(requestId).toEqual("12345");
+    });
+
+    it("appends tags to a base 'results' tag", () => {
+      subject();
+      const [{ tags }] = getLastClickCall();
+      expect(tags).toEqual(["test", "results"]);
+    });
+  });
+
+  describe("autocompleteClick", () => {
+    function subject() {
+      const connector = new AppSearchAPIConnector({
+        ...params
+      });
+
+      return connector.autocompleteClick({
+        query: "test",
+        documentId: "11111",
+        requestId: "12345",
+        tags: ["test"]
+      });
+    }
+
+    it("calls the App Search click endpoint", () => {
+      subject();
+      expect(getLastClickCall()).toBeDefined();
+    });
+
+    it("passes query, documentId, and requestId to the click endpoint", () => {
+      subject();
+      const [{ query, documentId, requestId }] = getLastClickCall();
+      expect(query).toEqual("test");
+      expect(documentId).toEqual("11111");
+      expect(requestId).toEqual("12345");
+    });
+
+    it("appends tags to a base 'autocomplete' tag", () => {
+      subject();
+      const [{ tags }] = getLastClickCall();
+      expect(tags).toEqual(["test", "autocomplete"]);
+    });
   });
 
   describe("search", () => {
