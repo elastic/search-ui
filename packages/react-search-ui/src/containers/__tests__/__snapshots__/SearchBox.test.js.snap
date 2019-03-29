@@ -11,6 +11,7 @@ exports[`renders correctly 1`] = `
     }
   }
   isFocused={false}
+  notifyAutocompleteSelected={[Function]}
   onChange={[Function]}
   onSubmit={[Function]}
   useAutocomplete={false}
