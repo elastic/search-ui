@@ -6,11 +6,13 @@ const params = {
   autocompletedResults: [],
   autocompletedSuggestions: {},
   searchTerm: "test",
-  setSearchTerm: jest.fn()
+  setSearchTerm: jest.fn(),
+  trackAutocompleteClickThrough: jest.fn()
 };
 
 beforeEach(() => {
   params.setSearchTerm = jest.fn();
+  params.trackAutocompleteClickThrough = jest.fn();
 });
 
 it("renders correctly", () => {
@@ -153,4 +155,69 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual(["a term"]);
+});
+
+describe("autocomplete clickthroughs", () => {
+  it("will call back to trackAutocompleteClickThrough when an autocomplete item is selected in the view", () => {
+    const wrapper = shallow(
+      <SearchBoxContainer {...params} autocompleteResults={true} />
+    );
+    const { notifyAutocompleteSelected } = wrapper.props();
+    notifyAutocompleteSelected({
+      id: { raw: "123" }
+    });
+    expect(params.trackAutocompleteClickThrough.mock.calls.length).toBe(1);
+  });
+
+  it("will not call back when shouldTrackClickThrough is false", () => {
+    const wrapper = shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={{
+          shouldTrackClickThrough: false,
+          titleField: "title",
+          urlField: "nps_link"
+        }}
+      />
+    );
+    const { notifyAutocompleteSelected } = wrapper.props();
+    notifyAutocompleteSelected({
+      id: { raw: "123" }
+    });
+    expect(params.trackAutocompleteClickThrough.mock.calls.length).toBe(0);
+  });
+
+  it("will not call back when the selected item is a suggestion", () => {
+    const wrapper = shallow(
+      <SearchBoxContainer {...params} autocompleteResults={true} />
+    );
+    const { notifyAutocompleteSelected } = wrapper.props();
+    notifyAutocompleteSelected({
+      suggestion: "bike"
+    });
+    expect(params.trackAutocompleteClickThrough.mock.calls.length).toBe(0);
+  });
+
+  it("will pass through tags", () => {
+    const wrapper = shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={{
+          clickThroughTags: ["whatever"],
+          titleField: "title",
+          urlField: "nps_link"
+        }}
+      />
+    );
+    const { notifyAutocompleteSelected } = wrapper.props();
+    notifyAutocompleteSelected({
+      id: { raw: "123" }
+    });
+    const [
+      documentId,
+      tags
+    ] = params.trackAutocompleteClickThrough.mock.calls[0];
+    expect(documentId).toEqual("123");
+    expect(tags).toEqual(["whatever"]);
+  });
 });
