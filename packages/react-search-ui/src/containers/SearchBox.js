@@ -8,7 +8,7 @@ import { Result } from "../types";
 export class SearchBoxContainer extends Component {
   static propTypes = {
     // Props
-    autocompleteView: PropTypes.func,
+    autocompleteMinimumCharacters: PropTypes.number,
     autocompleteResults: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.shape({
@@ -20,6 +20,7 @@ export class SearchBoxContainer extends Component {
         urlField: PropTypes.string.isRequired
       })
     ]),
+    autocompleteView: PropTypes.func,
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
     onSelectAutocomplete: PropTypes.func,
@@ -58,6 +59,7 @@ export class SearchBoxContainer extends Component {
 
   handleChange = value => {
     const {
+      autocompleteMinimumCharacters,
       autocompleteResults,
       searchAsYouType,
       setSearchTerm,
@@ -65,6 +67,7 @@ export class SearchBoxContainer extends Component {
     } = this.props;
 
     const options = {
+      autocompleteMinimumCharacters,
       ...((autocompleteResults || searchAsYouType) && {
         debounce: debounceLength || 200
       }),
@@ -93,6 +96,7 @@ export class SearchBoxContainer extends Component {
   render() {
     const { isFocused } = this.state;
     const {
+      autocompleteMinimumCharacters = 0,
       autocompleteResults,
       autocompletedResults,
       inputProps,
@@ -102,6 +106,9 @@ export class SearchBoxContainer extends Component {
     } = this.props;
 
     const View = view || SearchBox;
+    const useAutocomplete =
+      !!autocompleteResults &&
+      searchTerm.length >= autocompleteMinimumCharacters;
 
     return (
       <View
@@ -113,7 +120,7 @@ export class SearchBoxContainer extends Component {
         onChange={value => this.handleChange(value)}
         onSelectAutocomplete={onSelectAutocomplete}
         onSubmit={this.handleSubmit}
-        useAutocomplete={!!autocompleteResults}
+        useAutocomplete={useAutocomplete}
         value={searchTerm}
         inputProps={{
           onFocus: this.handleFocus,

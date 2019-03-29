@@ -90,6 +90,7 @@ export default function App() {
             <Layout
               header={
                 <SearchBox
+                  autocompleteMinimumCharacters={3}
                   autocompleteResults={{
                     linkTarget: "_blank",
                     sectionTitle: "Results",
