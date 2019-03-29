@@ -1,4 +1,9 @@
-import { getSearchCalls, setupDriver, waitABit } from "../../test/helpers";
+import {
+  getAutocompleteResultsCalls,
+  getSearchCalls,
+  setupDriver,
+  waitABit
+} from "../../test/helpers";
 import {
   itResetsCurrent,
   itResetsFilters,
@@ -106,26 +111,71 @@ describe("#setSearchTerm", () => {
   describe("when autocompleteResults is true", () => {
     it("updates autocompletedResults", () => {
       expect(
-        subject("term", { autocompleteResults: true }).state
+        subject("term", { autocompleteResults: true, refresh: false }).state
           .autocompletedResults
       ).toEqual([{}, {}]);
     });
 
     it("Will not debounce requests if there is no debounce specified", async () => {
       const { driver, mockApiConnector } = setupDriver();
-      driver.setSearchTerm("term", { autocompleteResults: true });
-      driver.setSearchTerm("term", { autocompleteResults: true });
-      driver.setSearchTerm("term", { autocompleteResults: true });
-      expect(getSearchCalls(mockApiConnector)).toHaveLength(3);
+      driver.setSearchTerm("term", {
+        autocompleteResults: true,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteResults: true,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteResults: true,
+        refresh: false
+      });
+      expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(3);
     });
 
     it("Will debounce requests", async () => {
       const { driver, mockApiConnector } = setupDriver();
-      driver.setSearchTerm("term", { autocompleteResults: true, debounce: 10 });
-      driver.setSearchTerm("term", { autocompleteResults: true, debounce: 10 });
-      driver.setSearchTerm("term", { autocompleteResults: true, debounce: 10 });
+      driver.setSearchTerm("term", {
+        autocompleteResults: true,
+        debounce: 10,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteResults: true,
+        debounce: 10,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteResults: true,
+        debounce: 10,
+        refresh: false
+      });
       await waitABit(100);
-      expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+      expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(1);
+    });
+
+    describe("and autocompleteMinimumCharacters is set and less than requirement", () => {
+      it("it will not trigger", () => {
+        const { driver, mockApiConnector } = setupDriver();
+        driver.setSearchTerm("term", {
+          autocompleteMinimumCharacters: 5,
+          autocompleteResults: true,
+          refresh: false
+        });
+        expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(0);
+      });
+    });
+
+    describe("and autocompleteMinimumCharacters is set and greater than requirement", () => {
+      it("it will not trigger", () => {
+        const { driver, mockApiConnector } = setupDriver();
+        driver.setSearchTerm("term", {
+          autocompleteMinimumCharacters: 2,
+          autocompleteResults: true,
+          refresh: false
+        });
+        expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(1);
+      });
     });
   });
 

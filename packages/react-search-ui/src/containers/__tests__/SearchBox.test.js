@@ -85,6 +85,23 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
   ]);
 });
 
+it("will call back to setSearchTerm with autocompleteMinimumCharacters setting", () => {
+  const wrapper = shallow(
+    <SearchBoxContainer {...params} autocompleteMinimumCharacters={3} />
+  );
+  wrapper.find("SearchBox").prop("onChange")("new term");
+
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual([
+    "new term",
+    {
+      refresh: false,
+      autocompleteResults: false,
+      autocompleteMinimumCharacters: 3
+    }
+  ]);
+});
+
 it("will call back to setSearchTerm with refresh: true when input is changed and searchAsYouType is true", () => {
   const wrapper = shallow(
     <SearchBoxContainer {...params} searchAsYouType={true} />
