@@ -147,6 +147,63 @@ describe("#search", () => {
   });
 });
 
+describe("#autocompleteResults", () => {
+  function subject({ state, queryConfig }) {
+    const connector = new SiteSearchAPIConnector({
+      ...params
+    });
+    return connector.autocompleteResults(state, queryConfig);
+  }
+
+  it("will call the API with the correct body params", async () => {
+    const state = {
+      searchTerm: "searchTerm"
+    };
+
+    const queryConfig = {
+      result_fields: {
+        title: { raw: {}, snippet: { size: 20, fallback: true } }
+      },
+      search_fields: {
+        title: {},
+        description: {},
+        states: {}
+      }
+    };
+
+    await subject({ state, queryConfig });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      fetch_fields: {
+        [documentType]: ["title"]
+      },
+      search_fields: {
+        [documentType]: ["title", "description", "states"]
+      },
+      highlight_fields: {
+        [documentType]: {
+          title: { size: 20, fallback: true }
+        }
+      },
+      q: "searchTerm"
+    });
+  });
+
+  it("will only add body parameters if the corresponding configuration has been provided", async () => {
+    await subject({ state: { searchTerm: "searchTerm" }, queryConfig: {} });
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      q: "searchTerm"
+    });
+  });
+
+  it("will correctly format an API response", async () => {
+    const response = await subject({ state: {}, queryConfig: {} });
+    expect(response).toMatchSnapshot();
+  });
+});
+
 describe("#click", () => {
   function subject(clickData) {
     const connector = new SiteSearchAPIConnector(params);
@@ -167,6 +224,30 @@ describe("#click", () => {
     const urlWithoutTimestamp = url.replace(/&t=\d*/, "").replace(/t=\d*&/, "");
     expect(urlWithoutTimestamp).toEqual(
       `https://search-api.swiftype.com/api/v1/public/analytics/pc?engine_key=${engineKey}&q=${query}&doc_id=${documentId}`
+    );
+  });
+});
+
+describe("#autocompleteClick", () => {
+  function subject(clickData) {
+    const connector = new SiteSearchAPIConnector(params);
+    return connector.autocompleteClick(clickData);
+  }
+
+  it("will call the API with the correct body params", async () => {
+    const query = "test";
+    const documentId = "12345";
+
+    await subject({
+      query,
+      documentId
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    const url = global.fetch.mock.calls[0][0];
+    const urlWithoutTimestamp = url.replace(/&t=\d*/, "").replace(/t=\d*&/, "");
+    expect(urlWithoutTimestamp).toEqual(
+      `https://search-api.swiftype.com/api/v1/public/analytics/pas?engine_key=${engineKey}&q=${query}&doc_id=${documentId}`
     );
   });
 });

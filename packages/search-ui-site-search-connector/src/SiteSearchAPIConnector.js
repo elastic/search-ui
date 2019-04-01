@@ -40,10 +40,38 @@ export default class SiteSearchAPIConnector {
     });
   }
 
+  autocompleteClick({ query, documentId, tags }) {
+    if (tags) {
+      console.warn(
+        "search-ui-site-search-connector: Site Search does not support tags on autocompleteClick"
+      );
+    }
+    this._get("analytics/pas", {
+      t: new Date().getTime(),
+      q: query,
+      doc_id: documentId
+    });
+  }
+
   search(state, queryConfig) {
     const options = adaptRequest(state, queryConfig, this.documentType);
 
     return this.request("POST", "engines/search.json", {
+      ...options,
+      ...this.additionalOptions(options)
+    }).then(json => {
+      return adaptResponse(json, this.documentType);
+    });
+  }
+
+  async autocompleteResults({ searchTerm }, queryConfig) {
+    const options = adaptRequest(
+      { searchTerm },
+      queryConfig,
+      this.documentType
+    );
+
+    return this.request("POST", "engines/suggest.json", {
       ...options,
       ...this.additionalOptions(options)
     }).then(json => {
