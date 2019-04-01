@@ -23,8 +23,8 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 ### Features :+1:
 
-- **You know, for search**: Maintained by [Elastic](https://elastic.co), the company behind Elasticsearch.
-- **Speedy Implementation** - Create a search UI with a search box, results view, paging, sorting, and more, in just a few lines of code.
+- **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
+- **Speedy Implementation** - Build search with a search box, results view, sorting, and more, with a few lines of code.
 - **Highly customizable** - Customize Components, markup, styles, and behavior.
 - **URL query string synchronization** - Searches, filtering, and more, are captured in the URL for direct result linking.
 - **Headless core** - Leverage our application logic, provide your own Components or views.
@@ -541,13 +541,13 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-### Customization
+## Customization
 
 * [Custom Styles and Layout](#custom-styles-and-layout)
 * [Component Views and HTML](#component-views-and-html)
 * [Component Behaviour](#component-behaviour--mapcontexttoprops-and-mapviewprops)
 
-#### Custom Styles and Layout
+### Custom Styles and Layout
 
 Styling is up to you.
 
@@ -562,7 +562,7 @@ For layout, provide your own layout instead of using the `Layout` Component.
 
 For views and HTML, see the next section.
 
-#### Component Views and HTML
+### Component Views and HTML
 
 All Components in this library can be customized by providing a `view` prop.
 
@@ -621,7 +621,7 @@ const PagingInfoView = ({ start, end }) => (
 return <PagingInfo view={PagingInfoView} />;
 ```
 
-#### Component behavior - mapContextToProps and mapViewProps
+### Component behavior - mapContextToProps and mapViewProps
 
 All [Components](#components) support two hooks for customizing their behavior.
 
