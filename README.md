@@ -26,9 +26,9 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 - **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
 - **Speedy Implementation** - Build search with a search box, results view, sorting, and more, with a few lines of code.
 - **Highly customizable** - Customize Components, markup, styles, and behavior.
-- **URL query string synchronization** - Searches, filtering, and more, are captured in the URL for direct result linking.
-- **Headless core** - Leverage our application logic, provide your own Components or views.
-- **Not just for React** - Can be used used with any JavaScript library, even vanilla JavaScript.
+- **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
+- **Headless** - Leverage our application logic, provide your own Components or views.
+- **JavaScript-y** - Can be used used with any JavaScript library, even vanilla JavaScript.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
@@ -256,8 +256,6 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 | Name | type      | Required? | Default                                                          | Options | Description                                                                                                                                         |
 | ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
-
-                      |
 
 ---
 
