@@ -1,11 +1,11 @@
 <p align="center"><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
 <img src="https://img.shields.io/badge/version-beta-red.svg" alt="BETA" /></p>
 
-> A library for the fast development of modern, engaging search experiences. :tada: :dancer:
+> A library for the fast development of modern, engaging search experiences. :tada:
 
 ## Contents
 
-- [About Search UI](#about)
+- [About Search UI](#about-search-ui-rocket)
 - [Getting started](#getting-started-)
 - [Configuration](#configuration)
 - [Customization](#customization)
@@ -21,16 +21,14 @@ Search UI allows you to quickly implement search experiences without re-inventin
 
 It supports **[React](https://reactjs.org)** and **works with any search API**.
 
-
-
 ### Features :+1:
 
 - **You know, for search**: Maintained by [Elastic](https://elastic.co), the company behind Elasticsearch.
 - **Out-of-the-box components** - Create a search UI with a search box, results view, paging, sorting, filters, and more in just a few lines of code.
 - **Highly customizable** - Customize Components, markup, styles, and behavior.
 - **URL query string synchronization** - Searches, filtering, paging, and more are all captured in the URL for direct result linking.
-- **Headless core** - Leverage our application logic and provide your own Components or views.
-- **Not just for React** - Underlying [search-ui](../search-ui/README.md) library can be used used with any JavaScript library, even vanilla JavaScript.
+- **Headless core** - Leverage our application logic, provide your own Components or views.
+- **Not just for React** - Can be used used with any JavaScript library, even vanilla JavaScript.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
@@ -55,7 +53,7 @@ _Note: The Search UI is in beta. We do not recommend production use._
 
 <a id="search-ui"></a>
 
-Use the out of the box components, styles, and layouts to build search experiences quickly.
+Use out of the box components, styles, and layouts to build a search experience quickly.
 
 ```jsx
 import React from "react";
@@ -93,14 +91,16 @@ export default function App() {
 
 A search UI is made up of four key areas, which you can expand and customize:
 
-- [Connectors](#connectors)
-- [SearchProvider](#basicsearchprovider)
-- [Components](#components)
-- [Styles and Layout](#layoutandstyles)
+1. [Connectors](#connectors)
+2. [SearchProvider](#searchprovider)
+3. [Components](#components)
+4. [Styles and Layout](#layoutandstyles)
 
-#### Connectors
+---
 
-"Connectors" are modules that tell Search UI how to connect and communicate with a particular API.
+#### 1. Connectors
+
+Connectors are modules that tell Search UI how to connect and communicate with a particular API.
 
 Search UI currently provides two Connectors:
 
@@ -119,7 +119,7 @@ const connector = new AppSearchAPIConnector({
 
 Search UI can connect to **any** web based Search API. Read [the wiki](#buildaconnector) for more information.
 
-#### SearchProvider
+#### 2. SearchProvider
 
 The `SearchProvider` object will tie all of your Components together so that they
 work as a cohesive application. As users take actions using your Components,
@@ -144,7 +144,7 @@ Components -> SearchProvider -> Connector -> Search API (App Search)
 </SearchProvider>
 ```
 
-#### Components
+#### 3. Components
 
 Components are the building blocks from which craft your search experience.
 
@@ -406,7 +406,7 @@ import { ErrorBoundary } from "@elastic/react-search-ui";
 
 ---
 
-### Styles and Layout
+### 4. Styles and Layout
 
 For basic styles, include:
 
