@@ -25,7 +25,7 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 - **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
 - **Speedy Implementation** - Build search with a search box, results view, sorting, and more, with a few lines of code.
-- **Highly customizable** - Customize Components, markup, styles, and behavior.
+- **Customizable** - Tune the Components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
 - **Headless** - Leverage our application logic, provide your own Components or views.
 - **JavaScript-y** - Can be used used with any JavaScript library, even vanilla JavaScript.
@@ -543,7 +543,7 @@ const connector = new AppSearchAPIConnector({
 
 * [Custom Styles and Layout](#custom-styles-and-layout)
 * [Component Views and HTML](#component-views-and-html)
-* [Component Behaviour](#component-behaviour--mapcontexttoprops-and-mapviewprops)
+* [Component Behaviour](#component-behaviour)
 
 ### Custom Styles and Layout
 
@@ -619,11 +619,13 @@ const PagingInfoView = ({ start, end }) => (
 return <PagingInfo view={PagingInfoView} />;
 ```
 
-### Component behavior - mapContextToProps and mapViewProps
+### Component Behavior
+
+**It will be helpful to read the [Headless Core](https://github.com/elastic/search-ui/wiki/Headless-Core) wiki first.**
 
 All [Components](#components) support two hooks for customizing their behavior.
 
-1. `mapContextToProps` - Override the [Context](#context) before it is passed to your Component as
+1. `mapContextToProps` - Override the Context before it is passed to your Component as
   props.
 2. `mapViewProps` - Lets you overrides view props before they are passed to the view.
 
