@@ -3,7 +3,8 @@
 
 > A library for the fast development of modern, engaging search experiences. :tada:
 
-## Contents
+<details>
+  <summary><strong>Table of contents</strong></summary>
 
 - [About Search UI](#about-search-ui-rocket)
 - [Getting started](#getting-started-)
@@ -13,7 +14,9 @@
 - [Contribute](#contribute-)
 - [License](#license-)
 
----
+</details>
+
+
 
 ## About Search UI :rocket:
 
