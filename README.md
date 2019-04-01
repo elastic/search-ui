@@ -24,9 +24,9 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 ### Features :+1:
 
 - **You know, for search**: Maintained by [Elastic](https://elastic.co), the company behind Elasticsearch.
-- **Out-of-the-box components** - Create a search UI with a search box, results view, paging, sorting, filters, and more in just a few lines of code.
+- **Speedy Implementation** - Create a search UI with a search box, results view, paging, sorting, and more, in just a few lines of code.
 - **Highly customizable** - Customize Components, markup, styles, and behavior.
-- **URL query string synchronization** - Searches, filtering, paging, and more are all captured in the URL for direct result linking.
+- **URL query string synchronization** - Searches, filtering, and more, are captured in the URL for direct result linking.
 - **Headless core** - Leverage our application logic, provide your own Components or views.
 - **Not just for React** - Can be used used with any JavaScript library, even vanilla JavaScript.
 
@@ -49,7 +49,7 @@ npm install --save  @elastic/search-ui-app-search-connector
 
 _Note: The Search UI is in beta. We do not recommend production use._
 
-### Creating a Search UI
+## Creating a Search UI
 
 <a id="search-ui"></a>
 
@@ -91,14 +91,14 @@ export default function App() {
 
 A search UI is made up of four key areas, which you can expand and customize:
 
-1. [Connectors](#connectors)
-2. [SearchProvider](#searchprovider)
-3. [Components](#components)
-4. [Styles and Layout](#layoutandstyles)
+1. [Connectors](#1-connectors)
+2. [SearchProvider](#2-searchprovider)
+3. [Components](#3-components)
+4. [Styles and Layout](#4-styles-and-layout)
 
 ---
 
-#### 1. Connectors
+### 1. Connectors
 
 Connectors are modules that tell Search UI how to connect and communicate with a particular API.
 
@@ -119,7 +119,7 @@ const connector = new AppSearchAPIConnector({
 
 Search UI can connect to **any** web based Search API. Read [the wiki](#buildaconnector) for more information.
 
-#### 2. SearchProvider
+### 2. SearchProvider
 
 The `SearchProvider` object will tie all of your Components together so that they
 work as a cohesive application. As users take actions using your Components,
@@ -144,7 +144,7 @@ Components -> SearchProvider -> Connector -> Search API (App Search)
 </SearchProvider>
 ```
 
-#### 3. Components
+### 3. Components
 
 Components are the building blocks from which craft your search experience.
 
