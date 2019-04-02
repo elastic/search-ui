@@ -62,8 +62,13 @@ export default function App() {
             }
           }
         },
+        initialState: {
+          sortField: "title",
+          sortDirection: "asc"
+        },
         autocompleteQuery: {
           results: {
+            resultsPerPage: 5,
             search_fields: {
               title: {},
               description: {}
