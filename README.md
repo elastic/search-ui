@@ -162,7 +162,7 @@ Components -> SearchProvider -> Connector -> Search API (App Search)
 
 But it's deeply configurable.
 
-Read the [Configuration Guide](https://github.com/elastic/search-ui/wiki/Configuration).
+Read the [Advanced Configuration Guide](https://github.com/elastic/search-ui/wiki/Advanced-Configuration).
 
 ### 3. Components
 
