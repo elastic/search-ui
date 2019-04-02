@@ -46,8 +46,28 @@ export default class AppSearchAPIConnector {
   }
 
   async search(state, queryConfig) {
-    const { query, ...optionsFromState } = adaptRequest(state);
-    const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };
+    const {
+      current,
+      filters,
+      resultsPerPage,
+      sortDirection,
+      sortField,
+      ...restOfQueryConfig
+    } = queryConfig;
+
+    const { query, ...optionsFromState } = adaptRequest({
+      ...state,
+      ...(current !== undefined && { current }),
+      ...(filters !== undefined && { filters }),
+      ...(resultsPerPage !== undefined && { resultsPerPage }),
+      ...(sortDirection !== undefined && { sortDirection }),
+      ...(sortField !== undefined && { sortField })
+    });
+
+    const withQueryConfigOptions = {
+      ...restOfQueryConfig,
+      ...optionsFromState
+    };
     const options = {
       ...withQueryConfigOptions,
       ...this.additionalOptions(withQueryConfigOptions)
@@ -59,6 +79,7 @@ export default class AppSearchAPIConnector {
 
   async autocompleteResults({ searchTerm }, queryConfig) {
     const {
+      current,
       filters,
       resultsPerPage,
       sortDirection,
@@ -67,6 +88,7 @@ export default class AppSearchAPIConnector {
     } = queryConfig;
 
     const { query, ...optionsFromState } = adaptRequest({
+      current,
       searchTerm,
       filters,
       resultsPerPage,

@@ -27,7 +27,7 @@ it("can be initialized", () => {
 });
 
 describe("#search", () => {
-  function subject({ additionalOptions, state, queryConfig }) {
+  function subject({ additionalOptions, state, queryConfig = {} }) {
     const connector = new SiteSearchAPIConnector({
       ...params,
       additionalOptions
@@ -35,7 +35,12 @@ describe("#search", () => {
     return connector.search(state, queryConfig);
   }
 
-  it("will call the API with the correct body params", async () => {
+  it("will correctly format an API response", async () => {
+    const response = await subject({ state: {}, queryConfig: {} });
+    expect(response).toMatchSnapshot();
+  });
+
+  it("will pass request state through to search endpoint", async () => {
     const state = {
       searchTerm: "searchTerm",
       current: 1,
@@ -56,24 +61,7 @@ describe("#search", () => {
       ]
     };
 
-    const queryConfig = {
-      facets: {
-        states: {
-          type: "value",
-          size: 30
-        }
-      },
-      result_fields: {
-        title: { raw: {}, snippet: { size: 20, fallback: true } }
-      },
-      search_fields: {
-        title: {},
-        description: {},
-        states: {}
-      }
-    };
-
-    await subject({ state, queryConfig });
+    await subject({ state });
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
@@ -97,6 +85,36 @@ describe("#search", () => {
       sort_field: {
         "national-parks": "name"
       },
+      q: "searchTerm"
+    });
+  });
+
+  it("will pass queryConfig to search endpoint", async () => {
+    const state = {
+      searchTerm: "searchTerm"
+    };
+
+    const queryConfig = {
+      facets: {
+        states: {
+          type: "value",
+          size: 30
+        }
+      },
+      result_fields: {
+        title: { raw: {}, snippet: { size: 20, fallback: true } }
+      },
+      search_fields: {
+        title: {},
+        description: {},
+        states: {}
+      }
+    };
+
+    await subject({ state, queryConfig });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
       facets: {
         "national-parks": ["states"]
       },
@@ -115,17 +133,63 @@ describe("#search", () => {
     });
   });
 
-  it("will only add body parameters if the corresponding configuration has been provided", async () => {
-    await subject({ state: { searchTerm: "searchTerm" }, queryConfig: {} });
+  it("will pass request parameter state provided to queryConfig, overriding the same value provided in state", async () => {
+    const state = {
+      searchTerm: "searchTerm",
+      current: 1,
+      resultsPerPage: 10,
+      sortDirection: "desc",
+      sortField: "name",
+      filters: [
+        {
+          field: "title",
+          type: "all",
+          values: ["Acadia", "Grand Canyon"]
+        },
+        {
+          field: "world_heritage_site",
+          values: ["true"],
+          type: "all"
+        }
+      ]
+    };
+
+    const queryConfig = {
+      current: 2,
+      resultsPerPage: 5,
+      sortDirection: "asc",
+      sortField: "title",
+      filters: [
+        {
+          field: "date_made",
+          values: ["yesterday"],
+          type: "all"
+        }
+      ]
+    };
+
+    await subject({ state, queryConfig });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
+      page: 2,
+      per_page: 5,
+      filters: {
+        [documentType]: {
+          date_made: {
+            type: "and",
+            values: ["yesterday"]
+          }
+        }
+      },
+      sort_direction: {
+        "national-parks": "asc"
+      },
+      sort_field: {
+        "national-parks": "title"
+      },
       q: "searchTerm"
     });
-  });
-
-  it("will correctly format an API response", async () => {
-    const response = await subject({ state: {}, queryConfig: {} });
-    expect(response).toMatchSnapshot();
   });
 
   it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
