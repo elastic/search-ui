@@ -148,14 +148,32 @@ describe("#search", () => {
 });
 
 describe("#autocompleteResults", () => {
-  function subject({ state, queryConfig }) {
+  function subject({ state, queryConfig = {} }) {
     const connector = new SiteSearchAPIConnector({
       ...params
     });
     return connector.autocompleteResults(state, queryConfig);
   }
 
-  it("will call the API with the correct body params", async () => {
+  it("will correctly format an API response", async () => {
+    const response = await subject({ state: {}, queryConfig: {} });
+    expect(response).toMatchSnapshot();
+  });
+
+  it("will pass searchTerm from state through to search endpoint", async () => {
+    const state = {
+      searchTerm: "searchTerm"
+    };
+
+    await subject({ state });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      q: "searchTerm"
+    });
+  });
+
+  it("will pass queryConfig to search endpoint", async () => {
     const state = {
       searchTerm: "searchTerm"
     };
@@ -175,6 +193,7 @@ describe("#autocompleteResults", () => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
+      q: "searchTerm",
       fetch_fields: {
         [documentType]: ["title"]
       },
@@ -185,22 +204,51 @@ describe("#autocompleteResults", () => {
         [documentType]: {
           title: { size: 20, fallback: true }
         }
-      },
-      q: "searchTerm"
+      }
     });
   });
 
-  it("will only add body parameters if the corresponding configuration has been provided", async () => {
-    await subject({ state: { searchTerm: "searchTerm" }, queryConfig: {} });
+  it("will pass request parameter state provided to queryConfig", async () => {
+    const state = {
+      searchTerm: "searchTerm"
+    };
+
+    const queryConfig = {
+      current: 2,
+      resultsPerPage: 5,
+      filters: [
+        {
+          field: "world_heritage_site",
+          values: ["true"],
+          type: "all"
+        }
+      ],
+      sortDirection: "desc",
+      sortField: "name"
+    };
+
+    await subject({ state, queryConfig });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
       engine_key: engineKey,
-      q: "searchTerm"
+      q: "searchTerm",
+      page: 2,
+      per_page: 5,
+      filters: {
+        [documentType]: {
+          world_heritage_site: {
+            type: "and",
+            values: ["true"]
+          }
+        }
+      },
+      sort_direction: {
+        "national-parks": "desc"
+      },
+      sort_field: {
+        "national-parks": "name"
+      }
     });
-  });
-
-  it("will correctly format an API response", async () => {
-    const response = await subject({ state: {}, queryConfig: {} });
-    expect(response).toMatchSnapshot();
   });
 });
 
