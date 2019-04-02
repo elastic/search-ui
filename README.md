@@ -236,7 +236,9 @@ You can write support for it into any JavaScript framework. You can even use van
 
 ### Can I build my own Components?
 
-Yes! Absolutely. Check out the [Build Your Own Component Guide](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
+Yes! Absolutely.
+
+Check out the [Build Your Own Component Guide](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
 
 ### Does Search UI only work with App Search?
 
