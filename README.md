@@ -146,7 +146,7 @@ Components -> SearchProvider -> Connector -> Search API (App Search)
 
 1. A user takes an action - like submitting a search box or applying a filter - using a Component.
 
-2. `SearchProvider` will then trigger an API call via the Connector you've configured to fetch search results.
+2. `SearchProvider` will trigger an API call via the Connector you've configured to fetch search results.
 
 `SearchProvider` is lightweight:
 
@@ -224,9 +224,7 @@ Read the [Customization guide](https://github.com/elastic/search-ui/wiki/Customi
 
 ### Where can I learn more?
 
-The [wiki](https://github.com/elastic/search-ui/wiki)!
-
-It contains guides on component and connector creation, as well as advanced customization and configuration options.
+The [wiki](https://github.com/elastic/search-ui/wiki) contains several useful guides. :sunglasses:
 
 ### Is Search UI only for React?
 
@@ -234,11 +232,11 @@ Nope. Search UI is "headless".
 
 You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
 
-[Read the wiki](https://github.com/elastic/search-ui/wiki/Headless-Core) for more information.
+[Read the Headless Core Guide](https://github.com/elastic/search-ui/wiki/Headless-Core) for more information.
 
 ### Can I build my own Components?
 
-Yes! Absolutely. Check out [the wiki](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
+Yes! Absolutely. Check out the [Build Your Own Component Guide](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
 
 ### Does Search UI only work with App Search?
 
@@ -246,7 +244,7 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ search API.
 
-[See the wiki](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Connector) to learn how to build your own Connectors.
+Read the [Build Your Own Connector Guide](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Connector) to learn more.
 
 ### Where do I report issues with the Search UI?
 
