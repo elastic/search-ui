@@ -58,8 +58,26 @@ export default class AppSearchAPIConnector {
   }
 
   async autocompleteResults({ searchTerm }, queryConfig) {
-    const { query, ...optionsFromState } = adaptRequest({ searchTerm });
-    const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };
+    const {
+      filters,
+      resultsPerPage,
+      sortDirection,
+      sortField,
+      ...restOfQueryConfig
+    } = queryConfig;
+
+    const { query, ...optionsFromState } = adaptRequest({
+      searchTerm,
+      filters,
+      resultsPerPage,
+      sortDirection,
+      sortField
+    });
+
+    const withQueryConfigOptions = {
+      ...restOfQueryConfig,
+      ...optionsFromState
+    };
     const options = {
       ...withQueryConfigOptions,
       ...this.additionalOptions(withQueryConfigOptions)

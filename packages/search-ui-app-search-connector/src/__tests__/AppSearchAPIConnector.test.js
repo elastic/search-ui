@@ -147,13 +147,37 @@ describe("AppSearchAPIConnector", () => {
     });
 
     it("will pass params through to search endpoint", async () => {
-      const current = 2;
-      const searchTerm = "searchTerm";
-      await subject({ current, searchTerm });
+      const state = {
+        current: 2,
+        searchTerm: "searchTerm",
+        filters: [
+          {
+            field: "world_heritage_site",
+            values: ["true"],
+            type: "all"
+          }
+        ],
+        sortDirection: "desc",
+        sortField: "name"
+      };
+      await subject(state);
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(searchTerm);
+      expect(passedSearchTerm).toEqual(state.searchTerm);
       expect(passedOptions).toEqual({
-        filters: {},
+        filters: {
+          all: [
+            {
+              all: [
+                {
+                  world_heritage_site: "true"
+                }
+              ]
+            }
+          ]
+        },
+        sort: {
+          name: "desc"
+        },
         page: {
           current: 2
         }
@@ -161,8 +185,10 @@ describe("AppSearchAPIConnector", () => {
     });
 
     it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
-      const current = 2;
-      const searchTerm = "searchTerm";
+      const state = {
+        current: 2,
+        searchTerm: "searchTerm"
+      };
       const additionalOptions = currentOptions => {
         if (currentOptions.page.current === 2) {
           return {
@@ -170,9 +196,9 @@ describe("AppSearchAPIConnector", () => {
           };
         }
       };
-      await subject({ current, searchTerm }, additionalOptions);
+      await subject(state, additionalOptions);
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(searchTerm);
+      expect(passedSearchTerm).toEqual(state.searchTerm);
       expect(passedOptions).toEqual({
         filters: {},
         page: {
@@ -184,7 +210,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("autocompleteResults", () => {
-    function subject(state = {}, additionalOptions) {
+    function subject(state = {}, queryConfig = {}, additionalOptions) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
@@ -192,12 +218,103 @@ describe("AppSearchAPIConnector", () => {
         additionalOptions
       });
 
-      return connector.autocompleteResults(state);
+      return connector.autocompleteResults(state, queryConfig);
     }
 
     it("will return updated search state", async () => {
       const state = await subject();
       expect(state).toEqual(resultState);
+    });
+
+    it("will pass searchTerm from state through to search endpoint", async () => {
+      const state = {
+        searchTerm: "searchTerm"
+      };
+
+      await subject(state);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(state.searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {},
+        page: {}
+      });
+    });
+
+    it("will pass queryConfig to search endpoint", async () => {
+      const state = {
+        searchTerm: "searchTerm"
+      };
+
+      const queryConfig = {
+        result_fields: {
+          title: { raw: {}, snippet: { size: 20, fallback: true } }
+        },
+        search_fields: {
+          title: {},
+          description: {},
+          states: {}
+        }
+      };
+
+      await subject(state, queryConfig);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(state.searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {},
+        page: {},
+        result_fields: {
+          title: { raw: {}, snippet: { size: 20, fallback: true } }
+        },
+        search_fields: {
+          title: {},
+          description: {},
+          states: {}
+        }
+      });
+    });
+
+    it("will pass request parameter state provided to queryConfig", async () => {
+      const state = {
+        searchTerm: "searchTerm"
+      };
+
+      const queryConfig = {
+        current: 2,
+        resultsPerPage: 5,
+        filters: [
+          {
+            field: "world_heritage_site",
+            values: ["true"],
+            type: "all"
+          }
+        ],
+        sortDirection: "desc",
+        sortField: "name"
+      };
+
+      await subject(state, queryConfig);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(state.searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {
+          all: [
+            {
+              all: [
+                {
+                  world_heritage_site: "true"
+                }
+              ]
+            }
+          ]
+        },
+        current: 2,
+        page: {
+          size: 5
+        },
+        sort: {
+          name: "desc"
+        }
+      });
     });
   });
 });

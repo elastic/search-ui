@@ -21,11 +21,23 @@ export default function adaptRequest(request, queryConfig, documentType) {
   }
 
   const updatedFacets = adaptFacetConfig(queryConfig.facets);
-  const updatedFilters = adaptFilterConfig(request.filters);
-  const page = request.current;
-  const per_page = request.resultsPerPage;
-  const sortDirection = request.sortDirection;
-  const sortField = request.sortField;
+  const updatedFilters = adaptFilterConfig(
+    queryConfig.filters !== undefined ? queryConfig.filters : request.filters
+  );
+  const page =
+    queryConfig.current !== undefined ? queryConfig.current : request.current;
+  const per_page =
+    queryConfig.resultsPerPage !== undefined
+      ? queryConfig.resultsPerPage
+      : request.resultsPerPage;
+  const sortDirection =
+    queryConfig.sortDirection !== undefined
+      ? queryConfig.sortDirection
+      : request.sortDirection;
+  const sortField =
+    queryConfig.sortField !== undefined
+      ? queryConfig.sortField
+      : request.sortField;
   const [fetchFields, highlightFields] = adaptResultFieldsConfig(
     queryConfig.result_fields
   );
