@@ -35,3 +35,7 @@ Breaking Changes:
 ## 0.5.1 (March 7, 2019)
 
 Fixed this error: "ReferenceError: regeneratorRuntime is not defined"
+
+## 0.5.2 (April 1, 2019)
+
+Moved SearchDriver creation to componentDidMount
