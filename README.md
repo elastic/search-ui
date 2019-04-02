@@ -1,7 +1,7 @@
 <p align="center"><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
 <img src="https://img.shields.io/badge/version-beta-red.svg" alt="BETA" /></p>
 
-> A library for the fast development of modern, engaging search experiences. :tada:
+> Libraries for the fast development of modern, engaging search experiences. :tada:
 
 ## Contents
 
@@ -202,7 +202,7 @@ import { SearchBox } from "@elastic/react-search-ui";
 | inputProps      | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                   |
 | searchAsYouType | Boolean   | no        | false                                                  |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                 |
 | debounceLength  | Number    | no        | 200                                                    |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait. |
-| view            | Component | no        | [SearchBox](../react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.    
+| view            | Component | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.    
 
 ---
 
@@ -227,10 +227,10 @@ import { Results } from "@elastic/react-search-ui";
 
 | Name         | type      | Required? | Default                                            | Options | Description                                                                                                                                         |
 | ------------ | --------- | --------- | -------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| renderResult | Component | no        | [Result](../react-search-ui-views/src/Result.js)   |         | Used to override individual Result views. See the Customizing Component views and html section for more information.                                |
+| renderResult | Component | no        | [Result](packages/react-search-ui-views/src/Result.js)   |         | Used to override individual Result views. See the Customizing Component views and html section for more information.                                |
 | titleField   | String    | no        |                                                    |         | Name of field to use as the title from each result.                                                                                                 |
 | urlField     | String    | no        |                                                    |         | Name of field to use as the href from each result.                                                                                                  |
-| view         | Component | no        | [Results](../react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.|
+| view         | Component | no        | [Results](packages/react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.|
 
 ---
 
@@ -255,7 +255,7 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 
 | Name | type      | Required? | Default                                                          | Options | Description                                                                                                                                         |
 | ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [ResultsPerPage](../react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view | Component | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -292,7 +292,7 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 | field | String    | yes       |                                                                          |                                                                                                                                                   | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
 | label | String    | yes       |                                                                          |                                                                                                                                                   | A static label to show in the facet filter.                                                                                                         |
 | show  | Number    | no        | 10                                                                       |                                                                                                                                                   | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
-| view  | Component | no        | [MultiCheckboxFacet](../react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](../react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](../react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view  | Component | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -412,8 +412,7 @@ For basic styles, include:
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 ```
 
-For a basic layout, which helps quickly get a UI bootstrapped,
-use the [Layout](../react-search-ui-views/src/layouts/Layout.js) Component.
+For a basic layout, which helps quickly get a UI bootstrapped, use the [Layout](packages/react-search-ui-views/src/layouts/Layout.js) Component.
 
 ```jsx
 import { Layout } from "@elastic/react-search-ui-views";
@@ -421,7 +420,7 @@ import { Layout } from "@elastic/react-search-ui-views";
 <Layout header={<SearchBox />} bodyContent={<Results />} />;
 ```
 
-The provided styles and layout can be found in the [react-search-ui-views](../react-search-ui-views) package.
+The provided styles and layout can be found in the [react-search-ui-views](packages/react-search-ui-views) package.
 
 For more information on customizing styles, see the [Customization: Custom Styles and Layout](#custom-styles-and-layout).
 
@@ -487,23 +486,23 @@ There are 3 types of configuration:
 
 - [Application Config](#application-config)
 - [Query Config](#query-config)
-- [API Config](#)
+- [API Config](#api-config)
 
 ### Application Config
 
+**It is helpful to [read the wiki on the headless core](https://github.com/elastic/search-ui/wiki/Headless-Core) first!**
+
 | option          | type         | required? | source                                                                                                                                                                                                                    |
 | --------------- | ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apiConnector`  | APIConnector | required  | Instance of a [Connector](#connectors). For instance, [search-ui-app-search-connector](../search-ui-app-search-connector).                                                                                               |
-| `initialState`  | Object       | optional  | Set initial [State](#state) of the search. Any [Request State](#requeststate) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
-| `trackURLState` | boolean      | optional  | By default, [Request State](#requeststate) will be synced with the browser url. To turn this off, pass `false`.                                                                                                           |
+| `apiConnector`  | APIConnector | required  | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                               |
+| `initialState`  | Object       | optional  | Set initial [State](https://github.com/elastic/search-ui/wiki/Headless-Core#state) of the search. Any [Request State](https://github.com/elastic/search-ui/wiki/Headless-Core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
+| `trackURLState` | boolean      | optional  | By default, [Request State](https://github.com/elastic/search-ui/wiki/Headless-Core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                           |
 
 ### Query Config
 
-Query configuration for Search UI largely follows the same API as the
-[App Search Search API](https://swiftype.com/documentation/app-search/api/search)
+Query configuration for Search UI largely follows the same API as the [App Search Search API](https://swiftype.com/documentation/app-search/api/search).
 
-For example, if you add a `search_fields` configuration option, it will control which
-fields are actually returned from the API.
+For example, if you add a `search_fields` configuration option, it will control which fields are actually returned from the API.
 
 | option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -517,7 +516,7 @@ fields are actually returned from the API.
 
 Search UI makes all of the search API calls for your application.
 
-You can control what these API calls look like to some degree with options like `search_fields`, `result_fields`, and `facets`.
+You can control what these API calls look like with options such as `search_fields`, `result_fields`, and `facets`.
 
 But there may be cases where certain API operations are not supported by Search UI.
 
@@ -570,17 +569,15 @@ This follows the [React Render Props](https://reactjs.org/docs/render-props.html
 
 The clearest way to determine a Component's `view` function signature is to
 look at the corresponding view Component's source code in
-[react-search-ui-views](../react-search-ui-views). Each Component in that
+[react-search-ui-views](packages/react-search-ui-views/). Each Component in that
 library implements a `view` function for a Component in the React library, so it
 serves as a great reference.
 
 For example, if we were to customize the `PagingInfo` Component...
 
-We'd look up the default view from the [Components](#componentpaginginfo) section for the
-`PagingInfo` Component.
+We'd look up the default view from the [Components](#components) README section for the `PagingInfo` Component.
 
-The corresponding view is
-[PagingInfo](../react-search-ui-views/src/PagingInfo.js). (See how the naming matches up?).
+The corresponding view is [PagingInfo](packages/react-search-ui-views/src/PagingInfo.js) -- see how the naming matches up?
 
 After viewing that Component's source, you'll see it accepts 4 props:
 
@@ -623,7 +620,7 @@ return <PagingInfo view={PagingInfoView} />;
 
 **It will be helpful to read the [Headless Core](https://github.com/elastic/search-ui/wiki/Headless-Core) wiki first.**
 
-All [Components](#components) support two hooks for customizing their behavior.
+All Components support two hooks for customizing their behavior.
 
 1. `mapContextToProps` - Override the Context before it is passed to your Component as
   props.
