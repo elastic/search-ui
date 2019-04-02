@@ -352,7 +352,7 @@ import { Paging } from "@elastic/react-search-ui";
 
 | Name | type      | Required? | Default                                          | Options | Description                                                                                                                                         |
 | ---- | --------- | --------- | ------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [Paging](../react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view | Component | no        | [Paging](packages/react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -696,9 +696,7 @@ You can write support for it into any JavaScript framework. You can even use van
 
 ### Can I build my own Components?
 
-Yes! Absolutely.
-
-[Check out the wiki](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
+Yes! Absolutely. Check out [the wiki](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
 
 ### Does Search UI only work with App Search?
 
