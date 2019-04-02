@@ -1,3 +1,12 @@
+# Contents
+
+1. [Headless Core](#headless-core)
+2. [Component Reference](#component-reference)
+3. [Customization](#customization)
+4. [Advanced Configuration](#advanced-configuration)
+5. [Build Your Own Component](#build-your-own-component)
+6. [Build Your Own Connector](#build-your-own-connector)
+7. [Search UI Contributor's Guide](#search-ui-contributors-guide)
 
 # Headless Core
 
@@ -726,6 +735,42 @@ const connector = new AppSearchAPIConnector({
     return additionalSearchOptions;
   }
 });
+```
+
+# Build Your Own Component
+
+**Learn about the [Headless Core](https://github.com/elastic/search-ui/wiki/Headless-Core) concepts first!**
+
+***
+
+We provide a variety of out of the box.
+
+There might be cases where we do not have the Component you need.
+
+In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
+called [withSearch](./src/withSearch.js).
+
+It gives you access to work directly with Search UI's [Context](https://github.com/elastic/search-ui/wiki/Headless-Core#headless-core-concepts).
+
+This lets you create your own Components for Search UI.
+
+Ex. Creating a Component for clearing all filters
+
+```jsx
+import React from "react";
+import { withSearch } from "@elastic/react-search-ui";
+
+function ClearFilters({ filters, clearFilters }) {
+  return (
+    <div>
+      <button onClick={() => clearFilters()}>
+        Clear {filters.length} Filters
+      </button>
+    </div>
+  );
+}
+
+export default withSearch(ClearFilters);
 ```
 
 ## Build Your Own Connector
