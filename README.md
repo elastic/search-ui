@@ -117,7 +117,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-Search UI can connect to **any** web based Search API. Read [the wiki](#buildaconnector) for more information.
+Search UI can connect to **any** web based Search API. Read [the wiki](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Connector) for more information.
 
 ### 2. SearchProvider
 
@@ -263,7 +263,7 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 
 Show a Facet filter for a particular field.
 
-Must configure the corresponding field in the `SearchProvider` [facets](#config) object.
+Must configure the corresponding field in the `SearchProvider` [facets](#configuration) object.
 
 ##### Example
 
@@ -328,8 +328,8 @@ import { Sorting } from "@elastic/react-search-ui";
 
 | Name | type                                           | Required? | Default                                            | Options | Description                                                                                                                                         |
 | ---- | ---------------------------------------------- | --------- | -------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Array[[SortOption](./src/types/SortOption.js)] | yes       |                                                    |         |                                                                                                                                                     |
-| view | Component                                      | no        | [Sorting](../react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | yes       |                                                    |         |                                                                                                                                                     |
+| view | Component                                      | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -375,7 +375,7 @@ import { PagingInfo } from "@elastic/react-search-ui";
 
 | Name | type      | Required? | Default                                                  | Options | Description                                                                                                                                         |
 | ---- | --------- | --------- | -------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [PagingInfo](../react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view | Component | no        | [PagingInfo](packages/react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -400,7 +400,7 @@ import { ErrorBoundary } from "@elastic/react-search-ui";
 | Name     | type       | Required? | Default                                                        | Options | Description                                                                                                                                         |
 | -------- | ---------- | --------- | -------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | children | React node | yes       |                                                                |         | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                              |
-| view     | Component  | no        | [ErrorBoundary](../react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view     | Component  | no        | [ErrorBoundary](packages/react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
