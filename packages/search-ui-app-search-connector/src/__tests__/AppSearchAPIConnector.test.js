@@ -130,7 +130,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("search", () => {
-    function subject(state = {}, additionalOptions) {
+    function subject(state = {}, queryConfig = {}, additionalOptions) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
@@ -138,7 +138,7 @@ describe("AppSearchAPIConnector", () => {
         additionalOptions
       });
 
-      return connector.search(state);
+      return connector.search(state, queryConfig);
     }
 
     it("will return updated search state", async () => {
@@ -146,9 +146,10 @@ describe("AppSearchAPIConnector", () => {
       expect(state).toEqual(resultState);
     });
 
-    it("will pass params through to search endpoint", async () => {
+    it("will pass request state through to search endpoint", async () => {
       const state = {
         current: 2,
+        resultsPerPage: 10,
         searchTerm: "searchTerm",
         filters: [
           {
@@ -160,6 +161,7 @@ describe("AppSearchAPIConnector", () => {
         sortDirection: "desc",
         sortField: "name"
       };
+
       await subject(state);
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedSearchTerm).toEqual(state.searchTerm);
@@ -179,7 +181,113 @@ describe("AppSearchAPIConnector", () => {
           name: "desc"
         },
         page: {
-          current: 2
+          current: 2,
+          size: 10
+        }
+      });
+    });
+
+    it("will pass queryConfig to search endpoint", async () => {
+      const state = {
+        searchTerm: "searchTerm"
+      };
+
+      const queryConfig = {
+        facets: {
+          states: {
+            type: "value",
+            size: 30
+          }
+        },
+        result_fields: {
+          title: { raw: {}, snippet: { size: 20, fallback: true } }
+        },
+        search_fields: {
+          title: {},
+          description: {},
+          states: {}
+        }
+      };
+
+      await subject(state, queryConfig);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(state.searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {},
+        facets: {
+          states: {
+            type: "value",
+            size: 30
+          }
+        },
+        page: {},
+        result_fields: {
+          title: { raw: {}, snippet: { size: 20, fallback: true } }
+        },
+        search_fields: {
+          title: {},
+          description: {},
+          states: {}
+        }
+      });
+    });
+
+    it("will pass request parameter state provided to queryConfig, overriding the same value provided in state", async () => {
+      const state = {
+        searchTerm: "searchTerm",
+        current: 1,
+        resultsPerPage: 10,
+        sortDirection: "desc",
+        sortField: "name",
+        filters: [
+          {
+            field: "title",
+            type: "all",
+            values: ["Acadia", "Grand Canyon"]
+          },
+          {
+            field: "world_heritage_site",
+            values: ["true"],
+            type: "all"
+          }
+        ]
+      };
+
+      const queryConfig = {
+        current: 2,
+        resultsPerPage: 5,
+        sortDirection: "asc",
+        sortField: "title",
+        filters: [
+          {
+            field: "date_made",
+            values: ["yesterday"],
+            type: "all"
+          }
+        ]
+      };
+
+      await subject(state, queryConfig);
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedSearchTerm).toEqual(state.searchTerm);
+      expect(passedOptions).toEqual({
+        filters: {
+          all: [
+            {
+              all: [
+                {
+                  date_made: "yesterday"
+                }
+              ]
+            }
+          ]
+        },
+        sort: {
+          title: "asc"
+        },
+        page: {
+          current: 2,
+          size: 5
         }
       });
     });
@@ -196,7 +304,7 @@ describe("AppSearchAPIConnector", () => {
           };
         }
       };
-      await subject(state, additionalOptions);
+      await subject(state, {}, additionalOptions);
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedSearchTerm).toEqual(state.searchTerm);
       expect(passedOptions).toEqual({
@@ -307,8 +415,8 @@ describe("AppSearchAPIConnector", () => {
             }
           ]
         },
-        current: 2,
         page: {
+          current: 2,
           size: 5
         },
         sort: {
