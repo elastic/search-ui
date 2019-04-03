@@ -37,15 +37,16 @@ class SearchProvider extends Component {
     })
   };
 
-  constructor(props) {
-    super(props);
-    this.driver = new SearchDriver(props.config);
-    this.state = this.driver.getState();
+  componentDidMount() {
+    const { config } = this.props;
+    this.driver = new SearchDriver(config);
+    this.setState(this.driver.getState());
     this.driver.subscribeToStateChanges(state => this.setState(state));
   }
 
   render() {
     const { children } = this.props;
+    if (!this.driver) return null;
 
     const providerValue = {
       ...this.state,
