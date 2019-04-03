@@ -89,13 +89,16 @@ Or go headless:
 
 ```jsx
 <SearchProvider config={config}>
-  {{ searchTerm, setSearchTerm, results } => {
+  {({ searchTerm, setSearchTerm, results }) => {
     return (
       <div>
-        <input value={searchTerm} onChange={setSearchTerm} />
-         { results.map( r => (
-            <div>{r.title}</div>
-         ) ) }
+        <input
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+        {results.map(r => (
+          <div key={r.id.raw}>{r.title.raw}</div>
+        ))}
       </div>
     );
   }}
@@ -130,7 +133,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-Search UI can connect to **any** web based Search API. Read [the wiki](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Connector) for more information.
+Search UI can connect to **any** web based Search API. Read [the advanced README](./ADVANCED.md#build-your-own-connector) for more information.
 
 ### 2. SearchProvider
 
@@ -162,7 +165,7 @@ Components -> SearchProvider -> Connector -> Search API (App Search)
 
 But it's deeply configurable.
 
-Read the [Advanced Configuration Guide](https://github.com/elastic/search-ui/wiki/Advanced-Configuration).
+Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration).
 
 ### 3. Components
 
@@ -198,7 +201,7 @@ The following Components are available:
 * PagingInfo
 * ErrorBoundary
 
-Read the [Component Reference](https://github.com/elastic/search-ui/wiki/Component-Reference) for a breakdown.
+Read the [Component Reference](./ADVANCED.md#component-reference) for a breakdown.
 
 ### 4. Styles and Layout
 
@@ -218,13 +221,13 @@ import { Layout } from "@elastic/react-search-ui-views";
 
 The provided styles and layout can be found in the [react-search-ui-views](packages/react-search-ui-views) package.
 
-Read the [Customization guide](https://github.com/elastic/search-ui/wiki/Customization) for more details.
+Read the [Customization guide](./ADVANCED.md#customization) for more details.
 
 ## FAQ 🔮
 
 ### Where can I learn more?
 
-The [wiki](https://github.com/elastic/search-ui/wiki) contains several useful guides. :sunglasses:
+The [Advanced README](./ADVANCED.md) contains several useful guides. :sunglasses:
 
 ### Is Search UI only for React?
 
@@ -232,13 +235,13 @@ Nope. Search UI is "headless".
 
 You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
 
-[Read the Headless Core Guide](https://github.com/elastic/search-ui/wiki/Headless-Core) for more information.
+[Read the Headless Core Guide](./ADVANCED.md#customization) for more information.
 
 ### Can I build my own Components?
 
 Yes! Absolutely.
 
-Check out the [Build Your Own Component Guide](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Component).
+Check out the [Build Your Own Component Guide](./ADVANCED.md#build-your-own-component).
 
 ### Does Search UI only work with App Search?
 
@@ -246,7 +249,7 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ search API.
 
-Read the [Build Your Own Connector Guide](https://github.com/elastic/search-ui/wiki/Build-Your-Own-Connector) to learn more.
+Read the [Build Your Own Connector Guide](./ADVANCED.md#build-your-own-connector) to learn more.
 
 ### Where do I report issues with the Search UI?
 
@@ -263,7 +266,7 @@ If you are using an Elastic product as your connector, try the Elastic community
 
 We welcome contributors to the project. Before you begin, a couple notes...
 
-- Read the [Search UI Contributor's Guide](https://github.com/elastic/search-ui/wiki/Search-UI-Contributor's-Guide).
+- Read the [Search UI Contributor's Guide](./ADVANCED.md#search-ui-contributors-guide).
 - Prior to opening a pull request, please create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
 - Please write simple code and concise documentation, when appropriate.
 

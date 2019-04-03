@@ -556,7 +556,7 @@ return <PagingInfo view={PagingInfoView} />;
 
 ## Component Behavior
 
-**It will be helpful to read the [Headless Core](#headless-core) wiki first.**
+**It will be helpful to read the [Headless Core](#headless-core) section first.**
 
 All Components support two hooks for customizing their behavior.
 
@@ -688,7 +688,7 @@ There are 3 types of configuration:
 
 ## Application Config
 
-**It is helpful to [read the wiki on the headless core](#headless-core) first!**
+**It is helpful to [read the section on the headless core](#headless-core) first!**
 
 | option          | type         | required? | source                                                                                                                                                                                                                    |
 | --------------- | ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -739,7 +739,7 @@ const connector = new AppSearchAPIConnector({
 
 # Build Your Own Component
 
-**Learn about the [Headless Core](https://github.com/elastic/search-ui/wiki/Headless-Core) concepts first!**
+**Learn about the [Headless Core](#headless-core) concepts first!**
 
 ***
 
@@ -750,7 +750,7 @@ There might be cases where we do not have the Component you need.
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
 called [withSearch](./src/withSearch.js).
 
-It gives you access to work directly with Search UI's [Context](https://github.com/elastic/search-ui/wiki/Headless-Core#headless-core-concepts).
+It gives you access to work directly with Search UI's [Context](#headless-core#headless-core-concepts).
 
 This lets you create your own Components for Search UI.
 
