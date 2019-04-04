@@ -2,6 +2,8 @@
 
 exports[`renders correctly 1`] = `
 <SearchBox
+  autocompletedResults={Array []}
+  autocompletedSuggestions={Object {}}
   inputProps={
     Object {
       "onBlur": [Function],
@@ -9,8 +11,10 @@ exports[`renders correctly 1`] = `
     }
   }
   isFocused={false}
+  notifyAutocompleteSelected={[Function]}
   onChange={[Function]}
   onSubmit={[Function]}
+  useAutocomplete={false}
   value="test"
 />
 `;

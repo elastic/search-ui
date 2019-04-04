@@ -62,6 +62,30 @@ export default function App() {
             }
           }
         },
+        initialState: {
+          sortField: "title",
+          sortDirection: "asc"
+        },
+        autocompleteQuery: {
+          results: {
+            resultsPerPage: 5,
+            search_fields: {
+              title: {},
+              description: {}
+            },
+            result_fields: {
+              title: {
+                snippet: {
+                  size: 100,
+                  fallback: true
+                }
+              },
+              nps_link: {
+                raw: {}
+              }
+            }
+          }
+        },
         apiConnector: connector
       }}
     >
@@ -69,7 +93,19 @@ export default function App() {
         <div className="App">
           <ErrorBoundary>
             <Layout
-              header={<SearchBox />}
+              header={
+                <SearchBox
+                  autocompleteMinimumCharacters={3}
+                  autocompleteResults={{
+                    linkTarget: "_blank",
+                    sectionTitle: "Results",
+                    titleField: "title",
+                    urlField: "nps_link",
+                    shouldTrackClickThrough: true,
+                    clickThroughTags: ["test"]
+                  }}
+                />
+              }
               sideContent={
                 <div>
                   <Sorting
@@ -90,7 +126,13 @@ export default function App() {
                   <Facet field="acres" label="Acres" view={SingleSelectFacet} />
                 </div>
               }
-              bodyContent={<Results titleField="title" urlField="nps_link" />}
+              bodyContent={
+                <Results
+                  titleField="title"
+                  urlField="nps_link"
+                  shouldTrackClickThrough={true}
+                />
+              }
               bodyHeader={
                 <React.Fragment>
                   <PagingInfo />

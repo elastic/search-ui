@@ -33,6 +33,7 @@ export const DEFAULT_STATE = {
   sortField: "",
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
+  autocompletedResults: [],
   error: "",
   isLoading: false,
   facets: {},
@@ -72,6 +73,7 @@ export default class SearchDriver {
 
   constructor({
     apiConnector,
+    autocompleteQuery = {},
     initialState,
     searchQuery = {},
     trackUrlState = true,
@@ -95,6 +97,7 @@ export default class SearchDriver {
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.apiConnector = apiConnector;
+    this.autocompleteQuery = autocompleteQuery;
     this.searchQuery = searchQuery;
     this.subscriptions = [];
     this.trackUrlState = trackUrlState;
@@ -145,6 +148,22 @@ export default class SearchDriver {
       this._updateSearchResults(searchParameters);
     }
   }
+
+  _updateAutocompleteResults = searchTerm => {
+    const requestId = this.requestSequencer.next();
+    const autocompleteQueryResults = this.autocompleteQuery.results || {};
+
+    return this.apiConnector
+      .autocompleteResults({ searchTerm }, autocompleteQueryResults)
+      .then(autocompletedResults => {
+        if (this.requestSequencer.isOldRequest(requestId)) return;
+        this.requestSequencer.completed(requestId);
+
+        this._setState({
+          autocompletedResults: autocompletedResults.results
+        });
+      });
+  };
 
   _updateSearchResults = (
     searchParameters,
@@ -220,7 +239,6 @@ export default class SearchDriver {
         }
       },
       error => {
-        console.error(error);
         this._setState({
           error: `An unexpected error occurred: ${error.message}`
         });

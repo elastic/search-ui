@@ -4,6 +4,8 @@ const addEachKeyValueToObject = (acc, [key, value]) => ({
 });
 
 export function getFacets(docInfo) {
+  if (!docInfo.facets) return {};
+
   return Object.entries(docInfo.facets)
     .map(([facetName, facetValue]) => {
       return [

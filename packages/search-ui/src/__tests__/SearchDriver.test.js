@@ -25,7 +25,13 @@ function getSearchCalls(specificMockApiConnector) {
   return (specificMockApiConnector || mockApiConnector).search.mock.calls;
 }
 
+function getAutocompleteResultsCalls(specificMockApiConnector) {
+  return (specificMockApiConnector || mockApiConnector).autocompleteResults.mock
+    .calls;
+}
+
 beforeEach(() => {
+  mockApiConnector.autocompleteResults.mockClear();
   mockApiConnector.search.mockClear();
   mockApiConnector.click.mockClear();
 });
@@ -223,6 +229,35 @@ describe("searchQuery config", () => {
   });
 });
 
+describe("autocompleteQuery config", () => {
+  function subject(config) {
+    const driver = new SearchDriver({
+      ...params,
+      autocompleteQuery: {
+        results: config
+      }
+    });
+
+    driver.setSearchTerm("test", { refresh: false, autocompleteResults: true });
+  }
+
+  it("will pass through result_fields configuration", () => {
+    const result_fields = { test: {} };
+    subject({ result_fields });
+    expect(getAutocompleteResultsCalls()[0][1].result_fields).toEqual(
+      result_fields
+    );
+  });
+
+  it("will pass through search_fields configuration", () => {
+    const search_fields = { test: {} };
+    subject({ search_fields });
+    expect(getAutocompleteResultsCalls()[0][1].search_fields).toEqual(
+      search_fields
+    );
+  });
+});
+
 describe("#getState", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
@@ -234,7 +269,7 @@ describe("#getActions", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
     const actions = driver.getActions();
-    expect(Object.keys(actions).length).toBe(10);
+    expect(Object.keys(actions).length).toBe(11);
     expect(actions.addFilter).toBeInstanceOf(Function);
     expect(actions.clearFilters).toBeInstanceOf(Function);
     expect(actions.removeFilter).toBeInstanceOf(Function);
@@ -245,5 +280,6 @@ describe("#getActions", () => {
     expect(actions.setSort).toBeInstanceOf(Function);
     expect(actions.setCurrent).toBeInstanceOf(Function);
     expect(actions.trackClickThrough).toBeInstanceOf(Function);
+    expect(actions.trackAutocompleteClickThrough).toBeInstanceOf(Function);
   });
 });

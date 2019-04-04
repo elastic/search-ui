@@ -35,13 +35,71 @@ export default class AppSearchAPIConnector {
     this.additionalOptions = additionalOptions;
   }
 
-  click({ query, documentId, requestId, tags }) {
+  click({ query, documentId, requestId, tags = [] }) {
+    tags = tags.concat("results");
+    return this.client.click({ query, documentId, requestId, tags });
+  }
+
+  autocompleteClick({ query, documentId, requestId, tags = [] }) {
+    tags = tags.concat("autocomplete");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
   async search(state, queryConfig) {
-    const { query, ...optionsFromState } = adaptRequest(state);
-    const withQueryConfigOptions = { ...queryConfig, ...optionsFromState };
+    const {
+      current,
+      filters,
+      resultsPerPage,
+      sortDirection,
+      sortField,
+      ...restOfQueryConfig
+    } = queryConfig;
+
+    const { query, ...optionsFromState } = adaptRequest({
+      ...state,
+      ...(current !== undefined && { current }),
+      ...(filters !== undefined && { filters }),
+      ...(resultsPerPage !== undefined && { resultsPerPage }),
+      ...(sortDirection !== undefined && { sortDirection }),
+      ...(sortField !== undefined && { sortField })
+    });
+
+    const withQueryConfigOptions = {
+      ...restOfQueryConfig,
+      ...optionsFromState
+    };
+    const options = {
+      ...withQueryConfigOptions,
+      ...this.additionalOptions(withQueryConfigOptions)
+    };
+
+    const response = await this.client.search(query, options);
+    return adaptResponse(response);
+  }
+
+  async autocompleteResults({ searchTerm }, queryConfig) {
+    const {
+      current,
+      filters,
+      resultsPerPage,
+      sortDirection,
+      sortField,
+      ...restOfQueryConfig
+    } = queryConfig;
+
+    const { query, ...optionsFromState } = adaptRequest({
+      current,
+      searchTerm,
+      filters,
+      resultsPerPage,
+      sortDirection,
+      sortField
+    });
+
+    const withQueryConfigOptions = {
+      ...restOfQueryConfig,
+      ...optionsFromState
+    };
     const options = {
       ...withQueryConfigOptions,
       ...this.additionalOptions(withQueryConfigOptions)
