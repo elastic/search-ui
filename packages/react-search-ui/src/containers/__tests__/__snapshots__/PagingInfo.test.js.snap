@@ -1,14 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<PagingInfo
-  end={20}
-  searchTerm="test"
-  start={1}
-  totalResults={100}
-/>
-`;
-
 exports[`renders empty when it doesn't have enough data 1`] = `""`;
 
 exports[`supports a render prop 1`] = `

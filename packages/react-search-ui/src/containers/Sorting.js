@@ -51,16 +51,14 @@ export class SortingContainer extends Component {
 
     const View = view || Sorting;
 
-    return (
-      <View
-        onChange={o => {
-          const sortOption = findSortOption(sortOptions, o);
-          setSort(sortOption.value, sortOption.direction);
-        }}
-        options={sortOptions.map(formatSelectOption)}
-        value={formatValue(sortField, sortDirection)}
-      />
-    );
+    return View({
+      onChange: o => {
+        const sortOption = findSortOption(sortOptions, o);
+        setSort(sortOption.value, sortOption.direction);
+      },
+      options: sortOptions.map(formatSelectOption),
+      value: formatValue(sortField, sortDirection)
+    });
   }
 }
 

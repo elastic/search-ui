@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<div>
-  <Paging
-    current={1}
-    onChange={[MockFunction]}
-    resultsPerPage={20}
-    totalPages={5}
-  />
-</div>
-`;
-
 exports[`renders empty when there are no results 1`] = `""`;
 
 exports[`supports a render prop 1`] = `

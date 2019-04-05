@@ -27,18 +27,13 @@ beforeEach(() => {
   params.setSort = jest.fn();
 });
 
-it("renders correctly", () => {
-  const wrapper = shallow(<SortingContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
   const wrapper = shallow(<SortingContainer {...params} view={render} />);
-  expect(wrapper.find(render).dive()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("renders empty when it doesn't have enough data", () => {
@@ -55,9 +50,12 @@ it("renders empty when it doesn't have enough data", () => {
 });
 
 it("will call back when sort is changed in view", () => {
-  const wrapper = shallow(<SortingContainer {...params} />);
+  let viewProps;
 
-  wrapper.find("Sorting").prop("onChange")("field|||desc");
+  shallow(<SortingContainer {...params} view={props => (viewProps = props)} />);
+
+  const { onChange } = viewProps;
+  onChange("field|||desc");
 
   const [sortField, sortDirection] = params.setSort.mock.calls[0];
   expect(sortField).toEqual("field");

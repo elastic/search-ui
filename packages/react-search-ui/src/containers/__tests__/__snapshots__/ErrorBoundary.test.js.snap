@@ -1,15 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<ErrorBoundary
-  error="I am an error"
->
-  <div>
-    Child
-  </div>
-</ErrorBoundary>
-`;
-
 exports[`supports a render prop 1`] = `
 <div>
   I am an error

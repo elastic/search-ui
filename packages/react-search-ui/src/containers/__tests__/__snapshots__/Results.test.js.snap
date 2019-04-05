@@ -1,58 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<Results>
-  <WithSearch
-    clickThroughTags={Array []}
-    key="result-id"
-    result={
-      Object {
-        "id": Object {
-          "raw": "id",
-          "snippet": "<em>id</em>",
-        },
-        "title": Object {
-          "raw": "title",
-          "snippet": "<em>title</em>",
-        },
-        "url": Object {
-          "raw": "url",
-          "snippet": "<em>url</em>",
-        },
-      }
-    }
-    shouldTrackClickThrough={true}
-    titleField="title"
-    urlField="url"
-    view={[Function]}
-  />
-  <WithSearch
-    clickThroughTags={Array []}
-    key="result-id"
-    result={
-      Object {
-        "id": Object {
-          "raw": "id",
-          "snippet": "<em>id</em>",
-        },
-        "title": Object {
-          "raw": "title",
-          "snippet": "<em>title</em>",
-        },
-        "url": Object {
-          "raw": "url",
-          "snippet": "<em>url</em>",
-        },
-      }
-    }
-    shouldTrackClickThrough={true}
-    titleField="title"
-    urlField="url"
-    view={[Function]}
-  />
-</Results>
-`;
-
 exports[`supports a render prop 1`] = `
 <div>
   <WithSearch

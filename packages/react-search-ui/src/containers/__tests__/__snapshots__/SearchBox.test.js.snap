@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<SearchBox
-  autocompletedResults={Array []}
-  autocompletedSuggestions={Object {}}
-  inputProps={
-    Object {
-      "onBlur": [Function],
-      "onFocus": [Function],
-    }
-  }
-  isFocused={false}
-  notifyAutocompleteSelected={[Function]}
-  onChange={[Function]}
-  onSubmit={[Function]}
-  useAutocomplete={false}
-  value="test"
-/>
-`;
-
 exports[`supports a render prop 1`] = `
 <div>
   test

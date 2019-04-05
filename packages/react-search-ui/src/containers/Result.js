@@ -76,18 +76,15 @@ export class ResultContainer extends Component {
     const { result, titleField, urlField, view } = this.props;
     const View = view || Result;
 
-    return (
-      <View
-        fields={formatResultFields(result)}
-        key={`result-${getRaw(result, "id")}`}
-        onClickLink={() => this.handleClickLink(getRaw(result, "id"))}
-        title={
-          getSnippet(result, titleField) ||
-          htmlEscape(getRaw(result, titleField))
-        }
-        url={getRaw(result, urlField)}
-      />
-    );
+    return View({
+      fields: formatResultFields(result),
+      key: `result-${getRaw(result, "id")}`,
+      onClickLink: () => this.handleClickLink(getRaw(result, "id")),
+      title:
+        getSnippet(result, titleField) ||
+        htmlEscape(getRaw(result, titleField)),
+      url: getRaw(result, urlField)
+    });
   }
 }
 

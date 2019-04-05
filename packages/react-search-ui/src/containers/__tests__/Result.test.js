@@ -26,46 +26,51 @@ beforeEach(() => {
   params.trackClickThrough = jest.fn();
 });
 
-it("renders correctly", () => {
-  const wrapper = shallow(<ResultContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 describe("link clicks", () => {
   it("will call back when a document link is clicked in the view", () => {
-    const wrapper = shallow(<ResultContainer {...params} />);
+    let viewProps;
 
-    wrapper
-      .find("Result")
-      .at(0)
-      .prop("onClickLink")();
+    shallow(
+      <ResultContainer {...params} view={props => (viewProps = props)} />
+    );
+
+    const { onClickLink } = viewProps;
+    onClickLink();
 
     const [id] = params.trackClickThrough.mock.calls[0];
     expect(id).toEqual("id");
   });
 
   it("will not call back when shouldTrackClickThrough is false", () => {
-    const wrapper = shallow(
-      <ResultContainer {...params} shouldTrackClickThrough={false} />
+    let viewProps;
+
+    shallow(
+      <ResultContainer
+        {...params}
+        shouldTrackClickThrough={false}
+        view={props => (viewProps = props)}
+      />
     );
 
-    wrapper
-      .find("Result")
-      .at(0)
-      .prop("onClickLink")();
+    const { onClickLink } = viewProps;
+    onClickLink();
 
     expect(params.trackClickThrough.mock.calls.length).toEqual(0);
   });
 
   it("will pass through tags", () => {
-    const wrapper = shallow(
-      <ResultContainer {...params} clickThroughTags={["whatever"]} />
+    let viewProps;
+
+    shallow(
+      <ResultContainer
+        {...params}
+        clickThroughTags={["whatever"]}
+        view={props => (viewProps = props)}
+      />
     );
 
-    wrapper
-      .find("Result")
-      .at(0)
-      .prop("onClickLink")();
+    const { onClickLink } = viewProps;
+    onClickLink();
 
     const [id, tags] = params.trackClickThrough.mock.calls[0];
     expect(id).toEqual("id");
@@ -79,5 +84,5 @@ it("supports a render prop", () => {
     return <div>{children}</div>;
   };
   const wrapper = shallow(<ResultContainer {...params} view={render} />);
-  expect(wrapper.find(render).dive()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
