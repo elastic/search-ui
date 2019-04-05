@@ -317,7 +317,7 @@ describe("AppSearchAPIConnector", () => {
     });
   });
 
-  describe("autocompleteResults", () => {
+  describe("autocomplete", () => {
     function subject(state = {}, queryConfig = {}, additionalOptions) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
@@ -326,12 +326,19 @@ describe("AppSearchAPIConnector", () => {
         additionalOptions
       });
 
-      return connector.autocompleteResults(state, queryConfig);
+      return connector.autocomplete(state, queryConfig);
     }
 
     it("will return updated search state", async () => {
-      const state = await subject();
-      expect(state).toEqual(resultState);
+      const state = await subject({}, { results: {} });
+      expect(state).toEqual({
+        autocompletedResults: resultState.results
+      });
+    });
+
+    it("will return empty state if no autocomplete type is specified", async () => {
+      const state = await subject({}, {});
+      expect(state).toEqual({});
     });
 
     it("will pass searchTerm from state through to search endpoint", async () => {
@@ -339,7 +346,7 @@ describe("AppSearchAPIConnector", () => {
         searchTerm: "searchTerm"
       };
 
-      await subject(state);
+      await subject(state, { results: {} });
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedSearchTerm).toEqual(state.searchTerm);
       expect(passedOptions).toEqual({
@@ -354,13 +361,15 @@ describe("AppSearchAPIConnector", () => {
       };
 
       const queryConfig = {
-        result_fields: {
-          title: { raw: {}, snippet: { size: 20, fallback: true } }
-        },
-        search_fields: {
-          title: {},
-          description: {},
-          states: {}
+        results: {
+          result_fields: {
+            title: { raw: {}, snippet: { size: 20, fallback: true } }
+          },
+          search_fields: {
+            title: {},
+            description: {},
+            states: {}
+          }
         }
       };
 
@@ -387,17 +396,19 @@ describe("AppSearchAPIConnector", () => {
       };
 
       const queryConfig = {
-        current: 2,
-        resultsPerPage: 5,
-        filters: [
-          {
-            field: "world_heritage_site",
-            values: ["true"],
-            type: "all"
-          }
-        ],
-        sortDirection: "desc",
-        sortField: "name"
+        results: {
+          current: 2,
+          resultsPerPage: 5,
+          filters: [
+            {
+              field: "world_heritage_site",
+              values: ["true"],
+              type: "all"
+            }
+          ],
+          sortDirection: "desc",
+          sortField: "name"
+        }
       };
 
       await subject(state, queryConfig);

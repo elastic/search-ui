@@ -77,35 +77,41 @@ export default class AppSearchAPIConnector {
     return adaptResponse(response);
   }
 
-  async autocompleteResults({ searchTerm }, queryConfig) {
-    const {
-      current,
-      filters,
-      resultsPerPage,
-      sortDirection,
-      sortField,
-      ...restOfQueryConfig
-    } = queryConfig;
+  async autocomplete({ searchTerm }, queryConfig) {
+    const autocompletedState = {};
 
-    const { query, ...optionsFromState } = adaptRequest({
-      current,
-      searchTerm,
-      filters,
-      resultsPerPage,
-      sortDirection,
-      sortField
-    });
+    if (queryConfig.results) {
+      const {
+        current,
+        filters,
+        resultsPerPage,
+        sortDirection,
+        sortField,
+        ...restOfQueryConfig
+      } = queryConfig.results;
 
-    const withQueryConfigOptions = {
-      ...restOfQueryConfig,
-      ...optionsFromState
-    };
-    const options = {
-      ...withQueryConfigOptions,
-      ...this.additionalOptions(withQueryConfigOptions)
-    };
+      const { query, ...optionsFromState } = adaptRequest({
+        current,
+        searchTerm,
+        filters,
+        resultsPerPage,
+        sortDirection,
+        sortField
+      });
 
-    const response = await this.client.search(query, options);
-    return adaptResponse(response);
+      const withQueryConfigOptions = {
+        ...restOfQueryConfig,
+        ...optionsFromState
+      };
+      const options = {
+        ...withQueryConfigOptions,
+        ...this.additionalOptions(withQueryConfigOptions)
+      };
+
+      const response = await this.client.search(query, options);
+      autocompletedState.autocompletedResults = adaptResponse(response).results;
+    }
+
+    return autocompletedState;
   }
 }

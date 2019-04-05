@@ -10,9 +10,12 @@ const searchResponse = {
 
 export function getMockApiConnector() {
   return {
-    autocompleteResults: jest
-      .fn()
-      .mockReturnValue({ then: cb => cb(searchResponse) }),
+    autocomplete: jest.fn().mockReturnValue({
+      then: cb =>
+        cb({
+          autocompletedResults: searchResponse.results
+        })
+    }),
     search: jest.fn().mockReturnValue({ then: cb => cb(searchResponse) }),
     click: jest.fn().mockReturnValue({ then: () => {} }),
     autocompleteClick: jest.fn().mockReturnValue({ then: () => {} })
@@ -85,8 +88,8 @@ export function getSearchCalls(mockApiConnector) {
   return mockApiConnector.search.mock.calls;
 }
 
-export function getAutocompleteResultsCalls(mockApiConnector) {
-  return mockApiConnector.autocompleteResults.mock.calls;
+export function getAutocompleteCalls(mockApiConnector) {
+  return mockApiConnector.autocomplete.mock.calls;
 }
 
 export function getClickCalls(mockApiConnector) {
