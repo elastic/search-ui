@@ -25,13 +25,12 @@ function getSearchCalls(specificMockApiConnector) {
   return (specificMockApiConnector || mockApiConnector).search.mock.calls;
 }
 
-function getAutocompleteResultsCalls(specificMockApiConnector) {
-  return (specificMockApiConnector || mockApiConnector).autocompleteResults.mock
-    .calls;
+function getAutocompleteCalls(specificMockApiConnector) {
+  return (specificMockApiConnector || mockApiConnector).autocomplete.mock.calls;
 }
 
 beforeEach(() => {
-  mockApiConnector.autocompleteResults.mockClear();
+  mockApiConnector.autocomplete.mockClear();
   mockApiConnector.search.mockClear();
   mockApiConnector.click.mockClear();
 });
@@ -244,7 +243,7 @@ describe("autocompleteQuery config", () => {
   it("will pass through result_fields configuration", () => {
     const result_fields = { test: {} };
     subject({ result_fields });
-    expect(getAutocompleteResultsCalls()[0][1].result_fields).toEqual(
+    expect(getAutocompleteCalls()[0][1].results.result_fields).toEqual(
       result_fields
     );
   });
@@ -252,7 +251,7 @@ describe("autocompleteQuery config", () => {
   it("will pass through search_fields configuration", () => {
     const search_fields = { test: {} };
     subject({ search_fields });
-    expect(getAutocompleteResultsCalls()[0][1].search_fields).toEqual(
+    expect(getAutocompleteCalls()[0][1].results.search_fields).toEqual(
       search_fields
     );
   });

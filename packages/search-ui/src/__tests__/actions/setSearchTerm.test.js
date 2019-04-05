@@ -1,5 +1,5 @@
 import {
-  getAutocompleteResultsCalls,
+  getAutocompleteCalls,
   getSearchCalls,
   setupDriver,
   waitABit
@@ -130,7 +130,7 @@ describe("#setSearchTerm", () => {
         autocompleteResults: true,
         refresh: false
       });
-      expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(3);
+      expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(3);
     });
 
     it("Will debounce requests", async () => {
@@ -151,7 +151,7 @@ describe("#setSearchTerm", () => {
         refresh: false
       });
       await waitABit(100);
-      expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(1);
+      expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(1);
     });
 
     describe("and autocompleteMinimumCharacters is set and less than requirement", () => {
@@ -162,7 +162,7 @@ describe("#setSearchTerm", () => {
           autocompleteResults: true,
           refresh: false
         });
-        expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(0);
+        expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(0);
       });
     });
 
@@ -174,7 +174,7 @@ describe("#setSearchTerm", () => {
           autocompleteResults: true,
           refresh: false
         });
-        expect(getAutocompleteResultsCalls(mockApiConnector)).toHaveLength(1);
+        expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(1);
       });
     });
   });

@@ -41,8 +41,9 @@ export default function setSearchTerm(
   ) {
     this.debounceManager.runWithDebounce(
       debounce,
-      this._updateAutocompleteResults,
-      searchTerm
+      this._updateAutocomplete,
+      searchTerm,
+      autocompleteResults
     );
   }
 }

@@ -149,19 +149,22 @@ export default class SearchDriver {
     }
   }
 
-  _updateAutocompleteResults = searchTerm => {
+  _updateAutocomplete = (searchTerm, autocompleteResults) => {
     const requestId = this.requestSequencer.next();
-    const autocompleteQueryResults = this.autocompleteQuery.results || {};
+
+    const queryConfig = {
+      ...(autocompleteResults && {
+        results: this.autocompleteQuery.results || {}
+      })
+    };
 
     return this.apiConnector
-      .autocompleteResults({ searchTerm }, autocompleteQueryResults)
-      .then(autocompletedResults => {
+      .autocomplete({ searchTerm }, queryConfig)
+      .then(autocompleted => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
 
-        this._setState({
-          autocompletedResults: autocompletedResults.results
-        });
+        this._setState(autocompleted);
       });
   };
 
