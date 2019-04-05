@@ -15,68 +15,69 @@ beforeEach(() => {
   params.trackAutocompleteClickThrough = jest.fn();
 });
 
-it("renders correctly", () => {
-  const wrapper = shallow(<SearchBoxContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
   const wrapper = shallow(<SearchBoxContainer {...params} view={render} />);
-  expect(wrapper.find(render).dive()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("will keep focus prop in sync with view component", () => {
-  const wrapper = shallow(<SearchBoxContainer {...params} />);
+  let viewProps;
 
-  expect(wrapper.find("SearchBox").prop("isFocused")).toBe(false);
+  shallow(
+    <SearchBoxContainer {...params} view={props => (viewProps = props)} />
+  );
 
-  wrapper
-    .find("SearchBox")
-    .prop("inputProps")
-    ["onFocus"]();
+  expect(viewProps.isFocused).toBe(false);
+  viewProps.inputProps.onFocus();
 
-  expect(wrapper.find("SearchBox").prop("isFocused")).toBe(true);
+  expect(viewProps.isFocused).toBe(true);
 
-  wrapper
-    .find("SearchBox")
-    .prop("inputProps")
-    ["onBlur"]();
+  viewProps.inputProps.onBlur();
 
-  expect(wrapper.find("SearchBox").prop("isFocused")).toBe(false);
+  expect(viewProps.isFocused).toBe(false);
 });
 
 describe("useAutocomplete", () => {
   it("will be true  if autocompleteResults configuration has been provided", () => {
-    const wrapper = shallow(
+    let viewProps;
+
+    shallow(
       <SearchBoxContainer
         {...params}
         autocompleteResults={{
           titleField: "title",
           urlField: "nps_link"
         }}
+        view={props => (viewProps = props)}
       />
     );
-    wrapper.find("SearchBox").prop("onChange")("new term");
-    expect(wrapper.find("SearchBox").prop("useAutocomplete")).toBe(true);
+    viewProps.onChange("new term");
+    expect(viewProps.useAutocomplete).toBe(true);
   });
 
   it("will be false if no autocomplete config has been provided", () => {
-    const wrapper = shallow(<SearchBoxContainer {...params} />);
-    wrapper.find("SearchBox").prop("onChange")("new term");
-    expect(wrapper.find("SearchBox").prop("useAutocomplete")).toBe(false);
+    let viewProps;
+    shallow(
+      <SearchBoxContainer {...params} view={props => (viewProps = props)} />
+    );
+    viewProps.onChange("new term");
+    expect(viewProps.useAutocomplete).toBe(false);
   });
 });
 
 it("will call back to setSearchTerm with refresh: false when input is changed", () => {
-  const wrapper = shallow(<SearchBoxContainer {...params} />);
+  let viewProps;
+  shallow(
+    <SearchBoxContainer {...params} view={props => (viewProps = props)} />
+  );
 
-  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
+  expect(viewProps.value).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")("new term");
+  viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -86,10 +87,15 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
 });
 
 it("will call back to setSearchTerm with autocompleteMinimumCharacters setting", () => {
-  const wrapper = shallow(
-    <SearchBoxContainer {...params} autocompleteMinimumCharacters={3} />
+  let viewProps;
+  shallow(
+    <SearchBoxContainer
+      {...params}
+      autocompleteMinimumCharacters={3}
+      view={props => (viewProps = props)}
+    />
   );
-  wrapper.find("SearchBox").prop("onChange")("new term");
+  viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -103,13 +109,18 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
 });
 
 it("will call back to setSearchTerm with refresh: true when input is changed and searchAsYouType is true", () => {
-  const wrapper = shallow(
-    <SearchBoxContainer {...params} searchAsYouType={true} />
+  let viewProps;
+  shallow(
+    <SearchBoxContainer
+      {...params}
+      searchAsYouType={true}
+      view={props => (viewProps = props)}
+    />
   );
 
-  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
+  expect(viewProps.value).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")("new term");
+  viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -119,17 +130,19 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
 });
 
 it("will call back to setSearchTerm with a specific debounce when input is changed and searchAsYouType is true and a debounce is provided", () => {
-  const wrapper = shallow(
+  let viewProps;
+  shallow(
     <SearchBoxContainer
       {...params}
       searchAsYouType={true}
       debounceLength={500}
+      view={props => (viewProps = props)}
     />
   );
 
-  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
+  expect(viewProps.value).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")("new term");
+  viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -139,7 +152,8 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 });
 
 it("will call back to setSearchTerm with a specific debounce when input is changed and autocompleteResults is true and a debounce is provided", () => {
-  const wrapper = shallow(
+  let viewProps;
+  shallow(
     <SearchBoxContainer
       {...params}
       autocompleteResults={{
@@ -147,12 +161,13 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
         urlField: "nps_link"
       }}
       debounceLength={500}
+      view={props => (viewProps = props)}
     />
   );
 
-  expect(wrapper.find("SearchBox").prop("value")).toBe("test");
+  expect(viewProps.value).toBe("test");
 
-  wrapper.find("SearchBox").prop("onChange")("new term");
+  viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
@@ -162,11 +177,17 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 });
 
 it("will call back setSearchTerm with refresh: true when form is submitted", () => {
-  const wrapper = shallow(
-    <SearchBoxContainer {...params} searchTerm="a term" />
+  let viewProps;
+
+  shallow(
+    <SearchBoxContainer
+      {...params}
+      searchTerm="a term"
+      view={props => (viewProps = props)}
+    />
   );
 
-  wrapper.find("SearchBox").prop("onSubmit")({
+  viewProps.onSubmit({
     preventDefault: () => {}
   });
 
@@ -176,10 +197,15 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
 
 describe("autocomplete clickthroughs", () => {
   it("will call back to trackAutocompleteClickThrough when an autocomplete item is selected in the view", () => {
-    const wrapper = shallow(
-      <SearchBoxContainer {...params} autocompleteResults={true} />
+    let viewProps;
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={true}
+        view={props => (viewProps = props)}
+      />
     );
-    const { notifyAutocompleteSelected } = wrapper.props();
+    const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
     });
@@ -187,7 +213,8 @@ describe("autocomplete clickthroughs", () => {
   });
 
   it("will not call back when shouldTrackClickThrough is false", () => {
-    const wrapper = shallow(
+    let viewProps;
+    shallow(
       <SearchBoxContainer
         {...params}
         autocompleteResults={{
@@ -195,9 +222,10 @@ describe("autocomplete clickthroughs", () => {
           titleField: "title",
           urlField: "nps_link"
         }}
+        view={props => (viewProps = props)}
       />
     );
-    const { notifyAutocompleteSelected } = wrapper.props();
+    const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
     });
@@ -205,10 +233,15 @@ describe("autocomplete clickthroughs", () => {
   });
 
   it("will not call back when the selected item is a suggestion", () => {
-    const wrapper = shallow(
-      <SearchBoxContainer {...params} autocompleteResults={true} />
+    let viewProps;
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={true}
+        view={props => (viewProps = props)}
+      />
     );
-    const { notifyAutocompleteSelected } = wrapper.props();
+    const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       suggestion: "bike"
     });
@@ -216,6 +249,7 @@ describe("autocomplete clickthroughs", () => {
   });
 
   it("will pass through tags", () => {
+    let viewProps;
     const wrapper = shallow(
       <SearchBoxContainer
         {...params}
@@ -224,9 +258,10 @@ describe("autocomplete clickthroughs", () => {
           titleField: "title",
           urlField: "nps_link"
         }}
+        view={props => (viewProps = props)}
       />
     );
-    const { notifyAutocompleteSelected } = wrapper.props();
+    const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
     });

@@ -13,11 +13,6 @@ beforeEach(() => {
   params.setResultsPerPage = jest.fn();
 });
 
-it("renders correctly", () => {
-  const wrapper = shallow(<ResultsPerPageContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
@@ -26,7 +21,7 @@ it("supports a render prop", () => {
   const wrapper = shallow(
     <ResultsPerPageContainer {...params} view={render} />
   );
-  expect(wrapper.find(render).dive()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("renders empty when it doesn't have enough data", () => {
@@ -43,9 +38,14 @@ it("renders empty when it doesn't have enough data", () => {
 });
 
 it("will call back when a selection is made in the view", () => {
-  const wrapper = shallow(<ResultsPerPageContainer {...params} />);
+  let viewProps;
 
-  wrapper.find("ResultsPerPage").prop("onChange")(40);
+  shallow(
+    <ResultsPerPageContainer {...params} view={props => (viewProps = props)} />
+  );
+
+  const { onChange } = viewProps;
+  onChange(40);
 
   const resultsPerPage = params.setResultsPerPage.mock.calls[0][0];
   expect(resultsPerPage).toEqual(40);

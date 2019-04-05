@@ -110,25 +110,23 @@ export class SearchBoxContainer extends Component {
       !!autocompleteResults &&
       searchTerm.length >= autocompleteMinimumCharacters;
 
-    return (
-      <View
-        autocompleteResults={autocompleteResults}
-        autocompletedResults={autocompletedResults}
-        autocompletedSuggestions={{}}
-        isFocused={isFocused}
-        notifyAutocompleteSelected={this.handleNotifyAutocompleteSelected}
-        onChange={value => this.handleChange(value)}
-        onSelectAutocomplete={onSelectAutocomplete}
-        onSubmit={this.handleSubmit}
-        useAutocomplete={useAutocomplete}
-        value={searchTerm}
-        inputProps={{
-          onFocus: this.handleFocus,
-          onBlur: this.handleBlur,
-          ...inputProps
-        }}
-      />
-    );
+    return View({
+      autocompleteResults: autocompleteResults,
+      autocompletedResults: autocompletedResults,
+      autocompletedSuggestions: {},
+      isFocused: isFocused,
+      notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
+      onChange: value => this.handleChange(value),
+      onSelectAutocomplete: onSelectAutocomplete,
+      onSubmit: this.handleSubmit,
+      useAutocomplete: useAutocomplete,
+      value: searchTerm,
+      inputProps: {
+        onFocus: this.handleFocus,
+        onBlur: this.handleBlur,
+        ...inputProps
+      }
+    });
   }
 }
 

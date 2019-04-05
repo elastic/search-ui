@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<Sorting
-  onChange={[Function]}
-  options={
-    Array [
-      Object {
-        "label": "name",
-        "value": "field|||asc",
-      },
-      Object {
-        "label": "name",
-        "value": "field|||desc",
-      },
-    ]
-  }
-  value="field|||asc"
-/>
-`;
-
 exports[`renders empty when it doesn't have enough data 1`] = `""`;
 
 exports[`supports a render prop 1`] = `

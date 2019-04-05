@@ -34,14 +34,12 @@ export class PagingInfoContainer extends Component {
 
     const View = view || PagingInfo;
 
-    return (
-      <View
-        end={end}
-        searchTerm={resultSearchTerm}
-        start={start}
-        totalResults={totalResults}
-      />
-    );
+    return View({
+      end: end,
+      searchTerm: resultSearchTerm,
+      start: start,
+      totalResults: totalResults
+    });
   }
 }
 

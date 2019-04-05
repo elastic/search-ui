@@ -17,7 +17,7 @@ export class ErrorBoundaryContainer extends Component {
 
     const View = view || ErrorBoundary;
 
-    return <View {...rest} />;
+    return View(rest);
   }
 }
 

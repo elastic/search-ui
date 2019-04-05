@@ -1,19 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<ResultsPerPage
-  onChange={[Function]}
-  options={
-    Array [
-      20,
-      40,
-      60,
-    ]
-  }
-  value={20}
-/>
-`;
-
 exports[`renders empty when it doesn't have enough data 1`] = `""`;
 
 exports[`supports a render prop 1`] = `

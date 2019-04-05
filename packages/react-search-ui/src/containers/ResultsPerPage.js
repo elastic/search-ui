@@ -28,15 +28,13 @@ export class ResultsPerPageContainer extends Component {
 
     const View = view || ResultsPerPage;
 
-    return (
-      <View
-        onChange={value => {
-          setResultsPerPage(value);
-        }}
-        options={[20, 40, 60]}
-        value={resultsPerPage}
-      />
-    );
+    return View({
+      onChange: value => {
+        setResultsPerPage(value);
+      },
+      options: [20, 40, 60],
+      value: resultsPerPage
+    });
   }
 }
 

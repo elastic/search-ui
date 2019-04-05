@@ -10,11 +10,6 @@ const params = {
   totalResults: 100
 };
 
-it("renders correctly", () => {
-  const wrapper = shallow(<PagingInfoContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ start, end }) => {
@@ -26,7 +21,7 @@ it("supports a render prop", () => {
     );
   };
   const wrapper = shallow(<PagingInfoContainer {...params} view={render} />);
-  expect(wrapper.find(render).dive()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("renders empty when it doesn't have enough data", () => {

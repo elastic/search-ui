@@ -37,18 +37,13 @@ const params = {
   urlField: "url"
 };
 
-it("renders correctly", () => {
-  const wrapper = shallow(<ResultsContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ children }) => {
     return <div>{children}</div>;
   };
   const wrapper = shallow(<ResultsContainer {...params} view={render} />);
-  expect(wrapper.find(render).dive()).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("passes through props to individual Result items", () => {
