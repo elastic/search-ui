@@ -64,18 +64,27 @@ export default class SiteSearchAPIConnector {
     });
   }
 
-  async autocompleteResults({ searchTerm }, queryConfig) {
-    const options = adaptRequest(
-      { searchTerm },
-      queryConfig,
-      this.documentType
-    );
+  async autocomplete({ searchTerm }, queryConfig) {
+    if (queryConfig.results) {
+      const options = adaptRequest(
+        { searchTerm },
+        queryConfig.results,
+        this.documentType
+      );
 
-    return this.request("POST", "engines/suggest.json", {
-      ...options,
-      ...this.additionalOptions(options)
-    }).then(json => {
-      return adaptResponse(json, this.documentType);
-    });
+      return this.request("POST", "engines/suggest.json", {
+        ...options,
+        ...this.additionalOptions(options)
+      }).then(json => {
+        return {
+          autocompletedResults: adaptResponse(json, this.documentType).results
+        };
+      });
+    }
+    if (queryConfig.suggestions) {
+      console.warn(
+        "search-ui-site-search-connector: Site Search does support query suggestions on autocomplete"
+      );
+    }
   }
 }
