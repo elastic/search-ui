@@ -212,15 +212,25 @@ describe("#search", () => {
 });
 
 describe("#autocompleteResults", () => {
-  function subject({ state, queryConfig = {} }) {
+  function subject({
+    state,
+    queryConfig = {
+      results: {}
+    }
+  }) {
     const connector = new SiteSearchAPIConnector({
       ...params
     });
-    return connector.autocompleteResults(state, queryConfig);
+    return connector.autocomplete(state, queryConfig);
   }
 
   it("will correctly format an API response", async () => {
-    const response = await subject({ state: {}, queryConfig: {} });
+    const response = await subject({
+      state: {},
+      queryConfig: {
+        results: {}
+      }
+    });
     expect(response).toMatchSnapshot();
   });
 
@@ -243,13 +253,15 @@ describe("#autocompleteResults", () => {
     };
 
     const queryConfig = {
-      result_fields: {
-        title: { raw: {}, snippet: { size: 20, fallback: true } }
-      },
-      search_fields: {
-        title: {},
-        description: {},
-        states: {}
+      results: {
+        result_fields: {
+          title: { raw: {}, snippet: { size: 20, fallback: true } }
+        },
+        search_fields: {
+          title: {},
+          description: {},
+          states: {}
+        }
       }
     };
 
@@ -278,17 +290,19 @@ describe("#autocompleteResults", () => {
     };
 
     const queryConfig = {
-      current: 2,
-      resultsPerPage: 5,
-      filters: [
-        {
-          field: "world_heritage_site",
-          values: ["true"],
-          type: "all"
-        }
-      ],
-      sortDirection: "desc",
-      sortField: "name"
+      results: {
+        current: 2,
+        resultsPerPage: 5,
+        filters: [
+          {
+            field: "world_heritage_site",
+            values: ["true"],
+            type: "all"
+          }
+        ],
+        sortDirection: "desc",
+        sortField: "name"
+      }
     };
 
     await subject({ state, queryConfig });

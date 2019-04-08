@@ -2,22 +2,7 @@
 
 exports[`#autocompleteResults will correctly format an API response 1`] = `
 Object {
-  "facets": Object {
-    "states": Array [
-      Object {
-        "data": Array [
-          Object {
-            "count": 2,
-            "value": "Maine",
-          },
-        ],
-        "field": "states",
-        "type": "value",
-      },
-    ],
-  },
-  "requestId": "",
-  "results": Array [
+  "autocompletedResults": Array [
     Object {
       "acres": Object {
         "raw": 49057.36,
@@ -71,8 +56,6 @@ Object {
       },
     },
   ],
-  "totalPages": 1,
-  "totalResults": 2,
 }
 `;
 
