@@ -60,6 +60,11 @@ export class SearchBoxContainer extends Component {
     });
   };
 
+  completeSuggestion = searchTerm => {
+    const { setSearchTerm } = this.props;
+    setSearchTerm(searchTerm);
+  };
+
   handleSubmit = e => {
     const { searchTerm, setSearchTerm } = this.props;
 
@@ -139,6 +144,7 @@ export class SearchBoxContainer extends Component {
       autocompletedSuggestionsCount: autocompletedSuggestionsCount,
       autocompletedResults: autocompletedResults,
       autocompletedSuggestions: autocompletedSuggestions,
+      completeSuggestion: this.completeSuggestion,
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
       onChange: value => this.handleChange(value),
