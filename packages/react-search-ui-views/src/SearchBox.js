@@ -12,6 +12,7 @@ function SearchBox(props) {
     autocompleteResults,
     allAutocompletedItemsCount,
     autocompleteView,
+    completeSuggestion,
     isFocused,
     inputProps,
     notifyAutocompleteSelected,
@@ -35,6 +36,8 @@ function SearchBox(props) {
           const target = autocompleteResults.linkTarget || "_self";
           window.open(url, target);
         }
+      } else {
+        completeSuggestion(selection.suggestion);
       }
     });
 
@@ -42,7 +45,11 @@ function SearchBox(props) {
     <Downshift
       inputValue={value}
       onChange={onSelectAutocomplete}
-      onInputValueChange={onChange}
+      onInputValueChange={newValue => {
+        // To avoid over dispatching
+        if (value === newValue) return;
+        onChange(newValue);
+      }}
       // Because when a selection is made, we don't really want to change
       // the inputValue. This is supposed to be a "controlled" value, and when
       // this happens we lose control of it.
@@ -91,6 +98,7 @@ SearchBox.propTypes = {
   autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
     .isRequired,
   autocompletedSuggestionsCount: PropTypes.number.isRequired,
+  completeSuggestion: PropTypes.func.isRequired,
   notifyAutocompleteSelected: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
