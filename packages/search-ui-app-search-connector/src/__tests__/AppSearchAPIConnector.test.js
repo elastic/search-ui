@@ -3,12 +3,24 @@ import AppSearchAPIConnector from "..";
 
 jest.mock("swiftype-app-search-javascript");
 
-const mockClient = {
-  search: jest.fn().mockReturnValue({ then: cb => cb(resultList) }),
-  click: jest.fn().mockReturnValue(Promise.resolve())
+const resultsSuggestions = {
+  results: {
+    documents: [
+      {
+        suggestion: "carlsbad"
+      },
+      {
+        suggestion: "carlsbad caverns"
+      },
+      {
+        suggestion: "carolina"
+      }
+    ]
+  },
+  meta: {
+    request_id: "914f909793379ed5af9379b4401f19be"
+  }
 };
-
-SwiftypeAppSearch.createClient.mockReturnValue(mockClient);
 
 const resultList = {
   info: {
@@ -22,6 +34,16 @@ const resultList = {
   },
   rawResults: [{}, {}]
 };
+
+const mockClient = {
+  search: jest.fn().mockReturnValue({ then: cb => cb(resultList) }),
+  querySuggestion: jest
+    .fn()
+    .mockReturnValue({ then: cb => cb(resultsSuggestions) }),
+  click: jest.fn().mockReturnValue(Promise.resolve())
+};
+
+SwiftypeAppSearch.createClient.mockReturnValue(mockClient);
 
 const resultState = {
   facets: {},
@@ -38,11 +60,18 @@ const params = {
 
 beforeEach(() => {
   mockClient.search = jest.fn().mockReturnValue({ then: cb => cb(resultList) });
+  mockClient.querySuggestion = jest
+    .fn()
+    .mockReturnValue({ then: cb => cb(resultsSuggestions) });
   mockClient.click = jest.fn().mockReturnValue({ then: () => {} });
 });
 
 function getLastSearchCall() {
   return mockClient.search.mock.calls[0];
+}
+
+function getLastSuggestCall() {
+  return mockClient.querySuggestion.mock.calls[0];
 }
 
 function getLastClickCall() {
@@ -329,39 +358,52 @@ describe("AppSearchAPIConnector", () => {
       return connector.autocomplete(state, queryConfig);
     }
 
-    it("will return updated search state", async () => {
-      const state = await subject({}, { results: {} });
-      expect(state).toEqual({
-        autocompletedResults: resultState.results
+    describe("when 'results' type is requested", () => {
+      it("will return search state with autocompletedResults set", async () => {
+        const state = await subject({}, { results: {} });
+        expect(state).toEqual({
+          autocompletedResults: resultState.results
+        });
       });
-    });
 
-    it("will return empty state if no autocomplete type is specified", async () => {
-      const state = await subject({}, {});
-      expect(state).toEqual({});
-    });
+      it("will pass searchTerm from state through to search endpoint", async () => {
+        const state = {
+          searchTerm: "searchTerm"
+        };
 
-    it("will pass searchTerm from state through to search endpoint", async () => {
-      const state = {
-        searchTerm: "searchTerm"
-      };
-
-      await subject(state, { results: {} });
-      const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(state.searchTerm);
-      expect(passedOptions).toEqual({
-        filters: {},
-        page: {}
+        await subject(state, { results: {} });
+        const [passedSearchTerm, passedOptions] = getLastSearchCall();
+        expect(passedSearchTerm).toEqual(state.searchTerm);
+        expect(passedOptions).toEqual({
+          filters: {},
+          page: {}
+        });
       });
-    });
 
-    it("will pass queryConfig to search endpoint", async () => {
-      const state = {
-        searchTerm: "searchTerm"
-      };
+      it("will pass queryConfig to search endpoint", async () => {
+        const state = {
+          searchTerm: "searchTerm"
+        };
 
-      const queryConfig = {
-        results: {
+        const queryConfig = {
+          results: {
+            result_fields: {
+              title: { raw: {}, snippet: { size: 20, fallback: true } }
+            },
+            search_fields: {
+              title: {},
+              description: {},
+              states: {}
+            }
+          }
+        };
+
+        await subject(state, queryConfig);
+        const [passedSearchTerm, passedOptions] = getLastSearchCall();
+        expect(passedSearchTerm).toEqual(state.searchTerm);
+        expect(passedOptions).toEqual({
+          filters: {},
+          page: {},
           result_fields: {
             title: { raw: {}, snippet: { size: 20, fallback: true } }
           },
@@ -370,69 +412,117 @@ describe("AppSearchAPIConnector", () => {
             description: {},
             states: {}
           }
-        }
-      };
+        });
+      });
 
-      await subject(state, queryConfig);
-      const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(state.searchTerm);
-      expect(passedOptions).toEqual({
-        filters: {},
-        page: {},
-        result_fields: {
-          title: { raw: {}, snippet: { size: 20, fallback: true } }
-        },
-        search_fields: {
-          title: {},
-          description: {},
-          states: {}
-        }
+      it("will pass request parameter state provided to queryConfig", async () => {
+        const state = {
+          searchTerm: "searchTerm"
+        };
+
+        const queryConfig = {
+          results: {
+            current: 2,
+            resultsPerPage: 5,
+            filters: [
+              {
+                field: "world_heritage_site",
+                values: ["true"],
+                type: "all"
+              }
+            ],
+            sortDirection: "desc",
+            sortField: "name"
+          }
+        };
+
+        await subject(state, queryConfig);
+        const [passedSearchTerm, passedOptions] = getLastSearchCall();
+        expect(passedSearchTerm).toEqual(state.searchTerm);
+        expect(passedOptions).toEqual({
+          filters: {
+            all: [
+              {
+                all: [
+                  {
+                    world_heritage_site: "true"
+                  }
+                ]
+              }
+            ]
+          },
+          page: {
+            current: 2,
+            size: 5
+          },
+          sort: {
+            name: "desc"
+          }
+        });
       });
     });
 
-    it("will pass request parameter state provided to queryConfig", async () => {
-      const state = {
-        searchTerm: "searchTerm"
-      };
+    describe("when 'suggestions' type is requested", () => {
+      it("will return search state with autocompletedSuggestions set", async () => {
+        const state = await subject({}, { suggestions: {} });
+        expect(state).toEqual({
+          autocompletedSuggestions: resultsSuggestions.results
+        });
+      });
 
-      const queryConfig = {
-        results: {
-          current: 2,
-          resultsPerPage: 5,
-          filters: [
-            {
-              field: "world_heritage_site",
-              values: ["true"],
-              type: "all"
-            }
-          ],
-          sortDirection: "desc",
-          sortField: "name"
-        }
-      };
+      it("will pass searchTerm from state through to search endpoint", async () => {
+        const state = {
+          searchTerm: "searchTerm"
+        };
 
-      await subject(state, queryConfig);
-      const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(state.searchTerm);
-      expect(passedOptions).toEqual({
-        filters: {
-          all: [
-            {
-              all: [
-                {
-                  world_heritage_site: "true"
-                }
-              ]
+        await subject(state, { suggestions: {} });
+        const [passedSearchTerm, passedOptions] = getLastSuggestCall();
+        expect(passedSearchTerm).toEqual(state.searchTerm);
+        expect(passedOptions).toEqual({});
+      });
+
+      it("will pass queryConfig to search endpoint", async () => {
+        const state = {
+          searchTerm: "searchTerm"
+        };
+
+        const queryConfig = {
+          suggestions: {
+            types: {
+              documents: {
+                fields: ["title"]
+              }
             }
-          ]
-        },
-        page: {
-          current: 2,
-          size: 5
-        },
-        sort: {
-          name: "desc"
-        }
+          }
+        };
+
+        await subject(state, queryConfig);
+        const [passedSearchTerm, passedOptions] = getLastSuggestCall();
+        expect(passedSearchTerm).toEqual(state.searchTerm);
+        expect(passedOptions).toEqual({
+          types: {
+            documents: {
+              fields: ["title"]
+            }
+          }
+        });
+      });
+    });
+
+    describe("when 'results' and 'suggestions' type are both requested", () => {
+      it("will return search state with autocompletedSuggestions and autocompletedResults set", async () => {
+        const state = await subject({}, { suggestions: {}, results: {} });
+        expect(state).toEqual({
+          autocompletedSuggestions: resultsSuggestions.results,
+          autocompletedResults: resultState.results
+        });
+      });
+    });
+
+    describe("when no type is requested", () => {
+      it("will return empty state", async () => {
+        const state = await subject({}, {});
+        expect(state).toEqual({});
       });
     });
   });
