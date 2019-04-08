@@ -42,7 +42,7 @@ it("will keep focus prop in sync with view component", () => {
 });
 
 describe("useAutocomplete", () => {
-  it("will be true  if autocompleteResults configuration has been provided", () => {
+  it("will be true if autocompleteResults configuration has been provided", () => {
     let viewProps;
 
     shallow(
@@ -67,6 +67,43 @@ describe("useAutocomplete", () => {
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(false);
   });
+
+  it("will be true if autocompleteSuggestions configuration has been provided", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteSuggestions={{
+          documents: {
+            sectionTitle: "Suggested Queries"
+          }
+        }}
+        view={props => (viewProps = props)}
+      />
+    );
+    viewProps.onChange("new term");
+    expect(viewProps.useAutocomplete).toBe(true);
+  });
+
+  it("will be false if autocompleteMinimumCharacters is below threshold", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteMinimumCharacters={4}
+        autocompleteSuggestions={{
+          documents: {
+            sectionTitle: "Suggested Queries"
+          }
+        }}
+        view={props => (viewProps = props)}
+      />
+    );
+    viewProps.onChange("new");
+    expect(viewProps.useAutocomplete).toBe(true);
+  });
 });
 
 it("will call back to setSearchTerm with refresh: false when input is changed", () => {
@@ -82,7 +119,12 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
     "new term",
-    { refresh: false, autocompleteResults: false }
+    {
+      refresh: false,
+      autocompleteResults: false,
+      autocompleteSuggestions: false,
+      autocompleteMinimumCharacters: 0
+    }
   ]);
 });
 
@@ -103,6 +145,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
     {
       refresh: false,
       autocompleteResults: false,
+      autocompleteSuggestions: false,
       autocompleteMinimumCharacters: 3
     }
   ]);
@@ -125,7 +168,13 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
     "new term",
-    { refresh: true, debounce: 200, autocompleteResults: false }
+    {
+      refresh: true,
+      debounce: 200,
+      autocompleteResults: false,
+      autocompleteMinimumCharacters: 0,
+      autocompleteSuggestions: false
+    }
   ]);
 });
 
@@ -147,7 +196,13 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
     "new term",
-    { refresh: true, debounce: 500, autocompleteResults: false }
+    {
+      refresh: true,
+      debounce: 500,
+      autocompleteResults: false,
+      autocompleteMinimumCharacters: 0,
+      autocompleteSuggestions: false
+    }
   ]);
 });
 
@@ -172,7 +227,41 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   const call = params.setSearchTerm.mock.calls[0];
   expect(call).toEqual([
     "new term",
-    { refresh: false, debounce: 500, autocompleteResults: true }
+    {
+      refresh: false,
+      debounce: 500,
+      autocompleteResults: true,
+      autocompleteMinimumCharacters: 0,
+      autocompleteSuggestions: false
+    }
+  ]);
+});
+
+it("will call back to setSearchTerm with a specific debounce when input is changed and autocompleteSuggestions is true and a debounce is provided", () => {
+  let viewProps;
+  shallow(
+    <SearchBoxContainer
+      {...params}
+      autocompleteSuggestions={true}
+      debounceLength={500}
+      view={props => (viewProps = props)}
+    />
+  );
+
+  expect(viewProps.value).toBe("test");
+
+  viewProps.onChange("new term");
+
+  const call = params.setSearchTerm.mock.calls[0];
+  expect(call).toEqual([
+    "new term",
+    {
+      refresh: false,
+      debounce: 500,
+      autocompleteSuggestions: true,
+      autocompleteMinimumCharacters: 0,
+      autocompleteResults: false
+    }
   ]);
 });
 

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { SearchBox } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
-import { Result } from "../types";
+import { Result, Suggestion } from "../types";
 
 export class SearchBoxContainer extends Component {
   static propTypes = {
@@ -20,6 +20,10 @@ export class SearchBoxContainer extends Component {
         urlField: PropTypes.string.isRequired
       })
     ]),
+    autocompleteSuggestions: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
+    ]),
     autocompleteView: PropTypes.func,
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
@@ -28,10 +32,16 @@ export class SearchBoxContainer extends Component {
     view: PropTypes.func,
     // State
     autocompletedResults: PropTypes.arrayOf(Result).isRequired,
+    autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
+      .isRequired,
     searchTerm: PropTypes.string.isRequired,
     // Actions
     setSearchTerm: PropTypes.func.isRequired,
     trackAutocompleteClickThrough: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    autocompleteMinimumCharacters: 0
   };
 
   state = {
@@ -61,6 +71,7 @@ export class SearchBoxContainer extends Component {
     const {
       autocompleteMinimumCharacters,
       autocompleteResults,
+      autocompleteSuggestions,
       searchAsYouType,
       setSearchTerm,
       debounceLength
@@ -68,11 +79,14 @@ export class SearchBoxContainer extends Component {
 
     const options = {
       autocompleteMinimumCharacters,
-      ...((autocompleteResults || searchAsYouType) && {
+      ...((autocompleteResults ||
+        autocompleteSuggestions ||
+        searchAsYouType) && {
         debounce: debounceLength || 200
       }),
       refresh: !!searchAsYouType,
-      autocompleteResults: !!autocompleteResults
+      autocompleteResults: !!autocompleteResults,
+      autocompleteSuggestions: !!autocompleteSuggestions
     };
 
     setSearchTerm(value, options);
@@ -96,9 +110,11 @@ export class SearchBoxContainer extends Component {
   render() {
     const { isFocused } = this.state;
     const {
-      autocompleteMinimumCharacters = 0,
+      autocompleteMinimumCharacters,
       autocompleteResults,
+      autocompleteSuggestions,
       autocompletedResults,
+      autocompletedSuggestions,
       inputProps,
       onSelectAutocomplete,
       searchTerm,
@@ -107,13 +123,14 @@ export class SearchBoxContainer extends Component {
 
     const View = view || SearchBox;
     const useAutocomplete =
-      !!autocompleteResults &&
+      (!!autocompleteResults || !!autocompleteSuggestions) &&
       searchTerm.length >= autocompleteMinimumCharacters;
 
     return View({
       autocompleteResults: autocompleteResults,
+      autocompleteSuggestions: autocompleteSuggestions,
       autocompletedResults: autocompletedResults,
-      autocompletedSuggestions: {},
+      autocompletedSuggestions: autocompletedSuggestions,
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
       onChange: value => this.handleChange(value),
