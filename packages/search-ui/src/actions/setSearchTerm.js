@@ -17,6 +17,7 @@ export default function setSearchTerm(
   {
     autocompleteMinimumCharacters = 0,
     autocompleteResults = false,
+    autocompleteSuggestions = false,
     refresh = true,
     debounce = 0
   } = {}
@@ -36,14 +37,17 @@ export default function setSearchTerm(
   }
 
   if (
-    autocompleteResults &&
+    (autocompleteResults || autocompleteSuggestions) &&
     searchTerm.length > autocompleteMinimumCharacters
   ) {
     this.debounceManager.runWithDebounce(
       debounce,
       this._updateAutocomplete,
       searchTerm,
-      autocompleteResults
+      {
+        autocompleteResults,
+        autocompleteSuggestions
+      }
     );
   }
 }

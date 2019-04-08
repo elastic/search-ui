@@ -22,12 +22,21 @@ beforeEach(() => {
 describe("#setSearchTerm", () => {
   function subject(
     term,
-    { autocompleteResults, refresh, initialState = {} } = {}
+    {
+      autocompleteResults,
+      autocompleteSuggestions,
+      refresh,
+      initialState = {}
+    } = {}
   ) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
     );
-    driver.setSearchTerm(term, { autocompleteResults, refresh });
+    driver.setSearchTerm(term, {
+      autocompleteResults,
+      autocompleteSuggestions,
+      refresh
+    });
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation
@@ -179,12 +188,96 @@ describe("#setSearchTerm", () => {
     });
   });
 
+  describe("when autocompleteSuggestions is true", () => {
+    it("updates autocompletedSuggestions", () => {
+      expect(
+        subject("term", { autocompleteSuggestions: true, refresh: false }).state
+          .autocompletedSuggestions
+      ).toEqual({
+        documents: [
+          { suggestion: "carlsbad" },
+          { suggestion: "carlsbad caverns" },
+          { suggestion: "carolina" }
+        ]
+      });
+    });
+    it("Will not debounce requests if there is no debounce specified", async () => {
+      const { driver, mockApiConnector } = setupDriver();
+      driver.setSearchTerm("term", {
+        autocompleteSuggestions: true,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteSuggestions: true,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteSuggestions: true,
+        refresh: false
+      });
+      expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(3);
+    });
+    it("Will debounce requests", async () => {
+      const { driver, mockApiConnector } = setupDriver();
+      driver.setSearchTerm("term", {
+        autocompleteSuggestions: true,
+        debounce: 10,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteSuggestions: true,
+        debounce: 10,
+        refresh: false
+      });
+      driver.setSearchTerm("term", {
+        autocompleteSuggestions: true,
+        debounce: 10,
+        refresh: false
+      });
+      await waitABit(100);
+      expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(1);
+    });
+
+    describe("and autocompleteMinimumCharacters is set and less than requirement", () => {
+      it("it will not trigger", () => {
+        const { driver, mockApiConnector } = setupDriver();
+        driver.setSearchTerm("term", {
+          autocompleteMinimumCharacters: 5,
+          autocompleteSuggestions: true,
+          refresh: false
+        });
+        expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(0);
+      });
+    });
+
+    describe("and autocompleteMinimumCharacters is set and greater than requirement", () => {
+      it("it will not trigger", () => {
+        const { driver, mockApiConnector } = setupDriver();
+        driver.setSearchTerm("term", {
+          autocompleteMinimumCharacters: 2,
+          autocompleteSuggestions: true,
+          refresh: false
+        });
+        expect(getAutocompleteCalls(mockApiConnector)).toHaveLength(1);
+      });
+    });
+  });
+
   describe("when autocompleteResults is false", () => {
     it("doesn't update autocompletedResults", () => {
       expect(
         subject("term", { autocompleteResults: false }).state
           .autocompletedResults
       ).toEqual([]);
+    });
+  });
+
+  describe("when autocompleteSuggestions is false", () => {
+    it("doesn't update autocompletedSuggestions", () => {
+      expect(
+        subject("term", { autocompleteSuggestions: false }).state
+          .autocompletedSuggestions
+      ).toEqual({});
     });
   });
 });
