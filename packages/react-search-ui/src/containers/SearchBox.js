@@ -125,10 +125,18 @@ export class SearchBoxContainer extends Component {
     const useAutocomplete =
       (!!autocompleteResults || !!autocompleteSuggestions) &&
       searchTerm.length >= autocompleteMinimumCharacters;
+    const autocompletedSuggestionsCount = Object.entries(
+      autocompletedSuggestions
+      // eslint-disable-next-line no-unused-vars
+    ).reduce((acc, [_, value]) => acc + value.length, 0);
+    const allAutocompletedItemsCount =
+      autocompletedSuggestionsCount + autocompletedResults.length;
 
     return View({
+      allAutocompletedItemsCount: allAutocompletedItemsCount,
       autocompleteResults: autocompleteResults,
       autocompleteSuggestions: autocompleteSuggestions,
+      autocompletedSuggestionsCount: autocompletedSuggestionsCount,
       autocompletedResults: autocompletedResults,
       autocompletedSuggestions: autocompletedSuggestions,
       isFocused: isFocused,

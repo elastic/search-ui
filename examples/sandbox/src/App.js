@@ -84,6 +84,13 @@ export default function App() {
                 raw: {}
               }
             }
+          },
+          suggestions: {
+            types: {
+              documents: {
+                fields: ["title"]
+              }
+            }
           }
         },
         apiConnector: connector
@@ -103,6 +110,11 @@ export default function App() {
                     urlField: "nps_link",
                     shouldTrackClickThrough: true,
                     clickThroughTags: ["test"]
+                  }}
+                  autocompleteSuggestions={{
+                    documents: {
+                      sectionTitle: "Suggested Queries"
+                    }
                   }}
                 />
               }

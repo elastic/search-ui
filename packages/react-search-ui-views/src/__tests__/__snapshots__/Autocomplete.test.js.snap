@@ -10,7 +10,9 @@ exports[`renders correctly 1`] = `
     >
       Results
     </div>
-    <ul>
+    <ul
+      className="sui-search-box__results-list"
+    >
       <li
         index={0}
         item={
@@ -83,7 +85,9 @@ exports[`renders correctly 1`] = `
     >
       Suggested
     </div>
-    <ul>
+    <ul
+      className="sui-search-box__suggestion-list"
+    >
       <li
         index={3}
         item={
@@ -132,7 +136,9 @@ exports[`renders correctly 1`] = `
     >
       Popular
     </div>
-    <ul>
+    <ul
+      className="sui-search-box__suggestion-list"
+    >
       <li
         index={6}
         item={
