@@ -38,7 +38,7 @@ export default function setSearchTerm(
 
   if (
     (autocompleteResults || autocompleteSuggestions) &&
-    searchTerm.length > autocompleteMinimumCharacters
+    searchTerm.length >= autocompleteMinimumCharacters
   ) {
     this.debounceManager.runWithDebounce(
       debounce,
