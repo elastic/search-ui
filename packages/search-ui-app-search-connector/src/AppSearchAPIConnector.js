@@ -79,6 +79,7 @@ export default class AppSearchAPIConnector {
 
   async autocomplete({ searchTerm }, queryConfig) {
     const autocompletedState = {};
+    let promises = [];
 
     if (queryConfig.results) {
       const {
@@ -108,10 +109,26 @@ export default class AppSearchAPIConnector {
         ...this.additionalOptions(withQueryConfigOptions)
       };
 
-      const response = await this.client.search(query, options);
-      autocompletedState.autocompletedResults = adaptResponse(response).results;
+      promises.push(
+        this.client.search(query, options).then(response => {
+          autocompletedState.autocompletedResults = adaptResponse(
+            response
+          ).results;
+        })
+      );
     }
 
+    if (queryConfig.suggestions) {
+      promises.push(
+        this.client
+          .querySuggestion(searchTerm, queryConfig.suggestions)
+          .then(response => {
+            autocompletedState.autocompletedSuggestions = response.results;
+          })
+      );
+    }
+
+    await Promise.all(promises);
     return autocompletedState;
   }
 }
