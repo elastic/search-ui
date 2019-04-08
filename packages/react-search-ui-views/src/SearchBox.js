@@ -10,8 +10,7 @@ import Autocomplete from "./Autocomplete";
 function SearchBox(props) {
   const {
     autocompleteResults,
-    autocompletedResults,
-    autocompletedSuggestions,
+    allAutocompletedItemsCount,
     autocompleteView,
     isFocused,
     inputProps,
@@ -68,10 +67,7 @@ function SearchBox(props) {
                     className: `sui-search-box__text-input ${focusedClass}`
                   })}
                 />
-                {useAutocomplete &&
-                isOpen &&
-                (autocompletedResults.length > 0 ||
-                  Object.entries(autocompletedSuggestions).length > 0) ? (
+                {useAutocomplete && isOpen && allAutocompletedItemsCount > 0 ? (
                   <AutocompleteView {...props} {...downshiftProps} />
                 ) : null}
               </div>
@@ -90,6 +86,12 @@ function SearchBox(props) {
 
 SearchBox.propTypes = {
   // Provided by container
+  allAutocompletedItemsCount: PropTypes.number.isRequired,
+  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
+  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
+    .isRequired,
+  autocompletedSuggestionsCount: PropTypes.number.isRequired,
+  notifyAutocompleteSelected: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
@@ -102,10 +104,6 @@ SearchBox.propTypes = {
       sectionTitle: PropTypes.string
     })
   ]),
-  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
-  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
-    .isRequired,
-  notifyAutocompleteSelected: PropTypes.func.isRequired,
   autocompleteView: PropTypes.func,
   autocompleteSuggestions: PropTypes.objectOf(
     PropTypes.shape({

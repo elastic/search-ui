@@ -41,6 +41,87 @@ it("will keep focus prop in sync with view component", () => {
   expect(viewProps.isFocused).toBe(false);
 });
 
+describe("autocompletedSuggestionsCount", () => {
+  it("will calculate the total count of all suggestions", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompletedSuggestions={{
+          documents: [
+            { suggestion: "carlsbad" },
+            { suggestion: "carlsbad caverns" },
+            { suggestion: "carolina" }
+          ],
+          other: [],
+          another: [{ suggestion: "carlsbad" }]
+        }}
+        view={props => (viewProps = props)}
+      />
+    );
+    viewProps.onChange("new term");
+    expect(viewProps.autocompletedSuggestionsCount).toBe(4);
+  });
+
+  it("will calculate the total count of all suggestions when there are none", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompletedSuggestions={{}}
+        autocompleteSuggestions={false}
+        view={props => (viewProps = props)}
+      />
+    );
+    viewProps.onChange("new term");
+    expect(viewProps.autocompletedSuggestionsCount).toBe(0);
+  });
+});
+
+describe("allAutocompletedItemsCount", () => {
+  it("will calculate the total count of all autocomplete items", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompletedResults={[{ id: { raw: 1 } }, { id: { raw: 2 } }]}
+        autocompletedSuggestions={{
+          documents: [
+            { suggestion: "carlsbad" },
+            { suggestion: "carlsbad caverns" },
+            { suggestion: "carolina" }
+          ],
+          other: [],
+          another: [{ suggestion: "carlsbad" }]
+        }}
+        view={props => (viewProps = props)}
+      />
+    );
+    viewProps.onChange("new term");
+    expect(viewProps.allAutocompletedItemsCount).toBe(6);
+  });
+
+  it("will calculate the total count of all autocomplete items when there are none", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={false}
+        autocompletedResults={[]}
+        autocompleteSuggestions={false}
+        autocompletedSuggestions={{}}
+        view={props => (viewProps = props)}
+      />
+    );
+    viewProps.onChange("new term");
+    expect(viewProps.allAutocompletedItemsCount).toBe(0);
+  });
+});
+
 describe("useAutocomplete", () => {
   it("will be true if autocompleteResults configuration has been provided", () => {
     let viewProps;
