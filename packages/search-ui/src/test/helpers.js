@@ -1,5 +1,19 @@
 import SearchDriver from "../SearchDriver";
 
+const suggestions = {
+  documents: [
+    {
+      suggestion: "carlsbad"
+    },
+    {
+      suggestion: "carlsbad caverns"
+    },
+    {
+      suggestion: "carolina"
+    }
+  ]
+};
+
 const searchResponse = {
   totalResults: 1000,
   totalPages: 100,
@@ -13,7 +27,8 @@ export function getMockApiConnector() {
     autocomplete: jest.fn().mockReturnValue({
       then: cb =>
         cb({
-          autocompletedResults: searchResponse.results
+          autocompletedResults: searchResponse.results,
+          autocompletedSuggestions: suggestions
         })
     }),
     search: jest.fn().mockReturnValue({ then: cb => cb(searchResponse) }),

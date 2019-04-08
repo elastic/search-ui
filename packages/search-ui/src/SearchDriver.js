@@ -34,6 +34,7 @@ export const DEFAULT_STATE = {
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
   autocompletedResults: [],
+  autocompletedSuggestions: {},
   error: "",
   isLoading: false,
   facets: {},
@@ -149,12 +150,18 @@ export default class SearchDriver {
     }
   }
 
-  _updateAutocomplete = (searchTerm, autocompleteResults) => {
+  _updateAutocomplete = (
+    searchTerm,
+    { autocompleteResults, autocompleteSuggestions } = {}
+  ) => {
     const requestId = this.requestSequencer.next();
 
     const queryConfig = {
       ...(autocompleteResults && {
         results: this.autocompleteQuery.results || {}
+      }),
+      ...(autocompleteSuggestions && {
+        suggestions: this.autocompleteQuery.suggestions || {}
       })
     };
 
