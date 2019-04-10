@@ -146,13 +146,15 @@ It is not directly update-able.
 
 It is updated indirectly by invoking an action which results in a new API request.
 
-| field              | type                                                                                                           | description                                                                                                                                                                                                                                                               |
-| ------------------ | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `facets`           | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]  | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
-| `requestId`        | String                                                                                                         | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`          | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)] | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm` | String                                                                                                         | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`     | Integer                                                                                                        | Total number of results found for the current query                                                                                                                                                                                                                       |
+| field                      | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`     | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedSuggestions` | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `facets`                   | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
+| `requestId`                | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`                  | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm`         | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`             | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
 
 #### Application State
 
@@ -711,6 +713,31 @@ For example, if you add a `search_fields` configuration option, it will control 
 | `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
 | `result_fields`                  | Object[String, Object]   | optional  | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
 
+## Suggestions Query Config
+
+Suggestions Query configuration for Search UI largely follows the same API as the [App Search Search API](https://swiftype.com/documentation/app-search/api/query-suggestion).
+
+Ex.
+
+```
+{
+  "types": {
+    "documents": {
+      "fields": [
+        "title",
+        "states"
+      ]
+    }
+  },
+  "size": 4
+}
+```
+
+| option  | type    | required? | source                                                                                       |
+| ------- | ------- | --------- | -------------------------------------------------------------------------------------------- |
+| `types` | Object  | required  | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
+| `size`  | Integer | optional  | Number of suggestions to return.                                                             |
+
 ## API Config
 
 Search UI makes all of the search API calls for your application.
@@ -806,20 +833,22 @@ need to have in common is an `additionalOptions` parameter.
 
 #### Methods
 
-| method              | params                                        | return                            | description                                                                                                                                         |
-| ------------------- | --------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `click`             | `props` - Object                              |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
-|                     | - `documentId` - String                       |                                   | The id of the result that a user clicked.                                                                                                           |
-|                     | - `requestId` - String                        |                                   | A unique id that ties the click to a particular search request.                                                                                     |
-|                     | - `tags` - Array[String]                      |                                   | Tags used for analytics.                                                                                                                            |
-| `search`            | `state` - [Request State](#request-state)     | [Response State](#response-state) |                                                                                                                                                     |
-|                     | `queryConfig` - [Query Config](#query-config) |                                   |                                                                                                                                                     |
-| `autocompleteClick` | `props` - Object                              |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
-|                     | - `documentId` - String                       |                                   | The id of the result that a user clicked.                                                                                                           |
-|                     | - `requestId` - String                        |                                   | A unique id that ties the click to a particular search request.                                                                                     |
-|                     | - `tags` - Array[String]                      |                                   | Tags used for analytics.                                                                                                                            |
-| `autocomplete`      | `state` - [Request State](#request-state)     | [Response State](#response-state) |                                                                                                                                                     |
-|                     | `queryConfig` - [Query Config](#query-config) |                                   |                                                                                                                                                     |
+| method              | params                                                                  | return                            | description                                                                                                                                         |
+| ------------------- | ----------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `click`             | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                     | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                     | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                     | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `search`            | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                     | `queryConfig` - [Query Config](#query-config)                           |                                   |                                                                                                                                                     |
+| `autocompleteClick` | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                     | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                     | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                     | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `autocomplete`      | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                     | `queryConfig` - Object                                                  |                                   |                                                                                                                                                     |
+|                     | - `results` - [Query Config](#query-config)                             |                                   | If this is set, results should be returned for autocomplete.                                                                                        |
+|                     | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |                                   | If this is set, query suggestions should be returned for autocomplete.                                                                              |
 
 #### Errors
 
