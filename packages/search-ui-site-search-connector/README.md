@@ -11,12 +11,13 @@ creating the connector.
 Note that Site Search does not support certain features of Search UI:
 
 - `disjunctiveFacets` or `disjunctiveFacetsAnalyticsTags` configuration options
-- Only `value` facets are allowed
+- Only `value` facets are allowed, no `range` facet support.
 - `sort` option is not supported on facets.
 - `size` option is not supported on facets.
 - Does not support multiple filters applied to a single field.
 - Cannot apply more than 1 range filter on a single field.
 - Analytics tags are not supported in `click`.
+- `suggestions` are not supported in autocomplete, only `results`
 
 ## Usage
 

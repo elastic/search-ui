@@ -10,8 +10,8 @@
 
 # Headless Core
 
-+ [Headless Core Concepts](#headless-core-concepts)
-+ [Headless Core Application](#headless-core-application)
+- [Headless Core Concepts](#headless-core-concepts)
+- [Headless Core Application](#headless-core-application)
 
 ## Headless Core Concepts
 
@@ -66,9 +66,9 @@ It exposes the [State](#state) and [Actions](#actions) of the core in a [Context
 
 Params:
 
-| name     | type     | description                                                                                                                                                                                                                                    |
-| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config   | Object   | See the [Configuration Options](#config) section.                                                                                                                                                                                              |
+| name     | type     | description                                                                                                         |
+| -------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| config   | Object   | See the [Configuration Options](#config) section.                                                                   |
 | children | function | A render prop function that accepts the [Context](#context) as a parameter. <br/><br/>`(context) => return <div />` |
 
 ### Context
@@ -94,18 +94,18 @@ ex.
 
 ### Actions
 
-| method              | params                                                                                                                                                                                     | return | description                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | -------------------------------------------------------------------------- |
-| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                                      |        | Add a filter in addition to current filters values.                        |
-| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                                      |        | Set a filter value, replacing current filter values.                       |
-| `removeFilter`      | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                                      |        | Remove a single filter value.                                              |
-| `reset`             |                                                                                                                                                                                            |        | Reset state to initial search state.                                       |
-| `clearFilters`      |                                                                                                                                                                                            |        | Clear all filters.                                                         |
-| `setCurrent`        | Integer                                                                                                                                                                                    |        | Update the current page number. Used for paging.                           |
-| `setResultsPerPage` | Integer                                                                                                                                                                                    |        |                                                                            |
-| `setSearchTerm`     | `searchTerm` String<br/> `options` Object<br/>`options.refresh` Boolean - Refresh search results on update. Default: `true`.<br/>`debounce` Number - Length to debounce if using `refresh` |        |                                                                            |
-| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                                         |        |                                                                            |
-| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event                 |        | Report a clickthrough event, which is when a user clicks on a result link. |
+| method              | params                                                                                                                                                                                                                                                                                                                                                                                                                                                           | return | description                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------- |
+| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                                                                                                                                                                                                                                                                                                            |        | Add a filter in addition to current filters values.                        |
+| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                                                                                                                                                                                                                                                                                                            |        | Set a filter value, replacing current filter values.                       |
+| `removeFilter`      | `name` String - field name to filter on<br/>`value` String - field value to filter on                                                                                                                                                                                                                                                                                                                                                                            |        | Remove a single filter value.                                              |
+| `reset`             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |        | Reset state to initial search state.                                       |
+| `clearFilters`      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |        | Clear all filters.                                                         |
+| `setCurrent`        | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                          |        | Update the current page number. Used for paging.                           |
+| `setResultsPerPage` | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                          |        |                                                                            |
+| `setSearchTerm`     | `searchTerm` String<br/> `options` Object<br/>`options.refresh` Boolean - Refresh search results on update. Default: `true`.<br/>`options.debounce` Number - Length to debounce any resulting queries<br/>`options.autocompleteSuggestions` Boolean - Fetch query suggestions for autocomplete on update, stored in `autocompletedSuggestions` state<br/>`options.autocompleteResults` Boolean - Fetch results on update, stored in `autocompletedResults` state |        |                                                                            |
+| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                                                                                                                                                                                                                                                                                                               |        |                                                                            |
+| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event                                                                                                                                                                                                                                                                                       |        | Report a clickthrough event, which is when a user clicks on a result link. |
 
 ### State
 
@@ -117,7 +117,7 @@ State can be divided up into two types.
 
 For this reason, there are often multiple versions of state. For instance, `searchTerm` and `resultSearchTerm`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER a response is received, so you'd use the `resultSearchTerm` state.
 
-#### 1. Request State
+#### Request State
 
 Reflects the state of the most recent request.
 
@@ -138,7 +138,7 @@ Request state can be set by:
 | `sortDirection`  | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
 | `sortField`      | String                                 | optional  | Name of field to sort on               |
 
-#### 2. Response State
+#### Response State
 
 Response State is updated AFTER an API response is received.
 
@@ -146,15 +146,17 @@ It is not directly update-able.
 
 It is updated indirectly by invoking an action which results in a new API request.
 
-| field              | type                                   | description                                                                                                                                                                                                                                                               |
-| ------------------ | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `facets`           | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]  | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                                                     |
-| `requestId`        | String                                 | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`          | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)] | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm` | String                                 | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`     | Integer                                | Total number of results found for the current query                                                                                                                                                                                                                       |
+| field                      | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`     | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedSuggestions` | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `facets`                   | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
+| `requestId`                | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`                  | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm`         | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`             | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
 
-#### 3. Application State
+#### Application State
 
 Application state is the general application state.
 
@@ -271,12 +273,34 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name            | type      | Required? | Default                                                | Options | Description                                                                                                                                                                  |
-| --------------- | --------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| inputProps      | Object    | no        |                                                        |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                   |
-| searchAsYouType | Boolean   | no        | false                                                  |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                 |
-| debounceLength  | Number    | no        | 200                                                    |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait. |
-| view            | Component | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.    
+| Name                          | type                                                                         | Required? | Default                                                            | Options | Description                                                                                                                                                                  |
+| ----------------------------- | ---------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| inputProps                    | Object                                                                       | no        |                                                                    |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                   |
+| searchAsYouType               | Boolean                                                                      | no        | false                                                              |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                 |
+| debounceLength                | Number                                                                       | no        | 200                                                                |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait. |
+| view                          | Component                                                                    | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js)       |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.             |
+| autocompleteResults           | Boolean or [AutocompleteResultsOptions](#AutocompleteResultsOptions)         | Object    | no                                                                 |         | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                              |  |
+| autocompleteQuerySuggestions  | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views.                                                           |  |
+| autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                          |
+| autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                 |
+| onSelectAutocomplete          | Function                                                                     | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view.                                                                                            |
+
+#### AutocompleteResultsOptions
+
+| Name                    | type          | Required? | Default | Options | Description                                              |
+| ----------------------- | ------------- | --------- | ------- | ------- | -------------------------------------------------------- |
+| linkTarget              | String        | no        | \_self  |         | Used to open links in a new tab                          |
+| sectionTitle            | String        | no        |         |         | Title to show in section within dropdown                 |
+| shouldTrackClickThrough | Boolean       | no        | true    |         | Only applies to Results, not Suggestions                 |
+| clickThroughTags        | Array[String] | no        |         |         | Tags to send to analytics API when tracking clickthrough |
+| titleField              | String        | yes       |         |         | Field within a Result to use as the "title"              |
+| urlField                | String        | yes       |         |         | Field within a Result to use for linking                 |
+
+#### AutocompleteSuggestionsOptions
+
+| Name         | type   | Required? | Default | Options | Description                              |
+| ------------ | ------ | --------- | ------- | ------- | ---------------------------------------- |
+| sectionTitle | String | no        |         |         | Title to show in section within dropdown |
 
 ---
 
@@ -299,12 +323,12 @@ import { Results } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name         | type      | Required? | Default                                            | Options | Description                                                                                                                                         |
-| ------------ | --------- | --------- | -------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| renderResult | Component | no        | [Result](packages/react-search-ui-views/src/Result.js)   |         | Used to override individual Result views. See the Customizing Component views and html section for more information.                                |
-| titleField   | String    | no        |                                                    |         | Name of field to use as the title from each result.                                                                                                 |
-| urlField     | String    | no        |                                                    |         | Name of field to use as the href from each result.                                                                                                  |
-| view         | Component | no        | [Results](packages/react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.|
+| Name         | type      | Required? | Default                                                  | Options | Description                                                                                                                                          |
+| ------------ | --------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| renderResult | Component | no        | [Result](packages/react-search-ui-views/src/Result.js)   |         | Used to override individual Result views. See the Customizing Component views and html section for more information.                                 |
+| titleField   | String    | no        |                                                          |         | Name of field to use as the title from each result.                                                                                                  |
+| urlField     | String    | no        |                                                          |         | Name of field to use as the href from each result.                                                                                                   |
+| view         | Component | no        | [Results](packages/react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -327,8 +351,8 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type      | Required? | Default                                                          | Options | Description                                                                                                                                         |
-| ---- | --------- | --------- | ---------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name | type      | Required? | Default                                                                | Options | Description                                                                                                                                          |
+| ---- | --------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | view | Component | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
@@ -361,11 +385,11 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 ### Properties
 
-| Name  | type      | Required? | Default                                                                  | Options                                                                                                                                           | Description                                                                                                                                         |
-| ----- | --------- | --------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| field | String    | yes       |                                                                          |                                                                                                                                                   | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.      |
-| label | String    | yes       |                                                                          |                                                                                                                                                   | A static label to show in the facet filter.                                                                                                         |
-| show  | Number    | no        | 10                                                                       |                                                                                                                                                   | The number of facet filter options to show before concatenating with a "more" link.                                                                 |
+| Name  | type      | Required? | Default                                                                        | Options                                                                                                                                                       | Description                                                                                                                                          |
+| ----- | --------- | --------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| field | String    | yes       |                                                                                |                                                                                                                                                               | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.       |
+| label | String    | yes       |                                                                                |                                                                                                                                                               | A static label to show in the facet filter.                                                                                                          |
+| show  | Number    | no        | 10                                                                             |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                  |
 | view  | Component | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
@@ -400,10 +424,10 @@ import { Sorting } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type                                           | Required? | Default                                            | Options | Description                                                                                                                                         |
-| ---- | ---------------------------------------------- | --------- | -------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | yes       |                                                    |         |                                                                                                                                                     |
-| view | Component                                      | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name | type                                                                  | Required? | Default                                                  | Options | Description                                                                                                                                          |
+| ---- | --------------------------------------------------------------------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| view | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | yes       |                                                          |         |                                                                                                                                                      |
+| view | Component                                                             | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -424,8 +448,8 @@ import { Paging } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type      | Required? | Default                                          | Options | Description                                                                                                                                         |
-| ---- | --------- | --------- | ------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name | type      | Required? | Default                                                | Options | Description                                                                                                                                          |
+| ---- | --------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | view | Component | no        | [Paging](packages/react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
@@ -447,8 +471,8 @@ import { PagingInfo } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type      | Required? | Default                                                  | Options | Description                                                                                                                                         |
-| ---- | --------- | --------- | -------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name | type      | Required? | Default                                                        | Options | Description                                                                                                                                          |
+| ---- | --------- | --------- | -------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | view | Component | no        | [PagingInfo](packages/react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
@@ -471,16 +495,16 @@ import { ErrorBoundary } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name     | type       | Required? | Default                                                        | Options | Description                                                                                                                                         |
-| -------- | ---------- | --------- | -------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| children | React node | yes       |                                                                |         | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                              |
+| Name     | type       | Required? | Default                                                              | Options | Description                                                                                                                                          |
+| -------- | ---------- | --------- | -------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| children | React node | yes       |                                                                      |         | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                               |
 | view     | Component  | no        | [ErrorBoundary](packages/react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 # Customization
 
-* [Custom Styles and Layout](#custom-styles-and-layout)
-* [Component Views and HTML](#component-views-and-html)
-* [Component Behaviour](#component-behaviour)
+- [Custom Styles and Layout](#custom-styles-and-layout)
+- [Component Views and HTML](#component-views-and-html)
+- [Component Behaviour](#component-behaviour)
 
 ## Custom Styles and Layout
 
@@ -561,13 +585,13 @@ return <PagingInfo view={PagingInfoView} />;
 All Components support two hooks for customizing their behavior.
 
 1. `mapContextToProps` - Override the Context before it is passed to your Component as
-  props.
+   props.
 2. `mapViewProps` - Lets you overrides view props before they are passed to the view.
 
 These allow you to override, modify, or even add completely new props.
 
-* These follow the same patterns as `mapStateToProps` in [Redux](https://redux.js.org/).
-* These **MUST** be immutable functions, if you directly update the props or context, you will have major issues in your application.
+- These follow the same patterns as `mapStateToProps` in [Redux](https://redux.js.org/).
+- These **MUST** be immutable functions, if you directly update the props or context, you will have major issues in your application.
 
 To visualize these hooks:
 
@@ -629,39 +653,41 @@ All configuration for Search UI is provided in a single configuration object.
 ```jsx
 const configurationOptions = {
   apiConnector: connector,
-  disjunctiveFacets: ["acres"],
-  disjunctiveFacetsAnalyticsTags: ["Ignore"],
-  search_fields: {
-    title: {},
-    description: {}
-  },
-  result_fields: {
-    title: {
-      snippet: {
-        size: 100,
-        fallback: true
+  searchQuery: {
+    disjunctiveFacets: ["acres"],
+    disjunctiveFacetsAnalyticsTags: ["Ignore"],
+    search_fields: {
+      title: {},
+      description: {}
+    },
+    result_fields: {
+      title: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
+      },
+      nps_link: {
+        raw: {}
+      },
+      description: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
       }
     },
-    nps_link: {
-      raw: {}
-    },
-    description: {
-      snippet: {
-        size: 100,
-        fallback: true
+    facets: {
+      states: { type: "value", size: 30 },
+      acres: {
+        type: "range",
+        ranges: [
+          { from: -1, name: "Any" },
+          { from: 0, to: 1000, name: "Small" },
+          { from: 1001, to: 100000, name: "Medium" },
+          { from: 100001, name: "Large" }
+        ]
       }
-    }
-  },
-  facets: {
-    states: { type: "value", size: 30 },
-    acres: {
-      type: "range",
-      ranges: [
-        { from: -1, name: "Any" },
-        { from: 0, to: 1000, name: "Small" },
-        { from: 1001, to: 100000, name: "Medium" },
-        { from: 100001, name: "Large" }
-      ]
     }
   }
 };
@@ -680,21 +706,17 @@ return (
 );
 ```
 
-There are 3 types of configuration:
-
-- [Application Config](#application-config)
-- [Query Config](#query-config)
-- [API Config](#api-config)
-
-## Application Config
-
 **It is helpful to [read the section on the headless core](#headless-core) first!**
 
-| option          | type         | required? | source                                                                                                                                                                                                                    |
-| --------------- | ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apiConnector`  | APIConnector | required  | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                               |
-| `initialState`  | Object       | optional  | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
-| `trackURLState` | boolean      | optional  | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                           |
+| option              | type                                                                    | required? | source                                                                                                                                                                                                                                                   |
+| ------------------- | ----------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiConnector`      | APIConnector                                                            | required  | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                                                                        |
+| `autocompleteQuery` | Object                                                                  | optional  | Configuration options for the main search query.                                                                                                                                                                                                         |
+|                     | - `results` - [Query Config](#query-config)                             |           | Configuration options for results query, used by autocomplete.                                                                                                                                                                                           |
+|                     | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |           | Configuration options for suggestions query, used by autocomplete.                                                                                                                                                                                       |
+| `initialState`      | Object                                                                  | optional  | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
+| `searchQuery`       | [Query Config](#query-config)                                           | optional  | Configuration options for the main search query.                                                                                                                                                                                                         |
+| `trackURLState`     | boolean                                                                 | optional  | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
 
 ## Query Config
 
@@ -702,14 +724,40 @@ Query configuration for Search UI largely follows the same API as the [App Searc
 
 For example, if you add a `search_fields` configuration option, it will control which fields are actually returned from the API.
 
-| option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `facets`                         | Object                   | optional  | [App Search Facets API Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                              |
-| `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
-| `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
-| `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
-| `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
-| `result_fields`                  | Object[String, Object]   | optional  | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                 
+| option                             | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `facets`                           | Object                   | optional  | [App Search Facets API Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                              |
+| `disjunctiveFacets`                | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
+| `disjunctiveFacetsAnalyticsTags`   | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
+| `conditionalFacets`                | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
+| `search_fields`                    | Object[String, Object]   | optional  | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
+| `result_fields`                    | Object[String, Object]   | optional  | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
+| \* [Request State](#request_state) |                          |           | Any request state value can be provided here. If provided, it will ALWAYS override the value from state.                                                                                                                                                                                                                                                                                                                       |
+
+## Suggestions Query Config
+
+Suggestions Query configuration for Search UI largely follows the same API as the [App Search Search API](https://swiftype.com/documentation/app-search/api/query-suggestion).
+
+Ex.
+
+```
+{
+  "types": {
+    "documents": {
+      "fields": [
+        "title",
+        "states"
+      ]
+    }
+  },
+  "size": 4
+}
+```
+
+| option  | type    | required? | source                                                                                       |
+| ------- | ------- | --------- | -------------------------------------------------------------------------------------------- |
+| `types` | Object  | required  | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
+| `size`  | Integer | optional  | Number of suggestions to return.                                                             |
 
 ## API Config
 
@@ -741,9 +789,9 @@ const connector = new AppSearchAPIConnector({
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
-***
+---
 
-We provide a variety of out of the box.
+We provide a variety of Components out of the box.
 
 There might be cases where we do not have the Component you need.
 
@@ -777,37 +825,56 @@ export default withSearch(ClearFilters);
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
-***
+---
 
-We provide a variety of out of the box.
+While we do provide out-of-the-box Connectors, it is also possible to create
+your own Connector if you don't see your service in the list above. Connectors
+just need to implement a common interface that Search UI understands.
 
-There might be cases where we do not have the Component you need.
+An example of this is the [Site Search API Connector](../search-ui-site-search-connector/README.md).
 
-In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
-called [withSearch](./src/withSearch.js).
+What you're effectively doing here is two things:
 
-It gives you access to work directly with Search UI's [Context](#headless-core#headless-core-concepts).
+1. Converting the current [Request State](#request-state) and [Query Config](#query-config) into the search semantics of
+   your particular Search API.
+2. Converting the response from your particular Search API into [Response State](#response-state).
 
-This lets you create your own Components for Search UI.
+<a id="connectorconfig"></a>
 
-Ex. Creating a Component for clearing all filters
+#### Configuration
 
-```jsx
-import React from "react";
-import { withSearch } from "@elastic/react-search-ui";
+Each Connector will need to be instantiated with its own set of properties. The only properties that Connectors
+need to have in common is an `additionalOptions` parameter.
 
-function ClearFilters({ filters, clearFilters }) {
-  return (
-    <div>
-      <button onClick={() => clearFilters()}>
-        Clear {filters.length} Filters
-      </button>
-    </div>
-  );
-}
+| option              | type             | required? | source                                                                                                                                                                        |
+| ------------------- | ---------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `additionalOptions` | Function(Object) | optional  | A hook that allows you to inject additional, API specific configuration. More information can be found in the [Customizing API calls - additionalOptions](#apicalls) section. |
 
-export default withSearch(ClearFilters);
-```
+<a id="connectormethods"></a>
+
+#### Methods
+
+| method              | params                                                                  | return                            | description                                                                                                                                         |
+| ------------------- | ----------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `click`             | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                     | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                     | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                     | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `search`            | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                     | `queryConfig` - [Query Config](#query-config)                           |                                   |                                                                                                                                                     |
+| `autocompleteClick` | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                     | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                     | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                     | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `autocomplete`      | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                     | `queryConfig` - Object                                                  |                                   |                                                                                                                                                     |
+|                     | - `results` - [Query Config](#query-config)                             |                                   | If this is set, results should be returned for autocomplete.                                                                                        |
+|                     | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |                                   | If this is set, query suggestions should be returned for autocomplete.                                                                              |
+
+#### Errors
+
+For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
+includes things like 404s, 500s, etc.
 
 # Search UI Contributor's Guide
 
@@ -826,8 +893,8 @@ Lerna configuration is contained in `lerna.json`.
 
 - `/packages` - Contains publishable search-ui npm packages.
 - `/examples` - Contains non-publishable examples of search-ui usage. They are declared
-as "packages" in `lerna.json` so that `npx lerna bootstrap` will automatically wire up the
-examples to local dependencies.
+  as "packages" in `lerna.json` so that `npx lerna bootstrap` will automatically wire up the
+  examples to local dependencies.
 
 Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and `test`), the `--no-private` flag should be appended.
 
