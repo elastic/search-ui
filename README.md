@@ -192,14 +192,14 @@ Each Component - like `SearchBox` and `Results` - is a child of the `SearchProvi
 
 The following Components are available:
 
-* SearchBox
-* Results
-* ResultsPerPage
-* Facet
-* Sorting
-* Paging
-* PagingInfo
-* ErrorBoundary
+- SearchBox
+- Results
+- ResultsPerPage
+- Facet
+- Sorting
+- Paging
+- PagingInfo
+- ErrorBoundary
 
 Read the [Component Reference](./ADVANCED.md#component-reference) for a breakdown.
 
