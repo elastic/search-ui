@@ -910,33 +910,26 @@ cause the examples applications to error out from dependency version conflicts.
 
 ### Building
 
-All packages:
+For all projects, run from project root. For single project, run from
+package root.
 
 ```shell
-# from project root
+# Build
 npm run build
-```
 
-Single package:
-
-```shell
-# from inside a package
-npm run build
+# Watch for changes and re-build
+npm run watch
 ```
 
 ### Testing
 
+For all projects, run from project root. For single project, run from
+package root.
+
 All packages:
 
 ```shell
 # from project root
-npm run test
-```
-
-Single package:
-
-```shell
-# from inside a package
 npm run test
 ```
 
@@ -944,30 +937,28 @@ npm run test
 
 The [sandbox](examples/sandbox/README.md) app can be used as a local development aid.
 
-## Using
-
 ### Publishing
 
-```
-# Check which files have been changed, verify that
-# the packages you expect to be changed are listed.
-npm run changed
+Always publish from a version branch, do not publish from master.
 
-git checkout -b "release-0.2.1"
+Publish new version
+(Example, publish 0.6.0)
 
-# Manually update CHANGELOG files for updated repositories and commit them.
+1. Create new version branch `git checkout -b v0.6`.
+2. Run `npx lerna changed` to see which projects will be published.
+3. Update `CHANGELOG` files to include version `v0.6` for the projects that will be published.
+4. Run `npx lerna version 0.6 --exact`.
+5. Verify correct tags and commits have been created.
+6. Run `npx lerna publish --from-git`.
+7. Verify `0.6` has been published to npm.
 
-# Creates a new local commit with updated package.json files and tags. It's important
-that you do not rewrite history after this release commit has been created.
-npx lerna version 0.2.1 --no-push
+Publish patch version
+(Example, publish 0.6.1)
 
-git push --tags
-
-# Go through PR approval and rebase+merge to master. Do not create a merge commit, it will throw off the `lerna changed` command
-
-git checkout master
-git pull
-
-# Then finally, publish
-npm run publish
-```
+1. PR changes into `v0.6` branch.
+2. Run `npx lerna changed` to see which projects will be published.
+3. Update `CHANGELOG` files to include version `0.6.1` for the projects that will be published.
+4. Run `npx lerna version 0.6.1 --exact`.
+5. Verify correct tags and commits have been created.
+6. Run `npx lerna publish --from-git`.
+7. Verify `0.6.1` has been published to npm.
