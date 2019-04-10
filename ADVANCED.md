@@ -273,12 +273,33 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name            | type      | Required? | Default                                                      | Options | Description                                                                                                                                                                  |
-| --------------- | --------- | --------- | ------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| inputProps      | Object    | no        |                                                              |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                   |
-| searchAsYouType | Boolean   | no        | false                                                        |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                 |
-| debounceLength  | Number    | no        | 200                                                          |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait. |
-| view            | Component | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.             |
+| Name                          | type                                                                         | Required? | Default                                                      | Options | Description                                                                                                                                                                  |
+| ----------------------------- | ---------------------------------------------------------------------------- | --------- | ------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| inputProps                    | Object                                                                       | no        |                                                              |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                   |
+| searchAsYouType               | Boolean                                                                      | no        | false                                                        |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                 |
+| debounceLength                | Number                                                                       | no        | 200                                                          |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait. |
+| view                          | Component                                                                    | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js) |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.             |
+| autocompleteResults           | Boolean or [AutocompleteResultsOptions](#AutocompleteResultsOptions)         | Object    | no                                                           |         |                                                                                                                                                                              |  |
+| autocompleteQuerySuggestions  | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                           |         |                                                                                                                                                                              |  |
+| autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                            |         |                                                                                                                                                                              |
+| onSelectAutocomplete          | Function                                                                     | no        |                                                              |         |                                                                                                                                                                              |
+
+#### AutocompleteResultsOptions
+
+| Name                    | type          | Required? | Default | Options | Description                                              |
+| ----------------------- | ------------- | --------- | ------- | ------- | -------------------------------------------------------- |
+| linkTarget              | String        | no        | \_self  |         | Used to open links in a new tab                          |
+| sectionTitle            | String        | no        |         |         | Title to show in section within dropdown                 |
+| shouldTrackClickThrough | Boolean       | no        | true    |         | Only applies to Results, not Suggestions                 |
+| clickThroughTags        | Array[String] | no        |         |         | Tags to send to analytics API when tracking clickthrough |
+| titleField              | String        | yes       |         |         | Field within a Result to use as the "title"              |
+| urlField                | String        | yes       |         |         | Field within a Result to use for linking                 |
+
+#### AutocompleteSuggestionsOptions
+
+| Name         | type   | Required? | Default | Options | Description                              |
+| ------------ | ------ | --------- | ------- | ------- | ---------------------------------------- |
+| sectionTitle | String | no        |         |         | Title to show in section within dropdown |
 
 ---
 
