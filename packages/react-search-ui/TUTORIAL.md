@@ -331,7 +331,8 @@ we support a couple of additional
 <SearchProvider
   config={{
     apiConnector: connector,
-    facets: {
+    searchQuery: {
+      facets: {
       states: { type: "value", size: 30 },
       acres: {
         type: "range",
@@ -342,6 +343,7 @@ we support a couple of additional
           { from: 100001, name: "Large" }
         ]
       }
+    }
     }
   }}
 >

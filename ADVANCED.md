@@ -631,39 +631,41 @@ All configuration for Search UI is provided in a single configuration object.
 ```jsx
 const configurationOptions = {
   apiConnector: connector,
-  disjunctiveFacets: ["acres"],
-  disjunctiveFacetsAnalyticsTags: ["Ignore"],
-  search_fields: {
-    title: {},
-    description: {}
-  },
-  result_fields: {
-    title: {
-      snippet: {
-        size: 100,
-        fallback: true
+  searchQuery: {
+    disjunctiveFacets: ["acres"],
+    disjunctiveFacetsAnalyticsTags: ["Ignore"],
+    search_fields: {
+      title: {},
+      description: {}
+    },
+    result_fields: {
+      title: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
+      },
+      nps_link: {
+        raw: {}
+      },
+      description: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
       }
     },
-    nps_link: {
-      raw: {}
-    },
-    description: {
-      snippet: {
-        size: 100,
-        fallback: true
+    facets: {
+      states: { type: "value", size: 30 },
+      acres: {
+        type: "range",
+        ranges: [
+          { from: -1, name: "Any" },
+          { from: 0, to: 1000, name: "Small" },
+          { from: 1001, to: 100000, name: "Medium" },
+          { from: 100001, name: "Large" }
+        ]
       }
-    }
-  },
-  facets: {
-    states: { type: "value", size: 30 },
-    acres: {
-      type: "range",
-      ranges: [
-        { from: -1, name: "Any" },
-        { from: 0, to: 1000, name: "Small" },
-        { from: 1001, to: 100000, name: "Medium" },
-        { from: 100001, name: "Large" }
-      ]
     }
   }
 };
@@ -682,21 +684,17 @@ return (
 );
 ```
 
-There are 3 types of configuration:
-
-- [Application Config](#application-config)
-- [Query Config](#query-config)
-- [API Config](#api-config)
-
-## Application Config
-
 **It is helpful to [read the section on the headless core](#headless-core) first!**
 
-| option          | type         | required? | source                                                                                                                                                                                                                                                   |
-| --------------- | ------------ | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apiConnector`  | APIConnector | required  | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                                                                        |
-| `initialState`  | Object       | optional  | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
-| `trackURLState` | boolean      | optional  | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
+| option              | type                                                                    | required? | source                                                                                                                                                                                                                                                   |
+| ------------------- | ----------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiConnector`      | APIConnector                                                            | required  | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                                                                        |
+| `autocompleteQuery` | Object                                                                  | optional  | Configuration options for the main search query.                                                                                                                                                                                                         |
+|                     | - `results` - [Query Config](#query-config)                             |           | Configuration options for results query, used by autocomplete.                                                                                                                                                                                           |
+|                     | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |           | Configuration options for suggestions query, used by autocomplete.                                                                                                                                                                                       |
+| `initialState`      | Object                                                                  | optional  | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
+| `searchQuery`       | [Query Config](#query-config)                                           | optional  | Configuration options for the main search query.                                                                                                                                                                                                         |
+| `trackURLState`     | boolean                                                                 | optional  | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
 
 ## Query Config
 
@@ -704,14 +702,15 @@ Query configuration for Search UI largely follows the same API as the [App Searc
 
 For example, if you add a `search_fields` configuration option, it will control which fields are actually returned from the API.
 
-| option                           | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| -------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `facets`                         | Object                   | optional  | [App Search Facets API Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                              |
-| `disjunctiveFacets`              | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
-| `disjunctiveFacetsAnalyticsTags` | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
-| `conditionalFacets`              | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
-| `search_fields`                  | Object[String, Object]   | optional  | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
-| `result_fields`                  | Object[String, Object]   | optional  | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
+| option                             | type                     | required? | source                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------------------------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `facets`                           | Object                   | optional  | [App Search Facets API Reference](https://swiftype.com/documentation/app-search/api/search/facets). Tells Search UI to fetch facet data that can be used to build [Facet](#componentfacet) Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                                              |
+| `disjunctiveFacets`                | Array[String]            | optional  | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
+| `disjunctiveFacetsAnalyticsTags`   | Array[String]            | optional  | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
+| `conditionalFacets`                | Object[String, function] | optional  | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
+| `search_fields`                    | Object[String, Object]   | optional  | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
+| `result_fields`                    | Object[String, Object]   | optional  | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
+| \* [Request State](#request_state) |                          |           | Any request state value can be provided here. If provided, it will ALWAYS override the value from state.                                                                                                                                                                                                                                                                                                                       |
 
 ## Suggestions Query Config
 
