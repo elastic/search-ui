@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
   "main": "lib",
