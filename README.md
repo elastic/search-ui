@@ -1,5 +1,6 @@
 <p align="center"><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
-<img src="https://img.shields.io/badge/version-beta-red.svg" alt="BETA" /></p>
+<img src="https://img.shields.io/badge/version-beta-red.svg" alt="BETA" />
+<a href="https://gitter.im/elastic-search-ui/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/elastic-search-ui/community.svg" alt="Gitter" /></a></p>
 
 > Libraries for the fast development of modern, engaging search experiences. :tada:
 
@@ -256,6 +257,8 @@ Read the [Build Your Own Connector Guide](./ADVANCED.md#build-your-own-connector
 If something is not working as expected, please open an [issue](https://github.com/elastic/search-ui/issues/new).
 
 ### Where can I go to get help?
+
+Connect with the community and maintainers directly on [Gitter](https://gitter.im/elastic-search-ui/community).
 
 If you are using an Elastic product as your connector, try the Elastic community...
 

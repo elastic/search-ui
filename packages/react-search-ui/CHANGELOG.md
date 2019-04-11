@@ -31,3 +31,9 @@ Breaking Changes:
 ## 0.5.1 (March 7, 2019)
 
 Fixed this error: "ReferenceError: regeneratorRuntime is not defined"
+
+## 0.5.3 (April 10, 2019)
+
+- Fixed inter-package dependencies so they are fixed to current version.
+- Reverted breaking change introduced in version 0.5.2, which moved
+  certain configuration in the SearchDriver to a 'queryConfig' property.
