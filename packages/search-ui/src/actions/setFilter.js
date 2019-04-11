@@ -7,6 +7,9 @@
  * @param value String field value to filter on
  */
 export default function setFilter(name, value) {
+  // eslint-disable-next-line no-console
+  if (this.debug) console.log("Action", "setFilter", ...arguments);
+
   let { filters } = this.state;
   filters = filters.filter(filter => filter.field !== name);
 

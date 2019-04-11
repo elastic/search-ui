@@ -8,6 +8,11 @@
  * this click event
  */
 export default function trackAutocompleteClickThrough(documentId, tags = []) {
+  if (this.debug) {
+    // eslint-disable-next-line no-console
+    console.log("Action", "trackAutocompleteClickThrough", ...arguments);
+  }
+
   const { requestId, searchTerm } = this.state;
 
   this.apiConnector.autocompleteClick({

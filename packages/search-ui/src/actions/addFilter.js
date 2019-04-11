@@ -9,6 +9,9 @@ import { matchFilter } from "../helpers";
  * @param value String field value to filter on
  */
 export default function addFilter(name, value) {
+  // eslint-disable-next-line no-console
+  if (this.debug) console.log("Action", "addFilter", ...arguments);
+
   const { filters } = this.state;
 
   const existingFilter = filters.find(f => f.field === name) || {};

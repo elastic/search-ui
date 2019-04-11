@@ -75,6 +75,7 @@ export default class SearchDriver {
   constructor({
     apiConnector,
     autocompleteQuery = {},
+    debug,
     initialState,
     searchQuery = {},
     trackUrlState = true,
@@ -95,6 +96,7 @@ export default class SearchDriver {
     );
     Object.assign(this, this.actions);
 
+    this.debug = debug;
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.apiConnector = apiConnector;
@@ -258,6 +260,8 @@ export default class SearchDriver {
 
   _setState(newState) {
     const state = { ...this.state, ...newState };
+    // eslint-disable-next-line no-console
+    if (this.debug) console.log("State Update", newState, state);
     this.subscriptions.forEach(subscription => subscription(state));
     this.state = state;
   }

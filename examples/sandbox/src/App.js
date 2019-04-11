@@ -26,6 +26,7 @@ export default function App() {
   return (
     <SearchProvider
       config={{
+        debug: true,
         searchQuery: {
           search_fields: {
             title: {},
