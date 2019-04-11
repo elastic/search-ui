@@ -114,6 +114,8 @@ export default class AppSearchAPIConnector {
           autocompletedState.autocompletedResults = adaptResponse(
             response
           ).results;
+          autocompletedState.autocompletedResultsRequestId =
+            response.info.meta.request_id;
         })
       );
     }
@@ -124,6 +126,8 @@ export default class AppSearchAPIConnector {
           .querySuggestion(searchTerm, queryConfig.suggestions)
           .then(response => {
             autocompletedState.autocompletedSuggestions = response.results;
+            autocompletedState.autocompletedSuggestionsRequestId =
+              response.meta.request_id;
           })
       );
     }

@@ -34,7 +34,9 @@ export const DEFAULT_STATE = {
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
   autocompletedResults: [],
+  autocompletedResultsRequestId: "",
   autocompletedSuggestions: {},
+  autocompletedSuggestionsRequestId: "",
   error: "",
   isLoading: false,
   facets: {},
