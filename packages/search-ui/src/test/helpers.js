@@ -22,12 +22,18 @@ const searchResponse = {
   results: [{}, {}]
 };
 
+const autocompleteSearchResponse = {
+  requestId: "6789",
+  results: [{}, {}]
+};
+
 export function getMockApiConnector() {
   return {
     autocomplete: jest.fn().mockReturnValue({
       then: cb =>
         cb({
-          autocompletedResults: searchResponse.results,
+          autocompletedResults: autocompleteSearchResponse.results,
+          autocompletedResultsRequestId: autocompleteSearchResponse.requestId,
           autocompletedSuggestions: suggestions
         })
     }),

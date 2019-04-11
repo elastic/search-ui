@@ -13,12 +13,12 @@ export default function trackAutocompleteClickThrough(documentId, tags = []) {
     console.log("Action", "trackAutocompleteClickThrough", ...arguments);
   }
 
-  const { requestId, searchTerm } = this.state;
+  const { autocompletedResultsRequestId, searchTerm } = this.state;
 
   this.apiConnector.autocompleteClick({
     query: searchTerm,
     documentId,
-    requestId,
+    requestId: autocompletedResultsRequestId,
     tags
   });
 }
