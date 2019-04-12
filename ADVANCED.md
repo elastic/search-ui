@@ -146,15 +146,17 @@ It is not directly update-able.
 
 It is updated indirectly by invoking an action which results in a new API request.
 
-| field                      | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autocompletedResults`     | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
-| `autocompletedSuggestions` | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
-| `facets`                   | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
-| `requestId`                | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`                  | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm`         | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`             | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
+| field                               | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`              | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedResultsRequestId`     | String                                                                                                                                    | A unique ID for the current autocompleted search results                                                                                                                                                                                                                  |
+| `autocompletedSuggestions`          | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `autocompletedSuggestionsRequestId` | String                                                                                                                                    | A unique ID for the current autocompleted suggestion results                                                                                                                                                                                                              |
+| `facets`                            | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
+| `requestId`                         | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`                           | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm`                  | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`                      | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
 
 #### Application State
 
@@ -947,11 +949,14 @@ Publish new version
 
 1. Create new version branch `git checkout -b v0.6`.
 2. Run `npx lerna changed` to see which projects will be published.
-3. Update `CHANGELOG` files to include version `v0.6` for the projects that will be published.
-4. Run `npx lerna version 0.6 --exact`.
+3. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
+4. Run `npx lerna version 0.6.0 --exact`.
+   NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
+   to manually edit the `package-lock.json` for each updated package to update
+   `0.5.0` to `0.6.0` at the top of the file.
 5. Verify correct tags and commits have been created.
 6. Run `npx lerna publish --from-git`.
-7. Verify `0.6` has been published to npm.
+7. Verify `0.6.0` has been published to npm.
 
 Publish patch version
 (Example, publish 0.6.1)
@@ -960,6 +965,9 @@ Publish patch version
 2. Run `npx lerna changed` to see which projects will be published.
 3. Update `CHANGELOG` files to include version `0.6.1` for the projects that will be published.
 4. Run `npx lerna version 0.6.1 --exact`.
+   NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
+   to manually edit the `package-lock.json` for each updated package to update
+   `0.6.0` to `0.6.1` at the top of the file.
 5. Verify correct tags and commits have been created.
 6. Run `npx lerna publish --from-git`.
 7. Verify `0.6.1` has been published to npm.

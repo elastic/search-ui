@@ -362,7 +362,8 @@ describe("AppSearchAPIConnector", () => {
       it("will return search state with autocompletedResults set", async () => {
         const state = await subject({}, { results: {} });
         expect(state).toEqual({
-          autocompletedResults: resultState.results
+          autocompletedResults: resultState.results,
+          autocompletedResultsRequestId: resultState.requestId
         });
       });
 
@@ -466,7 +467,8 @@ describe("AppSearchAPIConnector", () => {
       it("will return search state with autocompletedSuggestions set", async () => {
         const state = await subject({}, { suggestions: {} });
         expect(state).toEqual({
-          autocompletedSuggestions: resultsSuggestions.results
+          autocompletedSuggestions: resultsSuggestions.results,
+          autocompletedSuggestionsRequestId: resultsSuggestions.meta.request_id
         });
       });
 
@@ -514,7 +516,9 @@ describe("AppSearchAPIConnector", () => {
         const state = await subject({}, { suggestions: {}, results: {} });
         expect(state).toEqual({
           autocompletedSuggestions: resultsSuggestions.results,
-          autocompletedResults: resultState.results
+          autocompletedSuggestionsRequestId: resultsSuggestions.meta.request_id,
+          autocompletedResults: resultState.results,
+          autocompletedResultsRequestId: resultState.requestId
         });
       });
     });

@@ -270,7 +270,9 @@ If you are using an Elastic product as your connector, try the Elastic community
 We welcome contributors to the project. Before you begin, a couple notes...
 
 - Read the [Search UI Contributor's Guide](./ADVANCED.md#search-ui-contributors-guide).
-- Prior to opening a pull request, please create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
+- Prior to opening a pull request, please:
+  - Create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
+  - Sign the [Contributor License Agreement](https://www.elastic.co/contributor-agreement/). We are not asking you to assign copyright to us, but to give us the right to distribute your code without restriction. We ask this of all contributors in order to assure our users of the origin and continuing existence of the code. You only need to sign the CLA once.
 - Please write simple code and concise documentation, when appropriate.
 
 ## License 📗

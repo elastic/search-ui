@@ -37,11 +37,19 @@ class SearchProvider extends Component {
     })
   };
 
+  subscription = state => {
+    this.setState(state);
+  };
+
   componentDidMount() {
     const { config } = this.props;
     this.driver = new SearchDriver(config);
     this.setState(this.driver.getState());
-    this.driver.subscribeToStateChanges(state => this.setState(state));
+    this.driver.subscribeToStateChanges(this.subscription);
+  }
+
+  componentWillUnmount() {
+    this.driver.unsubscribeToStateChanges(this.subscription);
   }
 
   render() {
