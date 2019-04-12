@@ -365,6 +365,47 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   expect(call).toEqual(["a term"]);
 });
 
+describe("onSelectAutocomplete", () => {
+  it("will pass selection, option, default onSelectAutocomplete function to handler if provided", () => {
+    let viewProps;
+
+    let passedSelection;
+    let passedNotifyAutocompleteSelected;
+    let passedCompleteSuggestion;
+    let passedAutocompleteResults;
+    let passedDefaultOnSelectAutocomplete;
+
+    const customOnSelectAutocomplete = (
+      selection,
+      { notifyAutocompleteSelected, completeSuggestion, autocompleteResults },
+      defaultOnSelectAutocomplete
+    ) => {
+      passedSelection = selection;
+      passedNotifyAutocompleteSelected = notifyAutocompleteSelected;
+      passedCompleteSuggestion = completeSuggestion;
+      passedAutocompleteResults = autocompleteResults;
+      passedDefaultOnSelectAutocomplete = defaultOnSelectAutocomplete;
+    };
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={true}
+        onSelectAutocomplete={customOnSelectAutocomplete}
+        view={props => (viewProps = props)}
+      />
+    );
+    const { onSelectAutocomplete } = viewProps;
+    onSelectAutocomplete("bird");
+
+    expect(passedSelection).toBe("bird");
+    expect(passedNotifyAutocompleteSelected).toBeDefined();
+    expect(passedCompleteSuggestion).toBeDefined();
+    expect(passedAutocompleteResults).toBeDefined();
+    expect(passedDefaultOnSelectAutocomplete).toBeDefined();
+  });
+});
+
 describe("autocomplete clickthroughs", () => {
   it("will call back to trackAutocompleteClickThrough when an autocomplete item is selected in the view", () => {
     let viewProps;

@@ -3,6 +3,7 @@ import SearchBox from "../SearchBox";
 import { shallow } from "enzyme";
 
 const requiredProps = {
+  completeSuggestion: () => {},
   onChange: () => {},
   onSubmit: () => {},
   allAutocompletedItemsCount: 0,

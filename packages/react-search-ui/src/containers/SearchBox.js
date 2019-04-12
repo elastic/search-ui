@@ -30,6 +30,7 @@ export class SearchBoxContainer extends Component {
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
     onSelectAutocomplete: PropTypes.func,
+    onSubmit: PropTypes.func,
     searchAsYouType: PropTypes.bool,
     view: PropTypes.func,
     // State
@@ -114,6 +115,23 @@ export class SearchBoxContainer extends Component {
     }
   };
 
+  defaultOnSelectAutocomplete = selection => {
+    const { autocompleteResults } = this.props;
+
+    this.handleNotifyAutocompleteSelected(selection);
+    if (!selection.suggestion) {
+      const url = selection[autocompleteResults.urlField]
+        ? selection[autocompleteResults.urlField].raw
+        : "";
+      if (url) {
+        const target = autocompleteResults.linkTarget || "_self";
+        window.open(url, target);
+      }
+    } else {
+      this.completeSuggestion(selection.suggestion);
+    }
+  };
+
   render() {
     const { isFocused } = this.state;
     const {
@@ -124,6 +142,7 @@ export class SearchBoxContainer extends Component {
       autocompletedSuggestions,
       inputProps,
       onSelectAutocomplete,
+      onSubmit,
       searchTerm,
       view
     } = this.props;
@@ -139,6 +158,21 @@ export class SearchBoxContainer extends Component {
     const allAutocompletedItemsCount =
       autocompletedSuggestionsCount + autocompletedResults.length;
 
+    let handleOnSelectAutocomplete;
+    if (onSelectAutocomplete) {
+      handleOnSelectAutocomplete = selection => {
+        onSelectAutocomplete(
+          selection,
+          {
+            notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
+            completeSuggestion: this.completeSuggestion,
+            autocompleteResults: this.props.autocompleteResults
+          },
+          this.defaultOnSelectAutocomplete
+        );
+      };
+    }
+
     return View({
       allAutocompletedItemsCount: allAutocompletedItemsCount,
       autocompleteResults: autocompleteResults,
@@ -150,8 +184,14 @@ export class SearchBoxContainer extends Component {
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
       onChange: value => this.handleChange(value),
-      onSelectAutocomplete: onSelectAutocomplete,
-      onSubmit: this.handleSubmit,
+      onSelectAutocomplete:
+        handleOnSelectAutocomplete || this.defaultOnSelectAutocomplete,
+      onSubmit: onSubmit
+        ? e => {
+            e.preventDefault();
+            onSubmit(searchTerm);
+          }
+        : this.handleSubmit,
       useAutocomplete: useAutocomplete,
       value: searchTerm,
       inputProps: {
