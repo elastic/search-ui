@@ -1,18 +1,21 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { Result } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
 import { Result as ResultType } from "../types";
 
-function getRaw(result, value) {
-  if (!result[value] || !result[value].raw) return;
-  return result[value].raw;
+function getFieldType(result, field, type) {
+  if (!result[field] || !result[field][type]) return;
+  return result[field][type];
 }
 
-function getSnippet(result, value) {
-  if (!result[value] || !result[value].snippet) return;
-  return result[value].snippet;
+function getRaw(result, field) {
+  return getFieldType(result, field, 'raw');
+}
+
+function getSnippet(result, field) {
+  return getFieldType(result, field, 'snippet');
 }
 
 function htmlEscape(str) {
@@ -24,6 +27,13 @@ function htmlEscape(str) {
     .replace(/>/g, "&gt;");
 }
 
+function getSafe(result, field) {
+  // Fallback to raw values here, because non-string fields
+  // will not have a snippet fallback. Raw values MUST be html escaped.
+  let safeField = getSnippet(result, field) || htmlEscape(getRaw(result, field));
+  return Array.isArray(safeField) ? safeField.join(", ") : safeField;
+}
+
 /*
   Our `Result` component expects result fields to be formatted in an object
   like:
@@ -32,16 +42,12 @@ function htmlEscape(str) {
     field2: "value2"
   }
 */
-function formatResultFields(result) {
-  return Object.keys(result).reduce((acc, n) => {
-    // Fallback to raw values here, because non-string fields
-    // will not have a snippet fallback. Raw values MUST be html escaped.
-    let value = result[n].snippet || htmlEscape(result[n].raw);
-    value = Array.isArray(value) ? value.join(", ") : value;
-    acc[n] = value;
-    return acc;
+function getSafeResult(result) {
+  return Object.keys(result).reduce((acc, field) => {
+    return { ...acc, [field]: getSafe(result, field) };
   }, {});
 }
+
 export class ResultContainer extends Component {
   static propTypes = {
     // Props
@@ -76,14 +82,17 @@ export class ResultContainer extends Component {
     const { result, titleField, urlField, view } = this.props;
     const View = view || Result;
 
+    const safeResult = getSafeResult(result)
+
     return View({
-      fields: formatResultFields(result),
-      key: `result-${getRaw(result, "id")}`,
-      onClickLink: () => this.handleClickLink(getRaw(result, "id")),
-      title:
-        getSnippet(result, titleField) ||
-        htmlEscape(getRaw(result, titleField)),
-      url: getRaw(result, urlField)
+      fields: safeResult,
+      result: result,
+      key: `result-${getRaw(result, 'id')}`,
+      onClickLink: () => this.handleClickLink(getRaw(result, 'id')),
+      title: getSafe(result, titleField),
+      titleField,
+      url: getRaw(result, urlField),
+      urlField
     });
   }
 }
