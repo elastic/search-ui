@@ -279,6 +279,15 @@ export default class SearchDriver {
   }
 
   /**
+   * @param onStateChange Function
+   */
+  unsubscribeToStateChanges(onStateChange) {
+    this.subscriptions = this.subscriptions.filter(
+      sub => sub !== onStateChange
+    );
+  }
+
+  /**
    * Retrieves all available acitons
    *
    * @returns Object All actions

@@ -264,6 +264,48 @@ describe("#getState", () => {
   });
 });
 
+describe("subscribeToStateChanges", () => {
+  it("will add a subscription", () => {
+    const { driver } = setupDriver();
+    let called = false;
+    driver.subscribeToStateChanges(() => (called = true));
+    driver.setSearchTerm("test");
+    expect(called).toBe(true);
+  });
+
+  it("will add multiple subscriptions", () => {
+    const { driver } = setupDriver();
+    let called1 = false;
+    let called2 = false;
+    driver.subscribeToStateChanges(() => (called1 = true));
+    driver.subscribeToStateChanges(() => (called2 = true));
+    driver.setSearchTerm("test");
+    expect(called1).toBe(true);
+    expect(called2).toBe(true);
+  });
+});
+
+describe("unsubscribeToStateChanges", () => {
+  it("will remove subscription", () => {
+    const { driver } = setupDriver();
+    let called1 = false;
+    let called2 = false;
+    let sub1 = () => (called1 = true);
+    let sub2 = () => (called2 = true);
+    driver.subscribeToStateChanges(sub1);
+    driver.subscribeToStateChanges(sub2);
+    driver.setSearchTerm("test");
+    expect(called1).toBe(true);
+    expect(called2).toBe(true);
+    called1 = false;
+    called2 = false;
+    driver.unsubscribeToStateChanges(sub1);
+    driver.setSearchTerm("test");
+    expect(called1).toBe(false); // Did not call, unsubscribed
+    expect(called2).toBe(true);
+  });
+});
+
 describe("#getActions", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
