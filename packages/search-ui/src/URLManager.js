@@ -124,7 +124,7 @@ export default class URLManager {
   }
 
   onURLStateChange(callback) {
-    this.history.listen(location => {
+    this.unlisten = this.history.listen(location => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
       if (`?${this.lastPushSearchString}` === location.search) return;
@@ -135,5 +135,9 @@ export default class URLManager {
 
       callback(paramsToState(queryString.parse(location.search)));
     });
+  }
+
+  tearDown() {
+    this.unlisten();
   }
 }

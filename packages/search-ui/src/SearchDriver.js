@@ -288,6 +288,14 @@ export default class SearchDriver {
   }
 
   /**
+   * Remove all listeners
+   */
+  tearDown() {
+    this.subscriptions = [];
+    this.URLManager && this.URLManager.tearDown();
+  }
+
+  /**
    * Retrieves all available acitons
    *
    * @returns Object All actions

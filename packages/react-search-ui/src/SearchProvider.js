@@ -49,7 +49,7 @@ class SearchProvider extends Component {
   }
 
   componentWillUnmount() {
-    this.driver.unsubscribeToStateChanges(this.subscription);
+    this.driver.tearDown();
   }
 
   render() {
