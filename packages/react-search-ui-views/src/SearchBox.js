@@ -9,37 +9,18 @@ import Autocomplete from "./Autocomplete";
 
 function SearchBox(props) {
   const {
-    autocompleteResults,
     allAutocompletedItemsCount,
     autocompleteView,
-    completeSuggestion,
     isFocused,
     inputProps,
-    notifyAutocompleteSelected,
     onChange,
+    onSelectAutocomplete,
     onSubmit,
     useAutocomplete,
     value
   } = props;
   const focusedClass = isFocused ? "focus" : "";
   const AutocompleteView = autocompleteView || Autocomplete;
-
-  const onSelectAutocomplete =
-    props.onSelectAutocomplete ||
-    (selection => {
-      notifyAutocompleteSelected(selection);
-      if (!selection.suggestion) {
-        const url = selection[autocompleteResults.urlField]
-          ? selection[autocompleteResults.urlField].raw
-          : "";
-        if (url) {
-          const target = autocompleteResults.linkTarget || "_self";
-          window.open(url, target);
-        }
-      } else {
-        completeSuggestion(selection.suggestion);
-      }
-    });
 
   return (
     <Downshift
