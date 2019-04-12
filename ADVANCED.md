@@ -967,7 +967,7 @@ Publish patch version
 4. Run `npx lerna version 0.6.1 --exact`.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
-   `0.5` to `0.6` at the top of the file.
+   `0.6` to `0.6.1` at the top of the file.
 5. Verify correct tags and commits have been created.
 6. Run `npx lerna publish --from-git`.
 7. Verify `0.6.1` has been published to npm.
