@@ -187,6 +187,30 @@ describe("When there are suggestions", () => {
     );
   });
 
+  it("will render a suggestion section title for all suggestion types if one is provided without a suggestion type", () => {
+    const wrapper = shallow(
+      <Autocomplete
+        {...props}
+        autocompleteResults={false}
+        autocompleteSuggestions={{
+          sectionTitle: "Suggested"
+        }}
+      />
+    );
+    expect(
+      wrapper
+        .find(".sui-search-box__section-title")
+        .at(0)
+        .text()
+    ).toEqual("Suggested");
+    expect(
+      wrapper
+        .find(".sui-search-box__section-title")
+        .at(1)
+        .text()
+    ).toEqual("Suggested");
+  });
+
   it("will NOT render a suggestion section title if none is provided", () => {
     const wrapper = shallow(
       <Autocomplete

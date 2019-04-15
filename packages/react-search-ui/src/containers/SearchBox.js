@@ -22,9 +22,14 @@ export class SearchBoxContainer extends Component {
     ]),
     autocompleteSuggestions: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.shape({
+      PropTypes.exact({
         sectionTitle: PropTypes.string
-      })
+      }),
+      PropTypes.objectOf(
+        PropTypes.exact({
+          sectionTitle: PropTypes.string
+        })
+      )
     ]),
     autocompleteView: PropTypes.func,
     debounceLength: PropTypes.number,

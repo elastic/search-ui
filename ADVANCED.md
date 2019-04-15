@@ -273,19 +273,89 @@ import { SearchBox } from "@elastic/react-search-ui";
 <SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
 ```
 
+### Example using Autocompleted Results
+
+```jsx
+
+import { SearchBox } from "@elastic/react-search-ui";
+
+...
+
+<SearchBox
+  autocompleteResults={{
+    titleField: "title",
+    urlField: "nps_link"
+  }}
+/>
+```
+
+### Example using Autocompleted Suggestions
+
+```jsx
+
+import { SearchBox } from "@elastic/react-search-ui";
+
+...
+
+<SearchBox
+  autocompleteSuggestions={true}
+/>
+```
+
+### Example using multiple types of Autocompleted Suggestions
+
+```jsx
+
+import { SearchBox } from "@elastic/react-search-ui";
+
+...
+
+<SearchBox
+  autocompleteSuggestions={{
+    documents: {
+      sectionTitle: "Suggested Queries"
+    },
+    popular_queries: {
+      sectionTitle: "Popular Queries"
+    }
+  }}
+/>
+```
+
+### Example using Autocompleted Suggestions and Autocompleted Results
+
+```jsx
+
+import { SearchBox } from "@elastic/react-search-ui";
+
+...
+
+<SearchBox
+  autocompleteMinimumCharacters={3}
+  autocompleteResults={{
+    sectionTitle: "Suggested Results",
+    titleField: "title",
+    urlField: "nps_link"
+  }}
+  autocompleteSuggestions={{
+    sectionTitle: "Suggested Queries"
+  }}
+/>
+```
+
 ### Properties
 
-| Name                          | type                                                                         | Required? | Default                                                            | Options | Description                                                                                                                                                                                                                                                                                                |
-| ----------------------------- | ---------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| inputProps                    | Object                                                                       | no        |                                                                    |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                                                                                                                                                 |
-| searchAsYouType               | Boolean                                                                      | no        | false                                                              |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                                                                                                                                               |
-| debounceLength                | Number                                                                       | no        | 200                                                                |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait.                                                                                                                               |
-| view                          | Component                                                                    | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js)       |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.                                                                                                                                           |
-| autocompleteResults           | Boolean or [AutocompleteResultsOptions](#AutocompleteResultsOptions)         | Object    | no                                                                 |         | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                            |
-| autocompleteQuerySuggestions  | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                         |
-| autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                        |
-| autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                               |
-| onSelectAutocomplete          | Function(selection. options, defaultOnSelectAutocomplete)                    | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior. |
+| Name                          | type                                                                         | Required? | Default                                                            | Options | Description                                                                                                                                                                                                                                                                                                                                                  |
+| ----------------------------- | ---------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| inputProps                    | Object                                                                       | no        |                                                                    |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                                                                                                                                                                                                   |
+| searchAsYouType               | Boolean                                                                      | no        | false                                                              |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                                                                                                                                                                                                 |
+| debounceLength                | Number                                                                       | no        | 200                                                                |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait.                                                                                                                                                                                 |
+| view                          | Component                                                                    | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js)       |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.                                                                                                                                                                                             |
+| autocompleteResults           | Boolean or [AutocompleteResultsOptions](#AutocompleteResultsOptions)         | Object    | no                                                                 |         | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                                                                              |
+| autocompleteQuerySuggestions  | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
+| autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
+| autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                                                                                 |
+| onSelectAutocomplete          | Function(selection. options, defaultOnSelectAutocomplete)                    | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior.                                                   |
 
 #### AutocompleteResultsOptions
 
@@ -375,8 +445,10 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 <SearchProvider config={{
   ...otherConfig,
-  facets: {
-    states: { type: "value", size: 30 }
+  searchQuery: {
+    facets: {
+     states: { type: "value", size: 30 }
+    }
   }
 }}>
   {() => (

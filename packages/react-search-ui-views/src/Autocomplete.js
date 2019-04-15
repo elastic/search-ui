@@ -14,6 +14,19 @@ function getSnippet(result, value) {
   return result[value].snippet;
 }
 
+function getSuggestionTitle(suggestionType, autocompleteSuggestions) {
+  if (autocompleteSuggestions.sectionTitle) {
+    return autocompleteSuggestions.sectionTitle;
+  }
+
+  if (
+    autocompleteSuggestions[suggestionType] &&
+    autocompleteSuggestions[suggestionType].sectionTitle
+  ) {
+    return autocompleteSuggestions[suggestionType].sectionTitle;
+  }
+}
+
 function Autocomplete({
   autocompleteResults,
   autocompletedResults,
@@ -77,11 +90,16 @@ function Autocomplete({
             ([suggestionType, suggestions]) => {
               return (
                 <React.Fragment key={suggestionType}>
-                  {autocompleteSuggestions[suggestionType] &&
-                    autocompleteSuggestions[suggestionType].sectionTitle &&
+                  {getSuggestionTitle(
+                    suggestionType,
+                    autocompleteSuggestions
+                  ) &&
                     suggestions.length > 0 && (
                       <div className="sui-search-box__section-title">
-                        {autocompleteSuggestions[suggestionType].sectionTitle}
+                        {getSuggestionTitle(
+                          suggestionType,
+                          autocompleteSuggestions
+                        )}
                       </div>
                     )}
                   {suggestions.length > 0 && (
@@ -138,9 +156,12 @@ Autocomplete.propTypes = {
   autocompletedSuggestionsCount: PropTypes.number.isRequired,
   autocompleteSuggestions: PropTypes.oneOfType([
     PropTypes.bool,
+    PropTypes.exact({
+      sectionTitle: PropTypes.string
+    }),
     PropTypes.objectOf(
-      PropTypes.shape({
-        sectionTitle: PropTypes.string.isRequired
+      PropTypes.exact({
+        sectionTitle: PropTypes.string
       })
     )
   ]),
