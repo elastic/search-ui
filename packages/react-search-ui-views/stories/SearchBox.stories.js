@@ -6,6 +6,12 @@ import { action } from "@storybook/addon-actions";
 import { SearchBox } from "../src";
 
 const baseProps = {
+  allAutocompletedItemsCount: 0,
+  autocompletedResults: [],
+  autocompletedSuggestions: {},
+  autocompletedSuggestionsCount: 0,
+  notifyAutocompleteSelected: () => {},
+  completeSuggestion: () => {},
   onChange: action("changed"),
   onSubmit: e => {
     e.preventDefault();
@@ -56,6 +62,8 @@ const autocompletedSuggestions = {
 
 const autocompleteProps = {
   useAutocomplete: true,
+  allAutocompletedItemsCount: 9,
+  autocompletedSuggestionsCount: 6,
   autocompleteResults: {
     sectionTitle: "Results",
     titleField: "title",
@@ -64,6 +72,12 @@ const autocompleteProps = {
   autocompletedResults: autocompletedResults,
   autocompleteSuggestions: autocompleteSuggestions,
   autocompletedSuggestions: autocompletedSuggestions,
+  notifyAutocompleteSelected: selection => {
+    action("selectAutocomplete")(selection);
+  },
+  completeSuggestion: suggestion => {
+    action("selectAutocomplete")(suggestion);
+  },
   onSelectAutocomplete: selection => {
     action("selectAutocomplete")(selection);
   }
@@ -104,7 +118,6 @@ class Wrapper extends React.Component {
 storiesOf("SearchBox", module)
   .add("no value", () => <SearchBox {...baseProps} />)
   .add("with value", () => <SearchBox {...baseProps} value="value" />)
-  .add("with focus", () => <SearchBox {...baseProps} isFocused={true} />)
   .add("with inputProps", () => (
     <SearchBox
       {...baseProps}
@@ -117,14 +130,55 @@ storiesOf("SearchBox", module)
       autocompleteResults={{
         ...{ ...autocompleteProps.autocompleteResults, sectionTitle: "" }
       }}
-      autocompleteSuggestions={{}}
+      autocompleteSuggestions={true}
     />
   ))
+  .add("with autocomplete and just results", () => (
+    <Wrapper
+      autocompleteResults={{
+        ...{ ...autocompleteProps.autocompleteResults, sectionTitle: "" }
+      }}
+      autocompleteSuggestions={undefined}
+    />
+  ))
+  .add("with autocomplete and just suggestions", () => (
+    <Wrapper
+      autocompleteResults={undefined}
+      autocompleteSuggestions={true}
+      autocompletedSuggestions={{
+        documents: autocompletedSuggestions.documents
+      }}
+    />
+  ))
+  .add(
+    "with autocomplete suggestions configuration without specifying suggestion type",
+    () => (
+      <Wrapper
+        autocompleteResults={undefined}
+        autocompleteSuggestions={{
+          sectionTitle: "Suggestions"
+        }}
+        autocompletedSuggestions={{
+          documents: autocompletedSuggestions.documents
+        }}
+      />
+    )
+  )
   .add("with custom autocomplete template", () => (
     <Wrapper
-      autocompleteView={props => (
+      autocompleteView={({ autocompletedResults, getItemProps }) => (
         <div className="sui-search-box__autocomplete-container">
-          Custom View
+          {autocompletedResults.map((result, i) => (
+            // eslint-disable-next-line react/jsx-key
+            <div
+              {...getItemProps({
+                key: result.id.raw,
+                item: result
+              })}
+            >
+              Result {i}: {result.title.snippet}
+            </div>
+          ))}
         </div>
       )}
     />

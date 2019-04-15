@@ -94,11 +94,17 @@ SearchBox.propTypes = {
     })
   ]),
   autocompleteView: PropTypes.func,
-  autocompleteSuggestions: PropTypes.objectOf(
-    PropTypes.shape({
-      sectionTitle: PropTypes.string.isRequired
-    })
-  ),
+  autocompleteSuggestions: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.exact({
+      sectionTitle: PropTypes.string
+    }),
+    PropTypes.objectOf(
+      PropTypes.exact({
+        sectionTitle: PropTypes.string
+      })
+    )
+  ]),
   inputProps: PropTypes.object,
   isFocused: PropTypes.bool,
   useAutocomplete: PropTypes.bool,

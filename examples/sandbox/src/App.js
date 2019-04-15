@@ -113,9 +113,7 @@ export default function App() {
                     clickThroughTags: ["test"]
                   }}
                   autocompleteSuggestions={{
-                    documents: {
-                      sectionTitle: "Suggested Queries"
-                    }
+                    sectionTitle: "Suggested Queries"
                   }}
                 />
               }
