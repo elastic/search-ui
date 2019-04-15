@@ -306,6 +306,29 @@ describe("unsubscribeToStateChanges", () => {
   });
 });
 
+describe("tearDown", () => {
+  it("will remove subscriptions and stop listening for URL changes", () => {
+    const { driver } = setupDriver();
+    let called1 = false;
+    let called2 = false;
+    let sub1 = () => (called1 = true);
+    let sub2 = () => (called2 = true);
+    driver.subscribeToStateChanges(sub1);
+    driver.subscribeToStateChanges(sub2);
+    driver.setSearchTerm("test");
+    expect(called1).toBe(true);
+    expect(called2).toBe(true);
+    expect(URLManager.mock.instances[0].tearDown.mock.calls.length).toBe(0);
+    called1 = false;
+    called2 = false;
+    driver.tearDown();
+    driver.setSearchTerm("test");
+    expect(called1).toBe(false); // Did not call, unsubscribed
+    expect(called2).toBe(false); // Did not call, unsubscribed
+    expect(URLManager.mock.instances[0].tearDown.mock.calls.length).toBe(1);
+  });
+});
+
 describe("#getActions", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
