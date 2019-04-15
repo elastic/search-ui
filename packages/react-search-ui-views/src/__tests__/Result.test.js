@@ -2,17 +2,15 @@ import React from "react";
 import Result from "../Result";
 import { shallow } from "enzyme";
 
+const TITLE_FIELD = "title"
+const URL_FIELD = "url"
+const TITLE_RESULT_VALUE = "Title"
+const URL_RESULT_VALUE = "http://www.example.com"
+
 const requiredProps = {
-  fields: { field: "value" },
+  result: { field: { raw: "value" } },
   onClickLink: () => {}
 };
-
-it("renders correctly when there is a URL", () => {
-  const wrapper = shallow(
-    <Result {...requiredProps} url="http://www.example.com" />
-  );
-  expect(wrapper).toMatchSnapshot();
-});
 
 it("renders correctly when there is not a URL or title", () => {
   const wrapper = shallow(<Result {...requiredProps} />);
@@ -20,13 +18,30 @@ it("renders correctly when there is not a URL or title", () => {
 });
 
 it("renders correctly when there is a title", () => {
-  const wrapper = shallow(<Result {...requiredProps} title="Title" />);
+  const wrapper = shallow(<Result {...{...requiredProps,  result: {...requiredProps.result, [TITLE_FIELD]: {raw: TITLE_RESULT_VALUE}}, titleField: TITLE_FIELD}} />);
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders correctly when there is a titleField but it is not defined in result", () => {
+  const wrapper = shallow(<Result {...{...requiredProps, titleField: TITLE_FIELD}}  />);
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders correctly when there is a URL", () => {
+  const wrapper = shallow(
+    <Result {...{...requiredProps,  result: {...requiredProps.result, [URL_FIELD]: {raw: URL_RESULT_VALUE}}, urlField: URL_FIELD}} />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders correctly when there is a urlField but it is not defined in result", () => {
+  const wrapper = shallow(<Result {...{...requiredProps, urlField: URL_FIELD}} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when there is a title and url", () => {
   const wrapper = shallow(
-    <Result {...requiredProps} title="Title" url="http://www.example.com" />
+    <Result {...{...requiredProps,  result: {...requiredProps.result, [TITLE_FIELD]: {raw: TITLE_RESULT_VALUE}, [URL_FIELD]: {raw: URL_RESULT_VALUE}}, titleField: TITLE_FIELD, urlField: URL_FIELD}} />
   );
   expect(wrapper).toMatchSnapshot();
 });

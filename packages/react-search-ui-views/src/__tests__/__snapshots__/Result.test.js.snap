@@ -31,6 +31,24 @@ exports[`renders correctly when there is a URL 1`] = `
           }
         />
       </li>
+      <li
+        key="url"
+      >
+        <span
+          className="sui-result__key"
+        >
+          url
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "http://www.example.com",
+            }
+          }
+        />
+      </li>
     </ul>
   </div>
 </li>
@@ -76,6 +94,24 @@ exports[`renders correctly when there is a title 1`] = `
           }
         />
       </li>
+      <li
+        key="title"
+      >
+        <span
+          className="sui-result__key"
+        >
+          title
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Title",
+            }
+          }
+        />
+      </li>
     </ul>
   </div>
 </li>
@@ -101,6 +137,114 @@ exports[`renders correctly when there is a title and url 1`] = `
       target="_blank"
     />
   </div>
+  <div
+    className="sui-result__body"
+  >
+    <ul
+      className="sui-result__details"
+    >
+      <li
+        key="field"
+      >
+        <span
+          className="sui-result__key"
+        >
+          field
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "value",
+            }
+          }
+        />
+      </li>
+      <li
+        key="title"
+      >
+        <span
+          className="sui-result__key"
+        >
+          title
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Title",
+            }
+          }
+        />
+      </li>
+      <li
+        key="url"
+      >
+        <span
+          className="sui-result__key"
+        >
+          url
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "http://www.example.com",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+</li>
+`;
+
+exports[`renders correctly when there is a titleField but it is not defined in result 1`] = `
+<li
+  className="sui-result"
+>
+  <div
+    className="sui-result__header"
+  />
+  <div
+    className="sui-result__body"
+  >
+    <ul
+      className="sui-result__details"
+    >
+      <li
+        key="field"
+      >
+        <span
+          className="sui-result__key"
+        >
+          field
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "value",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+</li>
+`;
+
+exports[`renders correctly when there is a urlField but it is not defined in result 1`] = `
+<li
+  className="sui-result"
+>
+  <div
+    className="sui-result__header"
+  />
   <div
     className="sui-result__body"
   >
