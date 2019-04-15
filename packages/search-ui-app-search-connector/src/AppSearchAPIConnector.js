@@ -3,6 +3,16 @@ import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
 
+// The API will error out if empty facets or filters objects
+// are sent.
+function removeEmptyFacetsAndFilters(options) {
+  const { facets, filters, ...rest } = options;
+  return {
+    ...(facets && Object.entries(facets).length > 0 && { facets }),
+    ...(filters && Object.entries(filters).length > 0 && { filters }),
+    ...rest
+  };
+}
 export default class AppSearchAPIConnector {
   /**
    * @param options Object
@@ -69,7 +79,7 @@ export default class AppSearchAPIConnector {
       ...optionsFromState
     };
     const options = {
-      ...withQueryConfigOptions,
+      ...removeEmptyFacetsAndFilters(withQueryConfigOptions),
       ...this.additionalOptions(withQueryConfigOptions)
     };
 
@@ -105,7 +115,7 @@ export default class AppSearchAPIConnector {
         ...optionsFromState
       };
       const options = {
-        ...withQueryConfigOptions,
+        ...removeEmptyFacetsAndFilters(withQueryConfigOptions),
         ...this.additionalOptions(withQueryConfigOptions)
       };
 

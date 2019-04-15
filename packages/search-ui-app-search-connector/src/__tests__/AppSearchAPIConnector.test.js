@@ -242,7 +242,6 @@ describe("AppSearchAPIConnector", () => {
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedSearchTerm).toEqual(state.searchTerm);
       expect(passedOptions).toEqual({
-        filters: {},
         facets: {
           states: {
             type: "value",
@@ -258,6 +257,26 @@ describe("AppSearchAPIConnector", () => {
           description: {},
           states: {}
         }
+      });
+    });
+
+    it("will not pass empty facets or filter state to search endpoint", async () => {
+      const state = {
+        searchTerm: "searchTerm",
+        filters: [],
+        facets: {}
+      };
+
+      const queryConfig = {
+        filters: [],
+        facets: {}
+      };
+
+      await subject(state, queryConfig);
+      // eslint-disable-next-line no-unused-vars
+      const [passedSearchTerm, passedOptions] = getLastSearchCall();
+      expect(passedOptions).toEqual({
+        page: {}
       });
     });
 
@@ -337,7 +356,6 @@ describe("AppSearchAPIConnector", () => {
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedSearchTerm).toEqual(state.searchTerm);
       expect(passedOptions).toEqual({
-        filters: {},
         page: {
           current: 2
         },
@@ -376,7 +394,6 @@ describe("AppSearchAPIConnector", () => {
         const [passedSearchTerm, passedOptions] = getLastSearchCall();
         expect(passedSearchTerm).toEqual(state.searchTerm);
         expect(passedOptions).toEqual({
-          filters: {},
           page: {}
         });
       });
@@ -403,7 +420,6 @@ describe("AppSearchAPIConnector", () => {
         const [passedSearchTerm, passedOptions] = getLastSearchCall();
         expect(passedSearchTerm).toEqual(state.searchTerm);
         expect(passedOptions).toEqual({
-          filters: {},
           page: {},
           result_fields: {
             title: { raw: {}, snippet: { size: 20, fallback: true } }
@@ -413,6 +429,28 @@ describe("AppSearchAPIConnector", () => {
             description: {},
             states: {}
           }
+        });
+      });
+
+      it("will not pass empty facets or filter state to search endpoint", async () => {
+        const state = {
+          searchTerm: "searchTerm",
+          filters: [],
+          facets: {}
+        };
+
+        const queryConfig = {
+          results: {
+            filters: [],
+            facets: {}
+          }
+        };
+
+        await subject(state, queryConfig);
+        // eslint-disable-next-line no-unused-vars
+        const [passedSearchTerm, passedOptions] = getLastSearchCall();
+        expect(passedOptions).toEqual({
+          page: {}
         });
       });
 
