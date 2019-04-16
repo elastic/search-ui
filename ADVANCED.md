@@ -352,7 +352,7 @@ import { SearchBox } from "@elastic/react-search-ui";
 | debounceLength                | Number                                                                       | no        | 200                                                                |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait.                                                                                                                                                                                 |
 | view                          | Component                                                                    | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js)       |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.                                                                                                                                                                                             |
 | autocompleteResults           | Boolean or [AutocompleteResultsOptions](#AutocompleteResultsOptions)         | Object    | no                                                                 |         | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                                                                              |
-| autocompleteSuggestions  | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
+| autocompleteSuggestions       | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
 | autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
 | autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                                                                                 |
 | onSelectAutocomplete          | Function(selection. options, defaultOnSelectAutocomplete)                    | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior.                                                   |
@@ -1022,10 +1022,10 @@ Publish new version
 1. Create new version branch `git checkout -b v0.6`.
 2. Run `npx lerna changed` to see which projects will be published.
 3. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
-4. Run `npx lerna version 0.6.0 --exact`.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.5.0` to `0.6.0` at the top of the file.
+4. Run `npx lerna version 0.6.0 --exact`.
 5. Verify correct tags and commits have been created.
 6. Run `npx lerna publish --from-git`.
 7. Verify `0.6.0` has been published to npm.
@@ -1036,10 +1036,10 @@ Publish patch version
 1. PR changes into `v0.6` branch.
 2. Run `npx lerna changed` to see which projects will be published.
 3. Update `CHANGELOG` files to include version `0.6.1` for the projects that will be published.
-4. Run `npx lerna version 0.6.1 --exact`.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.6.0` to `0.6.1` at the top of the file.
+4. Run `npx lerna version 0.6.1 --exact`.
 5. Verify correct tags and commits have been created.
 6. Run `npx lerna publish --from-git`.
 7. Verify `0.6.1` has been published to npm.
