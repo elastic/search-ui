@@ -1027,8 +1027,10 @@ Publish new version
    `0.5.0` to `0.6.0` at the top of the file.
 4. Run `npx lerna version 0.6.0 --exact`.
 5. Verify correct tags and commits have been created.
-6. Run `npx lerna publish --from-git`.
+6. Run `npx lerna publish from-git`.
 7. Verify `0.6.0` has been published to npm.
+8. PR these release changes back into master.
+9. Create release in Github.
 
 Publish patch version
 (Example, publish 0.6.1)
@@ -1041,5 +1043,7 @@ Publish patch version
    `0.6.0` to `0.6.1` at the top of the file.
 4. Run `npx lerna version 0.6.1 --exact`.
 5. Verify correct tags and commits have been created.
-6. Run `npx lerna publish --from-git`.
+6. Run `npx lerna publish from-git`.
 7. Verify `0.6.1` has been published to npm.
+8. Make sure changed are also committed back to master.
+9. Create release in Github.
