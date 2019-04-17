@@ -1,3 +1,9 @@
+function adaptFilterType(type) {
+  if (type === "any") return {};
+  if (type === "all") return { type: "and" };
+  return { type: "and" };
+}
+
 export function adaptFacetConfig(facets) {
   if (!facets) return;
 
@@ -46,11 +52,11 @@ export function adaptFilterConfig(filters) {
       return acc;
     }
 
-    if (filter.type && filter.type !== "all") {
+    if (filter.type && (filter.type !== "all" && filter.type !== "any")) {
       console.warn(
-        `search-ui-site-search-connector: Unsupported filter type ${
+        `search-ui-site-search-connector: Unsupported filter type "${
           filter.type
-        } found, only "all" is currently supported`
+        }" found, only "all" and "any" are currently supported`
       );
       return acc;
     }
@@ -83,7 +89,7 @@ export function adaptFilterConfig(filters) {
     }
 
     acc[fieldName] = {
-      type: "and",
+      ...adaptFilterType(filter.type),
       values: fieldValue
     };
 
