@@ -18,6 +18,7 @@ Note that Site Search does not support certain features of Search UI:
 - Cannot apply more than 1 range filter on a single field.
 - Analytics tags are not supported in `click`.
 - `suggestions` are not supported in autocomplete, only `results`
+- The `none` filter type is not supported.
 
 ## Usage
 
