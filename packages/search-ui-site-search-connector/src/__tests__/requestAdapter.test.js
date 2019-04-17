@@ -123,6 +123,9 @@ const adaptedRequest = {
         type: "and",
         values: ["values"]
       },
+      another: {
+        values: ["additional values", "and values", "and even more values"]
+      },
       test: {
         type: "range",
         from: 0,

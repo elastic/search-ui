@@ -130,7 +130,7 @@ describe("adaptFilterConfig", () => {
     });
   });
 
-  it("will ignore 'any' filters", () => {
+  it("will adapt 'any' filters", () => {
     expect(
       adaptFilterConfig([
         {
@@ -139,7 +139,11 @@ describe("adaptFilterConfig", () => {
           type: "any"
         }
       ])
-    ).toEqual({});
+    ).toEqual({
+      test: {
+        values: ["values"]
+      }
+    });
   });
 
   it("will ignore 'none' filters", () => {
