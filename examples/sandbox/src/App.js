@@ -137,6 +137,7 @@ export default function App() {
               sideContent={
                 <div>
                   <Sorting
+                    label={"Sort by"}
                     sortOptions={[
                       {
                         name: "Relevance",
