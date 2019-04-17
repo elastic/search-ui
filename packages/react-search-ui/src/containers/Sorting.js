@@ -25,6 +25,7 @@ function formatSelectOption(sortOption) {
 export class SortingContainer extends Component {
   static propTypes = {
     // Props
+    label: PropTypes.string,
     sortOptions: PropTypes.arrayOf(SortOption).isRequired,
     view: PropTypes.func,
     // State
@@ -38,6 +39,7 @@ export class SortingContainer extends Component {
 
   render() {
     const {
+      label,
       results,
       searchTerm,
       setSort,
@@ -52,6 +54,7 @@ export class SortingContainer extends Component {
     const View = view || Sorting;
 
     return View({
+      label,
       onChange: o => {
         const sortOption = findSortOption(sortOptions, o);
         setSort(sortOption.value, sortOption.direction);
