@@ -7,16 +7,25 @@ import { removeSingleFilterValue } from "../helpers";
  *
  * @param name String field name for filter to remove
  * @param value String (Optional) field value for filter to remove
+ * @param type String (Optional) type of filter to remove
  */
-export default function removeFilter(name, value) {
+export default function removeFilter(name, value, type) {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Action", "removeFilter", ...arguments);
 
   const { filters } = this.state;
 
-  const updatedFilters = value
-    ? removeSingleFilterValue(filters, name, value)
-    : filters.filter(filter => filter.field !== name);
+  let updatedFilters = filters;
+
+  if (!value && type) {
+    updatedFilters = filters.filter(
+      filter => !(filter.field === name && filter.type === type)
+    );
+  } else if (value) {
+    updatedFilters = removeSingleFilterValue(filters, name, value, type);
+  } else {
+    updatedFilters = filters.filter(filter => filter.field !== name);
+  }
 
   this._updateSearchResults({
     current: 1,

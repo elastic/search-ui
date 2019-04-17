@@ -7,15 +7,18 @@ import { matchFilter } from "../helpers";
  *
  * @param name String field name to filter on
  * @param value String field value to filter on
+ * @param type String (Optional) type of filter to apply
  */
-export default function addFilter(name, value) {
+export default function addFilter(name, value, type = "all") {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Action", "addFilter", ...arguments);
 
   const { filters } = this.state;
 
-  const existingFilter = filters.find(f => f.field === name) || {};
-  const allOtherFilters = filters.filter(f => f.field !== name) || [];
+  const existingFilter =
+    filters.find(f => f.field === name && f.type === type) || {};
+  const allOtherFilters =
+    filters.filter(f => f.field !== name || f.type !== type) || [];
   const existingFilterValues = existingFilter.values || [];
 
   const newFilterValues = existingFilterValues.find(existing =>
@@ -28,7 +31,7 @@ export default function addFilter(name, value) {
     current: 1,
     filters: [
       ...allOtherFilters,
-      { field: name, values: newFilterValues, type: "all" }
+      { field: name, values: newFilterValues, type }
     ]
   });
 }

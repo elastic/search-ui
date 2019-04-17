@@ -11,7 +11,11 @@ import {
   Paging,
   Sorting
 } from "@elastic/react-search-ui";
-import { Layout, SingleSelectFacet } from "@elastic/react-search-ui-views";
+import {
+  Layout,
+  SingleSelectFacet,
+  SingleLinksFacet
+} from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
@@ -49,8 +53,9 @@ export default function App() {
               }
             }
           },
-          disjunctiveFacets: ["acres"],
+          disjunctiveFacets: ["acres", "states"],
           facets: {
+            world_heritage_site: { type: "value" },
             states: { type: "value", size: 30 },
             acres: {
               type: "range",
@@ -59,6 +64,18 @@ export default function App() {
                 { from: 0, to: 1000, name: "Small" },
                 { from: 1001, to: 100000, name: "Medium" },
                 { from: 100001, name: "Large" }
+              ]
+            },
+            visitors: {
+              type: "range",
+              ranges: [
+                { from: 0, to: 10000, name: "0 - 10000" },
+                { from: 10001, to: 100000, name: "10001 - 100000" },
+                { from: 100001, to: 500000, name: "100001 - 500000" },
+                { from: 500001, to: 1000000, name: "500001 - 1000000" },
+                { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
+                { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
+                { from: 10000001, name: "10000001+" }
               ]
             }
           }
@@ -133,7 +150,16 @@ export default function App() {
                       }
                     ]}
                   />
-                  <Facet field="states" label="States" />
+                  <Facet field="states" label="States" filterType="any" />
+                  <Facet
+                    field="world_heritage_site"
+                    label="World Heritage Site?"
+                  />
+                  <Facet
+                    field="visitors"
+                    label="Visitors"
+                    view={SingleLinksFacet}
+                  />
                   <Facet field="acres" label="Acres" view={SingleSelectFacet} />
                 </div>
               }
