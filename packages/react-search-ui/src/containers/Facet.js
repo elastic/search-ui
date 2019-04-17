@@ -2,12 +2,12 @@ import PropTypes from "prop-types";
 import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
-import { Facet, Filter } from "../types";
+import { Facet, Filter, FilterType } from "../types";
 
 import { withSearch } from "..";
 
-function findFacetValueInFilters(name, filters) {
-  const filter = filters.find(f => f.field === name);
+function findFacetValueInFilters(name, filters, filterType) {
+  const filter = filters.find(f => f.field === name && f.type === filterType);
   if (!filter) return;
   return filter.values;
 }
@@ -17,6 +17,7 @@ export class FacetContainer extends Component {
     // Props
     field: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
+    filterType: FilterType,
     show: PropTypes.number,
     view: PropTypes.func,
     // State
@@ -26,6 +27,10 @@ export class FacetContainer extends Component {
     addFilter: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    filterType: "all"
   };
 
   constructor({ show = 5 }) {
@@ -47,6 +52,7 @@ export class FacetContainer extends Component {
       addFilter,
       facets,
       field,
+      filterType,
       filters,
       label,
       removeFilter,
@@ -57,7 +63,8 @@ export class FacetContainer extends Component {
     if (!facetValues) return null;
 
     const options = facets[field][0].data;
-    const selectedValues = findFacetValueInFilters(field, filters) || [];
+    const selectedValues =
+      findFacetValueInFilters(field, filters, filterType) || [];
     if (!options.length && !selectedValues.length) return null;
 
     const View = view || MultiCheckboxFacet;
@@ -66,13 +73,13 @@ export class FacetContainer extends Component {
       label: label,
       onMoreClick: this.handleClickMore,
       onRemove: value => {
-        removeFilter(field, value);
+        removeFilter(field, value, filterType);
       },
       onChange: value => {
-        setFilter(field, value);
+        setFilter(field, value, filterType);
       },
       onSelect: value => {
-        addFilter(field, value);
+        addFilter(field, value, filterType);
       },
       options: options.slice(0, more),
       showMore: options.length > more,

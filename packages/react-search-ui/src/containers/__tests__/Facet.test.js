@@ -71,6 +71,59 @@ it("should not render a Facet if there are no facets available", () => {
   expect(wrapper.html()).toEqual(null);
 });
 
+describe("values view prop", () => {
+  function subject(filterType) {
+    let viewProps;
+    shallow(
+      <FacetContainer
+        {...params}
+        field="field1"
+        filterType={filterType}
+        filters={[
+          {
+            field: "field2",
+            values: ["field1value1"],
+            type: "none"
+          },
+          {
+            field: "field1",
+            values: ["field1value1", "field1value2"],
+            type: "all"
+          },
+          {
+            field: "field1",
+            values: ["field1value1"],
+            type: "any"
+          }
+        ]}
+        facets={{
+          field1: [
+            {
+              field: "field1",
+              data: [
+                { count: 20, value: "field1value1" },
+                { count: 10, value: "field1value2" }
+              ],
+              type: "value"
+            }
+          ]
+        }}
+        view={props => (viewProps = props)}
+      />
+    );
+    return viewProps;
+  }
+  it("should correctly calculated the selected facet options", () => {
+    const { values } = subject();
+    expect(values).toEqual(["field1value1", "field1value2"]);
+  });
+
+  it("should correctly calculated the selected facet options for filterType", () => {
+    const { values } = subject("any");
+    expect(values).toEqual(["field1value1"]);
+  });
+});
+
 describe("show more", () => {
   let wrapper;
 
@@ -161,31 +214,45 @@ describe("show more", () => {
 });
 
 it("will add a filter when a facet value is selected with onSelect", () => {
-  const wrapper = shallow(<FacetContainer {...params} />);
+  const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
 
   wrapper.find(View).prop("onSelect")("field1value2");
 
-  const [fieldName, fieldValue] = params.addFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] = params.addFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
+  expect(filterType).toEqual("any");
 });
 
 it("will overwrite a filter when a facet value is selected with onChange", () => {
-  const wrapper = shallow(<FacetContainer {...params} />);
+  const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
 
   wrapper.find(View).prop("onChange")("field1value2");
 
-  const [fieldName, fieldValue] = params.setFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] = params.setFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
+  expect(filterType).toEqual("any");
 });
 
 it("will remove a filter when a facet value removed", () => {
+  const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
+
+  wrapper.find(View).prop("onRemove")("field1value2");
+
+  const [fieldName, fieldValue, filterType] = params.removeFilter.mock.calls[0];
+  expect(fieldName).toEqual("field1");
+  expect(fieldValue).toEqual("field1value2");
+  expect(filterType).toEqual("any");
+});
+
+it("will remove a filter when a facet value removed, defaulting filterType to all", () => {
   const wrapper = shallow(<FacetContainer {...params} />);
 
   wrapper.find(View).prop("onRemove")("field1value2");
 
-  const [fieldName, fieldValue] = params.removeFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] = params.removeFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
+  expect(filterType).toEqual("all");
 });

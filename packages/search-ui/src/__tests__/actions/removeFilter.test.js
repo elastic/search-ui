@@ -17,6 +17,7 @@ describe("#removeFilter", () => {
   function subject(
     name,
     value,
+    type,
     {
       initialFilters = [],
       initialState = {
@@ -28,7 +29,7 @@ describe("#removeFilter", () => {
       initialState
     });
 
-    driver.removeFilter(name, value);
+    driver.removeFilter(name, value, type);
     return updatedStateAfterAction.state;
   }
 
@@ -52,6 +53,7 @@ describe("#removeFilter", () => {
     const { resultsPerPage, sortField, sortDirection, searchTerm } = subject(
       "field",
       "value",
+      undefined,
       { initialState }
     );
     expect({ resultsPerPage, sortField, sortDirection, searchTerm }).toEqual(
@@ -61,7 +63,7 @@ describe("#removeFilter", () => {
 
   it("Removes just 1 filter value", () => {
     expect(
-      subject("test", "value", {
+      subject("test", "value", undefined, {
         initialFilters: [
           { field: "initial", values: ["value"], type: "all" },
           {
@@ -83,7 +85,7 @@ describe("#removeFilter", () => {
 
   it("Removes all filters", () => {
     expect(
-      subject("test", undefined, {
+      subject("test", undefined, undefined, {
         initialFilters: [
           { field: "initial", values: ["value"], type: "all" },
           {
@@ -98,7 +100,7 @@ describe("#removeFilter", () => {
 
   it("Removes all filters when last value", () => {
     expect(
-      subject("test", "value", {
+      subject("test", "value", undefined, {
         initialFilters: [
           { field: "initial", values: ["value"], type: "all" },
           { field: "test", values: ["value"], type: "all" }
@@ -115,6 +117,7 @@ describe("#removeFilter", () => {
           from: 20,
           to: 100
         },
+        undefined,
         {
           initialFilters: [
             { field: "initial", values: [{ from: 20, to: 100 }], type: "all" },
@@ -132,6 +135,140 @@ describe("#removeFilter", () => {
         field: "test",
         values: ["anotherValue", "someOtherValue"],
         type: "all"
+      }
+    ]);
+  });
+
+  it("Removes all filters, if no filter value or filter type i specified", () => {
+    expect(
+      subject("test", undefined, undefined, {
+        initialFilters: [
+          { field: "initial", values: ["value"], type: "all" },
+          { field: "test", values: ["value"], type: "all" },
+          { field: "test", values: ["value"], type: "any" },
+          { field: "test", values: ["value"], type: "none" }
+        ]
+      }).filters
+    ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
+  });
+
+  it("Removes filter values from all filter types, if no type is specified ", () => {
+    expect(
+      subject("test", "value", undefined, {
+        initialFilters: [
+          { field: "initial", values: ["value"], type: "all" },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "all"
+          },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "any"
+          },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "none"
+          }
+        ]
+      }).filters
+    ).toEqual([
+      { field: "initial", values: ["value"], type: "all" },
+      {
+        field: "test",
+        values: ["anotherValue", "someOtherValue"],
+        type: "all"
+      },
+      {
+        field: "test",
+        values: ["anotherValue", "someOtherValue"],
+        type: "any"
+      },
+      {
+        field: "test",
+        values: ["anotherValue", "someOtherValue"],
+        type: "none"
+      }
+    ]);
+  });
+
+  it("Removes filter values only from specified filter type when specified", () => {
+    expect(
+      subject("test", "value", "all", {
+        initialFilters: [
+          { field: "initial", values: ["value"], type: "all" },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "all"
+          },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "any"
+          },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "none"
+          }
+        ]
+      }).filters
+    ).toEqual([
+      { field: "initial", values: ["value"], type: "all" },
+      {
+        field: "test",
+        values: ["anotherValue", "someOtherValue"],
+        type: "all"
+      },
+      {
+        field: "test",
+        values: ["anotherValue", "value", "someOtherValue"],
+        type: "any"
+      },
+      {
+        field: "test",
+        values: ["anotherValue", "value", "someOtherValue"],
+        type: "none"
+      }
+    ]);
+  });
+
+  it("Does other things", () => {
+    expect(
+      subject("test", undefined, "all", {
+        initialFilters: [
+          { field: "initial", values: ["value"], type: "all" },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "all"
+          },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "any"
+          },
+          {
+            field: "test",
+            values: ["anotherValue", "value", "someOtherValue"],
+            type: "none"
+          }
+        ]
+      }).filters
+    ).toEqual([
+      { field: "initial", values: ["value"], type: "all" },
+      {
+        field: "test",
+        values: ["anotherValue", "value", "someOtherValue"],
+        type: "any"
+      },
+      {
+        field: "test",
+        values: ["anotherValue", "value", "someOtherValue"],
+        type: "none"
       }
     ]);
   });

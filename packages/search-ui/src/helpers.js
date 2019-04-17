@@ -1,9 +1,9 @@
 import deepEqual from "deep-equal";
 
-export function removeSingleFilterValue(filters, name, value) {
+export function removeSingleFilterValue(filters, name, value, filterType) {
   return filters.reduce((acc, filter) => {
-    const { field, values, ...rest } = filter;
-    if (field === name) {
+    const { field, values, type, ...rest } = filter;
+    if (field === name && (!filterType || type === filterType)) {
       const updatedFilterValues = values.filter(
         filterValue => !matchFilter(filterValue, value)
       );
@@ -11,6 +11,7 @@ export function removeSingleFilterValue(filters, name, value) {
         return acc.concat({
           field,
           values: updatedFilterValues,
+          type,
           ...rest
         });
       } else {
