@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { withSearch } from "..";
 import { Sorting } from "@elastic/react-search-ui-views";
 
@@ -25,6 +25,7 @@ function formatSelectOption(sortOption) {
 export class SortingContainer extends Component {
   static propTypes = {
     // Props
+    className: PropTypes.string,
     label: PropTypes.string,
     sortOptions: PropTypes.arrayOf(SortOption).isRequired,
     view: PropTypes.func,
@@ -39,6 +40,7 @@ export class SortingContainer extends Component {
 
   render() {
     const {
+      className,
       label,
       results,
       searchTerm,
@@ -54,6 +56,7 @@ export class SortingContainer extends Component {
     const View = view || Sorting;
 
     return View({
+      className,
       label,
       onChange: o => {
         const sortOption = findSortOption(sortOptions, o);

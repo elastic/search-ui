@@ -104,3 +104,16 @@ it("passes through props to individual Result items", () => {
     }
   ]);
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <ResultsContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});

@@ -8,6 +8,7 @@ import { Result as ResultType } from "../types";
 export class ResultContainer extends Component {
   static propTypes = {
     // Props
+    className: PropTypes.string,
     clickThroughTags: PropTypes.arrayOf(PropTypes.string),
     titleField: PropTypes.string,
     urlField: PropTypes.string,
@@ -36,10 +37,11 @@ export class ResultContainer extends Component {
   };
 
   render() {
-    const { result, titleField, urlField, view } = this.props;
+    const { className, result, titleField, urlField, view } = this.props;
     const View = view || Result;
 
     return View({
+      className,
       result: result,
       key: `result-${result.id.raw}`,
       onClickLink: () => this.handleClickLink(result.id.raw),

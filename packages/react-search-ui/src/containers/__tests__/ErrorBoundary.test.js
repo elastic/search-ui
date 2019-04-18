@@ -15,3 +15,16 @@ it("supports a render prop", () => {
   const wrapper = shallow(<ErrorBoundaryContainer {...params} view={render} />);
   expect(wrapper).toMatchSnapshot();
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <ErrorBoundaryContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});

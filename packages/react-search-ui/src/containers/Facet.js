@@ -15,6 +15,7 @@ function findFacetValueInFilters(name, filters, filterType) {
 export class FacetContainer extends Component {
   static propTypes = {
     // Props
+    className: PropTypes.string,
     field: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     filterType: FilterType,
@@ -50,6 +51,7 @@ export class FacetContainer extends Component {
     const { more } = this.state;
     const {
       addFilter,
+      className,
       facets,
       field,
       filterType,
@@ -70,6 +72,7 @@ export class FacetContainer extends Component {
     const View = view || MultiCheckboxFacet;
 
     return View({
+      className,
       label: label,
       onMoreClick: this.handleClickMore,
       onRemove: value => {

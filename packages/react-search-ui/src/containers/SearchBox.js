@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { SearchBox } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
@@ -32,6 +32,7 @@ export class SearchBoxContainer extends Component {
       )
     ]),
     autocompleteView: PropTypes.func,
+    className: PropTypes.string,
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
     onSelectAutocomplete: PropTypes.func,
@@ -145,6 +146,7 @@ export class SearchBoxContainer extends Component {
       autocompleteSuggestions,
       autocompletedResults,
       autocompletedSuggestions,
+      className,
       inputProps,
       onSelectAutocomplete,
       onSubmit,
@@ -185,6 +187,7 @@ export class SearchBoxContainer extends Component {
       autocompletedSuggestionsCount: autocompletedSuggestionsCount,
       autocompletedResults: autocompletedResults,
       autocompletedSuggestions: autocompletedSuggestions,
+      className,
       completeSuggestion: this.completeSuggestion,
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,

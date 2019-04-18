@@ -78,6 +78,19 @@ describe("link clicks", () => {
   });
 });
 
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <ResultContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});
+
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ children }) => {

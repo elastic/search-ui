@@ -461,7 +461,7 @@ describe("autocomplete clickthroughs", () => {
 
   it("will pass through tags", () => {
     let viewProps;
-    const wrapper = shallow(
+    shallow(
       <SearchBoxContainer
         {...params}
         autocompleteResults={{
@@ -483,4 +483,17 @@ describe("autocomplete clickthroughs", () => {
     expect(documentId).toEqual("123");
     expect(tags).toEqual(["whatever"]);
   });
+});
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <SearchBoxContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
 });

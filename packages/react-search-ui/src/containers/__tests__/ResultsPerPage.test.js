@@ -50,3 +50,16 @@ it("will call back when a selection is made in the view", () => {
   const resultsPerPage = params.setResultsPerPage.mock.calls[0][0];
   expect(resultsPerPage).toEqual(40);
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <ResultsPerPageContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});
