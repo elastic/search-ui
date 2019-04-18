@@ -14,7 +14,7 @@ function SearchBox(props) {
     allAutocompletedItemsCount,
     autocompleteView,
     isFocused,
-    inputProps,
+    inputProps = {},
     onChange,
     onSelectAutocomplete,
     onSubmit,
@@ -58,7 +58,10 @@ function SearchBox(props) {
                   {...getInputProps({
                     placeholder: "Search your documents",
                     ...inputProps,
-                    className: `sui-search-box__text-input ${focusedClass}`
+                    className: `${appendClassName(
+                      "sui-search-box__text-input",
+                      inputProps.className
+                    )} ${focusedClass}`
                   })}
                 />
                 {useAutocomplete && isOpen && allAutocompletedItemsCount > 0 ? (

@@ -45,3 +45,16 @@ it("renders with className prop applied", () => {
     .props();
   expect(className).toEqual("sui-search-box test-class");
 });
+
+it("applies className from inputProps to input element", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <SearchBox {...requiredProps} inputProps={{ className: customClassName }} />
+  );
+
+  const downshift = wrapper.dive("Downshift");
+  const input = downshift.find(".sui-search-box__text-input");
+  expect(input.props().className).toBe(
+    "sui-search-box__text-input test-class "
+  );
+});
