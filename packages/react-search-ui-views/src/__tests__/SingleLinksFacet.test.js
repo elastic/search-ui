@@ -82,3 +82,12 @@ describe("determining selected option from values", () => {
     expect(wrapper.find("li").text()).toBe("The first option (Remove)");
   });
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <SingleLinksFacet {...params} className={customClassName} />
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual("sui-facet sui-search-facet test-class");
+});

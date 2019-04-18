@@ -32,3 +32,16 @@ it("passes through inputProps", () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <SearchBox {...requiredProps} className={customClassName} />
+  );
+
+  const { className } = wrapper
+    .dive()
+    .find(".sui-search-box")
+    .props();
+  expect(className).toEqual("sui-search-box test-class");
+});

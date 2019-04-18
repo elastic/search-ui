@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-function PagingInfo({ end, searchTerm, start, totalResults }) {
+import { appendClassName } from "./view-helpers";
+
+function PagingInfo({ className, end, searchTerm, start, totalResults }) {
   return (
-    <div className="sui-paging-info">
+    <div className={appendClassName("sui-paging-info", className)}>
       Showing{" "}
       <strong>
         {start} - {end}
@@ -17,7 +19,8 @@ PagingInfo.propTypes = {
   end: PropTypes.number.isRequired,
   searchTerm: PropTypes.string.isRequired,
   start: PropTypes.number.isRequired,
-  totalResults: PropTypes.number.isRequired
+  totalResults: PropTypes.number.isRequired,
+  className: PropTypes.string
 };
 
 export default PagingInfo;

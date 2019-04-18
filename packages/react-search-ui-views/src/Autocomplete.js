@@ -3,6 +3,7 @@ import React from "react";
 
 import { Result } from "./types";
 import { Suggestion } from "./types";
+import { appendClassName } from "./view-helpers";
 
 function getRaw(result, value) {
   if (!result[value] || !result[value].raw) return;
@@ -32,6 +33,7 @@ function Autocomplete({
   autocompletedResults,
   autocompleteSuggestions,
   autocompletedSuggestions,
+  className,
   getItemProps,
   getMenuProps
 }) {
@@ -39,7 +41,10 @@ function Autocomplete({
   return (
     <div
       {...getMenuProps({
-        className: "sui-search-box__autocomplete-container"
+        className: appendClassName(
+          "sui-search-box__autocomplete-container",
+          className
+        )
       })}
     >
       <div>
@@ -166,7 +171,8 @@ Autocomplete.propTypes = {
     )
   ]),
   getItemProps: PropTypes.func.isRequired,
-  getMenuProps: PropTypes.func.isRequired
+  getMenuProps: PropTypes.func.isRequired,
+  className: PropTypes.string
 };
 
 export default Autocomplete;

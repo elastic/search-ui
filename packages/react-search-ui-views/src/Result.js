@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+import { appendClassName } from "./view-helpers";
+
 function getFieldType(result, field, type) {
   if (result[field]) return result[field][type];
 }
@@ -38,13 +40,13 @@ function getEscapedFields(result) {
   }, {});
 }
 
-function Result({ result, onClickLink, titleField, urlField }) {
+function Result({ className, result, onClickLink, titleField, urlField }) {
   const fields = getEscapedFields(result);
   const title = getEscapedField(result, titleField);
   const url = getRaw(result, urlField);
 
   return (
-    <li className="sui-result">
+    <li className={appendClassName("sui-result", className)}>
       <div className="sui-result__header">
         {title && !url && (
           <span
@@ -83,6 +85,7 @@ function Result({ result, onClickLink, titleField, urlField }) {
 Result.propTypes = {
   result: PropTypes.object.isRequired,
   onClickLink: PropTypes.func.isRequired,
+  className: PropTypes.string,
   titleField: PropTypes.string,
   urlField: PropTypes.string
 };

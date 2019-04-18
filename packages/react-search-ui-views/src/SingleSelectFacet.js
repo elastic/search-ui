@@ -5,6 +5,7 @@ import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
+import { appendClassName } from "./view-helpers";
 
 function Option(props) {
   return (
@@ -36,7 +37,7 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleSelectFacet({ label, onChange, options, values }) {
+function SingleSelectFacet({ className, label, onChange, options, values }) {
   const selectOptions = options.map(toSelectOption);
   const selectedFilterValue = values[0];
   const selectedOption = selectOptions.find(o =>
@@ -44,7 +45,7 @@ function SingleSelectFacet({ label, onChange, options, values }) {
   );
 
   return (
-    <div className="sui-search-facet sui-facet">
+    <div className={appendClassName("sui-search-facet sui-facet", className)}>
       <div className="sui-search-facet__label">{label}</div>
       <Select
         className="sui-select"
@@ -64,7 +65,8 @@ SingleSelectFacet.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired
+  values: PropTypes.arrayOf(FilterValue).isRequired,
+  className: PropTypes.string
 };
 
 export default SingleSelectFacet;
