@@ -50,3 +50,7 @@ Fixed this error: "ReferenceError: regeneratorRuntime is not defined"
 - Fixed a number of issues that were occurring when using custom views: #160
 - Added a debug option to SearchDriver #169
 - Fixed unmount / history issues when using client side routing: #174 #177 #178
+
+## 0.6.1 (April 17, 2019)
+
+- Fixed `autocompleteView` prop in `SearchBox`
