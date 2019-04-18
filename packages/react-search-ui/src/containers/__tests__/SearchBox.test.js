@@ -41,6 +41,22 @@ it("will keep focus prop in sync with view component", () => {
   expect(viewProps.isFocused).toBe(false);
 });
 
+it("will pass autocompleteView prop through to the view", () => {
+  let viewProps;
+  const customAutocompleteView = () => {};
+
+  shallow(
+    <SearchBoxContainer
+      {...params}
+      autocompleteView={customAutocompleteView}
+      view={props => (viewProps = props)}
+    />
+  );
+
+  const { autocompleteView } = viewProps;
+  expect(autocompleteView).toEqual(customAutocompleteView);
+});
+
 describe("autocompletedSuggestionsCount", () => {
   it("will calculate the total count of all suggestions", () => {
     let viewProps;

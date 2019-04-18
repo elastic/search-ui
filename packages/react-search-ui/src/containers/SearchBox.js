@@ -147,6 +147,7 @@ export class SearchBoxContainer extends Component {
       autocompletedResults,
       autocompletedSuggestions,
       className,
+      autocompleteView,
       inputProps,
       onSelectAutocomplete,
       onSubmit,
@@ -182,12 +183,13 @@ export class SearchBoxContainer extends Component {
 
     return View({
       allAutocompletedItemsCount: allAutocompletedItemsCount,
+      autocompleteView,
       autocompleteResults: autocompleteResults,
       autocompleteSuggestions: autocompleteSuggestions,
-      autocompletedSuggestionsCount: autocompletedSuggestionsCount,
       autocompletedResults: autocompletedResults,
       autocompletedSuggestions: autocompletedSuggestions,
       className,
+      autocompletedSuggestionsCount: autocompletedSuggestionsCount,
       completeSuggestion: this.completeSuggestion,
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
