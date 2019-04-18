@@ -1,4 +1,5 @@
 import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
+import { version } from "../package.json";
 
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
@@ -40,7 +41,11 @@ export default class AppSearchAPIConnector {
       endpointBase,
       hostIdentifier: hostIdentifier,
       apiKey: searchKey,
-      engineName: engineName
+      engineName: engineName,
+      additionalHeaders: {
+        "x-swiftype-integration": "search-ui",
+        "x-swiftype-integration-version": version
+      }
     });
     this.additionalOptions = additionalOptions;
   }
