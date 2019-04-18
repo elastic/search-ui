@@ -55,3 +55,16 @@ of the `react-search-ui` README.
 | `subscribeToStateChanges` | function |                                                       | Function to execute when state changes. ex.<br/><br/>`(state) => {}` |
 | `getActions`              |          | Object[Actions](../react-search-ui/README.md#actions) | All available actions.                                               |
 | `getState`                |          | [State](../react-search-ui/README.md#state)           | Current state.                                                       |
+
+### Does Search UI use telemetry?
+
+If you are using the App Search or Site Search connector, we pass along 2 headers on API requests
+that identify them as Search UI requests. This ONLY happens if you are using our pre-built
+connectors.
+
+Ex.
+
+```
+x-swiftype-integration: search-ui
+x-swiftype-integration-version: 0.6.0
+```
