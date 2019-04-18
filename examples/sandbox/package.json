@@ -1,9 +1,9 @@
 {
   "name": "sandbox",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "dependencies": {
-    "@elastic/react-search-ui": "0.6.0",
+    "@elastic/react-search-ui": "0.6.1",
     "@elastic/react-search-ui-views": "0.6.0",
     "@elastic/search-ui": "0.6.0",
     "@elastic/search-ui-app-search-connector": "0.6.0",
