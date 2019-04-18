@@ -4,15 +4,17 @@ import Downshift from "downshift";
 
 import { Result } from "./types";
 import { Suggestion } from "./types";
+import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
 
 function SearchBox(props) {
   const {
+    className,
     allAutocompletedItemsCount,
     autocompleteView,
     isFocused,
-    inputProps,
+    inputProps = {},
     onChange,
     onSelectAutocomplete,
     onSubmit,
@@ -46,13 +48,20 @@ function SearchBox(props) {
               onSubmit(e);
             }}
           >
-            <div className={"sui-search-box" + autocompleteClass}>
+            <div
+              className={
+                appendClassName("sui-search-box", className) + autocompleteClass
+              }
+            >
               <div className="sui-search-box__wrapper">
                 <input
                   {...getInputProps({
                     placeholder: "Search your documents",
                     ...inputProps,
-                    className: `sui-search-box__text-input ${focusedClass}`
+                    className: `${appendClassName(
+                      "sui-search-box__text-input",
+                      inputProps.className
+                    )} ${focusedClass}`
                   })}
                 />
                 {useAutocomplete && isOpen && allAutocompletedItemsCount > 0 ? (
@@ -105,6 +114,7 @@ SearchBox.propTypes = {
       })
     )
   ]),
+  className: PropTypes.string,
   inputProps: PropTypes.object,
   isFocused: PropTypes.bool,
   useAutocomplete: PropTypes.bool,

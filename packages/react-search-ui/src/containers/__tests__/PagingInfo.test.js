@@ -36,3 +36,16 @@ it("renders empty when it doesn't have enough data", () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <PagingInfoContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});

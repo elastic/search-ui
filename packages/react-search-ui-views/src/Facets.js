@@ -1,12 +1,19 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-function Facets({ children }) {
-  return <div className="sui-facet-container">{children}</div>;
+import { appendClassName } from "./view-helpers";
+
+function Facets({ children, className }) {
+  return (
+    <div className={appendClassName("sui-facet-container", className)}>
+      {children}
+    </div>
+  );
 }
 
 Facets.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
 };
 
 export default Facets;

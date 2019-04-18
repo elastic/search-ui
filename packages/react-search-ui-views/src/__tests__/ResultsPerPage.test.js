@@ -16,3 +16,12 @@ it("renders correctly when there is not a selected value", () => {
   const wrapper = shallow(<ResultsPerPage {...requiredProps} />);
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <ResultsPerPage {...requiredProps} className={customClassName} />
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual("sui-results-per-page test-class");
+});

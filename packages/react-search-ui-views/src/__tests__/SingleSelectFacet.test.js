@@ -90,3 +90,12 @@ describe("determining selected option from values", () => {
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("");
   });
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <SingleSelectFacet {...params} className={customClassName} />
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual("sui-search-facet sui-facet test-class");
+});

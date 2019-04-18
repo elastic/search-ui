@@ -252,3 +252,14 @@ describe("When there are no suggestions", () => {
     expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
   });
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <Autocomplete className={customClassName} {...props} />
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual(
+    "sui-search-box__autocomplete-container test-class"
+  );
+});

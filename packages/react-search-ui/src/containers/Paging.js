@@ -4,6 +4,7 @@ import { withSearch } from "..";
 import { Paging } from "@elastic/react-search-ui-views";
 
 export function PagingContainer({
+  className,
   current,
   resultsPerPage,
   setCurrent,
@@ -15,6 +16,7 @@ export function PagingContainer({
   const View = view || Paging;
 
   return View({
+    className,
     current,
     resultsPerPage,
     totalPages,
@@ -24,6 +26,7 @@ export function PagingContainer({
 
 PagingContainer.propTypes = {
   // Props
+  className: PropTypes.string,
   view: PropTypes.func,
   // State
   current: PropTypes.number.isRequired,

@@ -23,3 +23,12 @@ it("renders children when there is no error", () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <ErrorBoundary className={customClassName} {...params} />
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual("sui-search-error test-class");
+});

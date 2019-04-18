@@ -172,3 +172,12 @@ describe("determining selected option from values", () => {
     ).toBe(false);
   });
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <MultiCheckboxFacet className={customClassName} {...params} />
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual("sui-multi-checkbox-facet sui-facet test-class");
+});

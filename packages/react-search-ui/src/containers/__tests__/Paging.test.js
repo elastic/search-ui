@@ -45,3 +45,16 @@ it("will call back when a the page is changed", () => {
   const current = params.setCurrent.mock.calls[0][0];
   expect(current).toEqual(2);
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <PagingContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});

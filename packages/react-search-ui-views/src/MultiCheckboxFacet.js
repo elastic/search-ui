@@ -3,9 +3,10 @@ import React from "react";
 import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
-import { getFilterValueDisplay } from "./view-helpers";
+import { appendClassName, getFilterValueDisplay } from "./view-helpers";
 
 function MultiCheckboxFacet({
+  className,
   label,
   onMoreClick,
   onRemove,
@@ -15,7 +16,12 @@ function MultiCheckboxFacet({
   values
 }) {
   return (
-    <div className="sui-multi-checkbox-facet sui-facet">
+    <div
+      className={appendClassName(
+        "sui-multi-checkbox-facet sui-facet",
+        className
+      )}
+    >
       <div className="sui-multi-checkbox-facet__label">{label}</div>
       <div className="sui-multi-checkbox-facet__options-list">
         {options.map(option => {
@@ -72,7 +78,8 @@ MultiCheckboxFacet.propTypes = {
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
   showMore: PropTypes.bool.isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired
+  values: PropTypes.arrayOf(FilterValue).isRequired,
+  className: PropTypes.string
 };
 
 export default MultiCheckboxFacet;

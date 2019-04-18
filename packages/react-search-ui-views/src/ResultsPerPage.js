@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import Select from "react-select";
 
+import { appendClassName } from "./view-helpers";
+
 const setDefaultStyle = {
   option: () => ({}),
   control: () => ({}),
@@ -9,7 +11,7 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function ResultsPerPage({ onChange, options, value }) {
+function ResultsPerPage({ className, onChange, options, value }) {
   const selectedValue = value;
   const wrapOption = option => ({ label: option, value: option });
 
@@ -18,7 +20,7 @@ function ResultsPerPage({ onChange, options, value }) {
     : null;
 
   return (
-    <div className="sui-results-per-page">
+    <div className={appendClassName("sui-results-per-page", className)}>
       <div className="sui-results-per-page__label">Show</div>
       <Select
         className="sui-select sui-select--inline"
@@ -36,6 +38,7 @@ function ResultsPerPage({ onChange, options, value }) {
 ResultsPerPage.propTypes = {
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.number).isRequired,
+  className: PropTypes.string,
   value: PropTypes.number
 };
 

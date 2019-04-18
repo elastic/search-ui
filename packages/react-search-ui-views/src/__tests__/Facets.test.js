@@ -10,3 +10,14 @@ it("renders correctly", () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders with className prop applied", () => {
+  const customClassName = "test-class";
+  const wrapper = shallow(
+    <Facets className={customClassName}>
+      <div>Children</div>
+    </Facets>
+  );
+  const { className } = wrapper.props();
+  expect(className).toEqual("sui-facet-container test-class");
+});

@@ -61,3 +61,16 @@ it("will call back when sort is changed in view", () => {
   expect(sortField).toEqual("field");
   expect(sortDirection).toEqual("desc");
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <SortingContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});

@@ -3,11 +3,19 @@ import React from "react";
 
 import { FacetValue, FilterValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
+import { appendClassName } from "./view-helpers";
 
-function SingleLinksFacet({ label, onRemove, onSelect, options, values = [] }) {
+function SingleLinksFacet({
+  className,
+  label,
+  onRemove,
+  onSelect,
+  options,
+  values = []
+}) {
   const value = values[0];
   return (
-    <div className="sui-facet sui-search-facet">
+    <div className={appendClassName("sui-facet sui-search-facet", className)}>
       <div>
         <div className="sui-facet__title">{label}</div>
         <ul className="sui-facet__list">
@@ -59,7 +67,8 @@ SingleLinksFacet.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired
+  values: PropTypes.arrayOf(FilterValue).isRequired,
+  className: PropTypes.string
 };
 
 export default SingleLinksFacet;

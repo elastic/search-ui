@@ -14,6 +14,7 @@ function getRaw(result, value) {
 export class ResultsContainer extends Component {
   static propTypes = {
     // Props
+    className: PropTypes.string,
     clickThroughTags: PropTypes.arrayOf(PropTypes.string),
     renderResult: PropTypes.func,
     titleField: PropTypes.string,
@@ -31,6 +32,7 @@ export class ResultsContainer extends Component {
 
   render() {
     const {
+      className,
       clickThroughTags,
       renderResult,
       results,
@@ -44,6 +46,7 @@ export class ResultsContainer extends Component {
     const ResultView = renderResult || Result;
 
     return View({
+      className: className,
       children: results.map(result => (
         <ResultContainer
           key={`result-${getRaw(result, "id")}`}

@@ -256,3 +256,16 @@ it("will remove a filter when a facet value removed, defaulting filterType to al
   expect(fieldValue).toEqual("field1value2");
   expect(filterType).toEqual("all");
 });
+
+it("passes className through to the view", () => {
+  let viewProps;
+  const className = "test-class";
+  shallow(
+    <FacetContainer
+      {...params}
+      className={className}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.className).toEqual(className);
+});
