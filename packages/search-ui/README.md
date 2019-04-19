@@ -68,3 +68,5 @@ Ex.
 x-swiftype-integration: search-ui
 x-swiftype-integration-version: 0.6.0
 ```
+
+this is a new test
