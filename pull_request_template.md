@@ -1,4 +1,4 @@
-Note: To preivew this PR, follow the link in the link in the `deploy/netlify` status check.
+Note: To preview this PR, follow the link in the link in the `deploy/netlify` status check.
 
 ## Description
 
