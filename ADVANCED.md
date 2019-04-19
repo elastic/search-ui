@@ -528,7 +528,7 @@ import { Sorting } from "@elastic/react-search-ui";
 
 | Name        | type                                                                  | Required? | Default                                                  | Options | Description                                                                                                                                          |
 | ----------- | --------------------------------------------------------------------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| label       | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | no        |                                                          |         | A static label to show in the sorting component.                                                                                                          |
+| label       | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | no        |                                                          |         | A static label to show in the sorting component.                                                                                                     |
 | sortOptions | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | yes       |                                                          |         |                                                                                                                                                      |
 | view        | Component                                                             | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
@@ -1043,21 +1043,19 @@ The [sandbox](examples/sandbox/README.md) app can be used as a local development
 
 ### Publishing
 
-Always publish from a version branch, do not publish from master.
-
 Publish new version
 (Example, publish 0.6.0)
 
-1. Create new version branch `git checkout -b v0.6`.
-2. Run `npx lerna changed` to see which projects will be published.
-3. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
+1. Run `npx lerna changed` to see which projects will be published.
+2. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.5.0` to `0.6.0` at the top of the file.
-4. Run `npx lerna version 0.6.0 --exact`.
-5. Verify correct tags and commits have been created.
-6. Run `npx lerna publish from-git`.
-7. Verify `0.6.0` has been published to npm.
+3. Run `npx lerna version 0.6.0 --exact`.
+4. Verify correct tags and commits have been created.
+5. Run `npx lerna publish from-git`.
+6. Verify `0.6.0` has been published to npm.
+7. Create new version branch `git checkout -b v0.6` and push to `origin`
 8. PR these release changes back into master.
 9. Create release in Github.
 
