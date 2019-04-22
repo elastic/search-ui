@@ -1012,6 +1012,21 @@ Dependencies are declared in a package.json hierarchy.
 Note that we do not encourage "hoisting" dependencies through lerna. This WILL
 cause the examples applications to error out from dependency version conflicts.
 
+### Installing dependencies
+
+From the root level of this repository, run the following commands in order:
+
+```shell
+# Install top level depenedencies at the root of the project
+npm install
+
+# Install dependencies in the /packages directory
+(cd packages && npm install)
+
+# Install all dependencies for the individual packages
+npm run bootstrap
+```
+
 ### Building
 
 For all projects, run from project root. For single project, run from
