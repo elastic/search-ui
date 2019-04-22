@@ -1,4 +1,4 @@
-import createHistory from "history/createBrowserHistory";
+import { createBrowserHistory as createHistory } from "history";
 import queryString from "./queryString";
 
 function isNumericString(num) {
