@@ -40,12 +40,6 @@ it("can be initialized", () => {
   expect(driver).toBeInstanceOf(SearchDriver);
 });
 
-it("will throw when missing required parameters", () => {
-  expect(() => {
-    new SearchDriver({});
-  }).toThrow();
-});
-
 it("will use initial state if provided", () => {
   const initialState = {
     current: 3,

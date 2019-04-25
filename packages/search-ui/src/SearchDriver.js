@@ -83,10 +83,6 @@ export default class SearchDriver {
     trackUrlState = true,
     urlPushDebounceLength = 500
   }) {
-    if (!apiConnector) {
-      throw Error("apiConnector required");
-    }
-
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
         return {
