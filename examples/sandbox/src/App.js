@@ -136,21 +136,23 @@ export default function App() {
               }
               sideContent={
                 <div>
-                  {wasSearched && <Sorting
-                    label={"Sort by"}
-                    sortOptions={[
-                      {
-                        name: "Relevance",
-                        value: "",
-                        direction: ""
-                      },
-                      {
-                        name: "Title",
-                        value: "title",
-                        direction: "asc"
-                      }
-                    ]}
-                  />}
+                  {wasSearched && (
+                    <Sorting
+                      label={"Sort by"}
+                      sortOptions={[
+                        {
+                          name: "Relevance",
+                          value: "",
+                          direction: ""
+                        },
+                        {
+                          name: "Title",
+                          value: "title",
+                          direction: "asc"
+                        }
+                      ]}
+                    />
+                  )}
                   <Facet field="states" label="States" filterType="any" />
                   <Facet
                     field="world_heritage_site"
@@ -174,7 +176,7 @@ export default function App() {
               bodyHeader={
                 <React.Fragment>
                   {wasSearched && <PagingInfo />}
-                  <ResultsPerPage />
+                  {wasSearched && <ResultsPerPage />}
                 </React.Fragment>
               }
               bodyFooter={<Paging />}
