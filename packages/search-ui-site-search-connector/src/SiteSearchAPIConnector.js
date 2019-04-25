@@ -34,7 +34,7 @@ export default class SiteSearchAPIConnector {
     this._get = _get.bind(this, engineKey);
   }
 
-  click({ query, documentId, tags }) {
+  onResultClick({ query, documentId, tags }) {
     if (tags) {
       console.warn(
         "search-ui-site-search-connector: Site Search does not support tags on click"
@@ -47,7 +47,7 @@ export default class SiteSearchAPIConnector {
     });
   }
 
-  autocompleteClick({ query, documentId, tags }) {
+  onAutocompleteResultClick({ query, documentId, tags }) {
     if (tags) {
       console.warn(
         "search-ui-site-search-connector: Site Search does not support tags on autocompleteClick"
@@ -60,7 +60,7 @@ export default class SiteSearchAPIConnector {
     });
   }
 
-  search(state, queryConfig) {
+  onSearch(state, queryConfig) {
     const options = adaptRequest(state, queryConfig, this.documentType);
 
     return this.request("POST", "engines/search.json", {
@@ -71,7 +71,7 @@ export default class SiteSearchAPIConnector {
     });
   }
 
-  async autocomplete({ searchTerm }, queryConfig) {
+  async onAutocomplete({ searchTerm }, queryConfig) {
     if (queryConfig.results) {
       const options = adaptRequest(
         { searchTerm },

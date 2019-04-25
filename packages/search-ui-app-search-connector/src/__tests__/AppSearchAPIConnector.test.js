@@ -90,13 +90,13 @@ describe("AppSearchAPIConnector", () => {
     }).toThrow();
   });
 
-  describe("click", () => {
+  describe("onResultClick", () => {
     function subject() {
       const connector = new AppSearchAPIConnector({
         ...params
       });
 
-      return connector.click({
+      return connector.onResultClick({
         query: "test",
         documentId: "11111",
         requestId: "12345",
@@ -124,13 +124,13 @@ describe("AppSearchAPIConnector", () => {
     });
   });
 
-  describe("autocompleteClick", () => {
+  describe("onAutocompleteResultClick", () => {
     function subject() {
       const connector = new AppSearchAPIConnector({
         ...params
       });
 
-      return connector.autocompleteClick({
+      return connector.onAutocompleteResultClick({
         query: "test",
         documentId: "11111",
         requestId: "12345",
@@ -158,7 +158,7 @@ describe("AppSearchAPIConnector", () => {
     });
   });
 
-  describe("search", () => {
+  describe("onSearch", () => {
     function subject(state = {}, queryConfig = {}, additionalOptions) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
@@ -167,7 +167,7 @@ describe("AppSearchAPIConnector", () => {
         additionalOptions
       });
 
-      return connector.search(state, queryConfig);
+      return connector.onSearch(state, queryConfig);
     }
 
     it("will return updated search state", async () => {
@@ -364,7 +364,7 @@ describe("AppSearchAPIConnector", () => {
     });
   });
 
-  describe("autocomplete", () => {
+  describe("onAutocomplete", () => {
     function subject(state = {}, queryConfig = {}, additionalOptions) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
@@ -373,7 +373,7 @@ describe("AppSearchAPIConnector", () => {
         additionalOptions
       });
 
-      return connector.autocomplete(state, queryConfig);
+      return connector.onAutocomplete(state, queryConfig);
     }
 
     describe("when 'results' type is requested", () => {

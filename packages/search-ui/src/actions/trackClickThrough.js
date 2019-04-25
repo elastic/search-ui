@@ -13,7 +13,7 @@ export default function trackClickThrough(documentId, tags = []) {
 
   const { requestId, searchTerm } = this.state;
 
-  this.handlers.resultClick({
+  this.events.resultClick({
     query: searchTerm,
     documentId,
     requestId,

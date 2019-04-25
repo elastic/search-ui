@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`#autocompleteResults will correctly format an API response 1`] = `
+exports[`#onAutocomplete will correctly format an API response 1`] = `
 Object {
   "autocompletedResults": Array [
     Object {
@@ -59,7 +59,7 @@ Object {
 }
 `;
 
-exports[`#search will correctly format an API response 1`] = `
+exports[`#onSearch will correctly format an API response 1`] = `
 Object {
   "facets": Object {
     "states": Array [

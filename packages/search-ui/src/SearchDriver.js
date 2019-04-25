@@ -94,11 +94,13 @@ export default class SearchDriver {
     );
     Object.assign(this, this.actions);
 
-    this.handlers = {
-      search: apiConnector.search.bind(apiConnector),
-      autocomplete: apiConnector.autocomplete.bind(apiConnector),
-      resultClick: apiConnector.click.bind(apiConnector),
-      autocompleteResultClick: apiConnector.autocompleteClick.bind(apiConnector)
+    this.events = {
+      search: apiConnector.onSearch.bind(apiConnector),
+      autocomplete: apiConnector.onAutocomplete.bind(apiConnector),
+      resultClick: apiConnector.onResultClick.bind(apiConnector),
+      autocompleteResultClick: apiConnector.onAutocompleteResultClick.bind(
+        apiConnector
+      )
     };
 
     this.debug = debug;
@@ -171,7 +173,7 @@ export default class SearchDriver {
       })
     };
 
-    return this.handlers
+    return this.events
       .autocomplete({ searchTerm }, queryConfig)
       .then(autocompleted => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
@@ -224,7 +226,7 @@ export default class SearchDriver {
 
     const requestState = filterSearchParameters(this.state);
 
-    return this.handlers.search(requestState, queryConfig).then(
+    return this.events.search(requestState, queryConfig).then(
       resultState => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
