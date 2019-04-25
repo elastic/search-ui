@@ -24,7 +24,7 @@ it("supports a render prop", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders empty when it doesn't have enough data", () => {
+it("renders when it doesn't have any results or a result search term", () => {
   const wrapper = shallow(
     <PagingInfoContainer
       {...{

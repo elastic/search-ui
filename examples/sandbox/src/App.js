@@ -114,7 +114,7 @@ export default function App() {
         apiConnector: connector
       }}
     >
-      {_ => (
+      {({ wasSearched }) => (
         <div className="App">
           <ErrorBoundary>
             <Layout
@@ -136,7 +136,7 @@ export default function App() {
               }
               sideContent={
                 <div>
-                  <Sorting
+                  {wasSearched && <Sorting
                     label={"Sort by"}
                     sortOptions={[
                       {
@@ -150,7 +150,7 @@ export default function App() {
                         direction: "asc"
                       }
                     ]}
-                  />
+                  />}
                   <Facet field="states" label="States" filterType="any" />
                   <Facet
                     field="world_heritage_site"
@@ -173,7 +173,7 @@ export default function App() {
               }
               bodyHeader={
                 <React.Fragment>
-                  <PagingInfo />
+                  {wasSearched && <PagingInfo />}
                   <ResultsPerPage />
                 </React.Fragment>
               }

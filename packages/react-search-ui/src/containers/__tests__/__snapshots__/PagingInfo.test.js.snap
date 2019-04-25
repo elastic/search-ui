@@ -1,6 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders empty when it doesn't have enough data 1`] = `""`;
+exports[`renders when it doesn't have any results or a result search term 1`] = `
+<div
+  className="sui-paging-info"
+>
+  Showing
+   
+  <strong>
+    1
+     - 
+    20
+  </strong>
+   
+  out of 
+  <strong>
+    100
+  </strong>
+   for: 
+  <em />
+</div>
+`;
 
 exports[`supports a render prop 1`] = `
 <div>

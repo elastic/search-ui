@@ -42,16 +42,12 @@ export class SortingContainer extends Component {
     const {
       className,
       label,
-      results,
-      searchTerm,
       setSort,
       sortDirection,
       sortField,
       sortOptions,
       view
     } = this.props;
-
-    if (!searchTerm && results.length === 0) return null;
 
     const View = view || Sorting;
 
