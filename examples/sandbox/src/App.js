@@ -175,7 +175,7 @@ export default function App() {
               bodyHeader={
                 <React.Fragment>
                   {wasSearched && <PagingInfo />}
-                  <ResultsPerPage />
+                  {wasSearched && <ResultsPerPage />}
                 </React.Fragment>
               }
               bodyFooter={<Paging />}
