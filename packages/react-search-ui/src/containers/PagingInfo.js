@@ -20,7 +20,6 @@ export class PagingInfoContainer extends Component {
     const {
       className,
       current,
-      results,
       resultsPerPage,
       resultSearchTerm,
       totalResults,
@@ -31,8 +30,6 @@ export class PagingInfoContainer extends Component {
       totalResults <= resultsPerPage
         ? totalResults
         : start + resultsPerPage - 1;
-
-    if (!resultSearchTerm && results.length === 0) return null;
 
     const View = view || PagingInfo;
 

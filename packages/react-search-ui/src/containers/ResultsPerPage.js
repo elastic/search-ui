@@ -19,14 +19,10 @@ export class ResultsPerPageContainer extends Component {
   render() {
     const {
       className,
-      results,
       resultsPerPage,
-      searchTerm,
       setResultsPerPage,
       view
     } = this.props;
-
-    if (!searchTerm && results.length === 0) return null;
 
     const View = view || ResultsPerPage;
 

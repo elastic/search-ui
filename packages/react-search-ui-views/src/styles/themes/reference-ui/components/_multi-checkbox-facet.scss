@@ -23,6 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
   }
 
   @include element("option-input-wrapper") {
@@ -31,6 +32,7 @@
 
   @include element("checkbox") {
     margin-right: $sizeS;
+    cursor: pointer;
   }
 
   @include element("option-count") {

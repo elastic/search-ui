@@ -36,7 +36,7 @@ it("supports a render prop", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders empty when it doesn't have enough data", () => {
+it("renders when it doesn't have results or a search term", () => {
   const wrapper = shallow(
     <SortingContainer
       {...{
