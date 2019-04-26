@@ -108,7 +108,8 @@ export default function App() {
               documents: {
                 fields: ["title"]
               }
-            }
+            },
+            size: 4
           }
         },
         apiConnector: connector
@@ -129,9 +130,7 @@ export default function App() {
                     shouldTrackClickThrough: true,
                     clickThroughTags: ["test"]
                   }}
-                  autocompleteSuggestions={{
-                    sectionTitle: "Suggested Queries"
-                  }}
+                  autocompleteSuggestions={true}
                 />
               }
               sideContent={
