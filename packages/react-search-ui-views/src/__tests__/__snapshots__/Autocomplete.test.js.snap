@@ -8,88 +8,13 @@ exports[`renders correctly 1`] = `
     <div
       className="sui-search-box__section-title"
     >
-      Results
-    </div>
-    <ul
-      className="sui-search-box__results-list"
-    >
-      <li
-        index={0}
-        item={
-          Object {
-            "id": Object {
-              "raw": "1",
-            },
-            "title": Object {
-              "snippet": "<em>Bike</em> Cops",
-            },
-          }
-        }
-        key="1"
-      >
-        <span
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<em>Bike</em> Cops",
-            }
-          }
-        />
-      </li>
-      <li
-        index={1}
-        item={
-          Object {
-            "id": Object {
-              "raw": "2",
-            },
-            "title": Object {
-              "snippet": "<em>Biker</em> Gang",
-            },
-          }
-        }
-        key="2"
-      >
-        <span
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<em>Biker</em> Gang",
-            }
-          }
-        />
-      </li>
-      <li
-        index={2}
-        item={
-          Object {
-            "id": Object {
-              "raw": "3",
-            },
-            "title": Object {
-              "snippet": "<em>Biker</em> Bar",
-            },
-          }
-        }
-        key="3"
-      >
-        <span
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<em>Biker</em> Bar",
-            }
-          }
-        />
-      </li>
-    </ul>
-    <div
-      className="sui-search-box__section-title"
-    >
       Suggested
     </div>
     <ul
       className="sui-search-box__suggestion-list"
     >
       <li
-        index={3}
+        index={0}
         item={
           Object {
             "highlight": "",
@@ -103,7 +28,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
-        index={4}
+        index={1}
         item={
           Object {
             "highlight": "",
@@ -117,7 +42,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
-        index={5}
+        index={2}
         item={
           Object {
             "highlight": "",
@@ -140,7 +65,7 @@ exports[`renders correctly 1`] = `
       className="sui-search-box__suggestion-list"
     >
       <li
-        index={6}
+        index={3}
         item={
           Object {
             "highlight": "",
@@ -154,7 +79,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
-        index={7}
+        index={4}
         item={
           Object {
             "highlight": "",
@@ -168,7 +93,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
-        index={8}
+        index={5}
         item={
           Object {
             "highlight": "",
@@ -180,6 +105,81 @@ exports[`renders correctly 1`] = `
         <span>
           is it cool to ride a bike?
         </span>
+      </li>
+    </ul>
+    <div
+      className="sui-search-box__section-title"
+    >
+      Results
+    </div>
+    <ul
+      className="sui-search-box__results-list"
+    >
+      <li
+        index={6}
+        item={
+          Object {
+            "id": Object {
+              "raw": "1",
+            },
+            "title": Object {
+              "snippet": "<em>Bike</em> Cops",
+            },
+          }
+        }
+        key="1"
+      >
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<em>Bike</em> Cops",
+            }
+          }
+        />
+      </li>
+      <li
+        index={7}
+        item={
+          Object {
+            "id": Object {
+              "raw": "2",
+            },
+            "title": Object {
+              "snippet": "<em>Biker</em> Gang",
+            },
+          }
+        }
+        key="2"
+      >
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<em>Biker</em> Gang",
+            }
+          }
+        />
+      </li>
+      <li
+        index={8}
+        item={
+          Object {
+            "id": Object {
+              "raw": "3",
+            },
+            "title": Object {
+              "snippet": "<em>Biker</em> Bar",
+            },
+          }
+        }
+        key="3"
+      >
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<em>Biker</em> Bar",
+            }
+          }
+        />
       </li>
     </ul>
   </div>

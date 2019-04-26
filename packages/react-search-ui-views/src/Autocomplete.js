@@ -48,48 +48,6 @@ function Autocomplete({
       })}
     >
       <div>
-        {!!autocompleteResults &&
-          !!autocompletedResults &&
-          autocompletedResults.length > 0 &&
-          autocompleteResults.sectionTitle && (
-            <div className="sui-search-box__section-title">
-              {autocompleteResults.sectionTitle}
-            </div>
-          )}
-        {!!autocompleteResults &&
-          !!autocompletedResults &&
-          autocompletedResults.length > 0 && (
-            <ul className="sui-search-box__results-list">
-              {autocompletedResults.map(result => {
-                index++;
-                const titleSnippet = getSnippet(
-                  result,
-                  autocompleteResults.titleField
-                );
-                const titleRaw = getRaw(result, autocompleteResults.titleField);
-                return (
-                  // eslint-disable-next-line react/jsx-key
-                  <li
-                    {...getItemProps({
-                      key: result.id.raw,
-                      index: index - 1,
-                      item: result
-                    })}
-                  >
-                    {titleSnippet ? (
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: titleSnippet
-                        }}
-                      />
-                    ) : (
-                      <span>{titleRaw}</span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
         {!!autocompleteSuggestions &&
           Object.entries(autocompletedSuggestions).map(
             ([suggestionType, suggestions]) => {
@@ -138,6 +96,48 @@ function Autocomplete({
                 </React.Fragment>
               );
             }
+          )}
+        {!!autocompleteResults &&
+          !!autocompletedResults &&
+          autocompletedResults.length > 0 &&
+          autocompleteResults.sectionTitle && (
+            <div className="sui-search-box__section-title">
+              {autocompleteResults.sectionTitle}
+            </div>
+          )}
+        {!!autocompleteResults &&
+          !!autocompletedResults &&
+          autocompletedResults.length > 0 && (
+            <ul className="sui-search-box__results-list">
+              {autocompletedResults.map(result => {
+                index++;
+                const titleSnippet = getSnippet(
+                  result,
+                  autocompleteResults.titleField
+                );
+                const titleRaw = getRaw(result, autocompleteResults.titleField);
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <li
+                    {...getItemProps({
+                      key: result.id.raw,
+                      index: index - 1,
+                      item: result
+                    })}
+                  >
+                    {titleSnippet ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: titleSnippet
+                        }}
+                      />
+                    ) : (
+                      <span>{titleRaw}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           )}
       </div>
     </div>

@@ -108,7 +108,8 @@ export default function App() {
               documents: {
                 fields: ["title"]
               }
-            }
+            },
+            size: 4
           }
         },
         apiConnector: connector
@@ -129,28 +130,28 @@ export default function App() {
                     shouldTrackClickThrough: true,
                     clickThroughTags: ["test"]
                   }}
-                  autocompleteSuggestions={{
-                    sectionTitle: "Suggested Queries"
-                  }}
+                  autocompleteSuggestions={true}
                 />
               }
               sideContent={
                 <div>
-                  {wasSearched && <Sorting
-                    label={"Sort by"}
-                    sortOptions={[
-                      {
-                        name: "Relevance",
-                        value: "",
-                        direction: ""
-                      },
-                      {
-                        name: "Title",
-                        value: "title",
-                        direction: "asc"
-                      }
-                    ]}
-                  />}
+                  {wasSearched && (
+                    <Sorting
+                      label={"Sort by"}
+                      sortOptions={[
+                        {
+                          name: "Relevance",
+                          value: "",
+                          direction: ""
+                        },
+                        {
+                          name: "Title",
+                          value: "title",
+                          direction: "asc"
+                        }
+                      ]}
+                    />
+                  )}
                   <Facet field="states" label="States" filterType="any" />
                   <Facet
                     field="world_heritage_site"
