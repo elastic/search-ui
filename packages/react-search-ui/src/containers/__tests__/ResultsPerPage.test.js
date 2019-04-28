@@ -63,3 +63,13 @@ it("passes className through to the view", () => {
   );
   expect(viewProps.className).toEqual(className);
 });
+
+it("renders the component with custom page options", () => {
+  const resultsPerPageOptions = [5, 10, 15];
+  const resultsPerPage = 10;
+  const wrapper = shallow(
+      <ResultsPerPageContainer {...{...params, resultsPerPage, resultsPerPageOptions}} />
+  );
+
+  expect(wrapper).toMatchSnapshot();
+});

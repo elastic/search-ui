@@ -51,6 +51,57 @@ exports[`renders when it doesn't have any results or a search term 1`] = `
 </div>
 `;
 
+exports[`renders the component with custom page options 1`] = `
+<div
+  className="sui-results-per-page"
+>
+  <div
+    className="sui-results-per-page__label"
+  >
+    Show
+  </div>
+  <StateManager
+    className="sui-select sui-select--inline"
+    classNamePrefix="sui-select"
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": 5,
+          "value": 5,
+        },
+        Object {
+          "label": 10,
+          "value": 10,
+        },
+        Object {
+          "label": 15,
+          "value": 15,
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
+    }
+    value={
+      Object {
+        "label": 10,
+        "value": 10,
+      }
+    }
+  />
+</div>
+`;
+
 exports[`supports a render prop 1`] = `
 <div>
   20

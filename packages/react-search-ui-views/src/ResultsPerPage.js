@@ -19,6 +19,15 @@ function ResultsPerPage({ className, onChange, options, value }) {
     ? wrapOption(options.find(option => option === selectedValue))
     : null;
 
+  if (selectedOption && !selectedOption.value) {
+    console.warn(
+      "Unable to select the results per page option! The `resultsPerPageOptions` prop " +
+        `[${options.join(
+          ", "
+        )}] does not contain current page results size ${value}`
+    );
+  }
+
   return (
     <div className={appendClassName("sui-results-per-page", className)}>
       <div className="sui-results-per-page__label">Show</div>
