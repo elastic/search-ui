@@ -20,21 +20,9 @@ import SearchContext from "./SearchContext";
 class SearchProvider extends Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
-
-    config: PropTypes.shape({
-      apiConnector: PropTypes.shape({
-        click: PropTypes.func.isRequired,
-        search: PropTypes.func.isRequired
-      }).isRequired,
-      conditionalFacets: PropTypes.objectOf(PropTypes.func),
-      disjunctiveFacets: PropTypes.arrayOf(PropTypes.string),
-      disjunctiveFacetsAnalyticsTags: PropTypes.arrayOf(PropTypes.string),
-      facets: PropTypes.object,
-      initialState: PropTypes.object,
-      result_fields: PropTypes.objectOf(PropTypes.object),
-      search_fields: PropTypes.objectOf(PropTypes.object),
-      trackUrlState: PropTypes.bool
-    })
+    // Not providing a shape here because the shape matches the shape of
+    // SearchDriver. SearchDriver can do it's own parameter validation.
+    config: PropTypes.object
   };
 
   subscription = state => {

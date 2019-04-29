@@ -4,6 +4,7 @@ import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
 
 import * as actions from "./actions";
+import Events from "./Events";
 
 function filterSearchParameters({
   current,
@@ -79,6 +80,10 @@ export default class SearchDriver {
     autocompleteQuery = {},
     debug,
     initialState,
+    onSearch,
+    onAutocomplete,
+    onResultClick,
+    onAutocompleteResultClick,
     searchQuery = {},
     trackUrlState = true,
     urlPushDebounceLength = 500
@@ -94,14 +99,13 @@ export default class SearchDriver {
     );
     Object.assign(this, this.actions);
 
-    this.events = {
-      search: apiConnector.onSearch.bind(apiConnector),
-      autocomplete: apiConnector.onAutocomplete.bind(apiConnector),
-      resultClick: apiConnector.onResultClick.bind(apiConnector),
-      autocompleteResultClick: apiConnector.onAutocompleteResultClick.bind(
-        apiConnector
-      )
-    };
+    this.events = new Events({
+      apiConnector,
+      onSearch,
+      onAutocomplete,
+      onResultClick,
+      onAutocompleteResultClick
+    });
 
     this.debug = debug;
     this.requestSequencer = new RequestSequencer();
