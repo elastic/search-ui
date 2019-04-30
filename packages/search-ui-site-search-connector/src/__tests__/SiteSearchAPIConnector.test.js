@@ -26,13 +26,13 @@ it("can be initialized", () => {
   expect(connector).toBeInstanceOf(SiteSearchAPIConnector);
 });
 
-describe("#search", () => {
+describe("#onSearch", () => {
   function subject({ additionalOptions, state, queryConfig = {} }) {
     const connector = new SiteSearchAPIConnector({
       ...params,
       additionalOptions
     });
-    return connector.search(state, queryConfig);
+    return connector.onSearch(state, queryConfig);
   }
 
   it("will correctly format an API response", async () => {
@@ -211,7 +211,7 @@ describe("#search", () => {
   });
 });
 
-describe("#autocompleteResults", () => {
+describe("#onAutocomplete", () => {
   function subject({
     state,
     queryConfig = {
@@ -221,7 +221,7 @@ describe("#autocompleteResults", () => {
     const connector = new SiteSearchAPIConnector({
       ...params
     });
-    return connector.autocomplete(state, queryConfig);
+    return connector.onAutocomplete(state, queryConfig);
   }
 
   it("will correctly format an API response", async () => {
@@ -330,10 +330,10 @@ describe("#autocompleteResults", () => {
   });
 });
 
-describe("#click", () => {
+describe("#onResultClick", () => {
   function subject(clickData) {
     const connector = new SiteSearchAPIConnector(params);
-    return connector.click(clickData);
+    return connector.onResultClick(clickData);
   }
 
   it("will call the API with the correct body params", async () => {
@@ -354,10 +354,10 @@ describe("#click", () => {
   });
 });
 
-describe("#autocompleteClick", () => {
+describe("#onAutocompleteResultClick", () => {
   function subject(clickData) {
     const connector = new SiteSearchAPIConnector(params);
-    return connector.autocompleteClick(clickData);
+    return connector.onAutocompleteResultClick(clickData);
   }
 
   it("will call the API with the correct body params", async () => {

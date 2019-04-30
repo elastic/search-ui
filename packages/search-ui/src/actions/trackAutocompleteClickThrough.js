@@ -15,7 +15,7 @@ export default function trackAutocompleteClickThrough(documentId, tags = []) {
 
   const { autocompletedResultsRequestId, searchTerm } = this.state;
 
-  this.apiConnector.autocompleteClick({
+  this.events.autocompleteResultClick({
     query: searchTerm,
     documentId,
     requestId: autocompletedResultsRequestId,

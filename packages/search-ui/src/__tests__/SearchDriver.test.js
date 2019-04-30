@@ -22,28 +22,24 @@ const params = {
 };
 
 function getSearchCalls(specificMockApiConnector) {
-  return (specificMockApiConnector || mockApiConnector).search.mock.calls;
+  return (specificMockApiConnector || mockApiConnector).onSearch.mock.calls;
 }
 
 function getAutocompleteCalls(specificMockApiConnector) {
-  return (specificMockApiConnector || mockApiConnector).autocomplete.mock.calls;
+  return (specificMockApiConnector || mockApiConnector).onAutocomplete.mock
+    .calls;
 }
 
 beforeEach(() => {
-  mockApiConnector.autocomplete.mockClear();
-  mockApiConnector.search.mockClear();
-  mockApiConnector.click.mockClear();
+  mockApiConnector.onAutocomplete.mockClear();
+  mockApiConnector.onSearch.mockClear();
+  mockApiConnector.onResultClick.mockClear();
+  mockApiConnector.onAutocompleteResultClick.mockClear();
 });
 
 it("can be initialized", () => {
   const driver = new SearchDriver(params);
   expect(driver).toBeInstanceOf(SearchDriver);
-});
-
-it("will throw when missing required parameters", () => {
-  expect(() => {
-    new SearchDriver({});
-  }).toThrow();
 });
 
 it("will use initial state if provided", () => {

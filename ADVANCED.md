@@ -811,16 +811,20 @@ return (
 
 **It is helpful to [read the section on the headless core](#headless-core) first!**
 
-| option              | type                                                                    | required? | default | description                                                                                                                                                                                                                                              |
-| ------------------- | ----------------------------------------------------------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apiConnector`      | APIConnector                                                            | required  |         | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                                                                        |
-| `autocompleteQuery` | Object                                                                  | optional  |         | Configuration options for the main search query.                                                                                                                                                                                                         |
-|                     | - `results` - [Query Config](#query-config)                             |           |         | Configuration options for results query, used by autocomplete.                                                                                                                                                                                           |
-|                     | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |           |         | Configuration options for suggestions query, used by autocomplete.                                                                                                                                                                                       |
-| `debug`             | Boolean                                                                 | optional  | false   | Trace log actions and state changes.                                                                                                                                                                                                                     |
-| `initialState`      | Object                                                                  | optional  |         | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
-| `searchQuery`       | [Query Config](#query-config)                                           | optional  |         | Configuration options for the main search query.                                                                                                                                                                                                         |
-| `trackUrlState`     | boolean                                                                 | optional  |         | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
+| option                      | type                                                                    | required? | default | description                                                                                                                                                                                                                                              |
+| --------------------------- | ----------------------------------------------------------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiConnector`              | APIConnector                                                            | optional  |         | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                                                                        |
+| `onSearch`                  | function                                                                | optional  |         | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Connectors and Handlers](#connectors-and-handlers) for more information.                             |
+| `onAutocomplete`            | function                                                                | optional  |         | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Connectors and Handlers](#connectors-and-handlers) for more information.                             |
+| `onResultClick`             | function                                                                | optional  |         | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Connectors and Handlers](#connectors-and-handlers) for more information.                             |
+| `onAutocompleteResultClick` | function                                                                | optional  |         | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Connectors and Handlers](#connectors-and-handlers) for more information.                             |
+| `autocompleteQuery`         | Object                                                                  | optional  |         | Configuration options for the main search query.                                                                                                                                                                                                         |
+|                             | - `results` - [Query Config](#query-config)                             |           |         | Configuration options for results query, used by autocomplete.                                                                                                                                                                                           |
+|                             | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |           |         | Configuration options for suggestions query, used by autocomplete.                                                                                                                                                                                       |
+| `debug`                     | Boolean                                                                 | optional  | false   | Trace log actions and state changes.                                                                                                                                                                                                                     |
+| `initialState`              | Object                                                                  | optional  |         | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
+| `searchQuery`               | [Query Config](#query-config)                                           | optional  |         | Configuration options for the main search query.                                                                                                                                                                                                         |
+| `trackUrlState`             | boolean                                                                 | optional  |         | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
 
 ## Query Config
 
@@ -925,25 +929,116 @@ function ClearFilters({ filters, clearFilters }) {
 export default withSearch(ClearFilters);
 ```
 
-## Build Your Own Connector
+## Connectors and Handlers
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
 ---
 
-While we do provide out-of-the-box Connectors, it is also possible to create
-your own Connector if you don't see your service in the list above. Connectors
-just need to implement a common interface that Search UI understands.
+Search UI exposes a number of event hooks which need handlers to be implemented in order for Search UI
+to function properly.
 
-An example of this is the [Site Search API Connector](../search-ui-site-search-connector/README.md).
+The easiest way to provide handlers for these events is via an out-of-the-box "Connector", which
+provides pre-built handlers, which can then be configured for your particular use case.
 
-What you're effectively doing here is two things:
+While we do provide out-of-the-box Connectors, it is also possible to implement these handlers directly,
+override Connector methods, or provide "middleware" to Connectors in order to further customize
+how Search UI interacts with your services.
 
-1. Converting the current [Request State](#request-state) and [Query Config](#query-config) into the search semantics of
+#### Event Handlers
+
+| method                      | params                                                                  | return                            | description                                                                                                                                         |
+| --------------------------- | ----------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onResultClick`             | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                             | - `query` - String                                                      |                                   | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `onSearch`                  | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - [Query Config](#query-config)                           |                                   |                                                                                                                                                     |
+| `onAutocompleteResultClick` | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                             | - `query` - String                                                      |                                   | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `onAutocomplete`            | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - Object                                                  |                                   |                                                                                                                                                     |
+|                             | - `results` - [Query Config](#query-config)                             |                                   | If this is set, results should be returned for autocomplete.                                                                                        |
+|                             | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |                                   | If this is set, query suggestions should be returned for autocomplete.                                                                              |
+
+### Implementing Handlers without a Connector
+
+If you are using an API for search that there is no Connector for, it is possible to simply provide
+handler implementations directly on the `SearchProvider`.
+
+```jsx
+<SearchProvider
+  config={{
+    onSearch: async state => {
+      const queryForOtherService = transformSearchUIStateToQuery(state);
+      const otherServiceResponse = await callSomeOtherService(
+        queryForOtherService
+      );
+      return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
+    }
+  }}
+/>
+```
+
+This makes Search UI useful for services like `elasticsearch` which do not have a Connector
+available.
+
+### Overriding Connector Handlers
+
+Explicitly providing a Handler will override the Handler provided by the Connector.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: async (state, queryConfig) => {
+      const queryForOtherService = transformSearchUIStateToQuery(
+        state,
+        queryConfig
+      );
+      const otherServiceResponse = await callSomeOtherService(
+        queryForOtherService
+      );
+      return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
+    }
+  }}
+/>
+```
+
+### Using middleware in Connector Handlers
+
+Handler implementations can also be used as middleware for Connectors by leveraging
+the `next` function.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: (state, queryConfig, next) => {
+      const updatedState = someStateTransformation(state);
+      return next(updatedState, queryConfig);
+    }
+  }}
+/>
+```
+
+### Build your own Connector
+
+An example of a connector is the [Site Search API Connector](../search-ui-site-search-connector/README.md).
+
+A connector simply needs to implement the Event Handlers listed above. The handlers typically:
+
+1. Convert the current [Request State](#request-state) and [Query Config](#query-config) into the search semantics of
    your particular Search API.
-2. Converting the response from your particular Search API into [Response State](#response-state).
+2. Convert the response from your particular Search API into [Response State](#response-state).
 
-<a id="connectorconfig"></a>
+While some handlers are meant for fetching data and performing searches, other handlers are meant for recording
+certain user events in analytics services, such as `onResultClick` or `onAutocompleteResultClick`.
 
 #### Configuration
 
@@ -953,27 +1048,6 @@ need to have in common is an `additionalOptions` parameter.
 | option              | type             | required? | source                                                                                                                                                                        |
 | ------------------- | ---------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `additionalOptions` | Function(Object) | optional  | A hook that allows you to inject additional, API specific configuration. More information can be found in the [Customizing API calls - additionalOptions](#apicalls) section. |
-
-<a id="connectormethods"></a>
-
-#### Methods
-
-| method              | params                                                                  | return                            | description                                                                                                                                         |
-| ------------------- | ----------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `click`             | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
-|                     | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
-|                     | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
-|                     | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
-| `search`            | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
-|                     | `queryConfig` - [Query Config](#query-config)                           |                                   |                                                                                                                                                     |
-| `autocompleteClick` | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
-|                     | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
-|                     | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
-|                     | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
-| `autocomplete`      | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
-|                     | `queryConfig` - Object                                                  |                                   |                                                                                                                                                     |
-|                     | - `results` - [Query Config](#query-config)                             |                                   | If this is set, results should be returned for autocomplete.                                                                                        |
-|                     | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |                                   | If this is set, query suggestions should be returned for autocomplete.                                                                              |
 
 #### Errors
 

@@ -50,17 +50,17 @@ export default class AppSearchAPIConnector {
     this.additionalOptions = additionalOptions;
   }
 
-  click({ query, documentId, requestId, tags = [] }) {
+  onResultClick({ query, documentId, requestId, tags = [] }) {
     tags = tags.concat("results");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  autocompleteClick({ query, documentId, requestId, tags = [] }) {
+  onAutocompleteResultClick({ query, documentId, requestId, tags = [] }) {
     tags = tags.concat("autocomplete");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  async search(state, queryConfig) {
+  async onSearch(state, queryConfig) {
     const {
       current,
       filters,
@@ -92,7 +92,7 @@ export default class AppSearchAPIConnector {
     return adaptResponse(response);
   }
 
-  async autocomplete({ searchTerm }, queryConfig) {
+  async onAutocomplete({ searchTerm }, queryConfig) {
     const autocompletedState = {};
     let promises = [];
 

@@ -4,6 +4,7 @@ import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
 
 import * as actions from "./actions";
+import Events from "./Events";
 
 function filterSearchParameters({
   current,
@@ -79,14 +80,14 @@ export default class SearchDriver {
     autocompleteQuery = {},
     debug,
     initialState,
+    onSearch,
+    onAutocomplete,
+    onResultClick,
+    onAutocompleteResultClick,
     searchQuery = {},
     trackUrlState = true,
     urlPushDebounceLength = 500
   }) {
-    if (!apiConnector) {
-      throw Error("apiConnector required");
-    }
-
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
         return {
@@ -98,10 +99,17 @@ export default class SearchDriver {
     );
     Object.assign(this, this.actions);
 
+    this.events = new Events({
+      apiConnector,
+      onSearch,
+      onAutocomplete,
+      onResultClick,
+      onAutocompleteResultClick
+    });
+
     this.debug = debug;
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
-    this.apiConnector = apiConnector;
     this.autocompleteQuery = autocompleteQuery;
     this.searchQuery = searchQuery;
     this.subscriptions = [];
@@ -169,7 +177,7 @@ export default class SearchDriver {
       })
     };
 
-    return this.apiConnector
+    return this.events
       .autocomplete({ searchTerm }, queryConfig)
       .then(autocompleted => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
@@ -222,7 +230,7 @@ export default class SearchDriver {
 
     const requestState = filterSearchParameters(this.state);
 
-    return this.apiConnector.search(requestState, queryConfig).then(
+    return this.events.search(requestState, queryConfig).then(
       resultState => {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
