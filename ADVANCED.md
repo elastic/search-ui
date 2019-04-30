@@ -811,12 +811,6 @@ return (
 
 **It is helpful to [read the section on the headless core](#headless-core) first!**
 
-apiConnector: connector,
-// Example of overriding a connector handler
-onResultClick: () => console.log("hi"),
-// Example of handler as middleware
-onSearch: (state, queryConfig, next) => next(state, queryConfig)
-
 | option                      | type                                                                    | required? | default | description                                                                                                                                                                                                                                              |
 | --------------------------- | ----------------------------------------------------------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `apiConnector`              | APIConnector                                                            | optional  |         | Instance of a Connector. For instance, [search-ui-app-search-connector](packages/search-ui-app-search-connector).                                                                                                                                        |
