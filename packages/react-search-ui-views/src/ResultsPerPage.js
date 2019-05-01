@@ -11,21 +11,20 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function ResultsPerPage({ className, onChange, options, value }) {
-  const selectedValue = value;
-  const wrapOption = option => ({ label: option, value: option });
+const wrapOption = option => ({ label: option, value: option });
 
-  const selectedOption = selectedValue
-    ? wrapOption(options.find(option => option === selectedValue))
-    : null;
+function ResultsPerPage({
+  className,
+  onChange,
+  options,
+  value: selectedValue
+}) {
+  let selectedOption = null;
 
-  if (selectedOption && !selectedOption.value) {
-    console.warn(
-      "Unable to select the results per page option! The `resultsPerPageOptions` prop " +
-        `[${options.join(
-          ", "
-        )}] does not contain current page results size ${value}`
-    );
+  if (selectedValue) {
+    selectedOption = wrapOption(selectedValue);
+
+    if (!options.includes(selectedValue)) options = [selectedValue, ...options];
   }
 
   return (

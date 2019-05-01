@@ -408,11 +408,11 @@ import { Results } from "@elastic/react-search-ui";
 
 Shows a dropdown for selecting the number of results to show per page.
 
-Uses [20, 40, 60] as a default options. You can use `resultsPerPageOptions` prop to pass custom options. 
+Uses [20, 40, 60] as a default options. You can use `options` prop to pass custom options. 
 
-**Note:** When passing custom options make sure one of the option value matches 
+**Note:** When passing custom options make sure one of the option values match 
 the current [`resultsPerPage`](#resultsPerPageProp) value, which is 20 by default.
-To override `resultsPerPage` default value [Refer the custom options example](#Example-using-custom-options).
+To override `resultsPerPage` default value [refer to the custom options example](#Example-using-custom-options).
 
 ### Example
 
@@ -439,7 +439,7 @@ import { SearchProvider, ResultsPerPage } from "@elastic/react-search-ui";
         }
     }
 >
-    <ResultsPerPage resultsPerPageOptions={[5, 10, 15]} />
+    <ResultsPerPage options={[5, 10, 15]} />
 </SearchProvider>
 ```
 
@@ -447,7 +447,7 @@ import { SearchProvider, ResultsPerPage } from "@elastic/react-search-ui";
 
 | Name | type      | Required? | Default                                                                | Options | Description                                                                                                                                          |
 | ---- | --------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| resultsPerPageOptions | Array[Number] | no | [20, 40, 60] | | Dropdown options to select the number of results to show per page.
+| options | Array[Number] | no | [20, 40, 60] | | Dropdown options to select the number of results to show per page.
 | view | Component | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---

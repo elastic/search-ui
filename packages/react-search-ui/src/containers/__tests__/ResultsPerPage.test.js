@@ -65,10 +65,10 @@ it("passes className through to the view", () => {
 });
 
 it("renders the component with custom page options", () => {
-  const resultsPerPageOptions = [5, 10, 15];
+  const options = [5, 10, 15];
   const resultsPerPage = 10;
   const wrapper = shallow(
-      <ResultsPerPageContainer {...{...params, resultsPerPage, resultsPerPageOptions}} />
+      <ResultsPerPageContainer {...{...params, resultsPerPage, options}} />
   );
 
   expect(wrapper).toMatchSnapshot();
