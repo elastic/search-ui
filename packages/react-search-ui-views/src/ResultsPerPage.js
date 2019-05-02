@@ -11,13 +11,21 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function ResultsPerPage({ className, onChange, options, value }) {
-  const selectedValue = value;
-  const wrapOption = option => ({ label: option, value: option });
+const wrapOption = option => ({ label: option, value: option });
 
-  const selectedOption = selectedValue
-    ? wrapOption(options.find(option => option === selectedValue))
-    : null;
+function ResultsPerPage({
+  className,
+  onChange,
+  options,
+  value: selectedValue
+}) {
+  let selectedOption = null;
+
+  if (selectedValue) {
+    selectedOption = wrapOption(selectedValue);
+
+    if (!options.includes(selectedValue)) options = [selectedValue, ...options];
+  }
 
   return (
     <div className={appendClassName("sui-results-per-page", className)}>

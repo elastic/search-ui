@@ -8,6 +8,7 @@ export class ResultsPerPageContainer extends Component {
     // Props
     className: PropTypes.string,
     view: PropTypes.func,
+    options: PropTypes.arrayOf(PropTypes.number),
     // State
     results: PropTypes.arrayOf(PropTypes.object).isRequired,
     resultsPerPage: PropTypes.number.isRequired,
@@ -16,12 +17,17 @@ export class ResultsPerPageContainer extends Component {
     setResultsPerPage: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    options: [20, 40, 60]
+  };
+
   render() {
     const {
       className,
       resultsPerPage,
       setResultsPerPage,
-      view
+      view,
+      options
     } = this.props;
 
     const View = view || ResultsPerPage;
@@ -31,7 +37,7 @@ export class ResultsPerPageContainer extends Component {
       onChange: value => {
         setResultsPerPage(value);
       },
-      options: [20, 40, 60],
+      options,
       value: resultsPerPage
     });
   }

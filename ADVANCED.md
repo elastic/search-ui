@@ -133,7 +133,7 @@ Request state can be set by:
 | ---------------- | -------------------------------------- | --------- | -------------------------------------- |
 | `current`        | Integer                                | optional  | Current page number                    |
 | `filters`        | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
-| `resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
+| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
 | `searchTerm`     | String                                 | optional  | Search terms to search for             |
 | `sortDirection`  | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
 | `sortField`      | String                                 | optional  | Name of field to sort on               |
@@ -408,7 +408,11 @@ import { Results } from "@elastic/react-search-ui";
 
 Shows a dropdown for selecting the number of results to show per page.
 
-Uses 20, 40, 60 as options.
+Uses [20, 40, 60] as a default options. You can use `options` prop to pass custom options. 
+
+**Note:** When passing custom options make sure one of the option values match 
+the current [`resultsPerPage`](#resultsPerPageProp) value, which is 20 by default.
+To override `resultsPerPage` default value [refer to the custom options example](#Example-using-custom-options).
 
 ### Example
 
@@ -421,10 +425,29 @@ import { ResultsPerPage } from "@elastic/react-search-ui";
 <ResultsPerPage />
 ```
 
+### Example using custom options
+
+```jsx
+
+import { SearchProvider, ResultsPerPage } from "@elastic/react-search-ui";
+
+<SearchProvider
+    config={
+        ...
+        initialState: {
+            resultsPerPage: 5
+        }
+    }
+>
+    <ResultsPerPage options={[5, 10, 15]} />
+</SearchProvider>
+```
+
 ### Properties
 
 | Name | type      | Required? | Default                                                                | Options | Description                                                                                                                                          |
 | ---- | --------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options | Array[Number] | no | [20, 40, 60] | | Dropdown options to select the number of results to show per page.
 | view | Component | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
