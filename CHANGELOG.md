@@ -1,3 +1,29 @@
+## 0.8.0 (May 2, 2019)
+
+- Configurable `ResultsPerPage` component options (@m-sureshraj in #224)
+- Connector-less usage (@JasonStoltz in #225)
+- Swapped autocomplete and autosuggest ordering in Autocomplete (@JasonStoltz in #222)
+- Added cursor pointer to facet checkbox on hover (@JasonStoltz in #221)
+- Containers no longer hide themselves by default before first search (@byronhulcher in #203)
+- Fix warning message about importing browserHistory (@byronhulcher in #215)
+
+## Breaking Changes
+
+- Connector-less usage introduces breaking changes for the **Connector layer**. This would impact anyone who has
+  implemented any sort of Connector directly (#225). The following interface methods have been renamed:
+  - `click` -> `onResultClick`
+  - `autocompleteClick` -> `onAutocompleteResultClick`
+  - `search` -> `onSearch`
+  - `autocomplete` -> `onAutocomplete`
+- The ordering of "autocompleteResults" and "autocompleteSuggestions" has been swapped in the default view of
+  `Autocomplete`. If you are using the default view these will be visibly different (#222).
+- Some components will no longer automatically hide themselves until search results are rendered (#203). This means
+  you may need to manually hide them using the `wasSearched` property from state in order to maintain this behavior.
+  This affects the following components:
+  - `PagingInfo`
+  - `Sorting`
+  - `ResultsPerPage`
+
 ## 0.7.0 (April 19, 2019)
 
 - All components now accept a `className` property #56
