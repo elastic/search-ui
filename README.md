@@ -8,8 +8,7 @@
 
 - [About Search UI](#about-search-ui-rocket)
 - [Getting started](#getting-started-)
-- [Configuration](#configuration)
-- [Customization](#customization)
+- [Creating a search experience](#creating-a-search-experience)
 - [FAQ](#faq-)
 - [Contribute](#contribute-)
 - [License](#license-)
@@ -25,10 +24,10 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 ### Features :+1:
 
 - **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
-- **Speedy Implementation** - Build search with a search box, results view, sorting, and more, with a few lines of code.
-- **Customizable** - Tune the Components, markup, styles, and behaviors to your liking.
+- **Speedy Implementation** - Build a complete search experience with a few lines of code.
+- **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
-- **Headless** - Leverage our application logic, provide your own Components or views.
+- **Headless** - Leverage our application logic, provide your own components or views.
 - **Flexible** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
@@ -37,20 +36,20 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 **Looking for a great search API?** [Elastic App Search](https://www.elastic.co/cloud/app-search-service) has a slick dashboard, powerful features, and leading relevance.
 
-Install the **React Search UI** and the **App Search** connector.
+Install **React Search UI** and the **App Search** connector.
 
 ```sh
 # Install React Search UI and a Connector, like the Elastic App Search Connector
 npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
 ```
 
-_Note: The Search UI is in beta. We do not recommend production use._
+_Note: Search UI is in beta. We do not recommend production use._
 
-## Creating a Search UI
+## Creating a search experience
 
 <a id="search-ui"></a>
 
-Use out of the box components, styles, and layouts to build a search experience quickly.
+Use out of the box components, styles, and layouts to build a search experience in a matter of minutes.
 
 ```jsx
 import React from "react";
@@ -86,7 +85,7 @@ export default function App() {
 }
 ```
 
-Or go headless:
+Or go "headless", and take complete control over the look and feel of your search experience.
 
 ```jsx
 <SearchProvider config={config}>
@@ -106,25 +105,40 @@ Or go headless:
 </SearchProvider>
 ```
 
-A search UI is made up of four key areas, which you can expand and customize:
+A search experience built with Search UI is composed of the following layers:
 
-1. [Connectors](#1-connectors)
-2. [SearchProvider](#2-searchprovider)
-3. [Components](#3-components)
-4. [Styles and Layout](#4-styles-and-layout)
+1. [A Search API](#1-search-api)
+2. [A Connector](#2-connectors)
+3. [A SearchProvider](#3-searchprovider)
+4. [Components](#4-components)
+5. [Styles and Layout](#5-styles-and-layout)
+
+```
+Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
+```
 
 ---
 
-### 1. Connectors
+### 1. Search API
 
-Connectors are modules that tell Search UI how to connect and communicate with a particular API.
+A Search API is any API that you use to search data; examples being [Elasticsearch](https://www.elastic.co/products/elasticsearch),
+[Elastic App Search](https://swiftype.com/app-search), and [Elastic Site Search](https://swiftype.com/site-search).
+
+In order to use Search UI you'll need to have your data indexed into a service like
+this before you can start searching.
+
+### 2. Connectors
+
+Connectors are modules that tell Search UI how to connect and communicate with
+your Search API. They generate Search API calls for you so that Search UI will "just work",
+right out of the box.
 
 Search UI currently provides two Connectors:
 
 1. **Elastic App Search**: [search-ui-app-search-connector](packages/search-ui-app-search-connector)
 2. **Elastic Site Search**: [search-ui-site-search-connector](packages/search-ui-site-search-connector)
 
-The [example search UI](#search-ui) above uses the Elastic App Search Connector:
+The [example search experience](#search-ui) above uses the Elastic App Search Connector:
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -136,23 +150,10 @@ const connector = new AppSearchAPIConnector({
 
 Search UI can connect to **any** web based Search API. Read [the advanced README](./ADVANCED.md#build-your-own-connector) for more information.
 
-### 2. SearchProvider
+### 3. SearchProvider
 
-The `SearchProvider` object will tie all of your Components together so that they work as a cohesive application.
-
-It's where you configure your UI, acting as the state manager between "State" and "Actions".
-
-The overall flow is like this:
-
-```
-Components -> SearchProvider -> Connector -> Search API (App Search)
-```
-
-1. A user takes an action - like submitting a search box or applying a filter - using a Component.
-
-2. `SearchProvider` will trigger an API call via the Connector you've configured to fetch search results.
-
-`SearchProvider` is lightweight:
+`SearchProvider` is the top level component in your Search UI implementation.
+It is where you configure your search experience, and it ties all of your components together so that they work as a cohesive application.
 
 ```jsx
 <SearchProvider
@@ -164,15 +165,33 @@ Components -> SearchProvider -> Connector -> Search API (App Search)
 </SearchProvider>
 ```
 
-But it's deeply configurable.
+For more on components, continue to the next section!
+
+While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". `SearchProvider` exposes those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector
+  }}
+>
+  {({ searchTerm, setSearchTerm }) => (
+    <div className="App">{/* Work directly with state and actions! */}</div>
+  )}
+</SearchProvider>
+```
+
+To learn more about "state", "actions", and our "SearchDriver", [Read the Headless Core Guide](./ADVANCED.md#headless-core)
+
+`SearchProvider` is lightweight, but it's deeply configurable.
 
 Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration).
 
-### 3. Components
+### 4. Components
 
-Components are the building blocks from which craft your search experience.
+Components are the building blocks from which you craft your search experience.
 
-Each Component - like `SearchBox` and `Results` - is a child of the `SearchProvider` object:
+Each Component - like `SearchBox` and `Results` - need only be a child of the `SearchProvider` object:
 
 ```jsx
 <SearchProvider
@@ -182,10 +201,12 @@ Each Component - like `SearchBox` and `Results` - is a child of the `SearchProvi
 >
   {() => (
     <div className="App">
-      <Layout
-        header={<SearchBox />}
-        bodyContent={<Results titleField="title" urlField="nps_link" />}
-      />
+      <div className="Header">
+        <SearchBox />
+      </div>
+      <div className="Body">
+        <Results titleField="title" urlField="nps_link" />
+      </div>
     </div>
   )}
 </SearchProvider>
@@ -204,7 +225,7 @@ The following Components are available:
 
 Read the [Component Reference](./ADVANCED.md#component-reference) for a breakdown.
 
-### 4. Styles and Layout
+### 5. Styles and Layout
 
 For basic styles, include:
 
@@ -236,7 +257,7 @@ Nope. Search UI is "headless".
 
 You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
 
-[Read the Headless Core Guide](./ADVANCED.md#customization) for more information.
+[Read the Headless Core Guide](./ADVANCED.md#headless-core) for more information.
 
 ### Can I build my own Components?
 
