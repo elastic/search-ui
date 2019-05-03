@@ -15,22 +15,25 @@
 
 ## Headless Core Concepts
 
-The core is a separate library which can be used for any JavaScript based implementation.
+The core is a separate, vanilla JS library which can be used for any JavaScript based implementation.
 
-> [The Search UI Core](https://github.com/elastic/search-ui/tree/master/packages/search-ui).
+> [search-ui](https://github.com/elastic/search-ui/tree/master/packages/search-ui)
 
-All of the components in this library use the headless core under the hood.
+One way to think of the Headless Core is as a search experience without a view. Instead of providing UI like search boxes
+and dropdowns, it provides the underlying "state" and "actions" associated with that UI. For instance, instead of
+a "search box", the core has a `searchTerm` property which represents the value of the search box (the state), and a
+`setSearchTerm` method to update that searchTerm (the action).
 
-You can work directly with the core if you need more than the Components offer.
+Search UI lets you work directly with "state" and "actions", which means you are not restricted to using
+JUST a `SearchBox` component for collecting input from a user. You could use any type of input you want! As long
+as it ends up calling `setSearchTerm`, it will "just work". This gives you maximum flexibility over your experience.
 
-The Headless Core is managed by the `SearchProvider`, which provides a **"Context"**.
+All of the components in this library use the headless core under the hood. You too can work directly with the headless
+core if you need more than the components offer.
 
-A **"Context"** is comprised of **"State"** and **"Actions"**:
-
-- SearchProvider: The top-level Component which manages the core and exposes the Context to your application.
-- Context: A flattened object containing, as keys, all State and Actions.
-- State: The current state of your application. Current search terms, filters, etc.
-- Actions: Functions that let you update the State: setSearchTerm, applyFilter, and so on.
+The `SearchProvider` is just a React wrapper around the Headless Core, and makes state and actions available to Search UI
+and in a React [Context](https://reactjs.org/docs/context.html), and also via a
+[Render Prop](https://reactjs.org/docs/render-props.html)
 
 It looks like this:
 
@@ -53,10 +56,6 @@ It looks like this:
   }}
 </SearchProvider>
 ```
-
-If you are familiar with Redux or [formik](https://github.com/jaredpalmer/formik), it's the same State and Actions pattern.
-
-All the default Components work with the Context directly. This means there are plenty of good examples in the source code!
 
 ### SearchProvider
 
@@ -129,14 +128,14 @@ Request state can be set by:
 - The `initialState` option.
 - The URL query string, if `trackUrlState` is enabled.
 
-| option           | type                                   | required? | source                                 |
-| ---------------- | -------------------------------------- | --------- | -------------------------------------- |
-| `current`        | Integer                                | optional  | Current page number                    |
-| `filters`        | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
+| option                                            | type                                   | required? | source                                 |
+| ------------------------------------------------- | -------------------------------------- | --------- | -------------------------------------- |
+| `current`                                         | Integer                                | optional  | Current page number                    |
+| `filters`                                         | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
 | <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
-| `searchTerm`     | String                                 | optional  | Search terms to search for             |
-| `sortDirection`  | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
-| `sortField`      | String                                 | optional  | Name of field to sort on               |
+| `searchTerm`                                      | String                                 | optional  | Search terms to search for             |
+| `sortDirection`                                   | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
+| `sortField`                                       | String                                 | optional  | Name of field to sort on               |
 
 #### Response State
 
@@ -408,9 +407,9 @@ import { Results } from "@elastic/react-search-ui";
 
 Shows a dropdown for selecting the number of results to show per page.
 
-Uses [20, 40, 60] as a default options. You can use `options` prop to pass custom options. 
+Uses [20, 40, 60] as a default options. You can use `options` prop to pass custom options.
 
-**Note:** When passing custom options make sure one of the option values match 
+**Note:** When passing custom options make sure one of the option values match
 the current [`resultsPerPage`](#resultsPerPageProp) value, which is 20 by default.
 To override `resultsPerPage` default value [refer to the custom options example](#Example-using-custom-options).
 
@@ -445,10 +444,10 @@ import { SearchProvider, ResultsPerPage } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type      | Required? | Default                                                                | Options | Description                                                                                                                                          |
-| ---- | --------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| options | Array[Number] | no | [20, 40, 60] | | Dropdown options to select the number of results to show per page.
-| view | Component | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name    | type          | Required? | Default                                                                | Options | Description                                                                                                                                          |
+| ------- | ------------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options | Array[Number] | no        | [20, 40, 60]                                                           |         | Dropdown options to select the number of results to show per page.                                                                                   |
+| view    | Component     | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
