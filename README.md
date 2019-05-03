@@ -122,8 +122,8 @@ Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
 
 ### 1. Search API
 
-A Search API is any API that you use to search data; examples being Elasticsearch,
-Elastic App Search, and Elastic Site Search.
+A Search API is any API that you use to search data; examples being [Elasticsearch](https://www.elastic.co/products/elasticsearch),
+[Elastic App Search](https://swiftype.com/app-search), and [Elastic Site Search](https://swiftype.com/site-search).
 
 In order to use Search UI you'll need to have your data indexed into a service like
 this before you can start searching.
@@ -156,8 +156,6 @@ Search UI can connect to **any** web based Search API. Read [the advanced README
 `SearchProvider` is the top level component in your Search UI implementation.
 It is where you configure your search experience, and it ties all of your components together so that they work as a cohesive application.
 
-`SearchProvider` can be used with components:
-
 ```jsx
 <SearchProvider
   config={{
@@ -168,7 +166,9 @@ It is where you configure your search experience, and it ties all of your compon
 </SearchProvider>
 ```
 
-Or without them:
+For more on components, continue to the next section!
+
+While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". `SearchProvider` exposes those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
 
 ```jsx
 <SearchProvider
@@ -182,14 +182,7 @@ Or without them:
 </SearchProvider>
 ```
 
-One way to think of `SearchProvider` is as a search experience without a view. Instead of thinking of a search experience in terms of UI like search boxes and dropdowns, it thinks of the underlying "state" and "actions"
-associated with a search experience. So instead of a "search box", the `SearchProvider` just cares about the
-underlying `searchTerm` that is populated in a search box (the state), and the action that a user takes
-on that search box when they change the `searchTerm`, i.e, `setSearchTerm` (the action).
-
-Since you are able to work directly with "state" and "actions", this means you are not restricted to using
-JUST a `SearchBox` component for collecting input from a user. You could use any type of input you want! As long
-as it ends up calling `setSearchTerm`, it will "just work". This gives you maximum flexbility over your experience.
+To learn more about "state", "actions", and our "SearchDriver", [Read the Headless Core Guide](./ADVANCED.md#headless-core)
 
 `SearchProvider` is lightweight, but it's deeply configurable.
 
@@ -265,7 +258,7 @@ Nope. Search UI is "headless".
 
 You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
 
-[Read the Headless Core Guide](./ADVANCED.md#customization) for more information.
+[Read the Headless Core Guide](./ADVANCED.md#headless-core) for more information.
 
 ### Can I build my own Components?
 
