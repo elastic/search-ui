@@ -195,7 +195,7 @@ as it ends up calling `setSearchTerm`, it will "just work". This gives you maxim
 
 Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration).
 
-### 3. Components
+### 4. Components
 
 Components are the building blocks from which you craft your search experience.
 
@@ -233,7 +233,7 @@ The following Components are available:
 
 Read the [Component Reference](./ADVANCED.md#component-reference) for a breakdown.
 
-### 4. Styles and Layout
+### 5. Styles and Layout
 
 For basic styles, include:
 
