@@ -106,18 +106,33 @@ Or go "headless", and take complete control over the look and feel of your searc
 </SearchProvider>
 ```
 
-A search experience built with Search UI is made up of four key elements:
+A search experience built with Search UI is composed of the following layers:
 
-1. [A Connector](#1-connector)
-2. [A SearchProvider](#2-searchprovider)
-3. [Components](#3-components)
-4. [Styles and Layout](#4-styles-and-layout)
+1. [A Search API](#1-search-api)
+2. [A Connector](#2-connectors)
+3. [A SearchProvider](#3-searchprovider)
+4. [Components](#4-components)
+5. [Styles and Layout](#5-styles-and-layout)
+
+```
+Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
+```
 
 ---
 
-### 1. Connector
+### 1. Search API
 
-Connectors are modules that tell Search UI how to connect and communicate with a particular API.
+A Search API is any API that you use to search data; examples being Elasticsearch,
+Elastic App Search, and Elastic Site Search.
+
+In order to use Search UI you'll need to have your data indexed into a service like
+this before you can start searching.
+
+### 2. Connectors
+
+Connectors are modules that tell Search UI how to connect and communicate with
+your Search API. They generate Search API calls for you so that Search UI will "just work",
+right out of the box.
 
 Search UI currently provides two Connectors:
 
@@ -136,16 +151,12 @@ const connector = new AppSearchAPIConnector({
 
 Search UI can connect to **any** web based Search API. Read [the advanced README](./ADVANCED.md#build-your-own-connector) for more information.
 
-### 2. SearchProvider
+### 3. SearchProvider
 
-The `SearchProvider` object will tie all of your Components together so that they work as a cohesive application.
+`SearchProvider` is the top level component in your Search UI implementation.
+It is where you configure your search experience, and it ties all of your components together so that they work as a cohesive application.
 
-It acts as a state manager, exposing "State" and "Actions" which components use to render and handle user input.
-These "State" and "Actions" are abstracted away when you are using components so you don't have to worry
-about them, but they are also available directly for those cases where you need more flexiblity, or decide
-to go "headless".
-
-`SearchProvider` is lightweight:
+`SearchProvider` can be used with components:
 
 ```jsx
 <SearchProvider
@@ -157,7 +168,30 @@ to go "headless".
 </SearchProvider>
 ```
 
-But it's deeply configurable.
+Or without them:
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector
+  }}
+>
+  {({ searchTerm, setSearchTerm }) => (
+    <div className="App">{/* Work directly with state and actions! */}</div>
+  )}
+</SearchProvider>
+```
+
+One way to think of `SearchProvider` is as a search experience without a view. Instead of thinking of a search experience in terms of UI like search boxes and dropdowns, it thinks of the underlying "state" and "actions"
+associated with a search experience. So instead of a "search box", the `SearchProvider` just cares about the
+underlying `searchTerm` that is populated in a search box (the state), and the action that a user takes
+on that search box when they change the `searchTerm`, i.e, `setSearchTerm` (the action).
+
+Since you are able to work directly with "state" and "actions", this means you are not restricted to using
+JUST a `SearchBox` component for collecting input from a user. You could use any type of input you want! As long
+as it ends up calling `setSearchTerm`, it will "just work". This gives you maximum flexbility over your experience.
+
+`SearchProvider` is lightweight, but it's deeply configurable.
 
 Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration).
 
