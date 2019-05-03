@@ -8,8 +8,7 @@
 
 - [About Search UI](#about-search-ui-rocket)
 - [Getting started](#getting-started-)
-- [Configuration](#configuration)
-- [Customization](#customization)
+- [Creating a search experience](#creating-a-search-experience)
 - [FAQ](#faq-)
 - [Contribute](#contribute-)
 - [License](#license-)
