@@ -20,7 +20,7 @@
 
 Search UI allows you to quickly implement search experiences without re-inventing the wheel.
 
-It is built with **[React](https://reactjs.org)** and **works with any search API**.
+It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 ### Features :+1:
 
