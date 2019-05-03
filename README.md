@@ -20,15 +20,15 @@
 
 Search UI allows you to quickly implement search experiences without re-inventing the wheel.
 
-It supports **[React](https://reactjs.org)** and **works with any search API**.
+It is built with **[React](https://reactjs.org)** and **works with any search API**.
 
 ### Features :+1:
 
 - **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
-- **Speedy Implementation** - Build search with a search box, results view, sorting, and more, with a few lines of code.
-- **Customizable** - Tune the Components, markup, styles, and behaviors to your liking.
+- **Speedy Implementation** - Build a complete search experience with a few lines of code.
+- **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
-- **Headless** - Leverage our application logic, provide your own Components or views.
+- **Headless** - Leverage our application logic, provide your own components or views.
 - **Flexible** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
@@ -37,20 +37,20 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 **Looking for a great search API?** [Elastic App Search](https://www.elastic.co/cloud/app-search-service) has a slick dashboard, powerful features, and leading relevance.
 
-Install the **React Search UI** and the **App Search** connector.
+Install **React Search UI** and the **App Search** connector.
 
 ```sh
 # Install React Search UI and a Connector, like the Elastic App Search Connector
 npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
 ```
 
-_Note: The Search UI is in beta. We do not recommend production use._
+_Note: Search UI is in beta. We do not recommend production use._
 
-## Creating a Search UI
+## Creating a search experience
 
 <a id="search-ui"></a>
 
-Use out of the box components, styles, and layouts to build a search experience quickly.
+Use out of the box components, styles, and layouts to build a search experience in a matter of minutes.
 
 ```jsx
 import React from "react";
@@ -86,7 +86,7 @@ export default function App() {
 }
 ```
 
-Or go headless:
+Or go "headless", and take complete control over the look and feel of your search experience.
 
 ```jsx
 <SearchProvider config={config}>
@@ -106,16 +106,16 @@ Or go headless:
 </SearchProvider>
 ```
 
-A search UI is made up of four key areas, which you can expand and customize:
+A search experience built with Search UI is made up of four key elements:
 
-1. [Connectors](#1-connectors)
-2. [SearchProvider](#2-searchprovider)
+1. [A Connector](#1-connector)
+2. [A SearchProvider](#2-searchprovider)
 3. [Components](#3-components)
 4. [Styles and Layout](#4-styles-and-layout)
 
 ---
 
-### 1. Connectors
+### 1. Connector
 
 Connectors are modules that tell Search UI how to connect and communicate with a particular API.
 
@@ -124,7 +124,7 @@ Search UI currently provides two Connectors:
 1. **Elastic App Search**: [search-ui-app-search-connector](packages/search-ui-app-search-connector)
 2. **Elastic Site Search**: [search-ui-site-search-connector](packages/search-ui-site-search-connector)
 
-The [example search UI](#search-ui) above uses the Elastic App Search Connector:
+The [example search experience](#search-ui) above uses the Elastic App Search Connector:
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -140,17 +140,10 @@ Search UI can connect to **any** web based Search API. Read [the advanced README
 
 The `SearchProvider` object will tie all of your Components together so that they work as a cohesive application.
 
-It's where you configure your UI, acting as the state manager between "State" and "Actions".
-
-The overall flow is like this:
-
-```
-Components -> SearchProvider -> Connector -> Search API (App Search)
-```
-
-1. A user takes an action - like submitting a search box or applying a filter - using a Component.
-
-2. `SearchProvider` will trigger an API call via the Connector you've configured to fetch search results.
+It acts as a state manager, exposing "State" and "Actions" which components use to render and handle user input.
+These "State" and "Actions" are abstracted away when you are using components so you don't have to worry
+about them, but they are also available directly for those cases where you need more flexiblity, or decide
+to go "headless".
 
 `SearchProvider` is lightweight:
 
@@ -170,9 +163,9 @@ Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration).
 
 ### 3. Components
 
-Components are the building blocks from which craft your search experience.
+Components are the building blocks from which you craft your search experience.
 
-Each Component - like `SearchBox` and `Results` - is a child of the `SearchProvider` object:
+Each Component - like `SearchBox` and `Results` - need only be a child of the `SearchProvider` object:
 
 ```jsx
 <SearchProvider
@@ -182,10 +175,12 @@ Each Component - like `SearchBox` and `Results` - is a child of the `SearchProvi
 >
   {() => (
     <div className="App">
-      <Layout
-        header={<SearchBox />}
-        bodyContent={<Results titleField="title" urlField="nps_link" />}
-      />
+      <div className="Header">
+        <SearchBox />
+      </div>
+      <div className="Body">
+        <Results titleField="title" urlField="nps_link" />
+      </div>
     </div>
   )}
 </SearchProvider>
