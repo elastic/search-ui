@@ -216,6 +216,7 @@ The following Components are available:
 
 - SearchBox
 - Results
+- Result
 - ResultsPerPage
 - Facet
 - Sorting
