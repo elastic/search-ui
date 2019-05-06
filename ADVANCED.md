@@ -291,7 +291,7 @@ import { SearchBox } from "@elastic/react-search-ui";
 ### Example using Autocompleted Results
 
 "Results" are search results. The default behavior for autocompleted
-results is to link the user directly to a detail page when selected, which is why
+results is to link the user directly to a result when selected, which is why
 a "titleField" and "urlField" are required for the default view.
 
 ```jsx
