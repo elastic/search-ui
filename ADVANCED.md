@@ -275,7 +275,7 @@ The following Components are available:
 
 ## SearchBox
 
-Input element which accepts search terms and triggers a new search.
+Input element which accepts search terms and triggers a new search query.
 
 ### Example
 
@@ -287,6 +287,12 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 <SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
 ```
+
+### Configuring search queries
+
+The input from `SearchBox` will be used to trigger a new search query. That query can be further customized
+in the `SearchProvider` configuration, using the `searchQuery` property. See the
+[Advanced Configuration](#advanced-configuration) guide for more information.
 
 ### Example using autocomplete results
 
@@ -488,6 +494,12 @@ import { Results } from "@elastic/react-search-ui";
 
 <Results titleField="title" urlField="nps_link" />
 ```
+
+### Configuring search queries
+
+Certain aspects of search results can be configured in `SearchProvider`, using the `searchQuery` configuration, such as
+term highlighting and search fields. See the [Advanced Configuration](#advanced-configuration) guide
+for more information.
 
 ### Properties
 
