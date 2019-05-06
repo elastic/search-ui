@@ -206,7 +206,7 @@ State can be divided up into a few different types.
 2. Result State - State that represents a response from a Search API call.
 3. Application State - The general state.
 
-Request state and Result State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
+Request State and Result State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
 `searchTerm` is the current search term in the UI, and `resultSearchTerm` is the term associated with the current
 `results`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER
 a response is received, so you'd use the `resultSearchTerm` state.
