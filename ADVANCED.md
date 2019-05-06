@@ -723,40 +723,17 @@ return <PagingInfo view={PagingInfoView} />;
 
 **It will be helpful to read the [Headless Core](#headless-core) section first.**
 
-All Components support two hooks for customizing their behavior.
+We have two primary recommendations for customizing component behavior:
 
-1. `mapContextToProps` - Override the Context before it is passed to your Component as
-   props.
-2. `mapViewProps` - Lets you overrides view props before they are passed to the view.
+1. Overriding state and action props before they are passed to your Component, using `mapContextToProps`.
+2. Overriding props before they are passed to your Component's view.
 
-These allow you to override, modify, or even add completely new props.
+### mapContextToProps
 
-- These follow the same patterns as `mapStateToProps` in [Redux](https://redux.js.org/).
-- These **MUST** be immutable functions, if you directly update the props or context, you will have major issues in your application.
+Every component supports a `mapContextToProps` prop, which allows you to modify state and actions
+before they are received by the Component.
 
-To visualize these hooks:
-
-```
-Search UI
-  |
-  | { searchTerm, setSearchTerm } <- This is the "Context"
-  v
-  // Updates the searchTerm before passing it to the SearchBox Component
-  mapContextToProps( context => { ...context, searchTerm: "new search terms" } )
-  |
-  |
-  v
-SearchBox
-  |
-  | { isFocused, inputProps, onChange, onSubmit, value } <- View props
-  v
-  // Modify the onChange handler so that it logs events.
-  mapViewProps( props => { ...props, onChange: e => { console.log(e); onChange(e) } })
-  |
-  |
-  v
-view (SearchBox or custom view)
-```
+**NOTE** This MUST be an immutable function. If you directly update the props or context, you will have major issues in your application.
 
 A practical example might be putting a custom sort on your facet data.
 
@@ -786,6 +763,43 @@ This example orders a list of states by name:
   show={10}
 />
 ```
+
+### Overriding view props
+
+An example of this is modifying the `onChange` handler of the `Paging` Component
+view. Hypothetically, you may need to know every time a user
+pages past page 1, indicating that they are not finding what they need on the first page
+of search results.
+
+```jsx
+import { Paging } from "@elastic/react-search-ui";
+import { Paging as PagingView } from "@elastic/react-search-ui-views";
+
+function reportChange(value) {
+  // Some logic to report the change
+}
+
+<Paging
+  view={props =>
+    PagingView({
+      ...props,
+      onChange: value => {
+        reportChange(value);
+        return props.onChange(value);
+      }
+    })
+  }
+/>;
+```
+
+In this example, we did the following:
+
+1. Looked up what the default view is for our Component in the
+   [Component Reference](#component-reference) guide.
+2. Imported that view as `PagingView`.
+3. Passed an explicit `view` to our `Paging` Component, overriding
+   the `onChange` prop with our own implementation, and ultimately rendering
+   `PagingView` with the updated props.
 
 # Advanced Configuration
 
