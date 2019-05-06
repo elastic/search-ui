@@ -42,7 +42,7 @@ The core is a separate, vanilla JS library which can be used for any JavaScript 
 
 The Headless Core implements the functionality behind a search experience, but without its own view. It provides the underlying "state" and "actions" associated with that view. For instance, the core provides a `setSearchTerm` action, which can be used to save a `searchTerm` property in the state. Calling `setSearchTerm` using the value of an `<input>` will save the `searchTerm` to be used to build a query.
 
-All of the components in this library use the Headless Core under the hood. For instance, Search UI provides a `SearchBox` component for collecting input from a user. But you are not restricted to using just that component. Since Search UI lets you work directly with "state" and "actions", you could use any type of input you want! As long as your input or component calls the Headless Core's `setSearchTerm` action, it will "just work". This gives you maximum flexibility over your experience if you need more than the components in Search UI have to offer.
+All of the Components in this library use the Headless Core under the hood. For instance, Search UI provides a `SearchBox` Component for collecting input from a user. But you are not restricted to using just that Component. Since Search UI lets you work directly with "state" and "actions", you could use any type of input you want! As long as your input or Component calls the Headless Core's `setSearchTerm` action, it will "just work". This gives you maximum flexibility over your experience if you need more than the Components in Search UI have to offer.
 
 The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI
 and in a React [Context](https://reactjs.org/docs/context.html), and also via a
@@ -288,14 +288,13 @@ import { SearchBox } from "@elastic/react-search-ui";
 <SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
 ```
 
-### Example using Autocompleted Results
+### Example using autocomplete results
+
+"Results" are search results. The default behavior for autocomplete
+results is to link the user directly to a result when selected, which is why
+a "titleField" and "urlField" are required for the default view.
 
 ```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
 <SearchBox
   autocompleteResults={{
     titleField: "title",
@@ -304,49 +303,23 @@ import { SearchBox } from "@elastic/react-search-ui";
 />
 ```
 
-### Example using Autocompleted Suggestions
+### Example using autocomplete suggestions
+
+"Suggestions" are different than "results". Suggestions are suggested queries. Unlike an autocomplete result, a
+suggestion does not go straight to a result page when selected. It acts as a regular search query and
+refreshes the result set.
 
 ```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
-<SearchBox
-  autocompleteSuggestions={true}
-/>
+<SearchBox autocompleteSuggestions={true} />
 ```
 
-### Example using multiple types of Autocompleted Suggestions
+### Example using autocomplete suggestions and autocomplete results
+
+The default view will show both results and suggestions, divided into
+sections. Section titles can be added to help distinguish between the two.
 
 ```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
 <SearchBox
-  autocompleteSuggestions={{
-    documents: {
-      sectionTitle: "Suggested Queries"
-    },
-    popular_queries: {
-      sectionTitle: "Popular Queries"
-    }
-  }}
-/>
-```
-
-### Example using Autocompleted Suggestions and Autocompleted Results
-
-```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
-<SearchBox
-  autocompleteMinimumCharacters={3}
   autocompleteResults={{
     sectionTitle: "Suggested Results",
     titleField: "title",
@@ -354,6 +327,114 @@ import { SearchBox } from "@elastic/react-search-ui";
   }}
   autocompleteSuggestions={{
     sectionTitle: "Suggested Queries"
+  }}
+/>
+```
+
+### Configuring autocomplete queries
+
+Autocomplete queries can be customized in the `SearchProvider` configuration, using the `autocompleteQuery` property.
+See the [Advanced Configuration Guide](#advanced-configuration) for more information.
+
+```jsx
+<SearchProvider
+    config={{
+      ...
+      autocompleteQuery: {
+        // Customize the query for autocompleteResults
+        results: {
+          result_fields: {
+            // Add snippet highlighting
+            title: { snippet: { size: 100, fallback: true } },
+            nps_link: { raw: {} }
+          }
+        },
+        // Customize the query for autocompleteSuggestions
+        suggestions: {
+          types: {
+            // Limit query to only suggest based on "title" field
+            documents: { fields: ["title"] }
+          },
+          // Limit the number of suggestions returned from the server
+          size: 4
+        }
+      }
+    }}
+>
+    <SearchBox
+      autocompleteResults={{
+        sectionTitle: "Suggested Results",
+        titleField: "title",
+        urlField: "nps_link"
+      }}
+      autocompleteSuggestions={{
+        sectionTitle: "Suggested Queries",
+      }}
+    />
+</SearchProvider>
+```
+
+### Example using multiple types of autocomplete suggestions
+
+"Suggestions" can be generated via multiple methods. They can be derived from
+common terms and phrases inside of documents, or be "popular" queries
+generated from actual search queries made by users. This will differ
+depending on the particular Search API you are using.
+
+**Note**: Elastic App Search currently only supports type "documents", and Elastic Site Search
+does not support suggestions. This is purely illustrative in case a Connector is used that
+does support multiple types.
+
+```jsx
+<SearchProvider
+    config={{
+      ...
+      autocompleteQuery: {
+        suggestions: {
+          types: {
+            documents: { },
+            // FYI, this is not a supported suggestion type in any current connector, it's an example only
+            popular_queries: { }
+          }
+        }
+      }
+    }}
+>
+    <SearchBox
+      autocompleteSuggestions={{
+        // Types used here need to match types requested from the server
+        documents: {
+          sectionTitle: "Suggested Queries",
+        },
+        popular_queries: {
+          sectionTitle: "Popular Queries"
+        }
+      }}
+    />
+</SearchProvider>
+```
+
+### Example using autocomplete in a site header
+
+This is an example from a [Gatsby](https://www.gatsbyjs.org/) site, which overrides "submit" to navigate a user to the search
+page for suggestions, and maintaining the default behavior when selecting a result.
+
+```jsx
+<SearchBox
+  autocompleteResults={{
+    titleField: "title",
+    urlField: "nps_link"
+  }}
+  autocompleteSuggestions={true}
+  onSubmit={searchTerm => {
+    navigate("/search?q=" + searchTerm);
+  }}
+  onSelectAutocomplete={(selection, {}, defaultOnSelectAutocomplete) => {
+    if (selection.suggestion) {
+      navigate("/search?q=" + selection.suggestion);
+    } else {
+      defaultOnSelectAutocomplete(selection);
+    }
   }}
 />
 ```
@@ -497,7 +578,7 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 ### Example of an OR based Facet filter
 
-Certain configuration of the `Facet` component will require a "disjunctive" facet to work
+Certain configuration of the `Facet` Component will require a "disjunctive" facet to work
 correctly. "Disjunctive" facets are facets that do not change when a selection is made. Meaning, all available options
 will remain as selectable options even after a selection is made.
 
@@ -566,7 +647,7 @@ import { Sorting } from "@elastic/react-search-ui";
 
 | Name        | type                                                                  | Required? | Default                                                  | Options | Description                                                                                                                                          |
 | ----------- | --------------------------------------------------------------------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| label       | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | no        |                                                          |         | A static label to show in the sorting component.                                                                                                     |
+| label       | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | no        |                                                          |         | A static label to show in the Sorting Component.                                                                                                     |
 | sortOptions | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | yes       |                                                          |         |                                                                                                                                                      |
 | view        | Component                                                             | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
@@ -723,40 +804,17 @@ return <PagingInfo view={PagingInfoView} />;
 
 **It will be helpful to read the [Headless Core](#headless-core) section first.**
 
-All Components support two hooks for customizing their behavior.
+We have two primary recommendations for customizing Component behavior:
 
-1. `mapContextToProps` - Override the Context before it is passed to your Component as
-   props.
-2. `mapViewProps` - Lets you overrides view props before they are passed to the view.
+1. Override state and action props before they are passed to your Component, using `mapContextToProps`.
+2. Override props before they are passed to your Component's view.
 
-These allow you to override, modify, or even add completely new props.
+### mapContextToProps
 
-- These follow the same patterns as `mapStateToProps` in [Redux](https://redux.js.org/).
-- These **MUST** be immutable functions, if you directly update the props or context, you will have major issues in your application.
+Every Component supports a `mapContextToProps` prop, which allows you to modify state and actions
+before they are received by the Component.
 
-To visualize these hooks:
-
-```
-Search UI
-  |
-  | { searchTerm, setSearchTerm } <- This is the "Context"
-  v
-  // Updates the searchTerm before passing it to the SearchBox Component
-  mapContextToProps( context => { ...context, searchTerm: "new search terms" } )
-  |
-  |
-  v
-SearchBox
-  |
-  | { isFocused, inputProps, onChange, onSubmit, value } <- View props
-  v
-  // Modify the onChange handler so that it logs events.
-  mapViewProps( props => { ...props, onChange: e => { console.log(e); onChange(e) } })
-  |
-  |
-  v
-view (SearchBox or custom view)
-```
+**NOTE** This MUST be an immutable function. If you directly update the props or context, you will have major issues in your application.
 
 A practical example might be putting a custom sort on your facet data.
 
@@ -786,6 +844,43 @@ This example orders a list of states by name:
   show={10}
 />
 ```
+
+### Overriding view props
+
+An example of this is modifying the `onChange` handler of the `Paging` Component
+view. Hypothetically, you may need to know every time a user
+pages past page 1, indicating that they are not finding what they need on the first page
+of search results.
+
+```jsx
+import { Paging } from "@elastic/react-search-ui";
+import { Paging as PagingView } from "@elastic/react-search-ui-views";
+
+function reportChange(value) {
+  // Some logic to report the change
+}
+
+<Paging
+  view={props =>
+    PagingView({
+      ...props,
+      onChange: value => {
+        reportChange(value);
+        return props.onChange(value);
+      }
+    })
+  }
+/>;
+```
+
+In this example, we did the following:
+
+1. Looked up what the default view is for our Component in the
+   [Component Reference](#component-reference) guide.
+2. Imported that view as `PagingView`.
+3. Passed an explicit `view` to our `Paging` Component, overriding
+   the `onChange` prop with our own implementation, and ultimately rendering
+   `PagingView` with the updated props.
 
 # Advanced Configuration
 
