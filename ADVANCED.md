@@ -16,9 +16,29 @@
 
 ## Headless Core Concepts
 
+```
+                                    |
+    @elastic/react-search-ui        |   @elastic/search-ui
+                                    |
+                                    |
+          SearchProvider <--------------- SearchDriver
+              |     |               |          |
+   State /    |     |               |          | State /
+   Actions    |     |               |          | Actions
+              |     |               |          |
+        Components  |               |          |
+              |     |               |          |
+              v     v               |          v
+------------------------------------+----------------------------
+              |     |                          |
+              v     v                          v
+          Using     Headless Usage       Headless Usage outside
+     Components     in React             of React
+```
+
 The core is a separate, vanilla JS library which can be used for any JavaScript based implementation.
 
-> [search-ui](https://github.com/elastic/search-ui/tree/master/packages/search-ui)
+> [@elastic/search-ui](https://github.com/elastic/search-ui/tree/master/packages/search-ui)
 
 One way to think of the Headless Core is as a search experience without a view. Instead of providing UI like search boxes
 and dropdowns, it provides the underlying "state" and "actions" associated with that UI. For instance, instead of
