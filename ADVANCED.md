@@ -423,7 +423,7 @@ import { Results } from "@elastic/react-search-ui";
 
 Shows a dropdown for selecting the number of results to show per page.
 
-Uses [20, 40, 60] as a default options. You can use `options` prop to pass custom options.
+Uses [20, 40, 60] as default options. You can use `options` prop to pass custom options.
 
 **Note:** When passing custom options make sure one of the option values match
 the current [`resultsPerPage`](#resultsPerPageProp) value, which is 20 by default.
