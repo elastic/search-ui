@@ -807,7 +807,7 @@ return <PagingInfo view={PagingInfoView} />;
 We have two primary recommendations for customizing component behavior:
 
 1. Overriding state and action props before they are passed to your Component, using `mapContextToProps`.
-2. Overriding props before they are passed to your Component's view.
+2. Override props before they are passed to your Component's view.
 
 ### mapContextToProps
 
