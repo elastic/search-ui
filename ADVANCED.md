@@ -417,7 +417,7 @@ does support multiple types.
 ### Example using Autocomplete in a site header
 
 This is an example from a [Gatsby](https://www.gatsbyjs.org/) site, which overrides "submit" to navigate a user to the search
-page for suggestions, and maintaining the default behavior when selecting a a result.
+page for suggestions, and maintaining the default behavior when selecting a result.
 
 ```jsx
 <SearchBox
