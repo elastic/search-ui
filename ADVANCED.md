@@ -40,19 +40,11 @@ The core is a separate, vanilla JS library which can be used for any JavaScript 
 
 > [@elastic/search-ui](https://github.com/elastic/search-ui/tree/master/packages/search-ui)
 
-One way to think of the Headless Core is as a search experience without a view. Instead of providing UI like search boxes
-and dropdowns, it provides the underlying "state" and "actions" associated with that UI. For instance, instead of
-a "search box", the core has a `searchTerm` property which represents the value of the search box (the state), and a
-`setSearchTerm` method to update that searchTerm (the action).
+The Headless Core implements the functionality behind a search experience, but without its own view. It provides the underlying "state" and "actions" associated with that UI. For instance, the core provides a `setSearchTerm` action, which can be used to save a `searchTerm` property in the state. Calling `setSearchTerm` using the value of an <input> will save the `searchTerm` to be used to build a query.
 
-Search UI lets you work directly with "state" and "actions", which means you are not restricted to using
-JUST a `SearchBox` component for collecting input from a user. You could use any type of input you want! As long
-as it ends up calling `setSearchTerm`, it will "just work". This gives you maximum flexibility over your experience.
+All of the components in this library use the Headless Core under the hood. For instance, Search UI provides a `SearchBox` component for collecting input from a user. But you are not restricted to using just that component. Since Search UI lets you work directly with "state" and "actions", you could use any type of input you want! As long as your input or component calls the Headless Core's `setSearchTerm` action, it will "just work". This gives you maximum flexibility over your experience if you need more than the components in Search UI have to offer.
 
-All of the components in this library use the headless core under the hood. You too can work directly with the headless
-core if you need more than the components offer.
-
-The `SearchProvider` is just a React wrapper around the Headless Core, and makes state and actions available to Search UI
+The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI
 and in a React [Context](https://reactjs.org/docs/context.html), and also via a
 [Render Prop](https://reactjs.org/docs/render-props.html)
 
@@ -91,7 +83,7 @@ When you configure `SearchProvider`, you need to provide a function as the child
 
 That function is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes the Context for you to work with.
 
-A good use case for that could be to render a "loading" indicator any time the application is fetching data.
+On use case for that would be to render a "loading" indicator any time the application is fetching data.
 
 For example:
 
