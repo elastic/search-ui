@@ -83,7 +83,7 @@ When you configure `SearchProvider`, you need to provide a function as the child
 
 That function is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes the Context for you to work with.
 
-On use case for that would be to render a "loading" indicator any time the application is fetching data.
+One use case for that would be to render a "loading" indicator any time the application is fetching data.
 
 For example:
 
