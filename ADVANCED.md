@@ -40,7 +40,7 @@ The core is a separate, vanilla JS library which can be used for any JavaScript 
 
 > [@elastic/search-ui](https://github.com/elastic/search-ui/tree/master/packages/search-ui)
 
-The Headless Core implements the functionality behind a search experience, but without its own view. It provides the underlying "state" and "actions" associated with that UI. For instance, the core provides a `setSearchTerm` action, which can be used to save a `searchTerm` property in the state. Calling `setSearchTerm` using the value of an <input> will save the `searchTerm` to be used to build a query.
+The Headless Core implements the functionality behind a search experience, but without its own view. It provides the underlying "state" and "actions" associated with that UI. For instance, the core provides a `setSearchTerm` action, which can be used to save a `searchTerm` property in the state. Calling `setSearchTerm` using the value of an `<input>` will save the `searchTerm` to be used to build a query.
 
 All of the components in this library use the Headless Core under the hood. For instance, Search UI provides a `SearchBox` component for collecting input from a user. But you are not restricted to using just that component. Since Search UI lets you work directly with "state" and "actions", you could use any type of input you want! As long as your input or component calls the Headless Core's `setSearchTerm` action, it will "just work". This gives you maximum flexibility over your experience if you need more than the components in Search UI have to offer.
 
