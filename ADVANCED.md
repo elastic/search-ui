@@ -376,7 +376,7 @@ See the [Advanced Configuration Guide](#advanced-configuration) for more informa
 
 ### Example using multiple types of Autocompleted Suggestions
 
-"Suggestions" can be generated via multiple methods, they could be derived from
+"Suggestions" can be generated via multiple methods. They can be derived from
 common terms and phrases inside of documents, or be "popular" queries
 generated from actual search queries made by users. This will differ
 depending on the particular Search API you are using.
