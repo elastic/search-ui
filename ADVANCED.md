@@ -290,12 +290,11 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 ### Example using Autocompleted Results
 
+"Results" are search results. The default behavior for autocompleted
+results is to link the user directly to a detail page when selected, which is why
+a "titleField" and "urlField" are required for the default view.
+
 ```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
 <SearchBox
   autocompleteResults={{
     titleField: "title",
@@ -306,47 +305,21 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 ### Example using Autocompleted Suggestions
 
-```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
-<SearchBox
-  autocompleteSuggestions={true}
-/>
-```
-
-### Example using multiple types of Autocompleted Suggestions
+"Suggestions" are different than "Results". Suggestions are suggested queries. The
+default behavior for suggestions when selected is to perform the search in
+the main search page, refreshing the search results.
 
 ```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
-<SearchBox
-  autocompleteSuggestions={{
-    documents: {
-      sectionTitle: "Suggested Queries"
-    },
-    popular_queries: {
-      sectionTitle: "Popular Queries"
-    }
-  }}
-/>
+<SearchBox autocompleteSuggestions={true} />
 ```
 
 ### Example using Autocompleted Suggestions and Autocompleted Results
 
+The default view will show both results and suggestions, divided into
+sections. Section titles can be added to help distinguish between the two.
+
 ```jsx
-
-import { SearchBox } from "@elastic/react-search-ui";
-
-...
-
 <SearchBox
-  autocompleteMinimumCharacters={3}
   autocompleteResults={{
     sectionTitle: "Suggested Results",
     titleField: "title",
@@ -354,6 +327,114 @@ import { SearchBox } from "@elastic/react-search-ui";
   }}
   autocompleteSuggestions={{
     sectionTitle: "Suggested Queries"
+  }}
+/>
+```
+
+### Configuring autocomplete queries
+
+Autocomplete queries can be customized in the `SearchProvider` configuration, using the `autocompleteQuery` property.
+See the [Advanced Configuration Guide](#advanced-configuration) for more information.
+
+```jsx
+<SearchProvider
+    config={{
+      ...
+      autocompleteQuery: {
+        // Customize the query for autocompleteResults
+        results: {
+          result_fields: {
+            // Add snippet highlighting
+            title: { snippet: { size: 100, fallback: true } },
+            nps_link: { raw: {} }
+          }
+        },
+        // Customize the query for autocompleteSuggestions
+        suggestions: {
+          types: {
+            // Limit query to only suggest based on "title" field
+            documents: { fields: ["title"] }
+          },
+          // Limit the number of suggestions returned from the server
+          size: 4
+        }
+      }
+    }}
+>
+    <SearchBox
+      autocompleteResults={{
+        sectionTitle: "Suggested Results",
+        titleField: "title",
+        urlField: "nps_link"
+      }}
+      autocompleteSuggestions={{
+        sectionTitle: "Suggested Queries",
+      }}
+    />
+</SearchProvider>
+```
+
+### Example using multiple types of Autocompleted Suggestions
+
+"Suggestions" can be generated via multiple methods, they could be derived from
+common terms and phrases inside of documents, or be "popular" queries
+generated from actual search queries made by users. This will differ
+depending on the particular Search API you are using.
+
+**Note**: Elastic App Search currently only supports type "documents", and Elastic Site Search
+does not support suggestions, this is purely illustrative in case a Connector is used that
+does support multiple types.
+
+```jsx
+<SearchProvider
+    config={{
+      ...
+      autocompleteQuery: {
+        suggestions: {
+          types: {
+            documents: { },
+            // FYI, this is not a supported suggestion type in any current connector, it's an example only
+            popular_queries: { }
+          }
+        }
+      }
+    }}
+>
+    <SearchBox
+      autocompleteSuggestions={{
+        // Types used here need to match types requested from the server
+        documents: {
+          sectionTitle: "Suggested Queries",
+        },
+        popular_queries: {
+          sectionTitle: "Popular Queries"
+        }
+      }}
+    />
+</SearchProvider>
+```
+
+### Example using Autocomplete in a site header
+
+This is an example from a [Gatsby](https://www.gatsbyjs.org/) site, which overrides "submit" to navigate a user to the search
+page for suggestions, and maintaining the default behavior when selecting a a result.
+
+```jsx
+<SearchBox
+  autocompleteResults={{
+    titleField: "title",
+    urlField: "nps_link"
+  }}
+  autocompleteSuggestions={true}
+  onSubmit={searchTerm => {
+    navigate("/search?q=" + searchTerm);
+  }}
+  onSelectAutocomplete={(selection, {}, defaultOnSelectAutocomplete) => {
+    if (selection.suggestion) {
+      navigate("/search?q=" + selection.suggestion);
+    } else {
+      defaultOnSelectAutocomplete(selection);
+    }
   }}
 />
 ```
