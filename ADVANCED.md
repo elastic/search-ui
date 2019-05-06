@@ -382,7 +382,7 @@ generated from actual search queries made by users. This will differ
 depending on the particular Search API you are using.
 
 **Note**: Elastic App Search currently only supports type "documents", and Elastic Site Search
-does not support suggestions, this is purely illustrative in case a Connector is used that
+does not support suggestions. This is purely illustrative in case a Connector is used that
 does support multiple types.
 
 ```jsx
