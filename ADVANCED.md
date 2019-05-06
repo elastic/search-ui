@@ -11,7 +11,8 @@
 # Headless Core
 
 - [Headless Core Concepts](#headless-core-concepts)
-- [Headless Core Application](#headless-core-application)
+- [Working with the Headless Core](#working-with-the-headless-core)
+- [Headless Core Reference](#headless-core-reference)
 
 ## Headless Core Concepts
 
@@ -57,117 +58,7 @@ It looks like this:
 </SearchProvider>
 ```
 
-### SearchProvider
-
-The `SearchProvider` is a top-level Component which is essentially a wrapper around the core.
-
-It exposes the [State](#state) and [Actions](#actions) of the core in a [Context](#context).
-
-Params:
-
-| name     | type     | description                                                                                                         |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| config   | Object   | See the [Configuration Options](#config) section.                                                                   |
-| children | function | A render prop function that accepts the [Context](#context) as a parameter. <br/><br/>`(context) => return <div />` |
-
-### Context
-
-The "Context" is a flattened object containing, as keys, all [State](#state) and [Actions](#actions).
-
-We refer to it as "Context" because it is implemented with a [React Context](https://reactjs.org/docs/context.html).
-
-ex.
-
-```js
-{
-  resultsPerPage: 10, // Request State
-  setResultsPerPage: () => {}, // Action
-  current: 1, // Request State
-  setCurrent: () => {}, // Action
-  error: '', // Response State
-  isLoading: false, // Response State
-  totalResults: 1000, // Response State
-  ...
-}
-```
-
-### Actions
-
-| method              | params                                                                                                                                                                                                                                                                                                                                                                                                                                                           | return | description                                                                |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------- |
-| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on<br/>`filterType` String - type of filter to apply: "all", "any", or "none"                                                                                                                                                                                                                                                                                                 |        | Add a filter in addition to current filters values.                        |
-| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on<br/>`filterType` String - type of filter to apply: "all", "any", or "none"                                                                                                                                                                                                                                                                                                 |        | Set a filter value, replacing current filter values.                       |
-| `removeFilter`      | `name` String - field to remove filters from<br/>`value` String - (Optional) Specify which filter value to remove<br/>`filterType` String - (Optional) Specify which filter type to remove: "all", "any", or "none"                                                                                                                                                                                                                                              |        | Removes filters or filter values.                                          |
-| `reset`             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |        | Reset state to initial search state.                                       |
-| `clearFilters`      | `except` Array[String] - List of field names that should NOT be cleared                                                                                                                                                                                                                                                                                                                                                                                          |        | Clear all filters.                                                         |
-| `setCurrent`        | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                          |        | Update the current page number. Used for paging.                           |
-| `setResultsPerPage` | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                          |        |                                                                            |
-| `setSearchTerm`     | `searchTerm` String<br/> `options` Object<br/>`options.refresh` Boolean - Refresh search results on update. Default: `true`.<br/>`options.debounce` Number - Length to debounce any resulting queries<br/>`options.autocompleteSuggestions` Boolean - Fetch query suggestions for autocomplete on update, stored in `autocompletedSuggestions` state<br/>`options.autocompleteResults` Boolean - Fetch results on update, stored in `autocompletedResults` state |        |                                                                            |
-| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                                                                                                                                                                                                                                                                                                               |        |                                                                            |
-| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event                                                                                                                                                                                                                                                                                       |        | Report a clickthrough event, which is when a user clicks on a result link. |
-
-### State
-
-State can be divided up into two types.
-
-1. Request State - Reflects the state of the most recent request.
-2. Result State - Result State is updated AFTER a response is received.
-3. Application State - The general state.
-
-For this reason, there are often multiple versions of state. For instance, `searchTerm` and `resultSearchTerm`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER a response is received, so you'd use the `resultSearchTerm` state.
-
-#### Request State
-
-Reflects the state of the most recent request.
-
-It is updated at the time a request is made.
-
-Request state can be set by:
-
-- Using actions, set `setSearchTerm`
-- The `initialState` option.
-- The URL query string, if `trackUrlState` is enabled.
-
-| option                                            | type                                   | required? | source                                 |
-| ------------------------------------------------- | -------------------------------------- | --------- | -------------------------------------- |
-| `current`                                         | Integer                                | optional  | Current page number                    |
-| `filters`                                         | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
-| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
-| `searchTerm`                                      | String                                 | optional  | Search terms to search for             |
-| `sortDirection`                                   | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
-| `sortField`                                       | String                                 | optional  | Name of field to sort on               |
-
-#### Response State
-
-Response State is updated AFTER an API response is received.
-
-It is not directly update-able.
-
-It is updated indirectly by invoking an action which results in a new API request.
-
-| field                               | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autocompletedResults`              | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
-| `autocompletedResultsRequestId`     | String                                                                                                                                    | A unique ID for the current autocompleted search results                                                                                                                                                                                                                  |
-| `autocompletedSuggestions`          | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
-| `autocompletedSuggestionsRequestId` | String                                                                                                                                    | A unique ID for the current autocompleted suggestion results                                                                                                                                                                                                              |
-| `facets`                            | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
-| `requestId`                         | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`                           | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
-| `resultSearchTerm`                  | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`                      | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
-
-#### Application State
-
-Application state is the general application state.
-
-| field         | type    | description                                                                                                        |
-| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
-| `error`       | String  | Error message, if an error was thrown                                                                              |
-| `isLoading`   | boolean | Whether or not a search is currently being performed                                                               |
-| `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
-
-## Headless Core Application
+## Working with the Headless Core
 
 If you wish to work with Search UI outside of a particular Component, you'll work
 directly with the core.
@@ -243,6 +134,119 @@ import { SearchConsumer } from "@elastic/react-search-ui";
   )}
 </SearchConsumer>
 ```
+
+## Headless Core Reference
+
+### SearchProvider
+
+The `SearchProvider` is a top-level Component which is essentially a wrapper around the core.
+
+It exposes the [State](#state) and [Actions](#actions) of the core in a [Context](#context).
+
+Params:
+
+| name     | type     | description                                                                                                         |
+| -------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| config   | Object   | See the [Configuration Options](#config) section.                                                                   |
+| children | function | A render prop function that accepts the [Context](#context) as a parameter. <br/><br/>`(context) => return <div />` |
+
+### Context
+
+The "Context" is a flattened object containing, as keys, all [State](#state) and [Actions](#actions).
+
+We refer to it as "Context" because it is implemented with a [React Context](https://reactjs.org/docs/context.html).
+
+ex.
+
+```js
+{
+  resultsPerPage: 10, // Request State
+  setResultsPerPage: () => {}, // Action
+  current: 1, // Request State
+  setCurrent: () => {}, // Action
+  error: '', // Response State
+  isLoading: false, // Response State
+  totalResults: 1000, // Response State
+  ...
+}
+```
+
+### Actions
+
+| method              | params                                                                                                                                                                                                                                                                                                                                                                                                                                                           | return | description                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------- |
+| `addFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on<br/>`filterType` String - type of filter to apply: "all", "any", or "none"                                                                                                                                                                                                                                                                                                 |        | Add a filter in addition to current filters values.                        |
+| `setFilter`         | `name` String - field name to filter on<br/>`value` String - field value to filter on<br/>`filterType` String - type of filter to apply: "all", "any", or "none"                                                                                                                                                                                                                                                                                                 |        | Set a filter value, replacing current filter values.                       |
+| `removeFilter`      | `name` String - field to remove filters from<br/>`value` String - (Optional) Specify which filter value to remove<br/>`filterType` String - (Optional) Specify which filter type to remove: "all", "any", or "none"                                                                                                                                                                                                                                              |        | Removes filters or filter values.                                          |
+| `reset`             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |        | Reset state to initial search state.                                       |
+| `clearFilters`      | `except` Array[String] - List of field names that should NOT be cleared                                                                                                                                                                                                                                                                                                                                                                                          |        | Clear all filters.                                                         |
+| `setCurrent`        | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                          |        | Update the current page number. Used for paging.                           |
+| `setResultsPerPage` | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                          |        |                                                                            |
+| `setSearchTerm`     | `searchTerm` String<br/> `options` Object<br/>`options.refresh` Boolean - Refresh search results on update. Default: `true`.<br/>`options.debounce` Number - Length to debounce any resulting queries<br/>`options.autocompleteSuggestions` Boolean - Fetch query suggestions for autocomplete on update, stored in `autocompletedSuggestions` state<br/>`options.autocompleteResults` Boolean - Fetch results on update, stored in `autocompletedResults` state |        |                                                                            |
+| `setSort`           | `sortField` String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                                                                                                                                                                                                                                                                                                               |        |                                                                            |
+| `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event                                                                                                                                                                                                                                                                                       |        | Report a clickthrough event, which is when a user clicks on a result link. |
+
+### State
+
+State can be divided up into a few different types.
+
+1. Request State - State that is used as parameters on Search API calls.
+2. Result State - State that represents a response from a Search API call.
+3. Application State - The general state.
+
+Request state and Result State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
+`searchTerm` is the current search term in the UI, and `resultSearchTerm` is the term associated with the current
+`results`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER
+a response is received, so you'd use the `resultSearchTerm` state.
+
+#### Request State
+
+State that is used as parameters on Search API calls.
+
+Request state can be set by:
+
+- Using actions, set `setSearchTerm`
+- The `initialState` option.
+- The URL query string, if `trackUrlState` is enabled.
+
+| option                                            | type                                   | required? | source                                 |
+| ------------------------------------------------- | -------------------------------------- | --------- | -------------------------------------- |
+| `current`                                         | Integer                                | optional  | Current page number                    |
+| `filters`                                         | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
+| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
+| `searchTerm`                                      | String                                 | optional  | Search terms to search for             |
+| `sortDirection`                                   | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
+| `sortField`                                       | String                                 | optional  | Name of field to sort on               |
+
+#### Response State
+
+State that represents a response from a Search API call.
+
+It is not directly update-able.
+
+It is updated indirectly by invoking an action which results in a new API request.
+
+| field                               | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`              | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedResultsRequestId`     | String                                                                                                                                    | A unique ID for the current autocompleted search results                                                                                                                                                                                                                  |
+| `autocompletedSuggestions`          | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `autocompletedSuggestionsRequestId` | String                                                                                                                                    | A unique ID for the current autocompleted suggestion results                                                                                                                                                                                                              |
+| `facets`                            | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
+| `requestId`                         | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
+| `results`                           | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
+| `resultSearchTerm`                  | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`                      | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
+
+#### Application State
+
+Application state is the general application state.
+
+| field         | type    | description                                                                                                        |
+| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
+| `error`       | String  | Error message, if an error was thrown.                                                                             |
+| `isLoading`   | boolean | Whether or not a search is currently being performed.                                                              |
+| `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
 
 # Component Reference
 
