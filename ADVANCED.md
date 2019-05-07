@@ -1348,8 +1348,9 @@ Publish new version
 4. Verify correct tags and commits have been created.
 5. Run `npx lerna publish from-git`.
 6. Verify `0.6.0` has been published to npm.
-7. Create new version branch `git checkout -b v0.6` and push to `origin`
-8. Create release in Github.
+7. Create new version branch `git checkout -b v0.6` and push to `origin`.
+8. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
+9. Create release in Github.
 
 Publish patch version
 (Example, publish 0.6.1)
@@ -1365,4 +1366,5 @@ Publish patch version
 6. Run `npx lerna publish from-git`.
 7. Verify `0.6.1` has been published to npm.
 8. Make sure changed are also committed back to master.
-9. Create release in Github.
+9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
+10. Create release in Github.
