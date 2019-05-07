@@ -32,6 +32,10 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
+### Demo
+
+A live demo is available at this link: https://search-ui-stable.netlify.com/.
+
 ## Getting started 🐣
 
 **Looking for a great search API?** [Elastic App Search](https://www.elastic.co/cloud/app-search-service) has a slick dashboard, powerful features, and leading relevance.
