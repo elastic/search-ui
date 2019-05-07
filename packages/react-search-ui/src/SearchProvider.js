@@ -25,15 +25,19 @@ class SearchProvider extends Component {
     config: PropTypes.object
   };
 
-  subscription = state => {
-    this.setState(state);
-  };
+  constructor() {
+    super();
+    this.state = {
+      driver: null
+    };
+  }
 
   componentDidMount() {
     const { config } = this.props;
     this.driver = new SearchDriver(config);
-    this.setState(this.driver.getState());
-    this.driver.subscribeToStateChanges(this.subscription);
+    this.setState({
+      driver: this.driver
+    });
   }
 
   componentWillUnmount() {
@@ -42,16 +46,15 @@ class SearchProvider extends Component {
 
   render() {
     const { children } = this.props;
-    if (!this.driver) return null;
+    if (!this.state.driver) return null;
 
     const providerValue = {
-      ...this.state,
-      ...this.driver.getActions()
+      driver: this.state.driver
     };
 
     return (
       <SearchContext.Provider value={providerValue}>
-        {children(providerValue)}
+        {children}
       </SearchContext.Provider>
     );
   }
