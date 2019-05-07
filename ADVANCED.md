@@ -46,7 +46,7 @@ All of the Components in this library use the Headless Core under the hood. For 
 
 The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI
 and in a React [Context](https://reactjs.org/docs/context.html), and also via a
-[Render Prop](https://reactjs.org/docs/render-props.html)
+[Render Prop](https://reactjs.org/docs/render-props.html).
 
 It looks like this:
 
@@ -217,7 +217,7 @@ State that is used as parameters on Search API calls.
 
 Request state can be set by:
 
-- Using actions, set `setSearchTerm`
+- Using actions, like `setSearchTerm`
 - The `initialState` option.
 - The URL query string, if `trackUrlState` is enabled.
 
@@ -241,14 +241,14 @@ It is updated indirectly by invoking an action which results in a new API reques
 | field                               | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `autocompletedResults`              | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
-| `autocompletedResultsRequestId`     | String                                                                                                                                    | A unique ID for the current autocompleted search results                                                                                                                                                                                                                  |
+| `autocompletedResultsRequestId`     | String                                                                                                                                    | A unique ID for the current autocompleted search results.                                                                                                                                                                                                                 |
 | `autocompletedSuggestions`          | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
-| `autocompletedSuggestionsRequestId` | String                                                                                                                                    | A unique ID for the current autocompleted suggestion results                                                                                                                                                                                                              |
-| `facets`                            | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration)                                                                                                                                                                             |
-| `requestId`                         | String                                                                                                                                    | A unique ID for the current search results                                                                                                                                                                                                                                |
-| `results`                           | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items                                                                                                                                                                                                                                                  |
+| `autocompletedSuggestionsRequestId` | String                                                                                                                                    | A unique ID for the current autocompleted suggestion results.                                                                                                                                                                                                             |
+| `facets`                            | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration).                                                                                                                                                                            |
+| `requestId`                         | String                                                                                                                                    | A unique ID for the current search results.                                                                                                                                                                                                                               |
+| `results`                           | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items.                                                                                                                                                                                                                                                 |
 | `resultSearchTerm`                  | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`                      | Integer                                                                                                                                   | Total number of results found for the current query                                                                                                                                                                                                                       |
+| `totalResults`                      | Integer                                                                                                                                   | Total number of results found for the current query.                                                                                                                                                                                                                      |
 
 #### Application State
 
@@ -266,6 +266,7 @@ The following Components are available:
 
 - [SearchBox](#searchbox)
 - [Results](#results)
+- [Result](#result)
 - [ResultsPerPage](#resultsperpage)
 - [Facet](#facet)
 - [Sorting](#sorting)
@@ -275,7 +276,7 @@ The following Components are available:
 
 ## SearchBox
 
-Input element which accepts search terms and triggers a new search.
+Input element which accepts search terms and triggers a new search query.
 
 ### Example
 
@@ -287,6 +288,12 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 <SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
 ```
+
+### Configuring search queries
+
+The input from `SearchBox` will be used to trigger a new search query. That query can be further customized
+in the `SearchProvider` configuration, using the `searchQuery` property. See the
+[Advanced Configuration](#advanced-configuration) guide for more information.
 
 ### Example using autocomplete results
 
@@ -443,26 +450,28 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 
 | Name                          | type                                                                         | Required? | Default                                                            | Options | Description                                                                                                                                                                                                                                                                                                                                                  |
 | ----------------------------- | ---------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| inputProps                    | Object                                                                       | no        |                                                                    |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`                                                                                                                                                                                                                                                                                   |
+| className                     | String                                                                       | no        |                                                                    |         |                                                                                                                                                                                                                                                                                                                                                              |
+| inputProps                    | Object                                                                       | no        |                                                                    |         | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`.                                                                                                                                                                                                                                                                                  |
 | searchAsYouType               | Boolean                                                                      | no        | false                                                              |         | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                                                                                                                                                                                                 |
 | debounceLength                | Number                                                                       | no        | 200                                                                |         | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait.                                                                                                                                                                                 |
-| view                          | Component                                                                    | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js)       |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.                                                                                                                                                                                             |
+| view                          | Render Function                                                              | no        | [SearchBox](packages/react-search-ui-views/src/SearchBox.js)       |         | Used to override the default view for this Component. See the [Customization: Component views and HTML](#component-views-and-html) section for more information.                                                                                                                                                                                             |
 | autocompleteResults           | Boolean or [AutocompleteResultsOptions](#AutocompleteResultsOptions)         | Object    | no                                                                 |         | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                                                                              |
 | autocompleteSuggestions       | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
 | autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
 | autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                                                                                 |
 | onSelectAutocomplete          | Function(selection. options, defaultOnSelectAutocomplete)                    | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior.                                                   |
+| onSubmit                      | Function(searchTerm)                                                         | no        |                                                                    |         | Allows overriding behavior when submitted. Receives the search term from the search box.                                                                                                                                                                                                                                                                     |
 
 #### AutocompleteResultsOptions
 
-| Name                    | type          | Required? | Default | Options | Description                                              |
-| ----------------------- | ------------- | --------- | ------- | ------- | -------------------------------------------------------- |
-| linkTarget              | String        | no        | \_self  |         | Used to open links in a new tab                          |
-| sectionTitle            | String        | no        |         |         | Title to show in section within dropdown                 |
-| shouldTrackClickThrough | Boolean       | no        | true    |         | Only applies to Results, not Suggestions                 |
-| clickThroughTags        | Array[String] | no        |         |         | Tags to send to analytics API when tracking clickthrough |
-| titleField              | String        | yes       |         |         | Field within a Result to use as the "title"              |
-| urlField                | String        | yes       |         |         | Field within a Result to use for linking                 |
+| Name                    | type          | Required? | Default | Options | Description                                               |
+| ----------------------- | ------------- | --------- | ------- | ------- | --------------------------------------------------------- |
+| linkTarget              | String        | no        | \_self  |         | Used to open links in a new tab.                          |
+| sectionTitle            | String        | no        |         |         | Title to show in section within dropdown.                 |
+| shouldTrackClickThrough | Boolean       | no        | true    |         | Only applies to Results, not Suggestions.                 |
+| clickThroughTags        | Array[String] | no        |         |         | Tags to send to analytics API when tracking clickthrough. |
+| titleField              | String        | yes       |         |         | Field within a Result to use as the "title".              |
+| urlField                | String        | yes       |         |         | Field within a Result to use for linking.                 |
 
 #### AutocompleteSuggestionsOptions
 
@@ -476,8 +485,6 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 
 Displays all search results.
 
-You can also iterate over the results yourself and render each result.
-
 ### Example
 
 ```jsx
@@ -489,14 +496,72 @@ import { Results } from "@elastic/react-search-ui";
 <Results titleField="title" urlField="nps_link" />
 ```
 
+### Configuring search queries
+
+Certain aspects of search results can be configured in `SearchProvider`, using the `searchQuery` configuration, such as
+term highlighting and search fields. See the [Advanced Configuration](#advanced-configuration) guide
+for more information.
+
 ### Properties
 
-| Name         | type      | Required? | Default                                                  | Options | Description                                                                                                                                          |
-| ------------ | --------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| renderResult | Component | no        | [Result](packages/react-search-ui-views/src/Result.js)   |         | Used to override individual Result views. See the Customizing Component views and html section for more information.                                 |
-| titleField   | String    | no        |                                                          |         | Name of field to use as the title from each result.                                                                                                  |
-| urlField     | String    | no        |                                                          |         | Name of field to use as the href from each result.                                                                                                   |
-| view         | Component | no        | [Results](packages/react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name                    | type            | Required? | Default                                                  | Options | Description                                                                                                                                          |
+| ----------------------- | --------------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className               | String          | no        |                                                          |         |                                                                                                                                                      |
+| renderResult            | Render Function | no        | [Result](packages/react-search-ui-views/src/Result.js)   |         | Used to override individual Result views. See the Customizing Component views and html section for more information.                                 |
+| titleField              | String          | no        |                                                          |         | Name of field to use as the title from each result.                                                                                                  |
+| shouldTrackClickThrough | Boolean         | no        | true                                                     |         | Whether or not to track a clickthrough event when clicked.                                                                                           |
+| clickThroughTags        | Array[String]   | no        |                                                          |         | Tags to send to analytics API when tracking clickthrough.                                                                                            |
+| urlField                | String          | no        |                                                          |         | Name of field to use as the href from each result.                                                                                                   |
+| view                    | Render Function | no        | [Results](packages/react-search-ui-views/src/Results.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+
+---
+
+## Result
+
+Displays a search result.
+
+### Example
+
+```jsx
+
+import { Result } from "@elastic/react-search-ui";
+
+...
+
+<SearchProvider config={config}>
+  {({ results }) => {
+    return (
+      <div>
+        {results.map(result => (
+          <Result key={result.id.raw}
+            result={result}
+            titleField="title"
+            urlField="nps_link"
+          />
+        ))}
+      </div>
+    );
+  }}
+</SearchProvider>
+```
+
+### Configuring search queries
+
+Certain aspects of search results can be configured in `SearchProvider`, using the `searchQuery` configuration, such as
+term highlighting and search fields. See the [Advanced Configuration](#advanced-configuration) guide
+for more information.
+
+### Properties
+
+| Name                    | type                          | Required? | Default                                                | Options | Description                                                                                                                                          |
+| ----------------------- | ----------------------------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className               | String                        | no        |                                                        |         |                                                                                                                                                      |
+| titleField              | String                        | no        |                                                        |         | Name of field to use as the title from each result.                                                                                                  |
+| shouldTrackClickThrough | Boolean                       | no        | true                                                   |         | Whether or not to track a clickthrough event when clicked.                                                                                           |
+| clickThroughTags        | Array[String]                 | no        |                                                        |         | Tags to send to analytics API when tracking clickthrough.                                                                                            |
+| urlField                | String                        | no        |                                                        |         | Name of field to use as the href from each result.                                                                                                   |
+| view                    | Render Function               | no        | [Result](packages/react-search-ui-views/src/Result.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| result                  | [Result](src/types/Result.js) | no        |                                                        |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -541,10 +606,11 @@ import { SearchProvider, ResultsPerPage } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name    | type          | Required? | Default                                                                | Options | Description                                                                                                                                          |
-| ------- | ------------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| options | Array[Number] | no        | [20, 40, 60]                                                           |         | Dropdown options to select the number of results to show per page.                                                                                   |
-| view    | Component     | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name      | type            | Required? | Default                                                                | Options | Description                                                                                                                                          |
+| --------- | --------------- | --------- | ---------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className | String          | no        |                                                                        |         |                                                                                                                                                      |
+| options   | Array[Number]   | no        | [20, 40, 60]                                                           |         | Dropdown options to select the number of results to show per page.                                                                                   |
+| view      | Render Function | no        | [ResultsPerPage](packages/react-search-ui-views/src/ResultsPerPage.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -605,13 +671,14 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 ### Properties
 
-| Name       | type      | Required? | Default                                                                        | Options                                                                                                                                                       | Description                                                                                                                                                                                                                                                |
-| ---------- | --------- | --------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| field      | String    | yes       |                                                                                |                                                                                                                                                               | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.                                                                                                             |
-| filterType | String    | no        | "all"                                                                          | "all", "any", "none"                                                                                                                                          | The type of filter to apply with the selected values. I.e., should "all" of the values match, or just "any" of the values, or "none" of the values. Note: See the example above which describes using "disjunctive" facets in conjunction with filterType. |
-| label      | String    | yes       |                                                                                |                                                                                                                                                               | A static label to show in the facet filter.                                                                                                                                                                                                                |
-| show       | Number    | no        | 10                                                                             |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
-| view       | Component | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.                                                                                                       |
+| Name       | type            | Required? | Default                                                                        | Options                                                                                                                                                       | Description                                                                                                                                                                                                                                                |
+| ---------- | --------------- | --------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className  | String          | no        |                                                                                |                                                                                                                                                               |                                                                                                                                                                                                                                                            |
+| field      | String          | yes       |                                                                                |                                                                                                                                                               | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.                                                                                                             |
+| filterType | String          | no        | "all"                                                                          | "all", "any", "none"                                                                                                                                          | The type of filter to apply with the selected values. I.e., should "all" of the values match, or just "any" of the values, or "none" of the values. Note: See the example above which describes using "disjunctive" facets in conjunction with filterType. |
+| label      | String          | yes       |                                                                                |                                                                                                                                                               | A static label to show in the facet filter.                                                                                                                                                                                                                |
+| show       | Number          | no        | 10                                                                             |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
+| view       | Render Function | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.                                                                                                       |
 
 ---
 
@@ -647,9 +714,10 @@ import { Sorting } from "@elastic/react-search-ui";
 
 | Name        | type                                                                  | Required? | Default                                                  | Options | Description                                                                                                                                          |
 | ----------- | --------------------------------------------------------------------- | --------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className   | String                                                                | no        |                                                          |         |                                                                                                                                                      |
 | label       | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | no        |                                                          |         | A static label to show in the Sorting Component.                                                                                                     |
 | sortOptions | Array[[SortOption](packages/react-search-ui/src/types/SortOption.js)] | yes       |                                                          |         |                                                                                                                                                      |
-| view        | Component                                                             | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| view        | Render Function                                                       | no        | [Sorting](packages/react-search-ui-views/src/Sorting.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -670,9 +738,10 @@ import { Paging } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type      | Required? | Default                                                | Options | Description                                                                                                                                          |
-| ---- | --------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [Paging](packages/react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name      | type            | Required? | Default                                                | Options | Description                                                                                                                                          |
+| --------- | --------------- | --------- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className | String          | no        |                                                        |         |                                                                                                                                                      |
+| view      | Render Function | no        | [Paging](packages/react-search-ui-views/src/Paging.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -693,9 +762,10 @@ import { PagingInfo } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name | type      | Required? | Default                                                        | Options | Description                                                                                                                                          |
-| ---- | --------- | --------- | -------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view | Component | no        | [PagingInfo](packages/react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name      | type            | Required? | Default                                                        | Options | Description                                                                                                                                          |
+| --------- | --------------- | --------- | -------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className | String          | no        |                                                                |         |                                                                                                                                                      |
+| view      | Render Function | no        | [PagingInfo](packages/react-search-ui-views/src/PagingInfo.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 ---
 
@@ -717,10 +787,11 @@ import { ErrorBoundary } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name     | type       | Required? | Default                                                              | Options | Description                                                                                                                                          |
-| -------- | ---------- | --------- | -------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| children | React node | yes       |                                                                      |         | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                               |
-| view     | Component  | no        | [ErrorBoundary](packages/react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
+| Name      | type            | Required? | Default                                                              | Options | Description                                                                                                                                          |
+| --------- | --------------- | --------- | -------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className | String          | no        |                                                                      |         |                                                                                                                                                      |
+| children  | React node      | yes       |                                                                      |         | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                               |
+| view      | Render Function | no        | [ErrorBoundary](packages/react-search-ui-views/src/ErrorBoundary.js) |         | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information. |
 
 # Customization
 
