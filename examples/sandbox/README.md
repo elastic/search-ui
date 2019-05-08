@@ -35,6 +35,13 @@ by running the following command:
 npm start
 ```
 
+This project can also be started, using a Site Search connector, rather than an
+App Search connector, using the following command.
+
+```shell
+REACT_APP_SOURCE=SITE_SEARCH npm start
+```
+
 If you're actively developing Search UI and testing in this Sandbox, you'll probably want
 to live reload your changes in this application. To do this, navigate to the root
 level of this repository and run the following command.
