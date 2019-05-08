@@ -20,6 +20,7 @@ function buildContextForProps(context) {
 
 export default function withSearch(Component) {
   return function WithSearch(props) {
+    // TODO Perf
     // eslint-disable-next-line react/prop-types
     const { mapContextToProps = context => context, ...rest } = props;
 

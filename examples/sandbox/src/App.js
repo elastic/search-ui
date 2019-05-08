@@ -38,6 +38,9 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
   });
 }
 
+// TODO Perf
+const wasSearched = true;
+
 export default function App() {
   return (
     <SearchProvider
@@ -115,77 +118,78 @@ export default function App() {
         apiConnector: connector
       }}
     >
-      {({ wasSearched }) => (
-        <div className="App">
-          <ErrorBoundary>
-            <Layout
-              header={
-                <SearchBox
-                  autocompleteMinimumCharacters={3}
-                  autocompleteResults={{
-                    linkTarget: "_blank",
-                    sectionTitle: "Results",
-                    titleField: "title",
-                    urlField: "nps_link",
-                    shouldTrackClickThrough: true,
-                    clickThroughTags: ["test"]
-                  }}
-                  autocompleteSuggestions={true}
-                  debounceLength={0}
-                />
-              }
-              sideContent={
-                <div>
-                  {wasSearched && (
-                    <Sorting
-                      label={"Sort by"}
-                      sortOptions={[
-                        {
-                          name: "Relevance",
-                          value: "",
-                          direction: ""
-                        },
-                        {
-                          name: "Title",
-                          value: "title",
-                          direction: "asc"
-                        }
-                      ]}
-                    />
-                  )}
-
-                  <Facet field="states" label="States" filterType="any" isFilterable={true} />
-
-                  <Facet
-                    field="world_heritage_site"
-                    label="World Heritage Site?"
+      <div className="App">
+        <ErrorBoundary>
+          <Layout
+            header={
+              <SearchBox
+                autocompleteMinimumCharacters={3}
+                autocompleteResults={{
+                  linkTarget: "_blank",
+                  sectionTitle: "Results",
+                  titleField: "title",
+                  urlField: "nps_link",
+                  shouldTrackClickThrough: true,
+                  clickThroughTags: ["test"]
+                }}
+                autocompleteSuggestions={true}
+                debounceLength={0}
+              />
+            }
+            sideContent={
+              <div>
+                {wasSearched && (
+                  <Sorting
+                    label={"Sort by"}
+                    sortOptions={[
+                      {
+                        name: "Relevance",
+                        value: "",
+                        direction: ""
+                      },
+                      {
+                        name: "Title",
+                        value: "title",
+                        direction: "asc"
+                      }
+                    ]}
                   />
-                  <Facet
-                    field="visitors"
-                    label="Visitors"
-                    view={SingleLinksFacet}
-                  />
-                  <Facet field="acres" label="Acres" view={SingleSelectFacet} />
-                </div>
-              }
-              bodyContent={
-                <Results
-                  titleField="title"
-                  urlField="nps_link"
-                  shouldTrackClickThrough={true}
+                )}
+                <Facet
+                  field="states"
+                  label="States"
+                  filterType="any"
+                  isFilterable={true}
                 />
-              }
-              bodyHeader={
-                <React.Fragment>
-                  {wasSearched && <PagingInfo />}
-                  {wasSearched && <ResultsPerPage />}
-                </React.Fragment>
-              }
-              bodyFooter={<Paging />}
-            />
-          </ErrorBoundary>
-        </div>
-      )}
+                <Facet
+                  field="world_heritage_site"
+                  label="World Heritage Site?"
+                />
+                <Facet
+                  field="visitors"
+                  label="Visitors"
+                  view={SingleLinksFacet}
+                />
+                <Facet field="acres" label="Acres" view={SingleSelectFacet} />
+              </div>
+            }
+            bodyContent={
+              <Results
+                titleField="title"
+                urlField="nps_link"
+                shouldTrackClickThrough={true}
+              />
+            }
+            bodyHeader={
+              <React.Fragment>
+                {wasSearched && <PagingInfo />}
+                {wasSearched && <ResultsPerPage />}
+              </React.Fragment>
+            }
+            bodyFooter={<Paging />}
+          />
+        </ErrorBoundary>
+      </div>
     </SearchProvider>
   );
 }
