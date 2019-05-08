@@ -44,10 +44,6 @@ export default function App() {
       config={{
         debug: true,
         searchQuery: {
-          search_fields: {
-            title: {},
-            description: {}
-          },
           result_fields: {
             title: {
               snippet: {
@@ -95,10 +91,6 @@ export default function App() {
         autocompleteQuery: {
           results: {
             resultsPerPage: 5,
-            search_fields: {
-              title: {},
-              description: {}
-            },
             result_fields: {
               title: {
                 snippet: {
@@ -139,6 +131,7 @@ export default function App() {
                     clickThroughTags: ["test"]
                   }}
                   autocompleteSuggestions={true}
+                  debounceLength={0}
                 />
               }
               sideContent={
