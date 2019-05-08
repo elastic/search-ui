@@ -34,7 +34,11 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 ### Demo
 
-A live demo is available at this link: https://search-ui-stable.netlify.com/.
+We have two live demos deployed for reference. They each use the same UI code, but with different
+Search API Connectors:
+
+Elastic App Search: https://search-ui-stable.netlify.com
+Elastic Site Search: https://search-ui-stable-site-search.netlify.com
 
 ## Getting started 🐣
 
