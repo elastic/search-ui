@@ -33,91 +33,14 @@ export default function App() {
     <SearchProvider
       config={{
         debug: true,
-        searchQuery: {
-          search_fields: {
-            title: {},
-            description: {}
-          },
-          result_fields: {
-            title: {
-              snippet: {
-                size: 100,
-                fallback: true
-              }
-            },
-            nps_link: {
-              raw: {}
-            },
-            description: {
-              snippet: {
-                size: 100,
-                fallback: true
-              }
-            }
-          },
-          disjunctiveFacets: ["acres", "states"],
-          facets: {
-            world_heritage_site: { type: "value" },
-            states: { type: "value", size: 30 },
-            acres: {
-              type: "range",
-              ranges: [
-                { from: -1, name: "Any" },
-                { from: 0, to: 1000, name: "Small" },
-                { from: 1001, to: 100000, name: "Medium" },
-                { from: 100001, name: "Large" }
-              ]
-            },
-            visitors: {
-              type: "range",
-              ranges: [
-                { from: 0, to: 10000, name: "0 - 10000" },
-                { from: 10001, to: 100000, name: "10001 - 100000" },
-                { from: 100001, to: 500000, name: "100001 - 500000" },
-                { from: 500001, to: 1000000, name: "500001 - 1000000" },
-                { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
-                { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
-                { from: 10000001, name: "10000001+" }
-              ]
-            }
-          }
-        },
-        autocompleteQuery: {
-          results: {
-            resultsPerPage: 5,
-            search_fields: {
-              title: {},
-              description: {}
-            },
-            result_fields: {
-              title: {
-                snippet: {
-                  size: 100,
-                  fallback: true
-                }
-              },
-              nps_link: {
-                raw: {}
-              }
-            }
-          },
-          suggestions: {
-            types: {
-              documents: {
-                fields: ["title"]
-              }
-            },
-            size: 4
-          }
-        },
         onResultClick: () => {
           /* no-op */
         },
         onAutocompleteResultClick: () => {
           /* no-op */
         },
-        onAutocomplete: async ({ searchTerm }, queryConfig) => {
-          const body = buildRequest({ searchTerm }, queryConfig);
+        onAutocomplete: async ({ searchTerm }) => {
+          const body = buildRequest({ searchTerm });
 
           const response = await client.search({
             index: INDEX_NAME,
