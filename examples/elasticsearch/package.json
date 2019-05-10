@@ -2,20 +2,23 @@
   "name": "elasticsearch-example",
   "version": "0.8.0",
   "private": true,
+  "proxy": "http://localhost:9000",
   "dependencies": {
     "@elastic/react-search-ui": "0.8.0",
     "@elastic/react-search-ui-views": "0.8.0",
     "@elastic/search-ui": "0.8.0",
-    "elasticsearch": "^16.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "npm-run-all --parallel start:app start:server",
+    "start:app": "react-scripts start",
+    "start:server": "netlify-lambda serve ./functions",
+    "build": "npm-run-all --parallel build:**",
+    "read": "read",
+    "build:app": "react-scripts build",
+    "build:functions": "netlify-lambda build ./functions"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,5 +34,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "netlify-lambda": "^1.4.7",
+    "npm-run-all": "^4.1.5"
   }
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import elasticsearch from "elasticsearch";
 
 import {
   ErrorBoundary,
@@ -22,12 +21,6 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import buildRequest from "./buildRequest";
 import buildState from "./buildState";
 
-const INDEX_NAME = process.env.REACT_APP_ELASTICSEARCH_INDEX_NAME;
-const HOST = process.env.REACT_APP_ELASTICSEARCH_HOST;
-const client = new elasticsearch.Client({
-  host: HOST
-});
-
 export default function App() {
   return (
     <SearchProvider
@@ -40,27 +33,32 @@ export default function App() {
           /* no-op */
         },
         onAutocomplete: async ({ searchTerm }) => {
+          // TODO
           const body = buildRequest({ searchTerm });
 
-          const response = await client.search({
-            index: INDEX_NAME,
-            body
+          const response = await fetch(".netlify/functions/search", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(body)
           });
-          const state = buildState(response);
+          const json = await response.json();
+          const state = buildState(json);
           return {
             autocompletedResults: state.results
           };
         },
-        onSearch: state => {
+        onSearch: async state => {
           const { resultsPerPage } = state;
           const body = buildRequest(state);
 
-          return client
-            .search({
-              index: INDEX_NAME,
-              body
-            })
-            .then(body => buildState(body, resultsPerPage));
+          const response = await fetch(".netlify/functions/search", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(body)
+          });
+          const json = await response.json();
+
+          return buildState(json, resultsPerPage);
         }
       }}
     >
