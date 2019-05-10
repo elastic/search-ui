@@ -1,15 +1,17 @@
-function calculateFrom(current, resultsPerPage) {
+import buildRequestFilter from "./buildRequestFilter";
+
+function buildFrom(current, resultsPerPage) {
   if (!current || !resultsPerPage) return;
   return (current - 1) * resultsPerPage;
 }
 
-function calculateSort(sortDirection, sortField) {
+function buildSort(sortDirection, sortField) {
   if (sortDirection && sortField) {
     return [{ [`${sortField}.keyword`]: sortDirection }];
   }
 }
 
-function calculateQuery(searchTerm) {
+function buildMatch(searchTerm) {
   return searchTerm
     ? {
         multi_match: {
@@ -21,20 +23,20 @@ function calculateQuery(searchTerm) {
 }
 
 export default function buildRequest(state) {
-  // TODO request - filters
-
   const {
     current,
+    filters,
     resultsPerPage,
     searchTerm,
     sortDirection,
     sortField
   } = state;
 
-  const sort = calculateSort(sortDirection, sortField);
-  const query = calculateQuery(searchTerm);
+  const sort = buildSort(sortDirection, sortField);
+  const match = buildMatch(searchTerm);
   const size = resultsPerPage;
-  const from = calculateFrom(current, resultsPerPage);
+  const from = buildFrom(current, resultsPerPage);
+  const filter = buildRequestFilter(filters);
 
   const body = {
     // Static query Configuration
@@ -85,7 +87,12 @@ export default function buildRequest(state) {
     // Dynamic values based on current Search UI state
     // --------------------------
     // https://www.elastic.co/guide/en/elasticsearch/reference/7.x/full-text-queries.html
-    query,
+    query: {
+      bool: {
+        must: [match],
+        ...(filter && { filter })
+      }
+    },
     // https://www.elastic.co/guide/en/elasticsearch/reference/7.x/search-request-sort.html
     ...(sort && { sort }),
     // https://www.elastic.co/guide/en/elasticsearch/reference/7.x/search-request-from-size.html
