@@ -1,3 +1,6 @@
+/*
+  This is a Netlify Function that proxies our Elasticsearch instance.
+*/
 import fetch from "node-fetch";
 
 exports.handler = function(event, context, callback) {
