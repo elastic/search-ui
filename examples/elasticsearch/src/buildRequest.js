@@ -22,6 +22,12 @@ function buildMatch(searchTerm) {
     : { match_all: {} };
 }
 
+/*
+  Current Application State -> Elasticsearch request
+
+  When implementing an onSearch Handler in Search UI, the handler needs to take the
+  current state of the application and convert it to an API request. This file does that.
+*/
 export default function buildRequest(state) {
   const {
     current,

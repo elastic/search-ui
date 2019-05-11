@@ -46,6 +46,13 @@ function buildResults(hits) {
   });
 }
 
+/*
+  Elasticsearch response -> New Application State
+
+  When implementing an onSearch Handler in Search UI, the handler needs to convert
+  search results into application state that Search UI understands. This file
+  does that.
+*/
 export default function buildState(response, resultsPerPage) {
   const results = buildResults(response.hits.hits);
   const totalResults = buildTotalResults(response.hits);
