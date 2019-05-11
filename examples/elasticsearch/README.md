@@ -13,7 +13,7 @@ guide.
 This takes a bit more effort than using a Connector, but it provides a lot of flexibility. This example
 should give Elasticsearch users a bit of a head start when using Search UI.
 
-### What the Handlers actually do.
+### What the Handlers actually do
 
 The Handlers in this project convert [Application State to Elasticsearch requests](src/buildRequest.js), and then [Elasticsearch responses back to Application State](src/buildState.js).
 
