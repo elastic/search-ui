@@ -32,7 +32,7 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
-### Demo
+### Demos
 
 We have 3 live demos deployed for reference. They each use the same UI code, but with different
 Search API Connectors:

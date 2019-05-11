@@ -23,10 +23,21 @@ function buildMatch(searchTerm) {
 }
 
 /*
-  Current Application State -> Elasticsearch request
+
+  Converts Current Application State to an Elasticsearch request.
 
   When implementing an onSearch Handler in Search UI, the handler needs to take the
-  current state of the application and convert it to an API request. This file does that.
+  current state of the application and convert it to an API request.
+
+  For instance, there is a "current" property in the application state that you receive
+  in this handler. The "current" property represents the current page in pagination.
+
+  There is no concepts of "pages" in Elasticsearch, so the closest thing we have to this is
+  the "from" option. This file take the "current" value (the current page), and the "resultsPerPage"
+  value (the size of a page), to calculate the "from" offset for Elasticsearch.
+
+  We then do similar things for searchTerm, filters, sort, etc.
+
 */
 export default function buildRequest(state) {
   const {

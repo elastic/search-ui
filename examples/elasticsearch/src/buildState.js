@@ -47,11 +47,17 @@ function buildResults(hits) {
 }
 
 /*
-  Elasticsearch response -> New Application State
+  Converts an Elasticsearch response to new Application State
 
   When implementing an onSearch Handler in Search UI, the handler needs to convert
-  search results into application state that Search UI understands. This file
-  does that.
+  search results into new application state that Search UI understands.
+
+  For instance, Elasticsearch returns "hits" for search results. This maps to
+  the "results" property in application state, which requires a specific format. So this
+  file iterates through "hits" and reformats them to "results" that Search UI
+  understands.
+
+  We do similar things for facets and totals.
 */
 export default function buildState(response, resultsPerPage) {
   const results = buildResults(response.hits.hits);
