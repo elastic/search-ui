@@ -1,5 +1,8 @@
 # Sandbox
 
+Sandbox with Elastic App Search: https://search-ui-stable.netlify.com/
+Sandbox with Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
+
 This example is a sandbox for local development. It sets up a basic page
 using Search UI.
 
@@ -19,6 +22,12 @@ REACT_APP_SEARCH_ENGINE_NAME=<PUT YOUR ENGINE NAME HERE>
 REACT_APP_SEARCH_KEY=<PUT YOUR SEARCH KEY HERE>
 REACT_APP_SEARCH_HOST_IDENTIFIER=<PUT YOUR HOST IDENTIFIER HERE>
 REACT_APP_SEARCH_ENDPOINT_BASE=<PUT AN ENDPOINT BASE HERE IF YOU ARE USING SELF MANAGED APP SEARCH>
+```
+
+The Sandbox can be used with a pre-configured Site Search Engine, using the following configuration:
+
+```
+REACT_APP_SOURCE=SITE_SEARCH
 ```
 
 ## Using

@@ -23,7 +23,7 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 ### Features :+1:
 
-- **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
+- **You know, for search** - Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
 - **Speedy Implementation** - Build a complete search experience with a few lines of code.
 - **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
