@@ -281,7 +281,8 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ search API.
 
-Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more.
+Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check
+out the [Elasticsearch Example](./examples/elasticsearch).
 
 ### Where do I report issues with the Search UI?
 
