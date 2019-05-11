@@ -27,13 +27,12 @@ export default function App() {
       config={{
         debug: true,
         onResultClick: () => {
-          /* no-op */
+          /* Not implemented */
         },
         onAutocompleteResultClick: () => {
-          /* no-op */
+          /* Not implemented */
         },
         onAutocomplete: async ({ searchTerm }) => {
-          // TODO
           const body = buildRequest({ searchTerm });
 
           const response = await fetch(".netlify/functions/search", {
