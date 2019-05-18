@@ -50,7 +50,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 It is **never** recommended to directly query your Elasticsearch index from a browser.
 
-This project includes a [Netlify](https://www.netlify.com/) [Function](https://www.netlify.com/docs/functions/) which proxies your Elasticsearch.
+This project includes a [Netlify Function](https://www.netlify.com/docs/functions/) which proxies your Elasticsearch.
 
 ## Deployment
 
