@@ -24,7 +24,7 @@ function buildMatch(searchTerm) {
 
 /*
 
-  Converts Current Application State to an Elasticsearch request.
+  Converts current application state to an Elasticsearch request.
 
   When implementing an onSearch Handler in Search UI, the handler needs to take the
   current state of the application and convert it to an API request.
