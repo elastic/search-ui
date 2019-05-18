@@ -32,7 +32,7 @@ function buildMatch(searchTerm) {
   For instance, there is a "current" property in the application state that you receive
   in this handler. The "current" property represents the current page in pagination.
 
-  There is no concepts of "pages" in Elasticsearch, so the closest thing we have to this is
+  There is no concept of "pages" in Elasticsearch, so the closest thing we have to this is
   the "from" option. This file takes the "current" value (the current page), and the "resultsPerPage"
   value (the size of a page), to calculate the "from" offset for Elasticsearch.
 
