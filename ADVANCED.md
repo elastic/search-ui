@@ -4,8 +4,8 @@
 2. [Component Reference](#component-reference)
 3. [Customization](#customization)
 4. [Advanced Configuration](#advanced-configuration)
-5. [Build Your Own Component](#build-your-own-component)
-6. [Build Your Own Connector](#build-your-own-connector)
+5. [Connectors and Handlers](#connectors-and-handlers)
+6. [Build Your Own Component](#build-your-own-component)
 7. [Search UI Contributor's Guide](#search-ui-contributors-guide)
 
 # Headless Core
@@ -1097,7 +1097,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-# Build Your Own Component
+## Build Your Own Component
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
@@ -1191,6 +1191,8 @@ handler implementations directly on the `SearchProvider`.
 
 This makes Search UI useful for services like `elasticsearch` which do not have a Connector
 available.
+
+For a thorough example of this, see the demo in [examples/elasticsearch](examples/elasticsearch/README.md)
 
 ### Overriding Connector Handlers
 

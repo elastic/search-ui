@@ -23,7 +23,7 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 ### Features :+1:
 
-- **You know, for search**: Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
+- **You know, for search** - Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
 - **Speedy Implementation** - Build a complete search experience with a few lines of code.
 - **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
@@ -32,13 +32,14 @@ It supports **[React](https://reactjs.org)** and **works with any search API**.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
-### Demo
+### Demos
 
-We have two live demos deployed for reference. They each use the same UI code, but with different
+We have 3 live demos deployed for reference. They each use the same UI code, but with different
 Search API Connectors:
 
-Elastic App Search: https://search-ui-stable.netlify.com
-Elastic Site Search: https://search-ui-stable-site-search.netlify.com
+- Elastic App Search: https://search-ui-stable.netlify.com
+- Elastic Site Search: https://search-ui-stable-site-search.netlify.com
+- Elasticsearch: https://search-ui-stable-elasticsearch.netlify.com
 
 ## Getting started 🐣
 
@@ -280,7 +281,8 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ search API.
 
-Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more.
+Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check
+out the [Elasticsearch Example](./examples/elasticsearch).
 
 ### Where do I report issues with the Search UI?
 
