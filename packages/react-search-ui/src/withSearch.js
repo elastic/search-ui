@@ -1,6 +1,6 @@
 import React from "react";
 
-import SearchConsumer from "./SearchConsumer";
+import SearchContext from "./SearchContext";
 
 /**
  * This is a Higher Order Component that is used to expose (as `props`) all
@@ -19,20 +19,36 @@ function buildContextForProps(context) {
 }
 
 export default function withSearch(Component) {
-  return function WithSearch(props) {
-    // TODO Perf
-    // eslint-disable-next-line react/prop-types
-    const { mapContextToProps = context => context, ...rest } = props;
+  class WithSearch extends React.Component {
+    constructor() {
+      super();
+      this.state = {};
+    }
 
-    return (
-      <SearchConsumer>
-        {context => (
-          <Component
-            {...mapContextToProps(buildContextForProps(context))}
-            {...rest}
-          />
-        )}
-      </SearchConsumer>
-    );
-  };
+    componentWillMount() {
+      this.setState(buildContextForProps(this.context));
+      this.context.driver.subscribeToStateChanges(this.subscription);
+    }
+
+    componentWillUnmount() {
+      this.unmounted = true;
+      this.context.driver.unsubscribeToStateChanges(this.subscription);
+    }
+
+    subscription = state => {
+      if (this.unmounted) return;
+      this.setState(state);
+    };
+
+    render() {
+      // TODO Perf
+      // eslint-disable-next-line react/prop-types
+      const { mapContextToProps = context => context, ...rest } = this.props;
+
+      return <Component {...mapContextToProps(this.state)} {...rest} />;
+    }
+  }
+
+  WithSearch.contextType = SearchContext;
+  return WithSearch;
 }
