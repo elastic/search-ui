@@ -19,7 +19,7 @@ import SearchContext from "./SearchContext";
  */
 class SearchProvider extends Component {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
     // Not providing a shape here because the shape matches the shape of
     // SearchDriver. SearchDriver can do it's own parameter validation.
     config: PropTypes.object
