@@ -19,6 +19,19 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
+const SORT_OPTIONS = [
+  {
+    name: "Relevance",
+    value: "",
+    direction: ""
+  },
+  {
+    name: "Title",
+    value: "title",
+    direction: "asc"
+  }
+];
+
 let connector;
 if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
   connector = new SiteSearchAPIConnector({
@@ -139,21 +152,7 @@ export default function App() {
             sideContent={
               <div>
                 {wasSearched && (
-                  <Sorting
-                    label={"Sort by"}
-                    sortOptions={[
-                      {
-                        name: "Relevance",
-                        value: "",
-                        direction: ""
-                      },
-                      {
-                        name: "Title",
-                        value: "title",
-                        direction: "asc"
-                      }
-                    ]}
-                  />
+                  <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                 )}
                 <Facet field="states" label="States" filterType="any" />
                 <Facet
