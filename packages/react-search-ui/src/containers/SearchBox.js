@@ -213,4 +213,13 @@ export class SearchBoxContainer extends Component {
   }
 }
 
-export default withSearch(SearchBoxContainer);
+export default withSearch(
+  [
+    "autocompletedResults",
+    "autocompletedSuggestions",
+    "searchTerm",
+    "setSearchTerm",
+    "trackAutocompleteClickThrough"
+  ],
+  SearchBoxContainer
+);

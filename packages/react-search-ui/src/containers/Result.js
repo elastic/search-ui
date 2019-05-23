@@ -51,4 +51,4 @@ export class ResultContainer extends Component {
   }
 }
 
-export default withSearch(ResultContainer);
+export default withSearch(["trackClickThrough"], ResultContainer);
