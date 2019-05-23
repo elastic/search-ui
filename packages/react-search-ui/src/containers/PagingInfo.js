@@ -43,4 +43,7 @@ export class PagingInfoContainer extends Component {
   }
 }
 
-export default withSearch(PagingInfoContainer);
+export default withSearch(
+  ["current", "results", "resultsPerPage", "resultSearchTerm", "totalResults"],
+  PagingInfoContainer
+);

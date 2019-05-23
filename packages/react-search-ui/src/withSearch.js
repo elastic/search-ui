@@ -1,7 +1,6 @@
 import React from "react";
 
 import SearchContext from "./SearchContext";
-import areEqualShallow from "./helpers/areShallowEqual";
 
 /**
  * This is a Higher Order Component that is used to expose (as `props`) all
@@ -22,47 +21,42 @@ function buildContextForProps(context) {
   };
 }
 
-export default function withSearch(Component) {
-  class WithSearch extends React.Component {
+/* For a given object, pluck out the key/value pairs matching the keys
+provided in the deps parameter */
+function giveMeJustWhatINeeded(stateOrContext, deps) {
+  if (deps.length === 0) return stateOrContext;
+  return deps.reduce((acc, dep) => {
+    if (!stateOrContext.hasOwnProperty(dep)) return acc;
+    return {
+      ...acc,
+      [dep]: stateOrContext[dep]
+    };
+  }, {});
+}
+
+/**
+ * Wrap a component and inject state and actions from Search UI, effectively
+ * "connecting" it to Search UI.
+ *
+ * @param Array[String] deps An array of state or action values to be injected as props into the component. Provide
+ * an empty array for all state and actions. This is not desirable because it can have bad performance characteristics
+ * as the component would then render every time state is updated in Search UI.
+ * @param Function Component
+ */
+export default function withSearch(deps = [], Component) {
+  class WithSearch extends React.PureComponent {
     constructor() {
       super();
       this.state = {};
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      // Since ALL state and actions are passed to our components from the state
-      // tree, we need to make sure that only state changes on state that a
-      // component cares about trigger updates. Otherwise we will have
-      // severe over-rendering.
-      //
-      // We determine which state properties a component cares about by looking
-      // at their propTypes, hence the "Component.propTypes" usage below.
-      if (
-        areEqualShallow(
-          this.state,
-          nextState,
-          Object.keys(Component.propTypes)
-        ) !== true
-      ) {
-        return true;
-      }
-      if (
-        areEqualShallow(
-          this.props,
-          nextProps,
-          Object.keys(Component.propTypes)
-        ) !== true
-      ) {
-        return true;
-      }
-
-      return false;
+      this.deps = deps;
     }
 
     componentWillMount() {
-      this.setState(buildContextForProps(this.context));
+      this.setState(
+        giveMeJustWhatINeeded(buildContextForProps(this.context), this.deps)
+      );
       // Note that we subscribe to changes at the component level, rather than
-      // at the top level driver level, so that are are not triggering renders
+      // at the top level Provider level, so that we are over-rendering
       // at the top level of our component tree.
       this.context.driver.subscribeToStateChanges(this.subscription);
     }
@@ -74,7 +68,7 @@ export default function withSearch(Component) {
 
     subscription = state => {
       if (this.unmounted) return;
-      this.setState(state);
+      this.setState(giveMeJustWhatINeeded(state, this.deps));
     };
 
     render() {
