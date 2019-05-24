@@ -13,7 +13,10 @@ function MultiCheckboxFacet({
   onSelect,
   options,
   showMore,
-  values
+  values,
+  showSearch,
+  onSearch,
+  searchPlaceholder
 }) {
   return (
     <div
@@ -23,6 +26,22 @@ function MultiCheckboxFacet({
       )}
     >
       <div className="sui-multi-checkbox-facet__label">{label}</div>
+
+      {showSearch && (
+        <div className="sui-search-box">
+          <div className="sui-search-box__wrapper">
+            <input
+              className="sui-search-box__text-input"
+              type="search"
+              placeholder={searchPlaceholder || "Search"}
+              onChange={e => {
+                onSearch(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="sui-multi-checkbox-facet__options-list">
         {options.map(option => {
           const checked = !!values.find(value =>
@@ -59,6 +78,7 @@ function MultiCheckboxFacet({
           );
         })}
       </div>
+
       {showMore && (
         <div
           className="sui-multi-checkbox-facet__view-more"
@@ -76,10 +96,13 @@ MultiCheckboxFacet.propTypes = {
   onMoreClick: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
   showMore: PropTypes.bool.isRequired,
   values: PropTypes.arrayOf(FilterValue).isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  showSearch: PropTypes.bool,
+  searchPlaceholder: PropTypes.string
 };
 
 export default MultiCheckboxFacet;

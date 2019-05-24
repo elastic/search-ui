@@ -269,3 +269,68 @@ it("passes className through to the view", () => {
   );
   expect(viewProps.className).toEqual(className);
 });
+
+describe("search facets", () => {
+  let wrapper;
+  const field = 'field1';
+
+  function subject(additionalProps = {}) {
+    return shallow(
+      <FacetContainer
+        {...{
+          ...params,
+          field,
+          facets: {
+            field1: [
+              {
+                field,
+                data: [
+                  { count: 20, value: "Virat" },
+                  { count: 10, value: "dhoni" },
+                  { count: 9, value: "LÒpez" },
+                  { count: 8, value: "bumŗÄh" },
+                ],
+                type: "value"
+              }
+            ]
+          },
+          isFilterable: true,
+          ...additionalProps
+        }}
+      />
+    );
+  }
+
+  beforeAll(() => {
+    wrapper = subject();
+  });
+
+  it("should have a search input", () => {
+    expect(wrapper.find(View).prop("showSearch")).toEqual(true);
+  });
+
+  it("should use the field name as a search input placeholder", () => {
+    expect(wrapper.find(View).prop("searchPlaceholder")).toBe(`Search ${field}`);
+  });
+
+  it("should render matched Facet options", () => {
+    wrapper.find(View).prop("onSearch")("ra");
+
+    const filteredOptions = wrapper.find(View).prop("options");
+
+    expect(filteredOptions.length).toEqual(2);
+    expect(filteredOptions.map(opt => opt.value).join(" ")).toEqual("Virat bumŗÄh");
+  });
+
+  it("should not render Facet options if search value not matched", () => {
+    wrapper.find(View).prop("onSearch")("No match");
+
+    expect(wrapper.find(View).prop("options").length).toEqual(0);
+  });
+
+  it("should hide the search input", () => {
+    const newWrapper = subject({ isFilterable: false });
+
+    expect(newWrapper.find(View).prop("showSearch")).toEqual(false);
+  });
+});
