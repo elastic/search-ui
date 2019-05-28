@@ -114,6 +114,8 @@ Or go "headless", and take complete control over the look and feel of your searc
 </SearchProvider>
 ```
 
+Test
+
 A search experience built with Search UI is composed of the following layers:
 
 1. [A Search API](#1-search-api)
