@@ -4,6 +4,8 @@
 
 > Libraries for the fast development of modern, engaging search experiences. :tada:
 
+Test CI
+
 ## Contents
 
 - [About Search UI](#about-search-ui-rocket)
