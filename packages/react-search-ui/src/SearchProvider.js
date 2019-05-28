@@ -5,15 +5,10 @@ import { SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
 
 /**
- * The SearchProvider is the glue that connects the SearchDriver to
- * our React App.
+ * The SearchProvider primarily holds a reference to the SearchDriver and
+ * exposes it to the rest of the application in a Context.
  *
- * It "subscribes" to the SearchDriver in order to be notified of state
- * changes. It then syncs that state with its own state and passes that state
- * down to child components in a React Context. It will also pass down "Actions"
- * from the SearchDriver, which allow child components to update state.
- *
- * Any "Container" component placed within this context will have access
+ * Any "Container" component nested within this component will have access
  * to the Driver's state and Actions.
  *
  */
