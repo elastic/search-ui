@@ -1249,6 +1249,32 @@ The thing to be most cautious of is not to
 [mutate state](https://reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data) that you will
 pass as props to any of these components.
 
+Example of what not to do:
+
+```jsx
+class SomeComponent extends React.Component {
+  changeSorting = () => {
+    const { options } = this.state.options;
+    // Mutating an existing object in state rather than creating a new /// one is bad ... since Sorting component is "Pure"
+    // it won't update after call `setState` here.
+    options.push("newOption");
+    this.setState({ options });
+  };
+
+  render() {
+    const { options } = this.state;
+    return <Sorting options={options} />;
+  }
+}
+```
+
+Instead, do:
+
+```jsx
+const { options } = this.state.options;
+this.setState({ options: [...options, "newOption"] });
+```
+
 # Search UI Contributor's Guide
 
 How to build and contribute to Search UI.
