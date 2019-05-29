@@ -29,9 +29,7 @@ function giveMeJustWhatINeeded(stateOrContext, uses) {
  * `mapContextToProps` can be used to manipulate actions and state from context
  * before they are passed on to the container.
  *
- * Components using `withSearch` will be "Pure" components. A "shouldComponentUpdate" is implemented
- * below to ensure that components only render when state has changed.
- *
+ * Components using `withSearch` will be "Pure" components.
  * It is important to understand the implications of using a PureComponent, as described here:
  * https://reactjs.org/docs/optimizing-performance.html#examples
  *
@@ -54,7 +52,7 @@ export default function withSearch(uses = [], Component) {
         giveMeJustWhatINeeded(buildContextForProps(this.context), uses)
       );
       // Note that we subscribe to changes at the component level, rather than
-      // at the top level Provider level, so that we are over-rendering
+      // at the top level Provider level, so that we are not over-rendering
       // at the top level of our component tree.
       this.context.driver.subscribeToStateChanges(this.subscription);
     }
