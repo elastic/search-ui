@@ -45,12 +45,13 @@ export default function withSearch(uses = [], Component) {
     constructor() {
       super();
       this.state = {};
-      this.uses = uses;
     }
 
-    componentWillMount() {
+    componentDidMount() {
+      // Note that we're doing this in CDM rather than the constructor, since
+      // `this.context` is not yet available in the constructor
       this.setState(
-        giveMeJustWhatINeeded(buildContextForProps(this.context), this.uses)
+        giveMeJustWhatINeeded(buildContextForProps(this.context), uses)
       );
       // Note that we subscribe to changes at the component level, rather than
       // at the top level Provider level, so that we are over-rendering
@@ -65,7 +66,7 @@ export default function withSearch(uses = [], Component) {
 
     subscription = state => {
       if (this.unmounted) return;
-      this.setState(giveMeJustWhatINeeded(state, this.uses));
+      this.setState(giveMeJustWhatINeeded(state, uses));
     };
 
     render() {
