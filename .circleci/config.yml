@@ -40,4 +40,4 @@ jobs:
       - run: npm run bootstrap
 
       # run tests!
-      - run: npm test
+      - run: npm run test-ci

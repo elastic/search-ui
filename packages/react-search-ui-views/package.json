@@ -19,6 +19,7 @@
     "url": "git+https://github.com/elastic/search-ui.git"
   },
   "scripts": {
+    "test-ci": "jest --runInBand",
     "test": "jest",
     "clean": "rimraf es lib",
     "build-css": "./bin/build-css",
