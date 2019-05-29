@@ -129,7 +129,7 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <SearchConsumer with={["wasSearched"]}>
+      <SearchConsumer uses={["wasSearched"]}>
         {({ wasSearched }) => {
           return (
             <div className="App">

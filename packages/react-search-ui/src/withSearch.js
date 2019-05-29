@@ -48,9 +48,10 @@ export default function withSearch(uses = [], Component) {
     componentDidMount() {
       // Note that we're doing this in CDM rather than the constructor, since
       // `this.context` is not yet available in the constructor
-      this.setState(
-        giveMeJustWhatINeeded(buildContextForProps(this.context), uses)
-      );
+      this.setState({
+        ...giveMeJustWhatINeeded(buildContextForProps(this.context), uses),
+        mounted: true
+      });
       // Note that we subscribe to changes at the component level, rather than
       // at the top level Provider level, so that we are not over-rendering
       // at the top level of our component tree.
@@ -68,6 +69,8 @@ export default function withSearch(uses = [], Component) {
     };
 
     render() {
+      if (!this.state.mounted) return null;
+
       // eslint-disable-next-line react/prop-types
       const { mapContextToProps = context => context, ...rest } = this.props;
 
