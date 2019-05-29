@@ -4,8 +4,8 @@
 2. [Component Reference](#component-reference)
 3. [Customization](#customization)
 4. [Advanced Configuration](#advanced-configuration)
-5. [Connectors and Handlers](#connectors-and-handlers)
-6. [Build Your Own Component](#build-your-own-component)
+5. [Build Your Own Component](#build-your-own-component)
+6. [Connectors and Handlers](#connectors-and-handlers)
 7. [Search UI Contributor's Guide](#search-ui-contributors-guide)
 
 # Headless Core
@@ -75,13 +75,18 @@ It looks like this:
 If you wish to work with Search UI outside of a particular Component, you'll work
 directly with the core.
 
-There's 3 ways you can do this:
+There's two ways you can do this:
 
-### 1. The Render Prop on SearchProvider
+### 1. `withSearch`
 
-When you configure `SearchProvider`, you need to provide a function as the child of the provider.
+This is typically used for creating your own Components.
 
-That function is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes the Context for you to work with.
+See [Build Your Own Component](#build-your-own-component).
+
+### 2. SearchConsumer
+
+`SearchConsumer` is a component that exposes the Context for you to work with via a
+[Render Prop](https://reactjs.org/docs/render-props.html).
 
 One use case for that would be to render a "loading" indicator any time the application is fetching data.
 
@@ -89,63 +94,25 @@ For example:
 
 ```jsx
 <SearchProvider config={config}>
-  {{isLoading} => (
-    <div className="App">
-      {isLoading && <div>I'm loading now</div>}
-      {!isLoading && <Layout
-        header={<SearchBox />}
-        bodyContent={<Results titleField="title" urlField="nps_link" />}
-      />}
-    </div>
-  )}
+  <SearchConsumer uses={["isLoading"]}>
+    {({ isLoading }) => (
+      <div className="App">
+        {isLoading && <div>I'm loading now</div>}
+        {!isLoading && (
+          <Layout
+            header={<SearchBox />}
+            bodyContent={<Results titleField="title" urlField="nps_link" />}
+          />
+        )}
+      </div>
+    )}
+  </SearchConsumer>
 </SearchProvider>
 ```
 
-You could also use it to add a clear filters button:
-
-```jsx
-<SearchProvider config={config}>
-  {({ isLoading, clearFilters }) => (
-    <div className="App">
-      {isLoading && <div>I'm loading now</div>}
-      {!isLoading && (
-        <Layout
-          header={
-            <div>
-              <SearchBox />
-              <button onClick={clearFilters}>Clear</button>
-            </div>
-          }
-          bodyContent={<Results titleField="title" urlField="nps_link" />}
-        />
-      )}
-    </div>
-  )}
-</SearchProvider>
-```
-
-### 2. `withSearch`
-
-This is typically used for creating your own Components.
-
-See [Build Your Own Component](#build-your-own-component).
-
-### 3. With `SearchConsumer`
-
-If you prefer a [Render Props](https://reactjs.org/docs/render-props.html) approach rather than
-the [Higher Order Components](https://reactjs.org/docs/higher-order-components.html) approach of `withSearch`, you can use `SearchConsumer`.
-
-```jsx
-import { SearchConsumer } from "@elastic/react-search-ui";
-```
-
-```jsx
-<SearchConsumer>
-  {{ isLoading } => (
-    <div>isLoading</div>
-  )}
-</SearchConsumer>
-```
+Note that `SearchConsumer` has a "uses" prop available. Specifying which action and state properties you
+want from the Context with the "uses" prop allows us to do performance optimizations. However, it is optional.
+Omitting the prop or providing an empty Array will pass all state and actions.
 
 ## Headless Core Reference
 
@@ -157,10 +124,10 @@ It exposes the [State](#state) and [Actions](#actions) of the core in a [Context
 
 Params:
 
-| name     | type     | description                                                                                                         |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| config   | Object   | See the [Configuration Options](#config) section.                                                                   |
-| children | function | A render prop function that accepts the [Context](#context) as a parameter. <br/><br/>`(context) => return <div />` |
+| name     | type       | description                                       |
+| -------- | ---------- | ------------------------------------------------- |
+| config   | Object     | See the [Configuration Options](#config) section. |
+| children | React Node |                                                   |
 
 ### Context
 
@@ -261,6 +228,9 @@ Application state is the general application state.
 | `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
 
 # Component Reference
+
+Note that all components in this library are Pure Components. Read more
+about that [here](#performance).
 
 The following Components are available:
 
@@ -1111,7 +1081,7 @@ There might be cases where we do not have the Component you need.
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
 called [withSearch](./src/withSearch.js).
 
-It gives you access to work directly with Search UI's [Context](#headless-core#headless-core-concepts).
+It gives you access to work directly with Search UI's [Headless Core](#headless-core).
 
 This lets you create your own Components for Search UI.
 
@@ -1131,8 +1101,15 @@ function ClearFilters({ filters, clearFilters }) {
   );
 }
 
-export default withSearch(ClearFilters);
+export default withSearch(["filters", "clearFilters"], ClearFilters);
 ```
+
+Note that `withSearch` accepts an array as the first parameter. Specifying which action and state properties you
+want from the Context with the this parameter allows us to do performance optimizations. However, it is optional.
+Omitting the prop or providing an empty Array will pass all state and actions.
+
+Also note that all components created with `withSearch` will be Pure Components. Read more
+about that [here](#performance).
 
 ## Connectors and Handlers
 
@@ -1260,6 +1237,17 @@ need to have in common is an `additionalOptions` parameter.
 
 For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
 includes things like 404s, 500s, etc.
+
+## Performance
+
+Note that in order to make sure that components are as fast as possible, all components within
+this library are "Pure Components". You can read more about the concept and potential pitfalls
+of Pure Components in the React
+[Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#avoid-reconciliation) guide.
+
+The thing to be most cautious of is not to
+[mutate state](https://reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data) that you will
+pass as props to any of these components.
 
 # Search UI Contributor's Guide
 
