@@ -5,6 +5,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --stream --no-private",
+    "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --parallel --no-private",
     "format": "prettier --write \"packages/*/src/*.js\"",
