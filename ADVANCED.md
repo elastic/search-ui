@@ -1271,7 +1271,7 @@ class SomeComponent extends React.Component {
 Instead, do:
 
 ```jsx
-this.setState({ options: [...options, "newOption"] });
+this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
 ```
 
 # Search UI Contributor's Guide
