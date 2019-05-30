@@ -1254,7 +1254,7 @@ Example of what not to do:
 ```jsx
 class SomeComponent extends React.Component {
   changeSorting = () => {
-    const { options } = this.state.options;
+    const { options } = this.state;
     // Mutating an existing object in state rather than creating a new /// one is bad ... since Sorting component is "Pure"
     // it won't update after call `setState` here.
     options.push("newOption");
