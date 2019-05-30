@@ -28,17 +28,15 @@ function MultiCheckboxFacet({
       <div className="sui-multi-checkbox-facet__label">{label}</div>
 
       {showSearch && (
-        <div className="sui-search-box">
-          <div className="sui-search-box__wrapper">
-            <input
-              className="sui-search-box__text-input"
-              type="search"
-              placeholder={searchPlaceholder || "Search"}
-              onChange={e => {
-                onSearch(e.target.value);
-              }}
-            />
-          </div>
+        <div className="sui-facet-search">
+          <input
+            className="sui-facet-search__text-input"
+            type="search"
+            placeholder={searchPlaceholder || "Search"}
+            onChange={e => {
+              onSearch(e.target.value);
+            }}
+          />
         </div>
       )}
 
