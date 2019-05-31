@@ -3,6 +3,7 @@ import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 import { Facet, Filter, FilterType } from "../types";
+import { accentFold } from "../helpers";
 
 import { withSearch } from "..";
 
@@ -11,8 +12,6 @@ function findFacetValueInFilters(name, filters, filterType) {
   if (!filter) return;
   return filter.values;
 }
-
-const accentFold = (str = '') => str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
 export class FacetContainer extends Component {
   static propTypes = {
@@ -42,7 +41,7 @@ export class FacetContainer extends Component {
     super();
     this.state = {
       more: show,
-      searchTerm: ''
+      searchTerm: ""
     };
   }
 
@@ -82,15 +81,15 @@ export class FacetContainer extends Component {
     if (!options.length && !selectedValues.length) return null;
 
     if (searchTerm.trim()) {
-      options = options.filter(
-        option => accentFold(option.value)
+      options = options.filter(option =>
+        accentFold(option.value)
           .toLowerCase()
           .includes(accentFold(searchTerm).toLowerCase())
       );
     }
 
     const View = view || MultiCheckboxFacet;
-    
+
     return View({
       className,
       label: label,

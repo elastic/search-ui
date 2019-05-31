@@ -221,5 +221,7 @@ it("should use the `searchPlaceholder` param as a search input placeholder", () 
     />
   );
 
-  expect(wrapper.find(".sui-search-box__text-input").prop('placeholder')).toBe(searchPlaceholder);
+  expect(wrapper.find(".sui-search-box__text-input").prop("placeholder")).toBe(
+    searchPlaceholder
+  );
 });

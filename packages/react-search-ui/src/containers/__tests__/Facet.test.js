@@ -272,9 +272,14 @@ it("passes className through to the view", () => {
 
 describe("search facets", () => {
   let wrapper;
-  const field = 'field1';
+  const field = "field1";
+  const fieldData = [
+    { count: 20, value: "Virat" },
+    { count: 9, value: "LÒpez" },
+    { count: 8, value: "bumŗÄh" }
+  ];
 
-  function subject(additionalProps = {}) {
+  function subject(additionalProps = {}, data = fieldData) {
     return shallow(
       <FacetContainer
         {...{
@@ -284,12 +289,7 @@ describe("search facets", () => {
             field1: [
               {
                 field,
-                data: [
-                  { count: 20, value: "Virat" },
-                  { count: 10, value: "dhoni" },
-                  { count: 9, value: "LÒpez" },
-                  { count: 8, value: "bumŗÄh" },
-                ],
+                data,
                 type: "value"
               }
             ]
@@ -310,22 +310,57 @@ describe("search facets", () => {
   });
 
   it("should use the field name as a search input placeholder", () => {
-    expect(wrapper.find(View).prop("searchPlaceholder")).toBe(`Search ${field}`);
+    expect(wrapper.find(View).prop("searchPlaceholder")).toBe(
+      `Search ${field}`
+    );
   });
 
-  it("should render matched Facet options", () => {
-    wrapper.find(View).prop("onSearch")("ra");
+  describe("after a search is performed", () => {
+    it("should match Facet options with/without accented characters", () => {
+      wrapper.find(View).prop("onSearch")("ra");
 
-    const filteredOptions = wrapper.find(View).prop("options");
+      const filteredOptions = wrapper.find(View).prop("options");
 
-    expect(filteredOptions.length).toEqual(2);
-    expect(filteredOptions.map(opt => opt.value).join(" ")).toEqual("Virat bumŗÄh");
-  });
+      expect(filteredOptions.length).toEqual(2);
+      expect(filteredOptions.map(opt => opt.value)).toEqual([
+        "Virat",
+        "bumŗÄh"
+      ]);
+    });
 
-  it("should not render Facet options if search value not matched", () => {
-    wrapper.find(View).prop("onSearch")("No match");
+    it("should ignore case sensitive when matching", () => {
+      const data = [
+        { count: 20, value: "APPLE" },
+        { count: 10, value: "appointment" },
+        { count: 9, value: "entertainMEnt" }
+      ];
+      const wrapper = subject({}, data);
 
-    expect(wrapper.find(View).prop("options").length).toEqual(0);
+      // action => lowercase
+      wrapper.find(View).prop("onSearch")("app");
+
+      const options1 = wrapper.find(View).prop("options");
+
+      expect(options1.length).toEqual(2);
+      expect(options1.map(opt => opt.value)).toEqual(["APPLE", "appointment"]);
+
+      // action => uppercase
+      wrapper.find(View).prop("onSearch")("MENT");
+
+      const options2 = wrapper.find(View).prop("options");
+
+      expect(options1.length).toEqual(2);
+      expect(options2.map(opt => opt.value)).toEqual([
+        "appointment",
+        "entertainMEnt"
+      ]);
+    });
+
+    it("should not render Facet options if search value not matched", () => {
+      wrapper.find(View).prop("onSearch")("No match");
+
+      expect(wrapper.find(View).prop("options").length).toEqual(0);
+    });
   });
 
   it("should hide the search input", () => {

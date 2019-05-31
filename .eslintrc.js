@@ -27,6 +27,7 @@ module.exports = {
     }
   },
   rules: {
-    "no-console": ["error", { allow: ["warn", "error"] }]
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "quotes": [2, "double", "avoid-escape"],
   }
 };
