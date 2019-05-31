@@ -38,46 +38,48 @@ function giveMeJustWhatINeeded(stateOrContext, uses) {
  * as the component would then render every time state is updated in Search UI.
  * @param Function Component
  */
-export default function withSearch(uses = [], Component) {
-  class WithSearch extends React.PureComponent {
-    constructor() {
-      super();
-      this.state = {};
+export default function withSearch(uses = []) {
+  return function(Component) {
+    class WithSearch extends React.PureComponent {
+      constructor() {
+        super();
+        this.state = {};
+      }
+
+      componentDidMount() {
+        // Note that we're doing this in CDM rather than the constructor, since
+        // `this.context` is not yet available in the constructor
+        this.setState({
+          ...giveMeJustWhatINeeded(buildContextForProps(this.context), uses),
+          mounted: true
+        });
+        // Note that we subscribe to changes at the component level, rather than
+        // at the top level Provider level, so that we are not over-rendering
+        // at the top level of our component tree.
+        this.context.driver.subscribeToStateChanges(this.subscription);
+      }
+
+      componentWillUnmount() {
+        this.unmounted = true;
+        this.context.driver.unsubscribeToStateChanges(this.subscription);
+      }
+
+      subscription = state => {
+        if (this.unmounted) return;
+        this.setState(giveMeJustWhatINeeded(state, uses));
+      };
+
+      render() {
+        if (!this.state.mounted) return null;
+
+        // eslint-disable-next-line react/prop-types
+        const { mapContextToProps = context => context, ...rest } = this.props;
+
+        return <Component {...mapContextToProps(this.state)} {...rest} />;
+      }
     }
 
-    componentDidMount() {
-      // Note that we're doing this in CDM rather than the constructor, since
-      // `this.context` is not yet available in the constructor
-      this.setState({
-        ...giveMeJustWhatINeeded(buildContextForProps(this.context), uses),
-        mounted: true
-      });
-      // Note that we subscribe to changes at the component level, rather than
-      // at the top level Provider level, so that we are not over-rendering
-      // at the top level of our component tree.
-      this.context.driver.subscribeToStateChanges(this.subscription);
-    }
-
-    componentWillUnmount() {
-      this.unmounted = true;
-      this.context.driver.unsubscribeToStateChanges(this.subscription);
-    }
-
-    subscription = state => {
-      if (this.unmounted) return;
-      this.setState(giveMeJustWhatINeeded(state, uses));
-    };
-
-    render() {
-      if (!this.state.mounted) return null;
-
-      // eslint-disable-next-line react/prop-types
-      const { mapContextToProps = context => context, ...rest } = this.props;
-
-      return <Component {...mapContextToProps(this.state)} {...rest} />;
-    }
-  }
-
-  WithSearch.contextType = SearchContext;
-  return WithSearch;
+    WithSearch.contextType = SearchContext;
+    return WithSearch;
+  };
 }

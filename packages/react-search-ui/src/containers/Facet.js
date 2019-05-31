@@ -115,7 +115,10 @@ export class FacetContainer extends Component {
   }
 }
 
-export default withSearch(
-  ["filters", "facets", "addFilter", "removeFilter", "setFilter"],
-  FacetContainer
-);
+export default withSearch([
+  "filters",
+  "facets",
+  "addFilter",
+  "removeFilter",
+  "setFilter"
+])(FacetContainer);

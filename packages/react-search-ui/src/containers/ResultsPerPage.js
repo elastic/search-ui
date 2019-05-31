@@ -41,7 +41,6 @@ export class ResultsPerPageContainer extends Component {
   }
 }
 
-export default withSearch(
-  ["resultsPerPage", "setResultsPerPage"],
+export default withSearch(["resultsPerPage", "setResultsPerPage"])(
   ResultsPerPageContainer
 );

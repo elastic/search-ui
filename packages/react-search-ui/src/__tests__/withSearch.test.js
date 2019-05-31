@@ -30,7 +30,7 @@ describe("withSearch", () => {
 
   describe("mapContextToProps", () => {
     function setup(uses, mapContextToProps) {
-      const Component = withSearch(uses, ({ clap, searchTerm }) => {
+      const Component = withSearch(uses)(({ clap, searchTerm }) => {
         return (
           <div>
             {searchTerm}
@@ -76,7 +76,7 @@ describe("withSearch", () => {
 
   describe("driver subscription", () => {
     function setup() {
-      const Component = withSearch([], ({ searchTerm }) => {
+      const Component = withSearch([])(({ searchTerm }) => {
         return <div>{searchTerm}</div>;
       });
 
@@ -102,8 +102,7 @@ describe("withSearch", () => {
 
   describe("property injection", () => {
     function setup(uses) {
-      const Component = withSearch(
-        uses,
+      const Component = withSearch(uses)(
         ({ searchTerm, resultSearchTerm, setSearchTerm }) => {
           return (
             <div>

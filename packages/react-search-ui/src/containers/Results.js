@@ -62,4 +62,4 @@ export class ResultsContainer extends Component {
   }
 }
 
-export default withSearch(["results"], ResultsContainer);
+export default withSearch(["results"])(ResultsContainer);

@@ -1101,7 +1101,7 @@ function ClearFilters({ filters, clearFilters }) {
   );
 }
 
-export default withSearch(["filters", "clearFilters"], ClearFilters);
+export default withSearch(["filters", "clearFilters"])(ClearFilters);
 ```
 
 Note that `withSearch` accepts an array as the first parameter. Specifying which action and state properties you

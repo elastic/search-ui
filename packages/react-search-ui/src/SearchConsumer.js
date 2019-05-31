@@ -3,7 +3,7 @@ import withSearch from "./withSearch";
 import PropTypes from "prop-types";
 
 function SearchConsumer({ uses, children }) {
-  const Search = withSearch(uses, props => {
+  const Search = withSearch(uses)(props => {
     return children(props);
   });
 
