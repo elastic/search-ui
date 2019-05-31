@@ -11,15 +11,11 @@ function buildContextForProps(context) {
 
 /* For a given object, pluck out the key/value pairs matching the keys
 provided in the uses parameter */
-function giveMeJustWhatINeeded(stateOrContext, uses) {
-  if (uses.length === 0) return stateOrContext;
-  return uses.reduce((acc, use) => {
-    if (!stateOrContext.hasOwnProperty(use)) return acc;
-    return {
-      ...acc,
-      [use]: stateOrContext[use]
-    };
-  }, {});
+function giveMeJustWhatINeeded(
+  stateOrContext,
+  uses = stateOrContext => stateOrContext
+) {
+  return uses(stateOrContext) || stateOrContext;
 }
 
 /**
@@ -33,12 +29,13 @@ function giveMeJustWhatINeeded(stateOrContext, uses) {
  * It is important to understand the implications of using a PureComponent, as described here:
  * https://reactjs.org/docs/optimizing-performance.html#examples
  *
- * @param Array[String] uses An array of state or action values to be injected as props into the component. Provide
- * an empty array for all state and actions. This is not desirable because it can have bad performance characteristics
- * as the component would then render every time state is updated in Search UI.
+ * @param Function uses A function that accepts the context and allows you to pick the values to be passed as props
+ * into the component. This allows you to "select" which values from the context to use. Providing nothing will pass all
+ * state and actions as props. This is not desirable because it can have bad performance characteristics as the
+ * component would then render every time state is updated in Search UI.
  * @param Function Component
  */
-export default function withSearch(uses = []) {
+export default function withSearch(uses) {
   return function(Component) {
     class WithSearch extends React.PureComponent {
       constructor() {
@@ -66,7 +63,17 @@ export default function withSearch(uses = []) {
 
       subscription = state => {
         if (this.unmounted) return;
-        this.setState(giveMeJustWhatINeeded(state, uses));
+        this.setState(prevState =>
+          giveMeJustWhatINeeded(
+            {
+              // We pass prevState here instead of just state so that actions are
+              // persisted as well, which are passed in the subscription
+              ...prevState,
+              ...state
+            },
+            uses
+          )
+        );
       };
 
       render() {

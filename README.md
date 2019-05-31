@@ -96,7 +96,13 @@ Or go "headless", and take complete control over the look and feel of your searc
 
 ```jsx
 <SearchProvider config={config}>
-  <SearchConsumer uses={["searchTerm", "setSearchTerm", "results"]}>
+  <SearchConsumer
+    uses={({ searchTerm, setSearchTerm, results }) => ({
+      searchTerm,
+      setSearchTerm,
+      results
+    })}
+  >
     {({ searchTerm, setSearchTerm, results }) => {
       return (
         <div>
@@ -184,7 +190,9 @@ While components can be handy, your search experience sometimes has requirements
     apiConnector: connector
   }}
 >
-  <SearchConsumer uses={["searchTerm", "setSearchTerm"]}>
+  <SearchConsumer
+    uses={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
+  >
     {({ searchTerm, setSearchTerm }) => (
       <div className="App">{/* Work directly with state and actions! */}</div>
     )}

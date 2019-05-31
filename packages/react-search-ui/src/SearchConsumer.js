@@ -11,7 +11,7 @@ function SearchConsumer({ uses, children }) {
 }
 
 SearchConsumer.propTypes = {
-  uses: PropTypes.array,
+  uses: PropTypes.func,
   children: PropTypes.func.isRequired
 };
 

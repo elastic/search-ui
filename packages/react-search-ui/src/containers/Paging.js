@@ -36,9 +36,11 @@ PagingContainer.propTypes = {
   setCurrent: PropTypes.func.isRequired
 };
 
-export default withSearch([
-  "current",
-  "resultsPerPage",
-  "totalPages",
-  "setCurrent"
-])(PagingContainer);
+export default withSearch(
+  ({ current, resultsPerPage, totalPages, setCurrent }) => ({
+    current,
+    resultsPerPage,
+    totalPages,
+    setCurrent
+  })
+)(PagingContainer);

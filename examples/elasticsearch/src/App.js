@@ -62,7 +62,7 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <SearchConsumer uses={["wasSearched"]}>
+      <SearchConsumer uses={({ wasSearched }) => ({ wasSearched })}>
         {({ wasSearched }) => (
           <div className="App">
             <ErrorBoundary>

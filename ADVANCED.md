@@ -94,7 +94,7 @@ For example:
 
 ```jsx
 <SearchProvider config={config}>
-  <SearchConsumer uses={["isLoading"]}>
+  <SearchConsumer uses={({ isLoading }) => ({ isLoading })}>
     {({ isLoading }) => (
       <div className="App">
         {isLoading && <div>I'm loading now</div>}
@@ -1101,7 +1101,10 @@ function ClearFilters({ filters, clearFilters }) {
   );
 }
 
-export default withSearch(["filters", "clearFilters"])(ClearFilters);
+export default withSearch(({ filters, clearFilters }) => ({
+  filters,
+  clearFilters
+}))(ClearFilters);
 ```
 
 Note that `withSearch` accepts an array as the first parameter. Specifying which action and state properties you

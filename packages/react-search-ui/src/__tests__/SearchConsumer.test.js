@@ -41,7 +41,7 @@ describe("SearchConsumer", () => {
           }
         }}
       >
-        <SearchConsumer uses={["resultsPerPage"]}>
+        <SearchConsumer uses={({ resultsPerPage }) => ({ resultsPerPage })}>
           {({ searchTerm, resultsPerPage }) => (
             <div>
               {searchTerm}

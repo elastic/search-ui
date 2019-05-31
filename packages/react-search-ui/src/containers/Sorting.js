@@ -62,6 +62,8 @@ export class SortingContainer extends Component {
   }
 }
 
-export default withSearch(["sortDirection", "sortField", "setSort"])(
-  SortingContainer
-);
+export default withSearch(({ sortDirection, sortField, setSort }) => ({
+  sortDirection,
+  sortField,
+  setSort
+}))(SortingContainer);
