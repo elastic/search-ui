@@ -193,7 +193,7 @@ it("will render search input if `showSearch` param is true", () => {
     />
   );
 
-  expect(wrapper.find(".sui-search-box")).toHaveLength(1);
+  expect(wrapper.find(".sui-facet-search")).toHaveLength(1);
 });
 
 it("won't render search input if `showSearch` param is false", () => {
@@ -206,7 +206,7 @@ it("won't render search input if `showSearch` param is false", () => {
     />
   );
 
-  expect(wrapper.find(".sui-search-box")).toHaveLength(0);
+  expect(wrapper.find(".sui-facet-search")).toHaveLength(0);
 });
 
 it("should use the `searchPlaceholder` param as a search input placeholder", () => {
@@ -221,7 +221,7 @@ it("should use the `searchPlaceholder` param as a search input placeholder", () 
     />
   );
 
-  expect(wrapper.find(".sui-search-box__text-input").prop("placeholder")).toBe(
-    searchPlaceholder
-  );
+  expect(
+    wrapper.find(".sui-facet-search__text-input").prop("placeholder")
+  ).toBe(searchPlaceholder);
 });
