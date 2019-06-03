@@ -29,15 +29,17 @@ describe("withSearch", () => {
   });
 
   describe("mapContextToProps", () => {
-    function setup(uses, mapContextToProps) {
-      const Component = withSearch(uses)(({ clap, searchTerm }) => {
-        return (
-          <div>
-            {searchTerm}
-            {clap}
-          </div>
-        );
-      });
+    function setup(initialMapContextToProps, mapContextToProps) {
+      const Component = withSearch(initialMapContextToProps)(
+        ({ clap, searchTerm }) => {
+          return (
+            <div>
+              {searchTerm}
+              {clap}
+            </div>
+          );
+        }
+      );
 
       return mount(
         <SearchContext.Provider value={{ driver: mockDriver }}>
@@ -58,7 +60,7 @@ describe("withSearch", () => {
       expect(element.text()).toEqual("a search term New Term");
     });
 
-    it("should not have access to values that not specified in the 'uses' parameter", () => {
+    it("should not have access to values that not specified in the 'mapContextToProps' parameter", () => {
       const element = setup(
         ({ resultSearchTerm }) => ({ resultSearchTerm }),
         ({ searchTerm }) => {
@@ -84,14 +86,16 @@ describe("withSearch", () => {
   });
 
   describe("driver subscription", () => {
-    function setup(uses) {
-      const Component = withSearch(uses)(({ searchTerm, setSearchTerm }) => {
-        return (
-          <div>
-            {searchTerm}, {setSearchTerm.name}
-          </div>
-        );
-      });
+    function setup(mapContextToProps) {
+      const Component = withSearch(mapContextToProps)(
+        ({ searchTerm, setSearchTerm }) => {
+          return (
+            <div>
+              {searchTerm}, {setSearchTerm.name}
+            </div>
+          );
+        }
+      );
 
       return mount(
         <SearchContext.Provider value={{ driver: mockDriver }}>
@@ -106,7 +110,7 @@ describe("withSearch", () => {
       expect(element.text()).toEqual("New Term, setSearchTerm");
     });
 
-    it("will maintain action properties on state updates when uses parameter is passed", () => {
+    it("will maintain action properties on state updates when mapContextToProps parameter is passed", () => {
       const element = setup(({ searchTerm, setSearchTerm }) => ({
         searchTerm,
         setSearchTerm
@@ -123,8 +127,8 @@ describe("withSearch", () => {
   });
 
   describe("property injection", () => {
-    function setup(uses) {
-      const Component = withSearch(uses)(
+    function setup(mapContextToProps) {
+      const Component = withSearch(mapContextToProps)(
         ({ searchTerm, resultSearchTerm, setSearchTerm }) => {
           return (
             <div>

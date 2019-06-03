@@ -18,7 +18,7 @@ describe("SearchConsumer", () => {
           }
         }}
       >
-        <SearchConsumer uses={({ searchTerm }) => ({ searchTerm })}>
+        <SearchConsumer mapContextToProps={({ searchTerm }) => ({ searchTerm })}>
           {({ searchTerm }) => <div>{searchTerm}</div>}
         </SearchConsumer>
       </SearchProvider>
@@ -26,7 +26,7 @@ describe("SearchConsumer", () => {
     expect(wrapper.text()).toEqual("test");
   });
 
-  it("supports a 'uses' parameter", () => {
+  it("supports a 'mapContextToProps' parameter", () => {
     const wrapper = mount(
       <SearchProvider
         config={{
@@ -41,7 +41,7 @@ describe("SearchConsumer", () => {
           }
         }}
       >
-        <SearchConsumer uses={({ resultsPerPage }) => ({ resultsPerPage })}>
+        <SearchConsumer mapContextToProps={({ resultsPerPage }) => ({ resultsPerPage })}>
           {({ searchTerm, resultsPerPage }) => (
             <div>
               {searchTerm}

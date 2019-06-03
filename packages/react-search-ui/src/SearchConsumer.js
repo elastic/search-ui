@@ -2,8 +2,8 @@ import React from "react";
 import withSearch from "./withSearch";
 import PropTypes from "prop-types";
 
-function SearchConsumer({ uses, children }) {
-  const Search = withSearch(uses)(props => {
+function SearchConsumer({ mapContextToProps: mapContextToProps, children }) {
+  const Search = withSearch(mapContextToProps)(props => {
     return children(props);
   });
 
@@ -11,7 +11,7 @@ function SearchConsumer({ uses, children }) {
 }
 
 SearchConsumer.propTypes = {
-  uses: PropTypes.func,
+  mapContextToProps: PropTypes.func,
   children: PropTypes.func.isRequired
 };
 

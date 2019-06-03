@@ -18,7 +18,7 @@ describe("SearchProvider", () => {
           }
         }}
       >
-        <SearchConsumer uses={({ searchTerm }) => ({ searchTerm })}>
+        <SearchConsumer mapContextToProps={({ searchTerm }) => ({ searchTerm })}>
           {({ searchTerm }) => <div>{searchTerm}</div>}
         </SearchConsumer>
       </SearchProvider>

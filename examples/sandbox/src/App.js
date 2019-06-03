@@ -129,7 +129,9 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <SearchConsumer uses={({ wasSearched }) => ({ wasSearched })}>
+      <SearchConsumer
+        mapContextToProps={({ wasSearched }) => ({ wasSearched })}
+      >
         {({ wasSearched }) => {
           return (
             <div className="App">

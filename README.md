@@ -97,7 +97,7 @@ Or go "headless", and take complete control over the look and feel of your searc
 ```jsx
 <SearchProvider config={config}>
   <SearchConsumer
-    uses={({ searchTerm, setSearchTerm, results }) => ({
+    mapContextToProps={({ searchTerm, setSearchTerm, results }) => ({
       searchTerm,
       setSearchTerm,
       results
@@ -153,7 +153,7 @@ Search UI currently provides two Connectors:
 1. **Elastic App Search**: [search-ui-app-search-connector](packages/search-ui-app-search-connector)
 2. **Elastic Site Search**: [search-ui-site-search-connector](packages/search-ui-site-search-connector)
 
-The [example search experience](#search-ui) above uses the Elastic App Search Connector:
+The [example search experience](#search-ui) above mapContextToProps the Elastic App Search Connector:
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -191,7 +191,7 @@ While components can be handy, your search experience sometimes has requirements
   }}
 >
   <SearchConsumer
-    uses={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
+    mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
   >
     {({ searchTerm, setSearchTerm }) => (
       <div className="App">{/* Work directly with state and actions! */}</div>

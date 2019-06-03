@@ -94,7 +94,7 @@ For example:
 
 ```jsx
 <SearchProvider config={config}>
-  <SearchConsumer uses={({ isLoading }) => ({ isLoading })}>
+  <SearchConsumer mapContextToProps={({ isLoading }) => ({ isLoading })}>
     {({ isLoading }) => (
       <div className="App">
         {isLoading && <div>I'm loading now</div>}
@@ -110,7 +110,7 @@ For example:
 </SearchProvider>
 ```
 
-Note that `SearchConsumer` has a "uses" prop available. Use this property to pass a function that picks which action and state properties you want to use from the Context.
+Note that `SearchConsumer` has a "mapContextToProps" prop available. Use this property to pass a function that picks which action and state properties you want to use from the Context.
 
 ## Headless Core Reference
 

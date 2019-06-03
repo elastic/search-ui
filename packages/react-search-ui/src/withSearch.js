@@ -10,9 +10,9 @@ function buildContextForProps(context) {
 }
 
 /* For a given object, pluck out the key/value pairs matching the keys
-provided in the uses parameter */
-function giveMeJustWhatINeeded(stateOrContext, uses) {
-  return uses(stateOrContext) || {};
+provided in the mapContextToProps parameter */
+function giveMeJustWhatINeeded(stateOrContext, mapContextToProps) {
+  return mapContextToProps(stateOrContext) || {};
 }
 
 /**
@@ -26,13 +26,13 @@ function giveMeJustWhatINeeded(stateOrContext, uses) {
  * It is important to understand the implications of using a PureComponent, as described here:
  * https://reactjs.org/docs/optimizing-performance.html#examples
  *
- * @param Function uses A function that accepts the context and allows you to pick the values to be passed as props
+ * @param Function mapContextToProps A function that accepts the context and allows you to pick the values to be passed as props
  * into the component. This allows you to "select" which values from the context to use.
 
  * @param Function Component
  */
-export default function withSearch(uses) {
-  if (!uses) {
+export default function withSearch(mapContextToProps) {
+  if (!mapContextToProps) {
     throw "withSearch requires a function to be provided which returns an object with at least one value.";
   }
 
@@ -47,7 +47,10 @@ export default function withSearch(uses) {
         // Note that we're doing this in CDM rather than the constructor, since
         // `this.context` is not yet available in the constructor
         this.setState({
-          ...giveMeJustWhatINeeded(buildContextForProps(this.context), uses),
+          ...giveMeJustWhatINeeded(
+            buildContextForProps(this.context),
+            mapContextToProps
+          ),
           mounted: true
         });
         // Note that we subscribe to changes at the component level, rather than
@@ -71,7 +74,7 @@ export default function withSearch(uses) {
               ...prevState,
               ...state
             },
-            uses
+            mapContextToProps
           )
         );
       };
