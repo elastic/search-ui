@@ -110,9 +110,7 @@ For example:
 </SearchProvider>
 ```
 
-Note that `SearchConsumer` has a "uses" prop available. Specifying which action and state properties you
-want from the Context with the "uses" prop allows us to do performance optimizations. However, it is optional.
-Omitting the prop or providing an empty Array will pass all state and actions.
+Note that `SearchConsumer` has a "uses" prop available. Use this property to pass a function that picks which action and state properties you want to use from the Context.
 
 ## Headless Core Reference
 
@@ -1107,9 +1105,7 @@ export default withSearch(({ filters, clearFilters }) => ({
 }))(ClearFilters);
 ```
 
-Note that `withSearch` accepts an array as the first parameter. Specifying which action and state properties you
-want from the Context with the this parameter allows us to do performance optimizations. However, it is optional.
-Omitting the prop or providing an empty Array will pass all state and actions.
+Note that `withSearch` accepts an array as the first parameter. Use this property to pass a function that picks which action and state properties you want to use from the Context.
 
 Also note that all components created with `withSearch` will be Pure Components. Read more
 about that [here](#performance).

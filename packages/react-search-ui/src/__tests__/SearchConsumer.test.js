@@ -18,7 +18,7 @@ describe("SearchConsumer", () => {
           }
         }}
       >
-        <SearchConsumer>
+        <SearchConsumer uses={({ searchTerm }) => ({ searchTerm })}>
           {({ searchTerm }) => <div>{searchTerm}</div>}
         </SearchConsumer>
       </SearchProvider>

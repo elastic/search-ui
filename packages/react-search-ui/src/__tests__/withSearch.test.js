@@ -47,11 +47,14 @@ describe("withSearch", () => {
     }
 
     it("should allow a new value to be injecting into a component", () => {
-      const element = setup(undefined, ({ searchTerm }) => {
-        return {
-          searchTerm: searchTerm + " New Term"
-        };
-      });
+      const element = setup(
+        c => c,
+        ({ searchTerm }) => {
+          return {
+            searchTerm: searchTerm + " New Term"
+          };
+        }
+      );
       expect(element.text()).toEqual("a search term New Term");
     });
 
@@ -68,11 +71,14 @@ describe("withSearch", () => {
     });
 
     it("should allow a brand new values to be injected", () => {
-      const element = setup(undefined, () => {
-        return {
-          clap: "your hands"
-        };
-      });
+      const element = setup(
+        c => c,
+        () => {
+          return {
+            clap: "your hands"
+          };
+        }
+      );
       expect(element.text()).toEqual("your hands");
     });
   });
@@ -95,7 +101,7 @@ describe("withSearch", () => {
     }
 
     it("will subscribe to state updates", () => {
-      const element = setup();
+      const element = setup(c => c);
       mockDriver.getActions().setSearchTerm("New Term");
       expect(element.text()).toEqual("New Term, setSearchTerm");
     });
@@ -110,7 +116,7 @@ describe("withSearch", () => {
     });
 
     it("will unsubsribe on unmount", () => {
-      const element = setup();
+      const element = setup(c => c);
       element.unmount();
       expect(mockDriver.unsubscribeToStateChanges.mock.calls.length).toEqual(1);
     });
@@ -155,20 +161,14 @@ describe("withSearch", () => {
       expect(element.text()).toEqual("another search term");
     });
 
-    it("will inject everything if nothing is passed", () => {
-      const element = setup();
-
-      expect(element.text()).toEqual(
-        "a search termanother search termsetSearchTerm"
-      );
+    it("will error if nothing is passed", () => {
+      expect(() => setup()).toThrow();
     });
 
-    it("will inject everything if uses returns nothing", () => {
+    it("will inject nothing if the function injects nothing", () => {
       const element = setup(() => {});
 
-      expect(element.text()).toEqual(
-        "a search termanother search termsetSearchTerm"
-      );
+      expect(element.text()).toEqual("");
     });
   });
 });

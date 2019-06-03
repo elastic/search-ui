@@ -11,11 +11,8 @@ function buildContextForProps(context) {
 
 /* For a given object, pluck out the key/value pairs matching the keys
 provided in the uses parameter */
-function giveMeJustWhatINeeded(
-  stateOrContext,
-  uses = stateOrContext => stateOrContext
-) {
-  return uses(stateOrContext) || stateOrContext;
+function giveMeJustWhatINeeded(stateOrContext, uses) {
+  return uses(stateOrContext) || {};
 }
 
 /**
@@ -30,12 +27,15 @@ function giveMeJustWhatINeeded(
  * https://reactjs.org/docs/optimizing-performance.html#examples
  *
  * @param Function uses A function that accepts the context and allows you to pick the values to be passed as props
- * into the component. This allows you to "select" which values from the context to use. Providing nothing will pass all
- * state and actions as props. This is not desirable because it can have bad performance characteristics as the
- * component would then render every time state is updated in Search UI.
+ * into the component. This allows you to "select" which values from the context to use.
+
  * @param Function Component
  */
 export default function withSearch(uses) {
+  if (!uses) {
+    throw "withSearch requires a function to be provided which returns an object with at least one value.";
+  }
+
   return function(Component) {
     class WithSearch extends React.PureComponent {
       constructor() {
