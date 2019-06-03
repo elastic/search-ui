@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import { SearchProvider, SearchConsumer } from "../..";
+import { SearchProvider, WithSearch } from "../..";
 
 describe("SearchProvider", () => {
   it("exposes state and actions to components", () => {
@@ -18,9 +18,11 @@ describe("SearchProvider", () => {
           }
         }}
       >
-        <SearchConsumer mapContextToProps={({ searchTerm }) => ({ searchTerm })}>
+        <WithSearch
+          mapContextToProps={({ searchTerm }) => ({ searchTerm })}
+        >
           {({ searchTerm }) => <div>{searchTerm}</div>}
-        </SearchConsumer>
+        </WithSearch>
       </SearchProvider>
     );
     expect(wrapper.text()).toEqual("test");

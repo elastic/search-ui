@@ -4,7 +4,7 @@ import {
   ErrorBoundary,
   Facet,
   SearchProvider,
-  SearchConsumer,
+  WithSearch,
   SearchBox,
   Results,
   PagingInfo,
@@ -62,7 +62,9 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <SearchConsumer mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
+      <WithSearch
+        mapContextToProps={({ wasSearched }) => ({ wasSearched })}
+      >
         {({ wasSearched }) => (
           <div className="App">
             <ErrorBoundary>
@@ -140,7 +142,7 @@ export default function App() {
             </ErrorBoundary>
           </div>
         )}
-      </SearchConsumer>
+      </WithSearch>
     </SearchProvider>
   );
 }

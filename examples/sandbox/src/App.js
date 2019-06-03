@@ -11,7 +11,7 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  SearchConsumer
+  WithSearch
 } from "@elastic/react-search-ui";
 import {
   Layout,
@@ -129,7 +129,7 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <SearchConsumer
+      <WithSearch
         mapContextToProps={({ wasSearched }) => ({ wasSearched })}
       >
         {({ wasSearched }) => {
@@ -198,7 +198,7 @@ export default function App() {
             </div>
           );
         }}
-      </SearchConsumer>
+      </WithSearch>
     </SearchProvider>
   );
 }

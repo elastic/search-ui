@@ -1,9 +1,9 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import { SearchProvider, SearchConsumer } from "../..";
+import { SearchProvider, WithSearch } from "../..";
 
-describe("SearchConsumer", () => {
+describe("WithSearch", () => {
   it("exposes state and actions to components", () => {
     const wrapper = mount(
       <SearchProvider
@@ -18,9 +18,11 @@ describe("SearchConsumer", () => {
           }
         }}
       >
-        <SearchConsumer mapContextToProps={({ searchTerm }) => ({ searchTerm })}>
+        <WithSearch
+          mapContextToProps={({ searchTerm }) => ({ searchTerm })}
+        >
           {({ searchTerm }) => <div>{searchTerm}</div>}
-        </SearchConsumer>
+        </WithSearch>
       </SearchProvider>
     );
     expect(wrapper.text()).toEqual("test");
@@ -41,14 +43,16 @@ describe("SearchConsumer", () => {
           }
         }}
       >
-        <SearchConsumer mapContextToProps={({ resultsPerPage }) => ({ resultsPerPage })}>
+        <WithSearch
+          mapContextToProps={({ resultsPerPage }) => ({ resultsPerPage })}
+        >
           {({ searchTerm, resultsPerPage }) => (
             <div>
               {searchTerm}
               {resultsPerPage}
             </div>
           )}
-        </SearchConsumer>
+        </WithSearch>
       </SearchProvider>
     );
     expect(wrapper.text()).toEqual("90");

@@ -96,7 +96,7 @@ Or go "headless", and take complete control over the look and feel of your searc
 
 ```jsx
 <SearchProvider config={config}>
-  <SearchConsumer
+  <WithSearch
     mapContextToProps={({ searchTerm, setSearchTerm, results }) => ({
       searchTerm,
       setSearchTerm,
@@ -116,7 +116,7 @@ Or go "headless", and take complete control over the look and feel of your searc
         </div>
       );
     }}
-  </SearchConsumer>
+  </WithSearch>
 </SearchProvider>
 ```
 
@@ -182,7 +182,7 @@ It is where you configure your search experience, and it ties all of your compon
 
 For more on components, continue to the next section!
 
-While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". You can use a `SearchConsumer` to access those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
+While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". You can use a `WithSearch` to access those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
 
 ```jsx
 <SearchProvider
@@ -190,13 +190,13 @@ While components can be handy, your search experience sometimes has requirements
     apiConnector: connector
   }}
 >
-  <SearchConsumer
+  <WithSearch
     mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
   >
     {({ searchTerm, setSearchTerm }) => (
       <div className="App">{/* Work directly with state and actions! */}</div>
     )}
-  </SearchConsumer>
+  </WithSearch>
 </SearchProvider>
 ```
 

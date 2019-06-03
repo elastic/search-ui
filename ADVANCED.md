@@ -83,9 +83,9 @@ This is typically used for creating your own Components.
 
 See [Build Your Own Component](#build-your-own-component).
 
-### 2. SearchConsumer
+### 2. WithSearch
 
-`SearchConsumer` is a component that exposes the Context for you to work with via a
+`WithSearch` is a component that exposes the Context for you to work with via a
 [Render Prop](https://reactjs.org/docs/render-props.html).
 
 One use case for that would be to render a "loading" indicator any time the application is fetching data.
@@ -94,7 +94,7 @@ For example:
 
 ```jsx
 <SearchProvider config={config}>
-  <SearchConsumer mapContextToProps={({ isLoading }) => ({ isLoading })}>
+  <WithSearch mapContextToProps={({ isLoading }) => ({ isLoading })}>
     {({ isLoading }) => (
       <div className="App">
         {isLoading && <div>I'm loading now</div>}
@@ -106,11 +106,11 @@ For example:
         )}
       </div>
     )}
-  </SearchConsumer>
+  </WithSearch>
 </SearchProvider>
 ```
 
-Note that `SearchConsumer` has a "mapContextToProps" prop available. Use this property to pass a function that picks which action and state properties you want to use from the Context.
+Note that `WithSearch` has a "mapContextToProps" prop available. Use this property to pass a function that picks which action and state properties you want to use from the Context.
 
 ## Headless Core Reference
 
