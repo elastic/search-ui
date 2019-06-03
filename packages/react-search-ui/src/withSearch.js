@@ -49,7 +49,8 @@ export default function withSearch(mapContextToProps) {
         this.setState({
           ...giveMeJustWhatINeeded(
             buildContextForProps(this.context),
-            mapContextToProps
+            // eslint-disable-next-line react/prop-types
+            this.props.mapContextToProps || mapContextToProps
           ),
           mounted: true
         });
@@ -83,9 +84,9 @@ export default function withSearch(mapContextToProps) {
         if (!this.state.mounted) return null;
 
         // eslint-disable-next-line react/prop-types
-        const { mapContextToProps = context => context, ...rest } = this.props;
+        const { ...rest } = this.props;
 
-        return <Component {...mapContextToProps(this.state)} {...rest} />;
+        return <Component {...this.state} {...rest} />;
       }
     }
 

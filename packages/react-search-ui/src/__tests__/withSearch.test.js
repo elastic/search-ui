@@ -28,63 +28,6 @@ describe("withSearch", () => {
     };
   });
 
-  describe("mapContextToProps", () => {
-    function setup(initialMapContextToProps, mapContextToProps) {
-      const Component = withSearch(initialMapContextToProps)(
-        ({ clap, searchTerm }) => {
-          return (
-            <div>
-              {searchTerm}
-              {clap}
-            </div>
-          );
-        }
-      );
-
-      return mount(
-        <SearchContext.Provider value={{ driver: mockDriver }}>
-          <Component mapContextToProps={mapContextToProps} />
-        </SearchContext.Provider>
-      );
-    }
-
-    it("should allow a new value to be injecting into a component", () => {
-      const element = setup(
-        c => c,
-        ({ searchTerm }) => {
-          return {
-            searchTerm: searchTerm + " New Term"
-          };
-        }
-      );
-      expect(element.text()).toEqual("a search term New Term");
-    });
-
-    it("should not have access to values that not specified in the 'mapContextToProps' parameter", () => {
-      const element = setup(
-        ({ resultSearchTerm }) => ({ resultSearchTerm }),
-        ({ searchTerm }) => {
-          return {
-            searchTerm: searchTerm + " New Term"
-          };
-        }
-      );
-      expect(element.text()).toEqual("undefined New Term");
-    });
-
-    it("should allow a brand new values to be injected", () => {
-      const element = setup(
-        c => c,
-        () => {
-          return {
-            clap: "your hands"
-          };
-        }
-      );
-      expect(element.text()).toEqual("your hands");
-    });
-  });
-
   describe("driver subscription", () => {
     function setup(mapContextToProps) {
       const Component = withSearch(mapContextToProps)(
@@ -126,15 +69,16 @@ describe("withSearch", () => {
     });
   });
 
-  describe("property injection", () => {
+  describe("mapContextToProps", () => {
     function setup(mapContextToProps) {
       const Component = withSearch(mapContextToProps)(
-        ({ searchTerm, resultSearchTerm, setSearchTerm }) => {
+        ({ searchTerm, resultSearchTerm, setSearchTerm, clap }) => {
           return (
             <div>
               {searchTerm}
               {resultSearchTerm}
               {setSearchTerm && setSearchTerm.name}
+              {clap}
             </div>
           );
         }
@@ -165,6 +109,12 @@ describe("withSearch", () => {
       expect(element.text()).toEqual("another search term");
     });
 
+    it("will inject arbitrary state", () => {
+      const element = setup(() => ({ clap: "your hands" }));
+
+      expect(element.text()).toEqual("your hands");
+    });
+
     it("will error if nothing is passed", () => {
       expect(() => setup()).toThrow();
     });
@@ -173,6 +123,43 @@ describe("withSearch", () => {
       const element = setup(() => {});
 
       expect(element.text()).toEqual("");
+    });
+  });
+
+  describe("mapContextToProps override", () => {
+    function setup(initialMapContextToProps, mapContextToProps) {
+      const Component = withSearch(initialMapContextToProps)(
+        ({ clap, searchTerm }) => {
+          return (
+            <div>
+              {searchTerm}
+              {clap}
+            </div>
+          );
+        }
+      );
+
+      return mount(
+        <SearchContext.Provider value={{ driver: mockDriver }}>
+          <Component mapContextToProps={mapContextToProps} />
+        </SearchContext.Provider>
+      );
+    }
+
+    it("should allow a component level prop that overrides mapContextToProps from setup", () => {
+      const element = setup(
+        () => {
+          return {
+            clap: "your hands"
+          };
+        },
+        ({ searchTerm }) => {
+          return {
+            searchTerm: searchTerm + " is now modified"
+          };
+        }
+      );
+      expect(element.text()).toEqual("a search term is now modified");
     });
   });
 });
