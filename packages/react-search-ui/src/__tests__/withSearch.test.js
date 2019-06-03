@@ -86,7 +86,7 @@ describe("withSearch", () => {
 
       return mount(
         <SearchContext.Provider value={{ driver: mockDriver }}>
-          <Component />
+          <Component prop1="prop 1 value" />
         </SearchContext.Provider>
       );
     }
@@ -124,6 +124,20 @@ describe("withSearch", () => {
 
       expect(element.text()).toEqual("");
     });
+
+    it("accepts the current props as a second parameter", () => {
+      const element = setup((_, { prop1 }) => ({ searchTerm: prop1 }));
+
+      expect(element.text()).toEqual("prop 1 value");
+    });
+
+    it("will use mapContextToProps on state update", () => {
+      const element = setup(({ searchTerm }) => ({
+        searchTerm: searchTerm + " (updated)"
+      }));
+      mockDriver.getActions().setSearchTerm("a new search term");
+      expect(element.text()).toEqual("a new search term (updated)");
+    });
   });
 
   describe("mapContextToProps override", () => {
@@ -160,6 +174,17 @@ describe("withSearch", () => {
         }
       );
       expect(element.text()).toEqual("a search term is now modified");
+    });
+
+    it("will use the mapContextToProps override on state update", () => {
+      const element = setup(
+        () => {},
+        ({ searchTerm }) => ({
+          searchTerm: searchTerm + " (updated)"
+        })
+      );
+      mockDriver.getActions().setSearchTerm("a new search term");
+      expect(element.text()).toEqual("a new search term (updated)");
     });
   });
 });

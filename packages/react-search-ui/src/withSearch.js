@@ -11,8 +11,9 @@ function buildContextForProps(context) {
 
 /* For a given object, pluck out the key/value pairs matching the keys
 provided in the mapContextToProps parameter */
-function giveMeJustWhatINeeded(stateOrContext, mapContextToProps) {
-  return mapContextToProps(stateOrContext) || {};
+function giveMeJustWhatINeeded(stateOrContext, mapContextToProps, props) {
+  const mapContextToPropsToUse = props.mapContextToProps || mapContextToProps;
+  return mapContextToPropsToUse(stateOrContext, props) || {};
 }
 
 /**
@@ -50,7 +51,8 @@ export default function withSearch(mapContextToProps) {
           ...giveMeJustWhatINeeded(
             buildContextForProps(this.context),
             // eslint-disable-next-line react/prop-types
-            this.props.mapContextToProps || mapContextToProps
+            mapContextToProps,
+            this.props
           ),
           mounted: true
         });
@@ -75,7 +77,8 @@ export default function withSearch(mapContextToProps) {
               ...prevState,
               ...state
             },
-            mapContextToProps
+            mapContextToProps,
+            this.props
           )
         );
       };
