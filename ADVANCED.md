@@ -6,7 +6,8 @@
 4. [Advanced Configuration](#advanced-configuration)
 5. [Build Your Own Component](#build-your-own-component)
 6. [Connectors and Handlers](#connectors-and-handlers)
-7. [Search UI Contributor's Guide](#search-ui-contributors-guide)
+7. [Performance](#performance)
+8. [Search UI Contributor's Guide](#search-ui-contributors-guide)
 
 # Headless Core
 
@@ -75,18 +76,55 @@ It looks like this:
 If you wish to work with Search UI outside of a particular Component, you'll work
 directly with the core.
 
-There's two ways you can do this:
+There are two methods for accessing the headless core directly, `withSearch` and
+`WithSearch`. They use the [HOC](https://reactjs.org/docs/higher-order-components.html) and
+[Render Props](https://reactjs.org/docs/render-props.html) patterns, respectively. The two methods
+are similar, and choosing between the two is mostly personal preference.
 
-### 1. `withSearch`
+Both methods expose a `mapContextToProps` function which allows you to pick which state and actions
+from context you need to work with.
+
+### mapContextToProps
+
+`mapContextToProps` allows you to pick which state and actions
+from Context you need to work with. `withSearch` and `WithSearch` both use [React.PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent),
+and will only re-render when the picked state has changed.
+
+| name    | type   | description         |
+| ------- | ------ | ------------------- |
+| context | Object | The current Context |
+| props   | Object | The current props   |
+
+ex.:
+
+```jsx
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(
+  ({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm }),
+  Component
+);
+
+// Uses current `props` to conditionally modify context
+withSearch(
+  ({ searchTerm }, { someProp }) => ({
+    searchTerm: someProp ? "" : searchTerm
+  }),
+  Component
+);
+```
+
+### withSearch
+
+This is the [HOC](https://reactjs.org/docs/higher-order-components.html) approach to working with the
+core.
 
 This is typically used for creating your own Components.
 
 See [Build Your Own Component](#build-your-own-component).
 
-### 2. WithSearch
+### WithSearch
 
-`WithSearch` is a component that exposes the Context for you to work with via a
-[Render Prop](https://reactjs.org/docs/render-props.html).
+This is the [Render Props](https://reactjs.org/docs/render-props.html) approach to working with the core.
 
 One use case for that would be to render a "loading" indicator any time the application is fetching data.
 
@@ -109,8 +147,6 @@ For example:
   </WithSearch>
 </SearchProvider>
 ```
-
-Note that `WithSearch` has a "mapContextToProps" prop available. Use this property to pass a function that picks which action and state properties you want to use from the Context.
 
 ## Headless Core Reference
 
@@ -846,10 +882,11 @@ return <PagingInfo view={PagingInfoView} />;
 
 We have two primary recommendations for customizing Component behavior:
 
-1. Override state and action props before they are passed to your Component, using `mapContextToProps`.
+1. Override state and action props before they are passed to your Component, using the `mapContextToProps` param. This
+   will override the default [mapContextToProps](#mapContextToProps) for the component.
 2. Override props before they are passed to your Component's view.
 
-### mapContextToProps
+### Override mapContextToProps
 
 Every Component supports a `mapContextToProps` prop, which allows you to modify state and actions
 before they are received by the Component.
@@ -1066,7 +1103,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-## Build Your Own Component
+# Build Your Own Component
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
@@ -1110,7 +1147,7 @@ Note that `withSearch` accepts an array as the first parameter. Use this propert
 Also note that all components created with `withSearch` will be Pure Components. Read more
 about that [here](#performance).
 
-## Connectors and Handlers
+# Connectors and Handlers
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
@@ -1237,9 +1274,12 @@ need to have in common is an `additionalOptions` parameter.
 For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
 includes things like 404s, 500s, etc.
 
-## Performance
+# Performance
 
-Note that in order to make sure that components are as fast as possible, all components within
+This library is optimized to avoid full sub-tree re-rendering, and so that components only re-render when state changes
+that are relevant to those particular components occur.
+
+In order to accomplish this, all components within
 this library are "Pure Components". You can read more about the concept and potential pitfalls
 of Pure Components in the React
 [Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#avoid-reconciliation) guide.
@@ -1254,8 +1294,8 @@ Example of what not to do:
 class SomeComponent extends React.Component {
   changeSorting = () => {
     const { options } = this.state;
-    // Mutating an existing object in state rather than creating a new /// one is bad ... since Sorting component is "Pure"
-    // it won't update after call `setState` here.
+    // Mutating an existing array in state rather than creating a new one is bad. Since Sorting component is "Pure"
+    // it won't update after calling `setState` here.
     options.push("newOption");
     this.setState({ options });
   };
@@ -1270,8 +1310,12 @@ class SomeComponent extends React.Component {
 Instead, do:
 
 ```jsx
+// Create a new options array and copy the old values into that new array.
 this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
 ```
+
+If you ever need to debug performance related issues, see the instructions in the Optimizing Performance for enabling
+the "Highlight Updates" feature in the [React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
 
 # Search UI Contributor's Guide
 
