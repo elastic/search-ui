@@ -16,12 +16,12 @@ export function adaptFacetConfig(facets) {
     }
     if (config.sort) {
       console.warn(
-        `search-ui-site-search-connector: Site Search does not support 'sort' on facets`
+        "search-ui-site-search-connector: Site Search does not support 'sort' on facets"
       );
     }
     if (config.size) {
       console.warn(
-        `search-ui-site-search-connector: Site Search does not support 'size' on facets`
+        "search-ui-site-search-connector: Site Search does not support 'size' on facets"
       );
     }
     return [fieldName, config];

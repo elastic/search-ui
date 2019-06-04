@@ -10,13 +10,13 @@ export default function adaptRequest(request, queryConfig, documentType) {
 
   if (disjunctiveFacets) {
     console.warn(
-      `search-ui-site-search-connector: disjunctiveFacets is not supported by Site Search`
+      "search-ui-site-search-connector: disjunctiveFacets is not supported by Site Search"
     );
   }
 
   if (disjunctiveFacetsAnalyticsTags) {
     console.warn(
-      `search-ui-site-search-connector: disjunctiveFacetsAnalyticsTags is not supported by Site Search`
+      "search-ui-site-search-connector: disjunctiveFacetsAnalyticsTags is not supported by Site Search"
     );
   }
 

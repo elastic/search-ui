@@ -68,7 +68,7 @@ it("renders the component with custom page options", () => {
   const options = [5, 10, 15];
   const resultsPerPage = 10;
   const wrapper = shallow(
-      <ResultsPerPageContainer {...{...params, resultsPerPage, options}} />
+    <ResultsPerPageContainer {...{ ...params, resultsPerPage, options }} />
   );
 
   expect(wrapper).toMatchSnapshot();

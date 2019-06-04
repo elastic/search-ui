@@ -10,6 +10,7 @@ const baseProps = {
   onMoreClick: action("Clicked More"),
   onRemove: action("Removed"),
   onSelect: action("Selected"),
+  onSearch: action("Searching"),
   options: [
     {
       value: "value",
@@ -78,4 +79,7 @@ storiesOf("Facets/MultiCheckboxFacet", module)
   ))
   .add("with More", () => (
     <MultiCheckboxFacet {...{ ...baseProps, showMore: true, values: [] }} />
+  ))
+  .add("with Search", () => (
+    <MultiCheckboxFacet {...{ ...baseProps, values: [], showSearch: true, searchPlaceholder: "Search..." }} />
   ));

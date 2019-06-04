@@ -3,6 +3,7 @@ import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 import { Facet, Filter, FilterType } from "../types";
+import { accentFold } from "../helpers";
 
 import { withSearch } from "..";
 
@@ -21,6 +22,7 @@ export class FacetContainer extends Component {
     filterType: FilterType,
     show: PropTypes.number,
     view: PropTypes.func,
+    isFilterable: PropTypes.bool,
     // State
     filters: PropTypes.arrayOf(Filter).isRequired,
     facets: PropTypes.objectOf(PropTypes.arrayOf(Facet)).isRequired,
@@ -31,13 +33,15 @@ export class FacetContainer extends Component {
   };
 
   static defaultProps = {
-    filterType: "all"
+    filterType: "all",
+    isFilterable: false
   };
 
   constructor({ show = 5 }) {
     super();
     this.state = {
-      more: show
+      more: show,
+      searchTerm: ""
     };
   }
 
@@ -47,8 +51,12 @@ export class FacetContainer extends Component {
     }));
   };
 
+  handleFacetSearch = searchTerm => {
+    this.setState({ searchTerm });
+  };
+
   render() {
-    const { more } = this.state;
+    const { more, searchTerm } = this.state;
     const {
       addFilter,
       className,
@@ -59,15 +67,26 @@ export class FacetContainer extends Component {
       label,
       removeFilter,
       setFilter,
-      view
+      view,
+      isFilterable
     } = this.props;
     const facetValues = facets[field];
+
     if (!facetValues) return null;
 
-    const options = facets[field][0].data;
+    let options = facetValues[0].data;
     const selectedValues =
       findFacetValueInFilters(field, filters, filterType) || [];
+
     if (!options.length && !selectedValues.length) return null;
+
+    if (searchTerm.trim()) {
+      options = options.filter(option =>
+        accentFold(option.value)
+          .toLowerCase()
+          .includes(accentFold(searchTerm).toLowerCase())
+      );
+    }
 
     const View = view || MultiCheckboxFacet;
 
@@ -86,7 +105,12 @@ export class FacetContainer extends Component {
       },
       options: options.slice(0, more),
       showMore: options.length > more,
-      values: selectedValues
+      values: selectedValues,
+      showSearch: isFilterable,
+      onSearch: value => {
+        this.handleFacetSearch(value);
+      },
+      searchPlaceholder: `Search ${field}`
     });
   }
 }

@@ -51,10 +51,6 @@
     font-size: 14px;
     width: 100%;
 
-    &::placeholder {
-      color: #aaaaaa;
-    }
-
     &:focus {
       box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
       border-top: 1px solid $linkColor;

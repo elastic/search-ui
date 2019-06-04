@@ -6,6 +6,7 @@ exports[`renders correctly 1`] = `
   onChange={[Function]}
   onMoreClick={[Function]}
   onRemove={[Function]}
+  onSearch={[Function]}
   onSelect={[Function]}
   options={
     Array [
@@ -19,7 +20,9 @@ exports[`renders correctly 1`] = `
       },
     ]
   }
+  searchPlaceholder="Search field1"
   showMore={false}
+  showSearch={false}
   values={
     Array [
       "field1value1",

@@ -7,6 +7,7 @@ const params = {
   onMoreClick: jest.fn(),
   onRemove: jest.fn(),
   onSelect: jest.fn(),
+  onSearch: jest.fn(),
   options: [
     {
       value: "fieldValue1",
@@ -180,4 +181,47 @@ it("renders with className prop applied", () => {
   );
   const { className } = wrapper.props();
   expect(className).toEqual("sui-multi-checkbox-facet sui-facet test-class");
+});
+
+it("will render search input if `showSearch` param is true", () => {
+  const wrapper = shallow(
+    <MultiCheckboxFacet
+      {...{
+        ...params,
+        showSearch: true
+      }}
+    />
+  );
+
+  expect(wrapper.find(".sui-facet-search")).toHaveLength(1);
+});
+
+it("won't render search input if `showSearch` param is false", () => {
+  const wrapper = shallow(
+    <MultiCheckboxFacet
+      {...{
+        ...params,
+        showSearch: false
+      }}
+    />
+  );
+
+  expect(wrapper.find(".sui-facet-search")).toHaveLength(0);
+});
+
+it("should use the `searchPlaceholder` param as a search input placeholder", () => {
+  const searchPlaceholder = "bingo";
+  const wrapper = shallow(
+    <MultiCheckboxFacet
+      {...{
+        ...params,
+        showSearch: true,
+        searchPlaceholder
+      }}
+    />
+  );
+
+  expect(
+    wrapper.find(".sui-facet-search__text-input").prop("placeholder")
+  ).toBe(searchPlaceholder);
 });

@@ -98,7 +98,7 @@ export default function App() {
                       ]}
                     />
                   )}
-                  <Facet field="states" label="States" filterType="any" />
+                  <Facet field="states" label="States" filterType="any" isFilterable={true} />
                   <Facet
                     field="world_heritage_site"
                     label="World Heritage Site?"

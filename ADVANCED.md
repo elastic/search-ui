@@ -677,8 +677,9 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 | field      | String          | yes       |                                                                                |                                                                                                                                                               | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.                                                                                                             |
 | filterType | String          | no        | "all"                                                                          | "all", "any", "none"                                                                                                                                          | The type of filter to apply with the selected values. I.e., should "all" of the values match, or just "any" of the values, or "none" of the values. Note: See the example above which describes using "disjunctive" facets in conjunction with filterType. |
 | label      | String          | yes       |                                                                                |                                                                                                                                                               | A static label to show in the facet filter.                                                                                                                                                                                                                |
-| show       | Number          | no        | 10                                                                             |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
+| show       | Number          | no        | 5                                                                             |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
 | view       | Render Function | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.                                                                                                       |
+| isFilterable | Boolean | no | false | | Whether or not to show Facet quick filter. |
 
 ---
 
@@ -1330,6 +1331,9 @@ All packages:
 ```shell
 # from project root
 npm run test
+
+# Watch for changes and re-run
+npm run test -- --watch
 ```
 
 ### Sandbox
