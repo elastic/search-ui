@@ -153,7 +153,7 @@ Search UI currently provides two Connectors:
 1. **Elastic App Search**: [search-ui-app-search-connector](packages/search-ui-app-search-connector)
 2. **Elastic Site Search**: [search-ui-site-search-connector](packages/search-ui-site-search-connector)
 
-The [example search experience](#search-ui) above mapContextToProps the Elastic App Search Connector:
+The [example search experience](#search-ui) above uses the Elastic App Search Connector:
 
 ```js
 const connector = new AppSearchAPIConnector({
@@ -182,7 +182,7 @@ It is where you configure your search experience, and it ties all of your compon
 
 For more on components, continue to the next section!
 
-While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". You can use a `WithSearch` to access those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
+While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". You can use `WithSearch` to access those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
 
 ```jsx
 <SearchProvider
@@ -191,7 +191,10 @@ While components can be handy, your search experience sometimes has requirements
   }}
 >
   <WithSearch
-    mapContextToProps={({ searchTerm, setSearchTerm }) => ({ searchTerm, setSearchTerm })}
+    mapContextToProps={({ searchTerm, setSearchTerm }) => ({
+      searchTerm,
+      setSearchTerm
+    })}
   >
     {({ searchTerm, setSearchTerm }) => (
       <div className="App">{/* Work directly with state and actions! */}</div>

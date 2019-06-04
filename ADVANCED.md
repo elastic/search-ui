@@ -1139,7 +1139,8 @@ export default withSearch(({ filters, clearFilters }) => ({
 }))(ClearFilters);
 ```
 
-Note that `withSearch` accepts an array as the first parameter. Use this property to pass a function that picks which action and state properties you want to use from the Context.
+Note that `withSearch` accepts a `mapContextToProps` function as the first parameter. Read more about that
+in the [mapContextToProps](#mapContextToProps) section.
 
 Also note that all components created with `withSearch` will be Pure Components. Read more
 about that [here](#performance).
@@ -1311,8 +1312,9 @@ Instead, do:
 this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
 ```
 
-If you ever need to debug performance related issues, see the instructions in the Optimizing Performance for enabling
-the "Highlight Updates" feature in the [React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
+If you ever need to debug performance related issues, see the instructions in the Optimizing Performance guide for
+enabling the "Highlight Updates" feature in the
+[React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
 
 # Search UI Contributor's Guide
 
