@@ -20,7 +20,7 @@ exports[`renders correctly 1`] = `
       },
     ]
   }
-  searchPlaceholder="Search field1"
+  searchPlaceholder="Filter field1"
   showMore={false}
   showSearch={false}
   values={

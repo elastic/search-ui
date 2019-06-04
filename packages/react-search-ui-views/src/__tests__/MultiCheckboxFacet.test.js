@@ -65,6 +65,20 @@ it("will render 'more' button if more param is true", () => {
   expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(1);
 });
 
+it("will render a no results message is no options are available", () => {
+  const wrapper = shallow(
+    <MultiCheckboxFacet
+      {...{
+        ...params,
+        options: []
+      }}
+    />
+  );
+  expect(
+    wrapper.find(".sui-multi-checkbox-facet__options-list").text()
+  ).toEqual("No matching options");
+});
+
 it("won't render 'more' button if more param is false", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet

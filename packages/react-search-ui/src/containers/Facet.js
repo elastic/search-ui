@@ -110,7 +110,7 @@ export class FacetContainer extends Component {
       onSearch: value => {
         this.handleFacetSearch(value);
       },
-      searchPlaceholder: `Search ${field}`
+      searchPlaceholder: `Filter ${field}`
     });
   }
 }
