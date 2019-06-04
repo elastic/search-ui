@@ -311,7 +311,7 @@ describe("search facets", () => {
 
   it("should use the field name as a search input placeholder", () => {
     expect(wrapper.find(View).prop("searchPlaceholder")).toBe(
-      `Search ${field}`
+      `Filter ${field}`
     );
   });
 
