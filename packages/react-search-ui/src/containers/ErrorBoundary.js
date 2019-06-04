@@ -26,4 +26,4 @@ export class ErrorBoundaryContainer extends Component {
   }
 }
 
-export default withSearch(ErrorBoundaryContainer);
+export default withSearch(({ error }) => ({ error }))(ErrorBoundaryContainer);

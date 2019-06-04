@@ -30,8 +30,6 @@ export class SortingContainer extends Component {
     sortOptions: PropTypes.arrayOf(SortOption).isRequired,
     view: PropTypes.func,
     // State
-    results: PropTypes.arrayOf(PropTypes.object).isRequired,
-    searchTerm: PropTypes.string.isRequired,
     sortDirection: PropTypes.oneOf(["asc", "desc", ""]).isRequired,
     sortField: PropTypes.string.isRequired,
     // Actions
@@ -64,4 +62,8 @@ export class SortingContainer extends Component {
   }
 }
 
-export default withSearch(SortingContainer);
+export default withSearch(({ sortDirection, sortField, setSort }) => ({
+  sortDirection,
+  sortField,
+  setSort
+}))(SortingContainer);

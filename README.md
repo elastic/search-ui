@@ -81,14 +81,12 @@ export default function App() {
         apiConnector: connector
       }}
     >
-      {() => (
-        <div className="App">
-          <Layout
-            header={<SearchBox />}
-            bodyContent={<Results titleField="title" urlField="nps_link" />}
-          />
-        </div>
-      )}
+      <div className="App">
+        <Layout
+          header={<SearchBox />}
+          bodyContent={<Results titleField="title" urlField="nps_link" />}
+        />
+      </div>
     </SearchProvider>
   );
 }
@@ -98,19 +96,27 @@ Or go "headless", and take complete control over the look and feel of your searc
 
 ```jsx
 <SearchProvider config={config}>
-  {({ searchTerm, setSearchTerm, results }) => {
-    return (
-      <div>
-        <input
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-        />
-        {results.map(r => (
-          <div key={r.id.raw}>{r.title.raw}</div>
-        ))}
-      </div>
-    );
-  }}
+  <WithSearch
+    mapContextToProps={({ searchTerm, setSearchTerm, results }) => ({
+      searchTerm,
+      setSearchTerm,
+      results
+    })}
+  >
+    {({ searchTerm, setSearchTerm, results }) => {
+      return (
+        <div>
+          <input
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+          {results.map(r => (
+            <div key={r.id.raw}>{r.title.raw}</div>
+          ))}
+        </div>
+      );
+    }}
+  </WithSearch>
 </SearchProvider>
 ```
 
@@ -170,13 +176,13 @@ It is where you configure your search experience, and it ties all of your compon
     apiConnector: connector
   }}
 >
-  {() => <div className="App">{/* Place Components here! */}</div>}
+  <div className="App">{/* Place Components here! */}</div>
 </SearchProvider>
 ```
 
 For more on components, continue to the next section!
 
-While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". `SearchProvider` exposes those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
+While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box". In this case, it can be convenient to work directly with the "actions" and "state" provided by something we call the "SearchDriver". You can use `WithSearch` to access those in a [Render Prop](https://reactjs.org/docs/render-props.html), which gives you maximum flexibility over your experience.
 
 ```jsx
 <SearchProvider
@@ -184,9 +190,16 @@ While components can be handy, your search experience sometimes has requirements
     apiConnector: connector
   }}
 >
-  {({ searchTerm, setSearchTerm }) => (
-    <div className="App">{/* Work directly with state and actions! */}</div>
-  )}
+  <WithSearch
+    mapContextToProps={({ searchTerm, setSearchTerm }) => ({
+      searchTerm,
+      setSearchTerm
+    })}
+  >
+    {({ searchTerm, setSearchTerm }) => (
+      <div className="App">{/* Work directly with state and actions! */}</div>
+    )}
+  </WithSearch>
 </SearchProvider>
 ```
 
@@ -208,16 +221,14 @@ Each Component - like `SearchBox` and `Results` - need only be a child of the `S
     apiConnector: connector
   }}
 >
-  {() => (
-    <div className="App">
-      <div className="Header">
-        <SearchBox />
-      </div>
-      <div className="Body">
-        <Results titleField="title" urlField="nps_link" />
-      </div>
+  <div className="App">
+    <div className="Header">
+      <SearchBox />
     </div>
-  )}
+    <div className="Body">
+      <Results titleField="title" urlField="nps_link" />
+    </div>
+  </div>
 </SearchProvider>
 ```
 

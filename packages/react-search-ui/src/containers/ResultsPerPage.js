@@ -10,9 +10,7 @@ export class ResultsPerPageContainer extends Component {
     view: PropTypes.func,
     options: PropTypes.arrayOf(PropTypes.number),
     // State
-    results: PropTypes.arrayOf(PropTypes.object).isRequired,
     resultsPerPage: PropTypes.number.isRequired,
-    searchTerm: PropTypes.string.isRequired,
     // Actions
     setResultsPerPage: PropTypes.func.isRequired
   };
@@ -43,4 +41,7 @@ export class ResultsPerPageContainer extends Component {
   }
 }
 
-export default withSearch(ResultsPerPageContainer);
+export default withSearch(({ resultsPerPage, setResultsPerPage }) => ({
+  resultsPerPage,
+  setResultsPerPage
+}))(ResultsPerPageContainer);

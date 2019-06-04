@@ -4,9 +4,10 @@
 2. [Component Reference](#component-reference)
 3. [Customization](#customization)
 4. [Advanced Configuration](#advanced-configuration)
-5. [Connectors and Handlers](#connectors-and-handlers)
-6. [Build Your Own Component](#build-your-own-component)
-7. [Search UI Contributor's Guide](#search-ui-contributors-guide)
+5. [Build Your Own Component](#build-your-own-component)
+6. [Connectors and Handlers](#connectors-and-handlers)
+7. [Performance](#performance)
+8. [Search UI Contributor's Guide](#search-ui-contributors-guide)
 
 # Headless Core
 
@@ -75,13 +76,52 @@ It looks like this:
 If you wish to work with Search UI outside of a particular Component, you'll work
 directly with the core.
 
-There's 3 ways you can do this:
+There are two methods for accessing the headless core directly, `withSearch` and
+`WithSearch`. They use the [HOC](https://reactjs.org/docs/higher-order-components.html) and
+[Render Props](https://reactjs.org/docs/render-props.html) patterns, respectively. The two methods
+are similar, and choosing between the two is mostly personal preference.
 
-### 1. The Render Prop on SearchProvider
+Both methods expose a `mapContextToProps` function which allows you to pick which state and actions
+from context you need to work with.
 
-When you configure `SearchProvider`, you need to provide a function as the child of the provider.
+### mapContextToProps
 
-That function is actually a [Render Prop](https://reactjs.org/docs/render-props.html) that exposes the Context for you to work with.
+`mapContextToProps` allows you to pick which state and actions
+from Context you need to work with. `withSearch` and `WithSearch` both use [React.PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent),
+and will only re-render when the picked state has changed.
+
+| name    | type   | description         |
+| ------- | ------ | ------------------- |
+| context | Object | The current Context |
+| props   | Object | The current props   |
+
+ex.:
+
+```jsx
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(({ searchTerm, setSearchTerm }) => ({
+  searchTerm,
+  setSearchTerm
+}))(Component);
+
+// Uses current `props` to conditionally modify context
+withSearch(({ searchTerm }, { someProp }) => ({
+  searchTerm: someProp ? "" : searchTerm
+}))(Component);
+```
+
+### withSearch
+
+This is the [HOC](https://reactjs.org/docs/higher-order-components.html) approach to working with the
+core.
+
+This is typically used for creating your own Components.
+
+See [Build Your Own Component](#build-your-own-component).
+
+### WithSearch
+
+This is the [Render Props](https://reactjs.org/docs/render-props.html) approach to working with the core.
 
 One use case for that would be to render a "loading" indicator any time the application is fetching data.
 
@@ -89,62 +129,20 @@ For example:
 
 ```jsx
 <SearchProvider config={config}>
-  {{isLoading} => (
-    <div className="App">
-      {isLoading && <div>I'm loading now</div>}
-      {!isLoading && <Layout
-        header={<SearchBox />}
-        bodyContent={<Results titleField="title" urlField="nps_link" />}
-      />}
-    </div>
-  )}
+  <WithSearch mapContextToProps={({ isLoading }) => ({ isLoading })}>
+    {({ isLoading }) => (
+      <div className="App">
+        {isLoading && <div>I'm loading now</div>}
+        {!isLoading && (
+          <Layout
+            header={<SearchBox />}
+            bodyContent={<Results titleField="title" urlField="nps_link" />}
+          />
+        )}
+      </div>
+    )}
+  </WithSearch>
 </SearchProvider>
-```
-
-You could also use it to add a clear filters button:
-
-```jsx
-<SearchProvider config={config}>
-  {({ isLoading, clearFilters }) => (
-    <div className="App">
-      {isLoading && <div>I'm loading now</div>}
-      {!isLoading && (
-        <Layout
-          header={
-            <div>
-              <SearchBox />
-              <button onClick={clearFilters}>Clear</button>
-            </div>
-          }
-          bodyContent={<Results titleField="title" urlField="nps_link" />}
-        />
-      )}
-    </div>
-  )}
-</SearchProvider>
-```
-
-### 2. `withSearch`
-
-This is typically used for creating your own Components.
-
-See [Build Your Own Component](#build-your-own-component).
-
-### 3. With `SearchConsumer`
-
-If you prefer a [Render Props](https://reactjs.org/docs/render-props.html) approach rather than
-the [Higher Order Components](https://reactjs.org/docs/higher-order-components.html) approach of `withSearch`, you can use `SearchConsumer`.
-
-```jsx
-import { SearchConsumer } from "@elastic/react-search-ui";
-```
-
-```jsx
-<SearchConsumer>
-  {{ isLoading } => (
-    <div>isLoading</div>
-  )}
-</SearchConsumer>
 ```
 
 ## Headless Core Reference
@@ -157,10 +155,10 @@ It exposes the [State](#state) and [Actions](#actions) of the core in a [Context
 
 Params:
 
-| name     | type     | description                                                                                                         |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| config   | Object   | See the [Configuration Options](#config) section.                                                                   |
-| children | function | A render prop function that accepts the [Context](#context) as a parameter. <br/><br/>`(context) => return <div />` |
+| name     | type       | description                                       |
+| -------- | ---------- | ------------------------------------------------- |
+| config   | Object     | See the [Configuration Options](#config) section. |
+| children | React Node |                                                   |
 
 ### Context
 
@@ -261,6 +259,9 @@ Application state is the general application state.
 | `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
 
 # Component Reference
+
+Note that all components in this library are Pure Components. Read more
+about that [here](#performance).
 
 The following Components are available:
 
@@ -671,15 +672,15 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 
 ### Properties
 
-| Name       | type            | Required? | Default                                                                        | Options                                                                                                                                                       | Description                                                                                                                                                                                                                                                |
-| ---------- | --------------- | --------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| className  | String          | no        |                                                                                |                                                                                                                                                               |                                                                                                                                                                                                                                                            |
-| field      | String          | yes       |                                                                                |                                                                                                                                                               | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.                                                                                                             |
-| filterType | String          | no        | "all"                                                                          | "all", "any", "none"                                                                                                                                          | The type of filter to apply with the selected values. I.e., should "all" of the values match, or just "any" of the values, or "none" of the values. Note: See the example above which describes using "disjunctive" facets in conjunction with filterType. |
-| label      | String          | yes       |                                                                                |                                                                                                                                                               | A static label to show in the facet filter.                                                                                                                                                                                                                |
-| show       | Number          | no        | 5                                                                             |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
-| view       | Render Function | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.                                                                                                       |
-| isFilterable | Boolean | no | false | | Whether or not to show Facet quick filter. |
+| Name         | type            | Required? | Default                                                                        | Options                                                                                                                                                       | Description                                                                                                                                                                                                                                                |
+| ------------ | --------------- | --------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className    | String          | no        |                                                                                |                                                                                                                                                               |                                                                                                                                                                                                                                                            |
+| field        | String          | yes       |                                                                                |                                                                                                                                                               | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.                                                                                                             |
+| filterType   | String          | no        | "all"                                                                          | "all", "any", "none"                                                                                                                                          | The type of filter to apply with the selected values. I.e., should "all" of the values match, or just "any" of the values, or "none" of the values. Note: See the example above which describes using "disjunctive" facets in conjunction with filterType. |
+| label        | String          | yes       |                                                                                |                                                                                                                                                               | A static label to show in the facet filter.                                                                                                                                                                                                                |
+| show         | Number          | no        | 5                                                                              |                                                                                                                                                               | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
+| view         | Render Function | no        | [MultiCheckboxFacet](packages/react-search-ui-views/src/MultiCheckboxFacet.js) | [SingleLinksFacet](packages/react-search-ui-views/src/SingleLinksFacet.js) <br/> [SingleSelectFacet](packages/react-search-ui-views/src/SingleSelectFacet.js) | Used to override the default view for this Component. See [Customization: Component views and HTML](#component-views-and-html) for more information.                                                                                                       |
+| isFilterable | Boolean         | no        | false                                                                          |                                                                                                                                                               | Whether or not to show Facet quick filter.                                                                                                                                                                                                                 |
 
 ---
 
@@ -878,10 +879,11 @@ return <PagingInfo view={PagingInfoView} />;
 
 We have two primary recommendations for customizing Component behavior:
 
-1. Override state and action props before they are passed to your Component, using `mapContextToProps`.
+1. Override state and action props before they are passed to your Component, using the `mapContextToProps` param. This
+   will override the default [mapContextToProps](#mapContextToProps) for the component.
 2. Override props before they are passed to your Component's view.
 
-### mapContextToProps
+### Override mapContextToProps
 
 Every Component supports a `mapContextToProps` prop, which allows you to modify state and actions
 before they are received by the Component.
@@ -1098,7 +1100,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-## Build Your Own Component
+# Build Your Own Component
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
@@ -1111,7 +1113,7 @@ There might be cases where we do not have the Component you need.
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
 called [withSearch](./src/withSearch.js).
 
-It gives you access to work directly with Search UI's [Context](#headless-core#headless-core-concepts).
+It gives you access to work directly with Search UI's [Headless Core](#headless-core).
 
 This lets you create your own Components for Search UI.
 
@@ -1131,10 +1133,19 @@ function ClearFilters({ filters, clearFilters }) {
   );
 }
 
-export default withSearch(ClearFilters);
+export default withSearch(({ filters, clearFilters }) => ({
+  filters,
+  clearFilters
+}))(ClearFilters);
 ```
 
-## Connectors and Handlers
+Note that `withSearch` accepts a `mapContextToProps` function as the first parameter. Read more about that
+in the [mapContextToProps](#mapContextToProps) section.
+
+Also note that all components created with `withSearch` will be Pure Components. Read more
+about that [here](#performance).
+
+# Connectors and Handlers
 
 **Learn about the [Headless Core](#headless-core) concepts first!**
 
@@ -1260,6 +1271,50 @@ need to have in common is an `additionalOptions` parameter.
 
 For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
 includes things like 404s, 500s, etc.
+
+# Performance
+
+This library is optimized to avoid full sub-tree re-rendering, and so that components only re-render when state changes
+that are relevant to those particular components occur.
+
+In order to accomplish this, all components within
+this library are "Pure Components". You can read more about the concept and potential pitfalls
+of Pure Components in the React
+[Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#avoid-reconciliation) guide.
+
+The thing to be most cautious of is not to
+[mutate state](https://reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data) that you will
+pass as props to any of these components.
+
+Example of what not to do:
+
+```jsx
+class SomeComponent extends React.Component {
+  changeSorting = () => {
+    const { options } = this.state;
+    // Mutating an existing array in state rather than creating a new one is bad. Since Sorting component is "Pure"
+    // it won't update after calling `setState` here.
+    options.push("newOption");
+    this.setState({ options });
+  };
+
+  render() {
+    const { options } = this.state;
+    return <Sorting options={options} />;
+  }
+}
+```
+
+Instead, do:
+
+```jsx
+// Create a new options array and copy the old values into that new array.
+this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
+```
+
+If you ever need to debug performance related issues, see the instructions in the Optimizing Performance guide for
+enabling the "Highlight Updates" feature in the
+[React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
 
 # Search UI Contributor's Guide
 
