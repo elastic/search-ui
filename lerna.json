@@ -1,9 +1,16 @@
 {
-  "packages": ["examples/*", "packages/*"],
-  "version": "0.8.0",
+  "packages": [
+    "examples/*",
+    "packages/*"
+  ],
+  "version": "0.9.0",
   "command": {
     "publish": {
-      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/src/test/**"],
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.md",
+        "**/src/test/**"
+      ],
       "message": "Release: %s"
     }
   }
