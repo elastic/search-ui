@@ -18,9 +18,7 @@ describe("WithSearch", () => {
           }
         }}
       >
-        <WithSearch
-          mapContextToProps={({ searchTerm }) => ({ searchTerm })}
-        >
+        <WithSearch mapContextToProps={({ searchTerm }) => ({ searchTerm })}>
           {({ searchTerm }) => <div>{searchTerm}</div>}
         </WithSearch>
       </SearchProvider>
@@ -28,33 +26,49 @@ describe("WithSearch", () => {
     expect(wrapper.text()).toEqual("test");
   });
 
-  it("supports a 'mapContextToProps' parameter", () => {
-    const wrapper = mount(
-      <SearchProvider
-        config={{
-          initialState: {
-            resultsPerPage: 90,
-            searchTerm: "test"
-          },
-          onSearch: () => {
-            return {
-              then: () => ({})
-            };
-          }
-        }}
-      >
-        <WithSearch
-          mapContextToProps={({ resultsPerPage }) => ({ resultsPerPage })}
+  describe("mapContextToProps", () => {
+    function setup(mapContextToProps) {
+      return mount(
+        <SearchProvider
+          config={{
+            initialState: {
+              resultsPerPage: 90,
+              searchTerm: "test"
+            },
+            onSearch: () => {
+              return {
+                then: () => ({})
+              };
+            }
+          }}
         >
-          {({ searchTerm, resultsPerPage }) => (
-            <div>
-              {searchTerm}
-              {resultsPerPage}
-            </div>
-          )}
-        </WithSearch>
-      </SearchProvider>
-    );
-    expect(wrapper.text()).toEqual("90");
+          <WithSearch mapContextToProps={mapContextToProps}>
+            {({ searchTerm, resultsPerPage, setResultsPerPage }) => (
+              <div>
+                {searchTerm}
+                {resultsPerPage}
+                {setResultsPerPage && typeof setResultsPerPage}
+              </div>
+            )}
+          </WithSearch>
+        </SearchProvider>
+      );
+    }
+
+    it("can inject state", () => {
+      const mapContextToProps = ({ resultsPerPage }) => ({
+        resultsPerPage
+      });
+      const wrapper = setup(mapContextToProps);
+      expect(wrapper.text()).toEqual("90");
+    });
+
+    it("can inject actions", () => {
+      const mapContextToProps = ({ setResultsPerPage }) => ({
+        setResultsPerPage
+      });
+      const wrapper = setup(mapContextToProps);
+      expect(wrapper.text()).toEqual("function");
+    });
   });
 });

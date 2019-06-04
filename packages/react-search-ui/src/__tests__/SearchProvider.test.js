@@ -19,12 +19,20 @@ describe("SearchProvider", () => {
         }}
       >
         <WithSearch
-          mapContextToProps={({ searchTerm }) => ({ searchTerm })}
+          mapContextToProps={({ searchTerm, setSearchTerm }) => ({
+            searchTerm,
+            setSearchTerm
+          })}
         >
-          {({ searchTerm }) => <div>{searchTerm}</div>}
+          {({ searchTerm, setSearchTerm }) => (
+            <div>
+              {searchTerm}
+              {typeof setSearchTerm}
+            </div>
+          )}
         </WithSearch>
       </SearchProvider>
     );
-    expect(wrapper.text()).toEqual("test");
+    expect(wrapper.text()).toEqual("testfunction");
   });
 });
