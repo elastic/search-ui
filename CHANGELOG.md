@@ -1,3 +1,93 @@
+## 0.9.0 (June 4, 2019)
+
+- Updated Facet component to support quick search filter options (@m-sureshraj in #248)
+- Performance fixes (@JasonStoltz in #249)
+
+### Breaking Changes
+
+The performance fixes PR introduced significant changes to the Search UI API.
+
+- Search UI now has a peer dependency on react 16.8, bumped from 16.6.
+- **`SearchProvider` no longer accepts a function as a child.** This will affect
+  EVERY Search UI implementation. If you were previously accessing State or Actions
+  in that render prop, you will now need to instead use the `WithSearch` component.
+
+  ex.
+
+  Before:
+
+  ```
+  <SearchProvider config={config}>
+    {({ searchTerm, setSearchTerm, results }) => {
+      ...
+    }}
+  </SearchProvider>
+  ```
+
+  After:
+
+  ```
+  <SearchProvider config={config}>
+    <WithSearch
+        mapContextToProps={({ searchTerm, setSearchTerm, results }) => ({
+          searchTerm,
+          setSearchTerm,
+          results
+        })}
+      >
+      {({ searchTerm, setSearchTerm, results }) => {
+        ...
+      }}
+    </WithSearch>
+  </SearchProvider>
+  ```
+
+- The API for `withSearch` has changed. You now must specify which actions and state you need in a
+  mapContextToProps function.
+
+Before:
+
+```
+export default withSearch(ResultsContainer);
+```
+
+After:
+
+```
+export default withSearch(({ results }) => ({ results }))(ResultsContainer);
+```
+
+- All components in this library, and components created with `withSearch` are now
+  "Pure Components". It is possible that if you were mutating state incorrectly with `setState`, that the components
+  no longer update. See this guide for more information: https://reactjs.org/docs/optimizing-performance.html#examples.
+- `SearchConsumer` was renamed to `WithSearch` and now requires a `mapContextToProps` parameter.
+
+Before:
+
+```
+<SearchConsumer>
+  {({ searchTerm, setSearchTerm, results }) => {
+    ...
+  }}
+</SearchConsumer>
+```
+
+After:
+
+```
+<WithSearch
+    mapContextToProps={({ searchTerm, setSearchTerm, results }) => ({
+      searchTerm,
+      setSearchTerm,
+      results
+    })}
+  >
+  {({ searchTerm, setSearchTerm, results }) => {
+    ...
+  }}
+</WithSearch>
+```
+
 ## 0.8.0 (May 2, 2019)
 
 - Configurable `ResultsPerPage` component options (@m-sureshraj in #224)
@@ -7,7 +97,7 @@
 - Containers no longer hide themselves by default before first search (@byronhulcher in #203)
 - Fix warning message about importing browserHistory (@byronhulcher in #215)
 
-## Breaking Changes
+### Breaking Changes
 
 - Connector-less usage introduces breaking changes for the **Connector layer**. This would impact anyone who has
   implemented any sort of Connector directly (#225). The following interface methods have been renamed:
