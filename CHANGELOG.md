@@ -1,3 +1,7 @@
+## 0.9.1 (June 5, 2019)
+
+- Republishing because 0.9.0 was missing style assets due to a bad publish.
+
 ## 0.9.0 (June 4, 2019)
 
 - Updated Facet component to support quick search filter options (@m-sureshraj in #248)
