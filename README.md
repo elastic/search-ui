@@ -131,11 +131,11 @@ Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
 
 A Search API is any API that you use to search data.
 
-We recommend [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
+We recommend [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service).
 
 It has Elasticsearch at its core, offering refined search UIs, robust documentation, and accessible dashboard tools.
 
-You can start a **[14 day trial of the managed service](https://www.elastic.co/cloud/app-search-service)** or **[host the self managed package for free](https://www.elastic.co/downloads/app-search)**.
+You can start a [14 day trial of the managed service](https://www.elastic.co/cloud/app-search-service) or [host the self managed package for free](https://www.elastic.co/downloads/app-search).
 
 Once your data is indexed into App Search or a similar service, you're good to go.
 
