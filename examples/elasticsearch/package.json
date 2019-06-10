@@ -1,12 +1,12 @@
 {
   "name": "elasticsearch-example",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "private": true,
   "proxy": "http://localhost:9000",
   "dependencies": {
-    "@elastic/react-search-ui": "0.9.2",
-    "@elastic/react-search-ui-views": "0.9.2",
-    "@elastic/search-ui": "0.9.2",
+    "@elastic/react-search-ui": "0.9.3",
+    "@elastic/react-search-ui-views": "0.9.3",
+    "@elastic/search-ui": "0.9.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
