@@ -153,7 +153,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-_Read [the advanced README](./ADVANCED.md#build-your-own-connector) to learn how to build your own connector._
+_Read the [advanced README](./ADVANCED.md#build-your-own-connector) to learn how to build a connector for any Search API._
 
 ### 3. SearchProvider
 
@@ -173,7 +173,7 @@ It is where you configure your search experience and it ties all of your compone
 
 `SearchProvider` is lightweight and deeply configurable.
 
-_Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration) for how to use it with other search providers._
+_Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration) for how to use another search provider._
 
 ### 4. Components
 
@@ -210,7 +210,7 @@ The following Components are available:
 - PagingInfo
 - ErrorBoundary
 
-_Read the [Component Reference](./ADVANCED.md#component-reference) for a breakdown._
+_Read the [Component Reference](./ADVANCED.md#component-reference) for a full breakdown._
 
 ### 5. Styles and Layout
 
@@ -230,7 +230,7 @@ import { Layout } from "@elastic/react-search-ui-views";
 
 The provided styles and layout can be found in the [react-search-ui-views](packages/react-search-ui-views) package.
 
-_Read the [Customization guide](./ADVANCED.md#customization) for more details._
+_Read the [Customization guide](./ADVANCED.md#customization) for more design details._
 
 ## FAQ 🔮
 
@@ -256,7 +256,7 @@ Check out the [Build Your Own Component Guide](./ADVANCED.md#build-your-own-comp
 
 Nope! We do have two first party connectors: Site Search and App Search.
 
-But Search UI is headless. You can use _any_ search API.
+But Search UI is headless. You can use _any_ Search API.
 
 Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check
 out the [Elasticsearch Example](./examples/elasticsearch).
