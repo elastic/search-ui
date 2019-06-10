@@ -131,9 +131,11 @@ Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
 
 A Search API is any API that you use to search data.
 
-We recommend Elastic App Search. It has Elasticsearch at its core, offering refined search UIs, robust documentation, and accessible dashboard tools.
+We recommend [Elastic App Search](https://www.elastic.co/cloud/app-search-service).
 
-You can start a **[free 14 day trial of the managed service](https://www.elastic.co/cloud/app-search-service)** or **[download and host the self managed package for free](https://www.elastic.co/downloads/app-search)**.
+It has Elasticsearch at its core, offering refined search UIs, robust documentation, and accessible dashboard tools.
+
+You can start a **[14 day trial of the managed service](https://www.elastic.co/cloud/app-search-service)** or **[host the self managed package for free](https://www.elastic.co/downloads/app-search)**.
 
 Once your data is indexed into App Search or a similar service, you're good to go.
 
@@ -142,8 +144,6 @@ Once your data is indexed into App Search or a similar service, you're good to g
 A connector is a module that tell Search UI how to connect and communicate with your Search API.
 
 It generates Search API calls for you so that Search UI will "just work", right out of the box.
-
-We'll use the **Elastic App Search Connector**: [search-ui-app-search-connector](packages/search-ui-app-search-connector) throughout the examples.
 
 ```js
 const connector = new AppSearchAPIConnector({
