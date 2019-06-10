@@ -157,8 +157,6 @@ _Read the [advanced README](./ADVANCED.md#build-your-own-connector) to learn how
 
 ### 3. SearchProvider
 
-### 3. SearchProvider
-
 `SearchProvider` is the top level component in your Search UI implementation.
 
 It is where you configure your search experience and it ties all of your components together, so that they work as a cohesive application.
@@ -175,9 +173,9 @@ It is where you configure your search experience and it ties all of your compone
 
 While components can be handy, your search experience sometimes has requirements that don't quite fit what components provide "out of the box".
 
-You can work directly with the "actions" and "state" provided by something we call the "SearchDriver".
+You can work directly with the "actions" and "state" using the "SearchDriver".
 
-Use `WithSearch` to access those in a [Render Prop](https://reactjs.org/docs/render-props.html), giving you maximum flexibility over the experience.
+Use `WithSearch` to access "actions" and "state" in a [Render Prop](https://reactjs.org/docs/render-props.html), giving you maximum flexibility over the experience.
 
 ```jsx
 <SearchProvider
