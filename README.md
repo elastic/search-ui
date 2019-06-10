@@ -171,9 +171,7 @@ It is where you configure your search experience and it ties all of your compone
 </SearchProvider>
 ```
 
-While components can be handy, a search experience can have requirements that don't quite fit what components provide "out of the box".
-
-Use `WithSearch` to access "actions" and "state" in a [Render Prop](https://reactjs.org/docs/render-props.html), giving you maximum flexibility over the experience.
+While components can be handy, a search experience can have requirements that don't quite fit what components provide "out of the box". Use `WithSearch` to access "actions" and "state" in a [Render Prop](https://reactjs.org/docs/render-props.html), giving you maximum flexibility over the experience.
 
 ```jsx
 <SearchProvider
