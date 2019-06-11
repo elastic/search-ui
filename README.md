@@ -19,7 +19,6 @@
 
 A **[React](https://reactjs.org)**  library for [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) that allows you to quickly implement search experiences without re-inventing the wheel
 
-
 ### Features :+1:
 
 - **You know, for search** - Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
