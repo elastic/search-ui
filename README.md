@@ -141,7 +141,7 @@ Once your data is indexed into App Search or a similar service, you're good to g
 
 ### 2. Connectors
 
-A connector is a module that tell Search UI how to connect and communicate with your Search API.
+A connector is a module that tells Search UI how to connect and communicate with your Search API.
 
 It generates Search API calls for you so that Search UI will "just work", right out of the box.
 
