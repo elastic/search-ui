@@ -8,6 +8,46 @@ describe("adaptResponse", () => {
   it("adapts empty response", () => {
     expect(adaptResponse(emptyResponse)).toEqual(adaptedEmptyResponse);
   });
+
+  it("will accept additional facet value fields to inject into response", () => {
+    const options = {
+      additionalFacetValueFields: {
+        location: {
+          center: "73.102, -78.120",
+          unit: "u"
+        }
+      }
+    };
+
+    expect(adaptResponse(response, options).facets.location).toEqual([
+      {
+        type: "range",
+        field: "location",
+        data: [
+          {
+            count: 0,
+            value: {
+              center: "73.102, -78.120",
+              unit: "u",
+              to: 100,
+              from: 0,
+              name: "Nearby"
+            }
+          },
+          {
+            count: 4,
+            value: {
+              center: "73.102, -78.120",
+              unit: "u",
+              to: 500,
+              from: 100,
+              name: "A longer drive."
+            }
+          }
+        ]
+      }
+    ]);
+  });
 });
 
 const response = {
@@ -21,6 +61,25 @@ const response = {
             {
               value: "Alaska",
               count: 5
+            }
+          ]
+        }
+      ],
+      location: [
+        {
+          type: "range",
+          data: [
+            {
+              to: 100,
+              from: 0,
+              name: "Nearby",
+              count: 0
+            },
+            {
+              to: 500,
+              from: 100,
+              name: "A longer drive.",
+              count: 4
             }
           ]
         }
@@ -77,6 +136,30 @@ const adaptedResponse = {
           {
             value: "Alaska",
             count: 5
+          }
+        ]
+      }
+    ],
+    location: [
+      {
+        type: "range",
+        field: "location",
+        data: [
+          {
+            count: 0,
+            value: {
+              to: 100,
+              from: 0,
+              name: "Nearby"
+            }
+          },
+          {
+            count: 4,
+            value: {
+              to: 500,
+              from: 100,
+              name: "A longer drive."
+            }
           }
         ]
       }

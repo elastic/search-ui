@@ -3,6 +3,7 @@ import { version } from "../package.json";
 
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
+import buildResponseAdapterOptionsFromConfig from "./buildResponseAdapterOptionsFromConfig";
 
 // The API will error out if empty facets or filters objects
 // are sent.
@@ -89,7 +90,10 @@ export default class AppSearchAPIConnector {
     };
 
     const response = await this.client.search(query, options);
-    return adaptResponse(response);
+    return adaptResponse(
+      response,
+      buildResponseAdapterOptionsFromConfig(queryConfig)
+    );
   }
 
   async onAutocomplete({ searchTerm }, queryConfig) {

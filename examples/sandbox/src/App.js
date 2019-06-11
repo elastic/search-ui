@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
 import {
@@ -52,7 +52,7 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
   });
 }
 
-const config = {
+const getConfig = position => ({
   debug: true,
   searchQuery: {
     result_fields: {
@@ -72,10 +72,20 @@ const config = {
         }
       }
     },
-    disjunctiveFacets: ["acres", "states"],
+    disjunctiveFacets: ["acres", "states", "location"],
     facets: {
       world_heritage_site: { type: "value" },
       states: { type: "value", size: 30 },
+      location: {
+        center: position,
+        type: "range",
+        unit: "mi",
+        ranges: [
+          { from: 0, to: 100, name: "Nearby" },
+          { from: 100, to: 500, name: "A longer drive" },
+          { from: 500, name: "Perhaps fly?" }
+        ]
+      },
       acres: {
         type: "range",
         ranges: [
@@ -124,14 +134,35 @@ const config = {
     }
   },
   apiConnector: connector
-};
+});
 
 export default function App() {
+  const [position, setPosition] = useState("");
+  useEffect(
+    () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setPosition(
+              `${position.coords.latitude}, ${position.coords.longitude}`
+            );
+          },
+          () => {
+            setPosition("37.7749, -122.4194");
+          }
+        );
+      } else {
+        setPosition("37.7749, -122.4194");
+      }
+    },
+    [position]
+  );
+
+  if (!position) return null;
+
   return (
-    <SearchProvider config={config}>
-      <WithSearch
-        mapContextToProps={({ wasSearched }) => ({ wasSearched })}
-      >
+    <SearchProvider config={getConfig(position)}>
+      <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
         {({ wasSearched }) => {
           return (
             <div className="App">
@@ -171,6 +202,11 @@ export default function App() {
                         field="visitors"
                         label="Visitors"
                         view={SingleLinksFacet}
+                      />
+                      <Facet
+                        field="location"
+                        label="Distance"
+                        filterType="any"
                       />
                       <Facet
                         field="acres"
