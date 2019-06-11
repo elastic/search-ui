@@ -17,9 +17,8 @@
 
 ## About Search UI :rocket:
 
-Search UI allows you to quickly implement search experiences without re-inventing the wheel.
+A **[React](https://reactjs.org)**  library for [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) that allows you to quickly implement search experiences without re-inventing the wheel
 
-Supports **[React](https://reactjs.org)** and **works Elastic App Search, or any search API**.
 
 ### Features :+1:
 
