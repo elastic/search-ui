@@ -19,7 +19,7 @@
 
 Search UI allows you to quickly implement search experiences without re-inventing the wheel.
 
-Supports **[React](https://reactjs.org)** and **works Elastic App Search, or any search API**.
+Supports **[React](https://reactjs.org)** and **works with Elastic App Search, or any search API**.
 
 ### Features :+1:
 
