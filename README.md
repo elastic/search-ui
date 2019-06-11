@@ -289,7 +289,7 @@ Connect with the community and maintainers directly on [Gitter](https://gitter.i
 If you are using an Elastic product as your connector, try the Elastic community...
 
 - [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search)
-- [Elastic Site search discuss forums](https://discuss.elastic.co/c/site-search)
+- [Elastic Site Search discuss forums](https://discuss.elastic.co/c/site-search)
 
 ## Contribute 🚀
 
