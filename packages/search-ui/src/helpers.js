@@ -23,5 +23,14 @@ export function removeSingleFilterValue(filters, name, value, filterType) {
 }
 
 export function matchFilter(filter1, filter2) {
-  return deepEqual(filter1, filter2);
+  if (
+    filter1 &&
+    filter1.name &&
+    filter2 &&
+    filter2.name &&
+    filter1.name === filter2.name
+  )
+    return true;
+  if (deepEqual(filter1, filter2)) return true;
+  return false;
 }

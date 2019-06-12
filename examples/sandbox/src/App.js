@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import moment from "moment";
+
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
 import {
@@ -72,7 +74,7 @@ const config = {
         }
       }
     },
-    disjunctiveFacets: ["acres", "states"],
+    disjunctiveFacets: ["acres", "states", "date_established", "location"],
     facets: {
       world_heritage_site: { type: "value" },
       states: { type: "value", size: 30 },
@@ -94,6 +96,33 @@ const config = {
           { from: 0, to: 100, name: "Nearby" },
           { from: 100, to: 500, name: "A longer drive" },
           { from: 500, name: "Perhaps fly?" }
+        ]
+      },
+      date_established: {
+        type: "range",
+
+        ranges: [
+          {
+            from: moment()
+              .subtract(50, "years")
+              .toISOString(),
+            name: "Within the last 50 years"
+          },
+          {
+            from: moment()
+              .subtract(100, "years")
+              .toISOString(),
+            to: moment()
+              .subtract(50, "years")
+              .toISOString(),
+            name: "50 - 100 years ago"
+          },
+          {
+            to: moment()
+              .subtract(100, "years")
+              .toISOString(),
+            name: "More than 100 years ago"
+          }
         ]
       },
       visitors: {
@@ -182,10 +211,11 @@ export default function App() {
                         view={SingleLinksFacet}
                       />
                       <Facet
-                        field="location"
-                        label="Distance"
+                        field="date_established"
+                        label="Date Established"
                         filterType="any"
                       />
+                      <Facet field="location" label="Distance" />
                       <Facet
                         field="acres"
                         label="Acres"

@@ -8,6 +8,7 @@
     "@elastic/search-ui": "0.9.3",
     "@elastic/search-ui-app-search-connector": "0.9.3",
     "@elastic/search-ui-site-search-connector": "0.9.3",
+    "moment": "^2.24.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-scripts": "2.1.5"
