@@ -40,9 +40,16 @@ const setDefaultStyle = {
 function SingleSelectFacet({ className, label, onChange, options, values }) {
   const selectOptions = options.map(toSelectOption);
   const selectedFilterValue = values[0];
-  const selectedOption = selectOptions.find(o =>
-    deepEqual(o.value, selectedFilterValue)
-  );
+  const selectedOption = selectOptions.find(o => {
+    if (
+      selectedFilterValue &&
+      selectedFilterValue.name &&
+      o.value.name === selectedFilterValue.name
+    )
+      return true;
+    if (deepEqual(o.value, selectedFilterValue)) return true;
+    return false;
+  });
 
   return (
     <div className={appendClassName("sui-search-facet sui-facet", className)}>
