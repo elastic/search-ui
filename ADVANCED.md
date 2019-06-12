@@ -1029,9 +1029,9 @@ return (
 |                             | - `results` - [Query Config](#query-config)                             |           |         | Configuration options for results query, used by autocomplete.                                                                                                                                                                                           |
 |                             | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |           |         | Configuration options for suggestions query, used by autocomplete.                                                                                                                                                                                       |
 | `debug`                     | Boolean                                                                 | optional  | false   | Trace log actions and state changes.                                                                                                                                                                                                                     |
-| `initialState`              | Object                                                                  | optional  |         | Set initial [State](#headless-core#state) of the search. Any [Request State](#headless-core#1-request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
+| `initialState`              | Object                                                                  | optional  |         | Set initial [State](#headless-core#state) of the search. Any [Request State](#request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }` |
 | `searchQuery`               | [Query Config](#query-config)                                           | optional  |         | Configuration options for the main search query.                                                                                                                                                                                                         |
-| `trackUrlState`             | boolean                                                                 | optional  |         | By default, [Request State](#headless-core#1-request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
+| `trackUrlState`             | boolean                                                                 | optional  |         | By default, [Request State](#request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                                         |
 
 ## Query Config
 
@@ -1047,7 +1047,7 @@ For example, if you add a `search_fields` configuration option, it will control 
 | `conditionalFacets`                | Object[String, function] | optional  |         | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
 | `search_fields`                    | Object[String, Object]   | optional  |         | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://swiftype.com/documentation/app-search/api/search/search-fields)                                                                                                                                                                                                                                                    |
 | `result_fields`                    | Object[String, Object]   | optional  |         | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
-| \* [Request State](#request_state) |                          | optional  |         | Any request state value can be provided here. If provided, it will ALWAYS override the value from state.                                                                                                                                                                                                                                                                                                                       |
+| \* [Request State](#request-state) |                          | optional  |         | Any request state value can be provided here. If provided, it will ALWAYS override the value from state.                                                                                                                                                                                                                                                                                                                       |
 
 ## Suggestions Query Config
 
@@ -1407,11 +1407,12 @@ Publish new version
    `0.5.0` to `0.6.0` at the top of the file.
 3. Run `npx lerna version 0.6.0 --exact`.
 4. Verify correct tags and commits have been created.
-5. Run `npx lerna publish from-git`.
-6. Verify `0.6.0` has been published to npm.
-7. Create new version branch `git checkout -b v0.6` and push to `origin`.
-8. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
-9. Create release in Github.
+5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm build` runs without error before publishing.
+6. Run `npx lerna publish from-git`.
+7. Verify `0.6.0` has been published to npm.
+8. Create new version branch `git checkout -b v0.6` and push to `origin`.
+9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
+10. Create release in Github.
 
 Publish patch version
 (Example, publish 0.6.1)
@@ -1424,8 +1425,9 @@ Publish patch version
    `0.6.0` to `0.6.1` at the top of the file.
 4. Run `npx lerna version 0.6.1 --exact`.
 5. Verify correct tags and commits have been created.
-6. Run `npx lerna publish from-git`.
-7. Verify `0.6.1` has been published to npm.
-8. Make sure changed are also committed back to master.
-9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
-10. Create release in Github.
+6. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm build` runs without error before publishing.
+7. Run `npx lerna publish from-git`.
+8. Verify `0.6.1` has been published to npm.
+9. Make sure changed are also committed back to master.
+10. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
+11. Create release in Github.

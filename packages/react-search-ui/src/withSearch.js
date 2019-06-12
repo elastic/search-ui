@@ -35,27 +35,21 @@ export default function withSearch(mapContextToProps) {
 
   return function(Component) {
     class WithSearch extends React.PureComponent {
-      constructor() {
+      constructor(props, context) {
         super();
-        this.state = {};
-      }
-
-      componentDidMount() {
-        // Note that we're doing this in CDM rather than the constructor, since
-        // `this.context` is not yet available in the constructor
-        this.setState({
+        this.state = {
           ...giveMeJustWhatINeeded(
-            buildContextForProps(this.context),
+            buildContextForProps(context),
             // eslint-disable-next-line react/prop-types
             mapContextToProps,
-            this.props
-          ),
-          mounted: true
-        });
+            props
+          )
+        };
+
         // Note that we subscribe to changes at the component level, rather than
         // at the top level Provider, so that we are re-rendering the entire
         // subtree when state changes in the Provider.
-        this.context.driver.subscribeToStateChanges(this.subscription);
+        context.driver.subscribeToStateChanges(this.subscription);
       }
 
       componentWillUnmount() {
@@ -80,8 +74,6 @@ export default function withSearch(mapContextToProps) {
       };
 
       render() {
-        if (!this.state.mounted) return null;
-
         // eslint-disable-next-line react/prop-types
         const { ...rest } = this.props;
 

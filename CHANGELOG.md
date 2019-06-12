@@ -1,3 +1,11 @@
+## 0.9.3 (June 10, 2019)
+
+- Republishing because 0.9.2 was missing style assets due to a bad publish.
+
+## 0.9.2 (June 10, 2019)
+
+- Fixed withSearch CDM (@JasonStoltz in #257)
+
 ## 0.9.1 (June 5, 2019)
 
 - Republishing because 0.9.0 was missing style assets due to a bad publish.
