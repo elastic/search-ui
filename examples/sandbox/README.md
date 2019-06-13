@@ -34,7 +34,7 @@ REACT_APP_SOURCE=SITE_SEARCH
 
 First off, you'll need to get the dependencies installed correctly for this
 entire repository. To do this, there's a few commands you'll need to run that are listed
-in the top-level [README](../../README.md#install).
+in the top-level [ADVANCED](../../ADVANCED.md#installing-dependencies) guide.
 
 After that is done, from this directory, you can actually start the Sandbox application
 by running the following command:
