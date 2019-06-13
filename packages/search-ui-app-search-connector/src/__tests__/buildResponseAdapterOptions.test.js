@@ -1,10 +1,10 @@
-import buildResponseAdapterOptionsFromConfig from "../buildResponseAdapterOptionsFromConfig";
+import buildResponseAdapterOptions from "../buildResponseAdapterOptions";
 
-describe("buildResponseAdapterOptionsFromConfig", () => {
+describe("buildResponseAdapterOptions", () => {
   describe("additionalFacetValueFields", () => {
     it("should extract additionalFacetValueFields for geo facets", () => {
       expect(
-        buildResponseAdapterOptionsFromConfig({
+        buildResponseAdapterOptions({
           facets: {
             headquarters: {
               center: "40.0374748, -76.3046049",
@@ -52,7 +52,7 @@ describe("buildResponseAdapterOptionsFromConfig", () => {
 
     it("should not extract additionalFacetValueFields if there are no geo fields", () => {
       expect(
-        buildResponseAdapterOptionsFromConfig({
+        buildResponseAdapterOptions({
           facets: {
             acres: {
               type: "range",

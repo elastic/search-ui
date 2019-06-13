@@ -40,14 +40,14 @@ const setDefaultStyle = {
 function SingleSelectFacet({ className, label, onChange, options, values }) {
   const selectOptions = options.map(toSelectOption);
   const selectedFilterValue = values[0];
-  const selectedOption = selectOptions.find(o => {
+  const selectedOption = selectOptions.find(option => {
     if (
       selectedFilterValue &&
       selectedFilterValue.name &&
-      o.value.name === selectedFilterValue.name
+      option.value.name === selectedFilterValue.name
     )
       return true;
-    if (deepEqual(o.value, selectedFilterValue)) return true;
+    if (deepEqual(option.value, selectedFilterValue)) return true;
     return false;
   });
 

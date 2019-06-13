@@ -181,8 +181,9 @@ describe("determining selected option from values", () => {
         options={rangeOptionsTimeBased}
         values={[
           {
-            // The name won't match in this case because even though the user selected and shared "1000 ms ago", the from
-            // is actually different when they reload the page, since it's relative to the current time.
+            // A time range filter that was applied based on the current time 20 seconds ago, will not have
+            // the same "from" value as a facet that is calculated at the current time. However, we can still
+            // make a match based on the "name" of the values.
             from: new Date().getTime() - 1000,
             name: "1000 ms ago"
           }

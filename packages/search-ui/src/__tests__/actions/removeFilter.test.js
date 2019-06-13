@@ -144,7 +144,7 @@ describe("#removeFilter", () => {
       subject(
         "test",
         {
-          from: "1701-07-23T21:15:28.816Z",
+          from: "1692-07-23T21:15:28.816Z",
           name: "A really long time ago"
         },
         undefined,
