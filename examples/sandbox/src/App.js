@@ -215,7 +215,11 @@ export default function App() {
                         label="Date Established"
                         filterType="any"
                       />
-                      <Facet field="location" label="Distance" />
+                      <Facet
+                        field="location"
+                        label="Distance"
+                        filterType="any"
+                      />
                       <Facet
                         field="acres"
                         label="Acres"
