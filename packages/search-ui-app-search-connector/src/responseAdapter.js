@@ -1,11 +1,15 @@
-function adaptation1AdaptFacetValue(facetValue) {
+function adaptation1AdaptFacetValue(
+  facetValue,
+  additionalFacetValueFieldsForField = {}
+) {
   const { count, value, ...rest } = facetValue;
   return {
     count,
     value: value
       ? value
       : {
-          ...rest
+          ...rest,
+          ...additionalFacetValueFieldsForField
         }
   };
 }
@@ -17,7 +21,7 @@ function adaptation2AddLabelToFacet(fieldName, facet) {
   };
 }
 
-function adaptFacets(facets) {
+function adaptFacets(facets, { additionalFacetValueFields = {} }) {
   if (!facets || Object.keys(facets).length === 0) return facets;
 
   return Object.entries(facets).reduce((acc, [fieldName, facet]) => {
@@ -25,7 +29,9 @@ function adaptFacets(facets) {
       const { type, data, ...rest } = v;
       return adaptation2AddLabelToFacet(fieldName, {
         type,
-        data: data.map(adaptation1AdaptFacetValue),
+        data: data.map(f =>
+          adaptation1AdaptFacetValue(f, additionalFacetValueFields[fieldName])
+        ),
         ...rest
       });
     });
@@ -37,7 +43,7 @@ function adaptFacets(facets) {
   }, {});
 }
 
-export function adaptResponse(response) {
+export function adaptResponse(response, options = {}) {
   const facets = response.info.facets;
   const requestId = response.info.meta.request_id;
 
@@ -50,7 +56,7 @@ export function adaptResponse(response) {
     : undefined;
 
   return {
-    ...(facets && { facets: adaptFacets(facets) }),
+    ...(facets && { facets: adaptFacets(facets, options) }),
     requestId,
     results: response.rawResults.map(r => {
       // eslint-disable-next-line

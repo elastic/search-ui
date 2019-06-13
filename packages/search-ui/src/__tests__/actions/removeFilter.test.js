@@ -139,7 +139,46 @@ describe("#removeFilter", () => {
     ]);
   });
 
-  it("Removes all filters, if no filter value or filter type i specified", () => {
+  it("Removes a range filter value even if only the name matches", () => {
+    expect(
+      subject(
+        "test",
+        {
+          from: "1692-07-23T21:15:28.816Z",
+          name: "A really long time ago"
+        },
+        undefined,
+        {
+          initialFilters: [
+            {
+              field: "test",
+              values: [
+                {
+                  from: "1702-07-23T22:17:28.816Z",
+                  name: "A really long time ago"
+                },
+                {
+                  from: "2016-04-11T06:17:43.934Z",
+                  name: "A little longer ago"
+                }
+              ],
+              type: "all"
+            }
+          ]
+        }
+      ).filters
+    ).toEqual([
+      {
+        field: "test",
+        type: "all",
+        values: [
+          { from: "2016-04-11T06:17:43.934Z", name: "A little longer ago" }
+        ]
+      }
+    ]);
+  });
+
+  it("Removes all filters, if no filter value or filter type is specified", () => {
     expect(
       subject("test", undefined, undefined, {
         initialFilters: [

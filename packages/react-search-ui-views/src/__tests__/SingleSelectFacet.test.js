@@ -89,6 +89,39 @@ describe("determining selected option from values", () => {
     );
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("");
   });
+
+  it("will correctly determine when when using range filters and only the name matches", () => {
+    const wrapper = render(
+      <SingleSelectFacet
+        {...params}
+        options={[
+          {
+            count: 1,
+            value: {
+              from: new Date().getTime() - 1000,
+              name: "1000 ms ago"
+            }
+          },
+          {
+            count: 11,
+            value: {
+              from: new Date().getTime() - 10000,
+              name: "10000 ms ago"
+            }
+          }
+        ]}
+        values={[
+          {
+            from: new Date().getTime() - 1000,
+            name: "1000 ms ago"
+          }
+        ]}
+      />
+    );
+    expect(wrapper.find(".sui-select__single-value").text()).toEqual(
+      "1000 ms ago"
+    );
+  });
 });
 
 it("renders with className prop applied", () => {

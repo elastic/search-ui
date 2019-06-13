@@ -43,9 +43,12 @@ function MultiCheckboxFacet({
       <div className="sui-multi-checkbox-facet__options-list">
         {options.length < 1 && <div>No matching options</div>}
         {options.map(option => {
-          const checked = !!values.find(value =>
-            deepEqual(option.value, value)
-          );
+          const checked = !!values.find(value => {
+            if (value && value.name && option.value.name === value.name)
+              return true;
+            if (deepEqual(option.value, value)) return true;
+            return false;
+          });
           return (
             <label
               key={`${getFilterValueDisplay(option.value)}`}

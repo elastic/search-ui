@@ -41,6 +41,23 @@ const rangeOptions = [
   }
 ];
 
+const rangeOptionsTimeBased = [
+  {
+    count: 1,
+    value: {
+      from: new Date().getTime() - 1000,
+      name: "1000 ms ago"
+    }
+  },
+  {
+    count: 11,
+    value: {
+      from: new Date().getTime() - 10000,
+      name: "10000 ms ago"
+    }
+  }
+];
+
 it("renders", () => {
   const wrapper = shallow(<MultiCheckboxFacet {...params} />);
   expect(wrapper).toMatchSnapshot();
@@ -137,6 +154,38 @@ describe("determining selected option from values", () => {
             from: 1,
             to: 10,
             name: "The first option"
+          }
+        ]}
+      />
+    );
+
+    expect(
+      wrapper
+        .find("input")
+        .at(0)
+        .prop("checked")
+    ).toBe(true);
+
+    expect(
+      wrapper
+        .find("input")
+        .at(1)
+        .prop("checked")
+    ).toBe(false);
+  });
+
+  it("will correctly determine which of the options is selected when using range filters and only the name matches", () => {
+    const wrapper = shallow(
+      <MultiCheckboxFacet
+        {...params}
+        options={rangeOptionsTimeBased}
+        values={[
+          {
+            // A time range filter that was applied based on the current time 20 seconds ago, will not have
+            // the same "from" value as a facet that is calculated at the current time. However, we can still
+            // make a match based on the "name" of the values.
+            from: new Date().getTime() - 1000,
+            name: "1000 ms ago"
           }
         ]}
       />
