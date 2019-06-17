@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "core-js": "^2.6.9",
     "swiftype-app-search-javascript": "^2.4.0"
   }
 }

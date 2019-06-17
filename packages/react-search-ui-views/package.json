@@ -71,6 +71,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "autoprefixer": "^9.4.7",
+    "core-js": "^2.6.9",
     "deep-equal": "^1.0.1",
     "downshift": "^3.2.7",
     "rc-pagination": "^1.17.3",
