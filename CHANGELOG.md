@@ -1,3 +1,10 @@
+## 0.10.0 (June 17, 2019)
+
+- Cursor fix on autocomplete (@zumwalt in #259)
+- Added Geo Facet filter support (@JasonStoltz in #260)
+- Fixed layout issue in Results css (@JasonStoltz in #266)
+- Fixed core-js error (@JasonStoltz in #267)
+
 ## 0.9.3 (June 10, 2019)
 
 - Republishing because 0.9.2 was missing style assets due to a bad publish.
