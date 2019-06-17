@@ -41,6 +41,8 @@
       padding: 2rem 0;
       padding: 32px 0 32px 32px;
       border-left: none;
+      overflow-wrap: break-word;
+      overflow: hidden;
 
       @include block("layout-main-header") {
         display: flex;
