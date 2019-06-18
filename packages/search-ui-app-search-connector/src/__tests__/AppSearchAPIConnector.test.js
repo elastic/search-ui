@@ -340,27 +340,27 @@ describe("AppSearchAPIConnector", () => {
       });
     });
 
-    it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
+    it("will use the additionalOptions parameter to amend option parameters to the search endpoint call", async () => {
       const state = {
         current: 2,
         searchTerm: "searchTerm"
       };
-      const additionalOptions = currentOptions => {
-        if (currentOptions.page.current === 2) {
-          return {
-            test: "value"
-          };
-        }
+      const additionalOptions = body => {
+        return {
+          ...body,
+          test: "value"
+        };
       };
       await subject(state, {}, additionalOptions);
-      const [passedSearchTerm, passedOptions] = getLastSearchCall();
-      expect(passedSearchTerm).toEqual(state.searchTerm);
-      expect(passedOptions).toEqual({
-        page: {
-          current: 2
-        },
-        test: "value"
-      });
+      expect(getLastSearchCall()).toEqual([
+        state.searchTerm,
+        {
+          page: {
+            current: 2
+          },
+          test: "value"
+        }
+      ]);
     });
   });
 

@@ -31,7 +31,7 @@ export default class AppSearchAPIConnector {
     searchKey,
     engineName,
     hostIdentifier,
-    additionalOptions = () => ({}),
+    additionalOptions = options => options,
     endpointBase = ""
   }) {
     if (!engineName || !hostIdentifier || !searchKey) {
@@ -85,8 +85,9 @@ export default class AppSearchAPIConnector {
       ...optionsFromState
     };
     const options = {
-      ...removeEmptyFacetsAndFilters(withQueryConfigOptions),
-      ...this.additionalOptions(withQueryConfigOptions)
+      ...this.additionalOptions(
+        removeEmptyFacetsAndFilters(withQueryConfigOptions)
+      )
     };
 
     const response = await this.client.search(query, options);
@@ -121,8 +122,9 @@ export default class AppSearchAPIConnector {
         ...optionsFromState
       };
       const options = {
-        ...removeEmptyFacetsAndFilters(withQueryConfigOptions),
-        ...this.additionalOptions(withQueryConfigOptions)
+        ...this.additionalOptions(
+          removeEmptyFacetsAndFilters(withQueryConfigOptions)
+        )
       };
 
       promises.push(
