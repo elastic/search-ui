@@ -345,12 +345,11 @@ describe("AppSearchAPIConnector", () => {
         current: 2,
         searchTerm: "searchTerm"
       };
-      const beforeSearchCall = queryOptions => {
-        return {
+      const beforeSearchCall = (queryOptions, next) =>
+        next({
           ...queryOptions,
           test: "value"
-        };
-      };
+        });
       await subject(state, {}, beforeSearchCall);
       expect(getLastSearchCall()).toEqual([
         state.searchTerm,
@@ -572,10 +571,11 @@ describe("AppSearchAPIConnector", () => {
           {},
           { results: {} },
           {
-            beforeAutocompleteResultsCall: queryOptions => ({
-              ...queryOptions,
-              test: "value"
-            })
+            beforeAutocompleteResultsCall: (queryOptions, next) =>
+              next({
+                ...queryOptions,
+                test: "value"
+              })
           }
         );
         // eslint-disable-next-line no-unused-vars
@@ -593,10 +593,11 @@ describe("AppSearchAPIConnector", () => {
           {},
           { suggestions: {} },
           {
-            beforeAutocompleteSuggestionsCall: queryOptions => ({
-              ...queryOptions,
-              test: "value"
-            })
+            beforeAutocompleteSuggestionsCall: (queryOptions, next) =>
+              next({
+                ...queryOptions,
+                test: "value"
+              })
           }
         );
         // eslint-disable-next-line no-unused-vars
