@@ -26,10 +26,29 @@ function _get(engineKey, path, params) {
 }
 
 export default class SiteSearchAPIConnector {
-  constructor({ documentType, engineKey, additionalOptions = () => ({}) }) {
+  /**
+   * @callback next
+   * @param {Object} updatedQueryOptions The options to send to the API
+   *
+   * @callback hook
+   * @param {Object} queryOptions The options that are about to be sent to the API
+   * @param {next} next The options that are about to be sent to the API
+   *
+   * @param  {string} {documentType Document Type found in your Site Search Dashboard
+   * @param  {string} engineKey Credential found in your Site Search Dashboard
+   * @param  {hook} beforeSearchCall=()=>{}
+   * @param  {hook} beforeAutocompleteResultsCall=()=>{}}
+   */
+  constructor({
+    documentType,
+    engineKey,
+    beforeSearchCall = (queryOptions, next) => next(queryOptions),
+    beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions)
+  }) {
     this.documentType = documentType;
     this.engineKey = engineKey;
-    this.additionalOptions = additionalOptions;
+    this.beforeSearchCall = beforeSearchCall;
+    this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
     this.request = request.bind(this, engineKey);
     this._get = _get.bind(this, engineKey);
   }
@@ -63,12 +82,11 @@ export default class SiteSearchAPIConnector {
   onSearch(state, queryConfig) {
     const options = adaptRequest(state, queryConfig, this.documentType);
 
-    return this.request("POST", "engines/search.json", {
-      ...options,
-      ...this.additionalOptions(options)
-    }).then(json => {
-      return adaptResponse(json, this.documentType);
-    });
+    return this.beforeSearchCall(options, newOptions =>
+      this.request("POST", "engines/search.json", newOptions).then(json =>
+        adaptResponse(json, this.documentType)
+      )
+    );
   }
 
   async onAutocomplete({ searchTerm }, queryConfig) {
@@ -79,14 +97,11 @@ export default class SiteSearchAPIConnector {
         this.documentType
       );
 
-      return this.request("POST", "engines/suggest.json", {
-        ...options,
-        ...this.additionalOptions(options)
-      }).then(json => {
-        return {
+      return this.beforeAutocompleteResultsCall(options, newOptions =>
+        this.request("POST", "engines/suggest.json", newOptions).then(json => ({
           autocompletedResults: adaptResponse(json, this.documentType).results
-        };
-      });
+        }))
+      );
     }
     if (queryConfig.suggestions) {
       console.warn(
