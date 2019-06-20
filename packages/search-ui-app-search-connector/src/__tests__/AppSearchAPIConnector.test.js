@@ -368,13 +368,14 @@ describe("AppSearchAPIConnector", () => {
     function subject(
       state = {},
       queryConfig = {},
-      beforeAutocompleteResultsCall
+      { beforeAutocompleteResultsCall, beforeAutocompleteSuggestionsCall } = {}
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
         ...params,
-        beforeAutocompleteResultsCall
+        beforeAutocompleteResultsCall,
+        beforeAutocompleteSuggestionsCall
       });
 
       return connector.onAutocomplete(state, queryConfig);
@@ -562,6 +563,45 @@ describe("AppSearchAPIConnector", () => {
           autocompletedResults: resultState.results,
           autocompletedResultsRequestId: resultState.requestId
         });
+      });
+    });
+
+    describe("beforeAutocompleteResultsCall", () => {
+      it("will use the beforeAutocompleteResultsCall parameter to amend option parameters to the search endpoint call", async () => {
+        await subject(
+          {},
+          { results: {} },
+          {
+            beforeAutocompleteResultsCall: queryOptions => ({
+              ...queryOptions,
+              test: "value"
+            })
+          }
+        );
+        // eslint-disable-next-line no-unused-vars
+        const [_, passedOptions] = getLastSearchCall();
+        expect(passedOptions).toEqual({
+          page: {},
+          test: "value"
+        });
+      });
+    });
+
+    describe("beforeAutocompleteSuggestionsCall", () => {
+      it("will use the beforeAutocompleteSuggestionsCall parameter to amend option parameters to the search endpoint call", async () => {
+        await subject(
+          {},
+          { suggestions: {} },
+          {
+            beforeAutocompleteSuggestionsCall: queryOptions => ({
+              ...queryOptions,
+              test: "value"
+            })
+          }
+        );
+        // eslint-disable-next-line no-unused-vars
+        const [_, passedOptions] = getLastSuggestCall();
+        expect(passedOptions).toEqual({ test: "value" });
       });
     });
 
