@@ -1083,19 +1083,19 @@ But there may be cases where certain API operations are not supported by Search 
 
 For example, [App Search](https://www.elastic.co/cloud/app-search-service) supports a "grouping" feature, which Search UI does not support out of the box.
 
-We can work around that by using the `additionalOptions` hook on the particular Connector.
+We can work around that by using the `beforeSearchCall` hook on the App Search Connector. This acts as a middleware
+that gives you an opportunity to modify API requests and responses before they are made.
 
 ```js
 const connector = new AppSearchAPIConnector({
   searchKey: "search-371auk61r2bwqtdzocdgutmg",
   engineName: "search-ui-examples",
   hostIdentifier: "host-2376rb",
-  additionalOptions: existingSearchOptions => {
-    const additionalSearchOptions = {
+  beforeSearchCall: (existingSearchOptions, next) =>
+    next({
+      ...existingSearchOptions,
       group: { field: "title" }
-    };
-    return additionalSearchOptions;
-  }
+    })
 });
 ```
 
@@ -1256,15 +1256,6 @@ A connector simply needs to implement the Event Handlers listed above. The handl
 
 While some handlers are meant for fetching data and performing searches, other handlers are meant for recording
 certain user events in analytics services, such as `onResultClick` or `onAutocompleteResultClick`.
-
-#### Configuration
-
-Each Connector will need to be instantiated with its own set of properties. The only properties that Connectors
-need to have in common is an `additionalOptions` parameter.
-
-| option              | type             | required? | source                                                                                                                                                                        |
-| ------------------- | ---------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `additionalOptions` | Function(Object) | optional  | A hook that allows you to inject additional, API specific configuration. More information can be found in the [Customizing API calls - additionalOptions](#apicalls) section. |
 
 #### Errors
 

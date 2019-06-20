@@ -15,23 +15,44 @@ function removeEmptyFacetsAndFilters(options) {
     ...rest
   };
 }
-export default class AppSearchAPIConnector {
+class AppSearchAPIConnector {
   /**
-   * @param options Object
-   * engineName  - Engine to query, found in your App Search Dashboard
-   * hostIdentifier - Credential found in your App Search Dashboard
-   * searchKey - Credential found in your App Search Dashboard
-   * endpointBase - (optional) Overrides the base of the Swiftype API endpoint
-   *   completely. Useful when proxying the Swiftype API or developing against
-   *   a local API server.
-   * additionalOptions - (optional) Append additional options / parameter to the
-   *   request before sending to the API.
+   * @callback next
+   * @param {Object} updatedQueryOptions The options to send to the API
+   */
+
+  /**
+   * @callback hook
+   * @param {Object} queryOptions The options that are about to be sent to the API
+   * @param {next} next The options that are about to be sent to the API
+   */
+
+  /**
+   * @typedef Options
+   * @param {string} searchKey Credential found in your App Search Dashboard
+   * @param {string} engineName Engine to query, found in your App Search Dashboard
+   * @param {string} hostIdentifier Credential found in your App Search Dashboard
+   *  Useful when proxying the Swiftype API or developing against a local API server.
+   * @param {hook} beforeSearchCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to the
+   *   API in a query on an "onSearch" event.
+   * @param {hook} beforeAutocompleteResultsCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to the
+   *   API in a "results" query on an "onAutocomplete" event.
+   * @param {hook} beforeAutocompleteSuggestionsCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to
+   * the API in a "suggestions" query on an "onAutocomplete" event.
+   * @param {string} endpointBase="" Overrides the base of the Swiftype API endpoint completely.
+   */
+
+  /**
+   * @param {Options} options
    */
   constructor({
     searchKey,
     engineName,
     hostIdentifier,
-    additionalOptions = () => ({}),
+    beforeSearchCall = (queryOptions, next) => next(queryOptions),
+    beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions),
+    beforeAutocompleteSuggestionsCall = (queryOptions, next) =>
+      next(queryOptions),
     endpointBase = ""
   }) {
     if (!engineName || !hostIdentifier || !searchKey) {
@@ -48,7 +69,9 @@ export default class AppSearchAPIConnector {
         "x-swiftype-integration-version": version
       }
     });
-    this.additionalOptions = additionalOptions;
+    this.beforeSearchCall = beforeSearchCall;
+    this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
+    this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;
   }
 
   onResultClick({ query, documentId, requestId, tags = [] }) {
@@ -85,12 +108,13 @@ export default class AppSearchAPIConnector {
       ...optionsFromState
     };
     const options = {
-      ...removeEmptyFacetsAndFilters(withQueryConfigOptions),
-      ...this.additionalOptions(withQueryConfigOptions)
+      ...removeEmptyFacetsAndFilters(withQueryConfigOptions)
     };
 
-    const response = await this.client.search(query, options);
-    return adaptResponse(response, buildResponseAdapterOptions(queryConfig));
+    return this.beforeSearchCall(options, async newOptions => {
+      const response = await this.client.search(query, newOptions);
+      return adaptResponse(response, buildResponseAdapterOptions(queryConfig));
+    });
   }
 
   async onAutocomplete({ searchTerm }, queryConfig) {
@@ -120,31 +144,31 @@ export default class AppSearchAPIConnector {
         ...restOfQueryConfig,
         ...optionsFromState
       };
-      const options = {
-        ...removeEmptyFacetsAndFilters(withQueryConfigOptions),
-        ...this.additionalOptions(withQueryConfigOptions)
-      };
-
+      const options = removeEmptyFacetsAndFilters(withQueryConfigOptions);
       promises.push(
-        this.client.search(query, options).then(response => {
-          autocompletedState.autocompletedResults = adaptResponse(
-            response
-          ).results;
-          autocompletedState.autocompletedResultsRequestId =
-            response.info.meta.request_id;
+        this.beforeAutocompleteResultsCall(options, newOptions => {
+          return this.client.search(query, newOptions).then(response => {
+            autocompletedState.autocompletedResults = adaptResponse(
+              response
+            ).results;
+            autocompletedState.autocompletedResultsRequestId =
+              response.info.meta.request_id;
+          });
         })
       );
     }
 
     if (queryConfig.suggestions) {
+      const options = queryConfig.suggestions;
+
       promises.push(
-        this.client
-          .querySuggestion(searchTerm, queryConfig.suggestions)
-          .then(response => {
+        this.beforeAutocompleteSuggestionsCall(options, newOptions =>
+          this.client.querySuggestion(searchTerm, newOptions).then(response => {
             autocompletedState.autocompletedSuggestions = response.results;
             autocompletedState.autocompletedSuggestionsRequestId =
               response.meta.request_id;
           })
+        )
       );
     }
 
@@ -152,3 +176,5 @@ export default class AppSearchAPIConnector {
     return autocompletedState;
   }
 }
+
+export default AppSearchAPIConnector;

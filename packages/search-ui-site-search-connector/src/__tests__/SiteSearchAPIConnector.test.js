@@ -27,10 +27,10 @@ it("can be initialized", () => {
 });
 
 describe("#onSearch", () => {
-  function subject({ additionalOptions, state, queryConfig = {} }) {
+  function subject({ beforeSearchCall, state, queryConfig = {} }) {
     const connector = new SiteSearchAPIConnector({
       ...params,
-      additionalOptions
+      beforeSearchCall
     });
     return connector.onSearch(state, queryConfig);
   }
@@ -192,33 +192,51 @@ describe("#onSearch", () => {
     });
   });
 
-  it("will use the additionalOptions parameter to append additional parameters to the search endpoint call", async () => {
-    const groupFields = {
-      group: { field: "title" }
-    };
-    const additionalOptions = () => groupFields;
+  it("will use the beforeSearchCall parameter to to amend option parameters to the search endpoint call", async () => {
     const searchTerm = "searchTerm";
+
+    const queryConfig = {
+      sortDirection: "desc",
+      sortField: "name",
+      resultsPerPage: 5
+    };
+
+    const beforeSearchCall = (options, next) => {
+      // Remove sort_direction and sort_field
+      // eslint-disable-next-line no-unused-vars
+      const { sort_direction, sort_field, ...rest } = options;
+      return next({
+        ...rest,
+        // Add group
+        group: { field: "title" }
+      });
+    };
+
     await subject({
-      additionalOptions,
+      beforeSearchCall,
       state: { searchTerm },
-      queryConfig: {}
+      queryConfig
     });
+
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      per_page: 5,
       engine_key: engineKey,
       q: "searchTerm",
-      ...groupFields
+      group: { field: "title" }
     });
   });
 });
 
 describe("#onAutocomplete", () => {
   function subject({
+    beforeAutocompleteResultsCall,
     state,
     queryConfig = {
       results: {}
     }
   }) {
     const connector = new SiteSearchAPIConnector({
+      beforeAutocompleteResultsCall,
       ...params
     });
     return connector.onAutocomplete(state, queryConfig);
@@ -326,6 +344,40 @@ describe("#onAutocomplete", () => {
       sort_field: {
         "national-parks": "name"
       }
+    });
+  });
+
+  it("will use the beforeAutocompleteResultsCall parameter to amend option parameters to the search endpoint call", async () => {
+    const state = {
+      searchTerm: "searchTerm"
+    };
+
+    const queryConfig = {
+      results: {
+        sortDirection: "desc",
+        sortField: "name",
+        resultsPerPage: 5
+      }
+    };
+
+    const beforeAutocompleteResultsCall = (options, next) => {
+      // Remove sort_direction and sort_field
+      // eslint-disable-next-line no-unused-vars
+      const { sort_direction, sort_field, ...rest } = options;
+      return next({
+        ...rest,
+        // Add group
+        group: { field: "title" }
+      });
+    };
+
+    await subject({ beforeAutocompleteResultsCall, state, queryConfig });
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      engine_key: engineKey,
+      q: "searchTerm",
+      per_page: 5,
+      group: { field: "title" }
     });
   });
 });
