@@ -192,19 +192,34 @@ describe("#onSearch", () => {
     });
   });
 
-  it("will use the beforeSearchCall parameter to append additional parameters to the search endpoint call", async () => {
-    const beforeSearchCall = (options, next) =>
-      next({
-        ...options,
+  it("will use the beforeSearchCall parameter to to amend option parameters to the search endpoint call", async () => {
+    const searchTerm = "searchTerm";
+
+    const queryConfig = {
+      sortDirection: "desc",
+      sortField: "name",
+      resultsPerPage: 5
+    };
+
+    const beforeSearchCall = (options, next) => {
+      // Remove sort_direction and sort_field
+      // eslint-disable-next-line no-unused-vars
+      const { sort_direction, sort_field, ...rest } = options;
+      return next({
+        ...rest,
+        // Add group
         group: { field: "title" }
       });
-    const searchTerm = "searchTerm";
+    };
+
     await subject({
       beforeSearchCall,
       state: { searchTerm },
-      queryConfig: {}
+      queryConfig
     });
+
     expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+      per_page: 5,
       engine_key: engineKey,
       q: "searchTerm",
       group: { field: "title" }
@@ -332,21 +347,28 @@ describe("#onAutocomplete", () => {
     });
   });
 
-  it("will use the beforeAutocompleteResultsCall parameter to append additional parameters to the search endpoint call", async () => {
-    const beforeAutocompleteResultsCall = (options, next) =>
-      next({
-        ...options,
-        group: { field: "title" }
-      });
-
+  it("will use the beforeAutocompleteResultsCall parameter to amend option parameters to the search endpoint call", async () => {
     const state = {
       searchTerm: "searchTerm"
     };
 
     const queryConfig = {
       results: {
+        sortDirection: "desc",
+        sortField: "name",
         resultsPerPage: 5
       }
+    };
+
+    const beforeAutocompleteResultsCall = (options, next) => {
+      // Remove sort_direction and sort_field
+      // eslint-disable-next-line no-unused-vars
+      const { sort_direction, sort_field, ...rest } = options;
+      return next({
+        ...rest,
+        // Add group
+        group: { field: "title" }
+      });
     };
 
     await subject({ beforeAutocompleteResultsCall, state, queryConfig });

@@ -345,17 +345,32 @@ describe("AppSearchAPIConnector", () => {
         current: 2,
         searchTerm: "searchTerm"
       };
-      const beforeSearchCall = (queryOptions, next) =>
-        next({
-          ...queryOptions,
+
+      const queryConfig = {
+        sortDirection: "desc",
+        sortField: "name",
+        resultsPerPage: 5
+      };
+
+      const beforeSearchCall = (options, next) => {
+        // Remove sort_direction and sort_field
+        // eslint-disable-next-line no-unused-vars
+        const { sort, ...rest } = options;
+        return next({
+          ...rest,
+          // Add test
           test: "value"
         });
-      await subject(state, {}, beforeSearchCall);
+      };
+
+      await subject(state, queryConfig, beforeSearchCall);
+
       expect(getLastSearchCall()).toEqual([
         state.searchTerm,
         {
           page: {
-            current: 2
+            current: 2,
+            size: 5
           },
           test: "value"
         }
@@ -567,28 +582,79 @@ describe("AppSearchAPIConnector", () => {
 
     describe("beforeAutocompleteResultsCall", () => {
       it("will use the beforeAutocompleteResultsCall parameter to amend option parameters to the search endpoint call", async () => {
-        await subject(
-          {},
-          { results: {} },
-          {
-            beforeAutocompleteResultsCall: (queryOptions, next) =>
-              next({
-                ...queryOptions,
-                test: "value"
-              })
+        const state = {
+          current: 2,
+          searchTerm: "searchTerm"
+        };
+
+        const queryConfig = {
+          results: {
+            sortDirection: "desc",
+            sortField: "name",
+            resultsPerPage: 5
           }
-        );
-        // eslint-disable-next-line no-unused-vars
-        const [_, passedOptions] = getLastSearchCall();
-        expect(passedOptions).toEqual({
-          page: {},
-          test: "value"
-        });
+        };
+
+        const beforeAutocompleteResultsCall = (options, next) => {
+          // Remove sort_direction and sort_field
+          // eslint-disable-next-line no-unused-vars
+          const { sort, ...rest } = options;
+          return next({
+            ...rest,
+            // Add test
+            test: "value"
+          });
+        };
+
+        await subject(state, queryConfig, { beforeAutocompleteResultsCall });
+
+        expect(getLastSearchCall()).toEqual([
+          state.searchTerm,
+          {
+            page: {
+              size: 5
+            },
+            test: "value"
+          }
+        ]);
       });
     });
 
     describe("beforeAutocompleteSuggestionsCall", () => {
       it("will use the beforeAutocompleteSuggestionsCall parameter to amend option parameters to the search endpoint call", async () => {
+        const state = {
+          current: 2,
+          searchTerm: "searchTerm",
+          sortDirection: "desc",
+          sortField: "name"
+        };
+
+        const queryConfig = {
+          suggestions: {}
+        };
+
+        const beforeAutocompleteSuggestionsCall = (options, next) => {
+          // Remove sort_direction and sort_field
+          // eslint-disable-next-line no-unused-vars
+          const { sort, ...rest } = options;
+          return next({
+            ...rest,
+            // Add test
+            test: "value"
+          });
+        };
+
+        await subject(state, queryConfig, {
+          beforeAutocompleteSuggestionsCall
+        });
+
+        expect(getLastSuggestCall()).toEqual([
+          state.searchTerm,
+          {
+            test: "value"
+          }
+        ]);
+
         await subject(
           {},
           { suggestions: {} },
