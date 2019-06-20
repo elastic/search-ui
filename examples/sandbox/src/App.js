@@ -50,7 +50,12 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
       process.env.REACT_APP_SEARCH_ENGINE_NAME || "search-ui-examples",
     hostIdentifier:
       process.env.REACT_APP_SEARCH_HOST_IDENTIFIER || "host-2376rb",
-    endpointBase: process.env.REACT_APP_SEARCH_ENDPOINT_BASE || ""
+    endpointBase: process.env.REACT_APP_SEARCH_ENDPOINT_BASE || "",
+    beforeSearchCall: (existingSearchOptions, next) =>
+      next({
+        ...existingSearchOptions,
+        group: { field: "title" }
+      })
   });
 }
 

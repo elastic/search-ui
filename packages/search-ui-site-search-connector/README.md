@@ -35,11 +35,67 @@ const connector = new SiteSearchAPIConnector({
 });
 ```
 
-### Configuration
+## Classes
 
-| option                                            | type             | required? | source                                                                                                                       |
-| ------------------------------------------------- | ---------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `documentType`                                    | String           | required  | From your Site Search Account's Credentials                                                                                  |
-| `engineKey`                                       | String           | required  | From your Site Search Engine's Name                                                                                          |
-| `additionalOptions`                               | Function(Object) | optional  | A hook that allows you to inject additional, API specific configuration.<br/><br/> `currentOptions => ({ someOption: 'a' })` |
-| options before the request is sent to the server. |
+<dl>
+<dt><a href="#SiteSearchAPIConnector">SiteSearchAPIConnector</a></dt>
+<dd></dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#next">next</a> : <code>function</code></dt>
+<dd></dd>
+<dt><a href="#hook">hook</a> : <code>function</code></dt>
+<dd></dd>
+<dt><a href="#Options">Options</a></dt>
+<dd></dd>
+</dl>
+
+<a name="SiteSearchAPIConnector"></a>
+
+## SiteSearchAPIConnector
+
+**Kind**: global class
+<a name="new_SiteSearchAPIConnector_new"></a>
+
+### new SiteSearchAPIConnector(options)
+
+| Param   | Type                             |
+| ------- | -------------------------------- |
+| options | [<code>Options</code>](#Options) |
+
+<a name="next"></a>
+
+## next : <code>function</code>
+
+**Kind**: global typedef
+
+| Param               | Type                | Description                    |
+| ------------------- | ------------------- | ------------------------------ |
+| updatedQueryOptions | <code>Object</code> | The options to send to the API |
+
+<a name="hook"></a>
+
+## hook : <code>function</code>
+
+**Kind**: global typedef
+
+| Param        | Type                       | Description                                      |
+| ------------ | -------------------------- | ------------------------------------------------ |
+| queryOptions | <code>Object</code>        | The options that are about to be sent to the API |
+| next         | [<code>next</code>](#next) | The options that are about to be sent to the API |
+
+<a name="Options"></a>
+
+## Options
+
+**Kind**: global typedef
+
+| Param                         | Type                       | Default                                                      | Description                                                                                                            |
+| ----------------------------- | -------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| documentType                  | <code>string</code>        |                                                              | Document Type found in your Site Search Dashboard                                                                      |
+| engineKey                     | <code>string</code>        |                                                              | Credential found in your Site Search Dashboard                                                                         |
+| beforeSearchCall              | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                 |
+| beforeAutocompleteResultsCall | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event. |
