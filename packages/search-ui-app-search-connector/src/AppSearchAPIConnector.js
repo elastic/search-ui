@@ -17,21 +17,28 @@ function removeEmptyFacetsAndFilters(options) {
 }
 export default class AppSearchAPIConnector {
   /**
-   * @param options Object
-   * engineName  - Engine to query, found in your App Search Dashboard
-   * hostIdentifier - Credential found in your App Search Dashboard
-   * searchKey - Credential found in your App Search Dashboard
-   * endpointBase - (optional) Overrides the base of the Swiftype API endpoint
-   *   completely. Useful when proxying the Swiftype API or developing against
-   *   a local API server.
-   * additionalOptions - (optional) Append additional options / parameter to the
-   *   request before sending to the API.
+   * @callback hook
+   * @param {Object} queryOptions - The options that are about to be sent to the API
+   *
+   * @typedef Options
+   * @property {string} engineName - Engine to query, found in your App Search Dashboard
+   * @property {string} hostIdentifier - Credential found in your App Search Dashboard
+   * @property {string} searchKey - Credential found in your App Search Dashboard
+   * @property {string} [endpointBase] - Overrides the base of the Swiftype API endpoint completely.
+   *  Useful when proxying the Swiftype API or developing against a local API server.
+   * @property {hook} [beforeSearchCall] - A hook to amend query options before the request is sent to the
+   *   API in a query on an "onSearch" event.
+   * @property {hook} [beforeAutocompleteResultsCall] - A hook to amend query options before the request is sent to the
+   *   API in a "results" query on an "onAutocomplete" event.
+   *
+   * @param {Options} options
    */
   constructor({
     searchKey,
     engineName,
     hostIdentifier,
-    additionalOptions = options => options,
+    beforeSearchCall = queryOptions => queryOptions,
+    beforeAutocompleteResultsCall = queryOptions => queryOptions,
     endpointBase = ""
   }) {
     if (!engineName || !hostIdentifier || !searchKey) {
@@ -48,7 +55,8 @@ export default class AppSearchAPIConnector {
         "x-swiftype-integration-version": version
       }
     });
-    this.additionalOptions = additionalOptions;
+    this.beforeSearchCall = beforeSearchCall;
+    this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
   }
 
   onResultClick({ query, documentId, requestId, tags = [] }) {
@@ -85,7 +93,7 @@ export default class AppSearchAPIConnector {
       ...optionsFromState
     };
     const options = {
-      ...this.additionalOptions(
+      ...this.beforeSearchCall(
         removeEmptyFacetsAndFilters(withQueryConfigOptions)
       )
     };
@@ -122,7 +130,7 @@ export default class AppSearchAPIConnector {
         ...optionsFromState
       };
       const options = {
-        ...this.additionalOptions(
+        ...this.beforeAutocompleteResultsCall(
           removeEmptyFacetsAndFilters(withQueryConfigOptions)
         )
       };

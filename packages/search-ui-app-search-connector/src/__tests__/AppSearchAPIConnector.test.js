@@ -159,12 +159,12 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("onSearch", () => {
-    function subject(state = {}, queryConfig = {}, additionalOptions) {
+    function subject(state = {}, queryConfig = {}, beforeSearchCall) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
         ...params,
-        additionalOptions
+        beforeSearchCall
       });
 
       return connector.onSearch(state, queryConfig);
@@ -340,18 +340,18 @@ describe("AppSearchAPIConnector", () => {
       });
     });
 
-    it("will use the additionalOptions parameter to amend option parameters to the search endpoint call", async () => {
+    it("will use the beforeSearchCall parameter to amend option parameters to the search endpoint call", async () => {
       const state = {
         current: 2,
         searchTerm: "searchTerm"
       };
-      const additionalOptions = body => {
+      const beforeSearchCall = queryOptions => {
         return {
-          ...body,
+          ...queryOptions,
           test: "value"
         };
       };
-      await subject(state, {}, additionalOptions);
+      await subject(state, {}, beforeSearchCall);
       expect(getLastSearchCall()).toEqual([
         state.searchTerm,
         {
@@ -365,12 +365,16 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("onAutocomplete", () => {
-    function subject(state = {}, queryConfig = {}, additionalOptions) {
+    function subject(
+      state = {},
+      queryConfig = {},
+      beforeAutocompleteResultsCall
+    ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
         ...params,
-        additionalOptions
+        beforeAutocompleteResultsCall
       });
 
       return connector.onAutocomplete(state, queryConfig);
