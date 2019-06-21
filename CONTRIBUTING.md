@@ -130,3 +130,9 @@ option for this.
    ```
 
 Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
+
+### Stable demos
+
+Elastic App Search: https://search-ui-stable.netlify.com/
+Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
+Elastic: https://search-ui-stable-elasticsearch.netlify.com/

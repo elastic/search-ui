@@ -17,7 +17,7 @@
 
 ## About Search UI :rocket:
 
-A **[React](https://reactjs.org)**  library for [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) that allows you to quickly implement search experiences without re-inventing the wheel
+A **[React](https://reactjs.org)** library for [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) that allows you to quickly implement search experiences without re-inventing the wheel
 
 ### Features :+1:
 
@@ -32,7 +32,9 @@ A **[React](https://reactjs.org)**  library for [**Elastic App Search**](https:/
 
 ### Live Demo
 
-Checkout the [live demo of Search UI](https://search-ui-stable.netlify.com).
+Checkout the [live demo of Search UI](https://search-ui-parks-example.glitch.me).
+
+[![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/remix/search-ui-parks-example)
 
 ## Getting started 🐣
 
