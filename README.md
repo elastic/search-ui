@@ -34,7 +34,7 @@ A **[React](https://reactjs.org)** library for [**Elastic App Search**](https://
 
 Checkout the [live demo of Search UI](https://search-ui-stable.netlify.com).
 
-[![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/remix/search-ui-parks-example)
+[![Edit search-ui-national-parks-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/national-parks-example-kdyms?fontsize=14)
 
 ## Getting started 🐣
 
