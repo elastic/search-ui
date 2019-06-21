@@ -6,6 +6,7 @@ const TITLE_FIELD = "title";
 const URL_FIELD = "url";
 const TITLE_RESULT_VALUE = "Title";
 const URL_RESULT_VALUE = "http://www.example.com";
+const ARBITRARY_FIELD = { _meta: "data" };
 
 const requiredProps = {
   result: { field: { raw: "value" } },
@@ -75,6 +76,21 @@ it("renders correctly when there is a title and url", () => {
         },
         titleField: TITLE_FIELD,
         urlField: URL_FIELD
+      }}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("filters out arbitrary fields from results, and does not render them", () => {
+  const wrapper = shallow(
+    <Result
+      {...{
+        ...requiredProps,
+        result: {
+          ...requiredProps.result,
+          ...ARBITRARY_FIELD
+        }
       }}
     />
   );

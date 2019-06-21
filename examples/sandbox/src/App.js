@@ -58,15 +58,20 @@ const config = {
   debug: true,
   searchQuery: {
     result_fields: {
+      visitors: { raw: {} },
+      world_heritage_site: { raw: {} },
+      location: { raw: {} },
+      acres: { raw: {} },
+      square_km: { raw: {} },
       title: {
         snippet: {
           size: 100,
           fallback: true
         }
       },
-      nps_link: {
-        raw: {}
-      },
+      nps_link: { raw: {} },
+      states: { raw: {} },
+      date_established: { raw: {} },
       description: {
         snippet: {
           size: 100,
