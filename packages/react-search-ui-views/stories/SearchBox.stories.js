@@ -182,4 +182,25 @@ storiesOf("SearchBox", module)
         </div>
       )}
     />
+  ))
+  .add("with custom input template", () => (
+    <Wrapper
+      inputView={({ getAutocomplete, getInputProps }) => {
+        return (
+          <>
+            <div className="sui-search-box__wrapper">
+              <input
+                {...getInputProps({
+                  style: {
+                    backgroundColor: "black",
+                    color: "white"
+                  }
+                })}
+              />
+              {getAutocomplete()}
+            </div>
+          </>
+        );
+      }}
+    />
   ));

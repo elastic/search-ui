@@ -286,7 +286,7 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 ...
 
-<SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
+<SearchBox />
 ```
 
 ### Configuring search queries
@@ -294,6 +294,62 @@ import { SearchBox } from "@elastic/react-search-ui";
 The input from `SearchBox` will be used to trigger a new search query. That query can be further customized
 in the `SearchProvider` configuration, using the `searchQuery` property. See the
 [Advanced Configuration](#advanced-configuration) guide for more information.
+
+### Example of passing custom props to text input element
+
+```jsx
+<SearchBox inputProps={{ placeholder: "custom placeholder" }} />
+```
+
+### Example of view customizations
+
+You can customize the entire view. This is useful to use an entirely different
+autocomplete library (we use [downshift](https://github.com/downshift-js/downshift)). But for making small
+customizations, like simply hiding the search button, this is often overkill.
+
+```jsx
+<SearchBox
+  view={({ onChange, value }) => <input value={value} onChange={onChange} />}
+/>
+```
+
+You can also just customize the input section of the search box. Useful for things
+like hiding the submit button:
+
+```jsx
+<SearchBox
+  inputView={({ getAutocomplete, getInputProps }) => (
+    <>
+      <div className="sui-search-box__wrapper">
+        <input {...getInputProps()} />
+        {getAutocomplete()}
+      </div>
+    </>
+  )}
+/>
+```
+
+Or you can also just customize the autocomplete dropdown:
+
+```jsx
+<SearchBox
+  autocompleteView={({ autocompletedResults, getItemProps }) => (
+    <div className="sui-search-box__autocomplete-container">
+      {autocompletedResults.map((result, i) => (
+        // eslint-disable-next-line react/jsx-key
+        <div
+          {...getItemProps({
+            key: result.id.raw,
+            item: result
+          })}
+        >
+          Result {i}: {result.title.snippet}
+        </div>
+      ))}
+    </div>
+  )}
+/>
+```
 
 ### Example using autocomplete results
 
@@ -459,6 +515,7 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 | autocompleteSuggestions       | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
 | autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
 | autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                                                                                 |
+| inputView                     | Render Function                                                              | no        | [SearchInput](packages/react-search-ui-views/src/SearchInput.js)   |         | Provide a different view just for the input section.                                                                                                                                                                                                                                                                                                         |
 | onSelectAutocomplete          | Function(selection. options, defaultOnSelectAutocomplete)                    | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior.                                                   |
 | onSubmit                      | Function(searchTerm)                                                         | no        |                                                                    |         | Allows overriding behavior when submitted. Receives the search term from the search box.                                                                                                                                                                                                                                                                     |
 

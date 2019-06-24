@@ -21,7 +21,10 @@ it("renders correctly", () => {
 
 it("applies 'focused' class when `isFocused` is true", () => {
   const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
-  const downshift = wrapper.dive("Downshift");
+  const downshift = wrapper
+    .dive("Downshift")
+    .find("SearchInput")
+    .shallow();
   const input = downshift.find(".sui-search-box__text-input");
   expect(input.hasClass("focus")).toBe(true);
 });
@@ -52,7 +55,10 @@ it("applies className from inputProps to input element", () => {
     <SearchBox {...requiredProps} inputProps={{ className: customClassName }} />
   );
 
-  const downshift = wrapper.dive("Downshift");
+  const downshift = wrapper
+    .dive("Downshift")
+    .find("SearchInput")
+    .shallow();
   const input = downshift.find(".sui-search-box__text-input");
   expect(input.props().className).toBe(
     "sui-search-box__text-input test-class "
