@@ -9,3 +9,9 @@ export default PropTypes.shape({
   // result'
   snippet: PropTypes.string
 });
+
+export function isFieldValueWrapper(object) {
+  return (
+    object && (object.hasOwnProperty("raw") || object.hasOwnProperty("snippet"))
+  );
+}

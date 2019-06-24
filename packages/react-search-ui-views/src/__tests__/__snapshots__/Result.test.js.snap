@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filters out arbitrary fields from results, and does not render them 1`] = `
+<li
+  className="sui-result"
+>
+  <div
+    className="sui-result__header"
+  />
+  <div
+    className="sui-result__body"
+  >
+    <ul
+      className="sui-result__details"
+    >
+      <li
+        key="field"
+      >
+        <span
+          className="sui-result__key"
+        >
+          field
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "value",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+</li>
+`;
+
 exports[`renders correctly when there is a URL 1`] = `
 <li
   className="sui-result"
