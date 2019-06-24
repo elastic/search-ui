@@ -37,8 +37,8 @@ function getEscapedField(result, field) {
 
 function getEscapedFields(result) {
   return Object.keys(result).reduce((acc, field) => {
-    // Because if it is an arbitrary value from the response, we may not properly
-    // handle it, so we filter out arbitrary values here.
+    // If we receive an arbitrary value from the response, we may not properly
+    // handle it, so we should filter out arbitrary values here.
     //
     // I.e.,
     // Arbitrary value: "_metaField: '1939191'"
