@@ -338,11 +338,12 @@ like hiding the submit button or rearranging dom structure:
 />
 ```
 
-Note that `getInputProps` and `getButtonProps` are meant to be spread over their corresponding
-UI elements. This lets you arrange elements however you'd like in the DOM. It also lets you pass
-additional properties. You should pass properties through these functions, rather directly on elements,
-in order to not override base values. For instance, adding a `className` through these functions will
-assure that the className is only appended, not overriding base class values on those values.
+Note that `getInputProps` and `getButtonProps` are
+[prop getters](https://kentcdodds.com/blog/how-to-give-rendering-control-to-users-with-prop-getters).
+They are meant return a props object to spread over their corresponding UI elements. This lets you arrange
+elements however you'd like in the DOM. It also lets you pass additional properties. You should pass properties
+through these functions, rather directly on elements, in order to not override base values. For instance,
+adding a `className` through these functions will assure that the className is only appended, not overriding base class values on those values.
 
 `getAutocomplete` is used to determine where the autocomplete dropdown will be shown.
 
