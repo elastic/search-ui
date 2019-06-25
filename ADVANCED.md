@@ -314,20 +314,37 @@ customizations, like simply hiding the search button, this is often overkill.
 ```
 
 You can also just customize the input section of the search box. Useful for things
-like hiding the submit button:
+like hiding the submit button or rearranging dom structure:
 
 ```jsx
 <SearchBox
-  inputView={({ getAutocomplete, getInputProps }) => (
+  inputView={({ getAutocomplete, getInputProps, getButtonProps }) => (
     <>
       <div className="sui-search-box__wrapper">
-        <input {...getInputProps()} />
+        <input
+          {...getInputProps({
+            placeholder: "I am a custom placeholder"
+          })}
+        />
         {getAutocomplete()}
+        <input
+          {...getButtonProps({
+            "data-custom-attr": "some value"
+          })}
+        />
       </div>
     </>
   )}
 />
 ```
+
+Note that `getInputProps` and `getButtonProps` are meant to be spread over their corresponding
+UI elements. This lets you arrange elements however you'd like in the DOM. It also lets you pass
+additional properties. You should pass properties through these functions, rather directly on elements,
+in order to not override base values. For instance, adding a `className` through these functions will
+assure that the className is only appended, not overriding base class values on those values.
+
+`getAutocomplete` is used to determine where the autocomplete dropdown will be shown.
 
 Or you can also just customize the autocomplete dropdown:
 
