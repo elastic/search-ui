@@ -7,6 +7,7 @@ import { Suggestion } from "./types";
 import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
+import SearchInput from "./SearchInput";
 
 function SearchBox(props) {
   const {
@@ -15,6 +16,7 @@ function SearchBox(props) {
     autocompleteView,
     isFocused,
     inputProps = {},
+    inputView,
     onChange,
     onSelectAutocomplete,
     onSubmit,
@@ -23,6 +25,7 @@ function SearchBox(props) {
   } = props;
   const focusedClass = isFocused ? "focus" : "";
   const AutocompleteView = autocompleteView || Autocomplete;
+  const InputView = inputView || SearchInput;
 
   return (
     <Downshift
@@ -53,25 +56,43 @@ function SearchBox(props) {
                 appendClassName("sui-search-box", className) + autocompleteClass
               }
             >
-              <div className="sui-search-box__wrapper">
-                <input
-                  {...getInputProps({
+              <InputView
+                getInputProps={additionalProps => {
+                  const { className, ...rest } = additionalProps || {};
+                  return getInputProps({
                     placeholder: "Search your documents",
                     ...inputProps,
-                    className: `${appendClassName(
-                      "sui-search-box__text-input",
-                      inputProps.className
-                    )} ${focusedClass}`
-                  })}
-                />
-                {useAutocomplete && isOpen && allAutocompletedItemsCount > 0 ? (
-                  <AutocompleteView {...props} {...downshiftProps} />
-                ) : null}
-              </div>
-              <input
-                type="submit"
-                value="Search"
-                className="button sui-search-box__submit"
+                    className: appendClassName("sui-search-box__text-input", [
+                      inputProps.className,
+                      className,
+                      focusedClass
+                    ]),
+                    ...rest
+                  });
+                }}
+                getButtonProps={additionalProps => {
+                  const { className, ...rest } = additionalProps || {};
+                  return {
+                    type: "submit",
+                    value: "Search",
+                    className: appendClassName(
+                      "button sui-search-box__submit",
+                      className
+                    ),
+                    ...rest
+                  };
+                }}
+                getAutocomplete={() => {
+                  if (
+                    useAutocomplete &&
+                    isOpen &&
+                    allAutocompletedItemsCount > 0
+                  ) {
+                    return <AutocompleteView {...props} {...downshiftProps} />;
+                  } else {
+                    return null;
+                  }
+                }}
               />
             </div>
           </form>
@@ -116,6 +137,7 @@ SearchBox.propTypes = {
   ]),
   className: PropTypes.string,
   inputProps: PropTypes.object,
+  inputView: PropTypes.func,
   isFocused: PropTypes.bool,
   useAutocomplete: PropTypes.bool,
 

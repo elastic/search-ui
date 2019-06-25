@@ -35,6 +35,7 @@ export class SearchBoxContainer extends Component {
     className: PropTypes.string,
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
+    inputView: PropTypes.func,
     onSelectAutocomplete: PropTypes.func,
     onSubmit: PropTypes.func,
     searchAsYouType: PropTypes.bool,
@@ -149,6 +150,7 @@ export class SearchBoxContainer extends Component {
       className,
       autocompleteView,
       inputProps,
+      inputView,
       onSelectAutocomplete,
       onSubmit,
       searchTerm,
@@ -208,7 +210,8 @@ export class SearchBoxContainer extends Component {
         onFocus: this.handleFocus,
         onBlur: this.handleBlur,
         ...inputProps
-      }
+      },
+      inputView
     });
   }
 }

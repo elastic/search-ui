@@ -286,7 +286,7 @@ import { SearchBox } from "@elastic/react-search-ui";
 
 ...
 
-<SearchBox inputProps={{ placeholder: "custom placeholder" }}/>
+<SearchBox />
 ```
 
 ### Configuring search queries
@@ -294,6 +294,79 @@ import { SearchBox } from "@elastic/react-search-ui";
 The input from `SearchBox` will be used to trigger a new search query. That query can be further customized
 in the `SearchProvider` configuration, using the `searchQuery` property. See the
 [Advanced Configuration](#advanced-configuration) guide for more information.
+
+### Example of passing custom props to text input element
+
+```jsx
+<SearchBox inputProps={{ placeholder: "custom placeholder" }} />
+```
+
+### Example of view customizations
+
+You can customize the entire view. This is useful to use an entirely different
+autocomplete library (we use [downshift](https://github.com/downshift-js/downshift)). But for making small
+customizations, like simply hiding the search button, this is often overkill.
+
+```jsx
+<SearchBox
+  view={({ onChange, value }) => <input value={value} onChange={onChange} />}
+/>
+```
+
+You can also just customize the input section of the search box. Useful for things
+like hiding the submit button or rearranging dom structure:
+
+```jsx
+<SearchBox
+  inputView={({ getAutocomplete, getInputProps, getButtonProps }) => (
+    <>
+      <div className="sui-search-box__wrapper">
+        <input
+          {...getInputProps({
+            placeholder: "I am a custom placeholder"
+          })}
+        />
+        {getAutocomplete()}
+        <input
+          {...getButtonProps({
+            "data-custom-attr": "some value"
+          })}
+        />
+      </div>
+    </>
+  )}
+/>
+```
+
+Note that `getInputProps` and `getButtonProps` are
+[prop getters](https://kentcdodds.com/blog/how-to-give-rendering-control-to-users-with-prop-getters).
+They are meant return a props object to spread over their corresponding UI elements. This lets you arrange
+elements however you'd like in the DOM. It also lets you pass additional properties. You should pass properties
+through these functions, rather directly on elements, in order to not override base values. For instance,
+adding a `className` through these functions will assure that the className is only appended, not overriding base class values on those values.
+
+`getAutocomplete` is used to determine where the autocomplete dropdown will be shown.
+
+Or you can also just customize the autocomplete dropdown:
+
+```jsx
+<SearchBox
+  autocompleteView={({ autocompletedResults, getItemProps }) => (
+    <div className="sui-search-box__autocomplete-container">
+      {autocompletedResults.map((result, i) => (
+        <div
+          {...getItemProps({
+            key: result.id.raw,
+            item: result
+          })}
+        >
+          Result {i}: {result.title.snippet}
+        </div>
+      ))}
+    </div>
+  )}
+/>
+```
 
 ### Example using autocomplete results
 
@@ -459,6 +532,7 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 | autocompleteSuggestions       | Boolean or [AutocompleteSuggestionsOptions](#AutocompleteSuggestionsOptions) | Object    | no                                                                 |         | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
 | autocompleteMinimumCharacters | Integer                                                                      | no        | 0                                                                  |         | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
 | autocompleteView              | Render Function                                                              | no        | [Autocomplete](packages/react-search-ui-views/src/Autocomplete.js) |         | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                                                                                 |
+| inputView                     | Render Function                                                              | no        | [SearchInput](packages/react-search-ui-views/src/SearchInput.js)   |         | Provide a different view just for the input section.                                                                                                                                                                                                                                                                                                         |
 | onSelectAutocomplete          | Function(selection. options, defaultOnSelectAutocomplete)                    | no        |                                                                    |         | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior.                                                   |
 | onSubmit                      | Function(searchTerm)                                                         | no        |                                                                    |         | Allows overriding behavior when submitted. Receives the search term from the search box.                                                                                                                                                                                                                                                                     |
 
