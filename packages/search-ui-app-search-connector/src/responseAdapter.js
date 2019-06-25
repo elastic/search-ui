@@ -58,13 +58,7 @@ export function adaptResponse(response, options = {}) {
   return {
     ...(facets && { facets: adaptFacets(facets, options) }),
     requestId,
-    results: response.rawResults.map(r => {
-      // eslint-disable-next-line
-      const { _meta, ...rest } = r;
-      return {
-        ...rest
-      };
-    }),
+    results: response.rawResults,
     ...(totalPages !== undefined && { totalPages }),
     ...(totalResults !== undefined && { totalResults })
   };
