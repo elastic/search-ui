@@ -336,7 +336,6 @@ Or you can also just customize the autocomplete dropdown:
   autocompleteView={({ autocompletedResults, getItemProps }) => (
     <div className="sui-search-box__autocomplete-container">
       {autocompletedResults.map((result, i) => (
-        // eslint-disable-next-line react/jsx-key
         <div
           {...getItemProps({
             key: result.id.raw,

@@ -57,23 +57,31 @@ function SearchBox(props) {
               }
             >
               <InputView
-                getInputProps={additionalProps =>
-                  getInputProps({
+                getInputProps={additionalProps => {
+                  const { className, ...rest } = additionalProps || {};
+                  return getInputProps({
                     placeholder: "Search your documents",
                     ...inputProps,
-                    className: `${appendClassName(
-                      "sui-search-box__text-input",
-                      inputProps.className
-                    )} ${focusedClass}`,
-                    ...additionalProps
-                  })
-                }
-                getButtonProps={additionalProps => ({
-                  type: "submit",
-                  value: "Search",
-                  className: "button sui-search-box__submit",
-                  ...additionalProps
-                })}
+                    className: appendClassName("sui-search-box__text-input", [
+                      inputProps.className,
+                      className,
+                      focusedClass
+                    ]),
+                    ...rest
+                  });
+                }}
+                getButtonProps={additionalProps => {
+                  const { className, ...rest } = additionalProps || {};
+                  return {
+                    type: "submit",
+                    value: "Search",
+                    className: appendClassName(
+                      "button sui-search-box__submit",
+                      className
+                    ),
+                    ...rest
+                  };
+                }}
                 getAutocomplete={() => {
                   if (
                     useAutocomplete &&
