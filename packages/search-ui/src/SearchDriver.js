@@ -272,8 +272,8 @@ export default class SearchDriver {
     const state = { ...this.state, ...newState };
     // eslint-disable-next-line no-console
     if (this.debug) console.log("State Update", newState, state);
-    this.subscriptions.forEach(subscription => subscription(state));
     this.state = state;
+    this.subscriptions.forEach(subscription => subscription(state));
   }
 
   /**

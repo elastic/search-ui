@@ -279,6 +279,21 @@ describe("subscribeToStateChanges", () => {
     expect(called1).toBe(true);
     expect(called2).toBe(true);
   });
+
+  it("will update own state before notifying subscribers", () => {
+    const { driver } = setupDriver();
+    let searchTermFromDriver, searchTermFromSubscription, called;
+    driver.subscribeToStateChanges(state => {
+      // So that this subscription does not run multiple times
+      if (called) return;
+      called = true;
+      searchTermFromDriver = driver.getState().searchTerm;
+      searchTermFromSubscription = state.searchTerm;
+    });
+    driver.setSearchTerm("newValue");
+    expect(searchTermFromDriver).toBe("newValue");
+    expect(searchTermFromSubscription).toBe("newValue");
+  });
 });
 
 describe("unsubscribeToStateChanges", () => {
