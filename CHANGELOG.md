@@ -1,3 +1,37 @@
+## 0.11.0 (June 27, 2019)
+
+- Fixed issue with state not updating (@JasonStoltz in #291)
+- `_meta` field is now returned in results for App Search Connector (@JasonStoltz in #277)
+- Added a inputView option to SearchBox component (@JasonStoltz in #273)
+- Loosened the "Result" object schema (@JasonStoltz in #271)
+- Removed "additionalOptions" from connectors and replaced with before\* hooks (@JasonStoltz in #270)
+
+### Breaking Changes
+
+The `additionalOptions` was removed from `SiteSearchAPIConnector`, and `AppSearchAPIConnector`.
+
+They were replaced with 3 separate hooks:
+`beforeAutocompleteSuggestionsCall`
+`beforeAutocompleteResultsCall`
+`beforeSearchCall`
+
+Please check the `ADVANCED.md` guide for more information. Generally speaking, the new API
+signature looks like the following:
+
+```js
+// Example of using beforeSearchCall to append an additional option on an API request
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-xxxxxxxxxxxxxxxxxxxx",
+  engineName: "search-data",
+  hostIdentifier: "host-xxxxxx",
+  beforeSearchCall: (existingSearchOptions, next) =>
+    next({
+      ...existingSearchOptions,
+      group: { field: "title" }
+    })
+});
+```
+
 ## 0.10.0 (June 17, 2019)
 
 - Cursor fix on autocomplete (@zumwalt in #259)
