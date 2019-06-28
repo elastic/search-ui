@@ -30,7 +30,8 @@ $fieldHoverColor: #f6f6f6 !default;
 $resultKeyTextColor: #777777 !default;
 
 // Font Variables
-$fontFamily: 'Roboto', sans-serif !default;
+$fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+  Arial, sans-serif !default;
 $fontWeightNormal: 400 !default;
 $fontWeightBold: 700 !default;
 $lineHeight: 1.5 !default;
