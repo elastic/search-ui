@@ -17,7 +17,11 @@
 
 ## About Search UI :rocket:
 
-A **[React](https://reactjs.org)** library for [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) that allows you to quickly implement search experiences without re-inventing the wheel
+A **[React](https://reactjs.org)** library that allows you to quickly implement search experiences without re-inventing the wheel.
+
+Use it with [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) or
+[**Elastic Site Search**](https://www.elastic.co/cloud/site-search-service) to have a
+search experience up and running in minutes.
 
 ### Features :+1:
 
@@ -26,7 +30,8 @@ A **[React](https://reactjs.org)** library for [**Elastic App Search**](https://
 - **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
 - **Headless** - Leverage our application logic, provide your own components or views.
-- **Flexible** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
+- **Flexible front-end** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
+- **Flexible back-end** - Not just for Elastic App Search. Use with any backend.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
