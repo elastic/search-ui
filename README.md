@@ -17,7 +17,11 @@
 
 ## About Search UI :rocket:
 
-A **[React](https://reactjs.org)** library for [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service) that allows you to quickly implement search experiences without re-inventing the wheel
+A **[React](https://reactjs.org)** library that allows you to quickly implement search experiences without re-inventing the wheel.
+
+Use it with [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product) or
+[**Elastic Site Search**](https://www.elastic.co/cloud/site-search-service?ultron=searchui-repo&blade=readme&hulk=product) to have a
+search experience up and running in minutes.
 
 ### Features :+1:
 
@@ -26,7 +30,8 @@ A **[React](https://reactjs.org)** library for [**Elastic App Search**](https://
 - **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
 - **Headless** - Leverage our application logic, provide your own components or views.
-- **Flexible** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
+- **Flexible front-end** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
+- **Flexible back-end** - Not just for Elastic App Search. Use with any backend.
 
 <img src="packages/react-search-ui/resources/screenshot.png" width="600">
 
@@ -131,11 +136,11 @@ Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
 
 A Search API is any API that you use to search data.
 
-We recommend [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service).
+We recommend [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product).
 
 It has Elasticsearch at its core, offering refined search UIs, robust documentation, and accessible dashboard tools.
 
-You can start a [14 day trial of the managed service](https://www.elastic.co/cloud/app-search-service) or [host the self managed package for free](https://www.elastic.co/downloads/app-search).
+You can start a [14 day trial of the managed service](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product) or [host the self managed package for free](https://www.elastic.co/downloads/app-search?ultron=searchui-repo&blade=readme&hulk=product).
 
 Once your data is indexed into App Search or a similar service, you're good to go.
 

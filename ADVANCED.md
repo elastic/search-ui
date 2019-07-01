@@ -309,7 +309,11 @@ customizations, like simply hiding the search button, this is often overkill.
 
 ```jsx
 <SearchBox
-  view={({ onChange, value }) => <input value={value} onChange={onChange} />}
+  view={({ onChange, value, onSubmit }) => (
+    <form onSubmit={onSubmit}>
+      <input value={value} onChange={e => onChange(e.currentTarget.value)} />
+    </form>
+  )}
 />
 ```
 
