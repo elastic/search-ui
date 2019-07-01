@@ -1,3 +1,14 @@
+## 0.12.0 (July 1, 2019)
+
+- Removed Roboto font (@JasonStoltz in #296)
+
+### Breaking Changes
+
+The Roboto font is no longer used by this library. We default to system fonts
+instead. We do this to minimize the size, number of dependencies, and overall
+surface area for this library. When you get this latest version, you may
+see a visual difference due to the font changes.
+
 ## 0.11.0 (June 27, 2019)
 
 - Fixed issue with state not updating (@JasonStoltz in #291)
