@@ -218,14 +218,14 @@ Request state can be set by:
 - The `initialState` option.
 - The URL query string, if `trackUrlState` is enabled.
 
-| option                                            | type                                   | required? | source                                 |
-| ------------------------------------------------- | -------------------------------------- | --------- | -------------------------------------- |
-| `current`                                         | Integer                                | optional  | Current page number                    |
-| `filters`                                         | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
-| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
-| `searchTerm`                                      | String                                 | optional  | Search terms to search for             |
-| `sortDirection`                                   | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
-| `sortField`                                       | String                                 | optional  | Name of field to sort on               |
+| option                                            | type                                                                                                           | required? | source                                 |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | --------- | -------------------------------------- |
+| `current`                                         | Integer                                                                                                        | optional  | Current page number                    |
+| `filters`                                         | Array[[Filter](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Filter.js)] | optional  |                                        |
+| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                                                                                        | optional  | Number of results to show on each page |
+| `searchTerm`                                      | String                                                                                                         | optional  | Search terms to search for             |
+| `sortDirection`                                   | String ["asc" \| "desc"]                                                                                       | optional  | Direction to sort                      |
+| `sortField`                                       | String                                                                                                         | optional  | Name of field to sort on               |
 
 #### Response State
 
@@ -1188,7 +1188,7 @@ We provide a variety of Components out of the box.
 There might be cases where we do not have the Component you need.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
-called [withSearch](./src/withSearch.js).
+called [withSearch](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/withSearch.js).
 
 It gives you access to work directly with Search UI's [Headless Core](#headless-core).
 
@@ -1324,7 +1324,7 @@ the `next` function.
 
 ### Build your own Connector
 
-An example of a connector is the [Site Search API Connector](../search-ui-site-search-connector/README.md).
+An example of a connector is the [Site Search API Connector](https://github.com/elastic/search-ui/blob/master/packages/search-ui-site-search-connector/README.md).
 
 A connector simply needs to implement the Event Handlers listed above. The handlers typically:
 
