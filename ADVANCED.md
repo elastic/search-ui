@@ -331,12 +331,12 @@ like hiding the submit button or rearranging dom structure:
           })}
         />
         {getAutocomplete()}
-        <input
-          {...getButtonProps({
-            "data-custom-attr": "some value"
-          })}
-        />
       </div>
+      <input
+        {...getButtonProps({
+          "data-custom-attr": "some value"
+        })}
+      />
     </>
   )}
 />
