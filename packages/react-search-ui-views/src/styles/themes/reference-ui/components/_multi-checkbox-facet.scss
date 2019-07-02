@@ -53,6 +53,12 @@
     border: unset;
     padding: unset;
     background: unset;
+
+    &:hover,
+    &:focus {
+      background-color: $facetSelectBackground;
+      outline: $sizeXS solid $facetSelectBackground;
+    }
   }
 }
 
