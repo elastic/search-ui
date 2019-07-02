@@ -36,3 +36,9 @@ it("will accept children instead of bodyContent", () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders with className prop applied", () => {
+  const wrapper = shallow(<Layout className="test-class" />);
+
+  expect(wrapper.hasClass("test-class")).toBeTruthy();
+});
