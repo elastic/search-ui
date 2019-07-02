@@ -82,12 +82,14 @@ function MultiCheckboxFacet({
       </div>
 
       {showMore && (
-        <div
+        <button
+          type="button"
           className="sui-multi-checkbox-facet__view-more"
           onClick={onMoreClick}
+          aria-label="Show more options"
         >
           + More
-        </div>
+        </button>
       )}
     </div>
   );
