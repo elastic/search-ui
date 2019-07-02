@@ -1,56 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders when it doesn't have any results or a search term 1`] = `
-<div
-  className="sui-results-per-page"
->
-  <div
-    className="sui-results-per-page__label"
-  >
-    Show
-  </div>
-  <StateManager
-    className="sui-select sui-select--inline"
-    classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
-    isSearchable={false}
-    onChange={[Function]}
-    options={
-      Array [
-        Object {
-          "label": 20,
-          "value": 20,
-        },
-        Object {
-          "label": 40,
-          "value": 40,
-        },
-        Object {
-          "label": 60,
-          "value": 60,
-        },
-      ]
-    }
-    styles={
-      Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={
-      Object {
-        "label": 20,
-        "value": 20,
-      }
-    }
-  />
-</div>
-`;
-
 exports[`renders the component with custom page options 1`] = `
 <div
   className="sui-results-per-page"
@@ -90,12 +39,67 @@ exports[`renders the component with custom page options 1`] = `
         "dropdownIndicator": [Function],
         "indicatorSeparator": [Function],
         "option": [Function],
+        "singleValue": [Function],
+        "valueContainer": [Function],
       }
     }
     value={
       Object {
         "label": 10,
         "value": 10,
+      }
+    }
+  />
+</div>
+`;
+
+exports[`renders when it doesn't have any results or a search term 1`] = `
+<div
+  className="sui-results-per-page"
+>
+  <div
+    className="sui-results-per-page__label"
+  >
+    Show
+  </div>
+  <StateManager
+    className="sui-select sui-select--inline"
+    classNamePrefix="sui-select"
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "label": 20,
+          "value": 20,
+        },
+        Object {
+          "label": 40,
+          "value": 40,
+        },
+        Object {
+          "label": 60,
+          "value": 60,
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+        "singleValue": [Function],
+        "valueContainer": [Function],
+      }
+    }
+    value={
+      Object {
+        "label": 20,
+        "value": 20,
       }
     }
   />
