@@ -44,6 +44,15 @@
   @include element("view-more") {
     cursor: pointer;
     color: $linkColor;
+
+    // Button reset
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: left;
+    border: unset;
+    padding: unset;
+    background: unset;
   }
 }
 
