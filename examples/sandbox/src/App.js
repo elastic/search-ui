@@ -55,7 +55,6 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
 }
 
 const config = {
-  debug: true,
   searchQuery: {
     result_fields: {
       visitors: { raw: {} },
