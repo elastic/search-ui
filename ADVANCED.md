@@ -218,14 +218,14 @@ Request state can be set by:
 - The `initialState` option.
 - The URL query string, if `trackUrlState` is enabled.
 
-| option                                            | type                                   | required? | source                                 |
-| ------------------------------------------------- | -------------------------------------- | --------- | -------------------------------------- |
-| `current`                                         | Integer                                | optional  | Current page number                    |
-| `filters`                                         | Array[[Filter](./src/types/Filter.js)] | optional  |                                        |
-| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                | optional  | Number of results to show on each page |
-| `searchTerm`                                      | String                                 | optional  | Search terms to search for             |
-| `sortDirection`                                   | String ["asc" \| "desc"]               | optional  | Direction to sort                      |
-| `sortField`                                       | String                                 | optional  | Name of field to sort on               |
+| option                                            | type                                                            | required? | source                                 |
+| ------------------------------------------------- | --------------------------------------------------------------- | --------- | -------------------------------------- |
+| `current`                                         | Integer                                                         | optional  | Current page number                    |
+| `filters`                                         | Array[[Filter](./packages/react-search-ui/src/types/Filter.js)] | optional  |                                        |
+| <a name="resultsPerPageProp"></a>`resultsPerPage` | Integer                                                         | optional  | Number of results to show on each page |
+| `searchTerm`                                      | String                                                          | optional  | Search terms to search for             |
+| `sortDirection`                                   | String ["asc" \| "desc"]                                        | optional  | Direction to sort                      |
+| `sortField`                                       | String                                                          | optional  | Name of field to sort on               |
 
 #### Response State
 
@@ -235,17 +235,17 @@ It is not directly update-able.
 
 It is updated indirectly by invoking an action which results in a new API request.
 
-| field                               | type                                                                                                                                      | description                                                                                                                                                                                                                                                               |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autocompletedResults`              | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
-| `autocompletedResultsRequestId`     | String                                                                                                                                    | A unique ID for the current autocompleted search results.                                                                                                                                                                                                                 |
-| `autocompletedSuggestions`          | Object[String, Array[[Suggestion](<(https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Suggestion.js)>)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
-| `autocompletedSuggestionsRequestId` | String                                                                                                                                    | A unique ID for the current autocompleted suggestion results.                                                                                                                                                                                                             |
-| `facets`                            | Object[[Facet](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Facet.js)]                             | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration).                                                                                                                                                                            |
-| `requestId`                         | String                                                                                                                                    | A unique ID for the current search results.                                                                                                                                                                                                                               |
-| `results`                           | Array[[Result](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui/src/types/Result.js)]                            | An array of result items.                                                                                                                                                                                                                                                 |
-| `resultSearchTerm`                  | String                                                                                                                                    | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
-| `totalResults`                      | Integer                                                                                                                                   | Total number of results found for the current query.                                                                                                                                                                                                                      |
+| field                               | type                                                                                   | description                                                                                                                                                                                                                                                               |
+| ----------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`              | Array[[Result](./packages/react-search-ui/src/types/Result.js)]                        | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedResultsRequestId`     | String                                                                                 | A unique ID for the current autocompleted search results.                                                                                                                                                                                                                 |
+| `autocompletedSuggestions`          | Object[String, Array[[Suggestion](./packages/react-search-ui/src/types/Suggestion.js)] | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `autocompletedSuggestionsRequestId` | String                                                                                 | A unique ID for the current autocompleted suggestion results.                                                                                                                                                                                                             |
+| `facets`                            | Object[[Facet](./packages/react-search-ui/src/types/Facet.js)]                         | Will be populated if `facets` configured in [Advanced Configuration](#advanced-configuration).                                                                                                                                                                            |
+| `requestId`                         | String                                                                                 | A unique ID for the current search results.                                                                                                                                                                                                                               |
+| `results`                           | Array[[Result](./packages/react-search-ui/src/types/Result.js)]                        | An array of result items.                                                                                                                                                                                                                                                 |
+| `resultSearchTerm`                  | String                                                                                 | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`                      | Integer                                                                                | Total number of results found for the current query.                                                                                                                                                                                                                      |
 
 #### Application State
 
@@ -1188,7 +1188,7 @@ We provide a variety of Components out of the box.
 There might be cases where we do not have the Component you need.
 
 In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
-called [withSearch](./src/withSearch.js).
+called [withSearch](./packages/react-search-ui/src/withSearch.js).
 
 It gives you access to work directly with Search UI's [Headless Core](#headless-core).
 
@@ -1324,7 +1324,7 @@ the `next` function.
 
 ### Build your own Connector
 
-An example of a connector is the [Site Search API Connector](../search-ui-site-search-connector/README.md).
+An example of a connector is the [Site Search API Connector](./packages/search-ui-site-search-connector/README.md).
 
 A connector simply needs to implement the Event Handlers listed above. The handlers typically:
 
