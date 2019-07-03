@@ -1,3 +1,8 @@
+## 0.12.1 (July 3, 2019)
+
+- Fixed a CSS bug (@JasonStoltz in 301)
+- Apply passed className prop to Layout component (@constancecchen in #310)
+
 ## 0.12.0 (July 1, 2019)
 
 - Removed Roboto font (@JasonStoltz in #296)
