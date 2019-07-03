@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+import { appendClassName } from "../view-helpers";
+
 function Layout({
+  className,
   children,
   header,
   bodyContent,
@@ -10,7 +13,7 @@ function Layout({
   sideContent
 }) {
   return (
-    <div className="sui-layout">
+    <div className={appendClassName("sui-layout", className)}>
       <div className="sui-layout-header">
         <div className="sui-layout-header__inner">{header}</div>
       </div>
@@ -33,6 +36,7 @@ function Layout({
 }
 
 Layout.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node,
   header: PropTypes.node,
   bodyContent: PropTypes.node,

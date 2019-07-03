@@ -1,6 +1,6 @@
 # Search UI: React Framework
 
-**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
 React library for building search experiences.
 

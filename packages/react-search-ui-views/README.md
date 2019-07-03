@@ -1,6 +1,6 @@
 # react-search-ui-views
 
-**NOTE: This library is in an early Beta period, it is not yet recommended for production use**
+Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
 This is the view layer for [react-search-ui](../react-search-ui/README.md).
 
