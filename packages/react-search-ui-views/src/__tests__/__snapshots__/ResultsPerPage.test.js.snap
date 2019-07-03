@@ -35,6 +35,8 @@ exports[`renders correctly when there is a selected value 1`] = `
         "dropdownIndicator": [Function],
         "indicatorSeparator": [Function],
         "option": [Function],
+        "singleValue": [Function],
+        "valueContainer": [Function],
       }
     }
     value={
@@ -82,6 +84,8 @@ exports[`renders correctly when there is not a selected value 1`] = `
         "dropdownIndicator": [Function],
         "indicatorSeparator": [Function],
         "option": [Function],
+        "singleValue": [Function],
+        "valueContainer": [Function],
       }
     }
     value={null}

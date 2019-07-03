@@ -32,17 +32,15 @@
     }
 
     @include block("layout-sidebar") {
-      flex: 0 1 30%;
+      width: 24%;
       padding: 32px 32px 0 0;
     }
 
     @include block("layout-main") {
-      width: 100%;
+      width: 76%;
       padding: 2rem 0;
       padding: 32px 0 32px 32px;
       border-left: none;
-      overflow-wrap: break-word;
-      overflow: hidden;
 
       @include block("layout-main-header") {
         display: flex;

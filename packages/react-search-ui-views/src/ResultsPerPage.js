@@ -8,7 +8,14 @@ const setDefaultStyle = {
   option: () => ({}),
   control: () => ({}),
   dropdownIndicator: () => ({}),
-  indicatorSeparator: () => ({})
+  indicatorSeparator: () => ({}),
+  singleValue: provided => {
+    // Pulling out CSS that we don't want
+    // eslint-disable-next-line no-unused-vars
+    const { position, top, transform, maxWidth, ...rest } = provided;
+    return { ...rest, lineHeight: 1, marginRight: 0 };
+  },
+  valueContainer: provided => ({ ...provided, paddingRight: 0 })
 };
 
 const wrapOption = option => ({ label: option, value: option });
