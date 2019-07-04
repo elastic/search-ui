@@ -4,7 +4,6 @@
   font-size: 0.875rem;
   margin-top: $sizeS;
   width: 100%;
-  min-width: 60px;
 
   @include modifier('inline') {
     margin-top: 0;
