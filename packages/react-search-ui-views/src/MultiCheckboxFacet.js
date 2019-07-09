@@ -3,7 +3,11 @@ import React from "react";
 import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
-import { appendClassName, getFilterValueDisplay } from "./view-helpers";
+import {
+  appendClassName,
+  getFilterValueDisplay,
+  ScreenReaderStatus
+} from "./view-helpers";
 
 function MultiCheckboxFacet({
   className,
@@ -12,6 +16,7 @@ function MultiCheckboxFacet({
   onRemove,
   onSelect,
   options,
+  optionsCount,
   showMore,
   values,
   showSearch,
@@ -82,14 +87,28 @@ function MultiCheckboxFacet({
       </div>
 
       {showMore && (
-        <button
-          type="button"
-          className="sui-multi-checkbox-facet__view-more"
-          onClick={onMoreClick}
-          aria-label="Show more options"
-        >
-          + More
-        </button>
+        <ScreenReaderStatus
+          render={announceToScreenReader => (
+            <button
+              type="button"
+              className="sui-multi-checkbox-facet__view-more"
+              aria-label="Show more options"
+              onClick={() => {
+                onMoreClick();
+
+                const newLimit = options.length + 10;
+                const showingAll = newLimit >= optionsCount;
+                const message = `${
+                  showingAll ? `All ${optionsCount}` : newLimit
+                } options shown.`;
+
+                announceToScreenReader(message);
+              }}
+            >
+              + More
+            </button>
+          )}
+        />
       )}
     </fieldset>
   );
@@ -102,6 +121,7 @@ MultiCheckboxFacet.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
+  optionsCount: PropTypes.number,
   showMore: PropTypes.bool.isRequired,
   values: PropTypes.arrayOf(FilterValue).isRequired,
   className: PropTypes.string,

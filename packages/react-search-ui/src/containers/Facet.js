@@ -104,6 +104,7 @@ export class FacetContainer extends Component {
         addFilter(field, value, filterType);
       },
       options: options.slice(0, more),
+      optionsCount: options.length,
       showMore: options.length > more,
       values: selectedValues,
       showSearch: isFilterable,
