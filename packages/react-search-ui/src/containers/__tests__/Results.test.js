@@ -48,13 +48,13 @@ it("supports a render prop", () => {
 
 it("passes through props to individual Result items", () => {
   // eslint-disable-next-line react/prop-types
-  const renderResult = ({ title }) => {
+  const resultView = ({ title }) => {
     return <li>{title}</li>;
   };
   const wrapper = shallow(
     <ResultsContainer
       {...params}
-      renderResult={renderResult}
+      resultView={resultView}
       shouldTrackClickThrough={true}
       clickThroughTags={["whatever"]}
     />
@@ -79,7 +79,7 @@ it("passes through props to individual Result items", () => {
       urlField: "url",
       shouldTrackClickThrough: true,
       clickThroughTags: ["whatever"],
-      view: renderResult
+      view: resultView
     },
     {
       result: {
@@ -100,7 +100,7 @@ it("passes through props to individual Result items", () => {
       urlField: "url",
       shouldTrackClickThrough: true,
       clickThroughTags: ["whatever"],
-      view: renderResult
+      view: resultView
     }
   ]);
 });

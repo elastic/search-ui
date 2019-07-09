@@ -16,7 +16,7 @@ export class ResultsContainer extends Component {
     // Props
     className: PropTypes.string,
     clickThroughTags: PropTypes.arrayOf(PropTypes.string),
-    renderResult: PropTypes.func,
+    resultView: PropTypes.func,
     titleField: PropTypes.string,
     urlField: PropTypes.string,
     view: PropTypes.func,
@@ -34,7 +34,7 @@ export class ResultsContainer extends Component {
     const {
       className,
       clickThroughTags,
-      renderResult,
+      resultView,
       results,
       shouldTrackClickThrough,
       titleField,
@@ -43,7 +43,7 @@ export class ResultsContainer extends Component {
     } = this.props;
 
     const View = view || Results;
-    const ResultView = renderResult || Result;
+    const ResultView = resultView || Result;
 
     return View({
       className: className,
