@@ -19,13 +19,13 @@ function MultiCheckboxFacet({
   searchPlaceholder
 }) {
   return (
-    <div
+    <fieldset
       className={appendClassName(
         "sui-multi-checkbox-facet sui-facet",
         className
       )}
     >
-      <div className="sui-multi-checkbox-facet__label">{label}</div>
+      <legend className="sui-multi-checkbox-facet__label">{label}</legend>
 
       {showSearch && (
         <div className="sui-facet-search">
@@ -91,7 +91,7 @@ function MultiCheckboxFacet({
           + More
         </button>
       )}
-    </div>
+    </fieldset>
   );
 }
 

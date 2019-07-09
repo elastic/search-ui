@@ -4,12 +4,18 @@
   font-size: 13px;
   display: flex;
   flex-direction: column;
+  // fieldset reset
+  margin: 0;
+  padding: 0;
+  border: 0;
 
   @include element("label") {
     font-size: $sizeM;
     color: $facetLabel;
     text-transform: uppercase;
     letter-spacing: 1px;
+    // legend reset
+    padding: 0;
   }
 
   @include element("options-list") {
