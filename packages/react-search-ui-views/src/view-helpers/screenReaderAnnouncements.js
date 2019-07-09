@@ -41,6 +41,7 @@ const getLiveRegion = () => {
 const announceToScreenReader = announcement => {
   const region = getLiveRegion();
   region.innerText = announcement;
+  return null;
 };
 
 /**
