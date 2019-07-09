@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<div
+<fieldset
   className="sui-multi-checkbox-facet sui-facet"
 >
-  <div
+  <legend
     className="sui-multi-checkbox-facet__label"
   >
     A Facet
-  </div>
+  </legend>
   <div
     className="sui-multi-checkbox-facet__options-list"
   >
@@ -75,18 +75,18 @@ exports[`renders 1`] = `
   >
     + More
   </button>
-</div>
+</fieldset>
 `;
 
 exports[`renders range filters 1`] = `
-<div
+<fieldset
   className="sui-multi-checkbox-facet sui-facet"
 >
-  <div
+  <legend
     className="sui-multi-checkbox-facet__label"
   >
     A Facet
-  </div>
+  </legend>
   <div
     className="sui-multi-checkbox-facet__options-list"
   >
@@ -153,5 +153,5 @@ exports[`renders range filters 1`] = `
   >
     + More
   </button>
-</div>
+</fieldset>
 `;
