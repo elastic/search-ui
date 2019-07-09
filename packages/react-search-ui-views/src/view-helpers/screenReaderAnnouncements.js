@@ -6,6 +6,7 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions
  */
 const regionId = "search-ui-screen-reader-announcements";
+const hasDOM = typeof document !== "undefined"; // Prevent errors in SSR apps
 
 const getLiveRegion = () => {
   let region = document.getElementById(regionId);
@@ -39,8 +40,10 @@ const getLiveRegion = () => {
 };
 
 const announceToScreenReader = announcement => {
-  const region = getLiveRegion();
-  region.innerText = announcement;
+  if (hasDOM) {
+    const region = getLiveRegion();
+    region.innerText = announcement;
+  }
   return null;
 };
 
@@ -51,7 +54,7 @@ const announceToScreenReader = announcement => {
  * back the announceToScreenReader function
  */
 const ScreenReaderStatus = ({ render }) => {
-  getLiveRegion();
+  if (hasDOM) getLiveRegion();
   return render(announceToScreenReader);
 };
 
