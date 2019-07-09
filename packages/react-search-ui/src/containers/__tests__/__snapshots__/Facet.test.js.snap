@@ -20,6 +20,7 @@ exports[`renders correctly 1`] = `
       },
     ]
   }
+  optionsCount={2}
   searchPlaceholder="Filter field1"
   showMore={false}
   showSearch={false}
