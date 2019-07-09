@@ -18,6 +18,7 @@ const params = {
       count: 5
     }
   ],
+  optionsCount: 20,
   showMore: true,
   values: ["fieldValue2"]
 };
@@ -70,16 +71,55 @@ it("renders range filters", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("will render 'more' button if more param is true", () => {
-  const wrapper = shallow(
-    <MultiCheckboxFacet
-      {...{
-        ...params,
-        showMore: true
-      }}
-    />
-  );
-  expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(1);
+describe("'more' button behavior", () => {
+  const announceToScreenReader = jest.fn();
+  const divePastScreenReaderStatus = wrapper =>
+    shallow(
+      wrapper.find("ScreenReaderStatus").prop("render")(announceToScreenReader)
+    );
+
+  it("renders button if showMore param is true", () => {
+    const wrapper = shallow(<MultiCheckboxFacet {...params} showMore={true} />);
+    const button = divePastScreenReaderStatus(wrapper);
+
+    expect(button.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(1);
+    expect(button).toMatchSnapshot();
+  });
+
+  it("does not render button or screen reader status if there are no more options to show", () => {
+    const wrapper = shallow(
+      <MultiCheckboxFacet {...params} showMore={false} />
+    );
+
+    expect(wrapper.find("ScreenReaderStatus")).toHaveLength(0);
+  });
+
+  it("fires onMoreClick", () => {
+    const wrapper = shallow(<MultiCheckboxFacet {...params} showMore={true} />);
+    const button = divePastScreenReaderStatus(wrapper);
+
+    button.simulate("click");
+
+    expect(params.onMoreClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("fires announceToScreenReader with the correct option counts", () => {
+    const wrapper = shallow(<MultiCheckboxFacet {...params} showMore={true} />);
+    const button = divePastScreenReaderStatus(wrapper);
+
+    button.simulate("click");
+    expect(announceToScreenReader).toHaveBeenCalledWith("12 options shown.");
+  });
+
+  it("fires announceToScreenReader with the correct maximum option count", () => {
+    const wrapper = shallow(
+      <MultiCheckboxFacet {...params} showMore={true} optionsCount={5} />
+    );
+    const button = divePastScreenReaderStatus(wrapper);
+
+    button.simulate("click");
+    expect(announceToScreenReader).toHaveBeenCalledWith("All 5 options shown.");
+  });
 });
 
 it("will render a no results message is no options are available", () => {
