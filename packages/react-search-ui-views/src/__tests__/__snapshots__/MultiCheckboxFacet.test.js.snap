@@ -67,12 +67,14 @@ exports[`renders 1`] = `
       </span>
     </label>
   </div>
-  <div
+  <button
+    aria-label="Show more options"
     className="sui-multi-checkbox-facet__view-more"
     onClick={[MockFunction]}
+    type="button"
   >
     + More
-  </div>
+  </button>
 </div>
 `;
 
@@ -143,11 +145,13 @@ exports[`renders range filters 1`] = `
       </span>
     </label>
   </div>
-  <div
+  <button
+    aria-label="Show more options"
     className="sui-multi-checkbox-facet__view-more"
     onClick={[MockFunction]}
+    type="button"
   >
     + More
-  </div>
+  </button>
 </div>
 `;
