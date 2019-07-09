@@ -8,7 +8,7 @@ function PagingInfo({ className, end, searchTerm, start, totalResults }) {
     <div className={appendClassName("sui-paging-info", className)}>
       Showing{" "}
       <strong>
-        {start} - {end}
+        {start} - {Math.min(end, totalResults)}
       </strong>{" "}
       out of <strong>{totalResults}</strong> for: <em>{searchTerm}</em>
     </div>

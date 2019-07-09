@@ -11,6 +11,10 @@ const baseProps = {
   totalResults: 20
 };
 
-storiesOf("Paging Info", module).add("Basic", () => (
-  <PagingInfo {...{ ...baseProps }} />
+storiesOf("Paging Info", module).add("basic", () => (
+  <PagingInfo {...baseProps} />
+));
+
+storiesOf("Paging Info", module).add("page capped at total results", () => (
+  <PagingInfo {...baseProps} start={15} end={30} />
 ));

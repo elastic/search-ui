@@ -22,3 +22,8 @@ it("renders with className prop applied", () => {
   const { className } = wrapper.props();
   expect(className).toEqual("sui-paging-info test-class");
 });
+
+it("does not render a higher end than the total # of results", () => {
+  const wrapper = shallow(<PagingInfo {...props} totalResults={15} />);
+  expect(wrapper).toMatchSnapshot();
+});
