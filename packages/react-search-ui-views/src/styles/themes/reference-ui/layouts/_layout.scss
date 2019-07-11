@@ -21,6 +21,10 @@
       background: -webkit-linear-gradient(top, #fcfcfc 0%,#ffffff 100%);
       background: linear-gradient(to bottom, #fcfcfc 0%,#ffffff 100%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ffffff',GradientType=0 );
+
+      @media (max-width: $sidebarBreakpoint) {
+        display: none;
+      }
     }
 
     @include element("inner") {
@@ -29,18 +33,61 @@
       margin-right: auto;
       display: flex;
       padding: 0 24px;
+
+      @media (max-width: $sidebarBreakpoint) {
+        display: block;
+        padding: 0 15px;
+      }
     }
 
     @include block("layout-sidebar") {
       width: 24%;
-      padding: 32px 32px 0 0;
+      margin: 32px 0;
+      padding-right: 32px;
+
+      @media (max-width: $sidebarBreakpoint) {
+        z-index: 99;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0 15px 30px 15px;
+        background-color: $resultBackgroundColor;
+        overflow: auto;
+      }
+
+      @include modifier("toggled") {
+        display: block;
+      }
+    }
+
+    @include block("layout-sidebar-toggle") {
+      @media (max-width: $sidebarBreakpoint) {
+        display: block;
+        width: 100%;
+        margin: 20px auto;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        color: $linkColor;
+        background-color: $white;
+        border: 1px solid $linkColor;
+        border-radius: $borderRadius;
+      }
     }
 
     @include block("layout-main") {
       width: 76%;
-      padding: 2rem 0;
-      padding: 32px 0 32px 32px;
-      border-left: none;
+      margin: 32px 0;
+      padding-left: 32px;
+
+      @media (max-width: $sidebarBreakpoint) {
+        width: 100%;
+        padding-left: 0;
+      }
 
       @include block("layout-main-header") {
         display: flex;
