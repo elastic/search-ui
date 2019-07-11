@@ -1,6 +1,10 @@
 // Single Facet
 @include block('facet') {
   @include themeTypography;
+  // fieldset reset
+  margin: 0;
+  padding: 0;
+  border: 0;
 
   & + & {
     margin-top: $sizeXL;
@@ -15,6 +19,8 @@
     font-size: 12px;
     color: #8b9bad;
     letter-spacing: 1px;
+    // legend reset
+    padding: 0;
   }
 
   @include element('list') {

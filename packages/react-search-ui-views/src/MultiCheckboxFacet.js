@@ -19,13 +19,8 @@ function MultiCheckboxFacet({
   searchPlaceholder
 }) {
   return (
-    <fieldset
-      className={appendClassName(
-        "sui-multi-checkbox-facet sui-facet",
-        className
-      )}
-    >
-      <legend className="sui-multi-checkbox-facet__label">{label}</legend>
+    <fieldset className={appendClassName("sui-facet", className)}>
+      <legend className="sui-facet__title">{label}</legend>
 
       {showSearch && (
         <div className="sui-facet-search">
@@ -40,7 +35,7 @@ function MultiCheckboxFacet({
         </div>
       )}
 
-      <div className="sui-multi-checkbox-facet__options-list">
+      <div className="sui-multi-checkbox-facet">
         {options.length < 1 && <div>No matching options</div>}
         {options.map(option => {
           const checked = !!values.find(value => {
@@ -84,7 +79,7 @@ function MultiCheckboxFacet({
       {showMore && (
         <button
           type="button"
-          className="sui-multi-checkbox-facet__view-more"
+          className="sui-facet-view-more"
           onClick={onMoreClick}
           aria-label="Show more options"
         >
