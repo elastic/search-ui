@@ -89,5 +89,5 @@ it("renders with className prop applied", () => {
     <SingleLinksFacet {...params} className={customClassName} />
   );
   const { className } = wrapper.props();
-  expect(className).toEqual("sui-facet sui-search-facet test-class");
+  expect(className).toEqual("sui-facet test-class");
 });

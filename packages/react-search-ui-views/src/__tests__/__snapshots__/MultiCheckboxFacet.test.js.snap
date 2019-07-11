@@ -2,15 +2,15 @@
 
 exports[`renders 1`] = `
 <fieldset
-  className="sui-multi-checkbox-facet sui-facet"
+  className="sui-facet"
 >
   <legend
-    className="sui-multi-checkbox-facet__label"
+    className="sui-facet__title"
   >
     A Facet
   </legend>
   <div
-    className="sui-multi-checkbox-facet__options-list"
+    className="sui-multi-checkbox-facet"
   >
     <label
       className="sui-multi-checkbox-facet__option-label"
@@ -69,7 +69,7 @@ exports[`renders 1`] = `
   </div>
   <button
     aria-label="Show more options"
-    className="sui-multi-checkbox-facet__view-more"
+    className="sui-facet-view-more"
     onClick={[MockFunction]}
     type="button"
   >
@@ -80,15 +80,15 @@ exports[`renders 1`] = `
 
 exports[`renders range filters 1`] = `
 <fieldset
-  className="sui-multi-checkbox-facet sui-facet"
+  className="sui-facet"
 >
   <legend
-    className="sui-multi-checkbox-facet__label"
+    className="sui-facet__title"
   >
     A Facet
   </legend>
   <div
-    className="sui-multi-checkbox-facet__options-list"
+    className="sui-multi-checkbox-facet"
   >
     <label
       className="sui-multi-checkbox-facet__option-label"
@@ -147,7 +147,7 @@ exports[`renders range filters 1`] = `
   </div>
   <button
     aria-label="Show more options"
-    className="sui-multi-checkbox-facet__view-more"
+    className="sui-facet-view-more"
     onClick={[MockFunction]}
     type="button"
   >
