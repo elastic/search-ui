@@ -61,6 +61,7 @@
 
       @include modifier("toggled") {
         display: block;
+        animation: fadein 0.2s ease-out;
       }
     }
 
@@ -111,5 +112,14 @@
         justify-content: space-around;
       }
     }
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
