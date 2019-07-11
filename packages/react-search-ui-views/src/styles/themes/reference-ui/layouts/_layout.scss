@@ -45,6 +45,9 @@
       margin: 32px 0;
       padding-right: 32px;
 
+      @media (max-width: $sidebarBreakpoint + $offset) {
+        padding-right: 0;
+      }
       @media (max-width: $sidebarBreakpoint) {
         z-index: 99;
         display: none;
