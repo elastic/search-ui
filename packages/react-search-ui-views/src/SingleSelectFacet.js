@@ -52,8 +52,8 @@ function SingleSelectFacet({ className, label, onChange, options, values }) {
   });
 
   return (
-    <div className={appendClassName("sui-search-facet sui-facet", className)}>
-      <div className="sui-search-facet__label">{label}</div>
+    <div className={appendClassName("sui-facet", className)}>
+      <div className="sui-facet__title">{label}</div>
       <Select
         className="sui-select"
         classNamePrefix="sui-select"
