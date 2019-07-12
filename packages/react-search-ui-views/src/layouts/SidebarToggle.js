@@ -1,12 +1,20 @@
 import PropTypes from "prop-types";
 import React from "react";
+import ReactDOM from "react-dom";
 
 import { appendClassName } from "../view-helpers";
 
 class SidebarToggle extends React.Component {
-  static propTypes = { children: PropTypes.func };
+  static propTypes = {
+    children: PropTypes.func,
+    content: PropTypes.node
+  };
 
-  state = { isSidebarToggled: false };
+  constructor(props) {
+    super(props);
+    this.state = { isSidebarToggled: false };
+    this.checkContent = document.createElement("div");
+  }
 
   toggleSidebar = () => {
     this.setState(({ isSidebarToggled }) => ({
@@ -15,6 +23,13 @@ class SidebarToggle extends React.Component {
   };
 
   render() {
+    const { content } = this.props;
+    if (!content) return null;
+
+    ReactDOM.render(content, this.checkContent);
+    const hasSidebarContent = Boolean(this.checkContent.innerText);
+    if (!hasSidebarContent) return null;
+
     const { isSidebarToggled } = this.state;
 
     const renderToggleButton = label => (
