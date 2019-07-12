@@ -4,10 +4,10 @@ import ReactDOM from "react-dom";
 
 import { appendClassName } from "../view-helpers";
 
-class SidebarToggle extends React.Component {
+class LayoutSidebar extends React.Component {
   static propTypes = {
-    children: PropTypes.func,
-    content: PropTypes.node
+    className: PropTypes.string,
+    children: PropTypes.node
   };
 
   constructor(props) {
@@ -22,17 +22,15 @@ class SidebarToggle extends React.Component {
     }));
   };
 
-  render() {
-    const { content } = this.props;
-    if (!content) return null;
+  renderToggleButton = label => {
+    const { children } = this.props;
+    if (!children) return null;
 
-    ReactDOM.render(content, this.checkContent);
+    ReactDOM.render(children, this.checkContent);
     const hasSidebarContent = Boolean(this.checkContent.innerText);
     if (!hasSidebarContent) return null;
 
-    const { isSidebarToggled } = this.state;
-
-    const renderToggleButton = label => (
+    return (
       <button
         hidden
         type="button"
@@ -42,15 +40,27 @@ class SidebarToggle extends React.Component {
         {label}
       </button>
     );
+  };
 
-    const renderToggleClass = className =>
-      appendClassName(
-        className,
-        isSidebarToggled ? `${className}--toggled` : null
-      );
+  render() {
+    const { className, children } = this.props;
+    const { isSidebarToggled } = this.state;
 
-    return this.props.children({ renderToggleButton, renderToggleClass });
+    const classes = appendClassName(
+      className,
+      isSidebarToggled ? `${className}--toggled` : null
+    );
+
+    return (
+      <>
+        {this.renderToggleButton("Show Filters")}
+        <div className={classes}>
+          {this.renderToggleButton("Done Filtering")}
+          {children}
+        </div>
+      </>
+    );
   }
 }
 
-export default SidebarToggle;
+export default LayoutSidebar;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import SidebarToggle from "./SidebarToggle";
+import LayoutSidebar from "./LayoutSidebar";
 import { appendClassName } from "../view-helpers";
 
 function Layout({
@@ -20,17 +20,9 @@ function Layout({
       </div>
       <div className="sui-layout-body">
         <div className="sui-layout-body__inner">
-          <SidebarToggle content={sideContent}>
-            {({ renderToggleButton, renderToggleClass }) => (
-              <>
-                {renderToggleButton("Show Filters")}
-                <div className={renderToggleClass("sui-layout-sidebar")}>
-                  {renderToggleButton("Done Filtering")}
-                  {sideContent}
-                </div>
-              </>
-            )}
-          </SidebarToggle>
+          <LayoutSidebar className="sui-layout-sidebar">
+            {sideContent}
+          </LayoutSidebar>
           <div className="sui-layout-main">
             <div className="sui-layout-main-header">
               <div className="sui-layout-main-header__inner">{bodyHeader}</div>
