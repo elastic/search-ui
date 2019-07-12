@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
     <div
       className="sui-layout-body__inner"
     >
-      <div
+      <LayoutSidebar
         className="sui-layout-sidebar"
       >
         <div>
@@ -29,7 +29,7 @@ exports[`renders correctly 1`] = `
             Side Content
           </div>
         </div>
-      </div>
+      </LayoutSidebar>
       <div
         className="sui-layout-main"
       >
@@ -85,7 +85,7 @@ exports[`will accept children instead of bodyContent 1`] = `
     <div
       className="sui-layout-body__inner"
     >
-      <div
+      <LayoutSidebar
         className="sui-layout-sidebar"
       >
         <div>
@@ -93,7 +93,7 @@ exports[`will accept children instead of bodyContent 1`] = `
             Side Content
           </div>
         </div>
-      </div>
+      </LayoutSidebar>
       <div
         className="sui-layout-main"
       >
