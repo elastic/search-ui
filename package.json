@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "husky": "^1.1.4",
-    "lerna": "^3.4.3",
+    "lerna": "^3.15.0",
     "lint-staged": "^8.0.4",
     "prettier": "1.15.2"
   },
