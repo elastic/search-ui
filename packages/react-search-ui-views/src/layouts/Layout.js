@@ -20,7 +20,7 @@ function Layout({
       </div>
       <div className="sui-layout-body">
         <div className="sui-layout-body__inner">
-          <SidebarToggle>
+          <SidebarToggle content={sideContent}>
             {({ renderToggleButton, renderToggleClass }) => (
               <>
                 {renderToggleButton("Show Filters")}
