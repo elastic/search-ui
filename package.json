@@ -19,19 +19,16 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "packages/*/src/**/*.js": [
-        "prettier --write",
-        "packages/node_modules/eslint/bin/eslint.js",
-        "git add"
-      ]
-    }
+    "packages/*/src/**/*.js": [
+      "prettier --write",
+      "packages/node_modules/eslint/bin/eslint.js",
+      "git add"
+    ]
   },
   "devDependencies": {
-    "husky": "^1.1.4",
-    "lerna": "^3.4.3",
-    "lint-staged": "^8.0.4",
-    "prettier": "1.15.2"
-  },
-  "dependencies": {}
+    "husky": "^1.3.0",
+    "lerna": "^3.15.0",
+    "lint-staged": "^9.2.0",
+    "prettier": "1.18.2"
+  }
 }

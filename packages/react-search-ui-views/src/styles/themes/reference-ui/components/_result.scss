@@ -99,13 +99,8 @@
   }
 
   @include element('details') {
-    max-height: 300px;
-    position: relative;
-    overflow: hidden;
-    overflow-y: auto;
     padding: $sizeM;
     list-style: none;
-    background-color: transparent;
     padding: $sizeM $sizeL
   }
 }
