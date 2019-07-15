@@ -55,7 +55,7 @@ class LayoutSidebar extends React.Component {
       <>
         {this.renderToggleButton("Show Filters")}
         <div className={classes}>
-          {this.renderToggleButton("Done Filtering")}
+          {this.renderToggleButton("Save Filters")}
           {children}
         </div>
       </>
