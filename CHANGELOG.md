@@ -6,6 +6,8 @@
 - Fix ResultsPerPage vertical alignment on mobile (@constancecchen in #336)
 - Remove max-height+scrolling on Result card body (@constancecchen in #335)
 - Facet CSS cleanup (@constancecchen in #324)
+- Fix misc. Edge cross-browser styling issues (@constancechen in #341)
+- Removed babel polyfill (@JasonStoltz in #340)
 
 ## 0.12.1 (July 3, 2019)
 
