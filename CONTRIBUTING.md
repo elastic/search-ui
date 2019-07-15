@@ -92,7 +92,7 @@ Publish new version
 3. Run `npx lerna version 0.6.0 --exact`.
 4. Verify correct tags and commits have been created.
 5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm build` runs without error before publishing.
-6. Run `npx lerna publish from-git`.
+6. Run `npx lerna publish --force-publish=* from-package`.
 7. Verify `0.6.0` has been published to npm.
 8. Create new version branch `git checkout -b v0.6` and push to `origin`.
 9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
@@ -110,7 +110,7 @@ Publish patch version
 4. Run `npx lerna version 0.6.1 --exact`.
 5. Verify correct tags and commits have been created.
 6. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm build` runs without error before publishing.
-7. Run `npx lerna publish from-git`.
+7. Run `npx lerna publish --force-publish=* from-package`.
 8. Verify `0.6.1` has been published to npm.
 9. Make sure changed are also committed back to master.
 10. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
@@ -130,6 +130,26 @@ option for this.
    ```
 
 4. To Deploy, simply push your changes to the `canary` branch, then visit "https://search-ui-canary.netlify.com/"
+
+### Release candidates
+
+When pushing release candidates, the following lerna commands can be useful.
+
+```
+# Create a pre-release version, like 1.0.0-rc.0
+npx lerna version prerelease --exact --preid rc
+# Publish 1.0.0-rc.0 and update the `next` to point to this version
+npx lerna publish from-package --force-publish=* --dist-tag next
+```
+
+### Testing Canary build and Release Pre-releases
+
+We have a number of demos available that you can use to do quick smoke testing of releases in various
+stacks:
+
+https://codesandbox.io/s/search-ui-gatsby-example-u041m
+https://codesandbox.io/s/search-ui-next-js-example-tb05u
+https://codesandbox.io/s/search-ui-national-parks-example-kdyms
 
 ### Stable demos
 
