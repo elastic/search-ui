@@ -133,7 +133,7 @@ option for this.
 
 ### Release candidates
 
-When pushing release candidates, the following lerna commands can be useful.
+When pushing release candidates, the following lerna commands can be useful:
 
 ```
 # Create a pre-release version, like 1.0.0-rc.0
