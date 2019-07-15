@@ -1,3 +1,12 @@
+## 1.0.0 (July 16, 2019)
+
+- [a11y] Make the “+ More” action for showing more filters keyboard accessible (@constancecchen in #311)
+- Rename render result to result view (@yakhinvadim in #312)
+- Fix issue where paging info would show a higher end than possible (@constancecchen in #318)
+- Fix ResultsPerPage vertical alignment on mobile (@constancecchen in #336)
+- Remove max-height+scrolling on Result card body (@constancecchen in #335)
+- Facet CSS cleanup (@constancecchen in #324)
+
 ## 0.12.1 (July 3, 2019)
 
 - Fixed a CSS bug (@JasonStoltz in 301)
