@@ -39,6 +39,7 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
+    "@babel/runtime": "^7.5.4",
     "swiftype-app-search-javascript": "^2.4.0"
   }
 }
