@@ -6,6 +6,7 @@
   font-family: $fontFamily;
 
   @include element("submit") {
+    flex-shrink: 0;
     font-family: inherit;
     font-size: 14px;
     padding: 16px;
