@@ -9,4 +9,12 @@
   @include element('label') {
     margin-right: $sizeS;
   }
+
+  .sui-select__control {
+    align-items: center;
+
+    input {
+      position: absolute;
+    }
+  }
 }
