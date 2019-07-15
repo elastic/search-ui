@@ -39,7 +39,6 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
-    "core-js": "^2.6.9"
+    "@babel/runtime": "^7.5.4"
   }
 }
