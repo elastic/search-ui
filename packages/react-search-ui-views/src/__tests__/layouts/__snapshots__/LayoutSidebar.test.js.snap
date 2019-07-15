@@ -19,7 +19,7 @@ exports[`renders correctly 1`] = `
       onClick={[Function]}
       type="button"
     >
-      Done Filtering
+      Save Filters
     </button>
     Hello world!
   </div>
