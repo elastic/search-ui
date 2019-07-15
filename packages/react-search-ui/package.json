@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "@elastic/react-search-ui-views": "^1.0.0-rc.0",
-    "@elastic/search-ui": "^1.0.0-rc.0",
+    "@elastic/react-search-ui-views": "1.0.0-rc.0",
+    "@elastic/search-ui": "1.0.0-rc.0",
     "core-js": "^2.6.9",
     "debounce-fn": "^1.0.0"
   },
