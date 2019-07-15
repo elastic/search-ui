@@ -130,5 +130,5 @@ it("renders with className prop applied", () => {
     <SingleSelectFacet {...params} className={customClassName} />
   );
   const { className } = wrapper.props();
-  expect(className).toEqual("sui-search-facet sui-facet test-class");
+  expect(className).toEqual("sui-facet test-class");
 });

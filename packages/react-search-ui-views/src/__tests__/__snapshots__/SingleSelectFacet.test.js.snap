@@ -2,10 +2,10 @@
 
 exports[`renders 1`] = `
 <div
-  className="sui-search-facet sui-facet"
+  className="sui-facet"
 >
   <div
-    className="sui-search-facet__label"
+    className="sui-facet__title"
   >
     A Facet
   </div>

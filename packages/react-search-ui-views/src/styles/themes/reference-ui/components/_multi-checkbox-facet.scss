@@ -1,29 +1,7 @@
 @include block("multi-checkbox-facet") {
-  @include themeTypography;
   color: $facetLinkColor;
   font-size: 13px;
-  display: flex;
-  flex-direction: column;
-  // fieldset reset
-  margin: 0;
-  padding: 0;
-  border: 0;
-
-  @include element("label") {
-    font-size: $sizeM;
-    color: $facetLabel;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    // legend reset
-    padding: 0;
-  }
-
-  @include element("options-list") {
-    display: flex;
-    flex-direction: column;
-    margin: 8px 0;
-    font-size: 13px;
-  }
+  margin: 8px 0;
 
   @include element("option-label") {
     display: flex;
@@ -46,25 +24,26 @@
     font-size: 0.85em;
     margin-left: $sizeL;
   }
+}
 
-  @include element("view-more") {
-    cursor: pointer;
-    color: $linkColor;
+@include block("facet-view-more") {
+  display: block;
+  cursor: pointer;
+  color: $linkColor;
+  font-size: 13px;
 
-    // Button reset
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    text-align: left;
-    border: unset;
-    padding: unset;
-    background: unset;
+  // Button reset
+  font-family: inherit;
+  line-height: inherit;
+  text-align: left;
+  border: unset;
+  padding: unset;
+  background: unset;
 
-    &:hover,
-    &:focus {
-      background-color: $facetSelectBackground;
-      outline: $sizeXS solid $facetSelectBackground;
-    }
+  &:hover,
+  &:focus {
+    background-color: $facetSelectBackground;
+    outline: $sizeXS solid $facetSelectBackground;
   }
 }
 

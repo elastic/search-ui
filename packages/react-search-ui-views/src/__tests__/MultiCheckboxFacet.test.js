@@ -79,7 +79,7 @@ it("will render 'more' button if more param is true", () => {
       }}
     />
   );
-  expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(1);
+  expect(wrapper.find(".sui-facet-view-more")).toHaveLength(1);
 });
 
 it("will render a no results message is no options are available", () => {
@@ -91,9 +91,9 @@ it("will render a no results message is no options are available", () => {
       }}
     />
   );
-  expect(
-    wrapper.find(".sui-multi-checkbox-facet__options-list").text()
-  ).toEqual("No matching options");
+  expect(wrapper.find(".sui-multi-checkbox-facet").text()).toEqual(
+    "No matching options"
+  );
 });
 
 it("won't render 'more' button if more param is false", () => {
@@ -243,7 +243,7 @@ it("renders with className prop applied", () => {
     <MultiCheckboxFacet className={customClassName} {...params} />
   );
   const { className } = wrapper.props();
-  expect(className).toEqual("sui-multi-checkbox-facet sui-facet test-class");
+  expect(className).toEqual("sui-facet test-class");
 });
 
 it("will render search input if `showSearch` param is true", () => {

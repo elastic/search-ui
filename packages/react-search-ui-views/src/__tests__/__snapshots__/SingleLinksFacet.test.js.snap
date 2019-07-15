@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="sui-facet sui-search-facet"
+  className="sui-facet"
 >
   <div>
     <div
@@ -11,14 +11,14 @@ exports[`renders correctly 1`] = `
       Facet
     </div>
     <ul
-      className="sui-facet__list"
+      className="sui-single-option-facet"
     >
       <li
-        className="sui-facet__item"
+        className="sui-single-option-facet__item"
         key="1"
       >
         <a
-          className="sui-facet__link"
+          className="sui-single-option-facet__link"
           href="/"
           onClick={[Function]}
         >
@@ -32,11 +32,11 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
-        className="sui-facet__item"
+        className="sui-single-option-facet__item"
         key="2"
       >
         <a
-          className="sui-facet__link"
+          className="sui-single-option-facet__link"
           href="/"
           onClick={[Function]}
         >
