@@ -9,6 +9,33 @@
 - Fix misc. Edge cross-browser styling issues (@constancechen in #341)
 - Removed babel polyfill (@JasonStoltz in #340)
 
+### Breaking changes
+
+- The `renderResult` prop of `Results` component has been renamed to `resultView` to be consistent with other components that accept render functions via `view` prop. If you used the `renderResult` prop before, rename it to `resultView`. (#312)
+
+- `Result` component no longer cut off/scroll content past 300px height, and now expand to display all their content. If you were previously relying on this scroll behavior, please re-add your own `max-height` and `overflow: auto` CSS to `.sui-result__details` (#335)
+
+- `MultiCheckboxFacet` markup changes:
+
+  - Filter groups with multiple checkboxes now use the more semantic and accessible `<fieldset>`/`<legend>` markup, which provides more context clues for screen readers. This does come with some browser-opinionated `border`/`margin`/`padding` defaults, which users with completely custom CSS may now need to override. (#319)
+  - For filter checkbox groups, the “+ More” action now uses the more semantic and accessible `<button>` tag, which allows keyboard and screen reader users to interact with the action. This does come with some browser-opinionated default styling, which users with completely custom CSS may now need to override. (#311)
+
+- `Facet` CSS class changes: (#324)
+  - `MultiCheckboxFacet`:
+    - The `.sui-multi-checkbox-facet` class is now located where `.sui-multi-checkbox-facet__options-list` used to be. `.sui-multi-checkbox-facet__options-list` has been removed
+    - `.sui-multi-checkbox-facet__view-more` has been renamed to `.sui-facet-view-more`
+    - The `. sui-multi-checkbox-facet__label` class has been removed for redundancy. You can use the generic `.sui-facet__title` to target all filter labels at once.
+  - `SingleSelectFacet` & `SingleLinksFacet`:
+    - The `.sui-search-facet` class has been removed for redundancy. You can use the generic `.sui-facet` class to target all filter facet groups at once.
+    - The `.sui-search-facet__label` class has been removed for redundancy. You can use the generic `.sui-facet__title` to target all filter labels at once.
+  - `SingleLinksFacet`:
+    - Several class names have been renamed for specificity:
+    - `.sui-facet__list` has been renamed to `.sui-single-option-facet`
+    - `.sui-facet__selected` has been renamed to `.sui-single-option-facet__selected`
+    - `.sui-facet__remove` has been reamed to `.sui-single-option-facet__remove`
+    - `.sui-facet__item` has been renamed to `.sui-single-option-facet__item`
+    - `.sui-facet__link` has been renamed to `.sui-single-option-facet__link`
+
 ## 0.12.1 (July 3, 2019)
 
 - Fixed a CSS bug (@JasonStoltz in 301)
