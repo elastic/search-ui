@@ -84,37 +84,35 @@ The [sandbox](examples/sandbox/README.md) app can be used as a local development
 Publish new version
 (Example, publish 0.6.0)
 
-1. Run `npx lerna changed` to see which projects will be published.
-2. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
+1. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.5.0` to `0.6.0` at the top of the file.
-3. Run `npx lerna version 0.6.0 --exact`.
-4. Verify correct tags and commits have been created.
-5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm build` runs without error before publishing.
-6. Run `npx lerna publish from-git`.
-7. Verify `0.6.0` has been published to npm.
-8. Create new version branch `git checkout -b v0.6` and push to `origin`.
-9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
-10. Create release in Github.
+2. Run `npx lerna version 0.6.0 --exact`.
+3. Verify correct tags and commits have been created.
+4. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
+5. Run `npx lerna publish --force-publish=* from-package`.
+6. Verify `0.6.0` has been published to npm.
+7. Create new version branch `git checkout -b v0.6` and push to `origin`.
+8. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
+9. Create release in Github.
 
 Publish patch version
 (Example, publish 0.6.1)
 
 1. PR changes into `v0.6` branch.
-2. Run `npx lerna changed` to see which projects will be published.
-3. Update `CHANGELOG` files to include version `0.6.1` for the projects that will be published.
+2. Update `CHANGELOG` files to include version `0.6.1` for the projects that will be published.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.6.0` to `0.6.1` at the top of the file.
-4. Run `npx lerna version 0.6.1 --exact`.
-5. Verify correct tags and commits have been created.
-6. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm build` runs without error before publishing.
-7. Run `npx lerna publish from-git`.
-8. Verify `0.6.1` has been published to npm.
-9. Make sure changed are also committed back to master.
-10. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
-11. Create release in Github.
+3. Run `npx lerna version 0.6.1 --exact`.
+4. Verify correct tags and commits have been created.
+5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
+6. Run `npx lerna publish --force-publish=* from-package`.
+7. Verify `0.6.1` has been published to npm.
+8. Make sure changed are also committed back to master.
+9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
+10. Create release in Github.
 
 ### Canary releases for testing
 
@@ -131,8 +129,28 @@ option for this.
 
 4. To Deploy, simply push your changes to the `canary` branch, then visit "https://search-ui-canary.netlify.com/"
 
+### Release candidates
+
+When pushing release candidates, the following lerna commands can be useful:
+
+```
+# Create a pre-release version, like 1.0.0-rc.0
+npx lerna version prerelease --exact --preid rc
+# Publish 1.0.0-rc.0 and update the `next` to point to this version
+npx lerna publish from-package --force-publish=* --dist-tag next
+```
+
+### Testing Canary build and Release Pre-releases
+
+We have a number of demos available that you can use to do quick smoke testing of releases in various
+stacks:
+
+- https://codesandbox.io/s/search-ui-gatsby-example-u041m
+- https://codesandbox.io/s/search-ui-next-js-example-tb05u
+- https://codesandbox.io/s/search-ui-national-parks-example-kdyms
+
 ### Stable demos
 
-Elastic App Search: https://search-ui-stable.netlify.com/
-Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
-Elastic: https://search-ui-stable-elasticsearch.netlify.com/
+- Elastic App Search: https://search-ui-stable.netlify.com/
+- Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
+- Elasticsearch: https://search-ui-stable-elasticsearch.netlify.com/
