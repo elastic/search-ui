@@ -3,17 +3,6 @@ import { shallow } from "enzyme";
 
 import LayoutSidebar from "../../layouts/LayoutSidebar";
 
-beforeEach(() => {
-  // This polyfill is required because enzyme/jsdom doesn't render innerText
-  // @see https://github.com/jsdom/jsdom/issues/1245
-  Object.defineProperty(global.Element.prototype, "innerText", {
-    get() {
-      return this.textContent;
-    },
-    configurable: true
-  });
-});
-
 it("renders correctly", () => {
   const wrapper = shallow(
     <LayoutSidebar className="sui-layout-sidebar">Hello world!</LayoutSidebar>
@@ -42,14 +31,4 @@ it("updates isSidebarToggled state on button click", () => {
 
   buttons.last().simulate("click");
   expect(wrapper.state("isSidebarToggled")).toEqual(false);
-});
-
-it("does not show the toggle buttons if there is no sidebar content", () => {
-  // Completely empty sidebar
-  const wrapper = shallow(<LayoutSidebar className="sui-layout-sidebar" />);
-  expect(wrapper.find(".sui-layout-sidebar-toggle")).toHaveLength(0);
-
-  // Effectively empty sidebar
-  wrapper.setProps({ children: <span /> });
-  expect(wrapper.find(".sui-layout-sidebar-toggle")).toHaveLength(0);
 });

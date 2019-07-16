@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import ReactDOM from "react-dom";
 
 import { appendClassName } from "../view-helpers";
 
@@ -13,7 +12,6 @@ class LayoutSidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isSidebarToggled: false };
-    this.checkContent = document.createElement("div");
   }
 
   toggleSidebar = () => {
@@ -23,12 +21,7 @@ class LayoutSidebar extends React.Component {
   };
 
   renderToggleButton = label => {
-    const { children } = this.props;
-    if (!children) return null;
-
-    ReactDOM.render(children, this.checkContent);
-    const hasSidebarContent = Boolean(this.checkContent.innerText);
-    if (!hasSidebarContent) return null;
+    if (!this.props.children) return null;
 
     return (
       <button
