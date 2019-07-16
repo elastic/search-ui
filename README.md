@@ -1,5 +1,4 @@
 <p align="center"><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
-<img src="https://img.shields.io/badge/version-beta-red.svg" alt="BETA" />
 <a href="https://gitter.im/elastic-search-ui/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/elastic-search-ui/community.svg" alt="Gitter" /></a></p>
 
 > Libraries for the fast development of modern, engaging search experiences. :tada:
@@ -49,8 +48,6 @@ Install **React Search UI** and the **App Search** connector.
 # Install React Search UI and a Connector, like the Elastic App Search Connector
 npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
 ```
-
-_Note: Search UI is in beta. We do not recommend production use._
 
 ## Creating a search experience
 
