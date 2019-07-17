@@ -34,18 +34,13 @@ cause the examples applications to error out from dependency version conflicts.
 
 ### Installing dependencies
 
-From the root level of this repository, run the following commands in order:
+From the root level of this repository:
 
 ```shell
-# Install top level depenedencies at the root of the project
 npm install
-
-# Install dependencies in the /packages directory
-(cd packages && npm install)
-
-# Install all dependencies for the individual packages
-npm run bootstrap
 ```
+
+Behind the scenes, this installs dependencies in the root folder, in the `packages` folder, and for each lerna package and example repo.
 
 ### Building
 
