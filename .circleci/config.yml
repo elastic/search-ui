@@ -34,11 +34,5 @@ jobs:
             - node_modules
           key: v2-dependencies-{{ checksum "package.json" }}
 
-      # Install common deps
-      - run: (cd packages && npm install)
-
-      # Install deps in all packages
-      - run: npm run bootstrap
-
       # run tests!
       - run: npm run test-ci
