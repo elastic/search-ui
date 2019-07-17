@@ -1109,6 +1109,7 @@ return (
 | `initialState`              | Object                                                                  | optional  |         | Set initial [State](#state) of the search. Any [Request State](#request-state) can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }`   |
 | `searchQuery`               | [Query Config](#query-config)                                           | optional  |         | Configuration options for the main search query.                                                                                                                                                                             |
 | `trackUrlState`             | boolean                                                                 | optional  |         | By default, [Request State](#request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                             |
+| `urlPushDebounceLength`     | Integer                                                                 | optional  | 500     | The amount of time in milliseconds to debounce/delay updating the browser url while a user is still typing. This prevents excessive history entries while users are still typing.                                            |
 
 ## Query Config
 
