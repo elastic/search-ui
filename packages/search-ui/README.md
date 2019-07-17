@@ -5,8 +5,7 @@ Part of the [Search UI](https://github.com/elastic/search-ui) project.
 The "Headless Search UI" that serves as a foundation for the [react-search-ui](../react-search-ui/README.md) library.
 
 If you are not using React, this library can be used in conjunction with
-any other framework. Instead of working with components as you do in React, you simply work directly with state and actions. These are documented in the [Search UI core](#core) section of the react-search-ui
-README.
+any other framework. Instead of working with components as you do in React, you simply work directly with state and actions. These are documented in the [Headless core](../../ADVANCED.md#headless-core-reference) section of the Advanced README.
 
 You'll get all of the benefit of Search UI, just with no view. The view is up to you.
 
@@ -43,18 +42,18 @@ driver.getActions().setSearchTerm("canyon");
 
 ## Configuration
 
-All configuration is documented in the [Search UI Configuration](../react-search-ui/README.md#config) section
-of the `react-search-ui` README.
+All configuration is documented in the [Configuration](../../ADVANCED.md#advanced-configuration) section
+of the Advanced README.
 
 ## SearchDriver Usage
 
 ### Methods
 
-| method                    | params   | return                                                | description                                                          |
-| ------------------------- | -------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
-| `subscribeToStateChanges` | function |                                                       | Function to execute when state changes. ex.<br/><br/>`(state) => {}` |
-| `getActions`              |          | Object[Actions](../react-search-ui/README.md#actions) | All available actions.                                               |
-| `getState`                |          | [State](../react-search-ui/README.md#state)           | Current state.                                                       |
+| method                    | params   | return                               | description                                                          |
+| ------------------------- | -------- | ------------------------------------ | -------------------------------------------------------------------- |
+| `subscribeToStateChanges` | function |                                      | Function to execute when state changes. ex.<br/><br/>`(state) => {}` |
+| `getActions`              |          | [Actions](../../ADVANCED.md#actions) | All available actions.                                               |
+| `getState`                |          | [State](../../ADVANCED.md#state)     | Current state.                                                       |
 
 ### Does Search UI use telemetry?
 

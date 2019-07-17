@@ -11,7 +11,7 @@ NPM: 6.4
 
 ### Mono-repo explanation
 
-This repository is maintained as a Monorepo using [Lerna](https://lernajs.io/).
+This repository is maintained as a Monorepo using [Lerna](https://github.com/lerna/lerna).
 
 Lerna configuration is contained in `lerna.json`.
 
