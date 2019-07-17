@@ -6,8 +6,8 @@ How to build and contribute to Search UI.
 
 ### Requirements
 
-Node: 8.10
-NPM: 6.4
+Node: 10.16
+NPM: 6.9
 
 ### Mono-repo explanation
 
