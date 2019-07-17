@@ -257,6 +257,22 @@ export default class SearchDriver {
           wasSearched: true
         });
 
+        if (this.a11yNotifications) {
+          const { totalResults } = resultState;
+
+          // This is repeated from PagingInfoContainer
+          const start =
+            totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
+          const end =
+            totalResults <= start + resultsPerPage
+              ? totalResults
+              : start + resultsPerPage - 1;
+
+          const args = { start, end, totalResults, searchTerm };
+          const message = this.a11yNotificationMessages.searchResults(args);
+          this.actions.a11yNotify(message);
+        }
+
         if (!skipPushToUrl && this.trackUrlState) {
           // We debounce here so that we don't get a lot of intermediary
           // URL state if someone is updating a UI really fast, like typing
