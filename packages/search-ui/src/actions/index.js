@@ -11,3 +11,4 @@ export { default as setResultsPerPage } from "./setResultsPerPage";
 export { default as setSearchTerm } from "./setSearchTerm";
 export { default as setSort } from "./setSort";
 export { default as trackClickThrough } from "./trackClickThrough";
+export { default as a11yNotify } from "./a11yNotify";

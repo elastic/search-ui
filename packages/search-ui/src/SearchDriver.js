@@ -6,6 +6,8 @@ import DebounceManager from "./DebounceManager";
 import * as actions from "./actions";
 import Events from "./Events";
 
+import * as a11y from "./A11yNotifications";
+
 function filterSearchParameters({
   current,
   filters,
@@ -86,7 +88,9 @@ export default class SearchDriver {
     onAutocompleteResultClick,
     searchQuery = {},
     trackUrlState = true,
-    urlPushDebounceLength = 500
+    urlPushDebounceLength = 500,
+    a11yNotifications = true,
+    a11yNotificationMessages = {}
   }) {
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
@@ -129,6 +133,15 @@ export default class SearchDriver {
     } else {
       urlState = {};
     }
+
+    // Manage screen reader accessible notifications
+    this.a11yNotifications = a11yNotifications;
+    if (this.a11yNotifications) a11y.getLiveRegion();
+
+    this.a11yNotificationMessages = {
+      ...a11y.defaultMessages,
+      ...a11yNotificationMessages
+    };
 
     // Remember the state this application is initialized into, so that we can
     // reset to it later.
