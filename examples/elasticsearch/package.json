@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "encoding": "^0.1.12",
-    "netlify-lambda": "^1.4.7",
+    "netlify-lambda": "^1.5.0",
     "node-fetch": "^2.5.0",
     "npm-run-all": "^4.1.5"
   }
