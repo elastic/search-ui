@@ -1,0 +1,5 @@
+npm install
+cd packages
+npm install
+cd ..
+lerna bootstrap

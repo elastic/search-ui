@@ -37,14 +37,8 @@ cause the examples applications to error out from dependency version conflicts.
 From the root level of this repository, run the following commands in order:
 
 ```shell
-# Install top level depenedencies at the root of the project
-npm install
-
-# Install dependencies in the /packages directory
-(cd packages && npm install)
-
-# Install all dependencies for the individual packages
-npm run bootstrap
+# Install all dependencies
+npm run install-all
 ```
 
 ### Building
