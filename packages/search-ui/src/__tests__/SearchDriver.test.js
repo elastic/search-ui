@@ -58,6 +58,22 @@ it("will use initial state if provided", () => {
   });
 });
 
+it("will merge default and custom a11yNotificationMessages", () => {
+  const { driver } = setupDriver({
+    a11yNotificationMessages: {
+      customMessage: () => "Hello world",
+      moreFilter: () => "Example override"
+    }
+  });
+  const messages = driver.a11yNotificationMessages;
+
+  expect(messages.customMessage()).toEqual("Hello world");
+  expect(messages.moreFilter()).toEqual("Example override");
+  expect(messages.searchResults({ start: 0, end: 0, totalResults: 0 })).toEqual(
+    "Showing 0 to 0 results out of 0"
+  );
+});
+
 it("will default facets to {} in state if facets is missing from the response", () => {
   const initialState = {
     searchTerm: "test"
@@ -345,7 +361,7 @@ describe("#getActions", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
     const actions = driver.getActions();
-    expect(Object.keys(actions).length).toBe(11);
+    expect(Object.keys(actions).length).toBe(12);
     expect(actions.addFilter).toBeInstanceOf(Function);
     expect(actions.clearFilters).toBeInstanceOf(Function);
     expect(actions.removeFilter).toBeInstanceOf(Function);
@@ -357,5 +373,6 @@ describe("#getActions", () => {
     expect(actions.setCurrent).toBeInstanceOf(Function);
     expect(actions.trackClickThrough).toBeInstanceOf(Function);
     expect(actions.trackAutocompleteClickThrough).toBeInstanceOf(Function);
+    expect(actions.a11yNotify).toBeInstanceOf(Function);
   });
 });

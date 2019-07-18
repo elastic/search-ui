@@ -46,7 +46,8 @@ export function getMockApiConnector() {
 export function setupDriver({
   initialState,
   mockSearchResponse,
-  trackUrlState
+  trackUrlState,
+  ...rest
 } = {}) {
   const mockApiConnector = getMockApiConnector();
 
@@ -63,6 +64,7 @@ export function setupDriver({
     apiConnector: mockApiConnector,
     trackUrlState,
     initialState,
+    ...rest,
     // We don't want to deal with async in our tests, so pass 0 so URL state
     // pushes happen synchronously
     urlPushDebounceLength: 0
