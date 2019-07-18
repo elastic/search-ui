@@ -29,7 +29,9 @@ export class FacetContainer extends Component {
     // Actions
     addFilter: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired
+    setFilter: PropTypes.func.isRequired,
+    a11yNotify: PropTypes.func.isRequired,
+    a11yNotificationMessages: PropTypes.objectOf(PropTypes.func).isRequired
   };
 
   static defaultProps = {
@@ -45,10 +47,20 @@ export class FacetContainer extends Component {
     };
   }
 
-  handleClickMore = () => {
-    this.setState(({ more }) => ({
-      more: more + 10
-    }));
+  handleClickMore = totalOptions => {
+    this.setState(({ more }) => {
+      let optionsCount = more + 10;
+      const showingAll = optionsCount >= totalOptions;
+      if (showingAll) optionsCount = totalOptions;
+
+      const message = this.props.a11yNotificationMessages.moreFilters({
+        optionsCount,
+        showingAll
+      });
+      this.props.a11yNotify(message);
+
+      return { more: optionsCount };
+    });
   };
 
   handleFacetSearch = searchTerm => {
@@ -93,7 +105,7 @@ export class FacetContainer extends Component {
     return View({
       className,
       label: label,
-      onMoreClick: this.handleClickMore,
+      onMoreClick: this.handleClickMore.bind(this, options.length),
       onRemove: value => {
         removeFilter(field, value, filterType);
       },
@@ -116,11 +128,21 @@ export class FacetContainer extends Component {
 }
 
 export default withSearch(
-  ({ filters, facets, addFilter, removeFilter, setFilter }) => ({
+  ({
     filters,
     facets,
     addFilter,
     removeFilter,
-    setFilter
+    setFilter,
+    a11yNotify,
+    a11yNotificationMessages
+  }) => ({
+    filters,
+    facets,
+    addFilter,
+    removeFilter,
+    setFilter,
+    a11yNotify,
+    a11yNotificationMessages
   })
 )(FacetContainer);
