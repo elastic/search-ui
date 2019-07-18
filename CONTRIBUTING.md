@@ -84,7 +84,7 @@ Releases should be performed directly in master, following the Publishing guide 
 
 We use a `stable` branch to indicate the latest release code.
 
-We will create branches for minor releases on if a patch is required. I.e., if a patch is required for `1.1.0`, we would create a `1.1` branch to track patches for the `1.1` release.
+We will create branches for minor releases only if a patch is required. I.e., if a patch is required for `1.1.0`, we would create a `1.1` branch to track patches for the `1.1` release.
 
 ### Publishing
 
