@@ -76,8 +76,6 @@ The [sandbox](examples/sandbox/README.md) app can be used as a local development
 
 ### Branching Strategy
 
-Our branching strategy is based on [Github Flow](https://guides.github.com/introduction/flow/).
-
 Our `master` branch holds the latest development code for the next release. If the next release will be a minor release, the expecation is that no breaking changes will be in `master`. If a change would be breaking, we need to put it behind a feature flag, or make it an opt-in change. We will only merge breaking PRs when we are ready to start working on the next major.
 
 All PRs should be created from a fork, to keep a clean set of branches on `origin`.
