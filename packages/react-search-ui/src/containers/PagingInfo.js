@@ -27,7 +27,7 @@ export class PagingInfoContainer extends Component {
     } = this.props;
     const start = totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
     const end =
-      totalResults <= resultsPerPage
+      totalResults <= start + resultsPerPage
         ? totalResults
         : start + resultsPerPage - 1;
 
