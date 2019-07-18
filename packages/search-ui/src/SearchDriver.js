@@ -138,11 +138,10 @@ export default class SearchDriver {
     this.a11yNotifications = a11yNotifications;
     if (this.a11yNotifications) a11y.getLiveRegion();
 
-    a11yNotificationMessages = {
+    this.a11yNotificationMessages = {
       ...a11y.defaultMessages,
       ...a11yNotificationMessages
     };
-    this.a11yNotificationMessages = a11yNotificationMessages;
 
     // Remember the state this application is initialized into, so that we can
     // reset to it later.
@@ -165,8 +164,7 @@ export default class SearchDriver {
     // to the correct default values for the initial UI render
     this.state = {
       ...this.state,
-      ...searchParameters,
-      ...{ a11yNotificationMessages }
+      ...searchParameters
     };
 
     // We'll trigger an initial search if initial parameters contain
@@ -268,9 +266,8 @@ export default class SearchDriver {
               ? totalResults
               : start + resultsPerPage - 1;
 
-          const args = { start, end, totalResults, searchTerm };
-          const message = this.a11yNotificationMessages.searchResults(args);
-          this.actions.a11yNotify(message);
+          const messageArgs = { start, end, totalResults, searchTerm };
+          this.actions.a11yNotify("searchResults", messageArgs);
         }
 
         if (!skipPushToUrl && this.trackUrlState) {

@@ -30,8 +30,7 @@ export class FacetContainer extends Component {
     addFilter: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
-    a11yNotify: PropTypes.func.isRequired,
-    a11yNotificationMessages: PropTypes.objectOf(PropTypes.func).isRequired
+    a11yNotify: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -53,11 +52,7 @@ export class FacetContainer extends Component {
       const showingAll = optionsCount >= totalOptions;
       if (showingAll) optionsCount = totalOptions;
 
-      const message = this.props.a11yNotificationMessages.moreFilters({
-        optionsCount,
-        showingAll
-      });
-      this.props.a11yNotify(message);
+      this.props.a11yNotify("moreFilters", { optionsCount, showingAll });
 
       return { more: optionsCount };
     });
@@ -128,21 +123,12 @@ export class FacetContainer extends Component {
 }
 
 export default withSearch(
-  ({
+  ({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
     filters,
     facets,
     addFilter,
     removeFilter,
     setFilter,
-    a11yNotify,
-    a11yNotificationMessages
-  }) => ({
-    filters,
-    facets,
-    addFilter,
-    removeFilter,
-    setFilter,
-    a11yNotify,
-    a11yNotificationMessages
+    a11yNotify
   })
 )(FacetContainer);
