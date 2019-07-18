@@ -48,6 +48,8 @@ export const DEFAULT_STATE = {
   resultSearchTerm: "",
   totalPages: 0,
   totalResults: 0,
+  pagingStart: 0,
+  pagingEnd: 0,
   wasSearched: false
 };
 
@@ -248,12 +250,28 @@ export default class SearchDriver {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
 
+        // Results paging start & end
+        const { totalResults } = resultState;
+        const start =
+          totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
+        const end =
+          totalResults <= start + resultsPerPage
+            ? totalResults
+            : start + resultsPerPage - 1;
+
         this._setState({
           isLoading: false,
           resultSearchTerm: searchTerm,
+          pagingStart: start,
+          pagingEnd: end,
           ...resultState,
           wasSearched: true
         });
+
+        if (this.a11yNotifications) {
+          const messageArgs = { start, end, totalResults, searchTerm };
+          this.actions.a11yNotify("searchResults", messageArgs);
+        }
 
         if (!skipPushToUrl && this.trackUrlState) {
           // We debounce here so that we don't get a lot of intermediary
