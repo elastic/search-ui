@@ -248,24 +248,25 @@ export default class SearchDriver {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
 
+        // Results/Paging start & end
+        const { totalResults } = resultState;
+        const start =
+          totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
+        const end =
+          totalResults <= start + resultsPerPage
+            ? totalResults
+            : start + resultsPerPage - 1;
+
         this._setState({
           isLoading: false,
           resultSearchTerm: searchTerm,
+          start,
+          end,
           ...resultState,
           wasSearched: true
         });
 
         if (this.a11yNotifications) {
-          const { totalResults } = resultState;
-
-          // This is repeated from PagingInfoContainer
-          const start =
-            totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
-          const end =
-            totalResults <= start + resultsPerPage
-              ? totalResults
-              : start + resultsPerPage - 1;
-
           const messageArgs = { start, end, totalResults, searchTerm };
           this.actions.a11yNotify("searchResults", messageArgs);
         }
