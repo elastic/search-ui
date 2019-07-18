@@ -1,28 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`does not render a higher end than the total # of results 1`] = `
-<div
-  className="sui-paging-info"
->
-  Showing
-   
-  <strong>
-    0
-     - 
-    15
-  </strong>
-   
-  out of 
-  <strong>
-    15
-  </strong>
-   for: 
-  <em>
-    grok
-  </em>
-</div>
-`;
-
 exports[`renders correctly 1`] = `
 <div
   className="sui-paging-info"
