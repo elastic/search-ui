@@ -91,7 +91,7 @@ export default class SearchDriver {
     searchQuery = {},
     trackUrlState = true,
     urlPushDebounceLength = 500,
-    a11yNotifications = true,
+    a11yNotifications = false,
     a11yNotificationMessages = {}
   }) {
     this.actions = Object.entries(actions).reduce(

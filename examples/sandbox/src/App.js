@@ -167,7 +167,8 @@ const config = {
       size: 4
     }
   },
-  apiConnector: connector
+  apiConnector: connector,
+  a11yNotifications: true
 };
 
 export default function App() {
