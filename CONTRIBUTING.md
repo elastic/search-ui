@@ -74,40 +74,55 @@ npm run test -- --watch
 
 The [sandbox](examples/sandbox/README.md) app can be used as a local development aid.
 
+### Branching Strategy
+
+Our `master` branch holds the latest development code for the next release. If the next release will be a minor release, the expecation is that no breaking changes will be in `master`. If a change would be breaking, we need to put it behind a feature flag, or make it an opt-in change. We will only merge breaking PRs when we are ready to start working on the next major.
+
+All PRs should be created from a fork, to keep a clean set of branches on `origin`.
+
+Releases should be performed directly in master, following the Publishing guide below.
+
+We use a `stable` branch to indicate the latest release code.
+
+We will create branches for minor releases only if a patch is required. I.e., if a patch is required for `1.1.0`, we would create a `1.1` branch to track patches for the `1.1` release.
+
 ### Publishing
 
-Publish new version
-(Example, publish 0.6.0)
+Publish a new version from master
+(Example, publishing 0.6.0)
 
 1. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.5.0` to `0.6.0` at the top of the file.
-2. Run `npx lerna version 0.6.0 --exact`.
-3. Verify correct tags and commits have been created.
-4. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
-5. Run `npx lerna publish --force-publish=* from-package`.
-6. Verify `0.6.0` has been published to npm.
-7. Create new version branch `git checkout -b v0.6` and push to `origin`.
-8. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6` and force push to `origin`.
-9. Create release in Github.
+2. Commit these changes.
+3. Run `npx lerna version 0.6.0 --exact`.
+4. Verify the `0.6.0` tag was created as well as a "Release 0.6.0" commit.
+5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
+6. Run `npx lerna publish --force-publish=* from-package`.
+7. Verify the `0.6.0` has been published to npm.
+8. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
+9. Update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
+10. Create a release in Github.
+11. Close the release Milestone in Github.
 
-Publish patch version
+Publish a patch
 (Example, publish 0.6.1)
 
-1. PR changes into `v0.6` branch.
-2. Update `CHANGELOG` files to include version `0.6.1` for the projects that will be published.
+1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.
+2. Update `CHANGELOG` files to include version `v0.6.1` for the projects that will be published.
    NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
    to manually edit the `package-lock.json` for each updated package to update
    `0.6.0` to `0.6.1` at the top of the file.
 3. Run `npx lerna version 0.6.1 --exact`.
-4. Verify correct tags and commits have been created.
+4. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
 5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 6. Run `npx lerna publish --force-publish=* from-package`.
-7. Verify `0.6.1` has been published to npm.
-8. Make sure changed are also committed back to master.
-9. If this is the latest version of the library, update the `stable` branch to this version `git rebase v0.6.1` and force push to `origin`.
-10. Create release in Github.
+7. Verify the `0.6.1` has been published to npm.
+8. Verify that the `0.6.1` tag and commit has been pushed to `master` on `origin`.
+9. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process
+10. Create a release in Github.
+11. Close the release Milestone in Github.
 
 ### Canary releases for testing
 
