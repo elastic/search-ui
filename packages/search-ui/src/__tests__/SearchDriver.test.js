@@ -68,12 +68,13 @@ it("will default facets to {} in state if facets is missing from the response", 
     mockSearchResponse: {
       totalResults: 1000,
       totalPages: 100,
-      requestId: "12345",
+      requestId: "67890",
       results: [{}, {}]
     }
   });
 
   expect(doesStateHaveResponseData(stateAfterCreation)).toBe(true);
+  expect(stateAfterCreation.requestId).toEqual("67890");
   expect(stateAfterCreation.facets).toEqual({});
 });
 
