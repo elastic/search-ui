@@ -3,14 +3,14 @@ import React from "react";
 
 import { appendClassName } from "./view-helpers";
 
-function PagingInfo({ className, end, searchTerm, start, totalResults }) {
+function PagingInfo({ className, end, start, totalResults }) {
   return (
     <div className={appendClassName("sui-paging-info", className)}>
       Showing{" "}
       <strong>
         {start} - {end}
       </strong>{" "}
-      out of <strong>{totalResults}</strong> for: <em>{searchTerm}</em>
+      out of <strong>{totalResults}</strong>
     </div>
   );
 }
