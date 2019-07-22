@@ -48,13 +48,13 @@ export class FacetContainer extends Component {
 
   handleClickMore = totalOptions => {
     this.setState(({ more }) => {
-      let optionsCount = more + 10;
-      const showingAll = optionsCount >= totalOptions;
-      if (showingAll) optionsCount = totalOptions;
+      let visibleOptionsCount = more + 10;
+      const showingAll = visibleOptionsCount >= totalOptions;
+      if (showingAll) visibleOptionsCount = totalOptions;
 
-      this.props.a11yNotify("moreFilters", { optionsCount, showingAll });
+      this.props.a11yNotify("moreFilters", { visibleOptionsCount, showingAll });
 
-      return { more: optionsCount };
+      return { more: visibleOptionsCount };
     });
   };
 

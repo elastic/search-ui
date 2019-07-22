@@ -187,7 +187,7 @@ describe("show more", () => {
       wrapper.find(View).prop("onMoreClick")();
 
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
-        optionsCount: 15,
+        visibleOptionsCount: 15,
         showingAll: false
       });
     });
@@ -206,7 +206,7 @@ describe("show more", () => {
       wrapper.find(View).prop("onMoreClick")();
 
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
-        optionsCount: 17,
+        visibleOptionsCount: 17,
         showingAll: true
       });
     });

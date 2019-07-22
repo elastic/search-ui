@@ -53,14 +53,14 @@ describe("defaultMessages", () => {
   it("moreFilters", () => {
     expect(
       defaultMessages.moreFilters({
-        optionsCount: 15,
+        visibleOptionsCount: 15,
         showingAll: false
       })
     ).toEqual("15 options shown.");
 
     expect(
       defaultMessages.moreFilters({
-        optionsCount: 28,
+        visibleOptionsCount: 28,
         showingAll: true
       })
     ).toEqual("All 28 options shown.");

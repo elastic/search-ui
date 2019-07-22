@@ -54,9 +54,9 @@ const defaultMessages = {
     if (searchTerm) message += `, searching for "${searchTerm}".`;
     return message;
   },
-  moreFilters: ({ optionsCount, showingAll }) => {
+  moreFilters: ({ visibleOptionsCount, showingAll }) => {
     let message = showingAll ? "All " : "";
-    message += `${optionsCount} options shown.`;
+    message += `${visibleOptionsCount} options shown.`;
     return message;
   }
 };
