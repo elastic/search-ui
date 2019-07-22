@@ -6,8 +6,9 @@ How to build and contribute to Search UI.
 
 ### Requirements
 
-Node: 10.16
-NPM: 6.9
+- Node: 10.16
+- NPM: 6.9
+- OS: Unix/Linux or Windows Subsystem for Linux
 
 ### Mono-repo explanation
 
