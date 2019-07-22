@@ -65,8 +65,7 @@
 
 @include block("layout-sidebar") {
   width: 24%;
-  margin: 32px 0;
-  padding-right: 32px;
+  padding: 32px 32px 0 0;
 
   @media (max-width: $sidebarBreakpoint + $offset) {
     padding-right: 0;
@@ -95,7 +94,7 @@
   @media (max-width: $sidebarBreakpoint) {
     display: block;
     width: 100%;
-    margin: 20px auto;
+    margin-top: 20px;
     padding: 10px;
 
     @include themeTypography;
@@ -105,6 +104,10 @@
     background-color: $white;
     border: 1px solid $linkColor;
     border-radius: $borderRadius;
+
+    .sui-layout-sidebar & {
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -114,8 +117,7 @@
 
 @include block("layout-main") {
   width: 76%;
-  margin: 32px 0;
-  padding-left: 32px;
+  padding: 32px 0 32px 32px;
 
   @media (max-width: $sidebarBreakpoint) {
     width: 100%;
