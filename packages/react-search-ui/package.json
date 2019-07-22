@@ -42,7 +42,9 @@
     "react": "^16.8.0"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/__mocks__/styleMock.js"
     },
@@ -51,15 +53,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
+    "@babel/cli": "^7.5.0",
     "@babel/preset-react": "^7.0.0",
-    "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.6.0",
-    "enzyme-to-json": "^3.3.4",
-    "jest": "^23.6.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^24.8.0",
     "npm-run-all": "^4.1.5",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.3"
   }
 }

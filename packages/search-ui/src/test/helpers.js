@@ -50,6 +50,12 @@ export function setupDriver({
 } = {}) {
   const mockApiConnector = getMockApiConnector();
 
+  if (mockSearchResponse) {
+    mockApiConnector.onSearch = jest.fn().mockReturnValue({
+      then: cb => cb(mockSearchResponse)
+    });
+  }
+
   trackUrlState =
     trackUrlState === false || trackUrlState === true ? trackUrlState : true;
 
@@ -61,12 +67,6 @@ export function setupDriver({
     // pushes happen synchronously
     urlPushDebounceLength: 0
   });
-
-  if (mockSearchResponse) {
-    mockApiConnector.search = jest.fn().mockReturnValue({
-      then: cb => cb(mockSearchResponse)
-    });
-  }
 
   const updatedStateAfterAction = {};
   driver.subscribeToStateChanges(newState => {
