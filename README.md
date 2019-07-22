@@ -265,7 +265,13 @@ Nope. Search UI is "headless".
 
 You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
 
-[Read the Headless Core Guide](./ADVANCED.md#headless-core) for more information.
+[Read the Headless Core Guide](./ADVANCED.md#headless-core) for more information, or check out the [Vue.js Example](https://github.com/elastic/vue-search-ui-demo).
+
+### Can I use my own styles?
+
+You can!
+
+Read the [Custom Styles and Layout Guide](./ADVANCED.md#custom-styles-and-layout) to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
 
 ### Can I build my own Components?
 
