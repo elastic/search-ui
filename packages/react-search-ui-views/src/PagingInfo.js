@@ -12,9 +12,9 @@ function PagingInfo({ className, end, searchTerm, start, totalResults }) {
       </strong>{" "}
       out of <strong>{totalResults}</strong>{" "}
       {searchTerm && (
-        <React.Fragment>
+        <>
           for: <em>{searchTerm}</em>
-        </React.Fragment>
+        </>
       )}
     </div>
   );
