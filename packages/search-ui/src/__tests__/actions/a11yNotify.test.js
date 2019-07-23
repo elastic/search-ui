@@ -37,8 +37,11 @@ describe("#a11yNotify", () => {
     expect(announceToScreenReader).not.toHaveBeenCalled();
   });
 
-  it("logs expected debug messages", () => {
-    jest.spyOn(global.console, "log").mockImplementation(); // Silence expected console logs
+  it("logs expected console messages", () => {
+    // Spy on and silence expected console messages
+    jest.spyOn(global.console, "log").mockImplementation();
+    jest.spyOn(global.console, "warn").mockImplementation();
+
     const { driver } = setupDriver({ ...config, debug: true });
 
     driver.a11yNotify("customMessage", { foo: "bar" });
@@ -49,10 +52,10 @@ describe("#a11yNotify", () => {
     });
 
     driver.a11yNotify("invalid");
-    expect(global.console.log).toHaveBeenCalledWith(
+    expect(global.console.warn).toHaveBeenCalledWith(
       "Action",
       "a11yNotify",
-      'Could not find corresponding message function in "a11yNotificationMessages": invalid'
+      'Could not find corresponding message function in a11yNotificationMessages: "invalid"'
     );
   });
 });

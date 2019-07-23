@@ -13,10 +13,8 @@ export default function a11yNotify(messageFunc, messageArgs) {
   const getMessage = this.a11yNotificationMessages[messageFunc];
 
   if (!getMessage) {
-    if (this.debug) {
-      const errorMessage = `Could not find corresponding message function in "a11yNotificationMessages": ${messageFunc}`;
-      console.log("Action", "a11yNotify", errorMessage); // eslint-disable-line no-console
-    }
+    const errorMessage = `Could not find corresponding message function in a11yNotificationMessages: "${messageFunc}"`;
+    console.warn("Action", "a11yNotify", errorMessage);
     return;
   }
 
