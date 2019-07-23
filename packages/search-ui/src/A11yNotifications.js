@@ -53,11 +53,6 @@ const defaultMessages = {
     let message = `Showing ${start} to ${end} results out of ${totalResults}`;
     if (searchTerm) message += `, searching for "${searchTerm}".`;
     return message;
-  },
-  moreFilters: ({ visibleOptionsCount, showingAll }) => {
-    let message = showingAll ? "All " : "";
-    message += `${visibleOptionsCount} options shown.`;
-    return message;
   }
 };
 

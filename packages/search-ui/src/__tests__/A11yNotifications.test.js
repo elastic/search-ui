@@ -30,7 +30,7 @@ it("updates the live region correctly via announceToScreenReader", () => {
 });
 
 describe("defaultMessages", () => {
-  it("searchResults", () => {
+  it("outputs searchResults correctly", () => {
     expect(
       defaultMessages.searchResults({
         start: 1,
@@ -48,21 +48,5 @@ describe("defaultMessages", () => {
         searchTerm: ""
       })
     ).toEqual("Showing 0 to 0 results out of 0");
-  });
-
-  it("moreFilters", () => {
-    expect(
-      defaultMessages.moreFilters({
-        visibleOptionsCount: 15,
-        showingAll: false
-      })
-    ).toEqual("15 options shown.");
-
-    expect(
-      defaultMessages.moreFilters({
-        visibleOptionsCount: 28,
-        showingAll: true
-      })
-    ).toEqual("All 28 options shown.");
   });
 });
