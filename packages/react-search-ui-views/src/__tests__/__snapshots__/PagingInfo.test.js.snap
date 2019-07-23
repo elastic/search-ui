@@ -16,9 +16,12 @@ exports[`renders correctly 1`] = `
   <strong>
     1000
   </strong>
-  : 
-  <em>
-    grok
-  </em>
+   
+  <span>
+    for: 
+    <em>
+      grok
+    </em>
+  </span>
 </div>
 `;

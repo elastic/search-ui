@@ -16,8 +16,7 @@ exports[`renders when it doesn't have any results or a result search term 1`] = 
   <strong>
     100
   </strong>
-  : 
-  <em />
+   
 </div>
 `;
 
