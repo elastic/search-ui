@@ -10,7 +10,7 @@ beforeEach(() => {
 
 describe("#a11yNotify", () => {
   const config = {
-    a11yNotifications: true,
+    hasA11yNotifications: true,
     a11yNotificationMessages: {
       customMessage: () => "Hello world"
     }
@@ -23,8 +23,8 @@ describe("#a11yNotify", () => {
     expect(announceToScreenReader).toHaveBeenCalledWith("Hello world");
   });
 
-  it("does not run if a11yNotifications has been turned off", () => {
-    const { driver } = setupDriver({ ...config, a11yNotifications: false });
+  it("does not run if hasA11yNotifications is false", () => {
+    const { driver } = setupDriver({ ...config, hasA11yNotifications: false });
 
     driver.a11yNotify("customMessage");
     expect(announceToScreenReader).not.toHaveBeenCalled();

@@ -168,7 +168,7 @@ const config = {
     }
   },
   apiConnector: connector,
-  a11yNotifications: true
+  hasA11yNotifications: true
 };
 
 export default function App() {

@@ -91,7 +91,7 @@ export default class SearchDriver {
     searchQuery = {},
     trackUrlState = true,
     urlPushDebounceLength = 500,
-    a11yNotifications = false,
+    hasA11yNotifications = false,
     a11yNotificationMessages = {}
   }) {
     this.actions = Object.entries(actions).reduce(
@@ -137,8 +137,8 @@ export default class SearchDriver {
     }
 
     // Manage screen reader accessible notifications
-    this.a11yNotifications = a11yNotifications;
-    if (this.a11yNotifications) a11y.getLiveRegion();
+    this.hasA11yNotifications = hasA11yNotifications;
+    if (this.hasA11yNotifications) a11y.getLiveRegion();
 
     this.a11yNotificationMessages = {
       ...a11y.defaultMessages,
@@ -268,7 +268,7 @@ export default class SearchDriver {
           wasSearched: true
         });
 
-        if (this.a11yNotifications) {
+        if (this.hasA11yNotifications) {
           const messageArgs = { start, end, totalResults, searchTerm };
           this.actions.a11yNotify("searchResults", messageArgs);
         }

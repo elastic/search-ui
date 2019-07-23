@@ -423,7 +423,7 @@ describe("_updateSearchResults", () => {
 
     setupDriver({
       initialState,
-      a11yNotifications: true,
+      hasA11yNotifications: true,
       a11yNotificationMessages: {
         searchResults: searchResultsNotification
       }
