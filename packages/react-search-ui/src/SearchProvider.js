@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import { SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
 
+import defaultA11yMessages from "./A11yNotifications";
+
 /**
  * The SearchProvider primarily holds a reference to the SearchDriver and
  * exposes it to the rest of the application in a Context.
@@ -28,7 +30,13 @@ class SearchProvider extends Component {
     // This initialization is done inside of componentDidMount, because initializing the SearchDriver server side
     // will error out, since the driver depends on window. Placing the initialization inside of componentDidMount
     // assures that it won't attempt to initialize server side.
-    const driver = new SearchDriver(config);
+    const driver = new SearchDriver({
+      ...config,
+      a11yNotificationMessages: {
+        ...defaultA11yMessages,
+        ...config.a11yNotificationMessages
+      }
+    });
     this.setState({
       driver
     });

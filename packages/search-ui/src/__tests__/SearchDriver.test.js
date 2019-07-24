@@ -58,6 +58,22 @@ it("will use initial state if provided", () => {
   });
 });
 
+it("will merge default and custom a11yNotificationMessages", () => {
+  const { driver } = setupDriver({
+    a11yNotificationMessages: {
+      customMessage: () => "Hello world",
+      moreFilter: () => "Example override"
+    }
+  });
+  const messages = driver.a11yNotificationMessages;
+
+  expect(messages.customMessage()).toEqual("Hello world");
+  expect(messages.moreFilter()).toEqual("Example override");
+  expect(messages.searchResults({ start: 0, end: 0, totalResults: 0 })).toEqual(
+    "Showing 0 to 0 results out of 0"
+  );
+});
+
 it("will default facets to {} in state if facets is missing from the response", () => {
   const initialState = {
     searchTerm: "test"
@@ -345,7 +361,7 @@ describe("#getActions", () => {
   it("returns the current state", () => {
     const driver = new SearchDriver(params);
     const actions = driver.getActions();
-    expect(Object.keys(actions).length).toBe(11);
+    expect(Object.keys(actions).length).toBe(12);
     expect(actions.addFilter).toBeInstanceOf(Function);
     expect(actions.clearFilters).toBeInstanceOf(Function);
     expect(actions.removeFilter).toBeInstanceOf(Function);
@@ -357,5 +373,67 @@ describe("#getActions", () => {
     expect(actions.setCurrent).toBeInstanceOf(Function);
     expect(actions.trackClickThrough).toBeInstanceOf(Function);
     expect(actions.trackAutocompleteClickThrough).toBeInstanceOf(Function);
+    expect(actions.a11yNotify).toBeInstanceOf(Function);
+  });
+});
+
+describe("_updateSearchResults", () => {
+  const initialState = {
+    searchTerm: "test",
+    resultsPerPage: 20,
+    current: 2
+  };
+
+  it("calculates pagingStart and pagingEnd correctly", () => {
+    const { stateAfterCreation } = setupDriver({ initialState });
+
+    expect(stateAfterCreation.totalResults).toEqual(1000);
+    expect(stateAfterCreation.pagingStart).toEqual(21);
+    expect(stateAfterCreation.pagingEnd).toEqual(40);
+  });
+
+  it("does not set pagingEnd to more than the total # of results", () => {
+    const mockSearchResponse = { totalResults: 30, totalPages: 2 };
+
+    const { stateAfterCreation } = setupDriver({
+      initialState,
+      mockSearchResponse
+    });
+
+    expect(stateAfterCreation.totalResults).toEqual(30);
+    expect(stateAfterCreation.pagingStart).toEqual(21);
+    expect(stateAfterCreation.pagingEnd).toEqual(30);
+  });
+
+  it("zeroes out pagingStart and pagingEnd correctly", () => {
+    const mockSearchResponse = { totalResults: 0 };
+
+    const { stateAfterCreation } = setupDriver({
+      initialState,
+      mockSearchResponse
+    });
+
+    expect(stateAfterCreation.totalResults).toEqual(0);
+    expect(stateAfterCreation.pagingStart).toEqual(0);
+    expect(stateAfterCreation.pagingEnd).toEqual(0);
+  });
+
+  it("calls a11yNotify when search results update", () => {
+    const searchResultsNotification = jest.fn();
+
+    setupDriver({
+      initialState,
+      hasA11yNotifications: true,
+      a11yNotificationMessages: {
+        searchResults: searchResultsNotification
+      }
+    });
+
+    expect(searchResultsNotification).toHaveBeenCalledWith({
+      start: 21,
+      end: 40,
+      totalResults: 1000,
+      searchTerm: "test"
+    });
   });
 });

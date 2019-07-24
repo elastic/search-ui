@@ -9,9 +9,8 @@ export class PagingInfoContainer extends Component {
     className: PropTypes.string,
     view: PropTypes.func,
     // State
-    current: PropTypes.number.isRequired,
-    results: PropTypes.arrayOf(PropTypes.object).isRequired,
-    resultsPerPage: PropTypes.number.isRequired,
+    pagingStart: PropTypes.number.isRequired,
+    pagingEnd: PropTypes.number.isRequired,
     resultSearchTerm: PropTypes.string.isRequired,
     totalResults: PropTypes.number.isRequired
   };
@@ -19,35 +18,29 @@ export class PagingInfoContainer extends Component {
   render() {
     const {
       className,
-      current,
-      resultsPerPage,
+      pagingStart,
+      pagingEnd,
       resultSearchTerm,
       totalResults,
       view
     } = this.props;
-    const start = totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
-    const end =
-      totalResults <= start + resultsPerPage
-        ? totalResults
-        : start + resultsPerPage - 1;
 
     const View = view || PagingInfo;
 
     return View({
       className,
-      end: end,
       searchTerm: resultSearchTerm,
-      start: start,
+      start: pagingStart,
+      end: pagingEnd,
       totalResults: totalResults
     });
   }
 }
 
 export default withSearch(
-  ({ current, results, resultsPerPage, resultSearchTerm, totalResults }) => ({
-    current,
-    results,
-    resultsPerPage,
+  ({ pagingStart, pagingEnd, resultSearchTerm, totalResults }) => ({
+    pagingStart,
+    pagingEnd,
     resultSearchTerm,
     totalResults
   })

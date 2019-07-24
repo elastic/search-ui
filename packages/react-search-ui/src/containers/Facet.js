@@ -29,7 +29,8 @@ export class FacetContainer extends Component {
     // Actions
     addFilter: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired,
-    setFilter: PropTypes.func.isRequired
+    setFilter: PropTypes.func.isRequired,
+    a11yNotify: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -45,10 +46,16 @@ export class FacetContainer extends Component {
     };
   }
 
-  handleClickMore = () => {
-    this.setState(({ more }) => ({
-      more: more + 10
-    }));
+  handleClickMore = totalOptions => {
+    this.setState(({ more }) => {
+      let visibleOptionsCount = more + 10;
+      const showingAll = visibleOptionsCount >= totalOptions;
+      if (showingAll) visibleOptionsCount = totalOptions;
+
+      this.props.a11yNotify("moreFilters", { visibleOptionsCount, showingAll });
+
+      return { more: visibleOptionsCount };
+    });
   };
 
   handleFacetSearch = searchTerm => {
@@ -93,7 +100,7 @@ export class FacetContainer extends Component {
     return View({
       className,
       label: label,
-      onMoreClick: this.handleClickMore,
+      onMoreClick: this.handleClickMore.bind(this, options.length),
       onRemove: value => {
         removeFilter(field, value, filterType);
       },
@@ -116,11 +123,12 @@ export class FacetContainer extends Component {
 }
 
 export default withSearch(
-  ({ filters, facets, addFilter, removeFilter, setFilter }) => ({
+  ({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
     filters,
     facets,
     addFilter,
     removeFilter,
-    setFilter
+    setFilter,
+    a11yNotify
   })
 )(FacetContainer);

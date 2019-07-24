@@ -6,6 +6,8 @@ import DebounceManager from "./DebounceManager";
 import * as actions from "./actions";
 import Events from "./Events";
 
+import * as a11y from "./A11yNotifications";
+
 function filterSearchParameters({
   current,
   filters,
@@ -46,6 +48,8 @@ export const DEFAULT_STATE = {
   resultSearchTerm: "",
   totalPages: 0,
   totalResults: 0,
+  pagingStart: 0,
+  pagingEnd: 0,
   wasSearched: false
 };
 
@@ -86,7 +90,9 @@ export default class SearchDriver {
     onAutocompleteResultClick,
     searchQuery = {},
     trackUrlState = true,
-    urlPushDebounceLength = 500
+    urlPushDebounceLength = 500,
+    hasA11yNotifications = false,
+    a11yNotificationMessages = {}
   }) {
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
@@ -129,6 +135,15 @@ export default class SearchDriver {
     } else {
       urlState = {};
     }
+
+    // Manage screen reader accessible notifications
+    this.hasA11yNotifications = hasA11yNotifications;
+    if (this.hasA11yNotifications) a11y.getLiveRegion();
+
+    this.a11yNotificationMessages = {
+      ...a11y.defaultMessages,
+      ...a11yNotificationMessages
+    };
 
     // Remember the state this application is initialized into, so that we can
     // reset to it later.
@@ -235,12 +250,28 @@ export default class SearchDriver {
         if (this.requestSequencer.isOldRequest(requestId)) return;
         this.requestSequencer.completed(requestId);
 
+        // Results paging start & end
+        const { totalResults } = resultState;
+        const start =
+          totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
+        const end =
+          totalResults <= start + resultsPerPage
+            ? totalResults
+            : start + resultsPerPage - 1;
+
         this._setState({
           isLoading: false,
           resultSearchTerm: searchTerm,
+          pagingStart: start,
+          pagingEnd: end,
           ...resultState,
           wasSearched: true
         });
+
+        if (this.hasA11yNotifications) {
+          const messageArgs = { start, end, totalResults, searchTerm };
+          this.actions.a11yNotify("searchResults", messageArgs);
+        }
 
         if (!skipPushToUrl && this.trackUrlState) {
           // We debounce here so that we don't get a lot of intermediary

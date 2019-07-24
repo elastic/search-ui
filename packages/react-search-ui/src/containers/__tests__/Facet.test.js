@@ -43,14 +43,12 @@ const params = {
   },
   addFilter: jest.fn(),
   removeFilter: jest.fn(),
-  setFilter: jest.fn()
+  setFilter: jest.fn(),
+  a11yNotify: jest.fn()
 };
 
 beforeEach(() => {
-  params.view.mockClear();
-  params.addFilter.mockClear();
-  params.removeFilter.mockClear();
-  params.setFilter.mockClear();
+  jest.clearAllMocks();
 });
 
 it("renders correctly", () => {
@@ -187,6 +185,11 @@ describe("show more", () => {
   describe("after a show more click", () => {
     beforeAll(() => {
       wrapper.find(View).prop("onMoreClick")();
+
+      expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
+        visibleOptionsCount: 15,
+        showingAll: false
+      });
     });
 
     it("should have 10 more options", () => {
@@ -201,6 +204,11 @@ describe("show more", () => {
   describe("after more more show more click", () => {
     beforeAll(() => {
       wrapper.find(View).prop("onMoreClick")();
+
+      expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
+        visibleOptionsCount: 17,
+        showingAll: true
+      });
     });
 
     it("should be showing all options", () => {
