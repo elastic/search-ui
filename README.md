@@ -25,7 +25,7 @@ search experience up and running in minutes.
 ### Features :+1:
 
 - **You know, for search** - Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
-- **Speedy Implementation** - Build a complete search experience with a few lines of code.
+- **Speedy Implementation** - Build a complete, responsive search experience with a few lines of code.
 - **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
 - **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
 - **Headless** - Leverage our application logic, provide your own components or views.

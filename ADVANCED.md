@@ -7,6 +7,7 @@
 5. [Build Your Own Component](#build-your-own-component)
 6. [Connectors and Handlers](#connectors-and-handlers)
 7. [Performance](#performance)
+8. [Accessibility](#accessibility)
 
 # Headless Core
 
@@ -1392,3 +1393,16 @@ this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
 If you ever need to debug performance related issues, see the instructions in the Optimizing Performance guide for
 enabling the "Highlight Updates" feature in the
 [React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
+
+# Accessibility
+
+Search UI supports screen readers.
+
+Place `hasA11yNotifications: true` within the config to enable:
+
+```jsx
+config={{
+  apiConnector: connector,
+  hasA11yNotifications: true
+}}
+```
