@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Fragment>
+  <button
+    className="sui-layout-sidebar-toggle"
+    hidden={true}
+    onClick={[Function]}
+    type="button"
+  >
+    Show Filters
+  </button>
+  <div
+    className="sui-layout-sidebar"
+  >
+    <button
+      className="sui-layout-sidebar-toggle"
+      hidden={true}
+      onClick={[Function]}
+      type="button"
+    >
+      Save Filters
+    </button>
+    Hello world!
+  </div>
+</Fragment>
+`;

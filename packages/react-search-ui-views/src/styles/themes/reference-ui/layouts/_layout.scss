@@ -2,67 +2,147 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+}
 
-  @include block("layout-header") {
-    padding: 32px 24px;
-    border-bottom: 1px solid #eeeeee;
+/**
+ * Header / Searchbox
+ */
+
+@include block("layout-header") {
+  padding: 32px 24px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+/**
+ * Body
+ */
+
+@include block("layout-body") {
+  background: #fcfcfc;
+
+  &:after {
+    content: "";
+    height: 80px;
+    width: 100%;
+    display: block;
+    position: relative;
+    background: -moz-linear-gradient(top, #fcfcfc 0%, #ffffff 100%);
+    background: -webkit-linear-gradient(top, #fcfcfc 0%, #ffffff 100%);
+    background: linear-gradient(to bottom, #fcfcfc 0%, #ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ffffff',GradientType=0 );
+
+    @media (max-width: $sidebarBreakpoint) {
+      display: none;
+    }
   }
 
-  @include block("layout-body") {
-    background: #fcfcfc;
+  @include element("inner") {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    padding: 0 24px;
 
-    &:after {
-      content: '';
-      height: 80px;
-      width: 100%;
+    @media (max-width: $sidebarBreakpoint) {
       display: block;
-      position: relative;
-      background: -moz-linear-gradient(top, #fcfcfc 0%, #ffffff 100%);
-      background: -webkit-linear-gradient(top, #fcfcfc 0%,#ffffff 100%);
-      background: linear-gradient(to bottom, #fcfcfc 0%,#ffffff 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ffffff',GradientType=0 );
-    }
-
-    @include element("inner") {
-      max-width: 1300px;
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      padding: 0 24px;
-    }
-
-    @include block("layout-sidebar") {
-      width: 24%;
-      padding: 32px 32px 0 0;
-    }
-
-    @include block("layout-main") {
-      width: 76%;
-      padding: 2rem 0;
-      padding: 32px 0 32px 32px;
-      border-left: none;
-
-      @include block("layout-main-header") {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        align-items: center;
-
-        @include element("inner") {
-          font-size: 12px;
-          color: #4a4b4b;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-        }
-      }
-
-      @include block("layout-main-footer") {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-      }
+      padding: 0 15px;
     }
   }
+}
+
+/**
+ * Sidebar / Filters
+ */
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@include block("layout-sidebar") {
+  width: 24%;
+  padding: 32px 32px 0 0;
+
+  @media (max-width: $sidebarBreakpoint + $offset) {
+    padding-right: 0;
+  }
+  @media (max-width: $sidebarBreakpoint) {
+    z-index: 99;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0 15px 30px 15px;
+    background-color: $resultBackgroundColor;
+    overflow: auto;
+  }
+
+  @include modifier("toggled") {
+    display: block;
+    animation: fadein 0.2s ease-out;
+  }
+}
+
+@include block("layout-sidebar-toggle") {
+  @media (max-width: $sidebarBreakpoint) {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+
+    @include themeTypography;
+    font-size: 14px;
+    font-weight: 700;
+    color: $linkColor;
+    background-color: $white;
+    border: 1px solid $linkColor;
+    border-radius: $borderRadius;
+
+    .sui-layout-sidebar & {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+/**
+ * Main / Results
+ */
+
+@include block("layout-main") {
+  width: 76%;
+  padding: 32px 0 32px 32px;
+
+  @media (max-width: $sidebarBreakpoint) {
+    width: 100%;
+    padding-left: 0;
+  }
+}
+
+@include block("layout-main-header") {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  @include element("inner") {
+    font-size: 12px;
+    color: #4a4b4b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+@include block("layout-main-footer") {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
