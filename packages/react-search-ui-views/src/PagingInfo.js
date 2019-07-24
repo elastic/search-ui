@@ -10,7 +10,13 @@ function PagingInfo({ className, end, searchTerm, start, totalResults }) {
       <strong>
         {start} - {end}
       </strong>{" "}
-      out of <strong>{totalResults}</strong> for: <em>{searchTerm}</em>
+      out of <strong>{totalResults}</strong>
+      {searchTerm && (
+        <>
+          {" "}
+          for: <em>{searchTerm}</em>
+        </>
+      )}
     </div>
   );
 }
