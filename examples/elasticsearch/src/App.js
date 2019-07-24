@@ -24,6 +24,7 @@ import buildState from "./buildState";
 
 const config = {
   debug: true,
+  hasA11yNotifications: true,
   onResultClick: () => {
     /* Not implemented */
   },

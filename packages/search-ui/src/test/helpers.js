@@ -43,11 +43,7 @@ export function getMockApiConnector() {
   };
 }
 
-export function setupDriver({
-  initialState,
-  mockSearchResponse,
-  trackUrlState
-} = {}) {
+export function setupDriver({ mockSearchResponse, ...rest } = {}) {
   const mockApiConnector = getMockApiConnector();
 
   if (mockSearchResponse) {
@@ -56,13 +52,10 @@ export function setupDriver({
     });
   }
 
-  trackUrlState =
-    trackUrlState === false || trackUrlState === true ? trackUrlState : true;
-
   const driver = new SearchDriver({
     apiConnector: mockApiConnector,
-    trackUrlState,
-    initialState,
+    // Pass, e.g., initialState and all other configs
+    ...rest,
     // We don't want to deal with async in our tests, so pass 0 so URL state
     // pushes happen synchronously
     urlPushDebounceLength: 0
