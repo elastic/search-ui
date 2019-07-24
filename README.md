@@ -285,8 +285,18 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ Search API.
 
-Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check
-out the [Elasticsearch Example](./examples/elasticsearch).
+Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers).
+
+### How do I use this with Elasticsearch?
+
+First off, we should mention that it is not recommended to make API calls directly to Elasticsearch
+from a browser, as noted in the [elasticsearch-js client](https://github.com/elastic/elasticsearch-js#browser).
+
+The safest way to interact with Elasticsearch from a browser is to make all Elasticsearch queries server-side. Or you can use [Elastic App Search](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product), which can create public, scoped API credentials and be exposed directly to a browser.
+
+That being said, Search UI will still work with Elasticsearch (or any other API, for that matter). Read the
+[Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check out the
+[Elasticsearch Example](./examples/elasticsearch).
 
 ### Where do I report issues with the Search UI?
 
