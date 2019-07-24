@@ -81,11 +81,11 @@ Our `master` branch holds the latest development code for the next release. If t
 
 All PRs should be created from a fork, to keep a clean set of branches on `origin`.
 
-Releases should be performed directly in master, following the Publishing guide below.
+Releases should be performed directly in master (or a minor branch for patches), following the Publishing guide below.
 
 We use a `stable` branch to indicate the latest release code.
 
-We will create branches for minor releases only if a patch is required. I.e., if a patch is required for `1.1.0`, we would create a `1.1` branch to track patches for the `1.1` release.
+We will create branches for all minor releases.
 
 ### Publishing
 
@@ -103,9 +103,10 @@ Publish a new version from master
 6. Run `npx lerna publish --force-publish=* from-package`.
 7. Verify the `0.6.0` has been published to npm.
 8. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
-9. Update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
-10. Create a release in Github.
-11. Close the release Milestone in Github.
+9. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
+10. Update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
+11. Create a release in Github.
+12. Close the release Milestone in Github.
 
 Publish a patch
 (Example, publish 0.6.1)
@@ -121,7 +122,7 @@ Publish a patch
 6. Run `npx lerna publish --force-publish=* from-package`.
 7. Verify the `0.6.1` has been published to npm.
 8. Verify that the `0.6.1` tag and commit has been pushed to `master` on `origin`.
-9. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process
+9. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
 10. Create a release in Github.
 11. Close the release Milestone in Github.
 
