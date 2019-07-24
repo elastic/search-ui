@@ -16,7 +16,8 @@ exports[`renders correctly 1`] = `
   <strong>
     1000
   </strong>
-   for: 
+   
+  for: 
   <em>
     grok
   </em>
