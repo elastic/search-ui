@@ -39,7 +39,8 @@ export class ResultsContainer extends Component {
       shouldTrackClickThrough,
       titleField,
       urlField,
-      view
+      view,
+      ...rest
     } = this.props;
 
     const View = view || Results;
@@ -57,7 +58,8 @@ export class ResultsContainer extends Component {
           shouldTrackClickThrough={shouldTrackClickThrough}
           clickThroughTags={clickThroughTags}
         />
-      ))
+      )),
+      ...rest
     });
   }
 }

@@ -3,9 +3,12 @@ import React from "react";
 
 import { appendClassName } from "./view-helpers";
 
-function Results({ children, className }) {
+function Results({ children, className, ...rest }) {
   return (
-    <ul className={appendClassName("sui-results-container", className)}>
+    <ul
+      className={appendClassName("sui-results-container", className)}
+      {...rest}
+    >
       {children}
     </ul>
   );

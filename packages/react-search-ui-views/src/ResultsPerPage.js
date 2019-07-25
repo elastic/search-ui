@@ -24,7 +24,8 @@ function ResultsPerPage({
   className,
   onChange,
   options,
-  value: selectedValue
+  value: selectedValue,
+  ...rest
 }) {
   let selectedOption = null;
 
@@ -35,7 +36,10 @@ function ResultsPerPage({
   }
 
   return (
-    <div className={appendClassName("sui-results-per-page", className)}>
+    <div
+      className={appendClassName("sui-results-per-page", className)}
+      {...rest}
+    >
       <div className="sui-results-per-page__label">Show</div>
       <Select
         className="sui-select sui-select--inline"

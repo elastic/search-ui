@@ -14,14 +14,15 @@ export class ErrorBoundaryContainer extends Component {
   };
 
   render() {
-    const { children, className, error, view } = this.props;
+    const { children, className, error, view, ...rest } = this.props;
 
     const View = view || ErrorBoundary;
 
     return View({
       className,
       children,
-      error
+      error,
+      ...rest
     });
   }
 }

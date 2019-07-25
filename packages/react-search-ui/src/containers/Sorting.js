@@ -44,7 +44,8 @@ export class SortingContainer extends Component {
       sortDirection,
       sortField,
       sortOptions,
-      view
+      view,
+      ...rest
     } = this.props;
 
     const View = view || Sorting;
@@ -57,7 +58,8 @@ export class SortingContainer extends Component {
         setSort(sortOption.value, sortOption.direction);
       },
       options: sortOptions.map(formatSelectOption),
-      value: formatValue(sortField, sortDirection)
+      value: formatValue(sortField, sortDirection),
+      ...rest
     });
   }
 }

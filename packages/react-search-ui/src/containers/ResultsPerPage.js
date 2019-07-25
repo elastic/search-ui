@@ -25,7 +25,8 @@ export class ResultsPerPageContainer extends Component {
       resultsPerPage,
       setResultsPerPage,
       view,
-      options
+      options,
+      ...rest
     } = this.props;
 
     const View = view || ResultsPerPage;
@@ -36,7 +37,8 @@ export class ResultsPerPageContainer extends Component {
         setResultsPerPage(value);
       },
       options,
-      value: resultsPerPage
+      value: resultsPerPage,
+      ...rest
     });
   }
 }

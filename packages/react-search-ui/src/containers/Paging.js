@@ -9,7 +9,8 @@ export function PagingContainer({
   resultsPerPage,
   setCurrent,
   totalPages,
-  view
+  view,
+  ...rest
 }) {
   if (totalPages === 0) return null;
 
@@ -20,7 +21,8 @@ export function PagingContainer({
     current,
     resultsPerPage,
     totalPages,
-    onChange: setCurrent
+    onChange: setCurrent,
+    ...rest
   });
 }
 

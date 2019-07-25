@@ -11,7 +11,7 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function Sorting({ className, label, onChange, options, value }) {
+function Sorting({ className, label, onChange, options, value, ...rest }) {
   const selectedValue = value;
 
   const selectedOption = selectedValue
@@ -19,7 +19,7 @@ function Sorting({ className, label, onChange, options, value }) {
     : null;
 
   return (
-    <div className={appendClassName("sui-sorting", className)}>
+    <div className={appendClassName("sui-sorting", className)} {...rest}>
       {label && <div className="sui-sorting__label">{label}</div>}
       <Select
         className="sui-select"

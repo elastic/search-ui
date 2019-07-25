@@ -3,10 +3,10 @@ import React from "react";
 
 import { appendClassName } from "./view-helpers";
 
-function ErrorBoundary({ children, className, error }) {
+function ErrorBoundary({ children, className, error, ...rest }) {
   if (error) {
     return (
-      <div className={appendClassName("sui-search-error", className)}>
+      <div className={appendClassName("sui-search-error", className)} {...rest}>
         {error}
       </div>
     );

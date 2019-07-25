@@ -21,7 +21,8 @@ function SearchBox(props) {
     onSelectAutocomplete,
     onSubmit,
     useAutocomplete,
-    value
+    value,
+    ...rest
   } = props;
   const focusedClass = isFocused ? "focus" : "";
   const AutocompleteView = autocompleteView || Autocomplete;
@@ -40,6 +41,7 @@ function SearchBox(props) {
       // the inputValue. This is supposed to be a "controlled" value, and when
       // this happens we lose control of it.
       itemToString={() => value}
+      {...rest}
     >
       {downshiftProps => {
         const { closeMenu, getInputProps, isOpen } = downshiftProps;

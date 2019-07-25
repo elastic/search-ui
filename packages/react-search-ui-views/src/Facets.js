@@ -3,9 +3,12 @@ import React from "react";
 
 import { appendClassName } from "./view-helpers";
 
-function Facets({ children, className }) {
+function Facets({ children, className, ...rest }) {
   return (
-    <div className={appendClassName("sui-facet-container", className)}>
+    <div
+      className={appendClassName("sui-facet-container", className)}
+      {...rest}
+    >
       {children}
     </div>
   );
