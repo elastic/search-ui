@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { Component } from "react";
 import { withSearch } from "..";
 import { ResultsPerPage } from "@elastic/react-search-ui-views";
+import { Result as ResultType } from "../types";
 
 export class ResultsPerPageContainer extends Component {
   static propTypes = {
@@ -12,7 +13,9 @@ export class ResultsPerPageContainer extends Component {
     // State
     resultsPerPage: PropTypes.number.isRequired,
     // Actions
-    setResultsPerPage: PropTypes.func.isRequired
+    setResultsPerPage: PropTypes.func.isRequired,
+    results: PropTypes.arrayOf(ResultType).isRequired,
+    searchTerm: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -26,6 +29,10 @@ export class ResultsPerPageContainer extends Component {
       setResultsPerPage,
       view,
       options,
+      // eslint-disable-next-line no-unused-vars
+      results,
+      // eslint-disable-next-line no-unused-vars
+      searchTerm,
       ...rest
     } = this.props;
 

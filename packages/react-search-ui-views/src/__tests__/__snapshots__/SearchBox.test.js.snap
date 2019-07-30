@@ -2,17 +2,12 @@
 
 exports[`passes through inputProps 1`] = `
 <Downshift
-  autocompletedResults={Array []}
-  autocompletedSuggestions={Object {}}
-  autocompletedSuggestionsCount={0}
-  completeSuggestion={[Function]}
   defaultHighlightedIndex={null}
   defaultIsOpen={false}
   environment={[Window]}
   getA11yStatusMessage={[Function]}
   inputValue="test"
   itemToString={[Function]}
-  notifyAutocompleteSelected={[Function]}
   onChange={[Function]}
   onInputValueChange={[Function]}
   onOuterClick={[Function]}
@@ -30,17 +25,12 @@ exports[`passes through inputProps 1`] = `
 
 exports[`renders correctly 1`] = `
 <Downshift
-  autocompletedResults={Array []}
-  autocompletedSuggestions={Object {}}
-  autocompletedSuggestionsCount={0}
-  completeSuggestion={[Function]}
   defaultHighlightedIndex={null}
   defaultIsOpen={false}
   environment={[Window]}
   getA11yStatusMessage={[Function]}
   inputValue="test"
   itemToString={[Function]}
-  notifyAutocompleteSelected={[Function]}
   onChange={[Function]}
   onInputValueChange={[Function]}
   onOuterClick={[Function]}

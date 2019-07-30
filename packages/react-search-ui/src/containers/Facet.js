@@ -76,6 +76,8 @@ export class FacetContainer extends Component {
       setFilter,
       view,
       isFilterable,
+      // eslint-disable-next-line no-unused-vars
+      a11yNotify,
       ...rest
     } = this.props;
     const facetValues = facets[field];

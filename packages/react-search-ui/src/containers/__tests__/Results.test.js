@@ -117,3 +117,29 @@ it("passes className through to the view", () => {
   );
   expect(viewProps.className).toEqual(className);
 });
+
+it("passes style through to the view", () => {
+  let viewProps;
+  const style = {};
+  shallow(
+    <ResultsContainer
+      {...params}
+      style={style}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps.style).toEqual(style);
+});
+
+it("passes data-foo through to the view", () => {
+  let viewProps;
+  const data = "bar";
+  shallow(
+    <ResultsContainer
+      {...params}
+      data-foo={data}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps["data-foo"]).toEqual(data);
+});

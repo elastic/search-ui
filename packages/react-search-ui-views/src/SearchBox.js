@@ -22,6 +22,16 @@ function SearchBox(props) {
     onSubmit,
     useAutocomplete,
     value,
+    // eslint-disable-next-line no-unused-vars
+    autocompletedResults,
+    // eslint-disable-next-line no-unused-vars
+    autocompletedSuggestions,
+    // eslint-disable-next-line no-unused-vars
+    autocompletedSuggestionsCount,
+    // eslint-disable-next-line no-unused-vars
+    completeSuggestion,
+    // eslint-disable-next-line no-unused-vars
+    notifyAutocompleteSelected,
     ...rest
   } = props;
   const focusedClass = isFocused ? "focus" : "";
