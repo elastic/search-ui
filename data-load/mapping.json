@@ -1,0 +1,115 @@
+{
+    "mappings": {
+        "campaign": {
+            "properties": {
+                "id": {
+                    "type": "keyword"
+                },
+                "uniqueid": {
+                    "type": "keyword"
+                },
+                "campaign": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "altcampaign": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "status": {
+                    "type": "text"
+                },
+                "description": {
+                    "type": "text"
+                },
+                "internalid": {
+                    "type": "keyword"
+                },
+                "ponumber": {
+                    "type": "keyword"
+                },
+                "contact": {
+                    "type": "keyword"
+                },
+                "startdate": {
+                    "type": "date"
+                },
+                "enddate": {
+                    "type": "date"
+                },
+                "timing": {
+                    "type": "text"
+                },
+                "url": {
+                    "type": "text"
+                },
+                "agency": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "countrycode": {
+                    "type": "keyword"
+                },            
+                "advertiser": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "altadvertiser": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "brand": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "altbrand": {
+                    "type": "text",
+                    "fields": {
+                        "raw": {"type": "keyword"}
+                    }
+                },
+                "updated": {
+                    "type":   "date"
+                },
+                "longmonth": {
+                    "type": "keyword"
+                },
+                "shortmonth": {
+                    "type": "keyword"
+                },
+                "insertions": {
+                    "type": "nested",
+                    "properties": {
+                        "vendor": {
+                            "type": "keyword"
+                        },
+                        "altvendor": {
+                            "type": "keyword"
+                        },
+                        "vendorref": {
+                            "type": "keyword"
+                        },
+                        "ionumber": {
+                            "type": "keyword"
+                        },
+                        "ioref": {
+                            "type": "keyword"
+                        }
+                      }
+                }
+            }
+        }
+    }
+}
