@@ -43,6 +43,12 @@ export class ResultContainer extends Component {
       titleField,
       urlField,
       view,
+      // eslint-disable-next-line no-unused-vars
+      trackClickThrough,
+      // eslint-disable-next-line no-unused-vars
+      shouldTrackClickThrough,
+      // eslint-disable-next-line no-unused-vars
+      clickThroughTags,
       ...rest
     } = this.props;
     const View = view || Result;

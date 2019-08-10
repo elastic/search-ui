@@ -14,7 +14,7 @@ export class PagingInfoContainer extends Component {
     pagingEnd: PropTypes.number.isRequired,
     resultSearchTerm: PropTypes.string.isRequired,
     totalResults: PropTypes.number.isRequired,
-    results: PropTypes.arrayOf(ResultType).isRequired
+    results: PropTypes.arrayOf(ResultType)
   };
 
   render() {

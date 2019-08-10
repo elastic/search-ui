@@ -14,8 +14,8 @@ export class ResultsPerPageContainer extends Component {
     resultsPerPage: PropTypes.number.isRequired,
     // Actions
     setResultsPerPage: PropTypes.func.isRequired,
-    results: PropTypes.arrayOf(ResultType).isRequired,
-    searchTerm: PropTypes.string.isRequired
+    results: PropTypes.arrayOf(ResultType),
+    searchTerm: PropTypes.string
   };
 
   static defaultProps = {

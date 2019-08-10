@@ -36,8 +36,8 @@ export class SortingContainer extends Component {
     sortField: PropTypes.string.isRequired,
     // Actions
     setSort: PropTypes.func.isRequired,
-    searchTerm: PropTypes.string.isRequired,
-    results: PropTypes.arrayOf(ResultType).isRequired
+    searchTerm: PropTypes.string,
+    results: PropTypes.arrayOf(ResultType)
   };
 
   render() {
