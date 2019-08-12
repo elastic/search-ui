@@ -5,6 +5,8 @@ import { Sorting } from "@elastic/react-search-ui-views";
 
 import { SortOption } from "../types";
 
+import { Result as ResultType } from "../types";
+
 function findSortOption(sortOptions, sortString) {
   const [value, direction] = sortString.split("|||");
   return sortOptions.find(
@@ -33,7 +35,9 @@ export class SortingContainer extends Component {
     sortDirection: PropTypes.oneOf(["asc", "desc", ""]).isRequired,
     sortField: PropTypes.string.isRequired,
     // Actions
-    setSort: PropTypes.func.isRequired
+    setSort: PropTypes.func.isRequired,
+    searchTerm: PropTypes.string,
+    results: PropTypes.arrayOf(ResultType)
   };
 
   render() {
@@ -45,6 +49,10 @@ export class SortingContainer extends Component {
       sortField,
       sortOptions,
       view,
+      // eslint-disable-next-line no-unused-vars
+      results,
+      // eslint-disable-next-line no-unused-vars
+      searchTerm,
       ...rest
     } = this.props;
 
