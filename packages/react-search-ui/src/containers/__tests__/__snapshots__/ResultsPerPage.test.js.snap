@@ -3,6 +3,13 @@
 exports[`renders the component with custom page options 1`] = `
 <div
   className="sui-results-per-page"
+  results={
+    Array [
+      Object {},
+      Object {},
+    ]
+  }
+  searchTerm="test"
 >
   <div
     className="sui-results-per-page__label"
@@ -56,6 +63,8 @@ exports[`renders the component with custom page options 1`] = `
 exports[`renders when it doesn't have any results or a search term 1`] = `
 <div
   className="sui-results-per-page"
+  results={Array []}
+  searchTerm=""
 >
   <div
     className="sui-results-per-page__label"
