@@ -21,7 +21,18 @@ function SearchBox(props) {
     onSelectAutocomplete,
     onSubmit,
     useAutocomplete,
-    value
+    value,
+    // eslint-disable-next-line no-unused-vars
+    autocompletedResults,
+    // eslint-disable-next-line no-unused-vars
+    autocompletedSuggestions,
+    // eslint-disable-next-line no-unused-vars
+    autocompletedSuggestionsCount,
+    // eslint-disable-next-line no-unused-vars
+    completeSuggestion,
+    // eslint-disable-next-line no-unused-vars
+    notifyAutocompleteSelected,
+    ...rest
   } = props;
   const focusedClass = isFocused ? "focus" : "";
   const AutocompleteView = autocompleteView || Autocomplete;
@@ -40,6 +51,7 @@ function SearchBox(props) {
       // the inputValue. This is supposed to be a "controlled" value, and when
       // this happens we lose control of it.
       itemToString={() => value}
+      {...rest}
     >
       {downshiftProps => {
         const { closeMenu, getInputProps, isOpen } = downshiftProps;

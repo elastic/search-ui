@@ -3,6 +3,8 @@
 exports[`renders when it doesn't have results or a search term 1`] = `
 <div
   className="sui-sorting"
+  results={Array []}
+  searchTerm=""
 >
   <StateManager
     className="sui-select"

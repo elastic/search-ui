@@ -91,6 +91,19 @@ it("passes className through to the view", () => {
   expect(viewProps.className).toEqual(className);
 });
 
+it("passes data-foo through to the view", () => {
+  let viewProps;
+  const data = "bar";
+  shallow(
+    <ResultContainer
+      {...params}
+      data-foo={data}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps["data-foo"]).toEqual(data);
+});
+
 it("supports a render prop", () => {
   // eslint-disable-next-line react/prop-types
   const render = ({ children }) => {

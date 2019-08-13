@@ -278,6 +278,19 @@ it("passes className through to the view", () => {
   expect(viewProps.className).toEqual(className);
 });
 
+it("passes data-foo through to the view", () => {
+  let viewProps;
+  const data = "bar";
+  shallow(
+    <FacetContainer
+      {...params}
+      data-foo={data}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps["data-foo"]).toEqual(data);
+});
+
 describe("search facets", () => {
   let wrapper;
   const field = "field1";

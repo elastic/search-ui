@@ -75,7 +75,10 @@ export class FacetContainer extends Component {
       removeFilter,
       setFilter,
       view,
-      isFilterable
+      isFilterable,
+      // eslint-disable-next-line no-unused-vars
+      a11yNotify,
+      ...rest
     } = this.props;
     const facetValues = facets[field];
 
@@ -117,7 +120,8 @@ export class FacetContainer extends Component {
       onSearch: value => {
         this.handleFacetSearch(value);
       },
-      searchPlaceholder: `Filter ${field}`
+      searchPlaceholder: `Filter ${field}`,
+      ...rest
     });
   }
 }

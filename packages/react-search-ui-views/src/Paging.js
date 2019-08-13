@@ -4,7 +4,14 @@ import RCPagination from "rc-pagination";
 
 import { appendClassName } from "./view-helpers";
 
-function Paging({ className, current, resultsPerPage, onChange, totalPages }) {
+function Paging({
+  className,
+  current,
+  resultsPerPage,
+  onChange,
+  totalPages,
+  ...rest
+}) {
   return (
     <RCPagination
       current={current}
@@ -12,6 +19,7 @@ function Paging({ className, current, resultsPerPage, onChange, totalPages }) {
       pageSize={resultsPerPage}
       total={totalPages * resultsPerPage}
       className={appendClassName("sui-paging", className)}
+      {...rest}
     />
   );
 }

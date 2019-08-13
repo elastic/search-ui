@@ -37,7 +37,20 @@ export class ResultContainer extends Component {
   };
 
   render() {
-    const { className, result, titleField, urlField, view } = this.props;
+    const {
+      className,
+      result,
+      titleField,
+      urlField,
+      view,
+      // eslint-disable-next-line no-unused-vars
+      trackClickThrough,
+      // eslint-disable-next-line no-unused-vars
+      shouldTrackClickThrough,
+      // eslint-disable-next-line no-unused-vars
+      clickThroughTags,
+      ...rest
+    } = this.props;
     const View = view || Result;
 
     return View({
@@ -46,7 +59,8 @@ export class ResultContainer extends Component {
       key: `result-${result.id.raw}`,
       onClickLink: () => this.handleClickLink(result.id.raw),
       titleField,
-      urlField
+      urlField,
+      ...rest
     });
   }
 }

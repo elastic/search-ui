@@ -22,7 +22,8 @@ export class PagingInfoContainer extends Component {
       pagingEnd,
       resultSearchTerm,
       totalResults,
-      view
+      view,
+      ...rest
     } = this.props;
 
     const View = view || PagingInfo;
@@ -32,7 +33,8 @@ export class PagingInfoContainer extends Component {
       searchTerm: resultSearchTerm,
       start: pagingStart,
       end: pagingEnd,
-      totalResults: totalResults
+      totalResults: totalResults,
+      ...rest
     });
   }
 }

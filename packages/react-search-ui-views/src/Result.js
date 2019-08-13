@@ -49,13 +49,20 @@ function getEscapedFields(result) {
   }, {});
 }
 
-function Result({ className, result, onClickLink, titleField, urlField }) {
+function Result({
+  className,
+  result,
+  onClickLink,
+  titleField,
+  urlField,
+  ...rest
+}) {
   const fields = getEscapedFields(result);
   const title = getEscapedField(result, titleField);
   const url = getRaw(result, urlField);
 
   return (
-    <li className={appendClassName("sui-result", className)}>
+    <li className={appendClassName("sui-result", className)} {...rest}>
       <div className="sui-result__header">
         {title && !url && (
           <span

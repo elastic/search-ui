@@ -73,3 +73,16 @@ it("renders the component with custom page options", () => {
 
   expect(wrapper).toMatchSnapshot();
 });
+
+it("passes data-foo through to the view", () => {
+  let viewProps;
+  const data = "bar";
+  shallow(
+    <ResultsPerPageContainer
+      {...params}
+      data-foo={data}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps["data-foo"]).toEqual(data);
+});

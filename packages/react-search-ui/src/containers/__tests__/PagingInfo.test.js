@@ -48,3 +48,16 @@ it("passes className through to the view", () => {
   );
   expect(viewProps.className).toEqual(className);
 });
+
+it("passes data-foo through to the view", () => {
+  let viewProps;
+  const data = "bar";
+  shallow(
+    <PagingInfoContainer
+      {...params}
+      data-foo={data}
+      view={props => (viewProps = props)}
+    />
+  );
+  expect(viewProps["data-foo"]).toEqual(data);
+});

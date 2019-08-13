@@ -154,7 +154,8 @@ export class SearchBoxContainer extends Component {
       onSelectAutocomplete,
       onSubmit,
       searchTerm,
-      view
+      view,
+      ...rest
     } = this.props;
 
     const View = view || SearchBox;
@@ -211,7 +212,8 @@ export class SearchBoxContainer extends Component {
         onBlur: this.handleBlur,
         ...inputProps
       },
-      inputView
+      inputView,
+      ...rest
     });
   }
 }
