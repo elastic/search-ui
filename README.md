@@ -323,6 +323,6 @@ We welcome contributors to the project. Before you begin, a couple notes...
 
 ## License 📗
 
-[Apache-2.0](https://github.com/elastic/search-ui/blob/master/LICENSE) © [Elastic](https://github.com/elastic)
+[Apache-2.0](https://github.com/elastic/search-ui/blob/master/LICENSE.txt) © [Elastic](https://github.com/elastic)
 
 Thank you to all the [contributors](https://github.com/elastic/search-ui/graphs/contributors)!
