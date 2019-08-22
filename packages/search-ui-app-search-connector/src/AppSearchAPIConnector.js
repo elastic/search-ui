@@ -55,13 +55,13 @@ class AppSearchAPIConnector {
       next(queryOptions),
     endpointBase = ""
   }) {
-    if (!engineName || !hostIdentifier || !searchKey) {
+    if (!engineName || !(hostIdentifier || endpointBase) || !searchKey) {
       throw Error("engineName, hostIdentifier, and searchKey are required");
     }
 
     this.client = SwiftypeAppSearch.createClient({
-      endpointBase,
-      hostIdentifier: hostIdentifier,
+      ...(endpointBase && { endpointBase }), //Add property on condition
+      ...(hostIdentifier && { hostIdentifier: hostIdentifier }),
       apiKey: searchKey,
       engineName: engineName,
       additionalHeaders: {
