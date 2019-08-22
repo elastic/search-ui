@@ -84,6 +84,15 @@ describe("AppSearchAPIConnector", () => {
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
   });
 
+  it("can be initialized with endpointBase", () => {
+    let newParams = { ...params };
+    newParams.hostIdentifier = undefined;
+    newParams.endpointBase = "http://localhost:3001";
+
+    const connector = new AppSearchAPIConnector(newParams);
+    expect(connector).toBeInstanceOf(AppSearchAPIConnector);
+  });
+
   it("will throw when missing required parameters", () => {
     expect(() => {
       new AppSearchAPIConnector({});
