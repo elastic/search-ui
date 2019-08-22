@@ -2,6 +2,7 @@ export { default as Autocomplete } from "./Autocomplete";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Facets } from "./Facets";
 export { default as MultiCheckboxFacet } from "./MultiCheckboxFacet";
+export { default as BooleanFacet } from "./BooleanFacet";
 export { default as Paging } from "./Paging";
 export { default as PagingInfo } from "./PagingInfo";
 export { default as Result } from "./Result";

@@ -18,7 +18,8 @@ import {
 import {
   Layout,
   SingleSelectFacet,
-  SingleLinksFacet
+  SingleLinksFacet,
+  BooleanFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
@@ -229,6 +230,11 @@ export default function App() {
                         field="acres"
                         label="Acres"
                         view={SingleSelectFacet}
+                      />
+                      <Facet
+                        field="world_heritage_site"
+                        label="world heritage site"
+                        view={BooleanFacet}
                       />
                     </div>
                   }

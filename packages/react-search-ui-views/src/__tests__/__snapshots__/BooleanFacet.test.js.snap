@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className=""
+  onClick={[Function]}
+>
+  A Facet
+   
+  (10)
+</div>
+`;
