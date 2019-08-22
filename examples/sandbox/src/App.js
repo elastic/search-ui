@@ -209,7 +209,8 @@ export default function App() {
                       />
                       <Facet
                         field="world_heritage_site"
-                        label="World Heritage Site?"
+                        label="world heritage site"
+                        view={BooleanFacet}
                       />
                       <Facet
                         field="visitors"
@@ -230,11 +231,6 @@ export default function App() {
                         field="acres"
                         label="Acres"
                         view={SingleSelectFacet}
-                      />
-                      <Facet
-                        field="world_heritage_site"
-                        label="world heritage site"
-                        view={BooleanFacet}
                       />
                     </div>
                   }
