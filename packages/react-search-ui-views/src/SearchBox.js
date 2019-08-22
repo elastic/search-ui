@@ -72,7 +72,7 @@ function SearchBox(props) {
                 getInputProps={additionalProps => {
                   const { className, ...rest } = additionalProps || {};
                   return getInputProps({
-                    placeholder: "Search",
+                    placeholder: "Search your documents",
                     ...inputProps,
                     className: appendClassName("sui-search-box__text-input", [
                       inputProps.className,
