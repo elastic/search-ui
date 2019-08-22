@@ -131,7 +131,7 @@ describe("inputView prop", () => {
 
     it("will render base props on input", () => {
       setup();
-      expect(input.props().placeholder).toBe("Search");
+      expect(input.props().placeholder).toBe("Search your documents");
     });
   });
 
