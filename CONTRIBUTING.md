@@ -92,11 +92,6 @@ We will create branches for all minor releases.
 Publish a new version from master
 (Example, publishing 0.6.0)
 
-1. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
-   NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
-   to manually edit the `package-lock.json` for each updated package to update
-   `0.5.0` to `0.6.0` at the top of the file.
-2. Commit these changes.
 3. Run `npx lerna version 0.6.0 --exact`.
 4. Verify the `0.6.0` tag was created as well as a "Release 0.6.0" commit.
 5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
@@ -112,10 +107,6 @@ Publish a patch
 (Example, publish 0.6.1)
 
 1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.
-2. Update `CHANGELOG` files to include version `v0.6.1` for the projects that will be published.
-   NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
-   to manually edit the `package-lock.json` for each updated package to update
-   `0.6.0` to `0.6.1` at the top of the file.
 3. Run `npx lerna version 0.6.1 --exact`.
 4. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
 5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
