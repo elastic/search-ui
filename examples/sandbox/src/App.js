@@ -209,7 +209,7 @@ export default function App() {
                       />
                       <Facet
                         field="world_heritage_site"
-                        label="world heritage site"
+                        label="World Heritage Site"
                         view={BooleanFacet}
                       />
                       <Facet

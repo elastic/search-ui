@@ -1,0 +1,27 @@
+@include block("boolean-facet") {
+  color: $facetLinkColor;
+  font-size: 13px;
+  margin: 8px 0;
+
+  @include element("option-label") {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  @include element("option-input-wrapper") {
+    flex: 1;
+  }
+
+  @include element("checkbox") {
+    margin-right: $sizeS;
+    cursor: pointer;
+  }
+
+  @include element("option-count") {
+    color: #888888;
+    font-size: 0.85em;
+    margin-left: $sizeL;
+  }
+}
