@@ -92,39 +92,30 @@ We will create branches for all minor releases.
 Publish a new version from master
 (Example, publishing 0.6.0)
 
-1. Update `CHANGELOG` files to include version `v0.6.0` for the projects that will be published.
-   NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
-   to manually edit the `package-lock.json` for each updated package to update
-   `0.5.0` to `0.6.0` at the top of the file.
-2. Commit these changes.
-3. Run `npx lerna version 0.6.0 --exact`.
-4. Verify the `0.6.0` tag was created as well as a "Release 0.6.0" commit.
-5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
-6. Run `npx lerna publish --force-publish=* from-package`.
-7. Verify the `0.6.0` has been published to npm.
-8. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
-9. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
-10. Update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
-11. Create a release in Github.
-12. Close the release Milestone in Github.
+1. Run `npx lerna version 0.6.0 --exact`.
+1. Verify the `0.6.0` tag was created as well as a "Release 0.6.0" commit.
+1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
+1. Run `npx lerna publish --force-publish=* from-package`.
+1. Verify the `0.6.0` has been published to npm.
+1. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
+1. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
+1. Update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
+1. Create a release in Github.
+1. Close the release Milestone in Github.
 
 Publish a patch
 (Example, publish 0.6.1)
 
 1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.
-2. Update `CHANGELOG` files to include version `v0.6.1` for the projects that will be published.
-   NOTE: Lerna does NOT update `package-lock.json` file, so at this point you'll have
-   to manually edit the `package-lock.json` for each updated package to update
-   `0.6.0` to `0.6.1` at the top of the file.
-3. Run `npx lerna version 0.6.1 --exact`.
-4. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
-5. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
-6. Run `npx lerna publish --force-publish=* from-package`.
-7. Verify the `0.6.1` has been published to npm.
-8. Verify that the `0.6.1` tag and commit has been pushed to `master` on `origin`.
-9. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
-10. Create a release in Github.
-11. Close the release Milestone in Github.
+1. Run `npx lerna version 0.6.1 --exact`.
+1. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
+1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
+1. Run `npx lerna publish --force-publish=* from-package`.
+1. Verify the `0.6.1` has been published to npm.
+1. Verify that the `0.6.1` tag and commit has been pushed to `master` on `origin`.
+1. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
+1. Create a release in Github.
+1. Close the release Milestone in Github.
 
 ### Canary releases for testing
 
@@ -132,14 +123,14 @@ It can often be useful to publish a change and test it before doing a real live 
 option for this.
 
 1. Check out pr branch
-2. `npx lerna publish --force-publish=* --canary --preid canary` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
-3. In project you'll need to install all dependencies explicitly with the canary tag from npm:
+1. `npx lerna publish --force-publish=* --canary --preid canary` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
+1. In project you'll need to install all dependencies explicitly with the canary tag from npm:
 
    ```
    npm install --save @elastic/react-search-ui@canary @elastic/search-ui-app-search-connector@canary @elastic/react-search-ui-views@canary search-ui-views@canary
    ```
 
-4. To Deploy, simply push your changes to the `canary` branch, then visit "https://search-ui-canary.netlify.com/"
+1. To Deploy, simply push your changes to the `canary` branch, then visit "https://search-ui-canary.netlify.com/"
 
 ### Release candidates
 
