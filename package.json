@@ -3,7 +3,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "postinstall": "cd packages && npm install && cd .. && lerna bootstrap",
+    "postinstall": "cd packages && npm install && cd .. && lerna bootstrap --no-ci",
     "test": "lerna run test --stream --no-private",
     "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",
