@@ -1,7 +1,7 @@
-import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
+import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import AppSearchAPIConnector from "..";
 
-jest.mock("swiftype-app-search-javascript");
+jest.mock("@elastic/app-search-javascript");
 
 const resultsSuggestions = {
   results: {
@@ -43,7 +43,7 @@ const mockClient = {
   click: jest.fn().mockReturnValue(Promise.resolve())
 };
 
-SwiftypeAppSearch.createClient.mockReturnValue(mockClient);
+ElasticAppSearch.createClient.mockReturnValue(mockClient);
 
 const resultState = {
   facets: {},
