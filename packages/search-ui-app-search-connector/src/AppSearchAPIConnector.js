@@ -1,4 +1,4 @@
-import * as SwiftypeAppSearch from "swiftype-app-search-javascript";
+import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import { version } from "../package.json";
 
 import { adaptResponse } from "./responseAdapter";
@@ -61,7 +61,7 @@ class AppSearchAPIConnector {
       );
     }
 
-    this.client = SwiftypeAppSearch.createClient({
+    this.client = ElasticAppSearch.createClient({
       ...(endpointBase && { endpointBase }), //Add property on condition
       ...(hostIdentifier && { hostIdentifier: hostIdentifier }),
       apiKey: searchKey,
