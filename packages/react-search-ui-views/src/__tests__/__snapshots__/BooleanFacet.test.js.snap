@@ -23,10 +23,8 @@ exports[`renders 1`] = `
         >
           <input
             className="sui-boolean-facet__checkbox"
-            name="checkbox"
             onChange={[Function]}
             type="checkbox"
-            value="value"
           />
           <span
             className="sui-boolean-facet__input-text"

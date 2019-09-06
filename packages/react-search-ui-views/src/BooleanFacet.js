@@ -31,8 +31,6 @@ function BooleanFacet({
               <input
                 className="sui-boolean-facet__checkbox"
                 type="checkbox"
-                name="checkbox"
-                value="value"
                 onChange={toggle}
               />
               <span className="sui-boolean-facet__input-text">{label}</span>

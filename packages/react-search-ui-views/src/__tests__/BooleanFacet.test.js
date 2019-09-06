@@ -1,6 +1,6 @@
 import React from "react";
 import BooleanFacet from "../BooleanFacet";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
 const params = {
   label: "A Facet",
@@ -27,4 +27,19 @@ it("renders with className prop applied", () => {
   );
   const { className } = wrapper.props();
   expect(className.includes(customClassName)).toBe(true);
+});
+
+it("onChange is called on click", () => {
+  const wrapper = mount(<BooleanFacet {...params} />);
+
+  wrapper.find("input").simulate("change");
+  expect(params.onChange).toHaveBeenCalledTimes(1);
+});
+
+it("onRemove is called on click", () => {
+  params.values = ["true"];
+  const wrapper = mount(<BooleanFacet {...params} />);
+
+  wrapper.find("input").simulate("change");
+  expect(params.onRemove).toHaveBeenCalledTimes(1);
 });
