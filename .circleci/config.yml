@@ -25,9 +25,7 @@ jobs:
             - v2-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-
-        # Npm ci instead of npm install because it will install exactly what
-        # is in your package-lock.json file, and it's faster.
-      - run: npm ci
+      - run: npm install
 
       - save_cache:
           paths:
