@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<fieldset
+  className="sui-facet"
+>
+  <legend
+    className="sui-facet__title"
+  >
+    A Facet
+  </legend>
+  <div
+    className="sui-boolean-facet"
+  >
+    <div
+      className="sui-boolean-facet__option-input-wrapper"
+    >
+      <label
+        className="sui-boolean-facet__option-label"
+      >
+        <div
+          className="sui-boolean-facet__option-input-wrapper"
+        >
+          <input
+            className="sui-boolean-facet__checkbox"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span
+            className="sui-boolean-facet__input-text"
+          >
+            A Facet
+          </span>
+        </div>
+        <span
+          className="sui-boolean-facet__option-count"
+        >
+          10
+        </span>
+      </label>
+    </div>
+  </div>
+</fieldset>
+`;
