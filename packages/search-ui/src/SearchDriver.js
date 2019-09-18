@@ -202,6 +202,9 @@ export default class SearchDriver {
       });
   };
 
+  /**
+   * This method is used to update state and trigger a new search.
+   */
   _updateSearchResults = (
     searchParameters,
     { skipPushToUrl = false, ignoreIsLoadingCheck = false } = {}
@@ -219,85 +222,141 @@ export default class SearchDriver {
       ...searchParameters
     };
 
+    // We bail on making state updates if "isLoading" is true, which implies
+    // that there is an active API request that has been made and is pending.
+    //
+    // The net effect of this is that the user interaction effectively becomes
+    // "locked" while API requests are in flight, to avoid any odd race
+    // conditions.
+    //
+    // NOTE: This may be unnecessary now that we have debounce
+    // "_makeSearchRequest".
     if (isLoading && !ignoreIsLoadingCheck) return;
 
     this._setState({
       current,
       error: "",
       filters,
-      isLoading: true,
       resultsPerPage,
       searchTerm,
       sortDirection,
       sortField
     });
 
-    const requestId = this.requestSequencer.next();
-
-    const queryConfig = {
-      ...this.searchQuery,
-      facets: removeConditionalFacets(
-        this.searchQuery.facets,
-        this.searchQuery.conditionalFacets,
-        filters
-      )
-    };
-
-    const requestState = filterSearchParameters(this.state);
-
-    return this.events.search(requestState, queryConfig).then(
-      resultState => {
-        if (this.requestSequencer.isOldRequest(requestId)) return;
-        this.requestSequencer.completed(requestId);
-
-        // Results paging start & end
-        const { totalResults } = resultState;
-        const start =
-          totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
-        const end =
-          totalResults <= start + resultsPerPage
-            ? totalResults
-            : start + resultsPerPage - 1;
-
-        this._setState({
-          isLoading: false,
-          resultSearchTerm: searchTerm,
-          pagingStart: start,
-          pagingEnd: end,
-          ...resultState,
-          wasSearched: true
-        });
-
-        if (this.hasA11yNotifications) {
-          const messageArgs = { start, end, totalResults, searchTerm };
-          this.actions.a11yNotify("searchResults", messageArgs);
-        }
-
-        if (!skipPushToUrl && this.trackUrlState) {
-          // We debounce here so that we don't get a lot of intermediary
-          // URL state if someone is updating a UI really fast, like typing
-          // in a live search box for instance.
-          this.debounceManager.runWithDebounce(
-            this.urlPushDebounceLength,
-            this.URLManager.pushStateToURL.bind(this.URLManager),
-            {
-              current,
-              filters,
-              resultsPerPage,
-              searchTerm,
-              sortDirection,
-              sortField
-            }
-          );
-        }
-      },
-      error => {
-        this._setState({
-          error: `An unexpected error occurred: ${error.message}`
-        });
-      }
-    );
+    this._makeSearchRequest({
+      current,
+      filters,
+      resultsPerPage,
+      searchTerm,
+      skipPushToUrl,
+      sortDirection,
+      sortField
+    });
   };
+
+  /**
+   * This method is separated out from _updateSearchResults so that it
+   * can be debounced.
+   *
+   * By debouncing our API calls, we can effectively allow action chaining.
+   *
+   * For Ex:
+   *
+   * If a user needs to make multiple filter updates at once, they could
+   * do so by calling an action 3 times in a row:
+   *
+   *   addFilter("states", "California");
+   *   addFilter("states", "Nebraska");
+   *   addFilter("states", "Pennsylvania");
+   *
+   * We don't want to make 3 separate API calls like that in quick succession,
+   * so we debounce the API calls.
+   *
+   * Application state updates are performed in _updateSearchResults, but we
+   * wait to make the actual API calls until all actions have been called.
+   */
+  _makeSearchRequest = DebounceManager.debounce(
+    0,
+    ({
+      current,
+      filters,
+      resultsPerPage,
+      searchTerm,
+      skipPushToUrl,
+      sortDirection,
+      sortField
+    }) => {
+      this._setState({
+        isLoading: true
+      });
+
+      const requestId = this.requestSequencer.next();
+
+      const queryConfig = {
+        ...this.searchQuery,
+        facets: removeConditionalFacets(
+          this.searchQuery.facets,
+          this.searchQuery.conditionalFacets,
+          filters
+        )
+      };
+
+      const requestState = filterSearchParameters(this.state);
+
+      return this.events.search(requestState, queryConfig).then(
+        resultState => {
+          if (this.requestSequencer.isOldRequest(requestId)) return;
+          this.requestSequencer.completed(requestId);
+
+          // Results paging start & end
+          const { totalResults } = resultState;
+          const start =
+            totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
+          const end =
+            totalResults <= start + resultsPerPage
+              ? totalResults
+              : start + resultsPerPage - 1;
+
+          this._setState({
+            isLoading: false,
+            resultSearchTerm: searchTerm,
+            pagingStart: start,
+            pagingEnd: end,
+            ...resultState,
+            wasSearched: true
+          });
+
+          if (this.hasA11yNotifications) {
+            const messageArgs = { start, end, totalResults, searchTerm };
+            this.actions.a11yNotify("searchResults", messageArgs);
+          }
+
+          if (!skipPushToUrl && this.trackUrlState) {
+            // We debounce here so that we don't get a lot of intermediary
+            // URL state if someone is updating a UI really fast, like typing
+            // in a live search box for instance.
+            this.debounceManager.runWithDebounce(
+              this.urlPushDebounceLength,
+              this.URLManager.pushStateToURL.bind(this.URLManager),
+              {
+                current,
+                filters,
+                resultsPerPage,
+                searchTerm,
+                sortDirection,
+                sortField
+              }
+            );
+          }
+        },
+        error => {
+          this._setState({
+            error: `An unexpected error occurred: ${error.message}`
+          });
+        }
+      );
+    }
+  );
 
   _setState(newState) {
     const state = { ...this.state, ...newState };
