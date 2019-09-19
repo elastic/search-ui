@@ -9,6 +9,8 @@ import {
 jest.mock("../../URLManager.js");
 import URLManager from "../../URLManager";
 
+jest.useFakeTimers();
+
 beforeEach(() => {
   URLManager.mockClear();
 });
@@ -30,6 +32,7 @@ describe("#removeFilter", () => {
     });
 
     driver.removeFilter(name, value, type);
+    jest.runAllTimers();
     return updatedStateAfterAction.state;
   }
 

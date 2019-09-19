@@ -1,9 +1,12 @@
 import { getClickCalls, setupDriver } from "../../test/helpers";
 
+jest.useFakeTimers();
+
 describe("#trackClickThrough", () => {
   function subject({ initialState } = {}, documentId, tags) {
     const { driver, mockApiConnector } = setupDriver({ initialState });
     driver.trackClickThrough(documentId, tags);
+    jest.runAllTimers();
     return { driver, mockApiConnector };
   }
 

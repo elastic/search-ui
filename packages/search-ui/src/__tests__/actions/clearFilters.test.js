@@ -5,6 +5,8 @@ import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
 jest.mock("../../URLManager.js");
 import URLManager from "../../URLManager";
 
+jest.useFakeTimers();
+
 beforeEach(() => {
   URLManager.mockClear();
 });
@@ -24,6 +26,7 @@ describe("#clearFilters", () => {
     });
 
     driver.clearFilters(except);
+    jest.runAllTimers();
     return updatedStateAfterAction.state;
   }
 

@@ -5,6 +5,8 @@ import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
 jest.mock("../../URLManager.js");
 import URLManager from "../../URLManager";
 
+jest.useFakeTimers();
+
 beforeEach(() => {
   URLManager.mockClear();
 });
@@ -15,6 +17,7 @@ describe("#setResultsPerPage", () => {
       { initialState }
     );
     driver.setResultsPerPage(resultsPerPage);
+    jest.runAllTimers();
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation

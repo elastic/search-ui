@@ -1,5 +1,7 @@
 import SearchDriver from "../SearchDriver";
 
+jest.useFakeTimers();
+
 const suggestions = {
   documents: [
     {
@@ -65,6 +67,8 @@ export function setupDriver({ mockSearchResponse, ...rest } = {}) {
   driver.subscribeToStateChanges(newState => {
     updatedStateAfterAction.state = newState;
   });
+
+  jest.runAllTimers();
 
   return {
     stateAfterCreation: driver.getState(),
