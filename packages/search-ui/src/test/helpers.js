@@ -1,7 +1,5 @@
 import SearchDriver from "../SearchDriver";
 
-jest.useFakeTimers();
-
 const suggestions = {
   documents: [
     {
@@ -94,12 +92,6 @@ export function doesStateHaveResponseData(response) {
     totalResults > 0 &&
     !!wasSearched
   );
-}
-
-export function waitABit(length) {
-  return new Promise(function(resolve) {
-    setTimeout(() => resolve(), length);
-  });
 }
 
 export function getSearchCalls(mockApiConnector) {

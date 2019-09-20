@@ -5,8 +5,6 @@ import { itUpdatesURLState } from "../../test/sharedTests";
 jest.mock("../../URLManager.js");
 import URLManager from "../../URLManager";
 
-jest.useFakeTimers();
-
 beforeEach(() => {
   URLManager.mockClear();
 });
