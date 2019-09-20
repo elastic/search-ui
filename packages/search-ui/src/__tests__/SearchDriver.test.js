@@ -471,7 +471,7 @@ describe("When multiple actions are called", () => {
   });
 
   describe("and setSearchTerm is called with a debounce", () => {
-    it("The original set search term will end up being called separately, afterwards, negating the existing filters", () => {
+    it("The original call which should have been triggered by setSearchTerm should be cancelled.", () => {
       const { driver, mockApiConnector } = setupDriver();
       driver.setSearchTerm("park", { refresh: true, debounce: 1000 });
       driver.addFilter("field1", "value1");
@@ -499,12 +499,11 @@ describe("When multiple actions are called", () => {
         }
       ]);
 
-      jest.advanceTimersByTime(501);
-      expect(getSearchCalls(mockApiConnector)).toHaveLength(2);
-      expect(getSearchCalls(mockApiConnector)[1][0].searchTerm).toEqual("park");
-      // Even though addFilter is called *after* setSearchTerm, the clearing behavior
-      // filter clearing of setSearchTerm is applied afterwards, and the filters are cleared.
-      expect(getSearchCalls(mockApiConnector)[1][0].filters).toEqual([]);
+      jest.runAllTimers();
+      // If this case were not working correctly, there would have been a second call here
+      // which would have cleared out the existing filters, since that is the behavior of a "setSearchTerm"
+      // action that is debounced by 1000 milliseconds.
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
     });
   });
 });

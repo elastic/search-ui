@@ -222,6 +222,11 @@ export default class SearchDriver {
       ...searchParameters
     };
 
+    // We want to make sure if this method is running, that any calls to this
+    // method that had been previously deferred are cancelled. We don't want to
+    // possibly have the deferred call execute after this immediate call.
+    this.debounceManager.cancelByName("_updateSearchResults");
+
     // We bail on making state updates if "isLoading" is true, which implies
     // that there is an active API request that has been made and is pending.
     //
@@ -337,6 +342,7 @@ export default class SearchDriver {
             // in a live search box for instance.
             this.debounceManager.runWithDebounce(
               this.urlPushDebounceLength,
+              "pushStateToURL",
               this.URLManager.pushStateToURL.bind(this.URLManager),
               {
                 current,
