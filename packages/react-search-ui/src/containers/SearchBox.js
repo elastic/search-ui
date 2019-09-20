@@ -33,6 +33,7 @@ export class SearchBoxContainer extends Component {
     ]),
     autocompleteView: PropTypes.func,
     className: PropTypes.string,
+    clearFilters: PropTypes.bool,
     debounceLength: PropTypes.number,
     inputProps: PropTypes.object,
     inputView: PropTypes.func,
@@ -71,15 +72,19 @@ export class SearchBoxContainer extends Component {
   };
 
   completeSuggestion = searchTerm => {
-    const { setSearchTerm } = this.props;
-    setSearchTerm(searchTerm);
+    const { clearFilters, setSearchTerm } = this.props;
+    setSearchTerm(searchTerm, {
+      ...(clearFilters === false && { clearFilters })
+    });
   };
 
   handleSubmit = e => {
-    const { searchTerm, setSearchTerm } = this.props;
+    const { clearFilters, searchTerm, setSearchTerm } = this.props;
 
     e.preventDefault();
-    setSearchTerm(searchTerm);
+    setSearchTerm(searchTerm, {
+      ...(clearFilters === false && { clearFilters })
+    });
   };
 
   handleChange = value => {
@@ -87,6 +92,7 @@ export class SearchBoxContainer extends Component {
       autocompleteMinimumCharacters,
       autocompleteResults,
       autocompleteSuggestions,
+      clearFilters,
       searchAsYouType,
       setSearchTerm,
       debounceLength
@@ -99,6 +105,7 @@ export class SearchBoxContainer extends Component {
         searchAsYouType) && {
         debounce: debounceLength || 200
       }),
+      ...(clearFilters === false && { clearFilters }),
       refresh: !!searchAsYouType,
       autocompleteResults: !!autocompleteResults,
       autocompleteSuggestions: !!autocompleteSuggestions
