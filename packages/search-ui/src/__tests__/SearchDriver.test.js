@@ -94,6 +94,19 @@ it("will default facets to {} in state if facets is missing from the response", 
   expect(stateAfterCreation.facets).toEqual({});
 });
 
+it("will trigger a search if searchTerm or filters are provided in initial state", () => {
+  const initialState = {
+    filters: [{ field: "initial", values: ["value"], type: "all" }],
+    searchTerm: "test"
+  };
+
+  const { stateAfterCreation } = setupDriver({
+    initialState
+  });
+
+  expect(doesStateHaveResponseData(stateAfterCreation)).toBe(true);
+});
+
 it("does not do an initial search when alwaysSearchOnInitialLoad is not set", () => {
   const initialState = {};
 
