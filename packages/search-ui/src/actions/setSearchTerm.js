@@ -18,6 +18,7 @@ export default function setSearchTerm(
     autocompleteMinimumCharacters = 0,
     autocompleteResults = false,
     autocompleteSuggestions = false,
+    clearFilters = true,
     refresh = true,
     debounce = 0
   } = {}
@@ -33,8 +34,12 @@ export default function setSearchTerm(
       this._updateSearchResults,
       {
         current: 1,
-        filters: []
+        ...(clearFilters && { filters: [] })
       },
+      // setSearchTerm is meant to be called in quick succession, on every
+      // key stroke in a search box. For this reason, we need to ignore the
+      // "isLoading" check in order to not lock up the UI, as multiple requests
+      // are made in quick succession.
       { ignoreIsLoadingCheck: true }
     );
   }

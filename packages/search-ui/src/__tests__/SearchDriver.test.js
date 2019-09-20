@@ -441,3 +441,70 @@ describe("_updateSearchResults", () => {
     });
   });
 });
+
+describe("When multiple actions are called", () => {
+  it("Will batch them into a single API call", () => {
+    const { driver, mockApiConnector } = setupDriver();
+    driver.setSearchTerm("term");
+    driver.addFilter("field1", "value1");
+    driver.addFilter("field2", "value2");
+    driver.addFilter("field3", "value3");
+    jest.runAllTimers();
+    expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+    expect(getSearchCalls(mockApiConnector)[0][0].filters).toEqual([
+      {
+        field: "field1",
+        values: ["value1"],
+        type: "all"
+      },
+      {
+        field: "field2",
+        values: ["value2"],
+        type: "all"
+      },
+      {
+        field: "field3",
+        values: ["value3"],
+        type: "all"
+      }
+    ]);
+  });
+
+  describe("and setSearchTerm is called with a debounce", () => {
+    it("The original set search term will end up being called separately, afterwards, negating the existing filters", () => {
+      const { driver, mockApiConnector } = setupDriver();
+      driver.setSearchTerm("park", { refresh: true, debounce: 1000 });
+      driver.addFilter("field1", "value1");
+      driver.addFilter("field2", "value2");
+      driver.addFilter("field3", "value3");
+      jest.advanceTimersByTime(500);
+
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+      expect(getSearchCalls(mockApiConnector)[0][0].searchTerm).toEqual("park");
+      expect(getSearchCalls(mockApiConnector)[0][0].filters).toEqual([
+        {
+          field: "field1",
+          values: ["value1"],
+          type: "all"
+        },
+        {
+          field: "field2",
+          values: ["value2"],
+          type: "all"
+        },
+        {
+          field: "field3",
+          values: ["value3"],
+          type: "all"
+        }
+      ]);
+
+      jest.advanceTimersByTime(501);
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(2);
+      expect(getSearchCalls(mockApiConnector)[1][0].searchTerm).toEqual("park");
+      // Even though addFilter is called *after* setSearchTerm, the clearing behavior
+      // filter clearing of setSearchTerm is applied afterwards, and the filters are cleared.
+      expect(getSearchCalls(mockApiConnector)[1][0].filters).toEqual([]);
+    });
+  });
+});

@@ -25,7 +25,8 @@ describe("#setSearchTerm", () => {
       autocompleteResults,
       autocompleteSuggestions,
       refresh,
-      initialState = {}
+      initialState = {},
+      clearFilters
     } = {}
   ) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
@@ -34,7 +35,8 @@ describe("#setSearchTerm", () => {
     driver.setSearchTerm(term, {
       autocompleteResults,
       autocompleteSuggestions,
-      refresh
+      refresh,
+      clearFilters
     });
 
     jest.runAllTimers();
@@ -72,6 +74,28 @@ describe("#setSearchTerm", () => {
       }).state
   );
 
+  it("Does not update filters when 'clearFilters' is set to false", () => {
+    const state = subject("test", {
+      initialState: {
+        filters: [
+          {
+            field: "filter1",
+            values: ["value1"],
+            type: "all"
+          }
+        ]
+      },
+      clearFilters: false
+    }).state;
+    expect(state.filters).toEqual([
+      {
+        field: "filter1",
+        values: ["value1"],
+        type: "all"
+      }
+    ]);
+  });
+
   it("Does not update other Search Parameter values", () => {
     const initialState = {
       resultsPerPage: 60,
@@ -102,22 +126,19 @@ describe("#setSearchTerm", () => {
     expect(subject("term", { refresh: false }).state.wasSearched).toBe(false);
   });
 
-  // TODO Address this
-  // it("Will not debounce requests if there is no debounce specified", () => {
-  //   const { driver, mockApiConnector } = setupDriver();
-  //   driver.setSearchTerm("term", { refresh: true });
-  //   driver.setSearchTerm("term", { refresh: true });
-  //   driver.setSearchTerm("term", { refresh: true });
-  //   jest.runAllTimers();
-  //   expect(getSearchCalls(mockApiConnector)).toHaveLength(3);
-  // });
+  it("Will not debounce requests if there is no debounce specified", () => {
+    const { driver, mockApiConnector } = setupDriver();
+    driver.setSearchTerm("term", { refresh: true });
+    jest.runAllTimers();
+    expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+  });
 
   it("Will debounce requests", () => {
     const { driver, mockApiConnector } = setupDriver();
-    driver.setSearchTerm("term", { refresh: true, debounce: 10 });
-    driver.setSearchTerm("term", { refresh: true, debounce: 10 });
-    driver.setSearchTerm("term", { refresh: true, debounce: 10 });
-    jest.runAllTimers();
+    driver.setSearchTerm("term", { refresh: true, debounce: 1000 });
+    jest.advanceTimersByTime(500);
+    expect(getSearchCalls(mockApiConnector)).toHaveLength(0);
+    jest.advanceTimersByTime(500);
     expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
   });
 
