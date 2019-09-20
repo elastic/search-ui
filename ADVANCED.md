@@ -1082,7 +1082,8 @@ const configurationOptions = {
   a11yNotificationMessages: {
     searchResults: ({ start, end, totalResults, searchTerm }) =>
       `Searching for "${searchTerm}". Showing ${start} to ${end} results out of ${totalResults}.`
-  }
+  },
+  alwaysSearchOnInitialLoad: true
 };
 
 return (
@@ -1118,6 +1119,8 @@ return (
 | `urlPushDebounceLength`     | Integer                                                                 | optional  | 500     | The amount of time in milliseconds to debounce/delay updating the browser url after the UI update. This, for example, prevents excessive history entries while a user is still typing in a live search box.                  |
 | `hasA11yNotifications`      | Boolean                                                                 | optional  | false   | Search UI will create a visually hidden live region to announce search results & other actions to screen reader users. This accessibility feature will be turned on by default in our 2.0 release.                           |
 | `a11yNotificationMessages`  | Object                                                                  | optional  | {}      | You can override our default screen reader [messages](packages/search-ui/src/A11yNotifications.js#L49) (e.g. for localization), or create your own custom notification, by passing in your own key and message function(s).  |
+| `alwaysSearchOnInitialLoad`  | Boolean                                                                | optional  | false   | If true, Search UI will always do an initial search, even when no inital Request State is set.
+
 
 ## Query Config
 

@@ -1,8 +1,15 @@
 import { getClickCalls, setupDriver } from "../../test/helpers";
 
 describe("#trackClickThrough", () => {
-  function subject({ initialState } = {}, documentId, tags) {
-    const { driver, mockApiConnector } = setupDriver({ initialState });
+  function subject(
+    { initialState, alwaysSearchOnInitialLoad } = {},
+    documentId,
+    tags
+  ) {
+    const { driver, mockApiConnector } = setupDriver({
+      initialState,
+      alwaysSearchOnInitialLoad
+    });
     driver.trackClickThrough(documentId, tags);
     return { driver, mockApiConnector };
   }
@@ -14,7 +21,10 @@ describe("#trackClickThrough", () => {
 
   it("Calls Connector 'click' with correct parameters", () => {
     const { mockApiConnector } = subject(
-      { initialState: { searchTerm: "search terms" } },
+      {
+        initialState: { searchTerm: "search terms" },
+        alwaysSearchOnInitialLoad: true
+      },
       1,
       ["test"]
     );
