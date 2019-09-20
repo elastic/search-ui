@@ -12,7 +12,8 @@ function BooleanFacet({
   onRemove,
   values
 }) {
-  const trueCount = options.find(option => option.value === "true").count;
+  const trueOptions = options.find(option => option.value === "true");
+  if (!trueOptions) return null;
   const isSelected = values.includes("true");
 
   const apply = () => onChange("true");
@@ -35,7 +36,9 @@ function BooleanFacet({
               />
               <span className="sui-boolean-facet__input-text">{label}</span>
             </div>
-            <span className="sui-boolean-facet__option-count">{trueCount}</span>
+            <span className="sui-boolean-facet__option-count">
+              {trueOptions.count}
+            </span>
           </label>
         </div>
       </div>

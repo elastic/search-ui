@@ -37,9 +37,21 @@ it("onChange is called on click", () => {
 });
 
 it("onRemove is called on click", () => {
-  params.values = ["true"];
-  const wrapper = mount(<BooleanFacet {...params} />);
+  const wrapper = mount(
+    <BooleanFacet
+      {...{
+        ...params,
+        values: ["true"]
+      }}
+    />
+  );
 
   wrapper.find("input").simulate("change");
   expect(params.onRemove).toHaveBeenCalledTimes(1);
+});
+
+it("will not render when there are no true options", () => {
+  params.options = [];
+  const wrapper = shallow(<BooleanFacet {...params} />);
+  expect(wrapper).toMatchSnapshot();
 });
