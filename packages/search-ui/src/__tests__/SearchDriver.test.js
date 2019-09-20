@@ -115,7 +115,7 @@ it("does not do an initial search when alwaysSearchOnInitialLoad is not set", ()
   expect(doesStateHaveResponseData(stateAfterCreation)).toBe(0);
 });
 
-it("will trigger a search if alwaysSearchOnInitialLoad are set", () => {
+it("does do an initial search when alwaysSearchOnInitialLoad is set", () => {
   const initialState = {};
 
   const { stateAfterCreation } = setupDriver({
