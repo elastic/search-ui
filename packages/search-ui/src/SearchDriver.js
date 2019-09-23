@@ -92,7 +92,8 @@ export default class SearchDriver {
     trackUrlState = true,
     urlPushDebounceLength = 500,
     hasA11yNotifications = false,
-    a11yNotificationMessages = {}
+    a11yNotificationMessages = {},
+    alwaysSearchOnInitialLoad = false
   }) {
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
@@ -121,6 +122,7 @@ export default class SearchDriver {
     this.subscriptions = [];
     this.trackUrlState = trackUrlState;
     this.urlPushDebounceLength = urlPushDebounceLength;
+    this.alwaysSearchOnInitialLoad = alwaysSearchOnInitialLoad;
 
     let urlState;
     if (trackUrlState) {
@@ -170,9 +172,13 @@ export default class SearchDriver {
     };
 
     // We'll trigger an initial search if initial parameters contain
-    // a search term or filters, otherwise, we'll just save their selections
-    // in state as initial values.
-    if (searchParameters.searchTerm || searchParameters.filters.length > 0) {
+    // a search term or filters, or if alwaysSearchOnInitialLoad is set.
+    // Otherwise, we'll just save their selections in state as initial values.
+    if (
+      searchParameters.searchTerm ||
+      searchParameters.filters.length > 0 ||
+      this.alwaysSearchOnInitialLoad
+    ) {
       this._updateSearchResults(searchParameters);
     }
   }

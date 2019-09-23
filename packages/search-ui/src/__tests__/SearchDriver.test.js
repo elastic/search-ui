@@ -107,6 +107,25 @@ it("will trigger a search if searchTerm or filters are provided in initial state
   expect(doesStateHaveResponseData(stateAfterCreation)).toBe(true);
 });
 
+it("does not do an initial search when alwaysSearchOnInitialLoad is not set", () => {
+  const initialState = {};
+
+  const { stateAfterCreation } = setupDriver({ initialState });
+
+  expect(doesStateHaveResponseData(stateAfterCreation)).toBe(0);
+});
+
+it("does do an initial search when alwaysSearchOnInitialLoad is set", () => {
+  const initialState = {};
+
+  const { stateAfterCreation } = setupDriver({
+    initialState,
+    alwaysSearchOnInitialLoad: true
+  });
+
+  expect(doesStateHaveResponseData(stateAfterCreation)).toBe(true);
+});
+
 it("will sync initial state to the URL", () => {
   const initialState = {
     filters: [{ field: "initial", values: ["value"], type: "all" }],
