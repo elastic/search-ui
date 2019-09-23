@@ -42,3 +42,5 @@ exports[`renders 1`] = `
   </div>
 </fieldset>
 `;
+
+exports[`will not render when there are no true options 1`] = `""`;
