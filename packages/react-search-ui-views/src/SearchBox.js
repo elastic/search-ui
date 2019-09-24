@@ -22,7 +22,7 @@ function SearchBox(props) {
     onSubmit,
     useAutocomplete,
     value,
-    // NOTE: These are explicitly de-structured but no used so that they are
+    // NOTE: These are explicitly de-structured but not used so that they are
     // not passed through to the input with the 'rest' parameter
     // eslint-disable-next-line no-unused-vars
     autocompletedResults,

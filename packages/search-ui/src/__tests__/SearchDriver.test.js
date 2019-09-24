@@ -489,7 +489,7 @@ describe("When multiple actions are called", () => {
     ]);
   });
 
-  describe("and setSearchTerm is called with a debounce", () => {
+  describe("setSearchTerm is called with a debounce", () => {
     it("The original call which should have been triggered by setSearchTerm should be cancelled.", () => {
       const { driver, mockApiConnector } = setupDriver();
       driver.setSearchTerm("park", { refresh: true, debounce: 1000 });

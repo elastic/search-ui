@@ -18,11 +18,10 @@ class DebounceManager {
    * subsequent calls with different wait times or different functions. That also means that the debounce manager
    * can be used for different functions in parallel, and keep the two functions debounced separately.
    *
-   *
    * @param {number} wait Milliseconds to debounce. Executes immediately if falsey.
    * @param {function} fn Function to debounce
    * @param {function} functionName Name of function to debounce, used to create a unique key
-   * @param  {...any} parameters Parameters to pass to function
+   * @param {...any} parameters Parameters to pass to function
    */
   runWithDebounce(wait, functionName, fn, ...parameters) {
     if (!wait) {
