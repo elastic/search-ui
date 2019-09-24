@@ -279,6 +279,7 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
       refresh: false,
       autocompleteResults: false,
       autocompleteSuggestions: false,
+      clearFilters: true,
       autocompleteMinimumCharacters: 0
     }
   ]);
@@ -302,6 +303,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
       refresh: false,
       autocompleteResults: false,
       autocompleteSuggestions: false,
+      clearFilters: true,
       autocompleteMinimumCharacters: 3
     }
   ]);
@@ -329,6 +331,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
       debounce: 200,
       autocompleteResults: false,
       autocompleteMinimumCharacters: 0,
+      clearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -357,6 +360,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteResults: false,
       autocompleteMinimumCharacters: 0,
+      clearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -388,6 +392,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteResults: true,
       autocompleteMinimumCharacters: 0,
+      clearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -416,6 +421,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteSuggestions: true,
       autocompleteMinimumCharacters: 0,
+      clearFilters: true,
       autocompleteResults: false
     }
   ]);
@@ -437,7 +443,7 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   });
 
   const call = params.setSearchTerm.mock.calls[0];
-  expect(call).toEqual(["a term", {}]);
+  expect(call).toEqual(["a term", { clearFilters: true }]);
 });
 
 describe("onSelectAutocomplete", () => {

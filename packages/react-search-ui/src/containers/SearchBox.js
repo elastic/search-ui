@@ -52,7 +52,8 @@ export class SearchBoxContainer extends Component {
   };
 
   static defaultProps = {
-    autocompleteMinimumCharacters: 0
+    autocompleteMinimumCharacters: 0,
+    clearFilters: true
   };
 
   state = {
@@ -74,7 +75,7 @@ export class SearchBoxContainer extends Component {
   completeSuggestion = searchTerm => {
     const { clearFilters, setSearchTerm } = this.props;
     setSearchTerm(searchTerm, {
-      ...(clearFilters === false && { clearFilters })
+      clearFilters
     });
   };
 
@@ -83,7 +84,7 @@ export class SearchBoxContainer extends Component {
 
     e.preventDefault();
     setSearchTerm(searchTerm, {
-      ...(clearFilters === false && { clearFilters })
+      clearFilters
     });
   };
 
@@ -105,7 +106,7 @@ export class SearchBoxContainer extends Component {
         searchAsYouType) && {
         debounce: debounceLength || 200
       }),
-      ...(clearFilters === false && { clearFilters }),
+      clearFilters,
       refresh: !!searchAsYouType,
       autocompleteResults: !!autocompleteResults,
       autocompleteSuggestions: !!autocompleteSuggestions
