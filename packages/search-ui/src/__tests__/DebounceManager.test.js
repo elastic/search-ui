@@ -3,7 +3,7 @@ import DebounceManager from "../DebounceManager";
 describe("#runWithDebounce", () => {
   it("will run the provided function after the provided number of milliseconds", () => {
     const manager = new DebounceManager();
-    let debounced = jest.fn();
+    const debounced = jest.fn();
 
     manager.runWithDebounce(1000, "debounced", () => {
       debounced();
@@ -17,7 +17,7 @@ describe("#runWithDebounce", () => {
 
   it("will debounce the function", () => {
     const manager = new DebounceManager();
-    let debounced = jest.fn();
+    const debounced = jest.fn();
 
     manager.runWithDebounce(1000, "debounced", () => {
       debounced();
@@ -36,7 +36,7 @@ describe("#runWithDebounce", () => {
 
   it("will will debounce functions with different wait times separately", () => {
     const manager = new DebounceManager();
-    let debounced = jest.fn();
+    const debounced = jest.fn();
 
     manager.runWithDebounce(1000, "debounced", () => {
       debounced();
@@ -61,7 +61,7 @@ describe("#runWithDebounce", () => {
 
   it("will will debounce functions with different names separately", () => {
     const manager = new DebounceManager();
-    let debounced = jest.fn();
+    const debounced = jest.fn();
 
     manager.runWithDebounce(1000, "debounced", () => {
       debounced();
@@ -87,7 +87,7 @@ describe("#runWithDebounce", () => {
 
 describe("#cancelByName", () => {
   const manager = new DebounceManager();
-  let debounced = jest.fn();
+  const debounced = jest.fn();
 
   manager.runWithDebounce(1000, "debounced", () => {
     debounced();
