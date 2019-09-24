@@ -12,14 +12,12 @@ import {
   Paging,
   Sorting
 } from "@elastic/react-search-ui";
-import {
-  Layout,
-  SingleSelectFacet,
-  SingleLinksFacet
-} from "@elastic/react-search-ui-views";
+import { Layout, SingleSelectFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 import buildRequest from "./buildRequest";
+import runRequest from "./runRequest";
+import applyDisjunctiveFaceting from "./applyDisjunctiveFaceting";
 import buildState from "./buildState";
 
 const config = {
@@ -32,14 +30,8 @@ const config = {
     /* Not implemented */
   },
   onAutocomplete: async ({ searchTerm }) => {
-    const body = buildRequest({ searchTerm });
-
-    const response = await fetch(".netlify/functions/search", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    const json = await response.json();
+    const requestBody = buildRequest({ searchTerm });
+    const json = await runRequest(requestBody);
     const state = buildState(json);
     return {
       autocompletedResults: state.results
@@ -47,25 +39,23 @@ const config = {
   },
   onSearch: async state => {
     const { resultsPerPage } = state;
-    const body = buildRequest(state);
-
-    const response = await fetch(".netlify/functions/search", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    const json = await response.json();
-
-    return buildState(json, resultsPerPage);
+    const requestBody = buildRequest(state);
+    // Note that this could be optimized by running all of these requests
+    // at the same time. Kept simple here for clarity.
+    const responseJson = await runRequest(requestBody);
+    const responseJsonWithDisjunctiveFacetCounts = await applyDisjunctiveFaceting(
+      responseJson,
+      state,
+      ["visitors", "states"]
+    );
+    return buildState(responseJsonWithDisjunctiveFacetCounts, resultsPerPage);
   }
 };
 
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch
-        mapContextToProps={({ wasSearched }) => ({ wasSearched })}
-      >
+      <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
         {({ wasSearched }) => (
           <div className="App">
             <ErrorBoundary>
@@ -113,11 +103,7 @@ export default function App() {
                       field="world_heritage_site"
                       label="World Heritage Site?"
                     />
-                    <Facet
-                      field="visitors"
-                      label="Visitors"
-                      view={SingleLinksFacet}
-                    />
+                    <Facet field="visitors" label="Visitors" filterType="any" />
                     <Facet
                       field="acres"
                       label="Acres"
