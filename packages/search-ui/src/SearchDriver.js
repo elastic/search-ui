@@ -229,8 +229,9 @@ export default class SearchDriver {
     };
 
     // We want to make sure if this method is running, that any calls to this
-    // method that had been previously deferred are cancelled. We don't want to
-    // possibly have the deferred call execute after this immediate call.
+    // method that had been previously deferred with `runWithDebounce` are cancelled. We don't want the
+    // possibly have the deferred call execute after this immediate call. For example, this method
+    // is called in this way from the setSearchTerm action.
     this.debounceManager.cancelByName("_updateSearchResults");
 
     // We bail on making state updates if "isLoading" is true, which implies
