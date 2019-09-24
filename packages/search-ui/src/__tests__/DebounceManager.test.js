@@ -64,18 +64,28 @@ describe("#runWithDebounce", () => {
 });
 
 describe("#cancelByName", () => {
-  const manager = new DebounceManager();
-  const debounced = jest.fn();
+  it("cancels debouncing", () => {
+    const manager = new DebounceManager();
+    const debounced = jest.fn();
 
-  manager.runWithDebounce(1000, "debounced", debounced);
+    manager.runWithDebounce(1000, "debounced", debounced);
 
-  manager.runWithDebounce(500, "debounced", debounced);
+    manager.cancelByName("debounced");
+    jest.advanceTimersByTime(1001);
+    expect(debounced.mock.calls.length).toBe(0);
+  });
 
-  manager.runWithDebounce(1000, "different", debounced);
+  it("cancels functions with different times, but not different names", () => {
+    const manager = new DebounceManager();
+    const debounced = jest.fn();
 
-  manager.runWithDebounce(999, "much different", debounced);
+    manager.runWithDebounce(1000, "debounced", debounced);
+    manager.runWithDebounce(500, "debounced", debounced);
+    manager.runWithDebounce(1000, "different", debounced);
+    manager.runWithDebounce(999, "much different", debounced);
 
-  manager.cancelByName("debounced");
-  jest.advanceTimersByTime(1001);
-  expect(debounced.mock.calls.length).toBe(2);
+    manager.cancelByName("debounced");
+    jest.advanceTimersByTime(1001);
+    expect(debounced.mock.calls.length).toBe(2);
+  });
 });
