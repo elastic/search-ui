@@ -203,14 +203,14 @@ describe("useAutocomplete", () => {
   });
 });
 
-describe("clearFilters prop", () => {
+describe("shouldClearFilters prop", () => {
   it("will be passed through to setSearchTerm on submit", () => {
     let viewProps;
 
     shallow(
       <SearchBoxContainer
         {...params}
-        clearFilters={false}
+        shouldClearFilters={false}
         view={props => (viewProps = props)}
       />
     );
@@ -220,7 +220,7 @@ describe("clearFilters prop", () => {
       preventDefault: () => {}
     });
     const call = params.setSearchTerm.mock.calls[0];
-    expect(call[1].clearFilters).toEqual(false);
+    expect(call[1].shouldClearFilters).toEqual(false);
   });
 
   it("will be passed through to setSearchTerm on change", () => {
@@ -229,7 +229,7 @@ describe("clearFilters prop", () => {
     shallow(
       <SearchBoxContainer
         {...params}
-        clearFilters={false}
+        shouldClearFilters={false}
         view={props => (viewProps = props)}
       />
     );
@@ -237,7 +237,7 @@ describe("clearFilters prop", () => {
     const { onChange } = viewProps;
     onChange("new term");
     const call = params.setSearchTerm.mock.calls[0];
-    expect(call[1].clearFilters).toEqual(false);
+    expect(call[1].shouldClearFilters).toEqual(false);
   });
 
   it("will call setSearchTerm if no onSelectAutocomplete is specified and a suggestion is selected", () => {
@@ -247,7 +247,7 @@ describe("clearFilters prop", () => {
       <SearchBoxContainer
         {...params}
         autocompleteResults={true}
-        clearFilters={false}
+        shouldClearFilters={false}
         view={props => (viewProps = props)}
       />
     );
@@ -258,7 +258,7 @@ describe("clearFilters prop", () => {
     });
 
     const call = params.setSearchTerm.mock.calls[0];
-    expect(call[1].clearFilters).toEqual(false);
+    expect(call[1].shouldClearFilters).toEqual(false);
   });
 });
 
@@ -279,7 +279,7 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
       refresh: false,
       autocompleteResults: false,
       autocompleteSuggestions: false,
-      clearFilters: true,
+      shouldClearFilters: true,
       autocompleteMinimumCharacters: 0
     }
   ]);
@@ -303,7 +303,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
       refresh: false,
       autocompleteResults: false,
       autocompleteSuggestions: false,
-      clearFilters: true,
+      shouldClearFilters: true,
       autocompleteMinimumCharacters: 3
     }
   ]);
@@ -331,7 +331,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
       debounce: 200,
       autocompleteResults: false,
       autocompleteMinimumCharacters: 0,
-      clearFilters: true,
+      shouldClearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -360,7 +360,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteResults: false,
       autocompleteMinimumCharacters: 0,
-      clearFilters: true,
+      shouldClearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -392,7 +392,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteResults: true,
       autocompleteMinimumCharacters: 0,
-      clearFilters: true,
+      shouldClearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -421,7 +421,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteSuggestions: true,
       autocompleteMinimumCharacters: 0,
-      clearFilters: true,
+      shouldClearFilters: true,
       autocompleteResults: false
     }
   ]);
@@ -443,7 +443,7 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   });
 
   const call = params.setSearchTerm.mock.calls[0];
-  expect(call).toEqual(["a term", { clearFilters: true }]);
+  expect(call).toEqual(["a term", { shouldClearFilters: true }]);
 });
 
 describe("onSelectAutocomplete", () => {

@@ -18,7 +18,7 @@ export default function setSearchTerm(
     autocompleteMinimumCharacters = 0,
     autocompleteResults = false,
     autocompleteSuggestions = false,
-    clearFilters = true,
+    shouldClearFilters = true,
     refresh = true,
     debounce = 0
   } = {}
@@ -35,7 +35,7 @@ export default function setSearchTerm(
       this._updateSearchResults,
       {
         current: 1,
-        ...(clearFilters && { filters: [] })
+        ...(shouldClearFilters && { filters: [] })
       },
       // setSearchTerm is meant to be called in quick succession, on every
       // key stroke in a search box. For this reason, we need to ignore the

@@ -26,7 +26,7 @@ describe("#setSearchTerm", () => {
       autocompleteSuggestions,
       refresh,
       initialState = {},
-      clearFilters
+      shouldClearFilters
     } = {}
   ) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
@@ -36,7 +36,7 @@ describe("#setSearchTerm", () => {
       autocompleteResults,
       autocompleteSuggestions,
       refresh,
-      clearFilters
+      shouldClearFilters
     });
 
     jest.runAllTimers();
@@ -74,7 +74,7 @@ describe("#setSearchTerm", () => {
       }).state
   );
 
-  it("Does not update filters when 'clearFilters' is set to false", () => {
+  it("Does not update filters when 'shouldClearFilters' is set to false", () => {
     const state = subject("test", {
       initialState: {
         filters: [
@@ -85,7 +85,7 @@ describe("#setSearchTerm", () => {
           }
         ]
       },
-      clearFilters: false
+      shouldClearFilters: false
     }).state;
     expect(state.filters).toEqual([
       {
