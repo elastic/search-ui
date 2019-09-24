@@ -5,9 +5,7 @@ describe("#runWithDebounce", () => {
     const manager = new DebounceManager();
     const debounced = jest.fn();
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
     jest.advanceTimersByTime(500);
     expect(debounced.mock.calls.length).toBe(0);
@@ -19,15 +17,11 @@ describe("#runWithDebounce", () => {
     const manager = new DebounceManager();
     const debounced = jest.fn();
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
     jest.advanceTimersByTime(100);
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
     expect(debounced).not.toHaveBeenCalled();
     jest.advanceTimersByTime(1001);
@@ -38,21 +32,13 @@ describe("#runWithDebounce", () => {
     const manager = new DebounceManager();
     const debounced = jest.fn();
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
-    manager.runWithDebounce(999, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(999, "debounced", debounced);
 
     expect(debounced).not.toHaveBeenCalled();
     jest.advanceTimersByTime(1001);
@@ -63,21 +49,13 @@ describe("#runWithDebounce", () => {
     const manager = new DebounceManager();
     const debounced = jest.fn();
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
-    manager.runWithDebounce(1000, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "debounced", debounced);
 
-    manager.runWithDebounce(1000, "different", () => {
-      debounced();
-    });
+    manager.runWithDebounce(1000, "different", debounced);
 
-    manager.runWithDebounce(999, "debounced", () => {
-      debounced();
-    });
+    manager.runWithDebounce(999, "debounced", debounced);
 
     expect(debounced).not.toHaveBeenCalled();
     jest.advanceTimersByTime(1001);
@@ -89,21 +67,13 @@ describe("#cancelByName", () => {
   const manager = new DebounceManager();
   const debounced = jest.fn();
 
-  manager.runWithDebounce(1000, "debounced", () => {
-    debounced();
-  });
+  manager.runWithDebounce(1000, "debounced", debounced);
 
-  manager.runWithDebounce(500, "debounced", () => {
-    debounced();
-  });
+  manager.runWithDebounce(500, "debounced", debounced);
 
-  manager.runWithDebounce(1000, "different", () => {
-    debounced();
-  });
+  manager.runWithDebounce(1000, "different", debounced);
 
-  manager.runWithDebounce(999, "much different", () => {
-    debounced();
-  });
+  manager.runWithDebounce(999, "much different", debounced);
 
   manager.cancelByName("debounced");
   jest.advanceTimersByTime(1001);
