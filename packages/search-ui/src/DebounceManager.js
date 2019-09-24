@@ -28,7 +28,7 @@ class DebounceManager {
       return fn(...parameters);
     }
 
-    const key = functionName + wait.toString();
+    const key = `${functionName}|${wait.toString()}`;
     let debounced = this.debounceCache[key];
     if (!debounced) {
       this.debounceCache[key] = debounceFn(fn, { wait });
@@ -37,9 +37,28 @@ class DebounceManager {
     debounced(...parameters);
   }
 
+  /**
+   * Cancels existing debounced functions from executing.
+   *
+   * This will cancel any call to the function, regardless of the debounce length that was provided.
+   *
+   * For example, calling the following series of debounce calls will create multiple debounced functions, because
+   * they are cached by a combination of unique name and debounce length.
+   *
+   * runWithDebounce(1000, "_updateSearchResults", this._updateSearchResults)
+   * runWithDebounce(500, "_updateSearchResults", this._updateSearchResults)
+   * runWithDebounce(1000, "_updateSearchResults", this._updateSearchResults)
+   *
+   * Calling the following will cancel all of those, if they have not yet executed:
+   *
+   * cancelByName("_updateSearchResults")
+   *
+   * @param {string} functionName The name of the function that was debounced. This needs to match exactly what was provided
+   * runWithDebounce was called originally.
+   */
   cancelByName(functionName) {
     Object.entries(this.debounceCache)
-      .filter(([cachedKey]) => cachedKey.startsWith(functionName))
+      .filter(([cachedKey]) => cachedKey.startsWith(`${functionName}|`))
       // eslint-disable-next-line no-unused-vars
       .forEach(([_, cachedValue]) => cachedValue.cancel());
   }
