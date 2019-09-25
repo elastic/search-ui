@@ -1,8 +1,4 @@
-import {
-  getAutocompleteCalls,
-  getSearchCalls,
-  setupDriver
-} from "../../test/helpers";
+import { getAutocompleteCalls, setupDriver } from "../../test/helpers";
 import {
   itResetsCurrent,
   itResetsFilters,
@@ -126,20 +122,35 @@ describe("#setSearchTerm", () => {
     expect(subject("term", { refresh: false }).state.wasSearched).toBe(false);
   });
 
-  it("Will not debounce requests if there is no debounce specified", () => {
-    const { driver, mockApiConnector } = setupDriver();
-    driver.setSearchTerm("term", { refresh: true });
+  it("Will debounce the request state update if a debounce is specified", () => {
+    const { driver, updatedStateAfterAction } = setupDriver({
+      initialState: {
+        searchTerm: "park",
+        current: 2
+      }
+    });
     jest.runAllTimers();
-    expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+    driver.setSearchTerm("term", { debounce: 1000 });
+    expect(updatedStateAfterAction.state.current).toBe(2);
+    jest.advanceTimersByTime(500);
+    expect(updatedStateAfterAction.state.current).toBe(2);
+    jest.advanceTimersByTime(500);
+    expect(updatedStateAfterAction.state.current).toBe(1);
   });
 
-  it("Will debounce requests", () => {
-    const { driver, mockApiConnector } = setupDriver();
-    driver.setSearchTerm("term", { refresh: true, debounce: 1000 });
-    jest.advanceTimersByTime(500);
-    expect(getSearchCalls(mockApiConnector)).toHaveLength(0);
-    jest.advanceTimersByTime(500);
-    expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+  it("Will not debounce the request state update if no debounce is specified", () => {
+    const { driver, updatedStateAfterAction } = setupDriver({
+      initialState: {
+        searchTerm: "park",
+        current: 2
+      }
+    });
+    jest.runAllTimers();
+    expect(updatedStateAfterAction.state.current).toBe(2);
+    driver.setSearchTerm("term");
+    // Note that current is set to 1 by the request state update, and we did
+    // not have to wait any amount of time, it was executed immediately.
+    expect(updatedStateAfterAction.state.current).toBe(1);
   });
 
   describe("when autocompleteResults is true", () => {
