@@ -211,14 +211,10 @@ export default class SearchDriver {
   /**
    * This method is used to update state and trigger a new search.
    */
-  _updateSearchResults = (
-    searchParameters,
-    { skipPushToUrl = false, ignoreIsLoadingCheck = false } = {}
-  ) => {
+  _updateSearchResults = (searchParameters, { skipPushToUrl = false } = {}) => {
     const {
       current,
       filters,
-      isLoading,
       resultsPerPage,
       searchTerm,
       sortDirection,
@@ -233,17 +229,6 @@ export default class SearchDriver {
     // possibly have the deferred call execute after this immediate call. For example, this method
     // is called in this way from the setSearchTerm action.
     this.debounceManager.cancelByName("_updateSearchResults");
-
-    // We bail on making state updates if "isLoading" is true, which implies
-    // that there is an active API request that has been made and is pending.
-    //
-    // The net effect of this is that the user interaction effectively becomes
-    // "locked" while API requests are in flight, to avoid any odd race
-    // conditions.
-    //
-    // NOTE: This may be unnecessary now that we have debounce
-    // "_makeSearchRequest".
-    if (isLoading && !ignoreIsLoadingCheck) return;
 
     this._setState({
       current,

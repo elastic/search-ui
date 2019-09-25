@@ -36,12 +36,7 @@ export default function setSearchTerm(
       {
         current: 1,
         ...(shouldClearFilters && { filters: [] })
-      },
-      // setSearchTerm is meant to be called in quick succession, on every
-      // key stroke in a search box. For this reason, we need to ignore the
-      // "isLoading" check in order to not lock up the UI, as multiple requests
-      // are made in quick succession.
-      { ignoreIsLoadingCheck: true }
+      }
     );
   }
 
