@@ -224,10 +224,12 @@ export default class SearchDriver {
       ...searchParameters
     };
 
-    // We want to make sure if this method is running, that any calls to this
-    // method that had been previously deferred with `runWithDebounce` are cancelled. We don't want the
-    // possibly have the deferred call execute after this immediate call. For example, this method
-    // is called in this way from the setSearchTerm action.
+    // State updates should always be applied in the order that they are made. This function, _updateSearchResults,
+    // makes state updates.
+    // In the case where a call to "_updateSearchResults" was made and delayed for X amount of time using
+    // `debounceManager.runWithDebounce`, and a subsequent call is made _updateSearchResults before that delay ends, we
+    // want to make sure that outstanding call to "_updateSearchResults" is cancelled, as it would apply state updates
+    // out of order.
     this.debounceManager.cancelByName("_updateSearchResults");
 
     this._setState({

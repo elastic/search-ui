@@ -38,11 +38,11 @@ class DebounceManager {
   }
 
   /**
-   * Cancels existing debounced functions from executing.
+   * Cancels existing debounced function calls.
    *
-   * This will cancel any call to the function, regardless of the debounce length that was provided.
+   * This will cancel any debounced function call, regardless of the debounce length that was provided.
    *
-   * For example, calling the following series of debounce calls will create multiple debounced functions, because
+   * For example, making the following series of calls will create multiple debounced functions, because
    * they are cached by a combination of unique name and debounce length.
    *
    * runWithDebounce(1000, "_updateSearchResults", this._updateSearchResults)
@@ -54,7 +54,7 @@ class DebounceManager {
    * cancelByName("_updateSearchResults")
    *
    * @param {string} functionName The name of the function that was debounced. This needs to match exactly what was provided
-   * runWithDebounce was called originally.
+   * when runWithDebounce was called originally.
    */
   cancelByName(functionName) {
     Object.entries(this.debounceCache)

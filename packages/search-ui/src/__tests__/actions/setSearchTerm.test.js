@@ -148,8 +148,6 @@ describe("#setSearchTerm", () => {
     jest.runAllTimers();
     expect(updatedStateAfterAction.state.current).toBe(2);
     driver.setSearchTerm("term");
-    // Note that current is set to 1 by the request state update, and we did
-    // not have to wait any amount of time, it was executed immediately.
     expect(updatedStateAfterAction.state.current).toBe(1);
   });
 
