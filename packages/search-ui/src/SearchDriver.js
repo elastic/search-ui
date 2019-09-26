@@ -208,14 +208,13 @@ export default class SearchDriver {
       });
   };
 
-  _updateSearchResults = (
-    searchParameters,
-    { skipPushToUrl = false, ignoreIsLoadingCheck = false } = {}
-  ) => {
+  /**
+   * This method is used to update state and trigger a new search.
+   */
+  _updateSearchResults = (searchParameters, { skipPushToUrl = false } = {}) => {
     const {
       current,
       filters,
-      isLoading,
       resultsPerPage,
       searchTerm,
       sortDirection,
@@ -225,17 +224,62 @@ export default class SearchDriver {
       ...searchParameters
     };
 
-    if (isLoading && !ignoreIsLoadingCheck) return;
+    // State updates should always be applied in the order that they are made. This function, _updateSearchResults,
+    // makes state updates.
+    // In the case where a call to "_updateSearchResults" was made and delayed for X amount of time using
+    // `debounceManager.runWithDebounce`, and a subsequent call is made _updateSearchResults before that delay ends, we
+    // want to make sure that outstanding call to "_updateSearchResults" is cancelled, as it would apply state updates
+    // out of order.
+    this.debounceManager.cancelByName("_updateSearchResults");
 
     this._setState({
       current,
       error: "",
       filters,
-      isLoading: true,
       resultsPerPage,
       searchTerm,
       sortDirection,
       sortField
+    });
+
+    this._makeSearchRequest({
+      skipPushToUrl
+    });
+  };
+
+  /**
+   * This method is separated out from _updateSearchResults so that it
+   * can be debounced.
+   *
+   * By debouncing our API calls, we can effectively allow action chaining.
+   *
+   * For Ex:
+   *
+   * If a user needs to make multiple filter updates at once, they could
+   * do so by calling an action 3 times in a row:
+   *
+   *   addFilter("states", "California");
+   *   addFilter("states", "Nebraska");
+   *   addFilter("states", "Pennsylvania");
+   *
+   * We don't want to make 3 separate API calls like that in quick succession,
+   * so we debounce the API calls.
+   *
+   * Application state updates are performed in _updateSearchResults, but we
+   * wait to make the actual API calls until all actions have been called.
+   */
+  _makeSearchRequest = DebounceManager.debounce(0, ({ skipPushToUrl }) => {
+    const {
+      current,
+      filters,
+      resultsPerPage,
+      searchTerm,
+      sortDirection,
+      sortField
+    } = this.state;
+
+    this._setState({
+      isLoading: true
     });
 
     const requestId = this.requestSequencer.next();
@@ -285,6 +329,7 @@ export default class SearchDriver {
           // in a live search box for instance.
           this.debounceManager.runWithDebounce(
             this.urlPushDebounceLength,
+            "pushStateToURL",
             this.URLManager.pushStateToURL.bind(this.URLManager),
             {
               current,
@@ -303,7 +348,7 @@ export default class SearchDriver {
         });
       }
     );
-  };
+  });
 
   _setState(newState) {
     const state = { ...this.state, ...newState };

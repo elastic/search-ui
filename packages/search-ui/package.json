@@ -45,5 +45,10 @@
     "deep-equal": "^1.0.1",
     "history": "^4.9.0",
     "qs": "^6.7.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ]
   }
 }

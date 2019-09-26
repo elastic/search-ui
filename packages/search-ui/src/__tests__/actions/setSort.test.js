@@ -15,6 +15,7 @@ describe("#setSort", () => {
       { initialState }
     );
     driver.setSort(sortField, sortDirection);
+    jest.runAllTimers();
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation

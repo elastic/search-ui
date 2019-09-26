@@ -15,6 +15,7 @@ describe("#setCurrent", () => {
       { initialState }
     );
     driver.setCurrent(current);
+    jest.runAllTimers();
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation

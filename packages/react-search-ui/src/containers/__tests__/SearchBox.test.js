@@ -203,6 +203,65 @@ describe("useAutocomplete", () => {
   });
 });
 
+describe("shouldClearFilters prop", () => {
+  it("will be passed through to setSearchTerm on submit", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        shouldClearFilters={false}
+        view={props => (viewProps = props)}
+      />
+    );
+
+    const { onSubmit } = viewProps;
+    onSubmit({
+      preventDefault: () => {}
+    });
+    const call = params.setSearchTerm.mock.calls[0];
+    expect(call[1].shouldClearFilters).toEqual(false);
+  });
+
+  it("will be passed through to setSearchTerm on change", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        shouldClearFilters={false}
+        view={props => (viewProps = props)}
+      />
+    );
+
+    const { onChange } = viewProps;
+    onChange("new term");
+    const call = params.setSearchTerm.mock.calls[0];
+    expect(call[1].shouldClearFilters).toEqual(false);
+  });
+
+  it("will call setSearchTerm if no onSelectAutocomplete is specified and a suggestion is selected", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={true}
+        shouldClearFilters={false}
+        view={props => (viewProps = props)}
+      />
+    );
+
+    const { onSelectAutocomplete } = viewProps;
+    onSelectAutocomplete({
+      suggestion: "bird"
+    });
+
+    const call = params.setSearchTerm.mock.calls[0];
+    expect(call[1].shouldClearFilters).toEqual(false);
+  });
+});
+
 it("will call back to setSearchTerm with refresh: false when input is changed", () => {
   let viewProps;
   shallow(
@@ -220,6 +279,7 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
       refresh: false,
       autocompleteResults: false,
       autocompleteSuggestions: false,
+      shouldClearFilters: true,
       autocompleteMinimumCharacters: 0
     }
   ]);
@@ -243,6 +303,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
       refresh: false,
       autocompleteResults: false,
       autocompleteSuggestions: false,
+      shouldClearFilters: true,
       autocompleteMinimumCharacters: 3
     }
   ]);
@@ -270,6 +331,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
       debounce: 200,
       autocompleteResults: false,
       autocompleteMinimumCharacters: 0,
+      shouldClearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -298,6 +360,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteResults: false,
       autocompleteMinimumCharacters: 0,
+      shouldClearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -329,6 +392,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteResults: true,
       autocompleteMinimumCharacters: 0,
+      shouldClearFilters: true,
       autocompleteSuggestions: false
     }
   ]);
@@ -357,6 +421,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounce: 500,
       autocompleteSuggestions: true,
       autocompleteMinimumCharacters: 0,
+      shouldClearFilters: true,
       autocompleteResults: false
     }
   ]);
@@ -378,7 +443,7 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   });
 
   const call = params.setSearchTerm.mock.calls[0];
-  expect(call).toEqual(["a term"]);
+  expect(call).toEqual(["a term", { shouldClearFilters: true }]);
 });
 
 describe("onSelectAutocomplete", () => {
@@ -419,6 +484,25 @@ describe("onSelectAutocomplete", () => {
     expect(passedCompleteSuggestion).toBeDefined();
     expect(passedAutocompleteResults).toBeDefined();
     expect(passedDefaultOnSelectAutocomplete).toBeDefined();
+  });
+
+  it("will call setSearchTerm if no onSelectAutocomplete is specified and a suggestion is selected", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={true}
+        view={props => (viewProps = props)}
+      />
+    );
+    const { onSelectAutocomplete } = viewProps;
+    onSelectAutocomplete({
+      suggestion: "bird"
+    });
+
+    const call = params.setSearchTerm.mock.calls[0];
+    expect(call[0]).toEqual("bird");
   });
 });
 

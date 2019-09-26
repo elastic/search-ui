@@ -15,6 +15,7 @@ describe("#setResultsPerPage", () => {
       { initialState }
     );
     driver.setResultsPerPage(resultsPerPage);
+    jest.runAllTimers();
     return {
       state: updatedStateAfterAction.state,
       stateAfterCreation: stateAfterCreation
