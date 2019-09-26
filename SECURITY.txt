@@ -1,0 +1,17 @@
+# Security Policy
+
+## Supported Versions
+
+The following versions are supported as they are the newest ones and are the most likely to be used.
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.1.x   | :white_check_mark: |
+| 1.0.x   | :x:                |
+| < 0.9   | :x:                |
+
+## Reporting a Vulnerability
+
+If you notice a security vulnerability in our code, please create an issue right away so we can take a look into it.
+
+If you prefer, you can fork the branch for more complex changes and shoot us a merge request.
