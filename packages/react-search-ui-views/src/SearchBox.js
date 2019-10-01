@@ -71,6 +71,7 @@ function SearchBox(props) {
               }
             >
               <InputView
+                {...downshiftProps}
                 getInputProps={additionalProps => {
                   const { className, ...rest } = additionalProps || {};
                   return getInputProps({
@@ -107,7 +108,6 @@ function SearchBox(props) {
                     return null;
                   }
                 }}
-                {...downshiftProps}
               />
             </div>
           </form>
