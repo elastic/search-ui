@@ -24,6 +24,7 @@ describe("#clearFilters", () => {
     });
 
     driver.clearFilters(except);
+    jest.runAllTimers();
     return updatedStateAfterAction.state;
   }
 

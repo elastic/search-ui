@@ -66,6 +66,8 @@ export function setupDriver({ mockSearchResponse, ...rest } = {}) {
     updatedStateAfterAction.state = newState;
   });
 
+  jest.runAllTimers();
+
   return {
     stateAfterCreation: driver.getState(),
     driver,
@@ -90,12 +92,6 @@ export function doesStateHaveResponseData(response) {
     totalResults > 0 &&
     !!wasSearched
   );
-}
-
-export function waitABit(length) {
-  return new Promise(function(resolve) {
-    setTimeout(() => resolve(), length);
-  });
 }
 
 export function getSearchCalls(mockApiConnector) {

@@ -18,6 +18,7 @@ export default function setSearchTerm(
     autocompleteMinimumCharacters = 0,
     autocompleteResults = false,
     autocompleteSuggestions = false,
+    shouldClearFilters = true,
     refresh = true,
     debounce = 0
   } = {}
@@ -30,12 +31,12 @@ export default function setSearchTerm(
   if (refresh) {
     this.debounceManager.runWithDebounce(
       debounce,
+      "_updateSearchResults",
       this._updateSearchResults,
       {
         current: 1,
-        filters: []
-      },
-      { ignoreIsLoadingCheck: true }
+        ...(shouldClearFilters && { filters: [] })
+      }
     );
   }
 
@@ -45,6 +46,7 @@ export default function setSearchTerm(
   ) {
     this.debounceManager.runWithDebounce(
       debounce,
+      "_updateAutocomplete",
       this._updateAutocomplete,
       searchTerm,
       {

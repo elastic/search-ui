@@ -30,6 +30,7 @@ describe("#removeFilter", () => {
     });
 
     driver.removeFilter(name, value, type);
+    jest.runAllTimers();
     return updatedStateAfterAction.state;
   }
 

@@ -171,7 +171,9 @@ describe("searchQuery config", () => {
         }
       });
 
+      jest.runAllTimers();
       driver.setSearchTerm("test");
+      jest.runAllTimers();
     }
 
     it("will fetch a conditional facet that passes its check", () => {
@@ -215,7 +217,9 @@ describe("searchQuery config", () => {
         }
       });
 
+      jest.runAllTimers();
       driver.setSearchTerm("test");
+      jest.runAllTimers();
     }
 
     it("will pass through facet configuration", () => {
@@ -453,6 +457,72 @@ describe("_updateSearchResults", () => {
       end: 40,
       totalResults: 1000,
       searchTerm: "test"
+    });
+  });
+});
+
+describe("When multiple actions are called", () => {
+  it("Will batch them into a single API call", () => {
+    const { driver, mockApiConnector } = setupDriver();
+    driver.setSearchTerm("term");
+    driver.addFilter("field1", "value1");
+    driver.addFilter("field2", "value2");
+    driver.addFilter("field3", "value3");
+    jest.runAllTimers();
+    expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+    expect(getSearchCalls(mockApiConnector)[0][0].filters).toEqual([
+      {
+        field: "field1",
+        values: ["value1"],
+        type: "all"
+      },
+      {
+        field: "field2",
+        values: ["value2"],
+        type: "all"
+      },
+      {
+        field: "field3",
+        values: ["value3"],
+        type: "all"
+      }
+    ]);
+  });
+
+  describe("setSearchTerm is called with a debounce", () => {
+    it("The original call which should have been triggered by setSearchTerm should be cancelled.", () => {
+      const { driver, mockApiConnector } = setupDriver();
+      driver.setSearchTerm("park", { refresh: true, debounce: 1000 });
+      driver.addFilter("field1", "value1");
+      driver.addFilter("field2", "value2");
+      driver.addFilter("field3", "value3");
+      jest.advanceTimersByTime(500);
+
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
+      expect(getSearchCalls(mockApiConnector)[0][0].searchTerm).toEqual("park");
+      expect(getSearchCalls(mockApiConnector)[0][0].filters).toEqual([
+        {
+          field: "field1",
+          values: ["value1"],
+          type: "all"
+        },
+        {
+          field: "field2",
+          values: ["value2"],
+          type: "all"
+        },
+        {
+          field: "field3",
+          values: ["value3"],
+          type: "all"
+        }
+      ]);
+
+      jest.runAllTimers();
+      // If this case were not working correctly, there would have been a second call here
+      // which would have cleared out the existing filters, since that is the behavior of a "setSearchTerm"
+      // action that is debounced by 1000 milliseconds.
+      expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
     });
   });
 });
