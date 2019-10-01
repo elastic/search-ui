@@ -107,6 +107,7 @@ function SearchBox(props) {
                     return null;
                   }
                 }}
+                {...downshiftProps}
               />
             </div>
           </form>
