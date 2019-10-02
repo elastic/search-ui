@@ -29,11 +29,24 @@ it("applies 'focused' class when `isFocused` is true", () => {
   expect(input.hasClass("focus")).toBe(true);
 });
 
+it("passes through downshiftProps", () => {
+  const wrapper = shallow(
+    <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
+  );
+  const SearchInput = wrapper.dive("Downshift").find("SearchInput");
+  expect(SearchInput.props().clearSelection).toBeInstanceOf(Function);
+});
+
 it("passes through inputProps", () => {
   const wrapper = shallow(
     <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
   );
-  expect(wrapper).toMatchSnapshot();
+  const downshift = wrapper
+    .dive("Downshift")
+    .find("SearchInput")
+    .shallow();
+  const input = downshift.find(".sui-search-box__text-input");
+  expect(input.props().placeholder).toBe("test");
 });
 
 it("renders with className prop applied", () => {
