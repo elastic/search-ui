@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import RCPagination from "rc-pagination";
+import enUsLocale from "rc-pagination/lib/locale/en_US";
 
 import { appendClassName } from "./view-helpers";
 
@@ -19,6 +20,7 @@ function Paging({
       pageSize={resultsPerPage}
       total={totalPages * resultsPerPage}
       className={appendClassName("sui-paging", className)}
+      locale={enUsLocale}
       {...rest}
     />
   );
