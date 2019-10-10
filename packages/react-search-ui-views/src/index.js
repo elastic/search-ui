@@ -12,4 +12,5 @@ export { default as SearchBox } from "./SearchBox";
 export { default as SingleSelectFacet } from "./SingleSelectFacet";
 export { default as SingleLinksFacet } from "./SingleLinksFacet";
 export { default as Sorting } from "./Sorting";
+export { default as DownChevron } from "./DownChevron";
 export { Layout } from "./layouts";

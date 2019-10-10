@@ -1,24 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Select from "react-select";
+import RRS from "react-responsive-select";
+import { DownChevron } from ".";
 
 import { appendClassName } from "./view-helpers";
 
-const setDefaultStyle = {
-  option: () => ({}),
-  control: () => ({}),
-  dropdownIndicator: () => ({}),
-  indicatorSeparator: () => ({}),
-  singleValue: provided => {
-    // Pulling out CSS that we don't want
-    // eslint-disable-next-line no-unused-vars
-    const { position, top, transform, maxWidth, ...rest } = provided;
-    return { ...rest, lineHeight: 1, marginRight: 0 };
-  },
-  valueContainer: provided => ({ ...provided, paddingRight: 0 })
-};
-
-const wrapOption = option => ({ label: option, value: option });
+const wrapOption = option => ({ text: option, value: option });
 
 function ResultsPerPage({
   className,
@@ -41,7 +28,7 @@ function ResultsPerPage({
       {...rest}
     >
       <div className="sui-results-per-page__label">Show</div>
-      <Select
+      {/* <Select
         className="sui-select sui-select--inline"
         classNamePrefix="sui-select"
         value={selectedOption}
@@ -49,6 +36,13 @@ function ResultsPerPage({
         options={options.map(wrapOption)}
         isSearchable={false}
         styles={setDefaultStyle}
+      /> */}
+      <RRS
+        name="select"
+        options={options.map(wrapOption)}
+        onChange={o => onChange(o.value)}
+        caretIcon={<DownChevron />}
+        selectedValue={selectedOption.value}
       />
     </div>
   );

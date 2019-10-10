@@ -1,15 +1,9 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Select from "react-select";
+import RRS from "react-responsive-select";
+import { DownChevron } from ".";
 
 import { appendClassName } from "./view-helpers";
-
-const setDefaultStyle = {
-  option: () => ({}),
-  control: () => ({}),
-  dropdownIndicator: () => ({}),
-  indicatorSeparator: () => ({})
-};
 
 function Sorting({ className, label, onChange, options, value, ...rest }) {
   const selectedValue = value;
@@ -21,14 +15,12 @@ function Sorting({ className, label, onChange, options, value, ...rest }) {
   return (
     <div className={appendClassName("sui-sorting", className)} {...rest}>
       {label && <div className="sui-sorting__label">{label}</div>}
-      <Select
-        className="sui-select"
-        classNamePrefix="sui-select"
-        value={selectedOption}
-        onChange={o => onChange(o.value)}
+      <RRS
+        name="select"
         options={options}
-        isSearchable={false}
-        styles={setDefaultStyle}
+        onChange={o => onChange(o.value)}
+        caretIcon={<DownChevron />}
+        selectedValue={selectedOption.value}
       />
     </div>
   );

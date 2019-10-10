@@ -1,41 +1,34 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Select, { components } from "react-select";
 import deepEqual from "deep-equal";
+import RRS from "react-responsive-select";
+import { DownChevron } from ".";
 
 import { FacetValue, FilterValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
-function Option(props) {
+function Option({ label, count }) {
   return (
-    <components.Option {...props}>
-      <span className="sui-select__option-label">{props.data.label}</span>
-      <span className="sui-select__option-count">
-        {props.data.count.toLocaleString("en")}
-      </span>
-    </components.Option>
+    <>
+      <span className="rrs__option-label">{label}</span>
+      <span className="rrs__option-count">{count.toLocaleString("en")}</span>
+    </>
   );
 }
 
 Option.propTypes = {
-  data: PropTypes.object.isRequired
+  count: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired
 };
 
-function toSelectOption(filterValue) {
+function toSelectOption({ value, count }) {
   return {
-    value: filterValue.value,
-    label: getFilterValueDisplay(filterValue.value),
-    count: filterValue.count
+    value: value,
+    text: getFilterValueDisplay(value),
+    markup: Option({ label: value.name, count })
   };
 }
-
-const setDefaultStyle = {
-  option: () => ({}),
-  control: () => ({}),
-  dropdownIndicator: () => ({}),
-  indicatorSeparator: () => ({})
-};
 
 function SingleSelectFacet({ className, label, onChange, options, values }) {
   const selectOptions = options.map(toSelectOption);
@@ -50,19 +43,16 @@ function SingleSelectFacet({ className, label, onChange, options, values }) {
     if (deepEqual(option.value, selectedFilterValue)) return true;
     return false;
   });
-
   return (
     <div className={appendClassName("sui-facet", className)}>
       <div className="sui-facet__title">{label}</div>
-      <Select
-        className="sui-select"
-        classNamePrefix="sui-select"
-        components={{ Option }}
-        value={selectedOption}
-        onChange={o => onChange(o.value)}
+      <RRS
+        name="select"
         options={selectOptions}
-        isSearchable={false}
-        styles={setDefaultStyle}
+        onChange={o => onChange(o.value)}
+        caretIcon={<DownChevron />}
+        noSelectionLabel="Select..."
+        selectedValue={selectedOption && selectedOption.value}
       />
     </div>
   );

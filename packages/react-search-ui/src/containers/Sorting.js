@@ -18,7 +18,7 @@ function formatValue(sortField, sortDirection) {
 
 function formatSelectOption(sortOption) {
   return {
-    label: sortOption.name,
+    text: sortOption.name,
     value: formatValue(sortOption.value, sortOption.direction)
   };
 }

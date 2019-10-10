@@ -1,7 +1,13 @@
 // Block
-@mixin block($block) {
-  .sui-#{$block} {
-    @content;
+@mixin block($block, $no-prefix: false) {
+  @if $no-prefix {
+    .#{$block} {
+      @content;
+    }
+  } @else {
+    .sui-#{$block} {
+      @content;
+    }
   }
 }
 
