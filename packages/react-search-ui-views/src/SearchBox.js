@@ -71,6 +71,7 @@ function SearchBox(props) {
               }
             >
               <InputView
+                {...downshiftProps}
                 getInputProps={additionalProps => {
                   const { className, ...rest } = additionalProps || {};
                   return getInputProps({
