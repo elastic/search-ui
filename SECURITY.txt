@@ -2,16 +2,8 @@
 
 ## Supported Versions
 
-The following versions are supported as they are the newest ones and are the most likely to be used.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.1.x   | :white_check_mark: |
-| 1.0.x   | :x:                |
-| < 0.9   | :x:                |
+The latest minor version will receive security updates.
 
 ## Reporting a Vulnerability
 
-If you notice a security vulnerability in our code, please create an issue right away so we can take a look into it.
-
-If you prefer, you can fork the branch for more complex changes and shoot us a merge request.
+If you notice a security vulnerability in our code, please use the instructions on this page to report it: https://www.elastic.co/community/security. Please do not create an issue in this repository. It can compromise the security of others.
