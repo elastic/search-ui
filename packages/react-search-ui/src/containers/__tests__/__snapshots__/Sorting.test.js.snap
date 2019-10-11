@@ -6,40 +6,24 @@ exports[`renders when it doesn't have results or a search term 1`] = `
   results={Array []}
   searchTerm=""
 >
-  <StateManager
-    className="sui-select"
-    classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
-    isSearchable={false}
+  <e
+    caretIcon={<DownChevron />}
+    key="sorting_select_[object Object]"
+    name="select"
     onChange={[Function]}
     options={
       Array [
         Object {
-          "label": "name",
+          "text": "name",
           "value": "field|||asc",
         },
         Object {
-          "label": "name",
+          "text": "name",
           "value": "field|||desc",
         },
       ]
     }
-    styles={
-      Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={
-      Object {
-        "label": "name",
-        "value": "field|||asc",
-      }
-    }
+    selectedValue="field|||asc"
   />
 </div>
 `;
