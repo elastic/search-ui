@@ -28,57 +28,26 @@
 
   @include element("option-label") {
     color: #4f4f4f;
+    pointer-events: none;
   }
 
   @include element("option-count") {
     color: #888888;
     font-size: 0.8em;
+    pointer-events: none;
   }
 
-  // @include element("value-container") {
-  //   padding-top: 0;
-  //   padding-bottom: 0;
-
-  //   @include modifier("has-value") {
-  //     font-weight: $fontWeightBold;
-  //     color: $black;
-  //   }
-  // }
-
-  // @include element("placeholder") {
-  //   white-space: nowrap;
-  //   position: static;
-  //   transform: none;
-  //   color: $black;
-  // }
-
-  // @include element("dropdown-indicator") {
-  //   display: flex;
-  //   height: $sizeXL;
-  //   width: $sizeXL;
-  //   align-items: center;
-  //   justify-content: center;
-  // }
-
-  // @include element("option-count") {
-  //   color: $facetCountColor;
-  //   font-size: 0.8em;
-  // }
+  @include element("inline-placeholder") {
+    color: rgb(128, 128, 128);
+  }
 
   @include element("label") {
     color: $facetLinkColor;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-  }
-
-  @include modifier("has-changed") {
-    @include block("rrs", true) {
-      @include element("label") {
-        font-weight: bold;
-      }
-    }
   }
 
   @include element("options") {
@@ -134,6 +103,10 @@
     padding: $sizeS $sizeM;
     cursor: pointer;
     outline: none;
+
+    @include modifier("selected") {
+      font-weight: bold;
+    }
 
     &:hover {
       background: $facetSelectBackground;

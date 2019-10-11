@@ -28,21 +28,13 @@ function ResultsPerPage({
       {...rest}
     >
       <div className="sui-results-per-page__label">Show</div>
-      {/* <Select
-        className="sui-select sui-select--inline"
-        classNamePrefix="sui-select"
-        value={selectedOption}
-        onChange={o => onChange(o.value)}
-        options={options.map(wrapOption)}
-        isSearchable={false}
-        styles={setDefaultStyle}
-      /> */}
       <RRS
         name="select"
+        key={`result_page_select_${selectedOption}`}
         options={options.map(wrapOption)}
         onChange={o => onChange(o.value)}
-        caretIcon={<DownChevron />}
-        selectedValue={selectedOption.value}
+        caretIcon={<DownChevron key={`result_page_caret_${selectedOption}`} />}
+        selectedValue={selectedOption && selectedOption.value}
       />
     </div>
   );

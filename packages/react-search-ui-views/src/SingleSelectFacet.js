@@ -48,10 +48,15 @@ function SingleSelectFacet({ className, label, onChange, options, values }) {
       <div className="sui-facet__title">{label}</div>
       <RRS
         name="select"
+        key={`facet_select_${selectedOption}`}
         options={selectOptions}
         onChange={o => onChange(o.value)}
-        caretIcon={<DownChevron />}
-        noSelectionLabel="Select..."
+        caretIcon={<DownChevron key={`facet_caret_${selectedOption}`} />}
+        noSelectionLabel={
+          !!values.length && (
+            <span className="rrs__inline-placeholder">Select...</span>
+          )
+        }
         selectedValue={selectedOption && selectedOption.value}
       />
     </div>

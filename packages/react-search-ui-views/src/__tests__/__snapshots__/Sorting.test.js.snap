@@ -4,13 +4,10 @@ exports[`renders correctly when there is a value 1`] = `
 <div
   className="sui-sorting"
 >
-  <StateManager
-    className="sui-select"
-    classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
-    isSearchable={false}
+  <e
+    caretIcon={<DownChevron />}
+    key="sorting_select_[object Object]"
+    name="select"
     onChange={[Function]}
     options={
       Array [
@@ -24,20 +21,7 @@ exports[`renders correctly when there is a value 1`] = `
         },
       ]
     }
-    styles={
-      Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={
-      Object {
-        "name": "Name DESC",
-        "value": "name|||desc",
-      }
-    }
+    selectedValue="name|||desc"
   />
 </div>
 `;
@@ -46,13 +30,10 @@ exports[`renders correctly when there is not a value 1`] = `
 <div
   className="sui-sorting"
 >
-  <StateManager
-    className="sui-select"
-    classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
-    isSearchable={false}
+  <e
+    caretIcon={<DownChevron />}
+    key="sorting_select_null"
+    name="select"
     onChange={[Function]}
     options={
       Array [
@@ -66,15 +47,7 @@ exports[`renders correctly when there is not a value 1`] = `
         },
       ]
     }
-    styles={
-      Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={null}
+    selectedValue={null}
   />
 </div>
 `;

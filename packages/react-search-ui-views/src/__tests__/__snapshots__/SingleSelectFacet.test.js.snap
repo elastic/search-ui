@@ -9,24 +9,34 @@ exports[`renders 1`] = `
   >
     A Facet
   </div>
-  <StateManager
-    className="sui-select"
-    classNamePrefix="sui-select"
-    components={
-      Object {
-        "Option": [Function],
-      }
+  <e
+    caretIcon={<DownChevron />}
+    key="facet_select_[object Object]"
+    name="select"
+    noSelectionLabel={
+      <span
+        className="rrs__inline-placeholder"
+      >
+        Select...
+      </span>
     }
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
-    isSearchable={false}
     onChange={[Function]}
     options={
       Array [
         Object {
-          "count": 20,
-          "label": "Range 1",
+          "markup": <React.Fragment>
+            <span
+              className="rrs__option-label"
+            >
+              Range 1
+            </span>
+            <span
+              className="rrs__option-count"
+            >
+              20
+            </span>
+          </React.Fragment>,
+          "text": "Range 1",
           "value": Object {
             "from": 1,
             "name": "Range 1",
@@ -34,8 +44,19 @@ exports[`renders 1`] = `
           },
         },
         Object {
-          "count": 10,
-          "label": "Range 2",
+          "markup": <React.Fragment>
+            <span
+              className="rrs__option-label"
+            >
+              Range 2
+            </span>
+            <span
+              className="rrs__option-count"
+            >
+              10
+            </span>
+          </React.Fragment>,
+          "text": "Range 2",
           "value": Object {
             "from": 11,
             "name": "Range 2",
@@ -44,23 +65,11 @@ exports[`renders 1`] = `
         },
       ]
     }
-    styles={
+    selectedValue={
       Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={
-      Object {
-        "count": 20,
-        "label": "Range 1",
-        "value": Object {
-          "from": 1,
-          "name": "Range 1",
-          "to": 10,
-        },
+        "from": 1,
+        "name": "Range 1",
+        "to": 10,
       }
     }
   />

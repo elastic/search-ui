@@ -17,10 +17,11 @@ function Sorting({ className, label, onChange, options, value, ...rest }) {
       {label && <div className="sui-sorting__label">{label}</div>}
       <RRS
         name="select"
+        key={`sorting_select_${selectedOption}`}
         options={options}
         onChange={o => onChange(o.value)}
-        caretIcon={<DownChevron />}
-        selectedValue={selectedOption.value}
+        caretIcon={<DownChevron key={`sorting_caret_${selectedOption}`} />}
+        selectedValue={selectedOption && selectedOption.value}
       />
     </div>
   );
