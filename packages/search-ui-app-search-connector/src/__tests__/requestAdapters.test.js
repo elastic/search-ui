@@ -24,12 +24,14 @@ const request = {
     {
       field: "initial",
       values: ["values"],
-      type: "all"
+      type: "all",
+      innerType: "any"
     },
     {
       field: "initial",
       values: ["more values"],
-      type: "all"
+      type: "all",
+      innerType: "any"
     },
     {
       field: "test",
@@ -40,17 +42,20 @@ const request = {
           name: "test"
         }
       ],
-      type: "all"
+      type: "all",
+      innerType: "any"
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "all"
+      type: "all",
+      innerType: "any"
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "any"
+      type: "any",
+      innerType: "any"
     },
     {
       field: "whatever",
@@ -71,26 +76,19 @@ const adaptedRequest = {
   filters: {
     all: [
       {
-        all: [{ initial: "values" }]
+        any: [{ initial: "values" }]
       },
       {
-        all: [{ initial: "more values" }]
+        any: [{ initial: "more values" }]
       },
       {
-        all: [
+        any: [
           {
             test: {
               to: 100,
               from: 0
             }
           }
-        ]
-      },
-      {
-        all: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
         ]
       },
       {
@@ -102,6 +100,15 @@ const adaptedRequest = {
       },
       {
         any: [{ whatever: "value" }]
+      }
+    ],
+    any: [
+      {
+        any: [
+          { initial: "additional values" },
+          { initial: "and values" },
+          { initial: "and even more values" }
+        ]
       }
     ]
   }

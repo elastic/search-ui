@@ -16,16 +16,21 @@ function rollup(f) {
   }));
 
   return {
-    [f.type || "any"]: values
+    [f.innerType || "any"]: values
   };
 }
 
 function adaptFilters(filters) {
   if (!filters || filters.length === 0) return {};
-  const all = filters.map(rollup);
-  return {
-    all
-  };
+
+  return ["all", "any", "none"].reduce((acc, topType) => {
+    const filtersByType = filters
+      .filter(({ type }) => (type || "all") === topType)
+      .map(rollup);
+    return filtersByType.length > 0
+      ? { ...acc, [topType]: filtersByType }
+      : acc;
+  }, {});
 }
 
 export function adaptRequest(request) {

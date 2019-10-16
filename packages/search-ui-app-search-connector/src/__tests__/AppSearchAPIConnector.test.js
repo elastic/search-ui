@@ -193,7 +193,8 @@ describe("AppSearchAPIConnector", () => {
           {
             field: "world_heritage_site",
             values: ["true"],
-            type: "all"
+            type: "all",
+            innerType: "any"
           }
         ],
         sortDirection: "desc",
@@ -207,7 +208,7 @@ describe("AppSearchAPIConnector", () => {
         filters: {
           all: [
             {
-              all: [
+              any: [
                 {
                   world_heritage_site: "true"
                 }
@@ -300,6 +301,7 @@ describe("AppSearchAPIConnector", () => {
           {
             field: "title",
             type: "all",
+            innerType: "any",
             values: ["Acadia", "Grand Canyon"]
           },
           {
@@ -319,7 +321,8 @@ describe("AppSearchAPIConnector", () => {
           {
             field: "date_made",
             values: ["yesterday"],
-            type: "all"
+            type: "all",
+            innerType: "any"
           }
         ]
       };
@@ -331,7 +334,7 @@ describe("AppSearchAPIConnector", () => {
         filters: {
           all: [
             {
-              all: [
+              any: [
                 {
                   date_made: "yesterday"
                 }
@@ -495,7 +498,8 @@ describe("AppSearchAPIConnector", () => {
               {
                 field: "world_heritage_site",
                 values: ["true"],
-                type: "all"
+                type: "all",
+                innerType: "any"
               }
             ],
             sortDirection: "desc",
@@ -510,7 +514,7 @@ describe("AppSearchAPIConnector", () => {
           filters: {
             all: [
               {
-                all: [
+                any: [
                   {
                     world_heritage_site: "true"
                   }
