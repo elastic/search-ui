@@ -474,17 +474,20 @@ describe("When multiple actions are called", () => {
       {
         field: "field1",
         values: ["value1"],
-        type: "all"
+        type: "all",
+        innerType: "any"
       },
       {
         field: "field2",
         values: ["value2"],
-        type: "all"
+        type: "all",
+        innerType: "any"
       },
       {
         field: "field3",
         values: ["value3"],
-        type: "all"
+        type: "all",
+        innerType: "any"
       }
     ]);
   });
@@ -504,17 +507,20 @@ describe("When multiple actions are called", () => {
         {
           field: "field1",
           values: ["value1"],
-          type: "all"
+          type: "all",
+          innerType: "any"
         },
         {
           field: "field2",
           values: ["value2"],
-          type: "all"
+          type: "all",
+          innerType: "any"
         },
         {
           field: "field3",
           values: ["value3"],
-          type: "all"
+          type: "all",
+          innerType: "any"
         }
       ]);
 
