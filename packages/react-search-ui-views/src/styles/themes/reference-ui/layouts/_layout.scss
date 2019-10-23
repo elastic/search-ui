@@ -9,8 +9,11 @@
  */
 
 @include block("layout-header") {
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 32px 24px;
-  border-bottom: 1px solid #eeeeee;
+  width: 100%;
 }
 
 /**
@@ -18,24 +21,6 @@
  */
 
 @include block("layout-body") {
-  background: #fcfcfc;
-
-  &:after {
-    content: "";
-    height: 80px;
-    width: 100%;
-    display: block;
-    position: relative;
-    background: -moz-linear-gradient(top, #fcfcfc 0%, #ffffff 100%);
-    background: -webkit-linear-gradient(top, #fcfcfc 0%, #ffffff 100%);
-    background: linear-gradient(to bottom, #fcfcfc 0%, #ffffff 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ffffff',GradientType=0 );
-
-    @media (max-width: $sidebarBreakpoint) {
-      display: none;
-    }
-  }
-
   @include element("inner") {
     max-width: 1300px;
     margin-left: auto;

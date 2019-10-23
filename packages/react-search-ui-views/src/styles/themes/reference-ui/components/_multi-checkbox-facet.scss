@@ -51,17 +51,19 @@
   margin: 6px 0px 0px 0px;
 
   @include element("text-input") {
+    background: #f2f2f2;
+    border: none;
+    border-radius: $borderRadius;
     width: 100%;
     height: 100%;
-    padding: 6px;
+    padding: 8px 10px;
     margin: 0;
     font-family: inherit;
-    border: 1px solid #cccccc;
     border-radius: 4px;
     outline: none;
 
     &:focus {
-      border: 1px solid $linkColor;
+      box-shadow: rgba($linkColor, 0.3) 0 0 0 1px, inset rgba($linkColor, 0.3) 0 0 0 1px;
     }
   }
 }

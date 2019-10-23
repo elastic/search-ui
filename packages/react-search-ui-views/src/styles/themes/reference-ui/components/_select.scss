@@ -14,15 +14,15 @@
   }
 
   @include element('control') {
-    background-color: $facetSelectBackground;
-    border: 1px solid $facetSelectBorder;
+    background-color: rgba($linkColor, 0.15);
     border-radius: $borderRadius;
+    color: $linkColor;
     display: flex;
     align-items: stretch;
     justify-content: space-between;
 
     @include modifier('is-focused') {
-      border: 1px solid $linkColor;
+      background-color: rgba($linkColor, 0.25);
     }
   }
 
@@ -84,5 +84,9 @@
     &:hover {
       background: $facetSelectBackground;
     }
+  }
+
+  @include element('single-value') {
+    color: $linkColor !important;
   }
 }
