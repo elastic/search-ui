@@ -13,8 +13,8 @@ import { matchFilter } from "../helpers";
 export default function addFilter(
   name,
   value,
-  type = "all",
-  innerType = "any"
+  innerType = "all",
+  type = "all"
 ) {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Action", "addFilter", ...arguments);

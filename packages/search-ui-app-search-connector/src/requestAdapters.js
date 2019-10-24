@@ -16,7 +16,7 @@ function rollup(f) {
   }));
 
   return {
-    [f.innerType || "any"]: values
+    [f.innerType || "all"]: values
   };
 }
 

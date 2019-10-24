@@ -17,8 +17,8 @@ describe("#addFilter", () => {
   function subject(
     name,
     value,
-    type,
     innerType,
+    type,
     {
       initialFilters = [],
       initialState = {
@@ -30,7 +30,7 @@ describe("#addFilter", () => {
       initialState
     });
 
-    driver.addFilter(name, value, type, innerType);
+    driver.addFilter(name, value, innerType, type);
     jest.runAllTimers();
     return updatedStateAfterAction.state;
   }
@@ -66,7 +66,7 @@ describe("#addFilter", () => {
 
   it("Adds a new filter", () => {
     expect(
-      subject("test", "value", undefined, undefined, {
+      subject("test", "value", "any", undefined, {
         initialFilters: [
           { field: "initial", values: ["value"], type: "all", innerType: "any" }
         ]
@@ -79,7 +79,7 @@ describe("#addFilter", () => {
 
   it("Adds an additional filter", () => {
     expect(
-      subject("test", "value2", undefined, undefined, {
+      subject("test", "value2", "any", undefined, {
         initialFilters: [
           {
             field: "initial",
@@ -103,7 +103,7 @@ describe("#addFilter", () => {
 
   it("Won't add a duplicate filter", () => {
     expect(
-      subject("test", "value", undefined, undefined, {
+      subject("test", "value", "any", undefined, {
         initialFilters: [
           {
             field: "initial",
@@ -147,7 +147,7 @@ describe("#addFilter", () => {
         field: "test",
         values: [{ from: 20, to: 100 }],
         type: "all",
-        innerType: "any"
+        innerType: "all"
       }
     ]);
   });
@@ -160,13 +160,13 @@ describe("#addFilter", () => {
             field: "initial",
             values: [{ from: 20, to: 100 }],
             type: "all",
-            innerType: "any"
+            innerType: "all"
           },
           {
             field: "test",
             values: [{ from: 4, to: 5 }],
             type: "all",
-            innerType: "any"
+            innerType: "all"
           }
         ]
       }).filters
@@ -175,13 +175,13 @@ describe("#addFilter", () => {
         field: "initial",
         values: [{ from: 20, to: 100 }],
         type: "all",
-        innerType: "any"
+        innerType: "all"
       },
       {
         field: "test",
         values: [{ from: 4, to: 5 }, { from: 5, to: 6 }],
         type: "all",
-        innerType: "any"
+        innerType: "all"
       }
     ]);
   });
@@ -194,7 +194,7 @@ describe("#addFilter", () => {
           from: 20,
           to: 100
         },
-        undefined,
+        "any",
         undefined,
         {
           initialFilters: [
@@ -225,27 +225,27 @@ describe("#addFilter", () => {
   });
 
   it("Adds an 'any' type filter", () => {
-    expect(subject("test", "value", "any").filters).toEqual([
-      { field: "test", values: ["value"], type: "any", innerType: "any" }
+    expect(subject("test", "value", undefined, "any").filters).toEqual([
+      { field: "test", values: ["value"], type: "any", innerType: "all" }
     ]);
   });
 
   it("Adds a 'none' type filter", () => {
-    expect(subject("test", "value", "none").filters).toEqual([
-      { field: "test", values: ["value"], type: "none", innerType: "any" }
+    expect(subject("test", "value", undefined, "none").filters).toEqual([
+      { field: "test", values: ["value"], type: "none", innerType: "all" }
     ]);
   });
 
   it("Will maintain separate Filter structures for different filter types", () => {
     expect(
-      subject("test", "value", "any", undefined, {
+      subject("test", "value", undefined, "any", {
         initialFilters: [
           { field: "test", values: ["value"], type: "all", innerType: "any" }
         ]
       }).filters
     ).toEqual([
       { field: "test", values: ["value"], type: "all", innerType: "any" },
-      { field: "test", values: ["value"], type: "any", innerType: "any" }
+      { field: "test", values: ["value"], type: "any", innerType: "all" }
     ]);
   });
 
@@ -274,13 +274,13 @@ describe("#addFilter", () => {
       }).filters
     ).toEqual([
       { field: "test", values: ["value"], type: "all", innerType: "all" },
-      { field: "test", values: ["value"], type: "all", innerType: "any" },
+      { field: "test", values: ["value"], type: "any", innerType: "all" },
       { field: "test", values: ["value"], type: "none", innerType: "all" },
       {
         field: "test",
         values: ["value", "value1"],
-        type: "any",
-        innerType: "all"
+        type: "all",
+        innerType: "any"
       }
     ]);
   });

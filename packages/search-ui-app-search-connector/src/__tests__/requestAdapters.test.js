@@ -99,7 +99,7 @@ const adaptedRequest = {
         ]
       },
       {
-        any: [{ whatever: "value" }]
+        all: [{ whatever: "value" }]
       }
     ],
     any: [
