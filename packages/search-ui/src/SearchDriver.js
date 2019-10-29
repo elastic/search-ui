@@ -115,6 +115,12 @@ export default class SearchDriver {
     });
 
     this.debug = debug;
+    if (this.debug) {
+      console.warn(
+        "Search UI Debugging is enabled. This should be turned off in production deployments."
+      );
+      window.driver = this;
+    }
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.autocompleteQuery = autocompleteQuery;

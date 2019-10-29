@@ -71,6 +71,31 @@ npm run test
 npm run test -- --watch
 ```
 
+### Debug
+
+There is a `debug` flag available on the configuration for `SearchDriver` and `SearchProvider`.
+
+```jsx
+<SearchProvider config={
+  debug: true
+  //...
+}>
+```
+
+Setting this to `true` will make the `driver` available globally on window. This will allow you to programmatically
+execute actions in the browser console which is helpful for debugging.
+
+```js
+window.driver.addFilter("states", "California", "all");
+```
+
+This will also log actions and state updates as they occur to the console in the following form:
+
+```
+Action {Action Name} {Action Parameters}
+State Update {State to update} {Full State after update}
+```
+
 ### Sandbox
 
 The [sandbox](examples/sandbox/README.md) app can be used as a local development aid.
