@@ -72,6 +72,32 @@ const emptyResponse = {
   }
 };
 
+const responseWithEmptyFacetValue = {
+  rawResults: [],
+  info: {
+    facets: {
+      states: [
+        {
+          type: "value",
+          data: [
+            {
+              value: "",
+              count: 5
+            }
+          ]
+        }
+      ]
+    },
+    meta: {
+      request_id: "1234",
+      page: {
+        total_results: 100,
+        total_pages: 10
+      }
+    }
+  }
+};
+
 const adaptedResponse = {
   results: [],
   totalPages: 10,
@@ -142,6 +168,27 @@ const adaptedResponse = {
 
 const adaptedEmptyResponse = { requestId: "1234", results: [] };
 
+const adaptedResponseWithEmptyFacetValue = {
+  results: [],
+  totalPages: 10,
+  totalResults: 100,
+  requestId: "1234",
+  facets: {
+    states: [
+      {
+        type: "value",
+        field: "states",
+        data: [
+          {
+            value: "",
+            count: 5
+          }
+        ]
+      }
+    ]
+  }
+};
+
 const geoOptions = {
   additionalFacetValueFields: {
     location: {
@@ -158,6 +205,12 @@ describe("adaptResponse", () => {
 
   it("adapts empty response", () => {
     expect(adaptResponse(emptyResponse)).toEqual(adaptedEmptyResponse);
+  });
+
+  it("adapts facets with empty values", () => {
+    expect(adaptResponse(responseWithEmptyFacetValue)).toEqual(
+      adaptedResponseWithEmptyFacetValue
+    );
   });
 
   it("will accept additional facet value fields to inject into response", () => {

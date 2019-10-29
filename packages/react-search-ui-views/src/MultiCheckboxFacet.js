@@ -5,6 +5,14 @@ import deepEqual from "deep-equal";
 import { FacetValue, FilterValue } from "./types";
 import { appendClassName, getFilterValueDisplay } from "./view-helpers";
 
+function getIsChecked(values, option) {
+  const foundValue = values.find(value => {
+    if (value && value.name && option.value.name === value.name) return true;
+    return deepEqual(option.value, value, { strict: true });
+  });
+  return typeof foundValue !== "undefined" && foundValue !== null;
+}
+
 function MultiCheckboxFacet({
   className,
   label,
@@ -38,12 +46,7 @@ function MultiCheckboxFacet({
       <div className="sui-multi-checkbox-facet">
         {options.length < 1 && <div>No matching options</div>}
         {options.map(option => {
-          const checked = !!values.find(value => {
-            if (value && value.name && option.value.name === value.name)
-              return true;
-            if (deepEqual(option.value, value)) return true;
-            return false;
-          });
+          const checked = getIsChecked(values, option);
           return (
             <label
               key={`${getFilterValueDisplay(option.value)}`}

@@ -126,6 +126,68 @@ describe("determining selected option from values", () => {
     ).toBe(true);
   });
 
+  it("will correctly determine which of the options when the provided value is an empty string", () => {
+    const updatedParams = {
+      ...params,
+      options: [
+        {
+          value: "fieldValue1",
+          count: 10
+        },
+        {
+          value: "",
+          count: 5
+        }
+      ],
+      values: [""]
+    };
+    const wrapper = shallow(<MultiCheckboxFacet {...updatedParams} />);
+    expect(
+      wrapper
+        .find("input")
+        .at(0)
+        .prop("checked")
+    ).toBe(false);
+
+    expect(
+      wrapper
+        .find("input")
+        .at(1)
+        .prop("checked")
+    ).toBe(true);
+  });
+
+  it("will correctly determine which of the options when the provided value is 0", () => {
+    const updatedParams = {
+      ...params,
+      options: [
+        {
+          value: "fieldValue1",
+          count: 10
+        },
+        {
+          value: 0,
+          count: 5
+        }
+      ],
+      values: [0]
+    };
+    const wrapper = shallow(<MultiCheckboxFacet {...updatedParams} />);
+    expect(
+      wrapper
+        .find("input")
+        .at(0)
+        .prop("checked")
+    ).toBe(false);
+
+    expect(
+      wrapper
+        .find("input")
+        .at(1)
+        .prop("checked")
+    ).toBe(true);
+  });
+
   it("will correctly determine when no value is selected", () => {
     const wrapper = shallow(<MultiCheckboxFacet {...params} values={[]} />);
 
