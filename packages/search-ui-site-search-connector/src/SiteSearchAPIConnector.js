@@ -65,7 +65,7 @@ class SiteSearchAPIConnector {
   }
 
   onResultClick({ query, documentId, tags }) {
-    if (tags) {
+    if (tags && tags.length > 0) {
       console.warn(
         "search-ui-site-search-connector: Site Search does not support tags on click"
       );
