@@ -56,6 +56,7 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
 }
 
 const config = {
+  alwaysSearchOnInitialLoad: true,
   searchQuery: {
     result_fields: {
       visitors: { raw: {} },
@@ -105,7 +106,6 @@ const config = {
       },
       date_established: {
         type: "range",
-
         ranges: [
           {
             from: moment()
