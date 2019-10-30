@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
-import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
@@ -37,18 +36,18 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleSelectFacet({ className, label, onChange, options, values }) {
+function SingleSelectFacet({
+  className,
+  doFilterValuesMatch,
+  label,
+  onChange,
+  options,
+  values
+}) {
   const selectOptions = options.map(toSelectOption);
   const selectedFilterValue = values[0];
   const selectedOption = selectOptions.find(option => {
-    if (
-      selectedFilterValue &&
-      selectedFilterValue.name &&
-      option.value.name === selectedFilterValue.name
-    )
-      return true;
-    if (deepEqual(option.value, selectedFilterValue)) return true;
-    return false;
+    return doFilterValuesMatch(option.value, selectedFilterValue);
   });
 
   return (
@@ -69,6 +68,7 @@ function SingleSelectFacet({ className, label, onChange, options, values }) {
 }
 
 SingleSelectFacet.propTypes = {
+  doFilterValuesMatch: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,

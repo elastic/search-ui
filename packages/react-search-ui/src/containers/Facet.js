@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
+import { helpers } from "@elastic/search-ui";
 
 import { Facet, Filter, FilterType } from "../types";
 import { accentFold } from "../helpers";
@@ -103,6 +104,7 @@ export class FacetContainer extends Component {
     return View({
       className,
       label: label,
+      doFilterValuesMatch: helpers.doFilterValuesMatch,
       onMoreClick: this.handleClickMore.bind(this, options.length),
       onRemove: value => {
         removeFilter(field, value, filterType);

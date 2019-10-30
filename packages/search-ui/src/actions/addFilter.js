@@ -1,4 +1,4 @@
-import { matchFilter } from "../helpers";
+import { doFilterValuesMatch } from "../helpers";
 
 /**
  * Filter results - Adds to current filter value
@@ -22,7 +22,7 @@ export default function addFilter(name, value, type = "all") {
   const existingFilterValues = existingFilter.values || [];
 
   const newFilterValues = existingFilterValues.find(existing =>
-    matchFilter(existing, value)
+    doFilterValuesMatch(existing, value)
   )
     ? existingFilterValues
     : existingFilterValues.concat(value);

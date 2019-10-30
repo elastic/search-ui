@@ -1,20 +1,19 @@
 import PropTypes from "prop-types";
 import React from "react";
-import deepEqual from "deep-equal";
 
 import { FacetValue, FilterValue } from "./types";
 import { appendClassName, getFilterValueDisplay } from "./view-helpers";
 
-function getIsChecked(values, option) {
-  const foundValue = values.find(value => {
-    if (value && value.name && option.value.name === value.name) return true;
-    return deepEqual(option.value, value, { strict: true });
-  });
+function getIsChecked(doFilterValuesMatch, values, option) {
+  const foundValue = values.find(value =>
+    doFilterValuesMatch(option.value, value)
+  );
   return typeof foundValue !== "undefined" && foundValue !== null;
 }
 
 function MultiCheckboxFacet({
   className,
+  doFilterValuesMatch,
   label,
   onMoreClick,
   onRemove,
@@ -46,7 +45,7 @@ function MultiCheckboxFacet({
       <div className="sui-multi-checkbox-facet">
         {options.length < 1 && <div>No matching options</div>}
         {options.map(option => {
-          const checked = getIsChecked(values, option);
+          const checked = getIsChecked(doFilterValuesMatch, values, option);
           return (
             <label
               key={`${getFilterValueDisplay(option.value)}`}
@@ -94,6 +93,7 @@ function MultiCheckboxFacet({
 }
 
 MultiCheckboxFacet.propTypes = {
+  doFilterValuesMatch: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   onMoreClick: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,

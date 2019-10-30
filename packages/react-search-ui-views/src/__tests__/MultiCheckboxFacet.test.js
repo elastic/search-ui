@@ -2,25 +2,31 @@ import React from "react";
 import MultiCheckboxFacet from "../MultiCheckboxFacet";
 import { shallow } from "enzyme";
 
-const params = {
-  label: "A Facet",
-  onMoreClick: jest.fn(),
-  onRemove: jest.fn(),
-  onSelect: jest.fn(),
-  onSearch: jest.fn(),
-  options: [
-    {
-      value: "fieldValue1",
-      count: 10
-    },
-    {
-      value: "fieldValue2",
-      count: 5
-    }
-  ],
-  showMore: true,
-  values: ["fieldValue2"]
-};
+function getParams() {
+  return {
+    label: "A Facet",
+    doFilterValuesMatch: jest
+      .fn()
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true),
+    onMoreClick: jest.fn(),
+    onRemove: jest.fn(),
+    onSelect: jest.fn(),
+    onSearch: jest.fn(),
+    options: [
+      {
+        value: "fieldValue1",
+        count: 10
+      },
+      {
+        value: "fieldValue2",
+        count: 5
+      }
+    ],
+    showMore: true,
+    values: ["fieldValue2"]
+  };
+}
 
 const rangeOptions = [
   {
@@ -41,31 +47,14 @@ const rangeOptions = [
   }
 ];
 
-const rangeOptionsTimeBased = [
-  {
-    count: 1,
-    value: {
-      from: new Date().getTime() - 1000,
-      name: "1000 ms ago"
-    }
-  },
-  {
-    count: 11,
-    value: {
-      from: new Date().getTime() - 10000,
-      name: "10000 ms ago"
-    }
-  }
-];
-
 it("renders", () => {
-  const wrapper = shallow(<MultiCheckboxFacet {...params} />);
+  const wrapper = shallow(<MultiCheckboxFacet {...getParams()} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders range filters", () => {
   const wrapper = shallow(
-    <MultiCheckboxFacet {...params} option={rangeOptions} />
+    <MultiCheckboxFacet {...getParams()} option={rangeOptions} />
   );
   expect(wrapper).toMatchSnapshot();
 });
@@ -74,7 +63,7 @@ it("will render 'more' button if more param is true", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...params,
+        ...getParams(),
         showMore: true
       }}
     />
@@ -86,7 +75,7 @@ it("will render a no results message is no options are available", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...params,
+        ...getParams(),
         options: []
       }}
     />
@@ -100,7 +89,7 @@ it("won't render 'more' button if more param is false", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...params,
+        ...getParams(),
         showMore: false
       }}
     />
@@ -110,7 +99,7 @@ it("won't render 'more' button if more param is false", () => {
 
 describe("determining selected option from values", () => {
   it("will correctly determine which of the options is selected based on the provided value", () => {
-    const wrapper = shallow(<MultiCheckboxFacet {...params} />);
+    const wrapper = shallow(<MultiCheckboxFacet {...getParams()} />);
     expect(
       wrapper
         .find("input")
@@ -124,185 +113,13 @@ describe("determining selected option from values", () => {
         .at(1)
         .prop("checked")
     ).toBe(true);
-  });
-
-  it("will correctly determine which of the options when the provided value is an empty string", () => {
-    const updatedParams = {
-      ...params,
-      options: [
-        {
-          value: "fieldValue1",
-          count: 10
-        },
-        {
-          value: "",
-          count: 5
-        }
-      ],
-      values: [""]
-    };
-    const wrapper = shallow(<MultiCheckboxFacet {...updatedParams} />);
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(false);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(true);
-  });
-
-  it("will correctly determine which of the options when the provided value is 0", () => {
-    const updatedParams = {
-      ...params,
-      options: [
-        {
-          value: "fieldValue1",
-          count: 10
-        },
-        {
-          value: 0,
-          count: 5
-        }
-      ],
-      values: [0]
-    };
-    const wrapper = shallow(<MultiCheckboxFacet {...updatedParams} />);
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(false);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(true);
-  });
-
-  it("will correctly determine when no value is selected", () => {
-    const wrapper = shallow(<MultiCheckboxFacet {...params} values={[]} />);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(false);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
-  });
-
-  it("will correctly determine which of the options is selected when using range filters", () => {
-    const wrapper = shallow(
-      <MultiCheckboxFacet
-        {...params}
-        options={rangeOptions}
-        values={[
-          {
-            from: 1,
-            to: 10,
-            name: "The first option"
-          }
-        ]}
-      />
-    );
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(true);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
-  });
-
-  it("will correctly determine which of the options is selected when using range filters and only the name matches", () => {
-    const wrapper = shallow(
-      <MultiCheckboxFacet
-        {...params}
-        options={rangeOptionsTimeBased}
-        values={[
-          {
-            // A time range filter that was applied based on the current time 20 seconds ago, will not have
-            // the same "from" value as a facet that is calculated at the current time. However, we can still
-            // make a match based on the "name" of the values.
-            from: new Date().getTime() - 1000,
-            name: "1000 ms ago"
-          }
-        ]}
-      />
-    );
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(true);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
-  });
-
-  it("will correctly determine which of the options is selected even if the provided value has differently ordered props", () => {
-    const wrapper = shallow(
-      <MultiCheckboxFacet
-        {...params}
-        options={rangeOptions}
-        values={[
-          {
-            to: 10, // Reversed
-            from: 1, // Reversed
-            name: "The first option"
-          }
-        ]}
-      />
-    );
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(true);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
   });
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
-    <MultiCheckboxFacet className={customClassName} {...params} />
+    <MultiCheckboxFacet className={customClassName} {...getParams()} />
   );
   const { className } = wrapper.props();
   expect(className).toEqual("sui-facet test-class");
@@ -312,7 +129,7 @@ it("will render search input if `showSearch` param is true", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...params,
+        ...getParams(),
         showSearch: true
       }}
     />
@@ -325,7 +142,7 @@ it("won't render search input if `showSearch` param is false", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...params,
+        ...getParams(),
         showSearch: false
       }}
     />
@@ -339,7 +156,7 @@ it("should use the `searchPlaceholder` param as a search input placeholder", () 
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...params,
+        ...getParams(),
         showSearch: true,
         searchPlaceholder
       }}
