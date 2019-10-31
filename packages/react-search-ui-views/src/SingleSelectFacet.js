@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
 
-import { FacetValue, FilterValue } from "./types";
+import { FacetValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
@@ -36,18 +36,19 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleSelectFacet({
-  className,
-  doFilterValuesMatch,
-  label,
-  onChange,
-  options,
-  values
-}) {
-  const selectOptions = options.map(toSelectOption);
-  const selectedFilterValue = values[0];
-  const selectedOption = selectOptions.find(option => {
-    return doFilterValuesMatch(option.value, selectedFilterValue);
+function SingleSelectFacet({ className, label, onChange, options }) {
+  let selectedOption;
+  let selectOptionSet = false;
+
+  const selectOptions = options.map(option => {
+    const selectOption = toSelectOption(option);
+    // There should never be multiple filters set for this facet because it is single select,
+    // but if there is, we use the first value.
+    if (option.selected && !selectOptionSet) {
+      selectedOption = selectOption;
+      selectOptionSet = true;
+    }
+    return selectOption;
   });
 
   return (
@@ -68,11 +69,9 @@ function SingleSelectFacet({
 }
 
 SingleSelectFacet.propTypes = {
-  doFilterValuesMatch: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired,
   className: PropTypes.string
 };
 

@@ -1,9 +1,32 @@
 import deepEqual from "deep-equal";
 
-export function removeSingleFilterValue(filters, name, value, filterType) {
+/**
+ * Given a list of applied Filters, find FilterValues based on
+ * "fieldName" and "filterType".
+ *
+ * @param {*} filters
+ * @param {*} name
+ * @param {*} filterType
+ */
+export function findFilterValues(filters, name, filterType) {
+  const filter = filters.find(f => f.field === name && f.type === filterType);
+  if (!filter) return [];
+  return filter.values;
+}
+
+/**
+ * Given a list of applied Filters, remove a single FilterValue based on
+ * "fieldName" and "filterType".
+ *
+ * @param {Filter[]} filters
+ * @param {String} fieldName
+ * @param {FilterValue} value
+ * @param {FilterType} filterType
+ */
+export function removeSingleFilterValue(filters, fieldName, value, filterType) {
   return filters.reduce((acc, filter) => {
     const { field, values, type, ...rest } = filter;
-    if (field === name && (!filterType || type === filterType)) {
+    if (field === fieldName && (!filterType || type === filterType)) {
       const updatedFilterValues = values.filter(
         filterValue => !doFilterValuesMatch(filterValue, value)
       );
@@ -23,12 +46,44 @@ export function removeSingleFilterValue(filters, name, value, filterType) {
 }
 
 /**
+ * Given a Facet and a list of applied Filters, mark the Facet Values
+ * for that Facet as "selected" based on "fieldName" and "filterType".
+ *
+ * @param {Facet} facet
+ * @param {String} fieldName
+ * @param {Filter[]} filters
+ * @param {FilterType} filterType
+ */
+export function markSelectedFacetValuesFromFilters(
+  facet,
+  filters,
+  fieldName,
+  filterType
+) {
+  const facetValues = facet.data;
+  const filterValuesForField =
+    findFilterValues(filters, fieldName, filterType) || [];
+  return {
+    ...facet,
+    data: facetValues.map(facetValue => {
+      return {
+        ...facetValue,
+        selected:
+          filterValuesForField.findIndex(filterValue => {
+            return doFilterValuesMatch(filterValue, facetValue.value);
+          }) >= 0
+      };
+    })
+  };
+}
+
+/**
  * Useful for determining when filter values match. This could be used
  * when matching applied filters back to facet options, or for determining
  * whether or not a filter already exists in a list of applied filters.
  *
- * @param {*} filter1
- * @param {*} filter2
+ * @param {FilterValue} filterValue1
+ * @param {FilterValue} filterValue2
  */
 export function doFilterValuesMatch(filterValue1, filterValue2) {
   if (

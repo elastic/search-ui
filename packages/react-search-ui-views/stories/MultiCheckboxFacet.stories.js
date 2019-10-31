@@ -7,7 +7,6 @@ import { MultiCheckboxFacet } from "../src";
 
 const baseProps = {
   label: "The Label",
-  doFilterValuesMatch: () => false,
   onMoreClick: action("Clicked More"),
   onRemove: action("Removed"),
   onSelect: action("Selected"),
@@ -15,18 +14,20 @@ const baseProps = {
   options: [
     {
       value: "value",
-      count: 10
+      count: 10,
+      selected: false
     },
     {
       value: "two",
-      count: 20
+      count: 20,
+      selected: false
     },
     {
       value: "three",
-      count: 30
+      count: 30,
+      selected: false
     }
-  ],
-  values: ["two", "three"]
+  ]
 };
 
 const rangeOptions = [
@@ -54,18 +55,25 @@ storiesOf("Facets/MultiCheckboxFacet", module)
   ))
   .add("with Value Facets selected", () => (
     <MultiCheckboxFacet
-      {...{ ...baseProps, doFilterValuesMatch: () => true }}
+      {...{
+        ...baseProps,
+        options: baseProps.options.map(o => ({ ...o, selected: true }))
+      }}
     />
   ))
   .add("with Range Facets not selected", () => (
-    <MultiCheckboxFacet {...{ ...baseProps, options: rangeOptions }} />
+    <MultiCheckboxFacet
+      {...{
+        ...baseProps,
+        options: rangeOptions
+      }}
+    />
   ))
   .add("with Range Facets selected", () => (
     <MultiCheckboxFacet
       {...{
         ...baseProps,
-        doFilterValuesMatch: () => true,
-        options: rangeOptions
+        options: rangeOptions.map(o => ({ ...o, selected: true }))
       }}
     />
   ))
@@ -79,7 +87,6 @@ storiesOf("Facets/MultiCheckboxFacet", module)
     <MultiCheckboxFacet
       {...{
         ...baseProps,
-        values: [],
         showSearch: true,
         searchPlaceholder: "Search..."
       }}

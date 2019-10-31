@@ -1,19 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { FacetValue, FilterValue } from "./types";
+import { FacetValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
-function SingleLinksFacet({
-  className,
-  label,
-  onRemove,
-  onSelect,
-  options,
-  values = []
-}) {
-  const value = values[0];
+function SingleLinksFacet({ className, label, onRemove, onSelect, options }) {
+  const value = options.filter(o => o.selected).map(o => o.value)[0];
   return (
     <div className={appendClassName("sui-facet", className)}>
       <div>
@@ -67,7 +60,6 @@ SingleLinksFacet.propTypes = {
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired,
   className: PropTypes.string
 };
 

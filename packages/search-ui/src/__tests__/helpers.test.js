@@ -1,5 +1,7 @@
 import { helpers } from "..";
 const doFilterValuesMatch = helpers.doFilterValuesMatch;
+const markSelectedFacetValuesFromFilters =
+  helpers.markSelectedFacetValuesFromFilters;
 
 describe("doFilterValuesMatch", () => {
   describe("when matching simple values", () => {
@@ -67,6 +69,12 @@ describe("doFilterValuesMatch", () => {
       expect(doFilterValuesMatch(filterValue1, filterValue2)).toBe(false);
     });
 
+    it("will match objects with differently ordered props", () => {
+      const filterValue1 = { to: 10, from: 1 };
+      const filterValue2 = { from: 1, to: 10 };
+      expect(doFilterValuesMatch(filterValue1, filterValue2)).toBe(true);
+    });
+
     it("will do a short-circuit match if 'name' matches", () => {
       const filterValue1 = { name: "The first option" };
       const filterValue2 = { from: 1, to: 10, name: "The first option" };
@@ -95,6 +103,84 @@ describe("doFilterValuesMatch", () => {
       const filterValue1 = {};
       const filterValue2 = {};
       expect(doFilterValuesMatch(filterValue1, filterValue2)).toBe(true);
+    });
+  });
+});
+
+describe("markSelectedFacetValuesFromFilters", () => {
+  const facet = {
+    field: "states",
+    type: "value",
+    data: [
+      {
+        count: 9,
+        value: "California"
+      },
+      {
+        count: 8,
+        value: "Alaska"
+      },
+      {
+        count: 1,
+        value: "South Carolina"
+      },
+      {
+        count: 1,
+        value: "Tennessee"
+      }
+    ]
+  };
+
+  let filters = [
+    {
+      field: "states",
+      values: ["California", "South Carolina"],
+      type: "any"
+    },
+    {
+      field: "states",
+      values: ["Alaska"],
+      type: "all"
+    },
+    {
+      field: "world_heritage_site",
+      values: ["true"],
+      type: "all"
+    }
+  ];
+
+  it("will mark selected facets as selected based on current filters, field name, and filter type", () => {
+    const marked = markSelectedFacetValuesFromFilters(
+      facet,
+      filters,
+      "states",
+      "any"
+    );
+    expect(marked).toEqual({
+      field: "states",
+      type: "value",
+      data: [
+        {
+          count: 9,
+          value: "California",
+          selected: true
+        },
+        {
+          count: 8,
+          value: "Alaska",
+          selected: false
+        },
+        {
+          count: 1,
+          value: "South Carolina",
+          selected: true
+        },
+        {
+          count: 1,
+          value: "Tennessee",
+          selected: false
+        }
+      ]
     });
   });
 });

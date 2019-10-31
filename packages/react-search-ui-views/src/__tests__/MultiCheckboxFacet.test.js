@@ -2,31 +2,26 @@ import React from "react";
 import MultiCheckboxFacet from "../MultiCheckboxFacet";
 import { shallow } from "enzyme";
 
-function getParams() {
-  return {
-    label: "A Facet",
-    doFilterValuesMatch: jest
-      .fn()
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(true),
-    onMoreClick: jest.fn(),
-    onRemove: jest.fn(),
-    onSelect: jest.fn(),
-    onSearch: jest.fn(),
-    options: [
-      {
-        value: "fieldValue1",
-        count: 10
-      },
-      {
-        value: "fieldValue2",
-        count: 5
-      }
-    ],
-    showMore: true,
-    values: ["fieldValue2"]
-  };
-}
+const params = {
+  label: "A Facet",
+  onMoreClick: jest.fn(),
+  onRemove: jest.fn(),
+  onSelect: jest.fn(),
+  onSearch: jest.fn(),
+  options: [
+    {
+      value: "fieldValue1",
+      count: 10,
+      selected: false
+    },
+    {
+      value: "fieldValue2",
+      count: 5,
+      selected: true
+    }
+  ],
+  showMore: true
+};
 
 const rangeOptions = [
   {
@@ -48,13 +43,13 @@ const rangeOptions = [
 ];
 
 it("renders", () => {
-  const wrapper = shallow(<MultiCheckboxFacet {...getParams()} />);
+  const wrapper = shallow(<MultiCheckboxFacet {...params} />);
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders range filters", () => {
   const wrapper = shallow(
-    <MultiCheckboxFacet {...getParams()} option={rangeOptions} />
+    <MultiCheckboxFacet {...params} option={rangeOptions} />
   );
   expect(wrapper).toMatchSnapshot();
 });
@@ -63,7 +58,7 @@ it("will render 'more' button if more param is true", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...getParams(),
+        ...params,
         showMore: true
       }}
     />
@@ -75,7 +70,7 @@ it("will render a no results message is no options are available", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...getParams(),
+        ...params,
         options: []
       }}
     />
@@ -89,7 +84,7 @@ it("won't render 'more' button if more param is false", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...getParams(),
+        ...params,
         showMore: false
       }}
     />
@@ -97,9 +92,9 @@ it("won't render 'more' button if more param is false", () => {
   expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(0);
 });
 
-describe("determining selected option from values", () => {
-  it("will correctly determine which of the options is selected based on the provided value", () => {
-    const wrapper = shallow(<MultiCheckboxFacet {...getParams()} />);
+describe("determining selected option", () => {
+  it("will correctly determine which of the options is selected", () => {
+    const wrapper = shallow(<MultiCheckboxFacet {...params} />);
     expect(
       wrapper
         .find("input")
@@ -119,7 +114,7 @@ describe("determining selected option from values", () => {
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
-    <MultiCheckboxFacet className={customClassName} {...getParams()} />
+    <MultiCheckboxFacet className={customClassName} {...params} />
   );
   const { className } = wrapper.props();
   expect(className).toEqual("sui-facet test-class");
@@ -129,7 +124,7 @@ it("will render search input if `showSearch` param is true", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...getParams(),
+        ...params,
         showSearch: true
       }}
     />
@@ -142,7 +137,7 @@ it("won't render search input if `showSearch` param is false", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...getParams(),
+        ...params,
         showSearch: false
       }}
     />
@@ -156,7 +151,7 @@ it("should use the `searchPlaceholder` param as a search input placeholder", () 
   const wrapper = shallow(
     <MultiCheckboxFacet
       {...{
-        ...getParams(),
+        ...params,
         showSearch: true,
         searchPlaceholder
       }}
