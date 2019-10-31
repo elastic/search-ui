@@ -8,8 +8,9 @@
  * this click event
  */
 export default function trackClickThrough(documentId, tags = []) {
-  // eslint-disable-next-line no-console
-  if (this.debug) console.log("Action", "trackClickThrough", ...arguments);
+  if (this.debug)
+    // eslint-disable-next-line no-console
+    console.log("Search UI: Action", "trackClickThrough", ...arguments);
 
   const { requestId, searchTerm } = this.state;
 

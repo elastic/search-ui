@@ -11,7 +11,7 @@ import { matchFilter } from "../helpers";
  */
 export default function addFilter(name, value, type = "all") {
   // eslint-disable-next-line no-console
-  if (this.debug) console.log("Action", "addFilter", ...arguments);
+  if (this.debug) console.log("Search UI: Action", "addFilter", ...arguments);
 
   const { filters } = this.state;
 

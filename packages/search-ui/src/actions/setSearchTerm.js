@@ -23,8 +23,9 @@ export default function setSearchTerm(
     debounce = 0
   } = {}
 ) {
-  // eslint-disable-next-line no-console
-  if (this.debug) console.log("Action", "setSearchTerm", ...arguments);
+  if (this.debug)
+    // eslint-disable-next-line no-console
+    console.log("Search UI: Action", "setSearchTerm", ...arguments);
 
   this._setState({ searchTerm });
 
