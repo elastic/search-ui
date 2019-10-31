@@ -5,5 +5,6 @@ import FilterValue from "./FilterValue";
 export default PropTypes.shape({
   field: PropTypes.string.isRequired,
   values: PropTypes.arrayOf(FilterValue).isRequired,
-  type: FilterType.isRequired
+  type: FilterType.isRequired,
+  innerType: FilterType
 });
