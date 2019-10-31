@@ -7,8 +7,8 @@ import { matchFilter } from "../helpers";
  *
  * @param name String field name to filter on
  * @param value String field value to filter on
- * @param type String (Optional) type of filter to apply
  * @param innerType String (Optional) type of inner filter to apply
+ * @param type String (Optional) type of filter to apply
  */
 export default function addFilter(
   name,
