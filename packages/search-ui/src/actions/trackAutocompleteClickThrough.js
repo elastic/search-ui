@@ -10,7 +10,11 @@
 export default function trackAutocompleteClickThrough(documentId, tags = []) {
   if (this.debug) {
     // eslint-disable-next-line no-console
-    console.log("Action", "trackAutocompleteClickThrough", ...arguments);
+    console.log(
+      "Search UI: Action",
+      "trackAutocompleteClickThrough",
+      ...arguments
+    );
   }
 
   const { autocompletedResultsRequestId, searchTerm } = this.state;

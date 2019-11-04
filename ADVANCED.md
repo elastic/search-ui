@@ -7,6 +7,7 @@
 5. [Build Your Own Component](#build-your-own-component)
 6. [Connectors and Handlers](#connectors-and-handlers)
 7. [Performance](#performance)
+8. [Debugging](#debugging)
 
 # Headless Core
 
@@ -1409,3 +1410,28 @@ this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
 If you ever need to debug performance related issues, see the instructions in the Optimizing Performance guide for
 enabling the "Highlight Updates" feature in the
 [React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
+
+# Debugging
+
+There is a `debug` flag available on the configuration for `SearchDriver` and `SearchProvider`.
+
+```jsx
+<SearchProvider config={
+  debug: true
+  //...
+}>
+```
+
+Setting this to `true` will make the `searchUI` object available globally on window. This will allow you to
+programmatically execute actions in the browser console which can be helpful for debugging.
+
+```js
+window.searchUI.addFilter("states", "California", "all");
+```
+
+This will also log actions and state updates as they occur to the console in the following form:
+
+```
+Search UI: Action {Action Name} {Action Parameters}
+Search UI: State Update {State to update} {Full State after update}
+```

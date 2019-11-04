@@ -22,6 +22,11 @@ export default function a11yNotify(messageFunc, messageArgs) {
   announceToScreenReader(message);
 
   if (this.debug) {
-    console.log("Action", "a11yNotify", { messageFunc, messageArgs, message }); // eslint-disable-line no-console
+    // eslint-disable-next-line no-console
+    console.log("Search UI: Action", "a11yNotify", {
+      messageFunc,
+      messageArgs,
+      message
+    });
   }
 }

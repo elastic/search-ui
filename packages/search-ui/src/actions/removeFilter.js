@@ -10,8 +10,9 @@ import { removeSingleFilterValue } from "../helpers";
  * @param type String (Optional) type of filter to remove
  */
 export default function removeFilter(name, value, type) {
-  // eslint-disable-next-line no-console
-  if (this.debug) console.log("Action", "removeFilter", ...arguments);
+  if (this.debug)
+    // eslint-disable-next-line no-console
+    console.log("Search UI: Action", "removeFilter", ...arguments);
 
   const { filters } = this.state;
 
