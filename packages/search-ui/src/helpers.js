@@ -68,10 +68,9 @@ export function markSelectedFacetValuesFromFilters(
     data: facetValues.map(facetValue => {
       return {
         ...facetValue,
-        selected:
-          filterValuesForField.findIndex(filterValue => {
-            return doFilterValuesMatch(filterValue, facetValue.value);
-          }) >= 0
+        selected: filterValuesForField.some(filterValue => {
+          return doFilterValuesMatch(filterValue, facetValue.value);
+        })
       };
     })
   };
