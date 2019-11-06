@@ -98,6 +98,32 @@ const responseWithEmptyFacetValue = {
   }
 };
 
+const responseWithZeroFacetValue = {
+  rawResults: [],
+  info: {
+    facets: {
+      states: [
+        {
+          type: "value",
+          data: [
+            {
+              value: 0,
+              count: 5
+            }
+          ]
+        }
+      ]
+    },
+    meta: {
+      request_id: "1234",
+      page: {
+        total_results: 100,
+        total_pages: 10
+      }
+    }
+  }
+};
+
 const adaptedResponse = {
   results: [],
   totalPages: 10,
@@ -189,6 +215,27 @@ const adaptedResponseWithEmptyFacetValue = {
   }
 };
 
+const adaptedResponseWithZeroFacetValue = {
+  results: [],
+  totalPages: 10,
+  totalResults: 100,
+  requestId: "1234",
+  facets: {
+    states: [
+      {
+        type: "value",
+        field: "states",
+        data: [
+          {
+            value: 0,
+            count: 5
+          }
+        ]
+      }
+    ]
+  }
+};
+
 const geoOptions = {
   additionalFacetValueFields: {
     location: {
@@ -210,6 +257,12 @@ describe("adaptResponse", () => {
   it("adapts facets with empty values", () => {
     expect(adaptResponse(responseWithEmptyFacetValue)).toEqual(
       adaptedResponseWithEmptyFacetValue
+    );
+  });
+
+  it("adapts facets with zero values", () => {
+    expect(adaptResponse(responseWithZeroFacetValue)).toEqual(
+      adaptedResponseWithZeroFacetValue
     );
   });
 
