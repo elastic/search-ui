@@ -17,7 +17,7 @@ describe("doFilterValuesMatch", () => {
       expect(doFilterValuesMatch(1, 1)).toBe(true);
     });
 
-    it("will match different number", () => {
+    it("will not match different number", () => {
       expect(doFilterValuesMatch(1, 2)).toBe(false);
     });
   });
