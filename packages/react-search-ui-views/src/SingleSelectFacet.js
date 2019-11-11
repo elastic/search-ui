@@ -21,7 +21,7 @@ Option.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-function toSelectOption(filterValue) {
+function toSelectBoxOption(filterValue) {
   return {
     value: filterValue.value,
     label: getFilterValueDisplay(filterValue.value),
@@ -37,18 +37,18 @@ const setDefaultStyle = {
 };
 
 function SingleSelectFacet({ className, label, onChange, options }) {
-  let selectedOption;
-  let selectOptionSet = false;
+  let selectedSelectBoxOption;
+  let isSelectedSelectBoxOptionSet = false;
 
-  const selectOptions = options.map(option => {
-    const selectOption = toSelectOption(option);
+  const selectBoxOptions = options.map(option => {
+    const selectBoxOption = toSelectBoxOption(option);
     // There should never be multiple filters set for this facet because it is single select,
     // but if there is, we use the first value.
-    if (option.selected && !selectOptionSet) {
-      selectedOption = selectOption;
-      selectOptionSet = true;
+    if (option.selected && !isSelectedSelectBoxOptionSet) {
+      selectedSelectBoxOption = selectBoxOption;
+      isSelectedSelectBoxOptionSet = true;
     }
-    return selectOption;
+    return selectBoxOption;
   });
 
   return (
@@ -58,9 +58,9 @@ function SingleSelectFacet({ className, label, onChange, options }) {
         className="sui-select"
         classNamePrefix="sui-select"
         components={{ Option }}
-        value={selectedOption}
+        value={selectedSelectBoxOption}
         onChange={o => onChange(o.value)}
-        options={selectOptions}
+        options={selectBoxOptions}
         isSearchable={false}
         styles={setDefaultStyle}
       />
