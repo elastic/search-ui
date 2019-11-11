@@ -54,12 +54,12 @@ exports[`renders 1`] = `
     }
     value={
       Object {
-        "count": 10,
-        "label": "Range 2",
+        "count": 20,
+        "label": "Range 1",
         "value": Object {
-          "from": 11,
-          "name": "Range 2",
-          "to": 20,
+          "from": 1,
+          "name": "Range 1",
+          "to": 10,
         },
       }
     }

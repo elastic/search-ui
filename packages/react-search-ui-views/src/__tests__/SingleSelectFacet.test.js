@@ -13,7 +13,7 @@ const params = {
         to: 10,
         name: "Range 1"
       },
-      selected: false
+      selected: true
     },
     {
       count: 10,
@@ -22,7 +22,7 @@ const params = {
         from: 11,
         name: "Range 2"
       },
-      selected: true
+      selected: false
     }
   ]
 };
@@ -35,7 +35,7 @@ it("renders", () => {
 describe("determining selected option", () => {
   it("will correctly determine which of the options is selected", () => {
     const wrapper = render(<SingleSelectFacet {...params} />);
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 2");
+    expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
   });
 
   // This shouldn't ever happen, but if it does, it should use the first selected value
