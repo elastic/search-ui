@@ -10,7 +10,6 @@ import { SingleLinksFacet } from "../src";
 
 const multiValueProps = {
   label: "The Label",
-  doFilterValuesMatch: () => false,
   onMoreClick: action("Clicked More"),
   onRemove: action("Removed"),
   onSelect: action("Selected"),
@@ -33,7 +32,6 @@ const multiValueProps = {
 
 const rangeFacetProps = {
   onChange: action("changed"),
-  doFilterValuesMatch: () => false,
   label: "The label",
   options: [
     {
@@ -62,7 +60,6 @@ const rangeFacetProps = {
 };
 
 const singleValueLinksProps = {
-  doFilterValuesMatch: () => false,
   onChange: action("changed"),
   onSelect: action("selected"),
   onRemove: action("removed"),
