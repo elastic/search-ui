@@ -4,7 +4,7 @@
  */
 export default function reset() {
   // eslint-disable-next-line no-console
-  if (this.debug) console.log("Action", "reset", ...arguments);
+  if (this.debug) console.log("Search UI: Action", "reset", ...arguments);
 
   this._setState(this.startingState);
   if (this.trackUrlState) {

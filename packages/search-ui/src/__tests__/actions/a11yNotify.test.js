@@ -45,11 +45,15 @@ describe("#a11yNotify", () => {
     const { driver } = setupDriver({ ...config, debug: true });
 
     driver.a11yNotify("customMessage", { foo: "bar" });
-    expect(global.console.log).toHaveBeenCalledWith("Action", "a11yNotify", {
-      messageFunc: "customMessage",
-      messageArgs: { foo: "bar" },
-      message: "Hello world"
-    });
+    expect(global.console.log).toHaveBeenCalledWith(
+      "Search UI: Action",
+      "a11yNotify",
+      {
+        messageFunc: "customMessage",
+        messageArgs: { foo: "bar" },
+        message: "Hello world"
+      }
+    );
 
     driver.a11yNotify("invalid");
     expect(global.console.warn).toHaveBeenCalledWith(

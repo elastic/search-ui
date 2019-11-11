@@ -8,7 +8,7 @@
  */
 export default function setSort(sortField, sortDirection) {
   // eslint-disable-next-line no-console
-  if (this.debug) console.log("Action", "setSort", ...arguments);
+  if (this.debug) console.log("Search UI: Action", "setSort", ...arguments);
 
   this._updateSearchResults({
     current: 1,

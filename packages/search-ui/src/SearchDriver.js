@@ -115,6 +115,12 @@ export default class SearchDriver {
     });
 
     this.debug = debug;
+    if (this.debug) {
+      console.warn(
+        "Search UI Debugging is enabled. This should be turned off in production deployments."
+      );
+      window.searchUI = this;
+    }
     this.requestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.autocompleteQuery = autocompleteQuery;
@@ -353,7 +359,7 @@ export default class SearchDriver {
   _setState(newState) {
     const state = { ...this.state, ...newState };
     // eslint-disable-next-line no-console
-    if (this.debug) console.log("State Update", newState, state);
+    if (this.debug) console.log("Search UI: State Update", newState, state);
     this.state = state;
     this.subscriptions.forEach(subscription => subscription(state));
   }
