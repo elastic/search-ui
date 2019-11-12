@@ -16,7 +16,7 @@ function rollup(f) {
   }));
 
   return {
-    [f.innerType || "all"]: values
+    [f.type || "all"]: values
   };
 }
 
@@ -25,7 +25,7 @@ function adaptFilters(filters) {
 
   return ["all", "any", "none"].reduce((acc, topType) => {
     const filtersByType = filters
-      .filter(({ type }) => (type || "all") === topType)
+      .filter(({ outerType }) => (outerType || "all") === topType)
       .map(rollup);
     return filtersByType.length > 0
       ? { ...acc, [topType]: filtersByType }

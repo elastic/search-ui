@@ -5,14 +5,14 @@
  *
  * @param name String field name to filter on
  * @param value String field value to filter on
- * @param innerType String (Optional) type of inner filter to apply
  * @param type String (Optional) type of filter to apply
+ * @param outerType String (Optional) type of inner filter to apply
  */
 export default function setFilter(
   name,
   value,
-  innerType = "all",
-  type = "all"
+  type = "all",
+  outerType = "all"
 ) {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Action", "setFilter", ...arguments);
@@ -21,8 +21,8 @@ export default function setFilter(
   filters = filters.filter(
     filter =>
       filter.field !== name ||
-      filter.type !== type ||
-      filter.innerType !== innerType
+      filter.outerType !== outerType ||
+      filter.type !== type
   );
 
   this._updateSearchResults({
@@ -32,8 +32,8 @@ export default function setFilter(
       {
         field: name,
         values: [value],
-        type,
-        innerType
+        outerType,
+        type
       }
     ]
   });

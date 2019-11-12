@@ -6,5 +6,5 @@ export default PropTypes.shape({
   field: PropTypes.string.isRequired,
   values: PropTypes.arrayOf(FilterValue).isRequired,
   type: FilterType.isRequired,
-  innerType: FilterType
+  outerType: FilterType
 });

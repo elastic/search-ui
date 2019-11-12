@@ -24,14 +24,14 @@ const request = {
     {
       field: "initial",
       values: ["values"],
-      type: "all",
-      innerType: "any"
+      outerType: "all",
+      type: "any"
     },
     {
       field: "initial",
       values: ["more values"],
-      type: "all",
-      innerType: "any"
+      outerType: "all",
+      type: "any"
     },
     {
       field: "test",
@@ -42,20 +42,20 @@ const request = {
           name: "test"
         }
       ],
-      type: "all",
-      innerType: "any"
+      outerType: "all",
+      type: "any"
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "all",
-      innerType: "any"
+      outerType: "all",
+      type: "any"
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "any",
-      innerType: "any"
+      outerType: "any",
+      type: "any"
     },
     {
       field: "whatever",

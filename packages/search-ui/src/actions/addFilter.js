@@ -7,14 +7,14 @@ import { matchFilter } from "../helpers";
  *
  * @param name String field name to filter on
  * @param value String field value to filter on
- * @param innerType String (Optional) type of inner filter to apply
  * @param type String (Optional) type of filter to apply
+ * @param outerType String (Optional) type of outer filter to apply
  */
 export default function addFilter(
   name,
   value,
-  innerType = "all",
-  type = "all"
+  type = "all",
+  outerType = "all"
 ) {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Action", "addFilter", ...arguments);
@@ -23,11 +23,11 @@ export default function addFilter(
 
   const existingFilter =
     filters.find(
-      f => f.field === name && f.type === type && f.innerType === f.innerType
+      f => f.field === name && f.outerType === outerType && f.type === f.type
     ) || {};
   const allOtherFilters =
     filters.filter(
-      f => f.field !== name || f.type !== type || f.innerType !== innerType
+      f => f.field !== name || f.outerType !== outerType || f.type !== type
     ) || [];
   const existingFilterValues = existingFilter.values || [];
 
@@ -41,7 +41,7 @@ export default function addFilter(
     current: 1,
     filters: [
       ...allOtherFilters,
-      { field: name, values: newFilterValues, type, innerType }
+      { field: name, values: newFilterValues, outerType, type }
     ]
   });
 }
