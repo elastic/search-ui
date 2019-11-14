@@ -34,6 +34,9 @@ const queryConfig = {
     title: {},
     description: {},
     states: {}
+  },
+  spelling: {
+    type: "strict"
   }
 };
 
@@ -136,5 +139,6 @@ const adaptedRequest = {
         values: ["value"]
       }
     }
-  }
+  },
+  spelling: "strict"
 };

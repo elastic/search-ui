@@ -44,6 +44,9 @@ export default function adaptRequest(request, queryConfig, documentType) {
   const updatedSearchFields = adaptSearchFieldsConfig(
     queryConfig.search_fields
   );
+  const spelling =
+    queryConfig.spelling !== undefined ? queryConfig.spelling.type : false;
+
   const searchTerm = request.searchTerm;
 
   return {
@@ -85,6 +88,9 @@ export default function adaptRequest(request, queryConfig, documentType) {
           [documentType]: updatedSearchFields
         }
       }),
+    ...(spelling && {
+      spelling
+    }),
     q: searchTerm
   };
 }
