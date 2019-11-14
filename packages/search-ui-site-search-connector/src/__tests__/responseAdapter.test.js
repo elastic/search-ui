@@ -51,7 +51,8 @@ const response = {
         states: {
           Maine: 2
         }
-      }
+      },
+      spelling_suggestion: { text: "capitol", score: 0.027012121 }
     }
   },
   errors: {}
@@ -100,7 +101,8 @@ const adaptedResponse = {
         ]
       }
     ]
-  }
+  },
+  spellingSuggestion: { text: "capitol", score: 0.027012121 }
 };
 const emptyResponse = {
   record_count: 0,
