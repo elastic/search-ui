@@ -6,7 +6,7 @@
  */
 function debounce(func, wait) {
   let timeout;
-  return function() {
+  const debouncedFn = function() {
     const args = arguments;
     const later = () => {
       func.apply(null, args);
@@ -14,6 +14,13 @@ function debounce(func, wait) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
+  debouncedFn.cancel = () => {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+  return debouncedFn;
 }
 
 class DebounceManager {
