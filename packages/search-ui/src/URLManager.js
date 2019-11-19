@@ -122,9 +122,10 @@ export default class URLManager {
         ? this.history.replace
         : this.history.push;
     this.lastPushSearchString = searchString;
-    navigationFunction({
-      search: `?${searchString}`
-    });
+    navigationFunction &&
+      navigationFunction({
+        search: `?${searchString}`
+      });
   }
 
   onURLStateChange(callback) {
