@@ -102,7 +102,7 @@ describe("#getStateFromURL", () => {
 });
 
 describe("#pushStateToURL", () => {
-  it("will update the url with the url corresponding to the provided state", () => {
+  it("will replace the url with the url corresponding to the provided state", () => {
     const manager = createManager();
     manager.pushStateToURL(basicParameterState);
     const queryString = manager.history.replace.mock.calls[0][0].search;
@@ -111,11 +111,33 @@ describe("#pushStateToURL", () => {
     );
   });
 
-  describe("filters", () => {
-    it("will update the url with range filter types", () => {
+  it("will update the url with the url corresponding to the provided state", () => {
+    const manager = createManager();
+    manager.pushStateToURL(basicParameterState);
+    manager.pushStateToURL(basicParameterState);
+    const queryString = manager.history.push.mock.calls[0][0].search;
+    expect(queryString).toEqual(
+      "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
+    );
+  });
+
+  describe("filtersReplace", () => {
+    it("will replace the url with range filter types", () => {
       const manager = createManager();
       manager.pushStateToURL(parameterStateWithRangeFilters);
       const queryString = manager.history.replace.mock.calls[0][0].search;
+      expect(queryString).toEqual(
+        "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
+      );
+    });
+  });
+
+  describe("filtersPush", () => {
+    it("will update the url with range filter types", () => {
+      const manager = createManager();
+      manager.pushStateToURL(parameterStateWithRangeFilters);
+      manager.pushStateToURL(parameterStateWithRangeFilters);
+      const queryString = manager.history.push.mock.calls[0][0].search;
       expect(queryString).toEqual(
         "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
       );
