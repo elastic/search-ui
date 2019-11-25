@@ -15,7 +15,8 @@ const baseProps = {
         from: 1,
         to: 10,
         name: "The first option"
-      }
+      },
+      selected: false
     },
     {
       count: 11,
@@ -23,14 +24,8 @@ const baseProps = {
         from: 11,
         to: 20,
         name: "The second option"
-      }
-    }
-  ],
-  values: [
-    {
-      from: 11,
-      to: 20,
-      name: "The second option"
+      },
+      selected: false
     }
   ]
 };
@@ -47,18 +42,24 @@ const valueFacetOptions = [
 ];
 
 storiesOf("Facets/SingleSelectFacet", module)
-  .add("no options selected", () => (
-    <SingleSelectFacet {...{ ...baseProps, values: [] }} />
-  ))
+  .add("no options selected", () => <SingleSelectFacet {...{ ...baseProps }} />)
   .add("with Range Facets selected", () => (
-    <SingleSelectFacet {...{ ...baseProps }} />
+    <SingleSelectFacet
+      {...{
+        ...baseProps,
+        options: baseProps.options.map(o =>
+          o.value.name === "The second option" ? { ...o, selected: true } : o
+        )
+      }}
+    />
   ))
   .add("with Value Facets selected", () => (
     <SingleSelectFacet
       {...{
         ...baseProps,
-        options: valueFacetOptions,
-        values: ["Pennsylvania"]
+        options: valueFacetOptions.map(o =>
+          o.value === "Pennsylvania" ? { ...o, selected: true } : o
+        )
       }}
     />
   ));

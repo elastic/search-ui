@@ -2,10 +2,11 @@ function adaptation1AdaptFacetValue(
   facetValue,
   additionalFacetValueFieldsForField = {}
 ) {
+  const hasValue = facetValue.hasOwnProperty("value");
   const { count, value, ...rest } = facetValue;
   return {
     count,
-    value: value
+    value: hasValue
       ? value
       : {
           ...rest,

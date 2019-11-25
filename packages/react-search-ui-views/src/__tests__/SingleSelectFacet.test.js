@@ -2,17 +2,6 @@ import React from "react";
 import SingleSelectFacet from "../SingleSelectFacet";
 import { shallow, render } from "enzyme";
 
-const valueFacetOptions = [
-  {
-    count: 1,
-    value: "Pennsylvania"
-  },
-  {
-    count: 1,
-    value: "Georgia"
-  }
-];
-
 const params = {
   label: "A Facet",
   onChange: jest.fn(),
@@ -23,7 +12,8 @@ const params = {
         from: 1,
         to: 10,
         name: "Range 1"
-      }
+      },
+      selected: true
     },
     {
       count: 10,
@@ -31,14 +21,8 @@ const params = {
         to: 20,
         from: 11,
         name: "Range 2"
-      }
-    }
-  ],
-  values: [
-    {
-      from: 1,
-      to: 10,
-      name: "Range 1"
+      },
+      selected: false
     }
   ]
 };
@@ -48,79 +32,31 @@ it("renders", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-describe("determining selected option from values", () => {
-  it("will correctly determine which of the options is selected based on the provided value", () => {
+describe("determining selected option", () => {
+  it("will correctly determine which of the options is selected", () => {
     const wrapper = render(<SingleSelectFacet {...params} />);
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
   });
 
-  it("will correctly determine which of the options is selected even if the provided value has differently ordered props", () => {
+  // This shouldn't ever happen, but if it does, it should use the first selected value
+  it("will used the first selected option when multiple options are selected", () => {
     const wrapper = render(
       <SingleSelectFacet
         {...params}
-        values={[
-          {
-            to: 10, // Reversed
-            from: 1, // Reversed
-            name: "Range 1"
-          }
-        ]}
+        options={params.options.map(o => ({ ...o, selected: true }))}
       />
     );
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
   });
 
-  it("will correctly determine which of the options is selected when using value filters", () => {
-    const wrapper = render(
-      <SingleSelectFacet
-        {...params}
-        options={valueFacetOptions}
-        values={["Pennsylvania"]}
-      />
-    );
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual(
-      "Pennsylvania"
-    );
-  });
-
   it("will correctly determine when no value is selected", () => {
     const wrapper = render(
-      <SingleSelectFacet {...params} options={valueFacetOptions} values={[]} />
-    );
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual("");
-  });
-
-  it("will correctly determine when when using range filters and only the name matches", () => {
-    const wrapper = render(
       <SingleSelectFacet
         {...params}
-        options={[
-          {
-            count: 1,
-            value: {
-              from: new Date().getTime() - 1000,
-              name: "1000 ms ago"
-            }
-          },
-          {
-            count: 11,
-            value: {
-              from: new Date().getTime() - 10000,
-              name: "10000 ms ago"
-            }
-          }
-        ]}
-        values={[
-          {
-            from: new Date().getTime() - 1000,
-            name: "1000 ms ago"
-          }
-        ]}
+        options={params.options.map(o => ({ ...o, selected: false }))}
       />
     );
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual(
-      "1000 ms ago"
-    );
+    expect(wrapper.find(".sui-select__single-value").text()).toEqual("");
   });
 });
 
