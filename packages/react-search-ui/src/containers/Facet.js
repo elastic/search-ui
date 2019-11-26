@@ -1,17 +1,13 @@
 import PropTypes from "prop-types";
 import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
+import { helpers } from "@elastic/search-ui";
 
 import { Facet, Filter, FilterType } from "../types";
 import { accentFold } from "../helpers";
-
 import { withSearch } from "..";
 
-function findFacetValueInFilters(name, filters, filterType) {
-  const filter = filters.find(f => f.field === name && f.type === filterType);
-  if (!filter) return;
-  return filter.values;
-}
+const { markSelectedFacetValuesFromFilters } = helpers;
 
 export class FacetContainer extends Component {
   static propTypes = {
@@ -80,18 +76,29 @@ export class FacetContainer extends Component {
       a11yNotify,
       ...rest
     } = this.props;
-    const facetValues = facets[field];
+    const facetsForField = facets[field];
 
-    if (!facetValues) return null;
+    if (!facetsForField) return null;
 
-    let options = facetValues[0].data;
-    const selectedValues =
-      findFacetValueInFilters(field, filters, filterType) || [];
+    // By using `[0]`, we are currently assuming only 1 facet per field. This will likely be enforced
+    // in future version, so instead of an array, there will only be one facet allowed per field.
+    const facet = facetsForField[0];
 
-    if (!options.length && !selectedValues.length) return null;
+    let facetValues = markSelectedFacetValuesFromFilters(
+      facet,
+      filters,
+      field,
+      filterType
+    ).data;
+
+    const selectedValues = facetValues
+      .filter(fv => fv.selected)
+      .map(fv => fv.value);
+
+    if (!facetValues.length && !selectedValues.length) return null;
 
     if (searchTerm.trim()) {
-      options = options.filter(option =>
+      facetValues = facetValues.filter(option =>
         accentFold(option.value)
           .toLowerCase()
           .includes(accentFold(searchTerm).toLowerCase())
@@ -103,7 +110,7 @@ export class FacetContainer extends Component {
     return View({
       className,
       label: label,
-      onMoreClick: this.handleClickMore.bind(this, options.length),
+      onMoreClick: this.handleClickMore.bind(this, facetValues.length),
       onRemove: value => {
         removeFilter(field, value, filterType);
       },
@@ -113,8 +120,8 @@ export class FacetContainer extends Component {
       onSelect: value => {
         addFilter(field, value, filterType);
       },
-      options: options.slice(0, more),
-      showMore: options.length > more,
+      options: facetValues.slice(0, more),
+      showMore: facetValues.length > more,
       values: selectedValues,
       showSearch: isFilterable,
       onSearch: value => {

@@ -11,15 +11,16 @@ const params = {
   options: [
     {
       value: "fieldValue1",
-      count: 10
+      count: 10,
+      selected: false
     },
     {
       value: "fieldValue2",
-      count: 5
+      count: 5,
+      selected: true
     }
   ],
-  showMore: true,
-  values: ["fieldValue2"]
+  showMore: true
 };
 
 const rangeOptions = [
@@ -37,23 +38,6 @@ const rangeOptions = [
       from: 11,
       to: 20,
       name: "The second option"
-    }
-  }
-];
-
-const rangeOptionsTimeBased = [
-  {
-    count: 1,
-    value: {
-      from: new Date().getTime() - 1000,
-      name: "1000 ms ago"
-    }
-  },
-  {
-    count: 11,
-    value: {
-      from: new Date().getTime() - 10000,
-      name: "10000 ms ago"
     }
   }
 ];
@@ -108,8 +92,8 @@ it("won't render 'more' button if more param is false", () => {
   expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(0);
 });
 
-describe("determining selected option from values", () => {
-  it("will correctly determine which of the options is selected based on the provided value", () => {
+describe("determining selected option", () => {
+  it("will correctly determine which of the options is selected", () => {
     const wrapper = shallow(<MultiCheckboxFacet {...params} />);
     expect(
       wrapper
@@ -124,116 +108,6 @@ describe("determining selected option from values", () => {
         .at(1)
         .prop("checked")
     ).toBe(true);
-  });
-
-  it("will correctly determine when no value is selected", () => {
-    const wrapper = shallow(<MultiCheckboxFacet {...params} values={[]} />);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(false);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
-  });
-
-  it("will correctly determine which of the options is selected when using range filters", () => {
-    const wrapper = shallow(
-      <MultiCheckboxFacet
-        {...params}
-        options={rangeOptions}
-        values={[
-          {
-            from: 1,
-            to: 10,
-            name: "The first option"
-          }
-        ]}
-      />
-    );
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(true);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
-  });
-
-  it("will correctly determine which of the options is selected when using range filters and only the name matches", () => {
-    const wrapper = shallow(
-      <MultiCheckboxFacet
-        {...params}
-        options={rangeOptionsTimeBased}
-        values={[
-          {
-            // A time range filter that was applied based on the current time 20 seconds ago, will not have
-            // the same "from" value as a facet that is calculated at the current time. However, we can still
-            // make a match based on the "name" of the values.
-            from: new Date().getTime() - 1000,
-            name: "1000 ms ago"
-          }
-        ]}
-      />
-    );
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(true);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
-  });
-
-  it("will correctly determine which of the options is selected even if the provided value has differently ordered props", () => {
-    const wrapper = shallow(
-      <MultiCheckboxFacet
-        {...params}
-        options={rangeOptions}
-        values={[
-          {
-            to: 10, // Reversed
-            from: 1, // Reversed
-            name: "The first option"
-          }
-        ]}
-      />
-    );
-
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(true);
-
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(false);
   });
 });
 

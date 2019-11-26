@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
-import deepEqual from "deep-equal";
 
-import { FacetValue, FilterValue } from "./types";
+import { FacetValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
@@ -22,7 +21,7 @@ Option.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-function toSelectOption(filterValue) {
+function toSelectBoxOption(filterValue) {
   return {
     value: filterValue.value,
     label: getFilterValueDisplay(filterValue.value),
@@ -37,18 +36,19 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleSelectFacet({ className, label, onChange, options, values }) {
-  const selectOptions = options.map(toSelectOption);
-  const selectedFilterValue = values[0];
-  const selectedOption = selectOptions.find(option => {
-    if (
-      selectedFilterValue &&
-      selectedFilterValue.name &&
-      option.value.name === selectedFilterValue.name
-    )
-      return true;
-    if (deepEqual(option.value, selectedFilterValue)) return true;
-    return false;
+function SingleSelectFacet({ className, label, onChange, options }) {
+  let selectedSelectBoxOption;
+  let isSelectedSelectBoxOptionSet = false;
+
+  const selectBoxOptions = options.map(option => {
+    const selectBoxOption = toSelectBoxOption(option);
+    // There should never be multiple filters set for this facet because it is single select,
+    // but if there is, we use the first value.
+    if (option.selected && !isSelectedSelectBoxOptionSet) {
+      selectedSelectBoxOption = selectBoxOption;
+      isSelectedSelectBoxOptionSet = true;
+    }
+    return selectBoxOption;
   });
 
   return (
@@ -58,9 +58,9 @@ function SingleSelectFacet({ className, label, onChange, options, values }) {
         className="sui-select"
         classNamePrefix="sui-select"
         components={{ Option }}
-        value={selectedOption}
+        value={selectedSelectBoxOption}
         onChange={o => onChange(o.value)}
-        options={selectOptions}
+        options={selectBoxOptions}
         isSearchable={false}
         styles={setDefaultStyle}
       />
@@ -72,7 +72,6 @@ SingleSelectFacet.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired,
   className: PropTypes.string
 };
 

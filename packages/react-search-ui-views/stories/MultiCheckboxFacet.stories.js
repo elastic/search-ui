@@ -14,18 +14,20 @@ const baseProps = {
   options: [
     {
       value: "value",
-      count: 10
+      count: 10,
+      selected: false
     },
     {
       value: "two",
-      count: 20
+      count: 20,
+      selected: false
     },
     {
       value: "three",
-      count: 30
+      count: 30,
+      selected: false
     }
-  ],
-  values: ["two", "three"]
+  ]
 };
 
 const rangeOptions = [
@@ -49,28 +51,29 @@ const rangeOptions = [
 
 storiesOf("Facets/MultiCheckboxFacet", module)
   .add("with Value Facets not selected", () => (
-    <MultiCheckboxFacet {...{ ...baseProps, values: [] }} />
+    <MultiCheckboxFacet {...{ ...baseProps }} />
   ))
   .add("with Value Facets selected", () => (
-    <MultiCheckboxFacet {...{ ...baseProps }} />
+    <MultiCheckboxFacet
+      {...{
+        ...baseProps,
+        options: baseProps.options.map(o => ({ ...o, selected: true }))
+      }}
+    />
   ))
   .add("with Range Facets not selected", () => (
     <MultiCheckboxFacet
-      {...{ ...baseProps, values: [], options: rangeOptions }}
+      {...{
+        ...baseProps,
+        options: rangeOptions
+      }}
     />
   ))
   .add("with Range Facets selected", () => (
     <MultiCheckboxFacet
       {...{
         ...baseProps,
-        values: [
-          {
-            from: 11,
-            to: 20,
-            name: "The second option"
-          }
-        ],
-        options: rangeOptions
+        options: rangeOptions.map(o => ({ ...o, selected: true }))
       }}
     />
   ))
@@ -81,5 +84,11 @@ storiesOf("Facets/MultiCheckboxFacet", module)
     <MultiCheckboxFacet {...{ ...baseProps, showMore: true, values: [] }} />
   ))
   .add("with Search", () => (
-    <MultiCheckboxFacet {...{ ...baseProps, values: [], showSearch: true, searchPlaceholder: "Search..." }} />
+    <MultiCheckboxFacet
+      {...{
+        ...baseProps,
+        showSearch: true,
+        searchPlaceholder: "Search..."
+      }}
+    />
   ));

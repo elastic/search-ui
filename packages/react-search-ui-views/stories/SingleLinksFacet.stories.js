@@ -10,27 +10,31 @@ const baseProps = {
   onSelect: action("selected"),
   onRemove: action("removed"),
   label: "The label",
-  values: [],
   options: [
     {
       count: 100,
-      value: "Compact Cars"
+      value: "Compact Cars",
+      selected: false
     },
     {
       count: 150,
-      value: "Subcompact Cars"
+      value: "Subcompact Cars",
+      selected: false
     },
     {
       count: 300,
-      value: "Mini Compact Cars"
+      value: "Mini Compact Cars",
+      selected: false
     },
     {
       count: 120,
-      value: "Hatchback"
+      value: "Hatchback",
+      selected: false
     },
     {
       count: 80,
-      value: "Sport Utility Vehicles"
+      value: "Sport Utility Vehicles",
+      selected: false
     }
   ]
 };
@@ -59,7 +63,14 @@ storiesOf("Facets/SingleLinksFacet", module)
     <SingleLinksFacet {...{ ...baseProps }} />
   ))
   .add("with Value Facets selected", () => (
-    <SingleLinksFacet {...{ ...baseProps, values: ["Compact Cars"] }} />
+    <SingleLinksFacet
+      {...{
+        ...baseProps,
+        options: baseProps.options.map(o =>
+          o.value === "Compact Cars" ? { ...o, selected: true } : o
+        )
+      }}
+    />
   ))
   .add("with Range Facets not selected", () => (
     <SingleLinksFacet {...{ ...baseProps, options: rangeOptions }} />
@@ -68,14 +79,9 @@ storiesOf("Facets/SingleLinksFacet", module)
     <SingleLinksFacet
       {...{
         ...baseProps,
-        options: rangeOptions,
-        values: [
-          {
-            from: 11,
-            to: 20,
-            name: "The second option"
-          }
-        ]
+        options: rangeOptions.map(o =>
+          o.value.name === "The second option" ? { ...o, selected: true } : o
+        )
       }}
     />
   ));
