@@ -35,8 +35,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.4",
     "@elastic/react-search-ui-views": "1.2.0",
-    "@elastic/search-ui": "1.2.0",
-    "debounce-fn": "^1.0.0"
+    "@elastic/search-ui": "1.2.0"
   },
   "peerDependencies": {
     "react": "^16.8.0"
