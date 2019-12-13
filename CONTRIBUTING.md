@@ -123,7 +123,7 @@ It can often be useful to publish a change and test it before doing a real live 
 option for this.
 
 1. Check out pr branch
-1. `npx lerna publish --force-publish=* --canary --preid canary` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
+1. `npx lerna publish --force-publish=* --canary --preid canary [patch|minor|major]` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
 1. In project you'll need to install all dependencies explicitly with the canary tag from npm:
 
    ```
