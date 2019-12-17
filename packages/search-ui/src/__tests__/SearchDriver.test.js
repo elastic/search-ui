@@ -134,9 +134,10 @@ it("will sync initial state to the URL", () => {
 
   setupDriver({ initialState });
 
-  expect(URLManager.mock.instances[0].pushStateToURL.mock.calls).toHaveLength(
-    1
-  );
+  const pushStateCalls = URLManager.mock.instances[0].pushStateToURL.mock.calls;
+  expect(pushStateCalls).toHaveLength(1);
+  // "will sync to the url with 'replace' rather than 'push'"
+  expect(pushStateCalls[0][1].replaceUrl).toEqual(true);
 });
 
 it("will not sync initial state to the URL if trackURLState is set to false", () => {

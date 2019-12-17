@@ -185,7 +185,7 @@ export default class SearchDriver {
       searchParameters.filters.length > 0 ||
       this.alwaysSearchOnInitialLoad
     ) {
-      this._updateSearchResults(searchParameters);
+      this._updateSearchResults(searchParameters, { replaceUrl: true });
     }
   }
 
@@ -217,7 +217,10 @@ export default class SearchDriver {
   /**
    * This method is used to update state and trigger a new search.
    */
-  _updateSearchResults = (searchParameters, { skipPushToUrl = false } = {}) => {
+  _updateSearchResults = (
+    searchParameters,
+    { skipPushToUrl = false, replaceUrl = false } = {}
+  ) => {
     const {
       current,
       filters,
@@ -249,7 +252,8 @@ export default class SearchDriver {
     });
 
     this._makeSearchRequest({
-      skipPushToUrl
+      skipPushToUrl,
+      replaceUrl
     });
   };
 
@@ -274,87 +278,91 @@ export default class SearchDriver {
    * Application state updates are performed in _updateSearchResults, but we
    * wait to make the actual API calls until all actions have been called.
    */
-  _makeSearchRequest = DebounceManager.debounce(0, ({ skipPushToUrl }) => {
-    const {
-      current,
-      filters,
-      resultsPerPage,
-      searchTerm,
-      sortDirection,
-      sortField
-    } = this.state;
+  _makeSearchRequest = DebounceManager.debounce(
+    0,
+    ({ skipPushToUrl, replaceUrl }) => {
+      const {
+        current,
+        filters,
+        resultsPerPage,
+        searchTerm,
+        sortDirection,
+        sortField
+      } = this.state;
 
-    this._setState({
-      isLoading: true
-    });
+      this._setState({
+        isLoading: true
+      });
 
-    const requestId = this.requestSequencer.next();
+      const requestId = this.requestSequencer.next();
 
-    const queryConfig = {
-      ...this.searchQuery,
-      facets: removeConditionalFacets(
-        this.searchQuery.facets,
-        this.searchQuery.conditionalFacets,
-        filters
-      )
-    };
+      const queryConfig = {
+        ...this.searchQuery,
+        facets: removeConditionalFacets(
+          this.searchQuery.facets,
+          this.searchQuery.conditionalFacets,
+          filters
+        )
+      };
 
-    const requestState = filterSearchParameters(this.state);
+      const requestState = filterSearchParameters(this.state);
 
-    return this.events.search(requestState, queryConfig).then(
-      resultState => {
-        if (this.requestSequencer.isOldRequest(requestId)) return;
-        this.requestSequencer.completed(requestId);
+      return this.events.search(requestState, queryConfig).then(
+        resultState => {
+          if (this.requestSequencer.isOldRequest(requestId)) return;
+          this.requestSequencer.completed(requestId);
 
-        // Results paging start & end
-        const { totalResults } = resultState;
-        const start =
-          totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
-        const end =
-          totalResults <= start + resultsPerPage
-            ? totalResults
-            : start + resultsPerPage - 1;
+          // Results paging start & end
+          const { totalResults } = resultState;
+          const start =
+            totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
+          const end =
+            totalResults <= start + resultsPerPage
+              ? totalResults
+              : start + resultsPerPage - 1;
 
-        this._setState({
-          isLoading: false,
-          resultSearchTerm: searchTerm,
-          pagingStart: start,
-          pagingEnd: end,
-          ...resultState,
-          wasSearched: true
-        });
+          this._setState({
+            isLoading: false,
+            resultSearchTerm: searchTerm,
+            pagingStart: start,
+            pagingEnd: end,
+            ...resultState,
+            wasSearched: true
+          });
 
-        if (this.hasA11yNotifications) {
-          const messageArgs = { start, end, totalResults, searchTerm };
-          this.actions.a11yNotify("searchResults", messageArgs);
+          if (this.hasA11yNotifications) {
+            const messageArgs = { start, end, totalResults, searchTerm };
+            this.actions.a11yNotify("searchResults", messageArgs);
+          }
+
+          if (!skipPushToUrl && this.trackUrlState) {
+            // We debounce here so that we don't get a lot of intermediary
+            // URL state if someone is updating a UI really fast, like typing
+            // in a live search box for instance.
+            this.debounceManager.runWithDebounce(
+              this.urlPushDebounceLength,
+              "pushStateToURL",
+              this.URLManager.pushStateToURL.bind(this.URLManager),
+              {
+                current,
+                filters,
+                resultsPerPage,
+                searchTerm,
+                sortDirection,
+                sortField
+              },
+              { replaceUrl }
+            );
+          }
+        },
+        error => {
+          this._setState({
+            error: `An unexpected error occurred: ${error.message}`
+          });
         }
-
-        if (!skipPushToUrl && this.trackUrlState) {
-          // We debounce here so that we don't get a lot of intermediary
-          // URL state if someone is updating a UI really fast, like typing
-          // in a live search box for instance.
-          this.debounceManager.runWithDebounce(
-            this.urlPushDebounceLength,
-            "pushStateToURL",
-            this.URLManager.pushStateToURL.bind(this.URLManager),
-            {
-              current,
-              filters,
-              resultsPerPage,
-              searchTerm,
-              sortDirection,
-              sortField
-            }
-          );
-        }
-      },
-      error => {
-        this._setState({
-          error: `An unexpected error occurred: ${error.message}`
-        });
-      }
-    );
-  });
+      );
+    }
+  );
 
   _setState(newState) {
     const state = { ...this.state, ...newState };

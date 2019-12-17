@@ -115,10 +115,13 @@ export default class URLManager {
     return paramsToState(queryString.parse(this.history.location.search));
   }
 
-  pushStateToURL(state) {
+  pushStateToURL(state, { replaceUrl = false } = {}) {
     const searchString = stateToQueryString(state);
     this.lastPushSearchString = searchString;
-    this.history.push({
+    const navigationFunction = replaceUrl
+      ? this.history.replace
+      : this.history.push;
+    navigationFunction({
       search: `?${searchString}`
     });
   }
