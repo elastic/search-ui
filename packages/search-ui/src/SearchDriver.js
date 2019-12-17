@@ -189,6 +189,14 @@ export default class SearchDriver {
     }
   }
 
+  /**
+   * This method is used to update state and trigger a new autocomplete search.
+   *
+   * @param {string} searchTerm
+   * @param {Object=} Object
+   * @param {boolean|Object} options.autocompleteResults - Should autocomplete results
+   * @param {boolean|Object} options.autocompleteSuggestions - Should autocomplete suggestions
+   */
   _updateAutocomplete = (
     searchTerm,
     { autocompleteResults, autocompleteSuggestions } = {}
@@ -216,6 +224,19 @@ export default class SearchDriver {
 
   /**
    * This method is used to update state and trigger a new search.
+   *
+   * @typedef {Object} RequestState
+   * @property {number} current
+   * @property {number} resultsPerPage
+   * @property {string} searchTerm
+   * @property {string} sortDirection
+   * @property {string} sortField
+   *
+   * @param {RequestState} searchParameters - RequestState
+   * @param {Object=} Object
+   * @param {boolean} options.skipPushToUrl - Skip pushing the updated to the URL
+   * @param {boolean} options.replaceUrl - When pushing state to the URL, use history 'replace'
+   * rather than 'push' to avoid adding a new history entry
    */
   _updateSearchResults = (
     searchParameters,
@@ -277,6 +298,11 @@ export default class SearchDriver {
    *
    * Application state updates are performed in _updateSearchResults, but we
    * wait to make the actual API calls until all actions have been called.
+   *
+   * @param {Object} options
+   * @param {boolean} options.skipPushToUrl - Skip pushing the updated to the URL
+   * @param {boolean} options.replaceUrl - When pushing state to the URL, use history 'replace'
+   * rather than 'push' to avoid adding a new history entry
    */
   _makeSearchRequest = DebounceManager.debounce(
     0,
