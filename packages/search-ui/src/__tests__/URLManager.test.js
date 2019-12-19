@@ -7,7 +7,8 @@ function createManager() {
       search: ""
     },
     listen: jest.fn(),
-    push: jest.fn()
+    push: jest.fn(),
+    replace: jest.fn()
   };
   return manager;
 }
@@ -116,6 +117,17 @@ describe("#pushStateToURL", () => {
       const queryString = manager.history.push.mock.calls[0][0].search;
       expect(queryString).toEqual(
         "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
+      );
+    });
+  });
+
+  describe("replaceUrl", () => {
+    it("will update the url using 'replace' instead of 'push", () => {
+      const manager = createManager();
+      manager.pushStateToURL(basicParameterState, { replaceUrl: true });
+      const queryString = manager.history.replace.mock.calls[0][0].search;
+      expect(queryString).toEqual(
+        "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
       );
     });
   });
