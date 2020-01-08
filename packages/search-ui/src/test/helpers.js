@@ -43,8 +43,12 @@ export function getMockApiConnector() {
   };
 }
 
-export function setupDriver({ mockSearchResponse, ...rest } = {}) {
-  const mockApiConnector = getMockApiConnector();
+export function setupDriver({
+  mockSearchResponse,
+  mockApiConnector,
+  ...rest
+} = {}) {
+  mockApiConnector = mockApiConnector || getMockApiConnector();
 
   if (mockSearchResponse) {
     mockApiConnector.onSearch = jest.fn().mockReturnValue({
@@ -108,4 +112,17 @@ export function getClickCalls(mockApiConnector) {
 
 export function getAutocompleteClickCalls(mockApiConnector) {
   return mockApiConnector.onAutocompleteResultClick.mock.calls;
+}
+
+/**
+ * Returns a promise that resolves after the current event loop.
+ *
+ * Useful for writing `await waitATick()` to wait for a promise to resolve.
+ */
+export function waitATick() {
+  let promiseResolve;
+  const promise = new Promise(resolve => (promiseResolve = resolve));
+  setTimeout(() => promiseResolve());
+  jest.runAllTimers();
+  return promise;
 }
