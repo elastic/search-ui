@@ -3,7 +3,8 @@ import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
 import {
   doesStateHaveResponseData,
   setupDriver,
-  getMockApiConnector
+  getMockApiConnector,
+  waitATick
 } from "../test/helpers";
 
 // We mock this so no state is actually written to the URL
@@ -525,5 +526,182 @@ describe("When multiple actions are called", () => {
       // action that is debounced by 1000 milliseconds.
       expect(getSearchCalls(mockApiConnector)).toHaveLength(1);
     });
+  });
+});
+
+describe("Request sequencing", () => {
+  function mockSequenced(
+    mockApiConnector,
+    firstRequestId,
+    secondRequestId,
+    method,
+    stateFieldToUpdate
+  ) {
+    let callCount = 0;
+    let promiseResolvers = [];
+    mockApiConnector[method] = jest.fn().mockImplementation(() => {
+      callCount++;
+      return new Promise(resolve => {
+        const currentCallCount = callCount;
+        promiseResolvers.push(() => {
+          resolve({
+            [stateFieldToUpdate]:
+              currentCallCount === 1 ? firstRequestId : secondRequestId
+          });
+        });
+      });
+    });
+    return promiseResolvers;
+  }
+
+  it("Will ignore old search requests if a new request has already completed", async () => {
+    const FIRST_SEARCH_TERM = "term";
+    const FIRST_REQUEST_ID = "1";
+    const SECOND_SEARCH_TERM = "term2";
+    const SECOND_REQUEST_ID = "2";
+
+    const mockApiConnector = getMockApiConnector();
+    let onSearchPromiseResolvers = mockSequenced(
+      mockApiConnector,
+      FIRST_REQUEST_ID,
+      SECOND_REQUEST_ID,
+      "onSearch",
+      "requestId"
+    );
+    const { driver } = setupDriver({ mockApiConnector });
+    jest.runAllTimers();
+
+    let latestRequestId = "";
+    driver.subscribeToStateChanges(() => {
+      latestRequestId = driver.getState().requestId;
+    });
+
+    // Initiate the first request
+    driver.setSearchTerm(FIRST_SEARCH_TERM);
+    jest.runAllTimers();
+
+    // Initiate the second request
+    driver.setSearchTerm(SECOND_SEARCH_TERM);
+    jest.runAllTimers();
+
+    // Since we're using promises above, we use "waitATick" to wait for them
+    // to complete, rather than just "runAllTimers"
+    await waitATick();
+
+    // Note that I'm completing the second request before the first request
+    // here
+    onSearchPromiseResolvers[1]();
+    onSearchPromiseResolvers[0]();
+
+    await waitATick();
+
+    // Since the second request completed after the first request, the
+    // value would be "term", and not "term2"
+    expect(latestRequestId).toBe(SECOND_REQUEST_ID);
+  });
+
+  it("Will ignore old autocomplete requests if a new request has already completed", async () => {
+    const FIRST_SEARCH_TERM = "term";
+    const FIRST_REQUEST_ID = "1";
+    const SECOND_SEARCH_TERM = "term2";
+    const SECOND_REQUEST_ID = "2";
+
+    const mockApiConnector = getMockApiConnector();
+    let onAutocompletePromiseResolvers = mockSequenced(
+      mockApiConnector,
+      FIRST_REQUEST_ID,
+      SECOND_REQUEST_ID,
+      "onAutocomplete",
+      "autocompletedResultsRequestId"
+    );
+
+    const { driver } = setupDriver({ mockApiConnector });
+    jest.runAllTimers();
+
+    let latestRequestId = "";
+    driver.subscribeToStateChanges(() => {
+      latestRequestId = driver.getState().autocompletedResultsRequestId;
+    });
+
+    // Initiate the first request
+    driver.setSearchTerm(FIRST_SEARCH_TERM, { autocompleteResults: true });
+    jest.runAllTimers();
+
+    // Initiate the second request
+    driver.setSearchTerm(SECOND_SEARCH_TERM, { autocompleteResults: true });
+    jest.runAllTimers();
+
+    // Since we're using promises above, we use "waitATick" to wait for them
+    // to complete, rather than just "runAllTimers"
+    await waitATick();
+
+    // Note that I'm completing the second request before the first request
+    // here
+    onAutocompletePromiseResolvers[1]();
+
+    await waitATick();
+
+    onAutocompletePromiseResolvers[0]();
+
+    await waitATick();
+
+    // Since the second request completed after the first request, the
+    // value would be "term", and not "term2"
+    expect(latestRequestId).toBe(SECOND_REQUEST_ID);
+  });
+
+  it("Will sequence autocomplete and search separately", async () => {
+    const FIRST_SEARCH_TERM = "term";
+    const FIRST_SEARCH_REQUEST_ID = "1";
+    const SECOND_SEARCH_REQUEST_ID = "2";
+    const FIRST_AUTOCOMPLETE_REQUEST_ID = "3";
+    const SECOND_AUTOCOMPLETE_REQUEST_ID = "4";
+
+    const mockApiConnector = getMockApiConnector();
+
+    let onSearchPromiseResolvers = mockSequenced(
+      mockApiConnector,
+      FIRST_SEARCH_REQUEST_ID,
+      SECOND_SEARCH_REQUEST_ID,
+      "onSearch",
+      "requestId"
+    );
+
+    let onAutocompletePromiseResolvers = mockSequenced(
+      mockApiConnector,
+      FIRST_AUTOCOMPLETE_REQUEST_ID,
+      SECOND_AUTOCOMPLETE_REQUEST_ID,
+      "onAutocomplete",
+      "autocompletedResultsRequestId"
+    );
+
+    const { driver } = setupDriver({ mockApiConnector });
+    jest.runAllTimers();
+
+    let latestRequestId = "";
+    driver.subscribeToStateChanges(() => {
+      latestRequestId = driver.getState().requestId;
+    });
+
+    // Initiate the first request
+    driver.setSearchTerm(FIRST_SEARCH_TERM, { autocompleteResults: true });
+    jest.runAllTimers();
+
+    // Since we're using promises above, we use "waitATick" to wait for them
+    // to complete, rather than just "runAllTimers"
+    await waitATick();
+
+    // Note that I'm completing the second request before the first request
+    // here
+    onAutocompletePromiseResolvers[0]();
+
+    await waitATick();
+
+    onSearchPromiseResolvers[0]();
+
+    await waitATick();
+
+    // If the autocomplete request had interfered with the search request, then this would be false
+    expect(latestRequestId).toBe(FIRST_SEARCH_REQUEST_ID);
   });
 });
