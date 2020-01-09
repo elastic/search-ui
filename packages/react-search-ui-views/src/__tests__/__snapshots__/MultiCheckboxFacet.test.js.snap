@@ -78,6 +78,109 @@ exports[`renders 1`] = `
 </fieldset>
 `;
 
+exports[`renders falsey values correctly 1`] = `
+<fieldset
+  className="sui-facet"
+>
+  <legend
+    className="sui-facet__title"
+  >
+    A Facet
+  </legend>
+  <div
+    className="sui-multi-checkbox-facet"
+  >
+    <label
+      className="sui-multi-checkbox-facet__option-label"
+      htmlFor="example_facet_A Facet0"
+      key="0"
+    >
+      <div
+        className="sui-multi-checkbox-facet__option-input-wrapper"
+      >
+        <input
+          checked={false}
+          className="sui-multi-checkbox-facet__checkbox"
+          id="example_facet_A Facet0"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="sui-multi-checkbox-facet__input-text"
+        >
+          0
+        </span>
+      </div>
+      <span
+        className="sui-multi-checkbox-facet__option-count"
+      >
+        10
+      </span>
+    </label>
+    <label
+      className="sui-multi-checkbox-facet__option-label"
+      htmlFor="example_facet_A Facetfalse"
+      key="false"
+    >
+      <div
+        className="sui-multi-checkbox-facet__option-input-wrapper"
+      >
+        <input
+          checked={false}
+          className="sui-multi-checkbox-facet__checkbox"
+          id="example_facet_A Facetfalse"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="sui-multi-checkbox-facet__input-text"
+        >
+          false
+        </span>
+      </div>
+      <span
+        className="sui-multi-checkbox-facet__option-count"
+      >
+        20
+      </span>
+    </label>
+    <label
+      className="sui-multi-checkbox-facet__option-label"
+      htmlFor="example_facet_A Facet"
+      key=""
+    >
+      <div
+        className="sui-multi-checkbox-facet__option-input-wrapper"
+      >
+        <input
+          checked={false}
+          className="sui-multi-checkbox-facet__checkbox"
+          id="example_facet_A Facet"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="sui-multi-checkbox-facet__input-text"
+        />
+      </div>
+      <span
+        className="sui-multi-checkbox-facet__option-count"
+      >
+        30
+      </span>
+    </label>
+  </div>
+  <button
+    aria-label="Show more options"
+    className="sui-facet-view-more"
+    onClick={[MockFunction]}
+    type="button"
+  >
+    + More
+  </button>
+</fieldset>
+`;
+
 exports[`renders range filters 1`] = `
 <fieldset
   className="sui-facet"

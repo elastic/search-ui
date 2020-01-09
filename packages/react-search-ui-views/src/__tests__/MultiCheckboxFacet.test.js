@@ -47,6 +47,32 @@ it("renders", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("renders falsey values correctly", () => {
+  const wrapper = shallow(
+    <MultiCheckboxFacet
+      {...params}
+      options={[
+        {
+          value: 0,
+          count: 10,
+          selected: false
+        },
+        {
+          value: false,
+          count: 20,
+          selected: false
+        },
+        {
+          value: "",
+          count: 30,
+          selected: false
+        }
+      ]}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
 it("renders range filters", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet {...params} option={rangeOptions} />

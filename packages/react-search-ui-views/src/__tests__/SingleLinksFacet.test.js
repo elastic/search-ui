@@ -17,6 +17,32 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("renders falsey values correctly", () => {
+  const wrapper = shallow(
+    <SingleLinksFacet
+      {...params}
+      options={[
+        {
+          value: 0,
+          count: 10,
+          selected: false
+        },
+        {
+          value: false,
+          count: 20,
+          selected: false
+        },
+        {
+          value: "",
+          count: 30,
+          selected: false
+        }
+      ]}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
 describe("determining selected option", () => {
   it("will correctly determine which of the options is selected", () => {
     const wrapper = shallow(
