@@ -121,7 +121,8 @@ export default class SearchDriver {
       );
       window.searchUI = this;
     }
-    this.requestSequencer = new RequestSequencer();
+    this.autocompleteRequestSequencer = new RequestSequencer();
+    this.searchRequestSequencer = new RequestSequencer();
     this.debounceManager = new DebounceManager();
     this.autocompleteQuery = autocompleteQuery;
     this.searchQuery = searchQuery;
@@ -201,7 +202,7 @@ export default class SearchDriver {
     searchTerm,
     { autocompleteResults, autocompleteSuggestions } = {}
   ) => {
-    const requestId = this.requestSequencer.next();
+    const requestId = this.autocompleteRequestSequencer.next();
 
     const queryConfig = {
       ...(autocompleteResults && {
@@ -215,8 +216,8 @@ export default class SearchDriver {
     return this.events
       .autocomplete({ searchTerm }, queryConfig)
       .then(autocompleted => {
-        if (this.requestSequencer.isOldRequest(requestId)) return;
-        this.requestSequencer.completed(requestId);
+        if (this.autocompleteRequestSequencer.isOldRequest(requestId)) return;
+        this.autocompleteRequestSequencer.completed(requestId);
 
         this._setState(autocompleted);
       });
@@ -320,7 +321,7 @@ export default class SearchDriver {
         isLoading: true
       });
 
-      const requestId = this.requestSequencer.next();
+      const requestId = this.searchRequestSequencer.next();
 
       const queryConfig = {
         ...this.searchQuery,
@@ -335,8 +336,8 @@ export default class SearchDriver {
 
       return this.events.search(requestState, queryConfig).then(
         resultState => {
-          if (this.requestSequencer.isOldRequest(requestId)) return;
-          this.requestSequencer.completed(requestId);
+          if (this.searchRequestSequencer.isOldRequest(requestId)) return;
+          this.searchRequestSequencer.completed(requestId);
 
           // Results paging start & end
           const { totalResults } = resultState;
