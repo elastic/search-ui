@@ -91,4 +91,38 @@ storiesOf("Facets/MultiCheckboxFacet", module)
         searchPlaceholder: "Search..."
       }}
     />
+  ))
+  .add("with falsey values", () => (
+    <MultiCheckboxFacet
+      {...{
+        ...baseProps,
+        options: [
+          {
+            value: 0,
+            count: 10,
+            selected: false
+          },
+          {
+            value: false,
+            count: 20,
+            selected: false
+          },
+          {
+            value: "",
+            count: 30,
+            selected: false
+          },
+          {
+            value: undefined,
+            count: 30,
+            selected: false
+          },
+          {
+            value: null,
+            count: 30,
+            selected: false
+          }
+        ]
+      }}
+    />
   ));

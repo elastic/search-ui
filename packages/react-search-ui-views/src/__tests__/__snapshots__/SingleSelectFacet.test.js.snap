@@ -66,3 +66,56 @@ exports[`renders 1`] = `
   />
 </div>
 `;
+
+exports[`renders falsey values correctly 1`] = `
+<div
+  className="sui-facet"
+>
+  <div
+    className="sui-facet__title"
+  >
+    A Facet
+  </div>
+  <StateManager
+    className="sui-select"
+    classNamePrefix="sui-select"
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
+    defaultInputValue=""
+    defaultMenuIsOpen={false}
+    defaultValue={null}
+    isSearchable={false}
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "count": 10,
+          "label": "0",
+          "value": 0,
+        },
+        Object {
+          "count": 20,
+          "label": "false",
+          "value": false,
+        },
+        Object {
+          "count": 30,
+          "label": "",
+          "value": "",
+        },
+      ]
+    }
+    styles={
+      Object {
+        "control": [Function],
+        "dropdownIndicator": [Function],
+        "indicatorSeparator": [Function],
+        "option": [Function],
+      }
+    }
+  />
+</div>
+`;
