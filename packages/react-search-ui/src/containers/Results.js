@@ -4,7 +4,7 @@ import { Result, Results } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
 import { Result as ResultContainer } from ".";
-import { Result as ResultType } from "../types";
+import { ResultWithRequiredId as ResultType } from "../types";
 
 function getRaw(result, value) {
   if (!result[value] || !result[value].raw) return;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Result } from "./types";
+import { ResultWithRequiredId as Result } from "./types";
 import { Suggestion } from "./types";
 import { appendClassName } from "./view-helpers";
 

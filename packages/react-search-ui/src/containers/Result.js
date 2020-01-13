@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Result } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
-import { Result as ResultType } from "../types";
+import { ResultWithRequiredId as ResultType } from "../types";
 
 export class ResultContainer extends Component {
   static propTypes = {
