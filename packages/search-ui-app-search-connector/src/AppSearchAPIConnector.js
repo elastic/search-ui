@@ -17,18 +17,14 @@ function removeEmptyFacetsAndFilters(options) {
 }
 class AppSearchAPIConnector {
   /**
-   * @typedef {Object.<string, *>} KeyValuePairs
-   */
-
-  /**
    * @callback next
-   * @param {KeyValuePairs} updatedQueryOptions The options to send to the API
+   * @param {Object} updatedQueryOptions The options to send to the API
    * @returns {Object} The response
    */
 
   /**
    * @callback hook
-   * @param {KeyValuePairs} queryOptions The options that are about to be sent to the API
+   * @param {Object} queryOptions The options that are about to be sent to the API
    * @param {next} next The options that are about to be sent to the API
    */
 
