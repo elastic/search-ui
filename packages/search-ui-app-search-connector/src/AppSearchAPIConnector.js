@@ -17,33 +17,34 @@ function removeEmptyFacetsAndFilters(options) {
 }
 class AppSearchAPIConnector {
   /**
+   * @typedef {Object.<string, *>} KeyValuePairs
+   */
+
+  /**
    * @callback next
-   * @param {Object} updatedQueryOptions The options to send to the API
+   * @param {KeyValuePairs} updatedQueryOptions The options to send to the API
+   * @returns {Object} The response
    */
 
   /**
    * @callback hook
-   * @param {Object} queryOptions The options that are about to be sent to the API
+   * @param {KeyValuePairs} queryOptions The options that are about to be sent to the API
    * @param {next} next The options that are about to be sent to the API
    */
 
   /**
-   * @typedef Options
-   * @param {string} searchKey Credential found in your App Search Dashboard
-   * @param {string} engineName Engine to query, found in your App Search Dashboard
-   * @param {string} hostIdentifier Credential found in your App Search Dashboard
-   *  Useful when proxying the Swiftype API or developing against a local API server.
-   * @param {hook} beforeSearchCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to the
-   *   API in a query on an "onSearch" event.
-   * @param {hook} beforeAutocompleteResultsCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to the
-   *   API in a "results" query on an "onAutocomplete" event.
-   * @param {hook} beforeAutocompleteSuggestionsCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to
-   * the API in a "suggestions" query on an "onAutocomplete" event.
-   * @param {string} endpointBase="" Overrides the base of the Swiftype API endpoint completely.
-   */
-
-  /**
-   * @param {Options} options
+   * @param {Object} options Credential found in your App Search Dashboard
+   * @param {string} options.searchKey Credential found in your App Search Dashboard
+   * @param {string} options.engineName Engine to query, found in your App Search Dashboard
+   * @param {string=} options.hostIdentifier Credential found in your App Search Dashboard. Required only if not using
+   * the endpointBase option.
+   * @param {hook=} options.beforeSearchCall A hook to amend request or response to API for "onSearch" event.
+   * @param {hook=} options.beforeAutocompleteResultsCall A hook to amend request or response to API for a "results"
+   * query on an "onAutocomplete" event.
+   * @param {hook=} options.beforeAutocompleteSuggestionsCall A hook to amend request or response to API for a "suggestions"
+   * query on an "onAutocomplete" event.
+   * @param {string=} options.endpointBase="" Overrides the base of the Swiftype API endpoint completely. Useful
+   * for non-SaaS App Search deployments. For example, Elastic Cloud, Self-Managed, or proxying SaaS.
    */
   constructor({
     searchKey,
