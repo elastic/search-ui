@@ -13,7 +13,8 @@
   },
   "files": [
     "lib",
-    "es"
+    "es",
+    "search-ui-app-search-connector.d.ts"
   ],
   "repository": {
     "type": "git",
