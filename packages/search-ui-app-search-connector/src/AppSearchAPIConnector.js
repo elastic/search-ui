@@ -19,13 +19,17 @@ class AppSearchAPIConnector {
   /**
    * @callback next
    * @param {Object} updatedQueryOptions The options to send to the API
-   * @returns {Object} The response
+   * @returns {Object} The API response
    */
 
   /**
+   * Hooks work like middleware. This gives you an opportunity to modify the request and response
+   * to for a particular API call.
+   *
    * @callback hook
    * @param {Object} queryOptions The options that are about to be sent to the API
-   * @param {next} next The options that are about to be sent to the API
+   * @param {next} next Callback to continue to make the actual API call
+   * @return {Object} The API response, which may or may not have been amended by this hook
    */
 
   /**
@@ -39,7 +43,7 @@ class AppSearchAPIConnector {
    * query on an "onAutocomplete" event.
    * @param {hook=} options.beforeAutocompleteSuggestionsCall A hook to amend request or response to API for a "suggestions"
    * query on an "onAutocomplete" event.
-   * @param {string=} options.endpointBase="" Overrides the base of the Swiftype API endpoint completely. Useful
+   * @param {string=} options.endpointBase Overrides the base of the Swiftype API endpoint completely. Useful
    * for non-SaaS App Search deployments. For example, Elastic Cloud, Self-Managed, or proxying SaaS.
    */
   constructor({

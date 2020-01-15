@@ -35,12 +35,12 @@ const connector = new AppSearchAPIConnector({
 ## Typedefs
 
 <dl>
-<dt><a href="#next">next</a> : <code>function</code></dt>
+<dt><a href="#next">next</a> ⇒ <code>Object</code></dt>
 <dd></dd>
-<dt><a href="#hook">hook</a> : <code>function</code></dt>
-<dd></dd>
-<dt><a href="#Options">Options</a></dt>
-<dd></dd>
+<dt><a href="#hook">hook</a> ⇒ <code>Object</code></dt>
+<dd><p>Hooks work like middleware. This gives you an opportunity to modify the request and response
+to for a particular API call.</p>
+</dd>
 </dl>
 
 <a name="AppSearchAPIConnector"></a>
@@ -52,15 +52,23 @@ const connector = new AppSearchAPIConnector({
 
 ### new AppSearchAPIConnector(options)
 
-| Param   | Type                             |
-| ------- | -------------------------------- |
-| options | [<code>Options</code>](#Options) |
+| Param                                       | Type                       | Description                                                                                                                                                         |
+| ------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| options                                     | <code>Object</code>        | Credential found in your App Search Dashboard                                                                                                                       |
+| options.searchKey                           | <code>string</code>        | Credential found in your App Search Dashboard                                                                                                                       |
+| options.engineName                          | <code>string</code>        | Engine to query, found in your App Search Dashboard                                                                                                                 |
+| [options.hostIdentifier]                    | <code>string</code>        | Credential found in your App Search Dashboard. Required only if not using the endpointBase option.                                                                  |
+| [options.beforeSearchCall]                  | [<code>hook</code>](#hook) | A hook to amend request or response to API for "onSearch" event.                                                                                                    |
+| [options.beforeAutocompleteResultsCall]     | [<code>hook</code>](#hook) | A hook to amend request or response to API for a "results" query on an "onAutocomplete" event.                                                                      |
+| [options.beforeAutocompleteSuggestionsCall] | [<code>hook</code>](#hook) | A hook to amend request or response to API for a "suggestions" query on an "onAutocomplete" event.                                                                  |
+| [options.endpointBase]                      | <code>string</code>        | Overrides the base of the Swiftype API endpoint completely. Useful for non-SaaS App Search deployments. For example, Elastic Cloud, Self-Managed, or proxying SaaS. |
 
 <a name="next"></a>
 
-## next : <code>function</code>
+## next ⇒ <code>Object</code>
 
 **Kind**: global typedef
+**Returns**: <code>Object</code> - The API response
 
 | Param               | Type                | Description                    |
 | ------------------- | ------------------- | ------------------------------ |
@@ -68,27 +76,15 @@ const connector = new AppSearchAPIConnector({
 
 <a name="hook"></a>
 
-## hook : <code>function</code>
+## hook ⇒ <code>Object</code>
+
+Hooks work like middleware. This gives you an opportunity to modify the request and response
+to for a particular API call.
 
 **Kind**: global typedef
+**Returns**: <code>Object</code> - The API response, which may or may not have been amended by this hook
 
 | Param        | Type                       | Description                                      |
 | ------------ | -------------------------- | ------------------------------------------------ |
 | queryOptions | <code>Object</code>        | The options that are about to be sent to the API |
-| next         | [<code>next</code>](#next) | The options that are about to be sent to the API |
-
-<a name="Options"></a>
-
-## Options
-
-**Kind**: global typedef
-
-| Param                             | Type                       | Default                                                      | Description                                                                                                                   |
-| --------------------------------- | -------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| searchKey                         | <code>string</code>        |                                                              | Credential found in your App Search Dashboard                                                                                 |
-| engineName                        | <code>string</code>        |                                                              | Engine to query, found in your App Search Dashboard                                                                           |
-| hostIdentifier                    | <code>string</code>        |                                                              | Credential found in your App Search Dashboard Useful when proxying the Swiftype API or developing against a local API server. |
-| beforeSearchCall                  | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                        |
-| beforeAutocompleteResultsCall     | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.        |
-| beforeAutocompleteSuggestionsCall | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event.    |
-| endpointBase                      | <code>string</code>        | <code>""</code>                                              | Overrides the base of the Swiftype API endpoint completely.                                                                   |
+| next         | [<code>next</code>](#next) | Callback to continue to make the actual API call |

@@ -158,7 +158,12 @@ stacks:
 - Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
 - Elasticsearch: https://search-ui-stable-elasticsearch.netlify.com/
 
-### Updating Typescript Declarations
+## JSDoc
+
+JSDoc should be used for documentation public methods. The JSDoc can then be used
+as source for both documentation and Typescript Declarations.
+
+### Updating Typescript Declarations from JSDoc
 
 Typescript declarations are maintained in top level `.d.ts` file in each individual package.
 
@@ -173,4 +178,7 @@ Typescript declaration changes should follow a flow of:
 4. Manually update any `Object` types from JSDoc comments that were converted to `any` to `object`. (See https://github.com/Microsoft/TypeScript/issues/20337 for more detail).
 5. Delete all `.d.ts` files that were generated.
 
--
+### Updating Code References from JSDoc
+
+To update code references in READMEs, assuming JSDoc is in place, use the https://github.com/jsdoc2md/jsdoc-to-markdown cli. An current example of this is in the search-ui-app-search-connector
+README.
