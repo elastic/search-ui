@@ -157,3 +157,20 @@ stacks:
 - Elastic App Search: https://search-ui-stable.netlify.com/
 - Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
 - Elasticsearch: https://search-ui-stable-elasticsearch.netlify.com/
+
+### Updating Typescript Declarations
+
+Typescript declarations are maintained in top level `.d.ts` file in each individual package.
+
+We primarily generate them from JSDoc comments using the typescript CLI, following the standards
+in http://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html#supported-jsdoc as a guideline.
+
+Typescript declaration changes should follow a flow of:
+
+1. Update JSDoc in source
+2. Regenerate declaration using the command `tsc --declaration --emitDeclarationOnly --allowJs --removeComments <source_file>.js`
+3. Copy updates manually from generated file into `search-ui-app-search-connector.d.ts`
+4. Manually update any `Object` types from JSDoc comments that were converted to `any` to `object`. (See https://github.com/Microsoft/TypeScript/issues/20337 for more detail).
+5. Delete all `.d.ts` files that were generated.
+
+-
