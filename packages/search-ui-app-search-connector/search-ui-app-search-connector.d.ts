@@ -14,15 +14,15 @@ declare module "@elastic/search-ui-app-search-connector" {
       hostIdentifier?: string;
       beforeSearchCall?: (
         queryOptions: object,
-        next: (updatedQueryOptions: object) => any
+        next: (updatedQueryOptions: object) => object
       ) => any;
       beforeAutocompleteResultsCall?: (
         queryOptions: object,
-        next: (updatedQueryOptions: object) => any
+        next: (updatedQueryOptions: object) => object
       ) => any;
       beforeAutocompleteSuggestionsCall?: (
         queryOptions: object,
-        next: (updatedQueryOptions: object) => any
+        next: (updatedQueryOptions: object) => object
       ) => any;
       endpointBase?: string;
     });
