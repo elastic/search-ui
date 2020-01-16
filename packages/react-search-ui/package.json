@@ -13,7 +13,8 @@
   },
   "files": [
     "lib",
-    "es"
+    "es",
+    "react-search-ui.d.ts"
   ],
   "repository": {
     "type": "git",
