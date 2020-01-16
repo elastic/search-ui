@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "main": "lib",
   "module": "es",
+  "types": "react-search-ui.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
