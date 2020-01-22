@@ -8,6 +8,7 @@ export default function adaptResponse(response, documentType) {
   const facets = getFacets(response.info[documentType]);
 
   return {
+    rawResponse: response,
     results,
     totalPages,
     totalResults,

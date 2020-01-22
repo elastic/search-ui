@@ -75,6 +75,68 @@ Object {
       },
     ],
   },
+  "rawResponse": Object {
+    "errors": Object {},
+    "info": Object {
+      "national-parks": Object {
+        "current_page": 1,
+        "facets": Object {
+          "states": Object {
+            "Maine": 2,
+          },
+        },
+        "num_pages": 1,
+        "per_page": 20,
+        "query": "acadia",
+        "total_result_count": 2,
+      },
+    },
+    "record_count": 2,
+    "records": Object {
+      "national-parks": Array [
+        Object {
+          "_explanation": null,
+          "_index": "5beb4099c9f929367efa5b7d",
+          "_score": 0.7048211,
+          "_type": "5beb4099c9f929367efa5b7c",
+          "_version": null,
+          "acres": 49057.36,
+          "external_id": "9000",
+          "highlight": Object {
+            "title": "<em>Acadia</em>",
+          },
+          "id": "5beb474f8db2315427beecc7",
+          "nps_link": "https://www.nps.gov/acad/index.htm",
+          "sort": null,
+          "states": Array [
+            "Maine",
+          ],
+          "title": "Acadia",
+          "updated_at": "2018-11-13T21:51:11+00:00",
+        },
+        Object {
+          "_explanation": null,
+          "_index": "5beb4099c9f929367efa5b7d",
+          "_score": 0.7048211,
+          "_type": "5beb4099c9f929367efa5b7c",
+          "_version": null,
+          "acres": 49057.36,
+          "external_id": "0",
+          "highlight": Object {
+            "title": "<em>Acadia</em>",
+          },
+          "id": "5beb47b8a1f2532eb09be102",
+          "nps_link": "https://www.nps.gov/acad/index.htm",
+          "sort": null,
+          "states": Array [
+            "Maine",
+          ],
+          "title": "Acadia",
+          "updated_at": "2018-11-13T21:52:56+00:00",
+        },
+      ],
+    },
+  },
   "requestId": "",
   "results": Array [
     Object {

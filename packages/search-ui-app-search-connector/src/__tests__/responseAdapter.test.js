@@ -138,6 +138,68 @@ const responseWithOver100Pages = {
 };
 
 const adaptedResponse = {
+  rawResponse: {
+    info: {
+      facets: {
+        acres:  [
+          {
+            data: [
+              {
+                count: 5,
+                from: -1,
+                name: "Any",
+              },
+              {
+                count: 0,
+                from: 0,
+                name: "Small",
+                to: 1000,
+              },
+            ],
+            type: "range",
+          },
+        ],
+        location: [
+          {
+            data: [
+              {
+                count: 0,
+                from: 0,
+                name: "Nearby",
+                to: 100,
+              },
+              {
+                count: 4,
+                from: 100,
+                name: "A longer drive.",
+                to: 500,
+              },
+            ],
+            type: "range",
+          },
+        ],
+        states: [
+          {
+            data: [
+              {
+                count: 5,
+                value: "Alaska",
+              },
+            ],
+            type: "value",
+          },
+        ],
+      },
+      meta: {
+        page: {
+          total_pages: 10,
+          total_results: 100,
+        },
+        request_id: "1234",
+      },
+    },
+    rawResults: [],
+  },
   results: [],
   totalPages: 10,
   totalResults: 100,
@@ -202,10 +264,113 @@ const adaptedResponse = {
         ]
       }
     ]
-  }
+  },
 };
 
-const adaptedEmptyResponse = { requestId: "1234", results: [] };
+const adaptedEmptyResponse = {
+  rawResponse: {
+    info: {
+      meta: {
+        request_id: "1234",
+      },
+    },
+    rawResults: [],
+  },
+  requestId: "1234",
+  results: []
+};
+
+const adaptedResponseWithEmptyFacetValue = {
+  results: [],
+  totalPages: 10,
+  totalResults: 100,
+  requestId: "1234",
+  facets: {
+    states: [
+      {
+        type: "value",
+        field: "states",
+        data: [
+          {
+            value: "",
+            count: 5
+          }
+        ]
+      }
+    ]
+  },
+  rawResponse: {
+    info: {
+      facets: {
+        states: [
+          {
+            data: [
+              {
+                count: 5,
+                value: "",
+              },
+            ],
+            type: "value",
+          },
+        ],
+      },
+      meta: {
+        page: {
+          total_pages: 10,
+          total_results: 100,
+        },
+        request_id: "1234",
+      },
+    },
+    rawResults: [],
+  },
+};
+
+const adaptedResponseWithZeroFacetValue = {
+  results: [],
+  totalPages: 10,
+  totalResults: 100,
+  requestId: "1234",
+  facets: {
+    states: [
+      {
+        type: "value",
+        field: "states",
+        data: [
+          {
+            value: 0,
+            count: 5
+          }
+        ]
+      }
+    ]
+  },
+  rawResponse: {
+    info: {
+      facets: {
+        states: [
+          {
+            data: [
+              {
+                count: 5,
+                value: 0,
+              },
+            ],
+            type: "value",
+          },
+        ],
+      },
+      meta: {
+        page: {
+          total_pages: 10,
+          total_results: 100,
+        },
+        request_id: "1234",
+      },
+    },
+    rawResults: [],
+  },
+};
 
 const adaptedResponseWithEmptyFacetValue = {
   results: [],
