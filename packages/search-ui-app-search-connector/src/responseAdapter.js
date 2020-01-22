@@ -2,10 +2,11 @@ function adaptation1AdaptFacetValue(
   facetValue,
   additionalFacetValueFieldsForField = {}
 ) {
+  const hasValue = facetValue.hasOwnProperty("value");
   const { count, value, ...rest } = facetValue;
   return {
     count,
-    value: value
+    value: hasValue
       ? value
       : {
           ...rest,
@@ -57,6 +58,7 @@ export function adaptResponse(response, options = {}) {
 
   return {
     ...(facets && { facets: adaptFacets(facets, options) }),
+    rawResponse: response,
     requestId,
     results: response.rawResults,
     ...(totalPages !== undefined && { totalPages }),
