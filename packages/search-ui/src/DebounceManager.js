@@ -1,4 +1,27 @@
-import debounceFn from "debounce-fn";
+/**
+ * minimal debounce function
+ *
+ * mostly for not spamming the server with requests when
+ * searching with type ahead
+ */
+function debounce(func, wait) {
+  let timeout;
+  const debouncedFn = function() {
+    const args = arguments;
+    const later = () => {
+      func.apply(null, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+  debouncedFn.cancel = () => {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+  return debouncedFn;
+}
 
 class DebounceManager {
   debounceCache = {};
@@ -31,7 +54,7 @@ class DebounceManager {
     const key = `${functionName}|${wait.toString()}`;
     let debounced = this.debounceCache[key];
     if (!debounced) {
-      this.debounceCache[key] = debounceFn(fn, { wait });
+      this.debounceCache[key] = debounce(fn, wait);
       debounced = this.debounceCache[key];
     }
     debounced(...parameters);
@@ -70,7 +93,7 @@ class DebounceManager {
  * @param {function} fn Function to debounce
  */
 DebounceManager.debounce = (wait, fn) => {
-  return debounceFn(fn, { wait });
+  return debounce(fn, wait);
 };
 
 export default DebounceManager;

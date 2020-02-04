@@ -92,7 +92,7 @@ We will create branches for all minor releases.
 Publish a new version from master
 (Example, publishing 0.6.0)
 
-1. Run `npx lerna version 0.6.0 --exact`.
+1. Run `npx lerna version 0.6.0 --force-publish=* --exact`.
 1. Verify the `0.6.0` tag was created as well as a "Release 0.6.0" commit.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 1. Run `npx lerna publish --force-publish=* from-package`.
@@ -107,7 +107,7 @@ Publish a patch
 (Example, publish 0.6.1)
 
 1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.
-1. Run `npx lerna version 0.6.1 --exact`.
+1. Run `npx lerna version 0.6.0 --force-publish=* --exact`.
 1. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 1. Run `npx lerna publish --force-publish=* from-package`.
@@ -123,7 +123,7 @@ It can often be useful to publish a change and test it before doing a real live 
 option for this.
 
 1. Check out pr branch
-1. `npx lerna publish --force-publish=* --canary --preid canary` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
+1. `npx lerna publish --force-publish=* --canary --preid canary [patch|minor|major]` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
 1. In project you'll need to install all dependencies explicitly with the canary tag from npm:
 
    ```

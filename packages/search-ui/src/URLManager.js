@@ -111,18 +111,42 @@ export default class URLManager {
     this.lastPushSearchString = "";
   }
 
+  /**
+   * Parse the current URL into application state
+   *
+   * @return {Object} - The parsed state object
+   */
   getStateFromURL() {
     return paramsToState(queryString.parse(this.history.location.search));
   }
 
-  pushStateToURL(state) {
+  /**
+   * Push the current state of the application to the URL
+   *
+   * @param {Object} state - The entire current state from the SearchDriver
+   * @param {boolean} options
+   * @param {boolean} options.replaceUrl - When pushing state to the URL, use history 'replace'
+   * rather than 'push' to avoid adding a new history entry
+   */
+  pushStateToURL(state, { replaceUrl = false } = {}) {
     const searchString = stateToQueryString(state);
     this.lastPushSearchString = searchString;
-    this.history.push({
+    const navigationFunction = replaceUrl
+      ? this.history.replace
+      : this.history.push;
+    navigationFunction({
       search: `?${searchString}`
     });
   }
 
+  /**
+   * Add an event handler to be executed whenever state is pushed to the URL
+   *
+   * @callback requestCallback
+   * @param {Object} state - Updated application state parsed from the new URL
+   *
+   * @param {requestCallback} callback
+   */
   onURLStateChange(callback) {
     this.unlisten = this.history.listen(location => {
       // If this URL is updated as a result of a pushState request, we don't

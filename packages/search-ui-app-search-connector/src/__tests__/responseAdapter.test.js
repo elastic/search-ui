@@ -359,6 +359,48 @@ const adaptedResponseWithZeroFacetValue = {
   },
 };
 
+const adaptedResponseWithEmptyFacetValue = {
+  results: [],
+  totalPages: 10,
+  totalResults: 100,
+  requestId: "1234",
+  facets: {
+    states: [
+      {
+        type: "value",
+        field: "states",
+        data: [
+          {
+            value: "",
+            count: 5
+          }
+        ]
+      }
+    ]
+  }
+};
+
+const adaptedResponseWithZeroFacetValue = {
+  results: [],
+  totalPages: 10,
+  totalResults: 100,
+  requestId: "1234",
+  facets: {
+    states: [
+      {
+        type: "value",
+        field: "states",
+        data: [
+          {
+            value: 0,
+            count: 5
+          }
+        ]
+      }
+    ]
+  }
+};
+
 const geoOptions = {
   additionalFacetValueFields: {
     location: {

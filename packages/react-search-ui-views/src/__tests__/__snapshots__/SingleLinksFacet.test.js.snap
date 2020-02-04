@@ -53,3 +53,73 @@ exports[`renders correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`renders falsey values correctly 1`] = `
+<div
+  className="sui-facet"
+>
+  <div>
+    <div
+      className="sui-facet__title"
+    >
+      Facet
+    </div>
+    <ul
+      className="sui-single-option-facet"
+    >
+      <li
+        className="sui-single-option-facet__item"
+        key="0"
+      >
+        <a
+          className="sui-single-option-facet__link"
+          href="/"
+          onClick={[Function]}
+        >
+          0
+        </a>
+         
+        <span
+          className="sui-facet__count"
+        >
+          10
+        </span>
+      </li>
+      <li
+        className="sui-single-option-facet__item"
+        key="false"
+      >
+        <a
+          className="sui-single-option-facet__link"
+          href="/"
+          onClick={[Function]}
+        >
+          false
+        </a>
+         
+        <span
+          className="sui-facet__count"
+        >
+          20
+        </span>
+      </li>
+      <li
+        className="sui-single-option-facet__item"
+        key=""
+      >
+        <a
+          className="sui-single-option-facet__link"
+          href="/"
+          onClick={[Function]}
+        />
+         
+        <span
+          className="sui-facet__count"
+        >
+          30
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
