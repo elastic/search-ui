@@ -30,7 +30,7 @@ const SearchProvider = ({ children, config }) => {
     };
   }, []);
 
-  // Since driver is initialized in componentDidMount above, we are waiting
+  // Since driver is initialized in useEffect above, we are waiting
   // to render until the driver is available.
   if (!driver) return null;
 
