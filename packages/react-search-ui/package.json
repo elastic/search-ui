@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test-ci": "jest --runInBand",
-    "test": "jest",
+    "test": "./bin/test",
     "clean": "rimraf es lib",
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
@@ -35,7 +35,8 @@
   "dependencies": {
     "@babel/runtime": "^7.5.4",
     "@elastic/react-search-ui-views": "1.3.2",
-    "@elastic/search-ui": "1.3.2"
+    "@elastic/search-ui": "1.3.2",
+    "react": "^16.13.1"
   },
   "peerDependencies": {
     "react": "^16.8.0"

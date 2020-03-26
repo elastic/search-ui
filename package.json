@@ -11,7 +11,7 @@
     "format": "prettier --write \"packages/*/src/**/*.js\"",
     "lint": "packages/node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.js\"",
     "changed": "lerna changed",
-    "sandbox": "cd examples/sandbox && npm start"
+    "sandbox": "./bin/sandbox"
   },
   "husky": {
     "hooks": {

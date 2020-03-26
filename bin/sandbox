@@ -1,0 +1,8 @@
+# Hooks will not work correctly due to linked modules from sandbox unless the react version is linked:
+#  https://reactjs.org/warnings/invalid-hook-call-warning.html
+cd packages/react-search-ui-views
+npm link ../../examples/sandbox/node_modules/react
+cd ../react-search-ui
+npm link ../../examples/sandbox/node_modules/react
+cd ../../examples/sandbox
+npm start

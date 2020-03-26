@@ -30,25 +30,20 @@ The Sandbox can be used with a pre-configured Site Search Engine, using the foll
 REACT_APP_SOURCE=SITE_SEARCH
 ```
 
-## Using
+## Running and using local development version of search-ui
 
-First off, you'll need to get the dependencies installed correctly for this
-entire repository. To do this, there's a few commands you'll need to run that are listed
-in the [CONTRIBUTING](../../CONTRIBUTING.md#installing-dependencies) guide.
+This project requires a complex `npm link` based setup to properly run using your local search-ui source code.
+To start this project properly, you'll need to start it from the root directory of the search-ui project
+with the following commands
 
-After that is done, from this directory, you can actually start the Sandbox application
-by running the following command:
-
-```shell
-# Run this from the /examples/sandbox directory,
-npm start
-```
-
-This project can also be started, using a Site Search connector, rather than an
-App Search connector, using the following command.
+NOTE: The following is semi-destructive, it will "link" your "react" dependencies
+in react-search-ui and react-search-ui-views. All that means is, when running
+`npm test` on either one of those projects you may be prompted to run `npm unlink`
+before continuing.
 
 ```shell
-REACT_APP_SOURCE=SITE_SEARCH npm start
+npm install
+npm run sandbox
 ```
 
 If you're actively developing Search UI and testing in this Sandbox, you'll probably want
@@ -74,4 +69,23 @@ To delete all `node_modules` directories:
 rm -rf node_modules
 rm -rf packages/node_modules
 npx lerna exec -- rm -rf node_modules
+```
+
+## Running stand-alone
+
+To start this project against the released versions of search-ui libs defined in the local `package.json`, simply
+run the following commands from within THIS directory.
+
+```
+npm install
+npm start
+```
+
+## Startup options
+
+This project can also be started, using a Site Search connector, rather than an
+App Search connector, using the following command.
+
+```shell
+REACT_APP_SOURCE=SITE_SEARCH npm start
 ```
