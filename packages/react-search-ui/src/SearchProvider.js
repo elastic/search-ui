@@ -15,7 +15,7 @@ const SearchProvider = ({ children, config }) => {
 
   useEffect(() => {
     // This initialization is done inside of useEffect, because initializing the SearchDriver server side
-    // will error out, since the driver depends on window. Placing the initialization inside of componentDidMount
+    // will error out, since the driver depends on window. Placing the initialization inside of useEffect
     // assures that it won't attempt to initialize server side.
     const newDriver = new SearchDriver({
       ...config,
