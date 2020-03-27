@@ -79,7 +79,7 @@ storiesOf("Result", module)
         ...baseProps,
         result: {
           ...baseProps.result,
-          img: { raw: "https://via.placeholder.com/150x300" }
+          img: { raw: "https://via.placeholder.com/300x150" }
         },
         thumbnailField: "img"
       }}
@@ -91,7 +91,7 @@ storiesOf("Result", module)
         ...baseProps,
         result: {
           ...baseProps.result,
-          img: { raw: "https://via.placeholder.com/300x150" }
+          img: { raw: "https://via.placeholder.com/150x300" }
         },
         thumbnailField: "img"
       }}
