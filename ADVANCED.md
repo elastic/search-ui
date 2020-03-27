@@ -53,21 +53,23 @@ It looks like this:
 
 ```jsx
 <SearchProvider config={config}>
-  {/*SearchProvider exposes the "Context"*/}
-  {context => {
-    // Context contains state, like "searchTerm"
-    const searchTerm = context.searchTerm;
-    // Context also contains actions, like "setSearchTerm"
-    const setSearchTerm = context.setSearchTerm;
-    return (
-      <div className="App">
-        {/*An out-of-the-box Component like SearchBox uses State and Actions under the hood*/}
-        <SearchBox />
-        {/*We could work directly with those State and Actions also */}
-        <input value={searchTerm} onChange={setSearchTerm} />
-      </div>
-    );
-  }}
+  <WithSearch>
+    {/*WithSearch exposes the "Context"*/}
+    {context => {
+      // Context contains state, like "searchTerm"
+      const searchTerm = context.searchTerm;
+      // Context also contains actions, like "setSearchTerm"
+      const setSearchTerm = context.setSearchTerm;
+      return (
+        <div className="App">
+          {/*An out-of-the-box Component like SearchBox uses State and Actions under the hood*/}
+          <SearchBox />
+          {/*We could work directly with those State and Actions also */}
+          <input value={searchTerm} onChange={setSearchTerm} />
+        </div>
+      );
+    }}
+  </WithSearch>
 </SearchProvider>
 ```
 
