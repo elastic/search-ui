@@ -88,25 +88,8 @@ function Result({
 
       <div className="sui-result__body">
         {thumbnail && (
-          <div
-            className="sui-result__image"
-            style={{
-              maxWidth: "140px",
-              paddingLeft: "24px",
-              paddingTop: "10px"
-            }}
-          >
-            <img
-              src={thumbnail}
-              alt="thumbnail"
-              style={{
-                display: "block",
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center"
-              }}
-            />
+          <div className="sui-result__image">
+            <img src={thumbnail} alt="" />
           </div>
         )}
         <ul className="sui-result__details">

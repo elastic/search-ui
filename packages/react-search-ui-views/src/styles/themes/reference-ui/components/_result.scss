@@ -98,6 +98,18 @@
     }
   }
 
+  @include element('image') {
+    width: 140px;
+    padding-top: $sizeM;
+    padding-left: $sizeL;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
   @include element('details') {
     padding: $sizeM;
     list-style: none;
