@@ -111,8 +111,8 @@
   }
 
   @include element('details') {
-    padding: $sizeM;
     list-style: none;
-    padding: $sizeM $sizeL
+    padding: $sizeM $sizeL;
+    margin: 0;
   }
 }
