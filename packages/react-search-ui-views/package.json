@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test-ci": "jest --runInBand",
-    "test": "jest",
+    "test": "./bin/test",
     "clean": "rimraf es lib",
     "build-css": "./bin/build-css",
     "watch-css": "./bin/watch-css",
@@ -78,6 +78,7 @@
     "autoprefixer": "^9.6.1",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
+    "react": "^16.13.1",
     "react-select": "^2.4.4"
   }
 }

@@ -1,0 +1,13 @@
+# Test if there are linked node_modules, which will cause specs to fail
+linked_modules=$(find node_modules -maxdepth 1 -type l -ls)
+if [[ $linked_modules ]]; then
+    echo "ERROR: You have some node_modules linked. Please unlink any node_modules or your tests may not run correctly."
+    echo "This may have happened as a result of running 'npm run sandbox' from the project root."
+    echo "Unlink any linked dependencies using the command 'npm unlink <dependency_name> --no-save'"
+    echo ""
+    echo "The modules you have linked are:"
+    echo $linked_modules
+    echo ""
+    exit 1
+fi
+jest
