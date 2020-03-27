@@ -19,6 +19,7 @@ export class ResultsContainer extends Component {
     resultView: PropTypes.func,
     titleField: PropTypes.string,
     urlField: PropTypes.string,
+    thumbnailField: PropTypes.string,
     view: PropTypes.func,
     shouldTrackClickThrough: PropTypes.bool,
     // State
@@ -39,6 +40,7 @@ export class ResultsContainer extends Component {
       shouldTrackClickThrough,
       titleField,
       urlField,
+      thumbnailField,
       view,
       ...rest
     } = this.props;
@@ -53,6 +55,7 @@ export class ResultsContainer extends Component {
           key={`result-${getRaw(result, "id")}`}
           titleField={titleField}
           urlField={urlField}
+          thumbnailField={thumbnailField}
           view={ResultView}
           result={result}
           shouldTrackClickThrough={shouldTrackClickThrough}

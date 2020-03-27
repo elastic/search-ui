@@ -73,7 +73,7 @@ const config = {
       nps_link: { raw: {} },
       states: { raw: {} },
       date_established: { raw: {} },
-    //  image_url:{raw:{}},
+      image_url: { raw: {} },
       description: {
         snippet: {
           size: 100,

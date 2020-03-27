@@ -85,15 +85,15 @@ function Result({
       </div>
 
       <div className="sui-result__body">
-        <div
-          className="sui-result__image"
-          style={{
-            maxWidth: "140px",
-            paddingLeft: "24px",
-            paddingTop: "10px"
-          }}
-        >
-          {thumbnail && (
+        {thumbnail && (
+          <div
+            className="sui-result__image"
+            style={{
+              maxWidth: "140px",
+              paddingLeft: "24px",
+              paddingTop: "10px"
+            }}
+          >
             <img
               src={thumbnail}
               alt="thumbnail"
@@ -105,8 +105,8 @@ function Result({
                 objectPosition: "center"
               }}
             />
-          )}
-        </div>
+          </div>
+        )}
         <ul className="sui-result__details">
           {Object.entries(fields).map(([fieldName, fieldValue]) => (
             <li key={fieldName}>
