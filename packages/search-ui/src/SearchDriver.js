@@ -411,6 +411,13 @@ export default class SearchDriver {
   }
 
   /**
+   * @param Object autocompleteQuery
+   */
+  setAutocompleteQuery(autocompleteQuery) {
+    this.autocompleteQuery = autocompleteQuery;
+  }
+
+  /**
    * Any time state is updated in this Driver, the provided callback
    * will be executed with the updated state.
    *

@@ -6,7 +6,8 @@ import { SearchProvider, WithSearch } from "../..";
 function getMockDriver() {
   return {
     tearDown: jest.fn(),
-    setSearchQuery: jest.fn()
+    setSearchQuery: jest.fn(),
+    setAutocompleteQuery: jest.fn()
   };
 }
 
@@ -60,6 +61,37 @@ describe("SearchProvider", () => {
     expect(driver.setSearchQuery).toHaveBeenCalledWith(
       updatedSearchQueryConfig
     );
+    expect(driver.setAutocompleteQuery).not.toHaveBeenCalled();
+  });
+
+  it("will update searchDriver when autocompleteQuery config changes", () => {
+    const autocompleteQueryConfig = {
+      facets: { states: { type: "value", size: 30 } }
+    };
+    const updatedAutocompleteQueryConfig = {};
+
+    const driver = getMockDriver();
+    const wrapper = mount(
+      <SearchProvider
+        driver={driver}
+        config={{
+          autocompleteQuery: autocompleteQueryConfig
+        }}
+      >
+        <div>test</div>
+      </SearchProvider>
+    );
+    expect(driver.setAutocompleteQuery).not.toHaveBeenCalled();
+
+    wrapper.setProps({
+      driver,
+      config: { autocompleteQuery: updatedAutocompleteQueryConfig }
+    });
+
+    expect(driver.setAutocompleteQuery).toHaveBeenCalledWith(
+      updatedAutocompleteQueryConfig
+    );
+    expect(driver.setSearchQuery).not.toHaveBeenCalled();
   });
 
   it("exposes state and actions to components", () => {

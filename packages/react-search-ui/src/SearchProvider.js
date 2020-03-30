@@ -41,6 +41,12 @@ const SearchProvider = ({ children, config = {}, driver }) => {
     }
   }, [config.searchQuery]);
 
+  useEffect(() => {
+    if (driverInstance) {
+      driverInstance.setAutocompleteQuery(config.autocompleteQuery);
+    }
+  }, [config.autocompleteQuery]);
+
   // Since driver is initialized in useEffect above, we are waiting
   // to render until the driver is available.
   if (!driverInstance) return null;
