@@ -1,12 +1,12 @@
 {
   "name": "sandbox",
-  "version": "1.3.2",
+  "version": "1.4.0-rc.0",
   "private": true,
   "dependencies": {
-    "@elastic/react-search-ui": "1.3.2",
-    "@elastic/react-search-ui-views": "1.3.2",
-    "@elastic/search-ui": "1.3.2",
-    "@elastic/search-ui-app-search-connector": "1.3.2",
+    "@elastic/react-search-ui": "1.4.0-rc.0",
+    "@elastic/react-search-ui-views": "1.4.0-rc.0",
+    "@elastic/search-ui": "1.4.0-rc.0",
+    "@elastic/search-ui-app-search-connector": "1.4.0-rc.0",
     "@elastic/search-ui-site-search-connector": "1.3.2",
     "moment": "^2.24.0",
     "react": "^16.8.6",
