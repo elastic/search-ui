@@ -5,6 +5,7 @@ import DebounceManager from "./DebounceManager";
 
 import * as actions from "./actions";
 import Events from "./Events";
+import { mergeFilters } from "./helpers";
 
 import * as a11y from "./A11yNotifications";
 
@@ -323,16 +324,24 @@ export default class SearchDriver {
 
       const requestId = this.searchRequestSequencer.next();
 
+      const {
+        // eslint-disable-next-line no-unused-vars
+        filters: searchQueryFilters,
+        ...restOfSearchQuery
+      } = this.searchQuery;
+
       const queryConfig = {
-        ...this.searchQuery,
+        ...restOfSearchQuery,
         facets: removeConditionalFacets(
           this.searchQuery.facets,
           this.searchQuery.conditionalFacets,
           filters
         )
       };
-
-      const requestState = filterSearchParameters(this.state);
+      const requestState = {
+        ...filterSearchParameters(this.state),
+        filters: mergeFilters(filters, this.searchQuery.filters)
+      };
 
       return this.events.search(requestState, queryConfig).then(
         resultState => {
