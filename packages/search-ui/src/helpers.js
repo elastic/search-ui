@@ -104,3 +104,15 @@ export function doFilterValuesMatch(filterValue1, filterValue2) {
   // We use 'strict = true' to do a '===' of leaves, rather than '=='
   return deepEqual(filterValue1, filterValue2, { strict: true });
 }
+
+// Mix unique filter type from one array into the other
+export function mergeFilters(filters1, filters2) {
+  if (!filters2) return filters1;
+
+  return filters2.reduce((acc, next) => {
+    if (acc.find(f => f.type === next.type && f.field === next.field)) {
+      return acc;
+    }
+    return [...acc, next];
+  }, filters1);
+}

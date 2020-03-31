@@ -5,6 +5,7 @@ import DebounceManager from "./DebounceManager";
 
 import * as actions from "./actions";
 import Events from "./Events";
+import { mergeFilters } from "./helpers";
 
 import * as a11y from "./A11yNotifications";
 
@@ -323,16 +324,24 @@ export default class SearchDriver {
 
       const requestId = this.searchRequestSequencer.next();
 
+      const {
+        // eslint-disable-next-line no-unused-vars
+        filters: searchQueryFilters,
+        ...restOfSearchQuery
+      } = this.searchQuery;
+
       const queryConfig = {
-        ...this.searchQuery,
+        ...restOfSearchQuery,
         facets: removeConditionalFacets(
           this.searchQuery.facets,
           this.searchQuery.conditionalFacets,
           filters
         )
       };
-
-      const requestState = filterSearchParameters(this.state);
+      const requestState = {
+        ...filterSearchParameters(this.state),
+        filters: mergeFilters(filters, this.searchQuery.filters)
+      };
 
       return this.events.search(requestState, queryConfig).then(
         resultState => {
@@ -397,6 +406,24 @@ export default class SearchDriver {
     if (this.debug) console.log("Search UI: State Update", newState, state);
     this.state = state;
     this.subscriptions.forEach(subscription => subscription(state));
+  }
+
+  /**
+   * Dynamically update the searchQuery configuration in this driver.
+   * This will issue a new query after being updated.
+   *
+   * @param Object searchQuery
+   */
+  setSearchQuery(searchQuery) {
+    this.searchQuery = searchQuery;
+    this._updateSearchResults();
+  }
+
+  /**
+   * @param Object autocompleteQuery
+   */
+  setAutocompleteQuery(autocompleteQuery) {
+    this.autocompleteQuery = autocompleteQuery;
   }
 
   /**
