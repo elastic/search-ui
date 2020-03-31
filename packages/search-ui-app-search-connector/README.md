@@ -25,6 +25,20 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
+### Additional options
+
+Additional options will be passed through to the underlying
+[APIclient](https://github.com/elastic/app-search-javascript). Any valid parameter of the client can be used.
+
+```js
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
+  hostIdentifier: "host-2376rb",
+  cacheResponses: false
+});
+```
+
 ## Classes
 
 <dl>

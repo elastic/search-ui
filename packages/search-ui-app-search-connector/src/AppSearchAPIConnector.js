@@ -53,7 +53,8 @@ class AppSearchAPIConnector {
     beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteSuggestionsCall = (queryOptions, next) =>
       next(queryOptions),
-    endpointBase = ""
+    endpointBase = "",
+    ...rest
   }) {
     if (!engineName || !(hostIdentifier || endpointBase) || !searchKey) {
       throw Error(
@@ -69,7 +70,8 @@ class AppSearchAPIConnector {
       additionalHeaders: {
         "x-swiftype-integration": "search-ui",
         "x-swiftype-integration-version": version
-      }
+      },
+      ...rest
     });
     this.beforeSearchCall = beforeSearchCall;
     this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
