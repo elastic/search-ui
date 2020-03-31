@@ -409,6 +409,24 @@ export default class SearchDriver {
   }
 
   /**
+   * Dynamically update the searchQuery configuration in this driver.
+   * This will issue a new query after being updated.
+   *
+   * @param Object searchQuery
+   */
+  setSearchQuery(searchQuery) {
+    this.searchQuery = searchQuery;
+    this._updateSearchResults();
+  }
+
+  /**
+   * @param Object autocompleteQuery
+   */
+  setAutocompleteQuery(autocompleteQuery) {
+    this.autocompleteQuery = autocompleteQuery;
+  }
+
+  /**
    * Any time state is updated in this Driver, the provided callback
    * will be executed with the updated state.
    *
