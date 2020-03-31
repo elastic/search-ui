@@ -264,6 +264,35 @@ describe("searchQuery config", () => {
       expect(getSearchCalls()[0][1].search_fields).toEqual(search_fields);
     });
   });
+
+  describe("filters", () => {
+    function subject() {
+      const driver = new SearchDriver({
+        ...params,
+        searchQuery: {
+          filters: [{ field: "initial", values: ["value"], type: "all" }]
+        }
+      });
+
+      jest.runAllTimers();
+      driver.setFilter("initial", "newValue", "all");
+      driver.setFilter("other", "value", "all");
+      jest.runAllTimers();
+    }
+
+    it("will merge applied filters and configured filters", () => {
+      subject();
+      expect(getSearchCalls()[0][0].filters).toEqual([
+        { field: "initial", type: "all", values: ["newValue"] },
+        { field: "other", type: "all", values: ["value"] }
+      ]);
+    });
+
+    it("will remove filters parameter from queryConfig since its merged into state", () => {
+      subject();
+      expect(getSearchCalls()[0][1].filters).not.toBeDefined();
+    });
+  });
 });
 
 describe("autocompleteQuery config", () => {

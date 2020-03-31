@@ -2,6 +2,7 @@ import { helpers } from "..";
 const doFilterValuesMatch = helpers.doFilterValuesMatch;
 const markSelectedFacetValuesFromFilters =
   helpers.markSelectedFacetValuesFromFilters;
+const mergeFilters = helpers.mergeFilters;
 
 describe("doFilterValuesMatch", () => {
   describe("when matching simple values", () => {
@@ -182,5 +183,47 @@ describe("markSelectedFacetValuesFromFilters", () => {
         }
       ]
     });
+  });
+});
+
+describe("mergeFilters", () => {
+  let filters1 = [
+    { field: "world_heritage_site", values: ["false"], type: "any" },
+    { field: "world_heritage_site", values: ["false"], type: "all" },
+    { field: "states", values: ["Arizona", "Wyoming"], type: "all" }
+  ];
+  let filters2 = [
+    { field: "world_heritage_site", values: ["true"], type: "all" },
+    { field: "states", values: ["Washington"], type: "all" },
+    { field: "acres", values: 1, type: "any" }
+  ];
+
+  function subject() {
+    return mergeFilters(filters1, filters2);
+  }
+
+  it("will keep two values on the same field with different types", () => {
+    expect(subject()).toContainEqual({
+      field: "world_heritage_site",
+      values: ["false"],
+      type: "any" // different
+    });
+    expect(subject()).toContainEqual({
+      field: "world_heritage_site",
+      values: ["false"],
+      type: "all" // different
+    });
+  });
+
+  it("will override a value from the first array on the same field and type", () => {
+    // This is the value from filters2, which should be used
+    expect(subject()).toContainEqual(filters1[1]);
+    // This is defined in filters1 with the same type and field, so it's not used
+    expect(subject()).not.toContainEqual(filters2[0]);
+  });
+
+  it("will keep values defined in one array or the other", () => {
+    expect(subject()).toContainEqual(filters1[2]);
+    expect(subject()).toContainEqual(filters2[2]);
   });
 });
