@@ -1,34 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Result } from "./types";
-import { Suggestion } from "./types";
-import { appendClassName } from "./view-helpers";
-
-function getRaw(result, value) {
-  if (!result[value] || !result[value].raw) return;
-  return result[value].raw;
-}
-
-function getSnippet(result, value) {
-  if (!result[value] || !result[value].snippet) return;
-  return result[value].snippet;
-}
-
-function getSuggestionTitle(suggestionType, autocompleteSuggestions) {
-  if (autocompleteSuggestions.sectionTitle) {
-    return autocompleteSuggestions.sectionTitle;
-  }
-
-  if (
-    autocompleteSuggestions[suggestionType] &&
-    autocompleteSuggestions[suggestionType].sectionTitle
-  ) {
-    return autocompleteSuggestions[suggestionType].sectionTitle;
-  }
-}
-
 function Autocomplete({
+  viewHelpers,
   autocompleteResults,
   autocompletedResults,
   autocompleteSuggestions,
@@ -41,7 +15,7 @@ function Autocomplete({
   return (
     <div
       {...getMenuProps({
-        className: appendClassName(
+        className: viewHelpers.appendClassName(
           "sui-search-box__autocomplete-container",
           className
         )
@@ -53,13 +27,13 @@ function Autocomplete({
             ([suggestionType, suggestions]) => {
               return (
                 <React.Fragment key={suggestionType}>
-                  {getSuggestionTitle(
+                  {viewHelpers.getSuggestionTitle(
                     suggestionType,
                     autocompleteSuggestions
                   ) &&
                     suggestions.length > 0 && (
                       <div className="sui-search-box__section-title">
-                        {getSuggestionTitle(
+                        {viewHelpers.getSuggestionTitle(
                           suggestionType,
                           autocompleteSuggestions
                         )}
@@ -111,11 +85,14 @@ function Autocomplete({
             <ul className="sui-search-box__results-list">
               {autocompletedResults.map(result => {
                 index++;
-                const titleSnippet = getSnippet(
+                const titleSnippet = viewHelpers.getSnippet(
                   result,
                   autocompleteResults.titleField
                 );
-                const titleRaw = getRaw(result, autocompleteResults.titleField);
+                const titleRaw = viewHelpers.getRaw(
+                  result,
+                  autocompleteResults.titleField
+                );
                 return (
                   // eslint-disable-next-line react/jsx-key
                   <li
@@ -145,6 +122,7 @@ function Autocomplete({
 }
 
 Autocomplete.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   allAutocompletedItemsCount: PropTypes.number.isRequired,
   autocompleteResults: PropTypes.oneOfType([
     PropTypes.bool,
@@ -155,9 +133,8 @@ Autocomplete.propTypes = {
       sectionTitle: PropTypes.string
     })
   ]),
-  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
-  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
-    .isRequired,
+  autocompletedResults: PropTypes.array.isRequired,
+  autocompletedSuggestions: PropTypes.objectOf(PropTypes.array).isRequired,
   autocompletedSuggestionsCount: PropTypes.number.isRequired,
   autocompleteSuggestions: PropTypes.oneOfType([
     PropTypes.bool,

@@ -1,5 +1,5 @@
 import React from "react";
-import ErrorBoundary from "../ErrorBoundary";
+import { ErrorBoundary } from "..";
 import { shallow } from "enzyme";
 
 const params = {
@@ -8,7 +8,7 @@ const params = {
 };
 
 it("renders an error when there is an error", () => {
-  const wrapper = shallow(<ErrorBoundary {...params} />);
+  const wrapper = shallow(<ErrorBoundary {...params} />).dive("ErrorBoundary");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -20,7 +20,7 @@ it("renders children when there is no error", () => {
         error: ""
       }}
     />
-  );
+  ).dive("ErrorBoundary");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -28,7 +28,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <ErrorBoundary className={customClassName} {...params} />
-  );
+  ).dive("ErrorBoundary");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-search-error test-class");
 });

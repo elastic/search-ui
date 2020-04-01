@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import Select from "react-select";
 
-import { appendClassName } from "./view-helpers";
-
 const setDefaultStyle = {
   option: () => ({}),
   control: () => ({}),
@@ -11,7 +9,15 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function Sorting({ className, label, onChange, options, value, ...rest }) {
+function Sorting({
+  viewHelpers,
+  className,
+  label,
+  onChange,
+  options,
+  value,
+  ...rest
+}) {
   const selectedValue = value;
 
   const selectedOption = selectedValue
@@ -19,7 +25,10 @@ function Sorting({ className, label, onChange, options, value, ...rest }) {
     : null;
 
   return (
-    <div className={appendClassName("sui-sorting", className)} {...rest}>
+    <div
+      className={viewHelpers.appendClassName("sui-sorting", className)}
+      {...rest}
+    >
       {label && <div className="sui-sorting__label">{label}</div>}
       <Select
         className="sui-select"
@@ -35,6 +44,7 @@ function Sorting({ className, label, onChange, options, value, ...rest }) {
 }
 
 Sorting.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   className: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,

@@ -3,9 +3,8 @@ import React from "react";
 import RCPagination from "rc-pagination";
 import enUsLocale from "rc-pagination/lib/locale/en_US";
 
-import { appendClassName } from "./view-helpers";
-
 function Paging({
+  viewHelpers,
   className,
   current,
   resultsPerPage,
@@ -19,7 +18,7 @@ function Paging({
       onChange={onChange}
       pageSize={resultsPerPage}
       total={totalPages * resultsPerPage}
-      className={appendClassName("sui-paging", className)}
+      className={viewHelpers.appendClassName("sui-paging", className)}
       locale={enUsLocale}
       {...rest}
     />
@@ -27,6 +26,7 @@ function Paging({
 }
 
 Paging.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   current: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   resultsPerPage: PropTypes.number.isRequired,

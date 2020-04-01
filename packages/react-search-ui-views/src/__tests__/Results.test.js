@@ -1,5 +1,5 @@
 import React from "react";
-import Results from "../Results";
+import { Results } from "..";
 import { shallow } from "enzyme";
 
 it("renders correctly", () => {
@@ -7,7 +7,7 @@ it("renders correctly", () => {
     <Results>
       <div>Children</div>
     </Results>
-  );
+  ).dive("Results");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -17,7 +17,7 @@ it("renders with className prop applied", () => {
     <Results className={customClassName}>
       <div>Children</div>
     </Results>
-  );
+  ).dive("Results");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-results-container test-class");
 });

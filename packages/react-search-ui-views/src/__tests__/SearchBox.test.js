@@ -1,5 +1,5 @@
 import React from "react";
-import SearchBox from "../SearchBox";
+import { SearchBox } from "..";
 import { shallow } from "enzyme";
 
 const requiredProps = {
@@ -15,12 +15,14 @@ const requiredProps = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<SearchBox {...requiredProps} />);
+  const wrapper = shallow(<SearchBox {...requiredProps} />).dive("SearchBox");
   expect(wrapper).toMatchSnapshot();
 });
 
 it("applies 'focused' class when `isFocused` is true", () => {
-  const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
+  const wrapper = shallow(
+    <SearchBox {...requiredProps} isFocused={true} />
+  ).dive("SearchBox");
   const downshift = wrapper
     .dive("Downshift")
     .find("SearchInput")
@@ -32,7 +34,7 @@ it("applies 'focused' class when `isFocused` is true", () => {
 it("passes through downshiftProps", () => {
   const wrapper = shallow(
     <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
-  );
+  ).dive("SearchBox");
   const SearchInput = wrapper.dive("Downshift").find("SearchInput");
   expect(SearchInput.props().clearSelection).toBeInstanceOf(Function);
 });
@@ -40,7 +42,7 @@ it("passes through downshiftProps", () => {
 it("passes through inputProps", () => {
   const wrapper = shallow(
     <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
-  );
+  ).dive("SearchBox");
   const downshift = wrapper
     .dive("Downshift")
     .find("SearchInput")
@@ -53,7 +55,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <SearchBox {...requiredProps} className={customClassName} />
-  );
+  ).dive("SearchBox");
 
   const { className } = wrapper
     .dive()
@@ -66,7 +68,7 @@ it("applies className from inputProps to input element", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <SearchBox {...requiredProps} inputProps={{ className: customClassName }} />
-  );
+  ).dive("SearchBox");
 
   const downshift = wrapper
     .dive("Downshift")
@@ -103,7 +105,7 @@ describe("inputView prop", () => {
           );
         }}
       />
-    );
+    ).dive("SearchBox");
 
     input = wrapper
       .dive("Downshift")

@@ -1,5 +1,5 @@
 import React from "react";
-import MultiCheckboxFacet from "../MultiCheckboxFacet";
+import { MultiCheckboxFacet } from "..";
 import { shallow } from "enzyme";
 
 const params = {
@@ -43,7 +43,9 @@ const rangeOptions = [
 ];
 
 it("renders", () => {
-  const wrapper = shallow(<MultiCheckboxFacet {...params} />);
+  const wrapper = shallow(<MultiCheckboxFacet {...params} />).dive(
+    "MultiCheckboxFacet"
+  );
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -69,14 +71,14 @@ it("renders falsey values correctly", () => {
         }
       ]}
     />
-  );
+  ).dive("MultiCheckboxFacet");
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders range filters", () => {
   const wrapper = shallow(
     <MultiCheckboxFacet {...params} option={rangeOptions} />
-  );
+  ).dive("MultiCheckboxFacet");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -88,7 +90,7 @@ it("will render 'more' button if more param is true", () => {
         showMore: true
       }}
     />
-  );
+  ).dive("MultiCheckboxFacet");
   expect(wrapper.find(".sui-facet-view-more")).toHaveLength(1);
 });
 
@@ -100,7 +102,7 @@ it("will render a no results message is no options are available", () => {
         options: []
       }}
     />
-  );
+  ).dive("MultiCheckboxFacet");
   expect(wrapper.find(".sui-multi-checkbox-facet").text()).toEqual(
     "No matching options"
   );
@@ -114,13 +116,15 @@ it("won't render 'more' button if more param is false", () => {
         showMore: false
       }}
     />
-  );
+  ).dive("MultiCheckboxFacet");
   expect(wrapper.find(".sui-multi-checkbox-facet__view-more")).toHaveLength(0);
 });
 
 describe("determining selected option", () => {
   it("will correctly determine which of the options is selected", () => {
-    const wrapper = shallow(<MultiCheckboxFacet {...params} />);
+    const wrapper = shallow(<MultiCheckboxFacet {...params} />).dive(
+      "MultiCheckboxFacet"
+    );
     expect(
       wrapper
         .find("input")
@@ -141,7 +145,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <MultiCheckboxFacet className={customClassName} {...params} />
-  );
+  ).dive("MultiCheckboxFacet");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-facet test-class");
 });
@@ -154,7 +158,7 @@ it("will render search input if `showSearch` param is true", () => {
         showSearch: true
       }}
     />
-  );
+  ).dive("MultiCheckboxFacet");
 
   expect(wrapper.find(".sui-facet-search")).toHaveLength(1);
 });
@@ -167,7 +171,7 @@ it("won't render search input if `showSearch` param is false", () => {
         showSearch: false
       }}
     />
-  );
+  ).dive("MultiCheckboxFacet");
 
   expect(wrapper.find(".sui-facet-search")).toHaveLength(0);
 });
@@ -182,7 +186,7 @@ it("should use the `searchPlaceholder` param as a search input placeholder", () 
         searchPlaceholder
       }}
     />
-  );
+  ).dive("MultiCheckboxFacet");
 
   expect(
     wrapper.find(".sui-facet-search__text-input").prop("placeholder")

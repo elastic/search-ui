@@ -2,15 +2,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import Downshift from "downshift";
 
-import { Result } from "./types";
-import { Suggestion } from "./types";
-import { appendClassName } from "./view-helpers";
-
 import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
 
 function SearchBox(props) {
   const {
+    viewHelpers,
     className,
     allAutocompletedItemsCount,
     autocompleteView,
@@ -67,21 +64,22 @@ function SearchBox(props) {
           >
             <div
               className={
-                appendClassName("sui-search-box", className) + autocompleteClass
+                viewHelpers.appendClassName("sui-search-box", className) +
+                autocompleteClass
               }
             >
               <InputView
+                viewHelpers={viewHelpers}
                 {...downshiftProps}
                 getInputProps={additionalProps => {
                   const { className, ...rest } = additionalProps || {};
                   return getInputProps({
                     placeholder: "Search",
                     ...inputProps,
-                    className: appendClassName("sui-search-box__text-input", [
-                      inputProps.className,
-                      className,
-                      focusedClass
-                    ]),
+                    className: viewHelpers.appendClassName(
+                      "sui-search-box__text-input",
+                      [inputProps.className, className, focusedClass]
+                    ),
                     ...rest
                   });
                 }}
@@ -90,7 +88,7 @@ function SearchBox(props) {
                   return {
                     type: "submit",
                     value: "Search",
-                    className: appendClassName(
+                    className: viewHelpers.appendClassName(
                       "button sui-search-box__submit",
                       className
                     ),
@@ -119,10 +117,10 @@ function SearchBox(props) {
 
 SearchBox.propTypes = {
   // Provided by container
+  viewHelpers: PropTypes.object.isRequired,
   allAutocompletedItemsCount: PropTypes.number.isRequired,
-  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
-  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
-    .isRequired,
+  autocompletedResults: PropTypes.array.isRequired,
+  autocompletedSuggestions: PropTypes.objectOf(PropTypes.array).isRequired,
   autocompletedSuggestionsCount: PropTypes.number.isRequired,
   completeSuggestion: PropTypes.func.isRequired,
   notifyAutocompleteSelected: PropTypes.func.isRequired,

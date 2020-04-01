@@ -1,5 +1,5 @@
 import React from "react";
-import Paging from "../Paging";
+import { Paging } from "..";
 import { shallow } from "enzyme";
 
 const params = {
@@ -10,13 +10,15 @@ const params = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Paging {...params} />);
+  const wrapper = shallow(<Paging {...params} />).dive("Paging");
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(<Paging className={customClassName} {...params} />);
+  const wrapper = shallow(
+    <Paging className={customClassName} {...params} />
+  ).dive("Paging");
   const { className } = wrapper.dive().props();
   expect(className).toEqual("rc-pagination sui-paging test-class");
 });

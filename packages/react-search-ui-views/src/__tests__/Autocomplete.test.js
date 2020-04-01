@@ -53,7 +53,7 @@ const props = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Autocomplete {...props} />);
+  const wrapper = shallow(<Autocomplete {...props} />).dive("Autocomplete");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -65,7 +65,7 @@ describe("When there are results", () => {
         autocompleteResults={true}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__results-list li").length).toEqual(3);
   });
 
@@ -76,7 +76,7 @@ describe("When there are results", () => {
         autocompleteResults={false}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__results-list").length).toEqual(0);
   });
 
@@ -92,7 +92,7 @@ describe("When there are results", () => {
         }}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__section-title").text()).toEqual(
       "Results"
     );
@@ -109,7 +109,7 @@ describe("When there are results", () => {
         }}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
   });
 });
@@ -123,7 +123,7 @@ describe("When there are no results", () => {
         autocompleteResults={true}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__results-list").length).toEqual(0);
   });
 
@@ -140,7 +140,7 @@ describe("When there are no results", () => {
         }}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
   });
 });
@@ -153,7 +153,7 @@ describe("When there are suggestions", () => {
         autocompleteResults={false}
         autocompleteSuggestions={true}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__suggestion-list li").length).toEqual(
       6
     );
@@ -166,7 +166,7 @@ describe("When there are suggestions", () => {
         autocompleteResults={false}
         autocompleteSuggestions={false}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__suggestion-list").length).toEqual(0);
   });
 
@@ -181,7 +181,7 @@ describe("When there are suggestions", () => {
           }
         }}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__section-title").text()).toEqual(
       "Suggested"
     );
@@ -196,7 +196,7 @@ describe("When there are suggestions", () => {
           sectionTitle: "Suggested"
         }}
       />
-    );
+    ).dive("Autocomplete");
     expect(
       wrapper
         .find(".sui-search-box__section-title")
@@ -218,7 +218,7 @@ describe("When there are suggestions", () => {
         autocompleteResults={false}
         autocompleteSuggestions={true}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
   });
 });
@@ -232,7 +232,7 @@ describe("When there are no suggestions", () => {
         autocompletedSuggestions={{}}
         autocompleteSuggestions={true}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__suggestion-list").length).toEqual(0);
   });
 
@@ -248,7 +248,7 @@ describe("When there are no suggestions", () => {
           }
         }}
       />
-    );
+    ).dive("Autocomplete");
     expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
   });
 });
@@ -257,7 +257,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <Autocomplete className={customClassName} {...props} />
-  );
+  ).dive("Autocomplete");
   const { className } = wrapper.props();
   expect(className).toEqual(
     "sui-search-box__autocomplete-container test-class"

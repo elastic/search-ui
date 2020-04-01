@@ -1,5 +1,5 @@
 import React from "react";
-import Result from "../Result";
+import { Result } from "..";
 import { shallow } from "enzyme";
 
 const TITLE_FIELD = "title";
@@ -14,7 +14,7 @@ const requiredProps = {
 };
 
 it("renders correctly when there is not a URL or title", () => {
-  const wrapper = shallow(<Result {...requiredProps} />);
+  const wrapper = shallow(<Result {...requiredProps} />).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -30,14 +30,14 @@ it("renders correctly when there is a title", () => {
         titleField: TITLE_FIELD
       }}
     />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when there is a titleField but it is not defined in result", () => {
   const wrapper = shallow(
     <Result {...{ ...requiredProps, titleField: TITLE_FIELD }} />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -53,14 +53,14 @@ it("renders correctly when there is a URL", () => {
         urlField: URL_FIELD
       }}
     />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when there is a urlField but it is not defined in result", () => {
   const wrapper = shallow(
     <Result {...{ ...requiredProps, urlField: URL_FIELD }} />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -78,7 +78,7 @@ it("renders correctly when there is a title and url", () => {
         urlField: URL_FIELD
       }}
     />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -93,7 +93,7 @@ it("filters out arbitrary fields from results, and does not render them", () => 
         }
       }}
     />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -101,7 +101,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <Result className={customClassName} {...requiredProps} />
-  );
+  ).dive("Result");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-result test-class");
 });
@@ -118,6 +118,6 @@ it("renders correctly when there is a malicious URL", () => {
         urlField: URL_FIELD
       }}
     />
-  );
+  ).dive("Result");
   expect(wrapper).toMatchSnapshot();
 });

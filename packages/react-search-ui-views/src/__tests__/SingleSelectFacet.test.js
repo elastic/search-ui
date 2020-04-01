@@ -1,5 +1,5 @@
 import React from "react";
-import SingleSelectFacet from "../SingleSelectFacet";
+import { SingleSelectFacet } from "..";
 import { shallow, render } from "enzyme";
 
 const params = {
@@ -28,7 +28,9 @@ const params = {
 };
 
 it("renders", () => {
-  const wrapper = shallow(<SingleSelectFacet {...params} />);
+  const wrapper = shallow(<SingleSelectFacet {...params} />).dive(
+    "SingleSelectFacet"
+  );
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -54,7 +56,7 @@ it("renders falsey values correctly", () => {
         }
       ]}
     />
-  );
+  ).dive("SingleSelectFacet");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -90,7 +92,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <SingleSelectFacet {...params} className={customClassName} />
-  );
+  ).dive("SingleSelectFacet");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-facet test-class");
 });

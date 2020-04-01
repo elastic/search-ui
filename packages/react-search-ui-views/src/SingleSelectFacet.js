@@ -2,10 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
 
-import { FacetValue } from "./types";
-import { getFilterValueDisplay } from "./view-helpers";
-import { appendClassName } from "./view-helpers";
-
 function Option(props) {
   return (
     <components.Option {...props}>
@@ -21,10 +17,10 @@ Option.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-function toSelectBoxOption(filterValue) {
+function toSelectBoxOption(filterValue, viewHelpers) {
   return {
     value: filterValue.value,
-    label: getFilterValueDisplay(filterValue.value),
+    label: viewHelpers.getFilterValueDisplay(filterValue.value),
     count: filterValue.count
   };
 }
@@ -36,12 +32,18 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleSelectFacet({ className, label, onChange, options }) {
+function SingleSelectFacet({
+  viewHelpers,
+  className,
+  label,
+  onChange,
+  options
+}) {
   let selectedSelectBoxOption;
   let isSelectedSelectBoxOptionSet = false;
 
   const selectBoxOptions = options.map(option => {
-    const selectBoxOption = toSelectBoxOption(option);
+    const selectBoxOption = toSelectBoxOption(option, viewHelpers);
     // There should never be multiple filters set for this facet because it is single select,
     // but if there is, we use the first value.
     if (option.selected && !isSelectedSelectBoxOptionSet) {
@@ -52,7 +54,7 @@ function SingleSelectFacet({ className, label, onChange, options }) {
   });
 
   return (
-    <div className={appendClassName("sui-facet", className)}>
+    <div className={viewHelpers.appendClassName("sui-facet", className)}>
       <div className="sui-facet__title">{label}</div>
       <Select
         className="sui-select"
@@ -69,9 +71,10 @@ function SingleSelectFacet({ className, label, onChange, options }) {
 }
 
 SingleSelectFacet.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
+  options: PropTypes.array.isRequired,
   className: PropTypes.string
 };
 

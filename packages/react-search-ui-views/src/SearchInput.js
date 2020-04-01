@@ -14,6 +14,7 @@ function SearchInput({ getAutocomplete, getButtonProps, getInputProps }) {
 }
 
 SearchInput.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   getAutocomplete: PropTypes.func.isRequired,
   getButtonProps: PropTypes.func.isRequired,
   getInputProps: PropTypes.func.isRequired

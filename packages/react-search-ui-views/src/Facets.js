@@ -3,6 +3,9 @@ import React from "react";
 
 import { appendClassName } from "./view-helpers";
 
+/**
+ * @deprecated Since version 1.4. Will be deleted in version 2.0.
+ */
 function Facets({ children, className, ...rest }) {
   return (
     <div

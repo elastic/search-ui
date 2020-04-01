@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { FacetValue, FilterValue } from "./types";
-import { appendClassName } from "./view-helpers";
-
 function BooleanFacet({
+  viewHelpers,
   className,
   label,
   options,
@@ -23,7 +21,7 @@ function BooleanFacet({
   };
 
   return (
-    <fieldset className={appendClassName("sui-facet", className)}>
+    <fieldset className={viewHelpers.appendClassName("sui-facet", className)}>
       <legend className="sui-facet__title">{label}</legend>
       <div className="sui-boolean-facet">
         <div className={"sui-boolean-facet__option-input-wrapper"}>
@@ -48,11 +46,12 @@ function BooleanFacet({
 }
 
 BooleanFacet.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired,
+  options: PropTypes.array.isRequired,
+  values: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired
 };
 

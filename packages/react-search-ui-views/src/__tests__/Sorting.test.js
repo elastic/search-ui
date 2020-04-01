@@ -1,5 +1,5 @@
 import React from "react";
-import Sorting from "../Sorting";
+import { Sorting } from "..";
 import { shallow } from "enzyme";
 
 const requiredProps = {
@@ -11,12 +11,14 @@ const requiredProps = {
 };
 
 it("renders correctly when there is a value", () => {
-  const wrapper = shallow(<Sorting {...requiredProps} value={"name|||desc"} />);
+  const wrapper = shallow(
+    <Sorting {...requiredProps} value={"name|||desc"} />
+  ).dive("Sorting");
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders correctly when there is not a value", () => {
-  const wrapper = shallow(<Sorting {...requiredProps} />);
+  const wrapper = shallow(<Sorting {...requiredProps} />).dive("Sorting");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -24,7 +26,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <Sorting {...requiredProps} className={customClassName} />
-  );
+  ).dive("Sorting");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-sorting test-class");
 });

@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import Select from "react-select";
 
-import { appendClassName } from "./view-helpers";
-
 const setDefaultStyle = {
   option: () => ({}),
   control: () => ({}),
@@ -21,6 +19,7 @@ const setDefaultStyle = {
 const wrapOption = option => ({ label: option, value: option });
 
 function ResultsPerPage({
+  viewHelpers,
   className,
   onChange,
   options,
@@ -37,7 +36,7 @@ function ResultsPerPage({
 
   return (
     <div
-      className={appendClassName("sui-results-per-page", className)}
+      className={viewHelpers.appendClassName("sui-results-per-page", className)}
       {...rest}
     >
       <div className="sui-results-per-page__label">Show</div>
@@ -55,6 +54,7 @@ function ResultsPerPage({
 }
 
 ResultsPerPage.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.number).isRequired,
   className: PropTypes.string,

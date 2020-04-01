@@ -1,5 +1,5 @@
 import React from "react";
-import SingleLinksFacet from "../SingleLinksFacet";
+import { SingleLinksFacet } from "..";
 import { shallow } from "enzyme";
 
 const params = {
@@ -13,7 +13,9 @@ const params = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<SingleLinksFacet {...params} />);
+  const wrapper = shallow(<SingleLinksFacet {...params} />).dive(
+    "SingleLinksFacet"
+  );
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -39,7 +41,7 @@ it("renders falsey values correctly", () => {
         }
       ]}
     />
-  );
+  ).dive("SingleLinksFacet");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -53,7 +55,7 @@ describe("determining selected option", () => {
           { value: "2", count: 1, selected: false }
         ]}
       />
-    );
+    ).dive("SingleLinksFacet");
     expect(wrapper.find("li").length).toBe(1);
     expect(wrapper.find("li").text()).toBe("1 (Remove)");
   });
@@ -68,7 +70,7 @@ describe("determining selected option", () => {
           { value: "2", count: 1, selected: true }
         ]}
       />
-    );
+    ).dive("SingleLinksFacet");
     expect(wrapper.find("li").length).toBe(1);
     expect(wrapper.find("li").text()).toBe("1 (Remove)");
   });
@@ -82,7 +84,7 @@ describe("determining selected option", () => {
           { value: "2", count: 1, selected: false }
         ]}
       />
-    );
+    ).dive("SingleLinksFacet");
     expect(wrapper.find("li").length).toBe(2);
   });
 });
@@ -91,7 +93,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <SingleLinksFacet {...params} className={customClassName} />
-  );
+  ).dive("SingleLinksFacet");
   const { className } = wrapper.props();
   expect(className).toEqual("sui-facet test-class");
 });

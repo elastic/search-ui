@@ -1,5 +1,5 @@
 import React from "react";
-import BooleanFacet from "../BooleanFacet";
+import { BooleanFacet } from "..";
 import { shallow, mount } from "enzyme";
 
 const params = {
@@ -16,7 +16,7 @@ const params = {
 };
 
 it("renders", () => {
-  const wrapper = shallow(<BooleanFacet {...params} />);
+  const wrapper = shallow(<BooleanFacet {...params} />).dive("ErrorBoundary");
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -24,7 +24,7 @@ it("renders with className prop applied", () => {
   const customClassName = "test-class";
   const wrapper = shallow(
     <BooleanFacet className={customClassName} {...params} />
-  );
+  ).dive("ErrorBoundary");
   const { className } = wrapper.props();
   expect(className.includes(customClassName)).toBe(true);
 });
@@ -52,6 +52,6 @@ it("onRemove is called on click", () => {
 
 it("will not render when there are no true options", () => {
   params.options = [];
-  const wrapper = shallow(<BooleanFacet {...params} />);
+  const wrapper = shallow(<BooleanFacet {...params} />).dive("ErrorBoundary");
   expect(wrapper).toMatchSnapshot();
 });

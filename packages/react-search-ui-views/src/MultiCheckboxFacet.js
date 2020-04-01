@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { FacetValue } from "./types";
-import { appendClassName, getFilterValueDisplay } from "./view-helpers";
-
 function MultiCheckboxFacet({
+  viewHelpers,
   className,
   label,
   onMoreClick,
@@ -17,7 +15,7 @@ function MultiCheckboxFacet({
   searchPlaceholder
 }) {
   return (
-    <fieldset className={appendClassName("sui-facet", className)}>
+    <fieldset className={viewHelpers.appendClassName("sui-facet", className)}>
       <legend className="sui-facet__title">{label}</legend>
 
       {showSearch && (
@@ -39,15 +37,15 @@ function MultiCheckboxFacet({
           const checked = option.selected;
           return (
             <label
-              key={`${getFilterValueDisplay(option.value)}`}
-              htmlFor={`example_facet_${label}${getFilterValueDisplay(
+              key={`${viewHelpers.getFilterValueDisplay(option.value)}`}
+              htmlFor={`example_facet_${label}${viewHelpers.getFilterValueDisplay(
                 option.value
               )}`}
               className="sui-multi-checkbox-facet__option-label"
             >
               <div className="sui-multi-checkbox-facet__option-input-wrapper">
                 <input
-                  id={`example_facet_${label}${getFilterValueDisplay(
+                  id={`example_facet_${label}${viewHelpers.getFilterValueDisplay(
                     option.value
                   )}`}
                   type="checkbox"
@@ -58,7 +56,7 @@ function MultiCheckboxFacet({
                   }
                 />
                 <span className="sui-multi-checkbox-facet__input-text">
-                  {getFilterValueDisplay(option.value)}
+                  {viewHelpers.getFilterValueDisplay(option.value)}
                 </span>
               </div>
               <span className="sui-multi-checkbox-facet__option-count">
@@ -84,12 +82,13 @@ function MultiCheckboxFacet({
 }
 
 MultiCheckboxFacet.propTypes = {
+  viewHelpers: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   onMoreClick: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
+  options: PropTypes.array.isRequired,
   showMore: PropTypes.bool.isRequired,
   className: PropTypes.string,
   showSearch: PropTypes.bool,
