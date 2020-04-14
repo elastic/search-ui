@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { appendClassName } from "./view-helpers";
+import { appendClassName, getUrlSanitizer } from "./view-helpers";
 import { isFieldValueWrapper } from "./types/FieldValueWrapper";
 
 function getFieldType(result, field, type) {
@@ -59,7 +59,7 @@ function Result({
 }) {
   const fields = getEscapedFields(result);
   const title = getEscapedField(result, titleField);
-  const url = getRaw(result, urlField);
+  const url = getUrlSanitizer(URL, location)(getRaw(result, urlField));
 
   return (
     <li className={appendClassName("sui-result", className)} {...rest}>

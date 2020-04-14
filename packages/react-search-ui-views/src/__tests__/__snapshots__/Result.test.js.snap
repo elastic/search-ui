@@ -90,6 +90,60 @@ exports[`renders correctly when there is a URL 1`] = `
 </li>
 `;
 
+exports[`renders correctly when there is a malicious URL 1`] = `
+<li
+  className="sui-result"
+>
+  <div
+    className="sui-result__header"
+  />
+  <div
+    className="sui-result__body"
+  >
+    <ul
+      className="sui-result__details"
+    >
+      <li
+        key="field"
+      >
+        <span
+          className="sui-result__key"
+        >
+          field
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "value",
+            }
+          }
+        />
+      </li>
+      <li
+        key="url"
+      >
+        <span
+          className="sui-result__key"
+        >
+          url
+        </span>
+         
+        <span
+          className="sui-result__value"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "javascript://test%0aalert(document.domain)",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+</li>
+`;
+
 exports[`renders correctly when there is a title 1`] = `
 <li
   className="sui-result"

@@ -61,6 +61,7 @@
     "@storybook/react": "^4.1.18",
     "babel-loader": "^8.0.6",
     "chokidar-cli": "^1.2.2",
+    "core-js": "^3.6.5",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.3.5",
