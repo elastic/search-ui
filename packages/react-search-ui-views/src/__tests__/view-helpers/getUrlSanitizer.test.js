@@ -77,7 +77,7 @@ describe("getUrlSanitizer", () => {
       currentLocation = "http://www.mysite.com";
     });
 
-    it("treats it as a relative url, which should still be safe", () => {
+    it("should disallow it", () => {
       expect(subject()).toEqual("");
     });
   });
