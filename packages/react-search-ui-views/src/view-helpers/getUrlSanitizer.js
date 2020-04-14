@@ -11,12 +11,6 @@ export default function getUrlSanitizer(URLParser, currentLocation) {
     let parsedUrl = {};
 
     try {
-      // Attempts to parse a URL as absolute
-      parsedUrl = new URLParser(url);
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
-
-    try {
       // Attempts to parse a URL as relative
       parsedUrl = new URLParser(url, currentLocation);
       // eslint-disable-next-line no-empty
