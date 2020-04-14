@@ -58,6 +58,17 @@ describe("getUrlSanitizer", () => {
     });
   });
 
+  describe("when the protocol is javascript with spaces in it", () => {
+    beforeEach(() => {
+      url = "   javascript://test%0aalert(document.domain)";
+      currentLocation = "http://www.mysite.com";
+    });
+
+    it("should disallow it", () => {
+      expect(subject()).toEqual("");
+    });
+  });
+
   describe("when the url is invalid", () => {
     beforeEach(() => {
       url = "<div>My bad URL</div>";
