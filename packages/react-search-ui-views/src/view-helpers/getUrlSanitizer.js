@@ -8,7 +8,7 @@ const VALID_PROTOCOLS = ["http:", "https:"];
 export default function getUrlSanitizer(URLParser, currentLocation) {
   // This function is curried so that dependencies can be injected and don't need to be mocked in tests.
   return url => {
-    let parsedUrl;
+    let parsedUrl = {};
 
     try {
       // Attempts to parse a URL as absolute
@@ -21,8 +21,6 @@ export default function getUrlSanitizer(URLParser, currentLocation) {
       parsedUrl = new URLParser(url, currentLocation);
       // eslint-disable-next-line no-empty
     } catch (e) {}
-
-    if (!parsedUrl) return "";
 
     return VALID_PROTOCOLS.includes(parsedUrl.protocol) ? url : "";
   };
