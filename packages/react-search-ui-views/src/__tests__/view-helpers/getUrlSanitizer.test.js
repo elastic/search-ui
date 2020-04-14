@@ -43,7 +43,7 @@ describe("getUrlSanitizer", () => {
     });
 
     it("should allow it", () => {
-      expect(subject()).toEqual("http://www.mysite.com/item/1234");
+      expect(subject()).toEqual(url);
     });
   });
 
@@ -65,9 +65,7 @@ describe("getUrlSanitizer", () => {
     });
 
     it("treats it as a relative url, which should still be safe", () => {
-      expect(subject()).toEqual(
-        "http://www.mysite.com/%3Cdiv%3EMy%20bad%20URL%3C/div%3E"
-      );
+      expect(subject()).toEqual(url);
     });
   });
 
@@ -89,7 +87,7 @@ describe("getUrlSanitizer", () => {
     });
 
     it("uses the protocol from the current location", () => {
-      expect(subject()).toEqual("https://www.example.com/");
+      expect(subject()).toEqual(url);
     });
   });
 });
