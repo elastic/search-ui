@@ -105,3 +105,19 @@ it("renders with className prop applied", () => {
   const { className } = wrapper.props();
   expect(className).toEqual("sui-result test-class");
 });
+
+it("renders correctly when there is a malicious URL", () => {
+  const wrapper = shallow(
+    <Result
+      {...{
+        ...requiredProps,
+        result: {
+          ...requiredProps.result,
+          [URL_FIELD]: { raw: "javascript://test%0aalert(document.domain)" }
+        },
+        urlField: URL_FIELD
+      }}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
