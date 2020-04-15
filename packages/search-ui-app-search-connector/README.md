@@ -2,7 +2,7 @@
 
 Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
-This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/cloud/app-search-service) API.
+This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/app-search/) API.
 
 ## Usage
 
@@ -16,12 +16,20 @@ import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-371auk61r2bwqtdzocdgutmg",
   engineName: "search-ui-examples",
-  hostIdentifier: "host-2376rb",
-  beforeSearchCall: (options, next) =>
-    next({
-      ...options,
-      group: { field: "title" }
-    })
+  endpointBase: "http://127.0.0.1:3002"
+});
+```
+
+### Swiftype.com App Search users:
+
+When using the [SaaS version available on swiftype.com](https://app.swiftype.com/as) of App Search, you can configure the connector using your `hostIdentifier` instead of the `endpointBase` parameter.
+The `hostIdentifier` can be found within the [Credentials](https://app.swiftype.com/as#/credentials) menu.
+
+```
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
+  hostIdentifier: "host-c5s2mj"
 });
 ```
 
@@ -34,7 +42,7 @@ Additional options will be passed through to the underlying
 const connector = new AppSearchAPIConnector({
   searchKey: "search-371auk61r2bwqtdzocdgutmg",
   engineName: "search-ui-examples",
-  hostIdentifier: "host-2376rb",
+  endpointBase: "http://127.0.0.1:3002",
   cacheResponses: false
 });
 ```
