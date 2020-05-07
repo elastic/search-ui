@@ -77,10 +77,12 @@ npm run test -- --watch
 
 We recommend using the ESLint plugin with the following settings:
 
+NOTE: We enable `formatOnSave` so that /examples projects are formatted automatically. eslint --fix
+would only apply to code under /packages
+
 ```json
-  "eslint.enable": true,
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }
+  "editor.formatOnSave": true,
+  "eslint.enable": true
 ```
 
 ### Sandbox

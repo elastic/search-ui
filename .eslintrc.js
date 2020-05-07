@@ -9,7 +9,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:jest/recommended",
-    "prettier",
+    "plugin:prettier/recommended",
     "prettier/react"
   ],
   parser: "babel-eslint",
@@ -27,7 +27,6 @@ module.exports = {
     }
   },
   rules: {
-    "no-console": ["error", { allow: ["warn", "error"] }],
-    "quotes": [2, "double", "avoid-escape"],
+    "no-console": ["error", { allow: ["warn", "error"] }]
   }
 };
