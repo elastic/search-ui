@@ -8,7 +8,7 @@
     "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --parallel --no-private",
-    "format": "prettier --write \"packages/*/src/**/*.js\"",
+    "format": "packages/node_modules/eslint/bin/eslint.js --fix \"packages/*/src/**/*.js\"",
     "lint": "packages/node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.js\"",
     "changed": "lerna changed",
     "sandbox": "./bin/sandbox"
@@ -20,8 +20,7 @@
   },
   "lint-staged": {
     "packages/*/src/**/*.js": [
-      "prettier --write",
-      "packages/node_modules/eslint/bin/eslint.js",
+      "packages/node_modules/eslint/bin/eslint.js --fix",
       "git add"
     ]
   },

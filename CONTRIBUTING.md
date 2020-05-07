@@ -71,6 +71,18 @@ npm run test
 npm run test -- --watch
 ```
 
+### Editor Setup
+
+#### VSCode
+
+We recommend using the ESLint plugin with the following settings:
+
+```json
+  "eslint.enable": true,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }
+```
+
 ### Sandbox
 
 The [sandbox](examples/sandbox/README.md) app can be used as a local development aid.
