@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-site-search-connector",
-  "version": "1.4.0-rc.2",
+  "version": "1.4.0-rc.3",
   "description": "A Search UI connector for Elastic's Site Search Service",
   "license": "Apache-2.0",
   "main": "lib",
