@@ -71,6 +71,20 @@ npm run test
 npm run test -- --watch
 ```
 
+### Editor Setup
+
+#### VSCode
+
+We recommend using the ESLint plugin with the following settings:
+
+NOTE: We enable `formatOnSave` so that /examples projects are formatted automatically. eslint --fix
+would only apply to code under /packages
+
+```json
+  "editor.formatOnSave": true,
+  "eslint.enable": true
+```
+
 ### Sandbox
 
 The [sandbox](examples/sandbox/README.md) app can be used as a local development aid.
