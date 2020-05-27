@@ -15,22 +15,22 @@ function getTermFilter(filter) {
   if (filter.type === "any") {
     return {
       bool: {
-        should: [
+        should: 
           filter.values.map(filterValue => ({
             term: getTermFilterValue(filter.field, filterValue)
           }))
-        ],
+        ,
         minimum_should_match: 1
       }
     };
   } else if (filter.type === "all") {
     return {
       bool: {
-        filter: [
+        filter: 
           filter.values.map(filterValue => ({
             term: getTermFilterValue(filter.field, filterValue)
           }))
-        ]
+        
       }
     };
   }
@@ -40,7 +40,7 @@ function getRangeFilter(filter) {
   if (filter.type === "any") {
     return {
       bool: {
-        should: [
+        should: 
           filter.values.map(filterValue => ({
             range: {
               [filter.field]: {
@@ -49,14 +49,14 @@ function getRangeFilter(filter) {
               }
             }
           }))
-        ],
+        ,
         minimum_should_match: 1
       }
     };
   } else if (filter.type === "all") {
     return {
       bool: {
-        filter: [
+        filter: 
           filter.values.map(filterValue => ({
             range: {
               [filter.field]: {
@@ -65,7 +65,7 @@ function getRangeFilter(filter) {
               }
             }
           }))
-        ]
+        
       }
     };
   }
