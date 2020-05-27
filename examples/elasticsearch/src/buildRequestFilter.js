@@ -15,8 +15,7 @@ function getTermFilter(filter) {
   if (filter.type === "any") {
     return {
       bool: {
-        should: 
-          filter.values.map(filterValue => ({
+        should: filter.values.map(filterValue => ({
             term: getTermFilterValue(filter.field, filterValue)
           }))
         ,
@@ -26,8 +25,7 @@ function getTermFilter(filter) {
   } else if (filter.type === "all") {
     return {
       bool: {
-        filter: 
-          filter.values.map(filterValue => ({
+        filter: filter.values.map(filterValue => ({
             term: getTermFilterValue(filter.field, filterValue)
           }))
         
@@ -40,8 +38,7 @@ function getRangeFilter(filter) {
   if (filter.type === "any") {
     return {
       bool: {
-        should: 
-          filter.values.map(filterValue => ({
+        should: filter.values.map(filterValue => ({
             range: {
               [filter.field]: {
                 ...(filterValue.to && { lt: filterValue.to }),
@@ -56,8 +53,7 @@ function getRangeFilter(filter) {
   } else if (filter.type === "all") {
     return {
       bool: {
-        filter: 
-          filter.values.map(filterValue => ({
+        filter: filter.values.map(filterValue => ({
             range: {
               [filter.field]: {
                 ...(filterValue.to && { lt: filterValue.to }),
