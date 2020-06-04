@@ -189,6 +189,14 @@ describe("searchQuery config", () => {
       });
     });
 
+    it("will not pass through `conditionalFacets` prop to connector", () => {
+      subject(filters => !!filters);
+
+      expect(Object.keys(getSearchCalls()[1][1])).not.toContain(
+        "conditionalFacets"
+      );
+    });
+
     it("will not fetch a conditional facet that fails its check", () => {
       subject(filters => !filters);
 
