@@ -124,6 +124,19 @@ const responseWithZeroFacetValue = {
   }
 };
 
+const responseWithOver100Pages = {
+  rawResults: [],
+  info: {
+    meta: {
+      request_id: "1234",
+      page: {
+        total_results: 100000,
+        total_pages: 5000
+      }
+    }
+  }
+};
+
 const adaptedResponse = {
   results: [],
   totalPages: 10,
@@ -236,6 +249,13 @@ const adaptedResponseWithZeroFacetValue = {
   }
 };
 
+const adaptedResponseOver100Pages = {
+  results: [],
+  totalPages: 100,
+  totalResults: 100000,
+  requestId: "1234"
+};
+
 const geoOptions = {
   additionalFacetValueFields: {
     location: {
@@ -295,5 +315,11 @@ describe("adaptResponse", () => {
         ]
       }
     ]);
+  });
+
+  it("will limit total pages to 100", () => {
+    expect(adaptResponse(responseWithOver100Pages)).toEqual(
+      adaptedResponseOver100Pages
+    );
   });
 });
