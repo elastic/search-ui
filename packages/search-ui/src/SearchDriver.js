@@ -327,6 +327,7 @@ export default class SearchDriver {
       const {
         // eslint-disable-next-line no-unused-vars
         filters: searchQueryFilters,
+        conditionalFacets: conditionalFacets,
         ...restOfSearchQuery
       } = this.searchQuery;
 
@@ -334,7 +335,7 @@ export default class SearchDriver {
         ...restOfSearchQuery,
         facets: removeConditionalFacets(
           this.searchQuery.facets,
-          this.searchQuery.conditionalFacets,
+          conditionalFacets,
           filters
         )
       };
