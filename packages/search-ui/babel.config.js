@@ -1,3 +1,9 @@
+function parseModulesValue(value) {
+  if (value === "false") return false;
+  if (value) return value;
+  return "commonjs"; // babel's default is commonjs
+}
+
 const presets = [
   [
     "@babel/env",
@@ -5,9 +11,7 @@ const presets = [
       targets: {
         browsers: ["last 2 versions", "> 5%"]
       },
-      modules: process.env.BABEL_MODULES
-        ? process.env.BABEL_MODULES
-        : "commonjs" // babel's default is commonjs
+      modules: parseModulesValue(process.env.BABEL_MODULES)
     }
   ]
 ];
