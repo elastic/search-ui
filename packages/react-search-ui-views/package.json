@@ -79,7 +79,6 @@
     "autoprefixer": "^9.6.1",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
-    "react": "^16.13.1",
     "react-select": "^2.4.4"
   }
 }
