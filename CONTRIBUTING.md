@@ -103,7 +103,7 @@ We will create branches for all minor releases.
 
 ### Publishing
 
-Publish a new version from master
+Publish a new major or minor from master
 (Example, publishing 0.6.0)
 
 1. Run `npx lerna version 0.6.0 --force-publish=* --exact`.
@@ -113,9 +113,14 @@ Publish a new version from master
 1. Verify the `0.6.0` has been published to npm.
 1. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
 1. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
-1. Update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
+1. If this is the latest release, update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
+1. Verify the demos on Netlify are functioning:
+
+   https://search-ui-stable-elasticsearch.netlify.app/
+   https://search-ui-stable-site-search.netlify.app/
+   https://search-ui-stable.netlify.app/
 
 Publish a patch
 (Example, publish 0.6.1)
@@ -130,6 +135,12 @@ Publish a patch
 1. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
+1. If this is the latest release, update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
+1. Verify the demos on Netlify are functioning:
+
+   https://search-ui-stable-elasticsearch.netlify.app/
+   https://search-ui-stable-site-search.netlify.app/
+   https://search-ui-stable.netlify.app/
 
 ### Canary releases for testing
 
