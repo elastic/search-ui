@@ -3,14 +3,18 @@
 */
 import fetch from "node-fetch";
 import https from "https";
+import http from "http";
 
 // Don't do this in production, this is in place to aid with demo environments which have self-signed certificates.
-const agent = new https.Agent({
+const httpsAgent = new https.Agent({
   rejectUnauthorized: false
 });
 
+const httpAgent = new http.Agent();
+
 exports.handler = function(event, context, callback) {
   const host = process.env.ELASTICSEARCH_HOST;
+  const agent = host.startsWith("http:") ? httpAgent : httpsAgent;
 
   fetch(`${host}/national-parks/_search`, {
     method: "POST",
@@ -26,6 +30,7 @@ exports.handler = function(event, context, callback) {
       });
     })
     .catch(e => {
+      console.error(e);
       callback(null, {
         statusCode: 500,
         body: `An error occurred: ${e}`
