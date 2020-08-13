@@ -1,4 +1,3 @@
-POST _bulk
 { "index" : { "_index" : "national-parks", "_type" : "_doc" } }
 {"description":"Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.","nps_link":"https://www.nps.gov/acad/index.htm","states":["Maine"],"title":"Acadia","id":"park_acadia","visitors":3303393,"world_heritage_site":false,"location":"44.35,-68.21","acres":49057.36,"square_km":198.5,"date_established":"1919-02-26T06:00:00Z"}
 { "index" : { "_index" : "national-parks", "_type" : "_doc" } }
