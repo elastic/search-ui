@@ -376,7 +376,19 @@ const adaptedResponseOver100Pages = {
   results: [],
   totalPages: 100,
   totalResults: 100000,
-  requestId: "1234"
+  requestId: "1234",
+  rawResponse: {
+    info: {
+      meta: {
+        page: {
+          total_pages: 5000,
+          total_results: 100000
+        },
+        request_id: "1234"
+      }
+    },
+    rawResults: []
+  }
 };
 
 const geoOptions = {
