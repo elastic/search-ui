@@ -54,9 +54,7 @@ export function adaptFilterConfig(filters) {
 
     if (filter.type && (filter.type !== "all" && filter.type !== "any")) {
       console.warn(
-        `search-ui-site-search-connector: Unsupported filter type "${
-          filter.type
-        }" found, only "all" and "any" are currently supported`
+        `search-ui-site-search-connector: Unsupported filter type "${filter.type}" found, only "all" and "any" are currently supported`
       );
       return acc;
     }
