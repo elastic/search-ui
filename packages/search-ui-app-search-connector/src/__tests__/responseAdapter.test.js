@@ -141,23 +141,23 @@ const adaptedResponse = {
   rawResponse: {
     info: {
       facets: {
-        acres:  [
+        acres: [
           {
             data: [
               {
                 count: 5,
                 from: -1,
-                name: "Any",
+                name: "Any"
               },
               {
                 count: 0,
                 from: 0,
                 name: "Small",
-                to: 1000,
-              },
+                to: 1000
+              }
             ],
-            type: "range",
-          },
+            type: "range"
+          }
         ],
         location: [
           {
@@ -166,39 +166,39 @@ const adaptedResponse = {
                 count: 0,
                 from: 0,
                 name: "Nearby",
-                to: 100,
+                to: 100
               },
               {
                 count: 4,
                 from: 100,
                 name: "A longer drive.",
-                to: 500,
-              },
+                to: 500
+              }
             ],
-            type: "range",
-          },
+            type: "range"
+          }
         ],
         states: [
           {
             data: [
               {
                 count: 5,
-                value: "Alaska",
-              },
+                value: "Alaska"
+              }
             ],
-            type: "value",
-          },
-        ],
+            type: "value"
+          }
+        ]
       },
       meta: {
         page: {
           total_pages: 10,
-          total_results: 100,
+          total_results: 100
         },
-        request_id: "1234",
-      },
+        request_id: "1234"
+      }
     },
-    rawResults: [],
+    rawResults: []
   },
   results: [],
   totalPages: 10,
@@ -264,17 +264,17 @@ const adaptedResponse = {
         ]
       }
     ]
-  },
+  }
 };
 
 const adaptedEmptyResponse = {
   rawResponse: {
     info: {
       meta: {
-        request_id: "1234",
-      },
+        request_id: "1234"
+      }
     },
-    rawResults: [],
+    rawResults: []
   },
   requestId: "1234",
   results: []
@@ -307,23 +307,23 @@ const adaptedResponseWithEmptyFacetValue = {
             data: [
               {
                 count: 5,
-                value: "",
-              },
+                value: ""
+              }
             ],
-            type: "value",
-          },
-        ],
+            type: "value"
+          }
+        ]
       },
       meta: {
         page: {
           total_pages: 10,
-          total_results: 100,
+          total_results: 100
         },
-        request_id: "1234",
-      },
+        request_id: "1234"
+      }
     },
-    rawResults: [],
-  },
+    rawResults: []
+  }
 };
 
 const adaptedResponseWithZeroFacetValue = {
@@ -353,64 +353,22 @@ const adaptedResponseWithZeroFacetValue = {
             data: [
               {
                 count: 5,
-                value: 0,
-              },
+                value: 0
+              }
             ],
-            type: "value",
-          },
-        ],
+            type: "value"
+          }
+        ]
       },
       meta: {
         page: {
           total_pages: 10,
-          total_results: 100,
+          total_results: 100
         },
-        request_id: "1234",
-      },
+        request_id: "1234"
+      }
     },
-    rawResults: [],
-  },
-};
-
-const adaptedResponseWithEmptyFacetValue = {
-  results: [],
-  totalPages: 10,
-  totalResults: 100,
-  requestId: "1234",
-  facets: {
-    states: [
-      {
-        type: "value",
-        field: "states",
-        data: [
-          {
-            value: "",
-            count: 5
-          }
-        ]
-      }
-    ]
-  }
-};
-
-const adaptedResponseWithZeroFacetValue = {
-  results: [],
-  totalPages: 10,
-  totalResults: 100,
-  requestId: "1234",
-  facets: {
-    states: [
-      {
-        type: "value",
-        field: "states",
-        data: [
-          {
-            value: 0,
-            count: 5
-          }
-        ]
-      }
-    ]
+    rawResults: []
   }
 };
 
