@@ -100,6 +100,46 @@ const adaptedResponse = {
         ]
       }
     ]
+  },
+  rawResponse: {
+    errors: {},
+    info: {
+      "national-parks": {
+        current_page: 1,
+        facets: {
+          states: {
+            Maine: 2
+          }
+        },
+        num_pages: 10,
+        per_page: 20,
+        query: "acadia",
+        total_result_count: 100
+      }
+    },
+    record_count: 2,
+    records: {
+      "national-parks": [
+        {
+          _explanation: null,
+          _index: "5beb4099c9f929367efa5b7d",
+          _score: 0.7048211,
+          _type: "5beb4099c9f929367efa5b7c",
+          _version: null,
+          acres: 49057.36,
+          external_id: "9000",
+          highlight: {
+            title: "<em>Acadia</em>"
+          },
+          id: "5beb474f8db2315427beecc7",
+          nps_link: "https://www.nps.gov/acad/index.htm",
+          sort: null,
+          states: ["Maine"],
+          title: "Acadia",
+          updated_at: "2018-11-13T21:51:11+00:00"
+        }
+      ]
+    }
   }
 };
 const emptyResponse = {
@@ -120,6 +160,23 @@ const emptyResponse = {
   errors: {}
 };
 const adaptedEmptyResponse = {
+  rawResponse: {
+    errors: {},
+    info: {
+      "national-parks": {
+        current_page: 1,
+        facets: {},
+        num_pages: 0,
+        per_page: 20,
+        query: "asdfp;laaisdfasldfkas;dlfkajsdf;laskjdf",
+        total_result_count: 0
+      }
+    },
+    record_count: 0,
+    records: {
+      "national-parks": []
+    }
+  },
   requestId: "",
   results: [],
   totalPages: 0,

@@ -51,7 +51,8 @@ export const DEFAULT_STATE = {
   totalResults: 0,
   pagingStart: 0,
   pagingEnd: 0,
-  wasSearched: false
+  wasSearched: false,
+  rawResponse: {}
 };
 
 function removeConditionalFacets(

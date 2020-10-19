@@ -47,6 +47,18 @@ ElasticAppSearch.createClient.mockReturnValue(mockClient);
 
 const resultState = {
   facets: {},
+  rawResponse: {
+    info: {
+      facets: {},
+      meta: {
+        page: {
+          total_results: 1000
+        },
+        request_id: "12345"
+      }
+    },
+    rawResults: [{}, {}]
+  },
   results: [{}, {}],
   totalResults: 1000,
   requestId: "12345"

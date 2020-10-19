@@ -65,6 +65,7 @@ export function adaptResponse(response, options = {}) {
 
   return {
     ...(facets && { facets: adaptFacets(facets, options) }),
+    rawResponse: response,
     requestId,
     results: response.rawResults,
     ...(totalPages !== undefined && { totalPages }),
