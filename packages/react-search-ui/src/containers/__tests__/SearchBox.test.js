@@ -486,7 +486,7 @@ describe("onSelectAutocomplete", () => {
     expect(passedDefaultOnSelectAutocomplete).toBeDefined();
   });
 
-  it("will call setSearchTerm if no onSelectAutocomplete is specified and a suggestion is selected", () => {
+  it("will call setSearchTerm if the default onSelectAutomplete is triggered with a suggestion", () => {
     let viewProps;
 
     shallow(
@@ -503,6 +503,22 @@ describe("onSelectAutocomplete", () => {
 
     const call = params.setSearchTerm.mock.calls[0];
     expect(call[0]).toEqual("bird");
+  });
+
+  it("will do nothing if the default onSelectAutocomplete is triggered without a selection", () => {
+    let viewProps;
+
+    shallow(
+      <SearchBoxContainer
+        {...params}
+        autocompleteResults={true}
+        view={props => (viewProps = props)}
+      />
+    );
+    const { onSelectAutocomplete } = viewProps;
+    onSelectAutocomplete();
+
+    expect(params.setSearchTerm).not.toHaveBeenCalled();
   });
 });
 

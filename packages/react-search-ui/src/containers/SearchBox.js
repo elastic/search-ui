@@ -131,6 +131,8 @@ export class SearchBoxContainer extends Component {
   };
 
   defaultOnSelectAutocomplete = selection => {
+    if (!selection) return;
+
     const { autocompleteResults } = this.props;
 
     this.handleNotifyAutocompleteSelected(selection);
