@@ -163,7 +163,7 @@ When pushing release candidates, the following lerna commands can be useful:
 
 ```
 # Create a pre-release version, like 1.0.0-rc.0
-npx lerna version [premajor | preminor | prepatch | prerelease] --exact --preid rc
+npx lerna version [premajor | preminor | prepatch | prerelease] --exact --force-publish --no-private  --preid rc
 # Publish 1.0.0-rc.0 and update the `next` to point to this version
 npx lerna publish from-package --force-publish --dist-tag next
 ```
