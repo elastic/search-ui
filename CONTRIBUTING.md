@@ -106,10 +106,10 @@ We will create branches for all minor releases.
 Publish a new major or minor from master
 (Example, publishing 0.6.0)
 
-1. Run `npx lerna version 0.6.0 --force-publish=* --exact`.
+1. Run `npx lerna version 0.6.0 --force-publish --exact`.
 1. Verify the `0.6.0` tag was created as well as a "Release 0.6.0" commit.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
-1. Run `npx lerna publish --force-publish=* from-package`.
+1. Run `npx lerna publish --force-publish from-package`.
 1. Verify the `0.6.0` has been published to npm.
 1. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
 1. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
@@ -126,10 +126,10 @@ Publish a patch
 (Example, publish 0.6.1)
 
 1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.
-1. Run `npx lerna version 0.6.1 --force-publish=* --exact`.
+1. Run `npx lerna version 0.6.1 --force-publish --exact`.
 1. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
-1. Run `npx lerna publish --force-publish=* from-package`.
+1. Run `npx lerna publish --force-publish from-package`.
 1. Verify the `0.6.1` has been published to npm.
 1. Verify that the `0.6.1` tag and commit has been pushed to `master` on `origin`.
 1. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
@@ -148,7 +148,7 @@ It can often be useful to publish a change and test it before doing a real live 
 option for this.
 
 1. Check out pr branch
-1. `npx lerna publish --force-publish=* --canary --preid canary [patch|minor|major]` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
+1. `npx lerna publish --force-publish --canary --preid canary [patch|minor|major]` - Publishing with canary generates a unique new version number, publishes it to npm, then updates the `canary` tag in npm to point to that new version.
 1. In project you'll need to install all dependencies explicitly with the canary tag from npm:
 
    ```
@@ -163,9 +163,9 @@ When pushing release candidates, the following lerna commands can be useful:
 
 ```
 # Create a pre-release version, like 1.0.0-rc.0
-npx lerna version [premajor | preminor | prepatch] --exact --preid rc
+npx lerna version [premajor | preminor | prepatch | prerelease] --exact --preid rc
 # Publish 1.0.0-rc.0 and update the `next` to point to this version
-npx lerna publish from-package --force-publish=* --dist-tag next
+npx lerna publish from-package --force-publish --dist-tag next
 ```
 
 ### Testing Canary build and Release Pre-releases
