@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui",
-  "version": "1.5.0-rc.1",
+  "version": "1.5.0-rc.2",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
   "main": "lib",
@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.4",
-    "@elastic/react-search-ui-views": "1.5.0-rc.0",
-    "@elastic/search-ui": "1.5.0-rc.0"
+    "@elastic/react-search-ui-views": "1.5.0-rc.2",
+    "@elastic/search-ui": "1.5.0-rc.2"
   },
   "peerDependencies": {
     "react": "^16.8.0"
