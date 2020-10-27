@@ -111,7 +111,7 @@ Publish a new major or minor from master
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 1. Run `npx lerna publish from-package`.
 1. Verify the `0.6.0` has been published to npm.
-1. Verify that the `0.6.0` tag and commit has been pushed to `master` on `origin`.
+1. Verify that the `v0.6.0` tag and commit has been pushed to `master` on `origin`.
 1. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
@@ -127,7 +127,7 @@ Publish a patch
 
 1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.
 1. Run `npx lerna version 0.6.1 --force-publish --exact`.
-1. Verify the `0.6.1` tag was created as well as a "Release 0.6.1" commit.
+1. Verify the `v0.6.1` tag was created as well as a "Release 0.6.1" commit.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 1. Run `npx lerna publish from-package`.
 1. Verify the `0.6.1` has been published to npm.
