@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui",
-  "version": "1.5.0-rc.0",
+  "version": "1.5.0-rc.1",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
   "main": "lib",
