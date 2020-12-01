@@ -66,7 +66,8 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 const connector = new AppSearchAPIConnector({
   searchKey: "search-371auk61r2bwqtdzocdgutmg",
   engineName: "search-ui-examples",
-  hostIdentifier: "host-2376rb"
+  endpointBase: "http://127.0.0.1:3002",
+  cacheResponses: false
 });
 
 export default function App() {
