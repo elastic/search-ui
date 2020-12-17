@@ -4,7 +4,7 @@
  * Will trigger new search
  *
  * @param name String field name to filter on
- * @param value String field value to filter on
+ * @param value FilterValue to apply
  * @param type String (Optional) type of filter to apply
  */
 export default function setFilter(name, value, type = "all") {
