@@ -1156,13 +1156,25 @@ For example, if you add a `search_fields` configuration option, it will control 
 | `result_fields`                    | Object[String, Object]   | optional  |         | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://swiftype.com/documentation/app-search/api/search/result-fields)                                                                                                                                                                                                                                                          |
 | \* [Request State](#request-state) |                          | optional  |         | Any request state value can be provided here. If provided, it will ALWAYS override the value from state.                                                                                                                                                                                                                                                                                                                       |
 
+## Global filters
+
+Using Query Config, it is possible to create "Global" filters. "Global filters" are filters that are added to *every* query. The user has no control over whether or not this filter is added or removed, it doesn't show up in the query string, and is completely transparent to the user. It is applied IN ADDITION to filters which the user applies.
+
+```jsx
+<SearchProvider config={{
+    searchQuery: {
+      filters: [{ field: "world_heritage_site", values: ["true"] }],
+    }}>
+</SearchProvider>
+```
+
 ## Suggestions Query Config
 
 Suggestions Query configuration for Search UI largely follows the same API as the [App Search Search API](https://swiftype.com/documentation/app-search/api/query-suggestion).
 
 Ex.
 
-```
+```json
 {
   "types": {
     "documents": {
