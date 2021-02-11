@@ -33,7 +33,6 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.4",
     "@elastic/react-search-ui-views": "1.5.0",
     "@elastic/search-ui": "1.5.0"
   },
@@ -54,6 +53,7 @@
   "devDependencies": {
     "@babel/cli": "^7.5.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.5.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.3.5",

@@ -34,12 +34,12 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
+    "@babel/runtime": "^7.5.4",
     "jest": "^24.8.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.4",
     "@elastic/app-search-javascript": "^7.3.0"
   }
 }
