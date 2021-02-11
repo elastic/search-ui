@@ -60,6 +60,7 @@
     "@storybook/addon-links": "^4.1.18",
     "@storybook/addons": "^4.1.18",
     "@storybook/react": "^4.1.18",
+    "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
     "chokidar-cli": "^1.2.2",
     "core-js": "^3.6.5",
@@ -77,7 +78,6 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "autoprefixer": "^9.6.1",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
     "react-select": "^2.4.4"
