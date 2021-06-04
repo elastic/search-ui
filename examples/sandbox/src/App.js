@@ -180,7 +180,6 @@ export default function App() {
         {({ wasSearched }) => {
           return (
             <div className="App">
-
               <ErrorBoundary>
                 <Layout
                   header={
