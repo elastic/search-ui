@@ -99,18 +99,19 @@
   }
 
   @include element('image') {
-    width: 140px;
     padding-top: $sizeM;
     padding-left: $sizeL;
+    flex: 1;
 
     img {
+      max-width: 100%;
       display: block;
-      width: 100%;
       height: auto;
     }
   }
 
   @include element('details') {
+    flex: 3;
     list-style: none;
     padding: $sizeM $sizeL;
     margin: 0;
