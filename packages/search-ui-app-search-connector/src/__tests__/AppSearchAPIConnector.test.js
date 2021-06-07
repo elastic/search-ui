@@ -105,6 +105,17 @@ describe("AppSearchAPIConnector", () => {
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
   });
 
+  // The use case for this is mostly internal to Elastic, where we rely on the logged in user session (via cookies) to authenticate
+  it("can be initialized without a searchKey", () => {
+    let newParams = {
+      ...params,
+      searchKey: undefined
+    };
+
+    const connector = new AppSearchAPIConnector(newParams);
+    expect(connector).toBeInstanceOf(AppSearchAPIConnector);
+  });
+
   it("will throw when missing required parameters", () => {
     expect(() => {
       new AppSearchAPIConnector({});
