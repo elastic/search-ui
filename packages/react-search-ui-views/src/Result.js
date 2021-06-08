@@ -55,11 +55,15 @@ function Result({
   onClickLink,
   titleField,
   urlField,
+  thumbnailField,
   ...rest
 }) {
   const fields = getEscapedFields(result);
   const title = getEscapedField(result, titleField);
   const url = getUrlSanitizer(URL, location)(getRaw(result, urlField));
+  const thumbnail = getUrlSanitizer(URL, location)(
+    getRaw(result, thumbnailField)
+  );
 
   return (
     <li className={appendClassName("sui-result", className)} {...rest}>
@@ -81,7 +85,13 @@ function Result({
           />
         )}
       </div>
+
       <div className="sui-result__body">
+        {thumbnail && (
+          <div className="sui-result__image">
+            <img src={thumbnail} alt="" />
+          </div>
+        )}
         <ul className="sui-result__details">
           {Object.entries(fields).map(([fieldName, fieldValue]) => (
             <li key={fieldName}>
@@ -103,7 +113,8 @@ Result.propTypes = {
   onClickLink: PropTypes.func.isRequired,
   className: PropTypes.string,
   titleField: PropTypes.string,
-  urlField: PropTypes.string
+  urlField: PropTypes.string,
+  thumbnailField: PropTypes.string
 };
 
 export default Result;

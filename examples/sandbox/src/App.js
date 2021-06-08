@@ -73,6 +73,7 @@ const config = {
       nps_link: { raw: {} },
       states: { raw: {} },
       date_established: { raw: {} },
+      image_url: { raw: {} },
       description: {
         snippet: {
           size: 100,
@@ -238,6 +239,7 @@ export default function App() {
                     <Results
                       titleField="title"
                       urlField="nps_link"
+                      thumbnailField="image_url"
                       shouldTrackClickThrough={true}
                     />
                   }

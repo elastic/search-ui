@@ -98,9 +98,22 @@
     }
   }
 
+  @include element('image') {
+    padding-top: $sizeM;
+    padding-left: $sizeL;
+    flex-basis: 220px;
+
+    img {
+      max-width: 100%;
+      display: block;
+      height: auto;
+    }
+  }
+
   @include element('details') {
-    padding: $sizeM;
+    flex: 1;
     list-style: none;
-    padding: $sizeM $sizeL
+    padding: $sizeM $sizeL;
+    margin: 0;
   }
 }
