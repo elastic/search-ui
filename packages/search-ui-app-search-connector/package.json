@@ -40,6 +40,6 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@elastic/app-search-javascript": "^7.3.0"
+    "@elastic/app-search-javascript": "^7.13.1"
   }
 }
