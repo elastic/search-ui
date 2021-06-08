@@ -56,9 +56,9 @@ class AppSearchAPIConnector {
     endpointBase = "",
     ...rest
   }) {
-    if (!engineName || !(hostIdentifier || endpointBase) || !searchKey) {
+    if (!engineName || !(hostIdentifier || endpointBase)) {
       throw Error(
-        "hostIdentifier or endpointBase, engineName, and searchKey are required"
+        "hostIdentifier or endpointBase, and engineName are required"
       );
     }
 
