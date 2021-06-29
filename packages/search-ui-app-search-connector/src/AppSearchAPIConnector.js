@@ -1,5 +1,5 @@
 import * as ElasticAppSearch from "@elastic/app-search-javascript";
-import { version } from "../package.json";
+import packageJson from "../package.json";
 
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
@@ -69,7 +69,7 @@ class AppSearchAPIConnector {
       engineName: engineName,
       additionalHeaders: {
         "x-swiftype-integration": "search-ui",
-        "x-swiftype-integration-version": version
+        "x-swiftype-integration-version": packageJson.version
       },
       ...rest
     });

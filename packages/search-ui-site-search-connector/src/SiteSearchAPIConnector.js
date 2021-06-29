@@ -1,12 +1,12 @@
 import adaptRequest from "./requestAdapter";
 import adaptResponse from "./responseAdapter";
 import request from "./request";
-import { version } from "../package.json";
+import packageJson from "../package.json";
 
 function _get(engineKey, path, params) {
   const headers = new Headers({
     "x-swiftype-integration": "search-ui",
-    "x-swiftype-integration-version": version
+    "x-swiftype-integration-version": packageJson.version
   });
 
   const query = Object.entries({ engine_key: engineKey, ...params })
