@@ -1,14 +1,8 @@
 import adaptRequest from "./requestAdapter";
 import adaptResponse from "./responseAdapter";
 import request from "./request";
-import { version } from "../package.json";
 
 function _get(engineKey, path, params) {
-  const headers = new Headers({
-    "x-swiftype-integration": "search-ui",
-    "x-swiftype-integration-version": version
-  });
-
   const query = Object.entries({ engine_key: engineKey, ...params })
     .map(([paramName, paramValue]) => {
       return `${paramName}=${encodeURIComponent(paramValue)}`;
@@ -19,8 +13,7 @@ function _get(engineKey, path, params) {
     `https://search-api.swiftype.com/api/v1/public/${path}?${query}`,
     {
       method: "GET",
-      credentials: "include",
-      headers
+      credentials: "include"
     }
   );
 }

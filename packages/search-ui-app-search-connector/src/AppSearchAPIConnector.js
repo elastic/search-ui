@@ -1,5 +1,4 @@
 import * as ElasticAppSearch from "@elastic/app-search-javascript";
-import { version } from "../package.json";
 
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
@@ -67,10 +66,6 @@ class AppSearchAPIConnector {
       ...(hostIdentifier && { hostIdentifier: hostIdentifier }),
       apiKey: searchKey,
       engineName: engineName,
-      additionalHeaders: {
-        "x-swiftype-integration": "search-ui",
-        "x-swiftype-integration-version": version
-      },
       ...rest
     });
     this.beforeSearchCall = beforeSearchCall;
