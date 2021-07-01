@@ -1,10 +1,6 @@
-import { version } from "../package.json";
-
 export default async function request(engineKey, method, path, params) {
   const headers = new Headers({
-    "Content-Type": "application/json",
-    "x-swiftype-integration": "search-ui",
-    "x-swiftype-integration-version": version
+    "Content-Type": "application/json"
   });
 
   const response = await fetch(
