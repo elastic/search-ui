@@ -1,5 +1,4 @@
 <p align="center"><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
-<a href="https://gitter.im/elastic-search-ui/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://badges.gitter.im/elastic-search-ui/community.svg" alt="Gitter" /></a></p>
 
 > Libraries for the fast development of modern, engaging search experiences. :tada:
 
@@ -305,12 +304,7 @@ If something is not working as expected, please open an [issue](https://github.c
 
 ### Where can I go to get help?
 
-Connect with the community and maintainers directly on [Gitter](https://gitter.im/elastic-search-ui/community).
-
-If you are using an Elastic product as your connector, try the Elastic community...
-
-- [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search)
-- [Elastic Site Search discuss forums](https://discuss.elastic.co/c/site-search)
+The App Search team at Elastic maintains this library and are happy to help. Try posting your question to the [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search). Be sure to mention that you're using search-ui and also let us know what backend your using; whether it's App Search, Site Search, Elasticsearch, or something else entirely.
 
 ## Contribute 🚀
 
