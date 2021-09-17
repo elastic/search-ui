@@ -96,13 +96,19 @@ describe("#setSearchTerm", () => {
     const initialState = {
       resultsPerPage: 60,
       sortField: "name",
-      sortDirection: "asc"
+      sortDirection: "asc",
+      sortList: [{ states: "asc" }, { title: "desc" }]
     };
-    const { resultsPerPage, sortField, sortDirection } = subject("test", {
-      initialState
-    }).state;
+    const { resultsPerPage, sortField, sortDirection, sortList } = subject(
+      "test",
+      {
+        initialState
+      }
+    ).state;
 
-    expect({ resultsPerPage, sortField, sortDirection }).toEqual(initialState);
+    expect({ resultsPerPage, sortField, sortDirection, sortList }).toEqual(
+      initialState
+    );
   });
 
   itFetchesResults(() => subject("term").state);

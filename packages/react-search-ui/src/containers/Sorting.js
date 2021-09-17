@@ -2,11 +2,20 @@ import PropTypes from "prop-types";
 import { Component } from "react";
 import { withSearch } from "..";
 import { Sorting } from "@elastic/react-search-ui-views";
+import SortList from "../types/SortList";
 
 import { SortOption } from "../types";
 
-function findSortOption(sortOptions, sortString) {
-  const [value, direction] = sortString.split("|||");
+function findSortOption(sortOptions, sortData) {
+  let value;
+  let direction;
+  if (Array.isArray(sortData)) {
+    value = sortData;
+    // direction is contained inside of value
+    direction = "";
+  } else {
+    [value, direction] = sortData.split("|||");
+  }
   return sortOptions.find(
     option => option.value === value && option.direction === direction
   );
@@ -16,10 +25,18 @@ function formatValue(sortField, sortDirection) {
   return `${sortField}|||${sortDirection}`;
 }
 
+function formatSelectValues(sortOption) {
+  if (Array.isArray(sortOption.value)) {
+    return sortOption.value;
+  } else {
+    return formatValue(sortOption.value, sortOption.direction);
+  }
+}
+
 function formatSelectOption(sortOption) {
   return {
     label: sortOption.name,
-    value: formatValue(sortOption.value, sortOption.direction)
+    value: formatSelectValues(sortOption)
   };
 }
 export class SortingContainer extends Component {
@@ -30,8 +47,9 @@ export class SortingContainer extends Component {
     sortOptions: PropTypes.arrayOf(SortOption).isRequired,
     view: PropTypes.func,
     // State
-    sortDirection: PropTypes.oneOf(["asc", "desc", ""]).isRequired,
-    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.oneOf(["asc", "desc", ""]),
+    sortField: PropTypes.string,
+    sortList: PropTypes.arrayOf(SortList),
     // Actions
     setSort: PropTypes.func.isRequired
   };
@@ -43,6 +61,7 @@ export class SortingContainer extends Component {
       setSort,
       sortDirection,
       sortField,
+      sortList,
       sortOptions,
       view,
       ...rest
@@ -55,17 +74,24 @@ export class SortingContainer extends Component {
       label,
       onChange: o => {
         const sortOption = findSortOption(sortOptions, o);
-        setSort(sortOption.value, sortOption.direction);
+        if (Array.isArray(sortOption.value)) {
+          setSort("", "", sortOption.value);
+        } else {
+          setSort(sortOption.value, sortOption.direction);
+        }
       },
       options: sortOptions.map(formatSelectOption),
-      value: formatValue(sortField, sortDirection),
+      value: sortList ? sortList : formatValue(sortField, sortDirection),
       ...rest
     });
   }
 }
 
-export default withSearch(({ sortDirection, sortField, setSort }) => ({
-  sortDirection,
-  sortField,
-  setSort
-}))(SortingContainer);
+export default withSearch(
+  ({ sortDirection, sortField, sortList, setSort }) => ({
+    sortDirection,
+    sortField,
+    sortList,
+    setSort
+  })
+)(SortingContainer);

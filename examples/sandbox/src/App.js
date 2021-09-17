@@ -33,6 +33,28 @@ const SORT_OPTIONS = [
     name: "Title",
     value: "title",
     direction: "asc"
+  },
+  {
+    name: "State",
+    value: "states",
+    direction: "asc"
+  },
+  {
+    name: "State -> Title",
+    value: [
+      { "states" : "asc" },
+      { "title" : "asc" }
+    ],
+    direction: ""
+  },
+  {
+    name: "Heritage Site -> State -> Title",
+    value: [
+      { "world_heritage_site" : "asc" },
+      { "states": "desc" },
+      { "title" : "asc" }
+    ],
+    direction: ""
   }
 ];
 

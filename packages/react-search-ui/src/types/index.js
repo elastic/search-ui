@@ -8,6 +8,7 @@ export { default as FilterValue } from "./FilterValue";
 export { default as FilterValueValue } from "./FilterValueValue";
 export { default as FilterValueRange } from "./FilterValueRange";
 export { default as Result } from "./Result";
+export { default as SortList } from "./SortList";
 export { default as Suggestion } from "./Suggestion";
 
 export { default as SortOption } from "./SortOption";

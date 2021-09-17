@@ -39,15 +39,23 @@ describe("#clearFilters", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
+      sortList: [{ states: "asc" }, { title: "desc" }],
       searchTerm: "test"
     };
-    const { resultsPerPage, sortField, sortDirection, searchTerm } = subject(
-      null,
-      { initialState }
-    );
-    expect({ resultsPerPage, sortField, sortDirection, searchTerm }).toEqual(
-      initialState
-    );
+    const {
+      resultsPerPage,
+      sortField,
+      sortDirection,
+      sortList,
+      searchTerm
+    } = subject(null, { initialState });
+    expect({
+      resultsPerPage,
+      sortField,
+      sortDirection,
+      sortList,
+      searchTerm
+    }).toEqual(initialState);
   });
 
   it("Removes all filters", () => {

@@ -38,13 +38,15 @@ describe("#setCurrent", () => {
       filters: [{ field: "initial", values: ["value"], type: "all" }],
       resultsPerPage: 60,
       sortField: "name",
-      sortDirection: "asc"
+      sortDirection: "asc",
+      sortList: [{ states: "asc" }, { title: "desc" }]
     };
     const {
       searchTerm,
       filters,
       resultsPerPage,
       sortField,
+      sortList,
       sortDirection
     } = subject(2, {
       initialState
@@ -55,6 +57,7 @@ describe("#setCurrent", () => {
       filters,
       resultsPerPage,
       sortField,
+      sortList,
       sortDirection
     }).toEqual(initialState);
   });

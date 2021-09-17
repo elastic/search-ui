@@ -31,6 +31,14 @@ const basicParameterState = {
 const basicParameterStateAsUrl =
   "?filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=node&size=20&sort-direction=asc&sort-field=name";
 
+const sortListParameterState = {
+  resultsPerPage: 20,
+  sortList: [{ states: "asc" }, { title: "asc" }]
+};
+
+const sortListParameterStateAsUrl =
+  "?size=n_20_n&sortList%5B0%5D%5Bstates%5D=asc&sortList%5B1%5D%5Btitle%5D=asc";
+
 const parameterStateWithRangeFilters = {
   filters: [
     {
@@ -171,6 +179,19 @@ describe("#onURLStateChange", () => {
 
     // Verify it is called when url state changes
     expect(newState).toEqual(basicParameterState);
+  });
+
+  it("will call provided callback with updated state when url changes with sortList", () => {
+    setup();
+    let newState;
+
+    // Provide url state change handler
+    subject(state => {
+      newState = state;
+    }, sortListParameterStateAsUrl);
+
+    // Verify it is called when url state changes
+    expect(newState).toEqual(sortListParameterState);
   });
 
   /*
