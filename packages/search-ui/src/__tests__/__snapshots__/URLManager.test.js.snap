@@ -58,6 +58,19 @@ Object {
 }
 `;
 
+exports[`#getStateFromURL will parse sortList items 1`] = `
+Object {
+  "sortList": Array [
+    Object {
+      "states": "asc",
+    },
+    Object {
+      "title": "asc",
+    },
+  ],
+}
+`;
+
 exports[`#getStateFromURL will parse the current state from the URL 1`] = `
 Object {
   "filters": Array [

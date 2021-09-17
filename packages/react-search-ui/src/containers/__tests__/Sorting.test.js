@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { SortingContainer } from "../Sorting";
 import { SortOption } from "../../types";
+import { SortList } from "../../../lib/types";
 
 const params = {
   results: [{}],
@@ -19,6 +20,49 @@ const params = {
       name: "name",
       value: "field",
       direction: "desc"
+    })
+  ]
+};
+
+const sortListParams = {
+  results: [{}],
+  searchTerm: "test",
+  setSort: jest.fn(),
+  sortDirection: "asc",
+  sortField: "field",
+  sortList: [
+    {
+      field: "states",
+      direction: "asc"
+    },
+    {
+      field: "title",
+      direction: "desc"
+    }
+  ],
+  sortOptions: [
+    SortOption.create({
+      name: "name",
+      value: "field",
+      direction: "asc"
+    }),
+    SortOption.create({
+      name: "name",
+      value: "field",
+      direction: "desc"
+    }),
+    SortOption.create({
+      name: "multiple",
+      value: SortList.create([
+        {
+          field: "states",
+          direction: "asc"
+        },
+        {
+          field: "title",
+          direction: "desc"
+        }
+      ])
     })
   ]
 };
@@ -60,6 +104,33 @@ it("will call back when sort is changed in view", () => {
   const [sortField, sortDirection] = params.setSort.mock.calls[0];
   expect(sortField).toEqual("field");
   expect(sortDirection).toEqual("desc");
+});
+
+it("will call back when sort is changed in view with sortList", () => {
+  let viewProps;
+
+  shallow(
+    <SortingContainer {...sortListParams} view={props => (viewProps = props)} />
+  );
+
+  const { onChange } = viewProps;
+  onChange([{ states: "asc" }, { title: "desc" }]);
+
+  const sortList = sortListParams.setSort.mock.calls[0];
+  expect(sortList).toEqual([
+    "",
+    "",
+    [
+      {
+        field: "states",
+        direction: "asc"
+      },
+      {
+        field: "title",
+        direction: "desc"
+      }
+    ]
+  ]);
 });
 
 it("passes className through to the view", () => {

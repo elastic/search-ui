@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
+import SortList from "./SortList";
 
 const DIRECTIONS = ["asc", "desc", ""];
 const SortOption = PropTypes.shape({
   // A display name, like "Name"
   name: PropTypes.string,
-  // A field name, like "name".
-  value: PropTypes.string,
-  // asc or desc
+  // A field name, like "name" or a SortList
+  value: PropTypes.oneOfType([PropTypes.string, SortList]),
+  // asc or desc, only required if not passing SortList for value
   direction: PropTypes.oneOf(["asc", "desc", ""])
 });
 

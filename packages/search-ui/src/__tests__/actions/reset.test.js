@@ -15,7 +15,8 @@ describe("#reset", () => {
     initialState = {
       resultsPerPage: 60,
       sortField: "name",
-      sortDirection: "asc"
+      sortDirection: "asc",
+      sortList: [{ states: "asc" }, { title: "desc" }]
     }
   } = {}) {
     const { driver, updatedStateAfterAction } = setupDriver({
@@ -42,7 +43,8 @@ describe("#reset", () => {
     const initialState = {
       resultsPerPage: 60,
       sortField: "name",
-      sortDirection: "asc"
+      sortDirection: "asc",
+      sortList: [{ states: "asc" }, { title: "desc" }]
     };
     expect(subject({ initialState })).toEqual({
       ...DEFAULT_STATE,

@@ -37,17 +37,22 @@ describe("#setResultsPerPage", () => {
       searchTerm: "test",
       filters: [{ field: "initial", values: ["value"], type: "all" }],
       sortField: "date",
-      sortDirection: "desc"
+      sortDirection: "desc",
+      sortList: [{ states: "asc" }, { title: "desc" }]
     };
-    const { searchTerm, filters, sortField, sortDirection } = subject(10, {
-      initialState
-    }).state;
+    const { searchTerm, filters, sortField, sortDirection, sortList } = subject(
+      10,
+      {
+        initialState
+      }
+    ).state;
 
     expect({
       searchTerm,
       filters,
       sortField,
-      sortDirection
+      sortDirection,
+      sortList
     }).toEqual(initialState);
   });
 });

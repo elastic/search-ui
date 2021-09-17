@@ -10,11 +10,11 @@ beforeEach(() => {
 });
 
 describe("#setSort", () => {
-  function subject(sortField, sortDirection, { initialState = {} } = {}) {
+  function subject(sort, sortDirection, { initialState = {} } = {}) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
     );
-    driver.setSort(sortField, sortDirection);
+    driver.setSort(sort, sortDirection);
     jest.runAllTimers();
     return {
       state: updatedStateAfterAction.state,
@@ -32,6 +32,30 @@ describe("#setSort", () => {
 
   it("Updates sortDirection in state", () => {
     expect(subject("date", "desc").state.sortDirection).toEqual("desc");
+  });
+
+  it("Updates sortList in state", () => {
+    expect(
+      subject([
+        {
+          field: "states",
+          direction: "asc"
+        },
+        {
+          field: "title",
+          direction: "desc"
+        }
+      ]).state.sortList
+    ).toEqual([
+      {
+        field: "states",
+        direction: "asc"
+      },
+      {
+        field: "title",
+        direction: "desc"
+      }
+    ]);
   });
 
   itResetsCurrent(

@@ -30,7 +30,7 @@ function parseSearchTermFromQueryParams(queryParams) {
   return toSingleValue(queryParams.q);
 }
 
-function parseSortFromQueryParams(queryParams) {
+function parseOldSortFromQueryParams(queryParams) {
   const sortField = toSingleValue(queryParams["sort-field"]);
   const sortDirection = toSingleValue(queryParams["sort-direction"]);
 
@@ -42,14 +42,19 @@ function parseSizeFromQueryParams(queryParams) {
   return toSingleValueInteger(queryParams.size);
 }
 
+function parseSortFromQueryParams(queryParams) {
+  return queryParams["sort"];
+}
+
 function paramsToState(queryParams) {
   const state = {
     current: parseCurrentFromQueryParams(queryParams),
     filters: parseFiltersFromQueryParams(queryParams),
     searchTerm: parseSearchTermFromQueryParams(queryParams),
     resultsPerPage: parseSizeFromQueryParams(queryParams),
-    sortField: parseSortFromQueryParams(queryParams)[0],
-    sortDirection: parseSortFromQueryParams(queryParams)[1]
+    sortField: parseOldSortFromQueryParams(queryParams)[0],
+    sortDirection: parseOldSortFromQueryParams(queryParams)[1],
+    sortList: parseSortFromQueryParams(queryParams)
   };
 
   return Object.keys(state).reduce((acc, key) => {
@@ -65,10 +70,10 @@ function stateToParams({
   filters,
   resultsPerPage,
   sortDirection,
-  sortField
+  sortField,
+  sortList
 }) {
   const params = {};
-
   if (current > 1) params.current = current;
   if (searchTerm) params.q = searchTerm;
   if (resultsPerPage) params.size = resultsPerPage;
@@ -78,8 +83,13 @@ function stateToParams({
   if (sortField) {
     params["sort-field"] = sortField;
     params["sort-direction"] = sortDirection;
+    delete params["sort"];
   }
-
+  if (sortList && sortList.length > 0) {
+    delete params["sort-field"];
+    delete params["sort-direction"];
+    params["sort"] = sortList;
+  }
   return params;
 }
 
