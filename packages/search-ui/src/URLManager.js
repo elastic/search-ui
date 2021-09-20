@@ -43,7 +43,7 @@ function parseSizeFromQueryParams(queryParams) {
 }
 
 function parseSortListFromQueryParams(queryParams) {
-  return queryParams.sortList;
+  return queryParams["sort-list"];
 }
 
 function paramsToState(queryParams) {
@@ -84,7 +84,9 @@ function stateToParams({
     params["sort-field"] = sortField;
     params["sort-direction"] = sortDirection;
   }
-  if (sortList) params["sortList"] = sortList;
+  if (sortList && sortList.length > 0) {
+    params["sort-list"] = sortList;
+  }
   return params;
 }
 

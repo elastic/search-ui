@@ -10,11 +10,16 @@ beforeEach(() => {
 });
 
 describe("#setSort", () => {
-  function subject(sortField, sortDirection, { initialState = {} } = {}) {
+  function subject(
+    sortField,
+    sortDirection,
+    sortList,
+    { initialState = {} } = {}
+  ) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
     );
-    driver.setSort(sortField, sortDirection);
+    driver.setSort(sortField, sortDirection, sortList);
     jest.runAllTimers();
     return {
       state: updatedStateAfterAction.state,
@@ -23,7 +28,7 @@ describe("#setSort", () => {
   }
 
   itUpdatesURLState(URLManager, () => {
-    subject("date", "desc");
+    subject("date", "desc", [{ states: "asc" }, { title: "desc" }]);
   });
 
   it("Updates sortField in state", () => {
@@ -34,8 +39,18 @@ describe("#setSort", () => {
     expect(subject("date", "desc").state.sortDirection).toEqual("desc");
   });
 
+  it("Updates sortList in state", () => {
+    expect(
+      subject("date", "desc", [{ states: "asc" }, { title: "desc" }]).state
+        .sortList
+    ).toEqual([{ states: "asc" }, { title: "desc" }]);
+  });
+
   itResetsCurrent(
-    () => subject("date", "desc", { initialState: { current: 2 } }).state
+    () =>
+      subject("date", "desc", [{ states: "asc" }, { title: "desc" }], {
+        initialState: { current: 2 }
+      }).state
   );
 
   it("Does not update other Search Parameter values", () => {
@@ -44,9 +59,14 @@ describe("#setSort", () => {
       filters: [{ field: "initial", values: ["value"], type: "all" }],
       resultsPerPage: 60
     };
-    const { searchTerm, filters, resultsPerPage } = subject("date", "desc", {
-      initialState
-    }).state;
+    const { searchTerm, filters, resultsPerPage } = subject(
+      "date",
+      "desc",
+      [{ states: "asc" }, { title: "desc" }],
+      {
+        initialState
+      }
+    ).state;
 
     expect({
       searchTerm,
