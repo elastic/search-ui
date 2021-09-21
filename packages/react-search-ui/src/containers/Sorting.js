@@ -11,16 +11,18 @@ function findSortOption(sortOptions, sortData) {
   let direction;
   if (Array.isArray(sortData)) {
     value = sortData;
-    // direction is contained inside of value
-    direction = "";
+
+    // We don't care about option.direction in this case since direction is part of the value array.
+    return sortOptions.find(
+      option => JSON.stringify(option.value) === JSON.stringify(value)
+    );
   } else {
     [value, direction] = sortData.split("|||");
+
+    return sortOptions.find(
+      option => option.value === value && option.direction === direction
+    );
   }
-  return sortOptions.find(
-    option =>
-      JSON.stringify(option.value) === JSON.stringify(value) &&
-      option.direction === direction
-  );
 }
 
 function formatValue(sortField, sortDirection) {
