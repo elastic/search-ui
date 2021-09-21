@@ -6,7 +6,6 @@ function buildFrom(current, resultsPerPage) {
 }
 
 function buildSort(sortDirection, sortField, sortList) {
-  console.log('sort from build', sortList);
   if (sortList) {
     return sortList
   } else if (sortDirection && sortField) {
