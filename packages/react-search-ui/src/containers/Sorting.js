@@ -17,7 +17,9 @@ function findSortOption(sortOptions, sortData) {
     [value, direction] = sortData.split("|||");
   }
   return sortOptions.find(
-    option => option.value === value && option.direction === direction
+    option =>
+      JSON.stringify(option.value) === JSON.stringify(value) &&
+      option.direction === direction
   );
 }
 
