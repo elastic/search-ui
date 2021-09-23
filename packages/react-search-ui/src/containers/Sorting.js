@@ -9,6 +9,16 @@ import { SortOption } from "../types";
 function findSortOption(sortOptions, sortData) {
   let value;
   let direction;
+
+  // parse the array for value back out into an array
+  if (
+    sortData.indexOf("|||") === -1 &&
+    typeof sortData !== "object" &&
+    sortData !== null
+  ) {
+    sortData = JSON.parse(sortData);
+  }
+
   if (Array.isArray(sortData)) {
     value = sortData;
 
@@ -31,7 +41,8 @@ function formatValue(sortField, sortDirection) {
 
 function formatSelectValues(sortOption) {
   if (Array.isArray(sortOption.value)) {
-    return sortOption.value;
+    // save value as string for comparison
+    return JSON.stringify(sortOption.value);
   } else {
     return formatValue(sortOption.value, sortOption.direction);
   }
@@ -85,7 +96,10 @@ export class SortingContainer extends Component {
         }
       },
       options: sortOptions.map(formatSelectOption),
-      value: sortList ? sortList : formatValue(sortField, sortDirection),
+      value:
+        sortList && sortList.length
+          ? JSON.stringify(sortList)
+          : formatValue(sortField, sortDirection),
       ...rest
     });
   }
