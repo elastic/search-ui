@@ -29,11 +29,6 @@ const SORT_OPTIONS = [
     value: []
   },
   {
-    name: "Title (Deprecated)",
-    value: "title",
-    direction: "asc"
-  },
-  {
     name: "Title",
     value: [
       {

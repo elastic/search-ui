@@ -7,32 +7,17 @@ import SortList from "../types/SortList";
 import { SortOption } from "../types";
 
 function findSortOption(sortOptions, sortData) {
-  let value;
-  let direction;
-
-  // parse the array for value back out into an array
-  if (
-    sortData.indexOf("|||") === -1 &&
-    typeof sortData !== "object" &&
-    sortData !== null
-  ) {
-    sortData = JSON.parse(sortData);
-  }
-
-  if (Array.isArray(sortData)) {
-    value = sortData;
-
-    // We don't care about option.direction in this case since direction is part of the value array.
+  if (sortData.indexOf("|||") === -1) {
     return sortOptions.find(
-      option => JSON.stringify(option.value) === JSON.stringify(value)
-    );
-  } else {
-    [value, direction] = sortData.split("|||");
-
-    return sortOptions.find(
-      option => option.value === value && option.direction === direction
+      option => JSON.stringify(option.value) === sortData
     );
   }
+
+  const [value, direction] = sortData.split("|||");
+
+  return sortOptions.find(
+    option => option.value === value && option.direction === direction
+  );
 }
 
 function formatValue(sortField, sortDirection, sortList) {

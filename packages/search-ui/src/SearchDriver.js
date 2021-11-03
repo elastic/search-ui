@@ -35,8 +35,8 @@ export const DEFAULT_STATE = {
   filters: [],
   resultsPerPage: 20,
   searchTerm: "",
-  sortDirection: "asc",
-  sortField: "title",
+  sortDirection: "",
+  sortField: "",
   sortList: [],
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
