@@ -118,9 +118,7 @@ const adaptedEmptyRequest = {
 };
 
 const sortListRequest = {
-  searchTerm: "test",
-  resultsPerPage: 10,
-  current: 4,
+  ...request,
   sortList: [
     {
       field: "states",
@@ -131,87 +129,11 @@ const sortListRequest = {
       direction: "desc"
     }
   ],
-  filters: [
-    {
-      field: "initial",
-      values: ["values"],
-      type: "all"
-    },
-    {
-      field: "initial",
-      values: ["more values"],
-      type: "all"
-    },
-    {
-      field: "test",
-      values: [
-        {
-          to: 100,
-          from: 0,
-          name: "test"
-        }
-      ],
-      type: "all"
-    },
-    {
-      field: "initial",
-      values: ["additional values", "and values", "and even more values"],
-      type: "all"
-    },
-    {
-      field: "initial",
-      values: ["additional values", "and values", "and even more values"],
-      type: "any"
-    },
-    {
-      field: "whatever",
-      values: ["value"]
-    }
-  ]
+  sortDirection: undefined,
+  sortField: undefined
 };
 
 const adaptedSortListRequest = {
-  query: "test",
-  page: {
-    size: 10,
-    current: 4
-  },
-  sort: [{ states: "asc" }, { title: "desc" }],
-  filters: {
-    all: [
-      {
-        all: [{ initial: "values" }]
-      },
-      {
-        all: [{ initial: "more values" }]
-      },
-      {
-        all: [
-          {
-            test: {
-              to: 100,
-              from: 0
-            }
-          }
-        ]
-      },
-      {
-        all: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
-        ]
-      },
-      {
-        any: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
-        ]
-      },
-      {
-        any: [{ whatever: "value" }]
-      }
-    ]
-  }
+  ...adaptedRequest,
+  sort: [{ states: "asc" }, { title: "desc" }]
 };
