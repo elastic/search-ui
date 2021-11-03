@@ -2,7 +2,6 @@ import React from "react";
 import { shallow } from "enzyme";
 import { SortingContainer } from "../Sorting";
 import { SortOption } from "../../types";
-import { SortList } from "../../../lib/types";
 
 const params = {
   results: [{}],
