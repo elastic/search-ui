@@ -24,11 +24,7 @@ const params = {
 };
 
 const sortListParams = {
-  results: [{}],
-  searchTerm: "test",
-  setSort: jest.fn(),
-  sortDirection: "asc",
-  sortField: "field",
+  ...params,
   sortList: [
     {
       field: "states",
@@ -50,9 +46,9 @@ const sortListParams = {
       value: "field",
       direction: "desc"
     }),
-    SortOption.create({
+    {
       name: "multiple",
-      value: SortList.create([
+      value: [
         {
           field: "states",
           direction: "asc"
@@ -61,8 +57,8 @@ const sortListParams = {
           field: "title",
           direction: "desc"
         }
-      ])
-    })
+      ]
+    }
   ]
 };
 
