@@ -109,23 +109,17 @@ it("will call back when sort is changed in view with sortList", () => {
   );
 
   const { onChange } = viewProps;
-  onChange([{ states: "asc" }, { title: "desc" }]);
+  onChange(
+    '[{"field":"states","direction":"asc"},{"field":"title","direction":"desc"}]'
+  );
 
-  const sortList = sortListParams.setSort.mock.calls[0];
-  expect(sortList).toEqual([
-    "",
-    "",
+  expect(sortListParams.setSort).toHaveBeenCalledWith(
     [
-      {
-        field: "states",
-        direction: "asc"
-      },
-      {
-        field: "title",
-        direction: "desc"
-      }
-    ]
-  ]);
+      { direction: "asc", field: "states" },
+      { direction: "desc", field: "title" }
+    ],
+    undefined
+  );
 });
 
 it("passes className through to the view", () => {
