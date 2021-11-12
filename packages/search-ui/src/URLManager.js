@@ -80,15 +80,11 @@ function stateToParams({
   if (filters && filters.length > 0) {
     params["filters"] = filters;
   }
-  if (sortField) {
+if (sortList && sortList.length > 0) {
+    params["sort"] = sortList;
+  } else if (sortField) {
     params["sort-field"] = sortField;
     params["sort-direction"] = sortDirection;
-    delete params["sort"];
-  }
-  if (sortList && sortList.length > 0) {
-    delete params["sort-field"];
-    delete params["sort-direction"];
-    params["sort"] = sortList;
   }
   return params;
 }
