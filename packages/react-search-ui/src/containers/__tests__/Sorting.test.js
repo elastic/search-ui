@@ -23,6 +23,45 @@ const params = {
   ]
 };
 
+const sortListParams = {
+  ...params,
+  sortList: [
+    {
+      field: "states",
+      direction: "asc"
+    },
+    {
+      field: "title",
+      direction: "desc"
+    }
+  ],
+  sortOptions: [
+    SortOption.create({
+      name: "name",
+      value: "field",
+      direction: "asc"
+    }),
+    SortOption.create({
+      name: "name",
+      value: "field",
+      direction: "desc"
+    }),
+    {
+      name: "multiple",
+      value: [
+        {
+          field: "states",
+          direction: "asc"
+        },
+        {
+          field: "title",
+          direction: "desc"
+        }
+      ]
+    }
+  ]
+};
+
 beforeEach(() => {
   params.setSort = jest.fn();
 });
@@ -60,6 +99,27 @@ it("will call back when sort is changed in view", () => {
   const [sortField, sortDirection] = params.setSort.mock.calls[0];
   expect(sortField).toEqual("field");
   expect(sortDirection).toEqual("desc");
+});
+
+it("will call back when sort is changed in view with sortList", () => {
+  let viewProps;
+
+  shallow(
+    <SortingContainer {...sortListParams} view={props => (viewProps = props)} />
+  );
+
+  const { onChange } = viewProps;
+  onChange(
+    '[{"field":"states","direction":"asc"},{"field":"title","direction":"desc"}]'
+  );
+
+  expect(sortListParams.setSort).toHaveBeenCalledWith(
+    [
+      { direction: "asc", field: "states" },
+      { direction: "desc", field: "title" }
+    ],
+    undefined
+  );
 });
 
 it("passes className through to the view", () => {

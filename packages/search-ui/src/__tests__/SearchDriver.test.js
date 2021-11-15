@@ -48,7 +48,8 @@ it("will use initial state if provided", () => {
     current: 3,
     resultsPerPage: 60,
     sortField: "name",
-    sortDirection: "asc"
+    sortDirection: "asc",
+    sortList: [{ states: "asc" }, { title: "desc" }]
   };
 
   const { stateAfterCreation } = setupDriver({ initialState });

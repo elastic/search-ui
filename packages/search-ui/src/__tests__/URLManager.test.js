@@ -31,6 +31,23 @@ const basicParameterState = {
 const basicParameterStateAsUrl =
   "?filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=node&size=20&sort-direction=asc&sort-field=name";
 
+const parameterStateWithSortList = {
+  resultsPerPage: 20,
+  sortList: [
+    {
+      field: "states",
+      direction: "asc"
+    },
+    {
+      field: "title",
+      direction: "asc"
+    }
+  ]
+};
+
+const parameterStateWithSortListAsUrl =
+  "?size=n_20_n&sort%5B0%5D%5Bfield%5D=states&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=asc";
+
 const parameterStateWithRangeFilters = {
   filters: [
     {
@@ -81,6 +98,15 @@ describe("#getStateFromURL", () => {
     expect(state).toMatchSnapshot();
   });
 
+  it("will parse sortList items", () => {
+    const manager = createManager();
+    manager.history.location.search =
+      "?sort%5B0%5D%5Bstates%5D=asc&sort%5B1%5D%5Btitle%5D=asc";
+
+    const state = manager.getStateFromURL();
+    expect(state).toMatchSnapshot();
+  });
+
   it("will ignore unrecognized parameters", () => {
     const manager = createManager();
     manager.history.location.search =
@@ -117,6 +143,17 @@ describe("#pushStateToURL", () => {
       const queryString = manager.history.push.mock.calls[0][0].search;
       expect(queryString).toEqual(
         "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
+      );
+    });
+  });
+
+  describe("sortList", () => {
+    it("will update the url with sortList items", () => {
+      const manager = createManager();
+      manager.pushStateToURL(parameterStateWithSortList);
+      const queryString = manager.history.push.mock.calls[0][0].search;
+      expect(queryString).toEqual(
+        "?size=n_20_n&sort%5B0%5D%5Bfield%5D=states&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=asc"
       );
     });
   });
@@ -171,6 +208,19 @@ describe("#onURLStateChange", () => {
 
     // Verify it is called when url state changes
     expect(newState).toEqual(basicParameterState);
+  });
+
+  it("will call provided callback with updated state when url changes with sortList", () => {
+    setup();
+    let newState;
+
+    // Provide url state change handler
+    subject(state => {
+      newState = state;
+    }, parameterStateWithSortListAsUrl);
+
+    // Verify it is called when url state changes
+    expect(newState).toEqual(parameterStateWithSortList);
   });
 
   /*

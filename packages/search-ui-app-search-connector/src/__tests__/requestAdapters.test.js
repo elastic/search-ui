@@ -5,6 +5,10 @@ describe("adaptRequest", () => {
     expect(adaptRequest(request)).toEqual(adaptedRequest);
   });
 
+  it("adapts sortList request", () => {
+    expect(adaptRequest(sortListRequest)).toEqual(adaptedSortListRequest);
+  });
+
   it("adapts empty request", () => {
     expect(adaptRequest(emptyRequest)).toEqual(adaptedEmptyRequest);
   });
@@ -111,4 +115,25 @@ const adaptedEmptyRequest = {
   query: "",
   page: {},
   filters: {}
+};
+
+const sortListRequest = {
+  ...request,
+  sortList: [
+    {
+      field: "states",
+      direction: "asc"
+    },
+    {
+      field: "title",
+      direction: "desc"
+    }
+  ],
+  sortDirection: undefined,
+  sortField: undefined
+};
+
+const adaptedSortListRequest = {
+  ...adaptedRequest,
+  sort: [{ states: "asc" }, { title: "desc" }]
 };

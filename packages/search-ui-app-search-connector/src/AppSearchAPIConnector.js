@@ -90,6 +90,7 @@ class AppSearchAPIConnector {
       resultsPerPage,
       sortDirection,
       sortField,
+      sortList,
       ...restOfQueryConfig
     } = queryConfig;
 
@@ -99,7 +100,8 @@ class AppSearchAPIConnector {
       ...(filters !== undefined && { filters }),
       ...(resultsPerPage !== undefined && { resultsPerPage }),
       ...(sortDirection !== undefined && { sortDirection }),
-      ...(sortField !== undefined && { sortField })
+      ...(sortField !== undefined && { sortField }),
+      ...(sortList !== undefined && { sortList })
     });
 
     const withQueryConfigOptions = {
@@ -127,6 +129,7 @@ class AppSearchAPIConnector {
         resultsPerPage,
         sortDirection,
         sortField,
+        sortList,
         ...restOfQueryConfig
       } = queryConfig.results;
 
@@ -136,7 +139,8 @@ class AppSearchAPIConnector {
         filters,
         resultsPerPage,
         sortDirection,
-        sortField
+        sortField,
+        sortList
       });
 
       const withQueryConfigOptions = {

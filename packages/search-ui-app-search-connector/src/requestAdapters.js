@@ -28,22 +28,29 @@ function adaptFilters(filters) {
   };
 }
 
+function getSort(sortDirection, sortField, sortList) {
+  if (sortList && sortList.length) {
+    return sortList.map(sortItem => ({ [sortItem.field]: sortItem.direction }));
+  } else if (sortField && sortDirection) {
+    return {
+      [sortField]: sortDirection
+    };
+  } else {
+    return undefined;
+  }
+}
+
 export function adaptRequest(request) {
   const {
     current,
     resultsPerPage,
     searchTerm,
     sortDirection,
-    sortField
+    sortField,
+    sortList
   } = request;
 
-  const sort =
-    sortField && sortDirection
-      ? {
-          [sortField]: sortDirection
-        }
-      : undefined;
-
+  const sort = getSort(sortDirection, sortField, sortList);
   return {
     query: searchTerm,
     ...(sort !== undefined && { sort }),

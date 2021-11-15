@@ -38,6 +38,10 @@ export default function adaptRequest(request, queryConfig, documentType) {
     queryConfig.sortField !== undefined
       ? queryConfig.sortField
       : request.sortField;
+  const sortList =
+    queryConfig.sortList !== undefined
+      ? queryConfig.sortList
+      : request.sortList;
   const [fetchFields, highlightFields] = adaptResultFieldsConfig(
     queryConfig.result_fields
   );
@@ -57,6 +61,11 @@ export default function adaptRequest(request, queryConfig, documentType) {
     ...(sortField && {
       sort_field: {
         [documentType]: sortField
+      }
+    }),
+    ...(sortList && {
+      sort_list: {
+        [documentType]: sortList
       }
     }),
     ...(updatedFilters && {

@@ -15,7 +15,8 @@ function filterSearchParameters({
   resultsPerPage,
   searchTerm,
   sortDirection,
-  sortField
+  sortField,
+  sortList
 }) {
   return {
     current,
@@ -23,7 +24,8 @@ function filterSearchParameters({
     resultsPerPage,
     searchTerm,
     sortDirection,
-    sortField
+    sortField,
+    sortList
   };
 }
 
@@ -35,6 +37,7 @@ export const DEFAULT_STATE = {
   searchTerm: "",
   sortDirection: "",
   sortField: "",
+  sortList: [],
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
   autocompletedResults: [],
@@ -234,6 +237,7 @@ export default class SearchDriver {
    * @property {string} searchTerm
    * @property {string} sortDirection
    * @property {string} sortField
+   * @property {Array} sortList
    *
    * @param {RequestState} searchParameters - RequestState
    * @param {Object=} Object
@@ -251,7 +255,8 @@ export default class SearchDriver {
       resultsPerPage,
       searchTerm,
       sortDirection,
-      sortField
+      sortField,
+      sortList
     } = {
       ...this.state,
       ...searchParameters
@@ -272,7 +277,8 @@ export default class SearchDriver {
       resultsPerPage,
       searchTerm,
       sortDirection,
-      sortField
+      sortField,
+      sortList
     });
 
     this._makeSearchRequest({
@@ -316,7 +322,8 @@ export default class SearchDriver {
         resultsPerPage,
         searchTerm,
         sortDirection,
-        sortField
+        sortField,
+        sortList
       } = this.state;
 
       this._setState({
@@ -387,7 +394,8 @@ export default class SearchDriver {
                 resultsPerPage,
                 searchTerm,
                 sortDirection,
-                sortField
+                sortField,
+                sortList
               },
               { replaceUrl }
             );

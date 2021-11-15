@@ -26,13 +26,55 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 const SORT_OPTIONS = [
   {
     name: "Relevance",
-    value: "",
-    direction: ""
+    value: []
   },
   {
     name: "Title",
-    value: "title",
-    direction: "asc"
+    value: [
+      {
+        field: "title",
+        direction: "asc"
+      }
+    ]
+  },
+  {
+    name: "State",
+    value: [
+      {
+        field: "states",
+        direction: "asc"
+      }
+    ]
+  },
+  {
+    name: "State -> Title",
+    value: [
+      {
+        field: "states",
+        direction: "asc"
+      },
+      {
+        field: "title",
+        direction: "asc"
+      }
+    ]
+  },
+  {
+    name: "Heritage Site -> State -> Title",
+    value: [
+      {
+        field: "world_heritage_site",
+        direction: "asc"
+      },
+      {
+        field: "states",
+        direction: "asc"
+      },
+      {
+        field: "title",
+        direction: "asc"
+      }
+    ]
   }
 ];
 

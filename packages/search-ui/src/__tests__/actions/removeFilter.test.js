@@ -49,17 +49,23 @@ describe("#removeFilter", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
+      sortList: [{ states: "asc" }, { title: "desc" }],
       searchTerm: "test"
     };
-    const { resultsPerPage, sortField, sortDirection, searchTerm } = subject(
-      "field",
-      "value",
-      undefined,
-      { initialState }
-    );
-    expect({ resultsPerPage, sortField, sortDirection, searchTerm }).toEqual(
-      initialState
-    );
+    const {
+      resultsPerPage,
+      sortField,
+      sortDirection,
+      sortList,
+      searchTerm
+    } = subject("field", "value", undefined, { initialState });
+    expect({
+      resultsPerPage,
+      sortField,
+      sortDirection,
+      sortList,
+      searchTerm
+    }).toEqual(initialState);
   });
 
   it("Removes just 1 filter value", () => {

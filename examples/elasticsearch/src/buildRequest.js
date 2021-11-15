@@ -5,8 +5,10 @@ function buildFrom(current, resultsPerPage) {
   return (current - 1) * resultsPerPage;
 }
 
-function buildSort(sortDirection, sortField) {
-  if (sortDirection && sortField) {
+function buildSort(sortDirection, sortField, sortList) {
+  if (sortList) {
+    return sortList
+  } else if (sortDirection && sortField) {
     return [{ [`${sortField}.keyword`]: sortDirection }];
   }
 }
@@ -47,10 +49,11 @@ export default function buildRequest(state) {
     resultsPerPage,
     searchTerm,
     sortDirection,
-    sortField
+    sortField,
+    sortList
   } = state;
 
-  const sort = buildSort(sortDirection, sortField);
+  const sort = buildSort(sortDirection, sortField, sortList);
   const match = buildMatch(searchTerm);
   const size = resultsPerPage;
   const from = buildFrom(current, resultsPerPage);
