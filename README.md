@@ -304,7 +304,7 @@ If something is not working as expected, please open an [issue](https://github.c
 
 ### Where can I go to get help?
 
-The App Search team at Elastic maintains this library and are happy to help. Try posting your question to the [Elastic App Search discuss forums](https://discuss.elastic.co/c/app-search). Be sure to mention that you're using search-ui and also let us know what backend your using; whether it's App Search, Site Search, Elasticsearch, or something else entirely.
+The Enterprise Search team at Elastic maintains this library and are happy to help. Try posting your question to the [Elastic Enterprise Search](https://discuss.elastic.co/c/enterprise-search/84) discuss forums. Be sure to mention that you're using search-ui and also let us know what backend your using; whether it's App Search, Site Search, Elasticsearch, or something else entirely.
 
 ## Contribute 🚀
 
