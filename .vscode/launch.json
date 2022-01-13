@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Jest react-search-ui",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/packages/react-search-ui/node_modules/jest/bin/jest.js",
+            "stopOnEntry": false,
+            "args": [
+                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+            ],
+            "cwd": "${workspaceRoot}/packages/react-search-ui",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "env": {
+                "NODE_ENV": "test"
+            },
+            "console": "integratedTerminal",
+            "sourceMaps": true
+        }
+    ]
+}
