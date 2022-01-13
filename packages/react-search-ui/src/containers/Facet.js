@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
@@ -107,7 +108,7 @@ export class FacetContainer extends Component {
 
     const View = view || MultiCheckboxFacet;
 
-    return View({
+    const viewProps = {
       className,
       label: label,
       onMoreClick: this.handleClickMore.bind(this, facetValues.length),
@@ -129,7 +130,9 @@ export class FacetContainer extends Component {
       },
       searchPlaceholder: `Filter ${field}`,
       ...rest
-    });
+    };
+
+    return <View {...viewProps} />;
   }
 }
 

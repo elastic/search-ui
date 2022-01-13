@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { shallow } from "enzyme";
 import { ResultContainer } from "../Result";
 
@@ -29,10 +29,12 @@ beforeEach(() => {
 describe("link clicks", () => {
   it("will call back when a document link is clicked in the view", () => {
     let viewProps;
+    const View = props => {
+      viewProps = props;
+      return <div />;
+    };
 
-    shallow(
-      <ResultContainer {...params} view={props => (viewProps = props)} />
-    );
+    shallow(<ResultContainer {...params} view={View} />).dive();
 
     const { onClickLink } = viewProps;
     onClickLink();
@@ -43,14 +45,18 @@ describe("link clicks", () => {
 
   it("will not call back when shouldTrackClickThrough is false", () => {
     let viewProps;
+    const View = props => {
+      viewProps = props;
+      return <div />;
+    };
 
     shallow(
       <ResultContainer
         {...params}
         shouldTrackClickThrough={false}
-        view={props => (viewProps = props)}
+        view={View}
       />
-    );
+    ).dive();
 
     const { onClickLink } = viewProps;
     onClickLink();
@@ -60,14 +66,18 @@ describe("link clicks", () => {
 
   it("will pass through tags", () => {
     let viewProps;
+    const View = props => {
+      viewProps = props;
+      return <div />;
+    };
 
     shallow(
       <ResultContainer
         {...params}
         clickThroughTags={["whatever"]}
-        view={props => (viewProps = props)}
+        view={View}
       />
-    );
+    ).dive();
 
     const { onClickLink } = viewProps;
     onClickLink();
@@ -80,27 +90,25 @@ describe("link clicks", () => {
 
 it("passes className through to the view", () => {
   let viewProps;
+  const View = props => {
+    viewProps = props;
+    return <div />;
+  };
   const className = "test-class";
   shallow(
-    <ResultContainer
-      {...params}
-      className={className}
-      view={props => (viewProps = props)}
-    />
-  );
+    <ResultContainer {...params} className={className} view={View} />
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
+  const View = props => {
+    viewProps = props;
+    return <div />;
+  };
   const data = "bar";
-  shallow(
-    <ResultContainer
-      {...params}
-      data-foo={data}
-      view={props => (viewProps = props)}
-    />
-  );
+  shallow(<ResultContainer {...params} data-foo={data} view={View} />).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });
 
@@ -109,6 +117,24 @@ it("supports a render prop", () => {
   const render = ({ children }) => {
     return <div>{children}</div>;
   };
-  const wrapper = shallow(<ResultContainer {...params} view={render} />);
+  const wrapper = shallow(<ResultContainer {...params} view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
+});
+
+describe("hooks support", () => {
+  const MyResultView = () => {
+    const [state] = useState(0);
+    return <div>{state}</div>;
+  };
+
+  it("should allow hook to be used within a custom view component", () => {
+    expect(() => {
+      shallow(<ResultContainer {...params} view={MyResultView} />);
+    }).not.toThrow();
+
+    const wrapper = shallow(
+      <ResultContainer {...params} view={MyResultView} />
+    ).dive();
+    expect(wrapper.find("div").text()).toBe("0");
+  });
 });
