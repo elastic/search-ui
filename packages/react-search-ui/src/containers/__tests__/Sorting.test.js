@@ -71,7 +71,9 @@ it("supports a render prop", () => {
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<SortingContainer {...params} view={render} />);
+  const wrapper = shallow(
+    <SortingContainer {...params} view={render} />
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -84,14 +86,16 @@ it("renders when it doesn't have results or a search term", () => {
         results: []
       }}
     />
-  );
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("will call back when sort is changed in view", () => {
   let viewProps;
 
-  shallow(<SortingContainer {...params} view={props => (viewProps = props)} />);
+  shallow(
+    <SortingContainer {...params} view={props => (viewProps = props)} />
+  ).dive();
 
   const { onChange } = viewProps;
   onChange("field|||desc");
@@ -106,7 +110,7 @@ it("will call back when sort is changed in view with sortList", () => {
 
   shallow(
     <SortingContainer {...sortListParams} view={props => (viewProps = props)} />
-  );
+  ).dive();
 
   const { onChange } = viewProps;
   onChange(
@@ -131,7 +135,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
@@ -144,6 +148,6 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

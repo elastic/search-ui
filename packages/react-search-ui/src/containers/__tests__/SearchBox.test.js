@@ -1,6 +1,6 @@
 import React from "react";
 import { SearchBoxContainer } from "../SearchBox";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
 const params = {
   autocompletedResults: [],
@@ -20,25 +20,30 @@ it("supports a render prop", () => {
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<SearchBoxContainer {...params} view={render} />);
+  const wrapper = shallow(
+    <SearchBoxContainer {...params} view={render} />
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("will keep focus prop in sync with view component", () => {
   let viewProps;
+  const View = props => {
+    viewProps = props;
+    return <div />;
+  };
 
-  shallow(
-    <SearchBoxContainer {...params} view={props => (viewProps = props)} />
-  );
+  const wrapper = mount(<SearchBoxContainer {...params} view={View} />);
 
   expect(viewProps.isFocused).toBe(false);
+  expect(wrapper.find(View).props().isFocused).toBe(false);
   viewProps.inputProps.onFocus();
-
-  expect(viewProps.isFocused).toBe(true);
+  wrapper.update();
+  expect(wrapper.find(View).props().isFocused).toBe(true);
 
   viewProps.inputProps.onBlur();
-
-  expect(viewProps.isFocused).toBe(false);
+  wrapper.update();
+  expect(wrapper.find(View).props().isFocused).toBe(false);
 });
 
 it("will pass autocompleteView prop through to the view", () => {
@@ -51,7 +56,7 @@ it("will pass autocompleteView prop through to the view", () => {
       autocompleteView={customAutocompleteView}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
 
   const { autocompleteView } = viewProps;
   expect(autocompleteView).toEqual(customAutocompleteView);
@@ -75,7 +80,7 @@ describe("autocompletedSuggestionsCount", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.autocompletedSuggestionsCount).toBe(4);
   });
@@ -90,7 +95,7 @@ describe("autocompletedSuggestionsCount", () => {
         autocompleteSuggestions={false}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.autocompletedSuggestionsCount).toBe(0);
   });
@@ -115,7 +120,7 @@ describe("allAutocompletedItemsCount", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.allAutocompletedItemsCount).toBe(6);
   });
@@ -132,7 +137,7 @@ describe("allAutocompletedItemsCount", () => {
         autocompletedSuggestions={{}}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.allAutocompletedItemsCount).toBe(0);
   });
@@ -151,7 +156,7 @@ describe("useAutocomplete", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(true);
   });
@@ -160,7 +165,7 @@ describe("useAutocomplete", () => {
     let viewProps;
     shallow(
       <SearchBoxContainer {...params} view={props => (viewProps = props)} />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(false);
   });
@@ -178,7 +183,7 @@ describe("useAutocomplete", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(true);
   });
@@ -197,7 +202,7 @@ describe("useAutocomplete", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     viewProps.onChange("new");
     expect(viewProps.useAutocomplete).toBe(true);
   });
@@ -213,7 +218,7 @@ describe("shouldClearFilters prop", () => {
         shouldClearFilters={false}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
 
     const { onSubmit } = viewProps;
     onSubmit({
@@ -232,7 +237,7 @@ describe("shouldClearFilters prop", () => {
         shouldClearFilters={false}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
 
     const { onChange } = viewProps;
     onChange("new term");
@@ -250,7 +255,7 @@ describe("shouldClearFilters prop", () => {
         shouldClearFilters={false}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
 
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete({
@@ -266,7 +271,7 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
   let viewProps;
   shallow(
     <SearchBoxContainer {...params} view={props => (viewProps = props)} />
-  );
+  ).dive();
 
   expect(viewProps.value).toBe("test");
 
@@ -293,7 +298,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
       autocompleteMinimumCharacters={3}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
@@ -317,7 +322,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
       searchAsYouType={true}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
 
   expect(viewProps.value).toBe("test");
 
@@ -346,7 +351,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounceLength={500}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
 
   expect(viewProps.value).toBe("test");
 
@@ -378,7 +383,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounceLength={500}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
 
   expect(viewProps.value).toBe("test");
 
@@ -407,7 +412,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       debounceLength={500}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
 
   expect(viewProps.value).toBe("test");
 
@@ -436,7 +441,7 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
       searchTerm="a term"
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
 
   viewProps.onSubmit({
     preventDefault: () => {}
@@ -475,7 +480,7 @@ describe("onSelectAutocomplete", () => {
         onSelectAutocomplete={customOnSelectAutocomplete}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete("bird");
 
@@ -495,7 +500,7 @@ describe("onSelectAutocomplete", () => {
         autocompleteResults={true}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete({
       suggestion: "bird"
@@ -514,7 +519,7 @@ describe("onSelectAutocomplete", () => {
         autocompleteResults={true}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete();
 
@@ -531,7 +536,7 @@ describe("autocomplete clickthroughs", () => {
         autocompleteResults={true}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
@@ -551,7 +556,7 @@ describe("autocomplete clickthroughs", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
@@ -567,7 +572,7 @@ describe("autocomplete clickthroughs", () => {
         autocompleteResults={true}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       suggestion: "bike"
@@ -587,7 +592,7 @@ describe("autocomplete clickthroughs", () => {
         }}
         view={props => (viewProps = props)}
       />
-    );
+    ).dive();
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
@@ -610,7 +615,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
@@ -623,6 +628,6 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

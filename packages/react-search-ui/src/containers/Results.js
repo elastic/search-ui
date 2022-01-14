@@ -48,22 +48,26 @@ export class ResultsContainer extends Component {
     const View = view || Results;
     const ResultView = resultView || Result;
 
-    return View({
-      className: className,
-      children: results.map(result => (
-        <ResultContainer
-          key={`result-${getRaw(result, "id")}`}
-          titleField={titleField}
-          urlField={urlField}
-          thumbnailField={thumbnailField}
-          view={ResultView}
-          result={result}
-          shouldTrackClickThrough={shouldTrackClickThrough}
-          clickThroughTags={clickThroughTags}
-        />
-      )),
+    const children = results.map(result => (
+      <ResultContainer
+        key={`result-${getRaw(result, "id")}`}
+        titleField={titleField}
+        urlField={urlField}
+        thumbnailField={thumbnailField}
+        view={ResultView}
+        result={result}
+        shouldTrackClickThrough={shouldTrackClickThrough}
+        clickThroughTags={clickThroughTags}
+      />
+    ));
+
+    const viewProps = {
+      className,
+      children,
       ...rest
-    });
+    };
+
+    return <View {...viewProps} />;
   }
 }
 

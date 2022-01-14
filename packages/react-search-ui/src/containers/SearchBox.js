@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Component } from "react";
+import React, { Component } from "react";
 import { SearchBox } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
@@ -194,7 +194,7 @@ export class SearchBoxContainer extends Component {
       };
     }
 
-    return View({
+    const viewProps = {
       allAutocompletedItemsCount: allAutocompletedItemsCount,
       autocompleteView,
       autocompleteResults: autocompleteResults,
@@ -224,7 +224,9 @@ export class SearchBoxContainer extends Component {
       },
       inputView,
       ...rest
-    });
+    };
+
+    return <View {...viewProps} />;
   }
 }
 

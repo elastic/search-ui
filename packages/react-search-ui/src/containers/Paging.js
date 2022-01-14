@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 
 import { withSearch } from "..";
@@ -16,14 +17,16 @@ export function PagingContainer({
 
   const View = view || Paging;
 
-  return View({
+  const viewProps = {
     className,
     current,
     resultsPerPage,
     totalPages,
     onChange: setCurrent,
     ...rest
-  });
+  };
+
+  return <View {...viewProps} />;
 }
 
 PagingContainer.propTypes = {

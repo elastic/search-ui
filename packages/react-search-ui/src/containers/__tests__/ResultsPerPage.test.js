@@ -20,7 +20,7 @@ it("supports a render prop", () => {
   };
   const wrapper = shallow(
     <ResultsPerPageContainer {...params} view={render} />
-  );
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -33,7 +33,7 @@ it("renders when it doesn't have any results or a search term", () => {
         results: []
       }}
     />
-  );
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -42,7 +42,7 @@ it("will call back when a selection is made in the view", () => {
 
   shallow(
     <ResultsPerPageContainer {...params} view={props => (viewProps = props)} />
-  );
+  ).dive();
 
   const { onChange } = viewProps;
   onChange(40);
@@ -60,7 +60,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
@@ -69,7 +69,7 @@ it("renders the component with custom page options", () => {
   const resultsPerPage = 10;
   const wrapper = shallow(
     <ResultsPerPageContainer {...{ ...params, resultsPerPage, options }} />
-  );
+  ).dive();
 
   expect(wrapper).toMatchSnapshot();
 });
@@ -83,6 +83,6 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

@@ -19,7 +19,9 @@ it("supports a render prop", () => {
       </div>
     );
   };
-  const wrapper = shallow(<PagingInfoContainer {...params} view={render} />);
+  const wrapper = shallow(
+    <PagingInfoContainer {...params} view={render} />
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -32,7 +34,7 @@ it("renders when it doesn't have any results or a result search term", () => {
         results: []
       }}
     />
-  );
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -45,7 +47,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
@@ -58,6 +60,6 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

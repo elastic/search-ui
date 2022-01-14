@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Component } from "react";
+import React, { Component } from "react";
 import { withSearch } from "..";
 import { ErrorBoundary } from "@elastic/react-search-ui-views";
 
@@ -18,12 +18,14 @@ export class ErrorBoundaryContainer extends Component {
 
     const View = view || ErrorBoundary;
 
-    return View({
+    const viewProps = {
       className,
       children,
       error,
       ...rest
-    });
+    };
+
+    return <View {...viewProps} />;
   }
 }
 
