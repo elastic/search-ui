@@ -42,7 +42,9 @@ it("supports a render prop", () => {
   const render = ({ children }) => {
     return <div>{children}</div>;
   };
-  const wrapper = shallow(<ResultsContainer {...params} view={render} />);
+  const wrapper = shallow(
+    <ResultsContainer {...params} view={render} />
+  ).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -58,7 +60,7 @@ it("passes through props to individual Result items", () => {
       shouldTrackClickThrough={true}
       clickThroughTags={["whatever"]}
     />
-  );
+  ).dive();
   expect(wrapper.find("WithSearch").map(n => n.props())).toEqual([
     {
       result: {
@@ -114,7 +116,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
@@ -127,6 +129,6 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Component } from "react";
+import React, { Component } from "react";
 import { withSearch } from "..";
 import { PagingInfo } from "@elastic/react-search-ui-views";
 
@@ -27,15 +27,16 @@ export class PagingInfoContainer extends Component {
     } = this.props;
 
     const View = view || PagingInfo;
-
-    return View({
+    const viewProps = {
       className,
       searchTerm: resultSearchTerm,
       start: pagingStart,
       end: pagingEnd,
       totalResults: totalResults,
       ...rest
-    });
+    };
+
+    return <View {...viewProps} />;
   }
 }
 

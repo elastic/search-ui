@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders empty when there are no results 1`] = `""`;
-
 exports[`supports a render prop 1`] = `
 <div>
   1

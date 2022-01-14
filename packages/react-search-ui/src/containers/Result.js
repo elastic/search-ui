@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { Component } from "react";
 import { Result } from "@elastic/react-search-ui-views";
@@ -55,7 +56,7 @@ export class ResultContainer extends Component {
     } = this.props;
     const View = view || Result;
 
-    return View({
+    const viewProps = {
       className,
       result: result,
       key: `result-${result.id.raw}`,
@@ -64,7 +65,9 @@ export class ResultContainer extends Component {
       urlField,
       thumbnailField,
       ...rest
-    });
+    };
+
+    return <View {...viewProps} />;
   }
 }
 

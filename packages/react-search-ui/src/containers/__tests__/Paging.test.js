@@ -18,26 +18,31 @@ it("supports a render prop", () => {
   const render = ({ current }) => {
     return <div>{current}</div>;
   };
-  const wrapper = shallow(<PagingContainer {...params} view={render} />);
+  const wrapper = shallow(<PagingContainer {...params} view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders empty when there are no results", () => {
+  const view = () => <div />;
   const wrapper = shallow(
     <PagingContainer
       {...{
         ...params,
         totalPages: 0
       }}
+      view={view}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.find(view).length).toBe(0);
+  expect(wrapper.text()).toBe("");
 });
 
 it("will call back when a the page is changed", () => {
   let viewProps;
 
-  shallow(<PagingContainer {...params} view={props => (viewProps = props)} />);
+  shallow(
+    <PagingContainer {...params} view={props => (viewProps = props)} />
+  ).dive();
 
   const { onChange } = viewProps;
   onChange(2);
@@ -55,7 +60,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
@@ -68,6 +73,6 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => (viewProps = props)}
     />
-  );
+  ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

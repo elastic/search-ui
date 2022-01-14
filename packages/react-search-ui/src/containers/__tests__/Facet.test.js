@@ -5,7 +5,7 @@ import { shallow } from "enzyme";
 const View = () => <div />;
 
 const params = {
-  view: jest.fn().mockImplementation(props => <View {...props} />),
+  view: View,
   field: "field1",
   label: "Field 1",
   filters: [
@@ -72,6 +72,10 @@ it("should not render a Facet if there are no facets available", () => {
 describe("values view prop", () => {
   function subject(filterType) {
     let viewProps;
+    const View = props => {
+      viewProps = props;
+      return <div />;
+    };
     shallow(
       <FacetContainer
         {...params}
@@ -106,9 +110,9 @@ describe("values view prop", () => {
             }
           ]
         }}
-        view={props => (viewProps = props)}
+        view={View}
       />
-    );
+    ).dive();
     return viewProps;
   }
   it("should correctly calculated the selected facet options", () => {
@@ -268,26 +272,24 @@ it("will remove a filter when a facet value removed, defaulting filterType to al
 it("passes className through to the view", () => {
   let viewProps;
   const className = "test-class";
+  const View = props => {
+    viewProps = props;
+    return <div />;
+  };
   shallow(
-    <FacetContainer
-      {...params}
-      className={className}
-      view={props => (viewProps = props)}
-    />
-  );
+    <FacetContainer {...params} className={className} view={View} />
+  ).dive();
   expect(viewProps.className).toEqual(className);
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  shallow(
-    <FacetContainer
-      {...params}
-      data-foo={data}
-      view={props => (viewProps = props)}
-    />
-  );
+  const View = props => {
+    viewProps = props;
+    return <div />;
+  };
+  shallow(<FacetContainer {...params} data-foo={data} view={View} />).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });
 
