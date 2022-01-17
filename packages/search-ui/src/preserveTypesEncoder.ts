@@ -1,12 +1,12 @@
-function isTypeNumber(value) {
+function isTypeNumber(value): boolean {
   return value !== undefined && value !== null && typeof value === "number";
 }
 
-function isTypeBoolean(value) {
+function isTypeBoolean(value): boolean {
   return value && typeof value === "boolean";
 }
 
-function toBoolean(value) {
+function toBoolean(value): boolean {
   if (value === "true") return true;
   if (value === "false") return false;
   throw "Invalid type parsed as Boolean value";
@@ -16,7 +16,7 @@ function toBoolean(value) {
 are padded with "n_{number}_n", and booleans with "b_{boolean}_b"*/
 
 export default {
-  encode(value, encode) {
+  encode(value, encode): string {
     if (isTypeNumber(value)) {
       return `n_${value}_n`;
     }

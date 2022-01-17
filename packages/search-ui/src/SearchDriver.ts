@@ -77,12 +77,38 @@ function removeConditionalFacets(
   }, {});
 }
 
+type AutocompleteQuery = {
+  results,
+  suggestions
+}
+
+type SearchQuery = {
+
+}
+
 /*
  * The Driver is a framework agnostic search state manager that is capable
  * syncing state to the url.
  */
 export default class SearchDriver {
   state = DEFAULT_STATE;
+
+  debug: boolean;
+  actions: any;
+  events: any;
+  autocompleteRequestSequencer: RequestSequencer;
+  searchRequestSequencer: RequestSequencer;
+  debounceManager: DebounceManager;
+  autocompleteQuery: AutocompleteQuery;
+  searchQuery: SearchQuery;
+  subscriptions: any[];
+  trackUrlState: boolean;
+  urlPushDebounceLength: number;
+  alwaysSearchOnInitialLoad: boolean;
+  URLManager: URLManager;
+  hasA11yNotifications: boolean;
+  a11yNotificationMessages: Record<string, {}>;
+  startingState: any;
 
   constructor({
     apiConnector,
@@ -124,7 +150,7 @@ export default class SearchDriver {
       console.warn(
         "Search UI Debugging is enabled. This should be turned off in production deployments."
       );
-      window.searchUI = this;
+      window["searchUI"] = this;
     }
     this.autocompleteRequestSequencer = new RequestSequencer();
     this.searchRequestSequencer = new RequestSequencer();
@@ -203,9 +229,9 @@ export default class SearchDriver {
    * @param {boolean|Object} options.autocompleteResults - Should autocomplete results
    * @param {boolean|Object} options.autocompleteSuggestions - Should autocomplete suggestions
    */
-  _updateAutocomplete = (
+  private _updateAutocomplete = (
     searchTerm,
-    { autocompleteResults, autocompleteSuggestions } = {}
+    { autocompleteResults, autocompleteSuggestions } : any = {}
   ) => {
     const requestId = this.autocompleteRequestSequencer.next();
 
@@ -257,7 +283,7 @@ export default class SearchDriver {
       sortDirection,
       sortField,
       sortList
-    } = {
+    } : any = {
       ...this.state,
       ...searchParameters
     };
@@ -313,7 +339,7 @@ export default class SearchDriver {
    * @param {boolean} options.replaceUrl - When pushing state to the URL, use history 'replace'
    * rather than 'push' to avoid adding a new history entry
    */
-  _makeSearchRequest = DebounceManager.debounce(
+  private _makeSearchRequest = DebounceManager.debounce(
     0,
     ({ skipPushToUrl, replaceUrl }) => {
       const {
@@ -410,7 +436,7 @@ export default class SearchDriver {
     }
   );
 
-  _setState(newState) {
+  private _setState(newState) {
     const state = { ...this.state, ...newState };
     // eslint-disable-next-line no-console
     if (this.debug) console.log("Search UI: State Update", newState, state);

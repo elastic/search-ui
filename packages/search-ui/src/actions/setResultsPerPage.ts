@@ -5,7 +5,7 @@
  *
  * @param resultsPerPage Integer
  */
-export default function setResultsPerPage(resultsPerPage) {
+export default function setResultsPerPage(resultsPerPage: number): void {
   if (this.debug)
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "setResultsPerPage", ...arguments);

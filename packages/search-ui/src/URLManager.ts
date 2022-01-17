@@ -1,7 +1,22 @@
-import { createBrowserHistory as createHistory } from "history";
+import { createBrowserHistory as createHistory, History } from "history";
 import queryString from "./queryString";
 
-function isNumericString(num) {
+type Filter = {
+  field: string,
+  value: string
+}
+
+type QueryParams = {
+  filters?: Array<Filter>,
+  current?: string,
+  q?: string,
+  size?: string,
+  "sort-field"?: string,
+  "sort-direction"?: string,
+  sort?: string
+}
+
+function isNumericString(num): boolean {
   return !isNaN(num);
 }
 
@@ -9,28 +24,28 @@ function toSingleValue(val) {
   return Array.isArray(val) ? val[val.length - 1] : val;
 }
 
-function toSingleValueInteger(num) {
+function toSingleValueInteger(num): number {
   return toInteger(toSingleValue(num));
 }
 
-function toInteger(num) {
+function toInteger(num): number {
   if (!isNumericString(num)) return;
   return parseInt(num, 10);
 }
 
-function parseFiltersFromQueryParams(queryParams) {
+function parseFiltersFromQueryParams(queryParams: QueryParams) {
   return queryParams.filters;
 }
 
-function parseCurrentFromQueryParams(queryParams) {
+function parseCurrentFromQueryParams(queryParams: QueryParams) {
   return toSingleValueInteger(queryParams.current);
 }
 
-function parseSearchTermFromQueryParams(queryParams) {
+function parseSearchTermFromQueryParams(queryParams: QueryParams): string {
   return toSingleValue(queryParams.q);
 }
 
-function parseOldSortFromQueryParams(queryParams) {
+function parseOldSortFromQueryParams(queryParams: QueryParams): [string, string] | [] {
   const sortField = toSingleValue(queryParams["sort-field"]);
   const sortDirection = toSingleValue(queryParams["sort-direction"]);
 
@@ -38,15 +53,25 @@ function parseOldSortFromQueryParams(queryParams) {
   return [];
 }
 
-function parseSizeFromQueryParams(queryParams) {
+function parseSizeFromQueryParams(queryParams: QueryParams) {
   return toSingleValueInteger(queryParams.size);
 }
 
-function parseSortFromQueryParams(queryParams) {
+function parseSortFromQueryParams(queryParams: QueryParams): string {
   return queryParams["sort"];
 }
 
-function paramsToState(queryParams) {
+type SearchState = {
+  current?: number,
+  filters?: Array<Filter>,
+  searchTerm?: string,
+  resultsPerPage?: number,
+  sortField?: string,
+  sortDirection?: string,
+  sortList?: string
+}
+
+function paramsToState(queryParams: QueryParams): SearchState {
   const state = {
     current: parseCurrentFromQueryParams(queryParams),
     filters: parseFiltersFromQueryParams(queryParams),
@@ -72,11 +97,11 @@ function stateToParams({
   sortDirection,
   sortField,
   sortList
-}) {
-  const params = {};
-  if (current > 1) params.current = current;
+}: SearchState): QueryParams {
+  const params: QueryParams = {};
+  if (current > 1) params.current = current.toString();
   if (searchTerm) params.q = searchTerm;
-  if (resultsPerPage) params.size = resultsPerPage;
+  if (resultsPerPage) params.size = resultsPerPage.toString();
   if (filters && filters.length > 0) {
     params["filters"] = filters;
   }
@@ -89,7 +114,7 @@ if (sortList && sortList.length > 0) {
   return params;
 }
 
-function stateToQueryString(state) {
+function stateToQueryString(state: SearchState): string {
   return queryString.stringify(stateToParams(state));
 }
 
@@ -112,6 +137,11 @@ function stateToQueryString(state) {
  */
 
 export default class URLManager {
+
+  history: History;
+  lastPushSearchString: string;
+  unlisten?: () => void
+
   constructor() {
     this.history = createHistory();
     this.lastPushSearchString = "";
@@ -122,7 +152,7 @@ export default class URLManager {
    *
    * @return {Object} - The parsed state object
    */
-  getStateFromURL() {
+  getStateFromURL(): SearchState {
     return paramsToState(queryString.parse(this.history.location.search));
   }
 
@@ -134,7 +164,7 @@ export default class URLManager {
    * @param {boolean} options.replaceUrl - When pushing state to the URL, use history 'replace'
    * rather than 'push' to avoid adding a new history entry
    */
-  pushStateToURL(state, { replaceUrl = false } = {}) {
+  pushStateToURL(state: SearchState, { replaceUrl = false }: { replaceUrl?: boolean } = {}): void {
     const searchString = stateToQueryString(state);
     this.lastPushSearchString = searchString;
     const navigationFunction = replaceUrl
@@ -153,7 +183,7 @@ export default class URLManager {
    *
    * @param {requestCallback} callback
    */
-  onURLStateChange(callback) {
+  onURLStateChange(callback: (state: SearchState) => void): void {
     this.unlisten = this.history.listen(location => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
@@ -167,7 +197,7 @@ export default class URLManager {
     });
   }
 
-  tearDown() {
+  tearDown(): void {
     this.unlisten();
   }
 }

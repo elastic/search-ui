@@ -1,10 +1,15 @@
+type DebounceInstanceFn = () => void;
+type DebounceInstanceCancel = {
+  cancel: () => void
+};
+type DebounceInstance = DebounceInstanceFn & DebounceInstanceCancel;
 /**
  * minimal debounce function
  *
  * mostly for not spamming the server with requests when
  * searching with type ahead
  */
-function debounce(func, wait) {
+function debounce(func, wait): DebounceInstance {
   let timeout;
   const debouncedFn = function() {
     const args = arguments;
@@ -24,7 +29,7 @@ function debounce(func, wait) {
 }
 
 class DebounceManager {
-  debounceCache = {};
+  debounceCache: Record<string, DebounceInstance> = {};
 
   /**
    * Dynamically debounce and cache a debounced version of a function at the time of calling that function. This avoids
@@ -46,9 +51,9 @@ class DebounceManager {
    * @param {function} functionName Name of function to debounce, used to create a unique key
    * @param {...any} parameters Parameters to pass to function
    */
-  runWithDebounce(wait, functionName, fn, ...parameters) {
+  runWithDebounce(wait, functionName, fn, ...rest) {
     if (!wait) {
-      return fn(...parameters);
+      return fn(...rest);
     }
 
     const key = `${functionName}|${wait.toString()}`;
@@ -57,7 +62,7 @@ class DebounceManager {
       this.debounceCache[key] = debounce(fn, wait);
       debounced = this.debounceCache[key];
     }
-    debounced(...parameters);
+    debounced(...rest);
   }
 
   /**
@@ -85,15 +90,16 @@ class DebounceManager {
       // eslint-disable-next-line no-unused-vars
       .forEach(([_, cachedValue]) => cachedValue.cancel());
   }
-}
-/**
+
+  /**
  * Perform a standard debounce
  *
  * @param {number} wait Milliseconds to debounce. Executes immediately if falsey.
  * @param {function} fn Function to debounce
  */
-DebounceManager.debounce = (wait, fn) => {
-  return debounce(fn, wait);
-};
+  static debounce = (wait, fn) => {
+    return debounce(fn, wait);
+  };
+}
 
 export default DebounceManager;

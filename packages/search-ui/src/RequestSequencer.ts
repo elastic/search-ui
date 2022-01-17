@@ -12,19 +12,21 @@
 
   To deal with this, we keep track of a sequence.
   */
-export default class RequestSequencer {
-  requestSequence = 0;
-  lastCompleted = 0;
+type RequestSequence = number
 
-  next() {
+export default class RequestSequencer {
+  requestSequence: RequestSequence = 0;
+  lastCompleted: RequestSequence = 0;
+
+  next(): RequestSequence {
     return ++this.requestSequence;
   }
 
-  isOldRequest(request) {
+  isOldRequest(request: RequestSequence): boolean {
     return request < this.lastCompleted;
   }
 
-  completed(request) {
+  completed(request: RequestSequence): void {
     this.lastCompleted = request;
   }
 }

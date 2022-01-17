@@ -12,8 +12,18 @@
  * @param options.refresh Boolean Refresh search results?
  * @param options.debounce Length to debounce API calls
  */
+
+type SetSearchTermOptions = {
+  autocompleteMinimumCharacters?: number,
+  autocompleteResults?: boolean,
+  debounce?: number,
+  refresh?: boolean,
+  autocompleteSuggestions?: boolean,
+  shouldClearFilters?: boolean,
+}
+
 export default function setSearchTerm(
-  searchTerm,
+  searchTerm: string,
   {
     autocompleteMinimumCharacters = 0,
     autocompleteResults = false,
@@ -21,8 +31,8 @@ export default function setSearchTerm(
     shouldClearFilters = true,
     refresh = true,
     debounce = 0
-  } = {}
-) {
+  }: SetSearchTermOptions = {}
+) : void {
   if (this.debug)
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "setSearchTerm", ...arguments);

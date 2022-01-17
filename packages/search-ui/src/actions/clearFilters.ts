@@ -5,7 +5,7 @@
  *
  * @param except Array[String] field name of any filters that should remain
  */
-export default function clearFilters(except = []) {
+export default function clearFilters(except: string[] = []): void {
   if (this.debug)
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "clearFilters", ...arguments);

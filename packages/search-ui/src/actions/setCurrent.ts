@@ -5,7 +5,7 @@
  *
  * @param current Integer
  */
-export default function setCurrent(current) {
+export default function setCurrent(current: number): void {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "setCurrent", ...arguments);
 
