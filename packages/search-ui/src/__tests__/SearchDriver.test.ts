@@ -1,5 +1,5 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
-
+import { SearchQuery } from '../types'
 import {
   doesStateHaveResponseData,
   setupDriver,
@@ -8,11 +8,12 @@ import {
 } from "../test/helpers";
 
 // We mock this so no state is actually written to the URL
-jest.mock("../URLManager.js");
+jest.mock("../URLManager");
 import URLManager from "../URLManager";
+const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
-  URLManager.mockClear();
+  MockedURLManager.mockClear();
 });
 
 const mockApiConnector = getMockApiConnector();
@@ -22,12 +23,12 @@ const params = {
   trackUrlState: false
 };
 
-function getSearchCalls(specificMockApiConnector) {
-  return (specificMockApiConnector || mockApiConnector).onSearch.mock.calls;
+function getSearchCalls(specificMockApiConnector = mockApiConnector) {
+  return (specificMockApiConnector).onSearch.mock.calls;
 }
 
-function getAutocompleteCalls(specificMockApiConnector) {
-  return (specificMockApiConnector || mockApiConnector).onAutocomplete.mock
+function getAutocompleteCalls(specificMockApiConnector = mockApiConnector) {
+  return (specificMockApiConnector).onAutocomplete.mock
     .calls;
 }
 
@@ -136,7 +137,7 @@ it("will sync initial state to the URL", () => {
 
   setupDriver({ initialState });
 
-  const pushStateCalls = URLManager.mock.instances[0].pushStateToURL.mock.calls;
+  const pushStateCalls = (MockedURLManager.mock.instances[0].pushStateToURL as any).mock.calls;
   expect(pushStateCalls).toHaveLength(1);
   // "will sync to the url with 'replace' rather than 'push'"
   expect(pushStateCalls[0][1].replaceUrl).toEqual(true);
@@ -150,7 +151,7 @@ it("will not sync initial state to the URL if trackURLState is set to false", ()
 
   setupDriver({ initialState, trackUrlState: false });
 
-  expect(URLManager.mock.instances).toHaveLength(0);
+  expect(MockedURLManager.mock.instances).toHaveLength(0);
 });
 
 describe("searchQuery config", () => {
@@ -212,7 +213,7 @@ describe("searchQuery config", () => {
       disjunctiveFacetsAnalyticsTags,
       result_fields,
       search_fields
-    }) {
+    }: Partial<SearchQuery>) {
       const driver = new SearchDriver({
         ...params,
         searchQuery: {
@@ -409,14 +410,14 @@ describe("tearDown", () => {
     driver.setSearchTerm("test");
     expect(called1).toBe(true);
     expect(called2).toBe(true);
-    expect(URLManager.mock.instances[0].tearDown.mock.calls.length).toBe(0);
+    expect((MockedURLManager.mock.instances[0].tearDown as any).mock.calls.length).toBe(0);
     called1 = false;
     called2 = false;
     driver.tearDown();
     driver.setSearchTerm("test");
     expect(called1).toBe(false); // Did not call, unsubscribed
     expect(called2).toBe(false); // Did not call, unsubscribed
-    expect(URLManager.mock.instances[0].tearDown.mock.calls.length).toBe(1);
+    expect((MockedURLManager.mock.instances[0].tearDown  as any).mock.calls.length).toBe(1);
   });
 });
 

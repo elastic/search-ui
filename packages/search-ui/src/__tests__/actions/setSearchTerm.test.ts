@@ -1,4 +1,4 @@
-import { getAutocompleteCalls, setupDriver } from "../../test/helpers";
+import { getAutocompleteCalls, setupDriver, SubjectArguments } from "../../test/helpers";
 import {
   itResetsCurrent,
   itResetsFilters,
@@ -7,11 +7,12 @@ import {
 } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
-jest.mock("../../URLManager.js");
+jest.mock("../../URLManager");
 import URLManager from "../../URLManager";
+const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
-  URLManager.mockClear();
+  MockedURLManager.mockClear();
 });
 
 describe("#setSearchTerm", () => {
@@ -23,7 +24,7 @@ describe("#setSearchTerm", () => {
       refresh,
       initialState = {},
       shouldClearFilters
-    } = {}
+    }: SubjectArguments = {}
   ) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
@@ -113,13 +114,13 @@ describe("#setSearchTerm", () => {
 
   itFetchesResults(() => subject("term").state);
 
-  itUpdatesURLState(URLManager, () => {
+  itUpdatesURLState(MockedURLManager, () => {
     subject("term");
   });
 
   it("Does not update URL state when 'refresh' is set to false", () => {
     subject("term", { refresh: false });
-    expect(URLManager.mock.instances[0].pushStateToURL.mock.calls).toHaveLength(
+    expect((MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mock.calls).toHaveLength(
       0
     );
   });

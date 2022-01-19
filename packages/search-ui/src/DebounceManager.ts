@@ -1,8 +1,6 @@
-type DebounceInstanceFn = () => void;
-type DebounceInstanceCancel = {
+type DebounceInstance = ((...args: any[]) => void) & {
   cancel: () => void
 };
-type DebounceInstance = DebounceInstanceFn & DebounceInstanceCancel;
 /**
  * minimal debounce function
  *

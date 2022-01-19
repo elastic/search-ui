@@ -8,6 +8,7 @@ import Events from "./Events";
 import { mergeFilters } from "./helpers";
 
 import * as a11y from "./A11yNotifications";
+import { AutocompleteQuery, SearchState, SearchQuery } from "./types";
 
 function filterSearchParameters({
   current,
@@ -77,24 +78,35 @@ function removeConditionalFacets(
   }, {});
 }
 
-type AutocompleteQuery = {
-  results,
-  suggestions
+export type SearchDriverOptions = {
+  apiConnector: any, // todo: type
+  autocompleteQuery?: AutocompleteQuery,
+  debug?: boolean,
+  initialState?: SearchState,
+  onSearch?: (query: SearchQuery) => void,
+  onAutocomplete?: (query: AutocompleteQuery) => void,
+  onResultClick?: (result: any) => void,
+  onAutocompleteResultClick?: (result: any) => void,
+  searchQuery?: SearchQuery,
+  trackUrlState?: boolean,
+  urlPushDebounceLength?: number,
+  hasA11yNotifications?: boolean,
+  a11yNotificationMessages?: Record<string, any>,
+  alwaysSearchOnInitialLoad?: boolean
 }
 
-type SearchQuery = {
-
+interface SearchDriver extends actions.SearchDriverActions {
+  actions: actions.SearchDriverActions
 }
 
 /*
  * The Driver is a framework agnostic search state manager that is capable
  * syncing state to the url.
  */
-export default class SearchDriver {
+class SearchDriver {
   state = DEFAULT_STATE;
 
   debug: boolean;
-  actions: any;
   events: any;
   autocompleteRequestSequencer: RequestSequencer;
   searchRequestSequencer: RequestSequencer;
@@ -107,9 +119,9 @@ export default class SearchDriver {
   alwaysSearchOnInitialLoad: boolean;
   URLManager: URLManager;
   hasA11yNotifications: boolean;
-  a11yNotificationMessages: Record<string, {}>;
+  a11yNotificationMessages: Record<string, (expansions?: Record<string, any>) => string>;
   startingState: any;
-
+  
   constructor({
     apiConnector,
     autocompleteQuery = {},
@@ -125,7 +137,7 @@ export default class SearchDriver {
     hasA11yNotifications = false,
     a11yNotificationMessages = {},
     alwaysSearchOnInitialLoad = false
-  }) {
+  }: SearchDriverOptions) {
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
         return {
@@ -134,7 +146,7 @@ export default class SearchDriver {
         };
       },
       {}
-    );
+    ) as actions.SearchDriverActions
     Object.assign(this, this.actions);
 
     this.events = new Events({
@@ -150,7 +162,7 @@ export default class SearchDriver {
       console.warn(
         "Search UI Debugging is enabled. This should be turned off in production deployments."
       );
-      window["searchUI"] = this;
+      if (typeof window !== "undefined") window["searchUI"] = this;
     }
     this.autocompleteRequestSequencer = new RequestSequencer();
     this.searchRequestSequencer = new RequestSequencer();
@@ -272,7 +284,7 @@ export default class SearchDriver {
    * rather than 'push' to avoid adding a new history entry
    */
   _updateSearchResults = (
-    searchParameters,
+    searchParameters?,
     { skipPushToUrl = false, replaceUrl = false } = {}
   ) => {
     const {
@@ -510,3 +522,5 @@ export default class SearchDriver {
     return { ...this.state };
   }
 }
+
+export default SearchDriver;

@@ -2,15 +2,16 @@ import { setupDriver } from "../../test/helpers";
 import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
-jest.mock("../../URLManager.js");
+jest.mock("../../URLManager");
 import URLManager from "../../URLManager";
+const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
-  URLManager.mockClear();
+  MockedURLManager.mockClear();
 });
 
 describe("#setSort", () => {
-  function subject(sort, sortDirection, { initialState = {} } = {}) {
+  function subject(sort?, sortDirection?, { initialState = {} } = {}) {
     const { driver, stateAfterCreation, updatedStateAfterAction } = setupDriver(
       { initialState }
     );

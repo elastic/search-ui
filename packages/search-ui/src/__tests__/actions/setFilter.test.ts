@@ -1,4 +1,4 @@
-import { setupDriver } from "../../test/helpers";
+import { setupDriver, SubjectArguments } from "../../test/helpers";
 import {
   itResetsCurrent,
   itFetchesResults,
@@ -6,24 +6,25 @@ import {
 } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
-jest.mock("../../URLManager.js");
+jest.mock("../../URLManager");
 import URLManager from "../../URLManager";
+const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
-  URLManager.mockClear();
+  MockedURLManager.mockClear();
 });
 
 describe("#setFilter", () => {
   function subject(
-    name,
-    value,
-    type,
+    name?,
+    value?,
+    type?,
     {
       initialFilters = [],
       initialState = {
         filters: initialFilters
       }
-    } = {}
+    }: SubjectArguments = {}
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState

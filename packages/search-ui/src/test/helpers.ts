@@ -1,4 +1,23 @@
-import SearchDriver from "../SearchDriver";
+import SearchDriver, { SearchDriverOptions } from "../SearchDriver";
+
+export type InitialState = {
+  resultsPerPage?: number,
+  sortField?: string,
+  sortDirection?: string,
+  sortList?: any[],
+  searchTerm?: string,
+  filters?: any[]
+  current?: number
+};
+
+export type SubjectArguments = { 
+  initialState?: InitialState, 
+  initialFilters?: any,
+  autocompleteResults?: any,
+  autocompleteSuggestions?: boolean,
+  refresh?: boolean,
+  shouldClearFilters?: boolean
+}
 
 const suggestions = {
   documents: [
@@ -43,11 +62,21 @@ export function getMockApiConnector() {
   };
 }
 
+type SetupDriverOptions = {
+  mockSearchResponse?: any;
+  mockApiConnector?: any;
+} & Partial<SearchDriverOptions>
+
 export function setupDriver({
   mockSearchResponse,
   mockApiConnector,
   ...rest
-} = {}) {
+}: SetupDriverOptions = { mockSearchResponse: null, mockApiConnector: null }) : {
+  driver: SearchDriver,
+  stateAfterCreation: any,
+  updatedStateAfterAction: any,
+  mockApiConnector: any,
+} {
   mockApiConnector = mockApiConnector || getMockApiConnector();
 
   if (mockSearchResponse) {
@@ -58,6 +87,7 @@ export function setupDriver({
 
   const driver = new SearchDriver({
     apiConnector: mockApiConnector,
+    initialState: null,
     // Pass, e.g., initialState and all other configs
     ...rest,
     // We don't want to deal with async in our tests, so pass 0 so URL state
@@ -65,7 +95,7 @@ export function setupDriver({
     urlPushDebounceLength: 0
   });
 
-  const updatedStateAfterAction = {};
+  const updatedStateAfterAction = { state: null };
   driver.subscribeToStateChanges(newState => {
     updatedStateAfterAction.state = newState;
   });

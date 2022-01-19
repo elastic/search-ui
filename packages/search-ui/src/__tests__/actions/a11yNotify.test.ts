@@ -1,7 +1,7 @@
 import { setupDriver } from "../../test/helpers";
 
 // Mock announceToScreenReader so that we can spy on it
-jest.mock("../../A11yNotifications.js");
+jest.mock("../../A11yNotifications");
 import { announceToScreenReader } from "../../A11yNotifications";
 
 beforeEach(() => {
@@ -19,7 +19,7 @@ describe("#a11yNotify", () => {
   it("runs", () => {
     const { driver } = setupDriver(config);
 
-    driver.a11yNotify("customMessage");
+    (driver as any).a11yNotify("customMessage");
     expect(announceToScreenReader).toHaveBeenCalledWith("Hello world");
   });
 

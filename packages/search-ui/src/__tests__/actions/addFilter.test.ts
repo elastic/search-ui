@@ -1,16 +1,18 @@
-import { setupDriver } from "../../test/helpers";
+import { setupDriver, SubjectArguments } from "../../test/helpers";
 import {
   itResetsCurrent,
   itFetchesResults,
   itUpdatesURLState
 } from "../../test/sharedTests";
+import { InitialState } from "../../test/helpers";
 
 // We mock this so no state is actually written to the URL
-jest.mock("../../URLManager.js");
+jest.mock("../../URLManager");
 import URLManager from "../../URLManager";
+const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
-  URLManager.mockClear();
+  MockedURLManager.mockClear();
 });
 
 describe("#addFilter", () => {
@@ -21,9 +23,10 @@ describe("#addFilter", () => {
     {
       initialFilters = [],
       initialState = {
-        filters: initialFilters
+        filters: initialFilters,
+        current: null
       }
-    } = {}
+    }: SubjectArguments = {}
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
@@ -41,7 +44,7 @@ describe("#addFilter", () => {
   });
 
   itResetsCurrent(() =>
-    subject("field", "value", undefined, { initialState: { current: 2 } })
+    subject("field", "value", undefined, { initialState: { filters: [], current: 2 } })
   );
 
   it("Does not update other Search Parameter values", () => {

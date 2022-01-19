@@ -143,7 +143,7 @@ export default class URLManager {
   unlisten?: () => void
 
   constructor() {
-    this.history = createHistory();
+    this.history = typeof window !== "undefined" ? createHistory() : null;
     this.lastPushSearchString = "";
   }
 
@@ -153,7 +153,8 @@ export default class URLManager {
    * @return {Object} - The parsed state object
    */
   getStateFromURL(): SearchState {
-    return paramsToState(queryString.parse(this.history.location.search));
+    const searchString = this.history ? this.history.location.search : "";
+    return paramsToState(queryString.parse(searchString));
   }
 
   /**
@@ -184,6 +185,7 @@ export default class URLManager {
    * @param {requestCallback} callback
    */
   onURLStateChange(callback: (state: SearchState) => void): void {
+    if (!this.history) return;
     this.unlisten = this.history.listen(location => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.

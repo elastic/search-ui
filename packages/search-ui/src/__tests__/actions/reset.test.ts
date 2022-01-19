@@ -3,11 +3,12 @@ import { setupDriver } from "../../test/helpers";
 import { itUpdatesURLState } from "../../test/sharedTests";
 
 // We mock this so no state is actually written to the URL
-jest.mock("../../URLManager.js");
+jest.mock("../../URLManager");
 import URLManager from "../../URLManager";
+const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
-  URLManager.mockClear();
+  MockedURLManager.mockClear();
 });
 
 describe("#reset", () => {
@@ -28,7 +29,7 @@ describe("#reset", () => {
     let updatedStated = updatedStateAfterAction.state;
 
     // Because we only want to know if it was called AFTER reset is called
-    URLManager.mock.instances[0].pushStateToURL.mockClear();
+    (MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mockClear();
 
     expect(updatedStated).not.toEqual({
       ...DEFAULT_STATE,

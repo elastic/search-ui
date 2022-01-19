@@ -7,7 +7,7 @@ import { announceToScreenReader } from "../A11yNotifications";
  * @param {string} messageFunc - key of a message function in `a11yNotificationMessages`
  * @param {object} [messageArgs] - arguments to pass to the message function, if any
  */
-export default function a11yNotify(messageFunc: string, messageArgs: any): void {
+export default function a11yNotify(messageFunc: string, messageArgs?: any): void {
   if (!this.hasA11yNotifications) return;
 
   const getMessage = this.a11yNotificationMessages[messageFunc];

@@ -117,7 +117,7 @@ describe("values view prop", () => {
   }
   it("should correctly calculated the selected facet options", () => {
     const { values } = subject();
-    expect(values).toEqual(["field1value1", "field1value2"]);
+    expect(values).toEqual(["field1value1", "field1value3"]);
   });
 
   it("should correctly calculated the selected facet options for filterType", () => {
@@ -173,6 +173,7 @@ describe("show more", () => {
   });
 
   it("should limit options to 5 initially", () => {
+    expect(wrapper.find(View).prop("options").length).toEqual(5);
     expect(wrapper.find(View).prop("options").length).toEqual(5);
   });
 

@@ -12,3 +12,18 @@ export { default as setSearchTerm } from "./setSearchTerm";
 export { default as setSort } from "./setSort";
 export { default as trackClickThrough } from "./trackClickThrough";
 export { default as a11yNotify } from "./a11yNotify";
+
+export interface SearchDriverActions {
+  addFilter: typeof import("./addFilter").default,
+  trackAutocompleteClickThrough: typeof import("./trackAutocompleteClickThrough").default,
+  clearFilters: typeof import("./clearFilters").default,
+  removeFilter: typeof import("./removeFilter").default,
+  reset: typeof import("./reset").default,
+  setCurrent: typeof import("./setCurrent").default,
+  setFilter: typeof import("./setFilter").default,
+  setResultsPerPage: typeof import("./setResultsPerPage").default,
+  setSearchTerm: typeof import("./setSearchTerm").default,
+  setSort: typeof import("./setSort").default,
+  trackClickThrough: typeof import("./trackClickThrough").default,
+  a11yNotify: typeof import("./a11yNotify").default,
+}
