@@ -39,3 +39,7 @@ export type SearchQuery = {
 export type APIConnector = {
 	// search(query: SearchQuery): Promise<SearchResponse>
 }
+
+export type QueryConfig = {
+	
+}

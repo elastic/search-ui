@@ -410,14 +410,14 @@ describe("tearDown", () => {
     driver.setSearchTerm("test");
     expect(called1).toBe(true);
     expect(called2).toBe(true);
-    expect((MockedURLManager.mock.instances[0].tearDown as any).mock.calls.length).toBe(0);
+    expect((MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls.length).toBe(0);
     called1 = false;
     called2 = false;
     driver.tearDown();
     driver.setSearchTerm("test");
     expect(called1).toBe(false); // Did not call, unsubscribed
     expect(called2).toBe(false); // Did not call, unsubscribed
-    expect((MockedURLManager.mock.instances[0].tearDown  as any).mock.calls.length).toBe(1);
+    expect((MockedURLManager.mock.instances[0].tearDown  as jest.Mock).mock.calls.length).toBe(1);
   });
 });
 

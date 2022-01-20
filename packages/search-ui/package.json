@@ -4,7 +4,7 @@
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
   "main": "lib/cjs",
-  "module": "es/esm",
+  "module": "lib/esm",
   "types": "./lib/esm/index.d.ts",
   "sideEffects": false,
   "directories": {
@@ -12,8 +12,7 @@
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es"
+    "lib"
   ],
   "repository": {
     "type": "git",

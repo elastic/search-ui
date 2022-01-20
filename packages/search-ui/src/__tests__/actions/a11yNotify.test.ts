@@ -19,7 +19,7 @@ describe("#a11yNotify", () => {
   it("runs", () => {
     const { driver } = setupDriver(config);
 
-    (driver as any).a11yNotify("customMessage");
+    driver.a11yNotify("customMessage");
     expect(announceToScreenReader).toHaveBeenCalledWith("Hello world");
   });
 

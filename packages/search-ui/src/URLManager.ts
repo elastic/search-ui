@@ -20,7 +20,7 @@ function isNumericString(num): boolean {
   return !isNaN(num);
 }
 
-function toSingleValue(val) {
+function toSingleValue(val): string {
   return Array.isArray(val) ? val[val.length - 1] : val;
 }
 
@@ -33,11 +33,11 @@ function toInteger(num): number {
   return parseInt(num, 10);
 }
 
-function parseFiltersFromQueryParams(queryParams: QueryParams) {
+function parseFiltersFromQueryParams(queryParams: QueryParams) : Filter[] {
   return queryParams.filters;
 }
 
-function parseCurrentFromQueryParams(queryParams: QueryParams) {
+function parseCurrentFromQueryParams(queryParams: QueryParams): number {
   return toSingleValueInteger(queryParams.current);
 }
 
@@ -53,7 +53,7 @@ function parseOldSortFromQueryParams(queryParams: QueryParams): [string, string]
   return [];
 }
 
-function parseSizeFromQueryParams(queryParams: QueryParams) {
+function parseSizeFromQueryParams(queryParams: QueryParams): number {
   return toSingleValueInteger(queryParams.size);
 }
 

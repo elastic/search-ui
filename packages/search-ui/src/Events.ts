@@ -1,6 +1,6 @@
-import { APIConnector, AutocompleteQuery } from './types';
+import { APIConnector, AutocompleteQuery, QueryConfig, SearchQuery } from './types';
 
-function wireUpEventHandler(handlerName, apiConnector, handlerParam) {
+function wireUpEventHandler(handlerName: string, apiConnector: APIConnector, handlerParam) {
   if (handlerParam) {
     // Passes a 'next' parameter which allows a handler to work as
     // middleware for a connector
@@ -32,7 +32,7 @@ function wireUpEventHandler(handlerName, apiConnector, handlerParam) {
 
 type EventOptions = {
   apiConnector?: APIConnector
-  onSearch?: (searchQuery: any) => void
+  onSearch?: (searchQuery: SearchQuery) => void
   onAutocomplete?: (query: AutocompleteQuery) => void,
   onResultClick?: (result: any) => void,
   onAutocompleteResultClick?: (result: any) => void
@@ -40,10 +40,10 @@ type EventOptions = {
 
 class Events {
 
-  private search: () => void;
-  private autocomplete: () => void;
-  private resultClick: () => void;
-  private autocompleteResultClick: () => void;
+  public search: (searchQuery: SearchQuery, queryConfig: QueryConfig) => Promise<any>;
+  public autocomplete: (query: { searchTerm: string }, queryConfig: QueryConfig) => Promise<any>; 
+  public resultClick: () => void;
+  public autocompleteResultClick: () => void;
 
   constructor({
     apiConnector,

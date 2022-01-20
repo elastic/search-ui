@@ -33,18 +33,18 @@ describe("defaultMessages", () => {
   it("outputs searchResults correctly", () => {
     expect(
       defaultMessages.searchResults({
-        start: 1,
-        end: 20,
-        totalResults: 50,
+        start: "1",
+        end: "20",
+        totalResults: "50",
         searchTerm: "foo"
       })
     ).toEqual('Showing 1 to 20 results out of 50, searching for "foo".');
 
     expect(
       defaultMessages.searchResults({
-        start: 0,
-        end: 0,
-        totalResults: 0,
+        start: "0",
+        end: "0",
+        totalResults: "0",
         searchTerm: ""
       })
     ).toEqual("Showing 0 to 0 results out of 0");

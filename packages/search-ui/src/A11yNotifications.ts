@@ -41,7 +41,7 @@ const getLiveRegion = () : HTMLElement => {
   return region;
 };
 
-const announceToScreenReader = (announcement): void => {
+const announceToScreenReader = (announcement: string): void => {
   if (hasDOM) {
     const region = getLiveRegion();
     region.textContent = announcement;
@@ -49,7 +49,7 @@ const announceToScreenReader = (announcement): void => {
 };
 
 const defaultMessages = {
-  searchResults: ({ start, end, totalResults, searchTerm }) => {
+  searchResults: ({ start, end, totalResults, searchTerm }: { start: string, end: string, totalResults: string, searchTerm: string }) => {
     let message = `Showing ${start} to ${end} results out of ${totalResults}`;
     if (searchTerm) message += `, searching for "${searchTerm}".`;
     return message;

@@ -1,4 +1,6 @@
-type DebounceInstance = ((...args: any[]) => void) & {
+type fnType = (...args: any[]) => void
+
+type DebounceInstance = fnType & {
   cancel: () => void
 };
 /**
@@ -7,7 +9,7 @@ type DebounceInstance = ((...args: any[]) => void) & {
  * mostly for not spamming the server with requests when
  * searching with type ahead
  */
-function debounce(func, wait): DebounceInstance {
+function debounce(func: fnType, wait: number): DebounceInstance {
   let timeout;
   const debouncedFn = function() {
     const args = arguments;
@@ -49,9 +51,9 @@ class DebounceManager {
    * @param {function} functionName Name of function to debounce, used to create a unique key
    * @param {...any} parameters Parameters to pass to function
    */
-  runWithDebounce(wait, functionName, fn, ...rest) {
+  runWithDebounce(wait: number, functionName: string, fn: fnType, ...parameters: any[]): void {
     if (!wait) {
-      return fn(...rest);
+      return fn(...parameters);
     }
 
     const key = `${functionName}|${wait.toString()}`;
@@ -60,7 +62,7 @@ class DebounceManager {
       this.debounceCache[key] = debounce(fn, wait);
       debounced = this.debounceCache[key];
     }
-    debounced(...rest);
+    debounced(...parameters);
   }
 
   /**
@@ -82,7 +84,7 @@ class DebounceManager {
    * @param {string} functionName The name of the function that was debounced. This needs to match exactly what was provided
    * when runWithDebounce was called originally.
    */
-  cancelByName(functionName) {
+  cancelByName(functionName: string): void {
     Object.entries(this.debounceCache)
       .filter(([cachedKey]) => cachedKey.startsWith(`${functionName}|`))
       // eslint-disable-next-line no-unused-vars
@@ -95,7 +97,7 @@ class DebounceManager {
  * @param {number} wait Milliseconds to debounce. Executes immediately if falsey.
  * @param {function} fn Function to debounce
  */
-  static debounce = (wait, fn) => {
+  static debounce = (wait: number, fn: fnType) => {
     return debounce(fn, wait);
   };
 }

@@ -174,7 +174,6 @@ describe("show more", () => {
 
   it("should limit options to 5 initially", () => {
     expect(wrapper.find(View).prop("options").length).toEqual(5);
-    expect(wrapper.find(View).prop("options").length).toEqual(5);
   });
 
   it("should start at more than 5 initially if a show prop is passed", () => {

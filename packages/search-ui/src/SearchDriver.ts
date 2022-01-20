@@ -107,7 +107,7 @@ class SearchDriver {
   state = DEFAULT_STATE;
 
   debug: boolean;
-  events: any;
+  events: Events;
   autocompleteRequestSequencer: RequestSequencer;
   searchRequestSequencer: RequestSequencer;
   debounceManager: DebounceManager;
