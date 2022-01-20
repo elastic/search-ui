@@ -8,7 +8,7 @@ import Events from "./Events";
 import { mergeFilters } from "./helpers";
 
 import * as a11y from "./A11yNotifications";
-import { AutocompleteQuery, SearchState, SearchQuery } from "./types";
+import { AutocompleteQuery, SearchState, SearchQuery, APIConnector, SearchResult, AutocompleteResult } from "./types";
 
 function filterSearchParameters({
   current,
@@ -79,14 +79,14 @@ function removeConditionalFacets(
 }
 
 export type SearchDriverOptions = {
-  apiConnector: any, // todo: type
+  apiConnector: APIConnector,
   autocompleteQuery?: AutocompleteQuery,
   debug?: boolean,
   initialState?: SearchState,
   onSearch?: (query: SearchQuery) => void,
   onAutocomplete?: (query: AutocompleteQuery) => void,
-  onResultClick?: (result: any) => void,
-  onAutocompleteResultClick?: (result: any) => void,
+  onResultClick?: (result: SearchResult) => void,
+  onAutocompleteResultClick?: (result: AutocompleteResult) => void,
   searchQuery?: SearchQuery,
   trackUrlState?: boolean,
   urlPushDebounceLength?: number,

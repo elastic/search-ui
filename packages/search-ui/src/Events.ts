@@ -1,4 +1,4 @@
-import { APIConnector, AutocompleteQuery, QueryConfig, SearchQuery } from './types';
+import { APIConnector, AutocompleteQuery, AutocompleteResult, QueryConfig, SearchQuery, SearchResult } from './types';
 
 function wireUpEventHandler(handlerName: string, apiConnector: APIConnector, handlerParam) {
   if (handlerParam) {
@@ -34,8 +34,8 @@ type EventOptions = {
   apiConnector?: APIConnector
   onSearch?: (searchQuery: SearchQuery) => void
   onAutocomplete?: (query: AutocompleteQuery) => void,
-  onResultClick?: (result: any) => void,
-  onAutocompleteResultClick?: (result: any) => void
+  onResultClick?: (result: SearchResult) => void,
+  onAutocompleteResultClick?: (result: AutocompleteResult) => void
 } 
 
 class Events {

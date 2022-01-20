@@ -8,8 +8,8 @@
 const regionId = "search-ui-screen-reader-notifications";
 const hasDOM = typeof document !== "undefined"; // Prevent errors in SSR apps
 
-const getLiveRegion = () : HTMLElement => {
-  if (!hasDOM) return;
+const getLiveRegion = () : HTMLElement | null => {
+  if (!hasDOM) return null;
 
   let region = document.getElementById(regionId);
   if (region) return region;
@@ -42,10 +42,9 @@ const getLiveRegion = () : HTMLElement => {
 };
 
 const announceToScreenReader = (announcement: string): void => {
-  if (hasDOM) {
-    const region = getLiveRegion();
-    region.textContent = announcement;
-  }
+  const region = getLiveRegion();
+  if (!region) return
+  region.textContent = announcement;
 };
 
 const defaultMessages = {

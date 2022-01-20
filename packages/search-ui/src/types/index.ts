@@ -59,10 +59,7 @@ export type SearchQuery = {
 	search_fields?: any
 }
 
-export type APIConnector = {
-	// search(query: SearchQuery): Promise<SearchResponse>
-}
-
-export type QueryConfig = {
-
-}
+export type APIConnector = any
+export type QueryConfig = any
+export type SearchResult = any
+export type AutocompleteResult = any

@@ -97,7 +97,7 @@ class DebounceManager {
  * @param {number} wait Milliseconds to debounce. Executes immediately if falsey.
  * @param {function} fn Function to debounce
  */
-  static debounce = (wait: number, fn: fnType) => {
+  static debounce = (wait: number, fn: fnType): DebounceInstance => {
     return debounce(fn, wait);
   };
 }

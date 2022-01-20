@@ -1,10 +1,6 @@
 import { createBrowserHistory as createHistory, createMemoryHistory, History } from "history";
 import queryString from "./queryString";
-
-type Filter = {
-  field: string,
-  value: string
-}
+import { Filter } from "./types";
 
 type QueryParams = {
   filters?: Array<Filter>,
