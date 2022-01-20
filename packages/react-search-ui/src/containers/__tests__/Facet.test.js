@@ -117,7 +117,7 @@ describe("values view prop", () => {
   }
   it("should correctly calculated the selected facet options", () => {
     const { values } = subject();
-    expect(values).toEqual(["field1value1", "field1value3"]);
+    expect(values).toEqual(["field1value1", "field1value2"]);
   });
 
   it("should correctly calculated the selected facet options for filterType", () => {
