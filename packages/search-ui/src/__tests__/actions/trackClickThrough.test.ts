@@ -1,7 +1,7 @@
-import { getClickCalls, setupDriver } from "../../test/helpers";
+import { getClickCalls, InitialState, setupDriver } from "../../test/helpers";
 
 describe("#trackClickThrough", () => {
-  function subject({ initialState } = {}, documentId, tags) {
+  function subject({ initialState } : { initialState?: InitialState } = {}, documentId?: string, tags?: string[]) {
     const { driver, mockApiConnector } = setupDriver({ initialState });
     driver.trackClickThrough(documentId, tags);
     jest.runAllTimers();
@@ -16,13 +16,13 @@ describe("#trackClickThrough", () => {
   it("Calls Connector 'click' with correct parameters", () => {
     const { mockApiConnector } = subject(
       { initialState: { searchTerm: "search terms" } },
-      1,
+      "1",
       ["test"]
     );
     const [{ query, documentId, requestId, tags }] = getClickCalls(
       mockApiConnector
     )[0];
-    expect(documentId).toEqual(1);
+    expect(documentId).toEqual("1");
     expect(query).toEqual("search terms");
     expect(tags).toEqual(["test"]);
     expect(requestId).toEqual("12345");

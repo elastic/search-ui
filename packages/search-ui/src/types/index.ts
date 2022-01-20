@@ -10,7 +10,11 @@ export type FilterValue = any
 
 export type Filter = {
 	field: string
+	type: any //todo
+	values: FilterValue[]
 }
+
+export type FilterType = any 
 
 export type SearchState = {
 	
@@ -30,4 +34,8 @@ export type SearchQuery = {
 	disjunctiveFacetsAnalyticsTags?: any
 	result_fields?: any
 	search_fields?: any
+}
+
+export type APIConnector = {
+	// search(query: SearchQuery): Promise<SearchResponse>
 }

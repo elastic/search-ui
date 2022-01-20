@@ -17,7 +17,7 @@ it("creates a live screen reader region", () => {
   expect(region).not.toBeNull();
   expect(region.getAttribute("role")).toEqual("status");
   expect(region.getAttribute("aria-live")).toEqual("polite");
-  expect(region.style._values.overflow).toEqual("hidden");
+  expect(region.style.overflow).toEqual("hidden");
 });
 
 it("updates the live region correctly via announceToScreenReader", () => {

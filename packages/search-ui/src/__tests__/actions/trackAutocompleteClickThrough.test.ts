@@ -19,7 +19,7 @@ describe("#trackAutocompleteClickThrough", () => {
   });
 
   it("Calls Connector 'autocompleteClick' with correct parameters", () => {
-    const { mockApiConnector } = subject(null, 1, ["test"]);
+    const { mockApiConnector } = subject({}, 1, ["test"]);
     const [{ query, documentId, requestId, tags }] = getAutocompleteClickCalls(
       mockApiConnector
     )[0];

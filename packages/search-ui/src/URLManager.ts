@@ -1,4 +1,4 @@
-import { createBrowserHistory as createHistory, History } from "history";
+import { createBrowserHistory as createHistory, createMemoryHistory, History } from "history";
 import queryString from "./queryString";
 
 type Filter = {
@@ -8,9 +8,9 @@ type Filter = {
 
 type QueryParams = {
   filters?: Array<Filter>,
-  current?: string,
+  current?: number,
   q?: string,
-  size?: string,
+  size?: number,
   "sort-field"?: string,
   "sort-direction"?: string,
   sort?: string
@@ -99,9 +99,9 @@ function stateToParams({
   sortList
 }: SearchState): QueryParams {
   const params: QueryParams = {};
-  if (current > 1) params.current = current.toString();
+  if (current > 1) params.current = current;
   if (searchTerm) params.q = searchTerm;
-  if (resultsPerPage) params.size = resultsPerPage.toString();
+  if (resultsPerPage) params.size = resultsPerPage;
   if (filters && filters.length > 0) {
     params["filters"] = filters;
   }
@@ -143,7 +143,7 @@ export default class URLManager {
   unlisten?: () => void
 
   constructor() {
-    this.history = typeof window !== "undefined" ? createHistory() : null;
+    this.history = typeof window !== "undefined" ? createHistory() : createMemoryHistory();
     this.lastPushSearchString = "";
   }
 
@@ -185,7 +185,6 @@ export default class URLManager {
    * @param {requestCallback} callback
    */
   onURLStateChange(callback: (state: SearchState) => void): void {
-    if (!this.history) return;
     this.unlisten = this.history.listen(location => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.

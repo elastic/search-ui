@@ -1,19 +1,12 @@
+import { SearchState } from "../types";
 import URLManager from "../URLManager";
 
 function createManager() {
   const manager = new URLManager();
-  manager.history = {
-    location: {
-      search: ""
-    },
-    listen: jest.fn(),
-    push: jest.fn(),
-    replace: jest.fn()
-  };
   return manager;
 }
 
-const basicParameterState = {
+const basicParameterState: SearchState = {
   filters: [
     {
       dependencies: ["underscore", "another"]
@@ -31,7 +24,7 @@ const basicParameterState = {
 const basicParameterStateAsUrl =
   "?filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=node&size=20&sort-direction=asc&sort-field=name";
 
-const parameterStateWithSortList = {
+const parameterStateWithSortList: SearchState = {
   resultsPerPage: 20,
   sortList: [
     {
@@ -48,7 +41,7 @@ const parameterStateWithSortList = {
 const parameterStateWithSortListAsUrl =
   "?size=n_20_n&sort%5B0%5D%5Bfield%5D=states&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=asc";
 
-const parameterStateWithRangeFilters = {
+const parameterStateWithRangeFilters: SearchState = {
   filters: [
     {
       date: [
@@ -129,8 +122,9 @@ describe("#getStateFromURL", () => {
 describe("#pushStateToURL", () => {
   it("will update the url with the url corresponding to the provided state", () => {
     const manager = createManager();
+    const spy = jest.spyOn(manager.history, "push");
     manager.pushStateToURL(basicParameterState);
-    const queryString = manager.history.push.mock.calls[0][0].search;
+    const queryString = spy.mock.calls[0][0].search;
     expect(queryString).toEqual(
       "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
     );
@@ -139,8 +133,9 @@ describe("#pushStateToURL", () => {
   describe("filters", () => {
     it("will update the url with range filter types", () => {
       const manager = createManager();
+      const spy = jest.spyOn(manager.history, "push");
       manager.pushStateToURL(parameterStateWithRangeFilters);
-      const queryString = manager.history.push.mock.calls[0][0].search;
+      const queryString = spy.mock.calls[0][0].search;
       expect(queryString).toEqual(
         "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
       );
@@ -150,8 +145,9 @@ describe("#pushStateToURL", () => {
   describe("sortList", () => {
     it("will update the url with sortList items", () => {
       const manager = createManager();
+      const spy = jest.spyOn(manager.history, "push");
       manager.pushStateToURL(parameterStateWithSortList);
-      const queryString = manager.history.push.mock.calls[0][0].search;
+      const queryString = spy.mock.calls[0][0].search;
       expect(queryString).toEqual(
         "?size=n_20_n&sort%5B0%5D%5Bfield%5D=states&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=asc"
       );
@@ -161,8 +157,9 @@ describe("#pushStateToURL", () => {
   describe("replaceUrl", () => {
     it("will update the url using 'replace' instead of 'push", () => {
       const manager = createManager();
+      const spy = jest.spyOn(manager.history, "replace");
       manager.pushStateToURL(basicParameterState, { replaceUrl: true });
-      const queryString = manager.history.replace.mock.calls[0][0].search;
+      const queryString = spy.mock.calls[0][0].search;
       expect(queryString).toEqual(
         "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
       );
@@ -172,20 +169,27 @@ describe("#pushStateToURL", () => {
 
 describe("#onURLStateChange", () => {
   let manager;
+  let spy;
+  let pushSpy;
 
   function setup() {
     manager = createManager();
+    spy = jest.spyOn(manager.history, "listen");
+    pushSpy = jest.spyOn(manager.history, "push");
   }
 
   function pushStateToURL(state) {
     manager.pushStateToURL(state);
-    return manager.history.push.mock.calls[0][0].search;
+
+    return pushSpy.mock.calls[0][0].search;
   }
 
   function simulateBrowserHistoryEvent(newUrl) {
     // Since we're not in a real browser, we simulate the change event that
     // would have ocurred.
-    manager.history.listen.mock.calls[0][0]({
+    // const spy = jest.spyOn(manager.history, "listen");
+
+    spy.mock.calls[0][0]({
       search: newUrl
     });
   }

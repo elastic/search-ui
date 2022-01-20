@@ -5,7 +5,7 @@ function mockPromise(value) {
   return jest.fn().mockReturnValue(Promise.resolve(value));
 }
 
-function setupMockConnector({ apiConnectorConfig = {} } = {}) {
+function setupMockConnector({ apiConnectorConfig = {} } : { apiConnectorConfig?: any } = {}) {
   const apiConnector = getMockApiConnector();
   if (apiConnectorConfig.onSearch) {
     apiConnector.onSearch = apiConnectorConfig.onSearch;

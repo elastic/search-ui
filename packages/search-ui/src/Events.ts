@@ -1,3 +1,5 @@
+import { APIConnector, AutocompleteQuery } from './types';
+
 function wireUpEventHandler(handlerName, apiConnector, handlerParam) {
   if (handlerParam) {
     // Passes a 'next' parameter which allows a handler to work as
@@ -27,14 +29,29 @@ function wireUpEventHandler(handlerName, apiConnector, handlerParam) {
  * an API Connector. The events that are passed directly can also be used
  * to override or proxy handlers provided by API Connectors.
  */
-export default class Events {
+
+type EventOptions = {
+  apiConnector?: APIConnector
+  onSearch?: (searchQuery: any) => void
+  onAutocomplete?: (query: AutocompleteQuery) => void,
+  onResultClick?: (result: any) => void,
+  onAutocompleteResultClick?: (result: any) => void
+} 
+
+class Events {
+
+  private search: () => void;
+  private autocomplete: () => void;
+  private resultClick: () => void;
+  private autocompleteResultClick: () => void;
+
   constructor({
     apiConnector,
     onSearch,
     onAutocomplete,
     onResultClick,
     onAutocompleteResultClick
-  } = {}) {
+  }: EventOptions = {}) {
     this.search = wireUpEventHandler("onSearch", apiConnector, onSearch);
     this.autocomplete = wireUpEventHandler(
       "onAutocomplete",
@@ -53,3 +70,5 @@ export default class Events {
     );
   }
 }
+
+export default Events

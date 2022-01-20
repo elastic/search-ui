@@ -1,4 +1,5 @@
 import deepEqual from "deep-equal";
+import { Filter, FilterClause } from "./types";
 
 /**
  * Given a list of applied Filters, find FilterValues based on
@@ -8,7 +9,7 @@ import deepEqual from "deep-equal";
  * @param {*} name
  * @param {*} filterType
  */
-export function findFilterValues(filters, name, filterType) {
+export function findFilterValues(filters: Filter[], name: string, filterType: FilterClause): string[] {
   const filter = filters.find(f => f.field === name && f.type === filterType);
   if (!filter) return [];
   return filter.values;
@@ -23,7 +24,7 @@ export function findFilterValues(filters, name, filterType) {
  * @param {FilterValue} value
  * @param {FilterType} filterType
  */
-export function removeSingleFilterValue(filters, fieldName, value, filterType) {
+export function removeSingleFilterValue(filters: Filter[], fieldName: string, value: string, filterType: FilterClause) : Filter[] {
   return filters.reduce((acc, filter) => {
     const { field, values, type, ...rest } = filter;
     if (field === fieldName && (!filterType || type === filterType)) {
