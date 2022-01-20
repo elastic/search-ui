@@ -1,4 +1,4 @@
-import { FilterClause, FilterValue } from "../types";
+import { FilterType, FilterValue } from "../types";
 
 /**
  * Filter results - Replaces current filter value
@@ -9,7 +9,7 @@ import { FilterClause, FilterValue } from "../types";
  * @param value FilterValue to apply
  * @param type String (Optional) type of filter to apply
  */
-export default function setFilter(name: string, value: FilterValue, type: FilterClause = "all") {
+export default function setFilter(name: string, value: FilterValue, type: FilterType = "all") {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "setFilter", ...arguments);
 

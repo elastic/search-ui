@@ -1,5 +1,5 @@
 import { removeSingleFilterValue } from "../helpers";
-import { FilterClause, FilterValue } from "../types";
+import { FilterType, FilterValue } from "../types";
 
 /**
  * Remove filter from results
@@ -10,7 +10,7 @@ import { FilterClause, FilterValue } from "../types";
  * @param value String (Optional) field value for filter to remove
  * @param type String (Optional) type of filter to remove
  */
-export default function removeFilter(name: string, value: FilterValue, type: FilterClause) {
+export default function removeFilter(name: string, value: FilterValue, type: FilterType) {
   if (this.debug)
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "removeFilter", ...arguments);

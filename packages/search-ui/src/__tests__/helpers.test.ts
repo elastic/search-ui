@@ -1,4 +1,5 @@
 import { helpers } from "..";
+import { Filter } from "../types";
 const doFilterValuesMatch = helpers.doFilterValuesMatch;
 const markSelectedFacetValuesFromFilters =
   helpers.markSelectedFacetValuesFromFilters;
@@ -132,7 +133,7 @@ describe("markSelectedFacetValuesFromFilters", () => {
     ]
   };
 
-  let filters = [
+  let filters: Filter[] = [
     {
       field: "states",
       values: ["California", "South Carolina"],
@@ -148,7 +149,7 @@ describe("markSelectedFacetValuesFromFilters", () => {
       values: ["true"],
       type: "all"
     }
-  ];
+  ]
 
   it("will mark selected facets as selected based on current filters, field name, and filter type", () => {
     const marked = markSelectedFacetValuesFromFilters(

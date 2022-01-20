@@ -1,5 +1,5 @@
 import { doFilterValuesMatch } from "../helpers";
-import { FilterClause, FilterValue, Filter } from "../types";
+import { FilterType, FilterValue } from "../types";
 
 /**
  * Filter results - Adds to current filter value
@@ -10,7 +10,7 @@ import { FilterClause, FilterValue, Filter } from "../types";
  * @param value String field value to filter on
  * @param type String (Optional) type of filter to apply
  */
-export default function addFilter(name: string, value: FilterValue, type: FilterClause = "all"): void {
+export default function addFilter(name: string, value: FilterValue, type: FilterType = "all"): void {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "addFilter", ...arguments);
 

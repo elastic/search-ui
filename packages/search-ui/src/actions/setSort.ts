@@ -1,4 +1,4 @@
-import { SortList, SortDirection } from "../types";
+import { SortOption, SortDirection } from "../types";
 /**
  * Set the current sort
  *
@@ -7,7 +7,7 @@ import { SortList, SortDirection } from "../types";
  * @param sort SortList | string
  * @param sortDirection String ["asc"|"desc"]
  */
-export default function setSort(sort: SortList | string, sortDirection: SortDirection ): void {
+export default function setSort(sort: SortOption[] | string, sortDirection: SortDirection ): void {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "setSort", ...arguments);
 
