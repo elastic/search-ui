@@ -1,5 +1,6 @@
 import { setupDriver, SubjectArguments } from "../../test/helpers";
 import { itResetsCurrent, itUpdatesURLState } from "../../test/sharedTests";
+import { RequestState } from "../../types";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager");
@@ -36,11 +37,11 @@ describe("#clearFilters", () => {
   });
 
   it("Does not update other Search Parameter values", () => {
-    const initialState = {
+    const initialState: RequestState = {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ states: "asc" }, { title: "desc" }],
+      sortList: [{ field: "name", direction: "asc" }, { field: "title", direction: "desc" }],
       searchTerm: "test"
     };
     const {

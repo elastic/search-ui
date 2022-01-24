@@ -40,7 +40,9 @@ type EventOptions = {
 
 class Events {
 
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public search: (searchQuery: SearchQuery, queryConfig: QueryConfig) => Promise<any>;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public autocomplete: (query: { searchTerm: string }, queryConfig: QueryConfig) => Promise<any>; 
   public resultClick: () => void;
   public autocompleteResultClick: () => void;

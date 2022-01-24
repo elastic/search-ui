@@ -4,7 +4,7 @@ import {
   itFetchesResults,
   itUpdatesURLState
 } from "../../test/sharedTests";
-import { InitialState } from "../../test/helpers";
+import { RequestState } from "../../types";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager");
@@ -52,9 +52,12 @@ describe("#addFilter", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ states: "asc" }, { title: "desc" }],
+      sortList: [
+        { direction: "asc", field: "name" },
+        { direction: "desc", field: "title" }
+      ],
       searchTerm: "test"
-    };
+    } as RequestState
     const {
       resultsPerPage,
       sortField,
@@ -115,6 +118,7 @@ describe("#addFilter", () => {
       subject(
         "test",
         {
+          name: "test",
           from: 20,
           to: 100
         },
@@ -127,24 +131,24 @@ describe("#addFilter", () => {
       { field: "initial", values: ["value"], type: "all" },
       {
         field: "test",
-        values: [{ from: 20, to: 100 }],
+        values: [{ name: "test", from: 20, to: 100 }],
         type: "all"
       }
     ]);
   });
 
-  it("Adds an additional range filter", () => {
+  fit("Adds an additional range filter", () => {
     expect(
-      subject("test", { from: 5, to: 6 }, undefined, {
+      subject("test", { name: "test2", from: 5, to: 6 }, undefined, {
         initialFilters: [
           {
             field: "initial",
-            values: [{ from: 20, to: 100 }],
+            values: [{ name: "test", from: 20, to: 100 }],
             type: "all"
           },
           {
             field: "test",
-            values: [{ from: 4, to: 5 }],
+            values: [{ name: "test", from: 4, to: 5 }],
             type: "all"
           }
         ]
@@ -152,12 +156,12 @@ describe("#addFilter", () => {
     ).toEqual([
       {
         field: "initial",
-        values: [{ from: 20, to: 100 }],
+        values: [{ name: "test", from: 20, to: 100 }],
         type: "all"
       },
       {
         field: "test",
-        values: [{ from: 4, to: 5 }, { from: 5, to: 6 }],
+        values: [{ name: "test", from: 4, to: 5 }, { name: "test2", from: 5, to: 6 }],
         type: "all"
       }
     ]);
@@ -168,6 +172,7 @@ describe("#addFilter", () => {
       subject(
         "test",
         {
+          name: "test",
           from: 20,
           to: 100
         },
@@ -177,7 +182,7 @@ describe("#addFilter", () => {
             { field: "initial", values: ["value"], type: "all" },
             {
               field: "test",
-              values: [{ from: 20, to: 100 }],
+              values: [{ name: "test", from: 20, to: 100 }],
               type: "all"
             }
           ]
@@ -187,7 +192,7 @@ describe("#addFilter", () => {
       { field: "initial", values: ["value"], type: "all" },
       {
         field: "test",
-        values: [{ from: 20, to: 100 }],
+        values: [{ name: "test", from: 20, to: 100 }],
         type: "all"
       }
     ]);

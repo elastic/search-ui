@@ -1,4 +1,4 @@
-import { SearchState } from "../types";
+import { RequestState } from "../types";
 import URLManager from "../URLManager";
 
 function createManager() {
@@ -6,13 +6,17 @@ function createManager() {
   return manager;
 }
 
-const basicParameterState: SearchState = {
+const basicParameterState: RequestState = {
   filters: [
     {
-      dependencies: ["underscore", "another"]
+      field: "test",
+      values: ["value"],
+      type: "all"
     },
     {
-      keywords: ["node"]
+      field: "node",
+      values: ["value"],
+      type: "all"
     }
   ],
   resultsPerPage: 20,
@@ -24,45 +28,24 @@ const basicParameterState: SearchState = {
 const basicParameterStateAsUrl =
   "?filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=node&size=20&sort-direction=asc&sort-field=name";
 
-const parameterStateWithSortList: SearchState = {
+const parameterStateWithSortList: RequestState = {
   resultsPerPage: 20,
-  sortList: [
-    {
-      field: "states",
-      direction: "asc"
-    },
-    {
-      field: "title",
-      direction: "asc"
-    }
-  ]
+  sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
 };
 
 const parameterStateWithSortListAsUrl =
-  "?size=n_20_n&sort%5B0%5D%5Bfield%5D=states&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=asc";
+  "?size=n_20_n&sort%5B0%5D%5Bfield%5D=name&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=desc";
 
-const parameterStateWithRangeFilters: SearchState = {
+const parameterStateWithRangeFilters: RequestState = {
   filters: [
     {
-      date: [
-        {
-          from: 12,
-          to: 4000
-        },
-        {
-          to: 4000
-        }
-      ]
-    },
-    {
-      cost: [
-        {
-          from: 50
-        }
-      ]
-    },
-    {
-      keywords: "node"
+      field: "test",
+      values: [{
+        from: 12,
+        name: "test",
+        to: 4000
+      }],
+      type: 'all'
     }
   ]
 };
@@ -126,7 +109,7 @@ describe("#pushStateToURL", () => {
     manager.pushStateToURL(basicParameterState);
     const queryString = spy.mock.calls[0][0].search;
     expect(queryString).toEqual(
-      "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
+      "?q=node&size=n_20_n&filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D=value&filters%5B0%5D%5Btype%5D=all&filters%5B1%5D%5Bfield%5D=node&filters%5B1%5D%5Bvalues%5D%5B0%5D=value&filters%5B1%5D%5Btype%5D=all&sort-field=name&sort-direction=asc"
     );
   });
 
@@ -137,7 +120,7 @@ describe("#pushStateToURL", () => {
       manager.pushStateToURL(parameterStateWithRangeFilters);
       const queryString = spy.mock.calls[0][0].search;
       expect(queryString).toEqual(
-        "?filters%5B0%5D%5Bdate%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bdate%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Bdate%5D%5B1%5D%5Bto%5D=n_4000_n&filters%5B1%5D%5Bcost%5D%5B0%5D%5Bfrom%5D=n_50_n&filters%5B2%5D%5Bkeywords%5D=node"
+        "?filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bvalues%5D%5B0%5D%5Bname%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Btype%5D=all"
       );
     });
   });
@@ -149,7 +132,7 @@ describe("#pushStateToURL", () => {
       manager.pushStateToURL(parameterStateWithSortList);
       const queryString = spy.mock.calls[0][0].search;
       expect(queryString).toEqual(
-        "?size=n_20_n&sort%5B0%5D%5Bfield%5D=states&sort%5B0%5D%5Bdirection%5D=asc&sort%5B1%5D%5Bfield%5D=title&sort%5B1%5D%5Bdirection%5D=asc"
+        "?size=n_20_n&sort%5B0%5D%5Bdirection%5D=asc&sort%5B0%5D%5Bfield%5D=name&sort%5B1%5D%5Bdirection%5D=desc&sort%5B1%5D%5Bfield%5D=title"
       );
     });
   });
@@ -161,7 +144,7 @@ describe("#pushStateToURL", () => {
       manager.pushStateToURL(basicParameterState, { replaceUrl: true });
       const queryString = spy.mock.calls[0][0].search;
       expect(queryString).toEqual(
-        "?q=node&size=n_20_n&filters%5B0%5D%5Bdependencies%5D%5B0%5D=underscore&filters%5B0%5D%5Bdependencies%5D%5B1%5D=another&filters%5B1%5D%5Bkeywords%5D%5B0%5D=node&sort-field=name&sort-direction=asc"
+        "?q=node&size=n_20_n&filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D=value&filters%5B0%5D%5Btype%5D=all&filters%5B1%5D%5Bfield%5D=node&filters%5B1%5D%5Bvalues%5D%5B0%5D=value&filters%5B1%5D%5Btype%5D=all&sort-field=name&sort-direction=asc"
       );
     });
   });
@@ -203,15 +186,13 @@ describe("#onURLStateChange", () => {
 
   it("will call provided callback with updated state when url changes", () => {
     setup();
-    let newState;
+    const mock = jest.fn()
 
     // Provide url state change handler
-    subject(state => {
-      newState = state;
-    }, basicParameterStateAsUrl);
+    subject(mock, basicParameterStateAsUrl);
 
     // Verify it is called when url state changes
-    expect(newState).toEqual(basicParameterState);
+    expect(mock).toHaveBeenCalledWith(basicParameterState);
   });
 
   it("will call provided callback with updated state when url changes with sortList", () => {

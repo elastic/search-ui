@@ -8,7 +8,7 @@ import Events from "./Events";
 import { mergeFilters } from "./helpers";
 
 import * as a11y from "./A11yNotifications";
-import { AutocompleteQuery, SearchState, SearchQuery, APIConnector, SearchResult, AutocompleteResult } from "./types";
+import { AutocompleteQuery, SearchState, SearchQuery, APIConnector, SearchResult, AutocompleteResult, RequestState, SortDirection } from "./types";
 
 function filterSearchParameters({
   current,
@@ -18,7 +18,7 @@ function filterSearchParameters({
   sortDirection,
   sortField,
   sortList
-}) {
+}: RequestState) {
   return {
     current,
     filters,
@@ -30,13 +30,13 @@ function filterSearchParameters({
   };
 }
 
-export const DEFAULT_STATE = {
+export const DEFAULT_STATE: SearchState = {
   // Search Parameters -- This is state that represents the input state.
   current: 1,
   filters: [],
   resultsPerPage: 20,
   searchTerm: "",
-  sortDirection: "",
+  sortDirection: "" as SortDirection,
   sortField: "",
   sortList: [],
   // Result State -- This state represents state that is updated automatically
@@ -82,7 +82,7 @@ export type SearchDriverOptions = {
   apiConnector: APIConnector,
   autocompleteQuery?: AutocompleteQuery,
   debug?: boolean,
-  initialState?: SearchState,
+  initialState?: Partial<SearchState>,
   onSearch?: (query: SearchQuery) => void,
   onAutocomplete?: (query: AutocompleteQuery) => void,
   onResultClick?: (result: SearchResult) => void,
@@ -91,9 +91,11 @@ export type SearchDriverOptions = {
   trackUrlState?: boolean,
   urlPushDebounceLength?: number,
   hasA11yNotifications?: boolean,
-  a11yNotificationMessages?: Record<string, any>,
+  a11yNotificationMessages?: Record<string, unknown>,
   alwaysSearchOnInitialLoad?: boolean
 }
+
+export type SubscriptionHandler = (state: SearchState) => void;
 
 interface SearchDriver extends actions.SearchDriverActions {
   actions: actions.SearchDriverActions
@@ -104,7 +106,7 @@ interface SearchDriver extends actions.SearchDriverActions {
  * syncing state to the url.
  */
 class SearchDriver {
-  state = DEFAULT_STATE;
+  state: SearchState = DEFAULT_STATE;
 
   debug: boolean;
   events: Events;
@@ -113,14 +115,14 @@ class SearchDriver {
   debounceManager: DebounceManager;
   autocompleteQuery: AutocompleteQuery;
   searchQuery: SearchQuery;
-  subscriptions: any[];
+  subscriptions: SubscriptionHandler[];
   trackUrlState: boolean;
   urlPushDebounceLength: number;
   alwaysSearchOnInitialLoad: boolean;
   URLManager: URLManager;
   hasA11yNotifications: boolean;
-  a11yNotificationMessages: Record<string, (expansions?: Record<string, any>) => string>;
-  startingState: any;
+  a11yNotificationMessages: Record<string, (expansions?: Record<string, unknown>) => string>;
+  startingState: SearchState;
   
   constructor({
     apiConnector,
@@ -243,6 +245,7 @@ class SearchDriver {
    */
   private _updateAutocomplete = (
     searchTerm,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     { autocompleteResults, autocompleteSuggestions } : any = {}
   ) => {
     const requestId = this.autocompleteRequestSequencer.next();
@@ -284,7 +287,7 @@ class SearchDriver {
    * rather than 'push' to avoid adding a new history entry
    */
   _updateSearchResults = (
-    searchParameters?,
+    searchParameters: RequestState,
     { skipPushToUrl = false, replaceUrl = false } = {}
   ) => {
     const {
@@ -295,7 +298,7 @@ class SearchDriver {
       sortDirection,
       sortField,
       sortList
-    } : any = {
+    } = {
       ...this.state,
       ...searchParameters
     };
@@ -371,7 +374,7 @@ class SearchDriver {
       const requestId = this.searchRequestSequencer.next();
 
       const {
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         filters: searchQueryFilters,
         conditionalFacets: conditionalFacets,
         ...restOfSearchQuery
@@ -385,7 +388,7 @@ class SearchDriver {
           filters
         )
       };
-      const requestState = {
+      const requestState: RequestState = {
         ...filterSearchParameters(this.state),
         filters: mergeFilters(filters, this.searchQuery.filters)
       };
@@ -448,8 +451,8 @@ class SearchDriver {
     }
   );
 
-  private _setState(newState) {
-    const state = { ...this.state, ...newState };
+  private _setState(newState: Partial<SearchState>) {
+    const state = { ...this.state, ...newState } as SearchState;
     // eslint-disable-next-line no-console
     if (this.debug) console.log("Search UI: State Update", newState, state);
     this.state = state;
@@ -462,15 +465,15 @@ class SearchDriver {
    *
    * @param Object searchQuery
    */
-  setSearchQuery(searchQuery) {
+  setSearchQuery(searchQuery: SearchQuery): void {
     this.searchQuery = searchQuery;
-    this._updateSearchResults();
+    this._updateSearchResults({});
   }
 
   /**
    * @param Object autocompleteQuery
    */
-  setAutocompleteQuery(autocompleteQuery) {
+  setAutocompleteQuery(autocompleteQuery: AutocompleteQuery): void {
     this.autocompleteQuery = autocompleteQuery;
   }
 
@@ -480,14 +483,14 @@ class SearchDriver {
    *
    * @param onStateChange Function
    */
-  subscribeToStateChanges(onStateChange) {
+  subscribeToStateChanges(onStateChange: SubscriptionHandler): void {
     this.subscriptions.push(onStateChange);
   }
 
   /**
    * @param onStateChange Function
    */
-  unsubscribeToStateChanges(onStateChange) {
+  unsubscribeToStateChanges(onStateChange: SubscriptionHandler): void {
     this.subscriptions = this.subscriptions.filter(
       sub => sub !== onStateChange
     );
@@ -506,7 +509,7 @@ class SearchDriver {
    *
    * @returns Object All actions
    */
-  getActions() {
+  getActions(): actions.SearchDriverActions {
     return this.actions;
   }
 
@@ -516,7 +519,7 @@ class SearchDriver {
    *
    * @returns Object Current state
    */
-  getState() {
+  getState(): SearchState {
     // We return a copy of state here, because we want to ensure the state
     // inside of this object remains immutable.
     return { ...this.state };

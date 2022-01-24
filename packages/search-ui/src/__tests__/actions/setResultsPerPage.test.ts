@@ -39,7 +39,7 @@ describe("#setResultsPerPage", () => {
       filters: [{ field: "initial", values: ["value"], type: "all" }],
       sortField: "date",
       sortDirection: "desc",
-      sortList: [{ states: "asc" }, { title: "desc" }]
+      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }]
     };
     const { searchTerm, filters, sortField, sortDirection, sortList } = subject(
       10,

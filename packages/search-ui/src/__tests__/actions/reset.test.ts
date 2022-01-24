@@ -1,6 +1,7 @@
 import { DEFAULT_STATE } from "../../SearchDriver";
 import { setupDriver } from "../../test/helpers";
 import { itUpdatesURLState } from "../../test/sharedTests";
+import { SearchState } from "../../types";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager");
@@ -17,8 +18,8 @@ describe("#reset", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ states: "asc" }, { title: "desc" }]
-    }
+      sortList: [ { direction: "asc", field: "name" }, { direction: "desc", field: "title" } ],
+    } as SearchState
   } = {}) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
@@ -26,7 +27,7 @@ describe("#reset", () => {
 
     driver.setSearchTerm("test");
 
-    let updatedStated = updatedStateAfterAction.state;
+    const updatedStated = updatedStateAfterAction.state;
 
     // Because we only want to know if it was called AFTER reset is called
     (MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mockClear();
@@ -45,8 +46,8 @@ describe("#reset", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ states: "asc" }, { title: "desc" }]
-    };
+      sortList: [ { direction: "asc", field: "name" }, { direction: "desc", field: "title" } ],
+    } as SearchState;
     expect(subject({ initialState })).toEqual({
       ...DEFAULT_STATE,
       ...initialState

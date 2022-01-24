@@ -13,7 +13,6 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
     "esModuleInterop": true,
     "module": "es2020",
     "moduleResolution": "node",

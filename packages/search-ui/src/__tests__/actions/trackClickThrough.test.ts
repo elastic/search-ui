@@ -1,7 +1,7 @@
-import { getClickCalls, InitialState, setupDriver } from "../../test/helpers";
+import { getClickCalls, setupDriver } from "../../test/helpers";
 
 describe("#trackClickThrough", () => {
-  function subject({ initialState } : { initialState?: InitialState } = {}, documentId?: string, tags?: string[]) {
+  function subject({ initialState } : { initialState? } = {}, documentId?: string, tags?: string[]) {
     const { driver, mockApiConnector } = setupDriver({ initialState });
     driver.trackClickThrough(documentId, tags);
     jest.runAllTimers();

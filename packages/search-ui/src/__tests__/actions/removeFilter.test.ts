@@ -4,6 +4,7 @@ import {
   itFetchesResults,
   itUpdatesURLState
 } from "../../test/sharedTests";
+import { RequestState } from "../../types";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager");
@@ -46,11 +47,11 @@ describe("#removeFilter", () => {
   });
 
   it("Does not update other Search Parameter values", () => {
-    const initialState = {
+    const initialState: RequestState = {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ states: "asc" }, { title: "desc" }],
+      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
       searchTerm: "test"
     };
     const {
@@ -122,23 +123,24 @@ describe("#removeFilter", () => {
       subject(
         "test",
         {
+          name: "test",
           from: 20,
           to: 100
         },
         undefined,
         {
           initialFilters: [
-            { field: "initial", values: [{ from: 20, to: 100 }], type: "all" },
+            { field: "initial", values: [{name: "test", from: 20, to: 100 }], type: "all" },
             {
               field: "test",
-              values: ["anotherValue", { from: 20, to: 100 }, "someOtherValue"],
+              values: ["anotherValue", {name: "test", from: 20, to: 100 }, "someOtherValue"],
               type: "all"
             }
           ]
         }
       ).filters
     ).toEqual([
-      { field: "initial", values: [{ from: 20, to: 100 }], type: "all" },
+      { field: "initial", values: [{ name: "test", from: 20, to: 100 }], type: "all" },
       {
         field: "test",
         values: ["anotherValue", "someOtherValue"],

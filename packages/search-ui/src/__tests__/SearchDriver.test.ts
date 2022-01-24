@@ -1,5 +1,5 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
-import { SearchQuery } from '../types'
+import { Filter, SearchQuery, SearchState } from '../types'
 import {
   doesStateHaveResponseData,
   setupDriver,
@@ -50,8 +50,11 @@ it("will use initial state if provided", () => {
     resultsPerPage: 60,
     sortField: "name",
     sortDirection: "asc",
-    sortList: [{ states: "asc" }, { title: "desc" }]
-  };
+    sortList: [
+      { direction: "asc", field: "name" },
+      { direction: "desc", field: "title" }
+    ]
+  } as Partial<SearchState>;
 
   const { stateAfterCreation } = setupDriver({ initialState });
 
@@ -99,7 +102,7 @@ it("will default facets to {} in state if facets is missing from the response", 
 
 it("will trigger a search if searchTerm or filters are provided in initial state", () => {
   const initialState = {
-    filters: [{ field: "initial", values: ["value"], type: "all" }],
+    filters: [{ field: "initial", values: ["value"], type: "all" }] as Filter[],
     searchTerm: "test"
   };
 
@@ -131,13 +134,13 @@ it("does do an initial search when alwaysSearchOnInitialLoad is set", () => {
 
 it("will sync initial state to the URL", () => {
   const initialState = {
-    filters: [{ field: "initial", values: ["value"], type: "all" }],
+    filters: [{ field: "initial", values: ["value"], type: "all" }] as Filter[],
     searchTerm: "test"
   };
 
   setupDriver({ initialState });
 
-  const pushStateCalls = (MockedURLManager.mock.instances[0].pushStateToURL as any).mock.calls;
+  const pushStateCalls = (MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mock.calls;
   expect(pushStateCalls).toHaveLength(1);
   // "will sync to the url with 'replace' rather than 'push'"
   expect(pushStateCalls[0][1].replaceUrl).toEqual(true);
@@ -145,7 +148,7 @@ it("will sync initial state to the URL", () => {
 
 it("will not sync initial state to the URL if trackURLState is set to false", () => {
   const initialState = {
-    filters: [{ field: "initial", values: ["value"], type: "all" }],
+    filters: [{ field: "initial", values: ["value"], type: "all" }] as Filter[],
     searchTerm: "test"
   };
 
@@ -382,8 +385,8 @@ describe("unsubscribeToStateChanges", () => {
     const { driver } = setupDriver();
     let called1 = false;
     let called2 = false;
-    let sub1 = () => (called1 = true);
-    let sub2 = () => (called2 = true);
+    const sub1 = () => (called1 = true);
+    const sub2 = () => (called2 = true);
     driver.subscribeToStateChanges(sub1);
     driver.subscribeToStateChanges(sub2);
     driver.setSearchTerm("test");
@@ -403,8 +406,8 @@ describe("tearDown", () => {
     const { driver } = setupDriver();
     let called1 = false;
     let called2 = false;
-    let sub1 = () => (called1 = true);
-    let sub2 = () => (called2 = true);
+    const sub1 = () => (called1 = true);
+    const sub2 = () => (called2 = true);
     driver.subscribeToStateChanges(sub1);
     driver.subscribeToStateChanges(sub2);
     driver.setSearchTerm("test");
@@ -577,7 +580,7 @@ describe("Request sequencing", () => {
     stateFieldToUpdate
   ) {
     let callCount = 0;
-    let promiseResolvers = [];
+    const promiseResolvers = [];
     mockApiConnector[method] = jest.fn().mockImplementation(() => {
       callCount++;
       return new Promise(resolve => {
@@ -600,7 +603,7 @@ describe("Request sequencing", () => {
     const SECOND_REQUEST_ID = "2";
 
     const mockApiConnector = getMockApiConnector();
-    let onSearchPromiseResolvers = mockSequenced(
+    const onSearchPromiseResolvers = mockSequenced(
       mockApiConnector,
       FIRST_REQUEST_ID,
       SECOND_REQUEST_ID,
@@ -646,7 +649,7 @@ describe("Request sequencing", () => {
     const SECOND_REQUEST_ID = "2";
 
     const mockApiConnector = getMockApiConnector();
-    let onAutocompletePromiseResolvers = mockSequenced(
+    const onAutocompletePromiseResolvers = mockSequenced(
       mockApiConnector,
       FIRST_REQUEST_ID,
       SECOND_REQUEST_ID,
@@ -698,7 +701,7 @@ describe("Request sequencing", () => {
 
     const mockApiConnector = getMockApiConnector();
 
-    let onSearchPromiseResolvers = mockSequenced(
+    const onSearchPromiseResolvers = mockSequenced(
       mockApiConnector,
       FIRST_SEARCH_REQUEST_ID,
       SECOND_SEARCH_REQUEST_ID,
@@ -706,7 +709,7 @@ describe("Request sequencing", () => {
       "requestId"
     );
 
-    let onAutocompletePromiseResolvers = mockSequenced(
+    const onAutocompletePromiseResolvers = mockSequenced(
       mockApiConnector,
       FIRST_AUTOCOMPLETE_REQUEST_ID,
       SECOND_AUTOCOMPLETE_REQUEST_ID,

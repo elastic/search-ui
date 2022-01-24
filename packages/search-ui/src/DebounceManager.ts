@@ -1,3 +1,4 @@
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 type fnType = (...args: any[]) => void
 
 type DebounceInstance = fnType & {
@@ -12,9 +13,9 @@ type DebounceInstance = fnType & {
 function debounce(func: fnType, wait: number): DebounceInstance {
   let timeout;
   const debouncedFn = function() {
-    const args = arguments;
+    const args = arguments; //eslint-disable-line
     const later = () => {
-      func.apply(null, args);
+      func.apply(null, args); //eslint-disable-line
     };
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
@@ -51,6 +52,7 @@ class DebounceManager {
    * @param {function} functionName Name of function to debounce, used to create a unique key
    * @param {...any} parameters Parameters to pass to function
    */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   runWithDebounce(wait: number, functionName: string, fn: fnType, ...parameters: any[]): void {
     if (!wait) {
       return fn(...parameters);
@@ -87,7 +89,7 @@ class DebounceManager {
   cancelByName(functionName: string): void {
     Object.entries(this.debounceCache)
       .filter(([cachedKey]) => cachedKey.startsWith(`${functionName}|`))
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .forEach(([_, cachedValue]) => cachedValue.cancel());
   }
 

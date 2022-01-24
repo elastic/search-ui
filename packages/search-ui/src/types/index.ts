@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export type SortOption = {
 	field: string,
 	direction: SortDirection
 }
 
-export type SortDirection = "asc" | "desc"
+export type SortDirection = "asc" | "desc" | ""
 
 export type FilterType = "any" | "all" | "none"
 
@@ -12,9 +14,9 @@ export type FieldValue = string | number | boolean | Array<string|number|boolean
 export type FilterValueValue = FieldValue
 
 export type FilterValueRange = {
-	from: FieldValue,
+	from?: FieldValue,
 	name: string,
-	to: FieldValue
+	to?: FieldValue
 }
 
 export type FilterValue = FilterValueValue | FilterValueRange
@@ -39,8 +41,35 @@ export type Filter = {
 	values: FilterValue[]
 }
 
-export type SearchState = {
-	
+export type RequestState = {
+	current?: number,
+	filters?: Filter[],
+	resultsPerPage?: number,
+	searchTerm?: string,
+	sortDirection?: SortDirection,
+	sortField?: string,
+	sortList?: SortOption[],
+}
+
+export type SearchState = RequestState & {
+	// Result State -- This state represents state that is updated automatically
+	// as the result of changing input state.
+	autocompletedResults: AutocompleteResult[],
+	autocompletedResultsRequestId: string,
+	autocompletedSuggestions: any,
+	autocompletedSuggestionsRequestId: string,
+	error: string,
+	isLoading: boolean,
+	facets: Record<string, any>,
+	requestId: string,
+	results: SearchResult[],
+	resultSearchTerm: string,
+	totalPages: number,
+	totalResults: number,
+	pagingStart: number,
+	pagingEnd: number,
+	wasSearched: false,
+	rawResponse: any
 }
 
 export type AutocompleteQuery = {

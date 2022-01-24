@@ -4,6 +4,7 @@ import {
   itFetchesResults,
   itUpdatesURLState
 } from "../../test/sharedTests";
+import { RequestState } from "../../types";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../../URLManager");
@@ -46,11 +47,11 @@ describe("#setFilter", () => {
   );
 
   it("Does not update other Search Parameter values", () => {
-    const initialState = {
+    const initialState: RequestState = {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ states: "asc" }, { title: "desc" }],
+      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
       searchTerm: "test"
     };
     const {

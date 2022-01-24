@@ -8,7 +8,7 @@
 const regionId = "search-ui-screen-reader-notifications";
 const hasDOM = typeof document !== "undefined"; // Prevent errors in SSR apps
 
-const getLiveRegion = () : HTMLElement | null => {
+const getLiveRegion = (): HTMLElement | null => {
   if (!hasDOM) return null;
 
   let region = document.getElementById(regionId);
@@ -43,12 +43,22 @@ const getLiveRegion = () : HTMLElement | null => {
 
 const announceToScreenReader = (announcement: string): void => {
   const region = getLiveRegion();
-  if (!region) return
+  if (!region) return;
   region.textContent = announcement;
 };
 
 const defaultMessages = {
-  searchResults: ({ start, end, totalResults, searchTerm }: { start: string, end: string, totalResults: string, searchTerm: string }) => {
+  searchResults: ({
+    start,
+    end,
+    totalResults,
+    searchTerm
+  }: {
+    start: string;
+    end: string;
+    totalResults: string;
+    searchTerm: string;
+  }) => {
     let message = `Showing ${start} to ${end} results out of ${totalResults}`;
     if (searchTerm) message += `, searching for "${searchTerm}".`;
     return message;

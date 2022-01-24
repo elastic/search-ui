@@ -133,7 +133,7 @@ describe("markSelectedFacetValuesFromFilters", () => {
     ]
   };
 
-  let filters: Filter[] = [
+  const filters: Filter[] = [
     {
       field: "states",
       values: ["California", "South Carolina"],
@@ -188,12 +188,12 @@ describe("markSelectedFacetValuesFromFilters", () => {
 });
 
 describe("mergeFilters", () => {
-  let filters1 = [
+  const filters1 = [
     { field: "world_heritage_site", values: ["false"], type: "any" },
     { field: "world_heritage_site", values: ["false"], type: "all" },
     { field: "states", values: ["Arizona", "Wyoming"], type: "all" }
   ];
-  let filters2 = [
+  const filters2 = [
     { field: "world_heritage_site", values: ["true"], type: "all" },
     { field: "states", values: ["Washington"], type: "all" },
     { field: "acres", values: 1, type: "any" }

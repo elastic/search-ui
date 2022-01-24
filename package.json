@@ -8,8 +8,8 @@
     "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --parallel --no-private",
-    "format": "packages/node_modules/eslint/bin/eslint.js --fix \"packages/*/src/**/*.js\"",
-    "lint": "packages/node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.js\"",
+    "format": "node_modules/eslint/bin/eslint.js --fix \"packages/*/src/**/*.ts\"",
+    "lint": "node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.ts\"",
     "changed": "lerna changed",
     "sandbox": "./bin/sandbox"
   },
@@ -20,18 +20,29 @@
   },
   "lint-staged": {
     "packages/*/src/**/*.js": [
-      "packages/node_modules/eslint/bin/eslint.js --fix",
+      "node_modules/eslint/bin/eslint.js --fix",
       "git add"
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^1.3.0",
     "lerna": "^4.0.0",
     "lint-staged": "^9.2.0",
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "typescript": "^4.5.5"
   },
   "engines": {
     "node": "^14.17.0",
     "npm": "^6.14.6"
+  },
+  "dependencies": {
+    "eslint-plugin-react": "^7.28.0"
   }
 }

@@ -1,19 +1,10 @@
 import SearchDriver, { SearchDriverOptions } from "../SearchDriver";
-
-export type InitialState = {
-  resultsPerPage?: number,
-  sortField?: string,
-  sortDirection?: string,
-  sortList?: any[],
-  searchTerm?: string,
-  filters?: any[]
-  current?: number
-};
+import { APIConnector, Filter, SearchState } from "../types";
 
 export type SubjectArguments = { 
-  initialState?: InitialState, 
-  initialFilters?: any,
-  autocompleteResults?: any,
+  initialState?: Partial<SearchState>, 
+  initialFilters?: Filter[],
+  autocompleteResults?: boolean,
   autocompleteSuggestions?: boolean,
   refresh?: boolean,
   shouldClearFilters?: boolean
@@ -57,14 +48,14 @@ export function getMockApiConnector() {
         })
     }),
     onSearch: jest.fn().mockReturnValue({ then: cb => cb(searchResponse) }),
-    onResultClick: jest.fn().mockReturnValue({ then: () => {} }),
-    onAutocompleteResultClick: jest.fn().mockReturnValue({ then: () => {} })
+    onResultClick: jest.fn().mockReturnValue(Promise.resolve(true)),
+    onAutocompleteResultClick: jest.fn().mockReturnValue(Promise.resolve(true))
   };
 }
 
 type SetupDriverOptions = {
-  mockSearchResponse?: any;
-  mockApiConnector?: any;
+  mockSearchResponse?: any; //eslint-disable-line @typescript-eslint/no-explicit-any
+  mockApiConnector?: APIConnector;
 } & Partial<SearchDriverOptions>
 
 export function setupDriver({
@@ -73,9 +64,9 @@ export function setupDriver({
   ...rest
 }: SetupDriverOptions = { mockSearchResponse: null, mockApiConnector: null }) : {
   driver: SearchDriver,
-  stateAfterCreation: any,
-  updatedStateAfterAction: any,
-  mockApiConnector: any,
+  stateAfterCreation: any, //eslint-disable-line @typescript-eslint/no-explicit-any
+  updatedStateAfterAction: any, //eslint-disable-line @typescript-eslint/no-explicit-any
+  mockApiConnector: APIConnector,
 } {
   mockApiConnector = mockApiConnector || getMockApiConnector();
 
