@@ -1,6 +1,17 @@
-import { APIConnector, AutocompleteQuery, AutocompleteResult, QueryConfig, SearchQuery, SearchResult } from './types';
+import {
+  APIConnector,
+  AutocompleteQuery,
+  AutocompleteResult,
+  QueryConfig,
+  SearchQuery,
+  SearchResult
+} from "./types";
 
-function wireUpEventHandler(handlerName: string, apiConnector: APIConnector, handlerParam) {
+function wireUpEventHandler(
+  handlerName: string,
+  apiConnector: APIConnector,
+  handlerParam
+) {
   if (handlerParam) {
     // Passes a 'next' parameter which allows a handler to work as
     // middleware for a connector
@@ -31,19 +42,24 @@ function wireUpEventHandler(handlerName: string, apiConnector: APIConnector, han
  */
 
 type EventOptions = {
-  apiConnector?: APIConnector
-  onSearch?: (searchQuery: SearchQuery) => void
-  onAutocomplete?: (query: AutocompleteQuery) => void,
-  onResultClick?: (result: SearchResult) => void,
-  onAutocompleteResultClick?: (result: AutocompleteResult) => void
-} 
+  apiConnector?: APIConnector;
+  onSearch?: (searchQuery: SearchQuery) => void;
+  onAutocomplete?: (query: AutocompleteQuery) => void;
+  onResultClick?: (result: SearchResult) => void;
+  onAutocompleteResultClick?: (result: AutocompleteResult) => void;
+};
 
 class Events {
-
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  public search: (searchQuery: SearchQuery, queryConfig: QueryConfig) => Promise<any>;
+  public search: (
+    searchQuery: SearchQuery,
+    queryConfig: QueryConfig
+  ) => Promise<any>;
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  public autocomplete: (query: { searchTerm: string }, queryConfig: QueryConfig) => Promise<any>; 
+  public autocomplete: (
+    query: { searchTerm: string },
+    queryConfig: QueryConfig
+  ) => Promise<any>;
   public resultClick: () => void;
   public autocompleteResultClick: () => void;
 
@@ -73,4 +89,4 @@ class Events {
   }
 }
 
-export default Events
+export default Events;

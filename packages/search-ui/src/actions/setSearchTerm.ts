@@ -14,13 +14,13 @@
  */
 
 type SetSearchTermOptions = {
-  autocompleteMinimumCharacters?: number,
-  autocompleteResults?: boolean,
-  debounce?: number,
-  refresh?: boolean,
-  autocompleteSuggestions?: boolean,
-  shouldClearFilters?: boolean,
-}
+  autocompleteMinimumCharacters?: number;
+  autocompleteResults?: boolean;
+  debounce?: number;
+  refresh?: boolean;
+  autocompleteSuggestions?: boolean;
+  shouldClearFilters?: boolean;
+};
 
 export default function setSearchTerm(
   searchTerm: string,
@@ -32,7 +32,7 @@ export default function setSearchTerm(
     refresh = true,
     debounce = 0
   }: SetSearchTermOptions = {}
-) : void {
+): void {
   if (this.debug)
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "setSearchTerm", ...arguments);

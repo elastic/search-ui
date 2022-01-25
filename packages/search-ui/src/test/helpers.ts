@@ -1,14 +1,14 @@
 import SearchDriver, { SearchDriverOptions } from "../SearchDriver";
 import { APIConnector, Filter, SearchState } from "../types";
 
-export type SubjectArguments = { 
-  initialState?: Partial<SearchState>, 
-  initialFilters?: Filter[],
-  autocompleteResults?: boolean,
-  autocompleteSuggestions?: boolean,
-  refresh?: boolean,
-  shouldClearFilters?: boolean
-}
+export type SubjectArguments = {
+  initialState?: Partial<SearchState>;
+  initialFilters?: Filter[];
+  autocompleteResults?: boolean;
+  autocompleteSuggestions?: boolean;
+  refresh?: boolean;
+  shouldClearFilters?: boolean;
+};
 
 const suggestions = {
   documents: [
@@ -56,17 +56,18 @@ export function getMockApiConnector() {
 type SetupDriverOptions = {
   mockSearchResponse?: any; //eslint-disable-line @typescript-eslint/no-explicit-any
   mockApiConnector?: APIConnector;
-} & Partial<SearchDriverOptions>
+} & Partial<SearchDriverOptions>;
 
-export function setupDriver({
-  mockSearchResponse,
-  mockApiConnector,
-  ...rest
-}: SetupDriverOptions = { mockSearchResponse: null, mockApiConnector: null }) : {
-  driver: SearchDriver,
-  stateAfterCreation: any, //eslint-disable-line @typescript-eslint/no-explicit-any
-  updatedStateAfterAction: any, //eslint-disable-line @typescript-eslint/no-explicit-any
-  mockApiConnector: APIConnector,
+export function setupDriver(
+  { mockSearchResponse, mockApiConnector, ...rest }: SetupDriverOptions = {
+    mockSearchResponse: null,
+    mockApiConnector: null
+  }
+): {
+  driver: SearchDriver;
+  stateAfterCreation: any; //eslint-disable-line @typescript-eslint/no-explicit-any
+  updatedStateAfterAction: any; //eslint-disable-line @typescript-eslint/no-explicit-any
+  mockApiConnector: APIConnector;
 } {
   mockApiConnector = mockApiConnector || getMockApiConnector();
 

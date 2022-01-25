@@ -1,8 +1,8 @@
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-type fnType = (...args: any[]) => void
+type fnType = (...args: any[]) => void;
 
 type DebounceInstance = fnType & {
-  cancel: () => void
+  cancel: () => void;
 };
 /**
  * minimal debounce function
@@ -53,7 +53,12 @@ class DebounceManager {
    * @param {...any} parameters Parameters to pass to function
    */
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  runWithDebounce(wait: number, functionName: string, fn: fnType, ...parameters: any[]): void {
+  runWithDebounce(
+    wait: number,
+    functionName: string,
+    fn: fnType,
+    ...parameters: any[]
+  ): void {
     if (!wait) {
       return fn(...parameters);
     }
@@ -94,11 +99,11 @@ class DebounceManager {
   }
 
   /**
- * Perform a standard debounce
- *
- * @param {number} wait Milliseconds to debounce. Executes immediately if falsey.
- * @param {function} fn Function to debounce
- */
+   * Perform a standard debounce
+   *
+   * @param {number} wait Milliseconds to debounce. Executes immediately if falsey.
+   * @param {function} fn Function to debounce
+   */
   static debounce = (wait: number, fn: fnType): DebounceInstance => {
     return debounce(fn, wait);
   };

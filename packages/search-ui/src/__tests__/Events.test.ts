@@ -6,7 +6,9 @@ function mockPromise(value) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function setupMockConnector({ apiConnectorConfig = {} } : { apiConnectorConfig?: any } = {}) {
+function setupMockConnector({
+  apiConnectorConfig = {}
+}: { apiConnectorConfig?: any } = {}) {
   const apiConnector = getMockApiConnector();
   if (apiConnectorConfig.onSearch) {
     apiConnector.onSearch = apiConnectorConfig.onSearch;

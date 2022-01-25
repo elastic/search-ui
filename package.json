@@ -19,7 +19,7 @@
     }
   },
   "lint-staged": {
-    "packages/*/src/**/*.js": [
+    "packages/*/src/**/*.ts": [
       "node_modules/eslint/bin/eslint.js --fix",
       "git add"
     ]

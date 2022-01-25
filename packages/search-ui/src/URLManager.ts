@@ -1,16 +1,20 @@
-import { createBrowserHistory as createHistory, createMemoryHistory, History } from "history";
+import {
+  createBrowserHistory as createHistory,
+  createMemoryHistory,
+  History
+} from "history";
 import queryString from "./queryString";
 import { Filter, RequestState, SortOption } from "./types";
 
 type QueryParams = {
-  filters?: Filter[],
-  current?: number,
-  q?: string,
-  size?: number,
-  "sort-field"?: string,
-  "sort-direction"?: string,
-  sort?: SortOption[]
-}
+  filters?: Filter[];
+  current?: number;
+  q?: string;
+  size?: number;
+  "sort-field"?: string;
+  "sort-direction"?: string;
+  sort?: SortOption[];
+};
 
 function isNumericString(num): boolean {
   return !isNaN(num);
@@ -29,7 +33,7 @@ function toInteger(num): number {
   return parseInt(num, 10);
 }
 
-function parseFiltersFromQueryParams(queryParams: QueryParams) : Filter[] {
+function parseFiltersFromQueryParams(queryParams: QueryParams): Filter[] {
   return queryParams.filters;
 }
 
@@ -41,7 +45,9 @@ function parseSearchTermFromQueryParams(queryParams: QueryParams): string {
   return toSingleValue(queryParams.q);
 }
 
-function parseOldSortFromQueryParams(queryParams: QueryParams): [string, string] | [] {
+function parseOldSortFromQueryParams(
+  queryParams: QueryParams
+): [string, string] | [] {
   const sortField = toSingleValue(queryParams["sort-field"]);
   const sortDirection = toSingleValue(queryParams["sort-direction"]);
 
@@ -91,7 +97,7 @@ function stateToParams({
   if (filters && filters.length > 0) {
     params["filters"] = filters;
   }
-if (sortList && sortList.length > 0) {
+  if (sortList && sortList.length > 0) {
     params["sort"] = sortList;
   } else if (sortField) {
     params["sort-field"] = sortField;
@@ -123,13 +129,13 @@ function stateToQueryString(state: RequestState): string {
  */
 
 export default class URLManager {
-
   history: History;
   lastPushSearchString: string;
-  unlisten?: () => void
+  unlisten?: () => void;
 
   constructor() {
-    this.history = typeof window !== "undefined" ? createHistory() : createMemoryHistory();
+    this.history =
+      typeof window !== "undefined" ? createHistory() : createMemoryHistory();
     this.lastPushSearchString = "";
   }
 
@@ -151,7 +157,10 @@ export default class URLManager {
    * @param {boolean} options.replaceUrl - When pushing state to the URL, use history 'replace'
    * rather than 'push' to avoid adding a new history entry
    */
-  pushStateToURL(state: RequestState, { replaceUrl = false }: { replaceUrl?: boolean } = {}): void {
+  pushStateToURL(
+    state: RequestState,
+    { replaceUrl = false }: { replaceUrl?: boolean } = {}
+  ): void {
     const searchString = stateToQueryString(state);
     this.lastPushSearchString = searchString;
     const navigationFunction = replaceUrl

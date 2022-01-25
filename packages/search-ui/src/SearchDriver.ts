@@ -8,7 +8,16 @@ import Events from "./Events";
 import { mergeFilters } from "./helpers";
 
 import * as a11y from "./A11yNotifications";
-import { AutocompleteQuery, SearchState, SearchQuery, APIConnector, SearchResult, AutocompleteResult, RequestState, SortDirection } from "./types";
+import {
+  AutocompleteQuery,
+  SearchState,
+  SearchQuery,
+  APIConnector,
+  SearchResult,
+  AutocompleteResult,
+  RequestState,
+  SortDirection
+} from "./types";
 
 function filterSearchParameters({
   current,
@@ -79,26 +88,26 @@ function removeConditionalFacets(
 }
 
 export type SearchDriverOptions = {
-  apiConnector: APIConnector,
-  autocompleteQuery?: AutocompleteQuery,
-  debug?: boolean,
-  initialState?: Partial<SearchState>,
-  onSearch?: (query: SearchQuery) => void,
-  onAutocomplete?: (query: AutocompleteQuery) => void,
-  onResultClick?: (result: SearchResult) => void,
-  onAutocompleteResultClick?: (result: AutocompleteResult) => void,
-  searchQuery?: SearchQuery,
-  trackUrlState?: boolean,
-  urlPushDebounceLength?: number,
-  hasA11yNotifications?: boolean,
-  a11yNotificationMessages?: Record<string, unknown>,
-  alwaysSearchOnInitialLoad?: boolean
-}
+  apiConnector: APIConnector;
+  autocompleteQuery?: AutocompleteQuery;
+  debug?: boolean;
+  initialState?: Partial<SearchState>;
+  onSearch?: (query: SearchQuery) => void;
+  onAutocomplete?: (query: AutocompleteQuery) => void;
+  onResultClick?: (result: SearchResult) => void;
+  onAutocompleteResultClick?: (result: AutocompleteResult) => void;
+  searchQuery?: SearchQuery;
+  trackUrlState?: boolean;
+  urlPushDebounceLength?: number;
+  hasA11yNotifications?: boolean;
+  a11yNotificationMessages?: Record<string, unknown>;
+  alwaysSearchOnInitialLoad?: boolean;
+};
 
 export type SubscriptionHandler = (state: SearchState) => void;
 
 interface SearchDriver extends actions.SearchDriverActions {
-  actions: actions.SearchDriverActions
+  actions: actions.SearchDriverActions;
 }
 
 /*
@@ -121,9 +130,12 @@ class SearchDriver {
   alwaysSearchOnInitialLoad: boolean;
   URLManager: URLManager;
   hasA11yNotifications: boolean;
-  a11yNotificationMessages: Record<string, (expansions?: Record<string, unknown>) => string>;
+  a11yNotificationMessages: Record<
+    string,
+    (expansions?: Record<string, unknown>) => string
+  >;
   startingState: SearchState;
-  
+
   constructor({
     apiConnector,
     autocompleteQuery = {},
@@ -148,7 +160,7 @@ class SearchDriver {
         };
       },
       {}
-    ) as actions.SearchDriverActions
+    ) as actions.SearchDriverActions;
     Object.assign(this, this.actions);
 
     this.events = new Events({
@@ -246,7 +258,7 @@ class SearchDriver {
   private _updateAutocomplete = (
     searchTerm,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    { autocompleteResults, autocompleteSuggestions } : any = {}
+    { autocompleteResults, autocompleteSuggestions }: any = {}
   ) => {
     const requestId = this.autocompleteRequestSequencer.next();
 

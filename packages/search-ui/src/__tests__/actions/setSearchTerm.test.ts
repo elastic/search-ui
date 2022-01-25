@@ -1,4 +1,8 @@
-import { getAutocompleteCalls, setupDriver, SubjectArguments } from "../../test/helpers";
+import {
+  getAutocompleteCalls,
+  setupDriver,
+  SubjectArguments
+} from "../../test/helpers";
 import {
   itResetsCurrent,
   itResetsFilters,
@@ -99,7 +103,10 @@ describe("#setSearchTerm", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }]
+      sortList: [
+        { direction: "asc", field: "name" },
+        { direction: "desc", field: "title" }
+      ]
     };
     const { resultsPerPage, sortField, sortDirection, sortList } = subject(
       "test",
@@ -121,9 +128,10 @@ describe("#setSearchTerm", () => {
 
   it("Does not update URL state when 'refresh' is set to false", () => {
     subject("term", { refresh: false });
-    expect((MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mock.calls).toHaveLength(
-      0
-    );
+    expect(
+      (MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mock
+        .calls
+    ).toHaveLength(0);
   });
 
   it("Does not fetch results when 'refresh' is set to false", () => {

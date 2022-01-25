@@ -25,7 +25,7 @@ describe("#removeFilter", () => {
       initialState = {
         filters: initialFilters
       }
-    } : SubjectArguments = {}
+    }: SubjectArguments = {}
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
@@ -51,7 +51,10 @@ describe("#removeFilter", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
+      sortList: [
+        { direction: "asc", field: "name" },
+        { direction: "desc", field: "title" }
+      ],
       searchTerm: "test"
     };
     const {
@@ -130,17 +133,29 @@ describe("#removeFilter", () => {
         undefined,
         {
           initialFilters: [
-            { field: "initial", values: [{name: "test", from: 20, to: 100 }], type: "all" },
+            {
+              field: "initial",
+              values: [{ name: "test", from: 20, to: 100 }],
+              type: "all"
+            },
             {
               field: "test",
-              values: ["anotherValue", {name: "test", from: 20, to: 100 }, "someOtherValue"],
+              values: [
+                "anotherValue",
+                { name: "test", from: 20, to: 100 },
+                "someOtherValue"
+              ],
               type: "all"
             }
           ]
         }
       ).filters
     ).toEqual([
-      { field: "initial", values: [{ name: "test", from: 20, to: 100 }], type: "all" },
+      {
+        field: "initial",
+        values: [{ name: "test", from: 20, to: 100 }],
+        type: "all"
+      },
       {
         field: "test",
         values: ["anotherValue", "someOtherValue"],

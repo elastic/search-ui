@@ -40,7 +40,10 @@ describe("#setCurrent", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
+      sortList: [
+        { direction: "asc", field: "name" },
+        { direction: "desc", field: "title" }
+      ]
     };
     const {
       searchTerm,

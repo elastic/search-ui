@@ -51,7 +51,10 @@ describe("#setFilter", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
+      sortList: [
+        { direction: "asc", field: "name" },
+        { direction: "desc", field: "title" }
+      ],
       searchTerm: "test"
     };
     const {

@@ -10,7 +10,11 @@ import { FilterType, FilterValue } from "../types";
  * @param value String field value to filter on
  * @param type String (Optional) type of filter to apply
  */
-export default function addFilter(name: string, value: FilterValue, type: FilterType = "all"): void {
+export default function addFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+): void {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "addFilter", ...arguments);
 

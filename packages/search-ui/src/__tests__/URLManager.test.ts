@@ -1,6 +1,5 @@
 import { RequestState } from "../types";
 import URLManager from "../URLManager";
-import querystring from '../queryString'
 
 function createManager() {
   const manager = new URLManager();
@@ -31,7 +30,10 @@ const basicParameterStateAsUrl =
 
 const parameterStateWithSortList: RequestState = {
   resultsPerPage: 20,
-  sortList: [{ direction: "asc", field: "name" }, { direction: "desc", field: "title" }],
+  sortList: [
+    { direction: "asc", field: "name" },
+    { direction: "desc", field: "title" }
+  ]
 };
 
 const parameterStateWithSortListAsUrl =
@@ -41,12 +43,14 @@ const parameterStateWithRangeFilters: RequestState = {
   filters: [
     {
       field: "test",
-      values: [{
-        from: 12,
-        name: "test",
-        to: 4000
-      }],
-      type: 'all'
+      values: [
+        {
+          from: 12,
+          name: "test",
+          to: 4000
+        }
+      ],
+      type: "all"
     }
   ]
 };
@@ -185,7 +189,7 @@ describe("#onURLStateChange", () => {
 
   it("will call provided callback with updated state when url changes", () => {
     setup();
-    const mock = jest.fn()
+    const mock = jest.fn();
 
     // Provide url state change handler
     subject(mock, basicParameterStateAsUrl);

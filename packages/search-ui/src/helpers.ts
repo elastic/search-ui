@@ -9,7 +9,11 @@ import { Filter, FilterType, FilterValue } from "./types";
  * @param {*} name
  * @param {*} filterType
  */
-export function findFilterValues(filters: Filter[], name: string, filterType: FilterType): FilterValue[] {
+export function findFilterValues(
+  filters: Filter[],
+  name: string,
+  filterType: FilterType
+): FilterValue[] {
   const filter = filters.find(f => f.field === name && f.type === filterType);
   if (!filter) return [];
   return filter.values;
@@ -24,7 +28,12 @@ export function findFilterValues(filters: Filter[], name: string, filterType: Fi
  * @param {FilterValue} value
  * @param {FilterType} filterType
  */
-export function removeSingleFilterValue(filters: Filter[], fieldName: string, value: FilterValue, filterType: FilterType) : Filter[] {
+export function removeSingleFilterValue(
+  filters: Filter[],
+  fieldName: string,
+  value: FilterValue,
+  filterType: FilterType
+): Filter[] {
   return filters.reduce((acc, filter) => {
     const { field, values, type, ...rest } = filter;
     if (field === fieldName && (!filterType || type === filterType)) {

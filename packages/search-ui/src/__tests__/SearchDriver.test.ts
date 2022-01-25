@@ -1,5 +1,5 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
-import { Filter, SearchQuery, SearchState } from '../types'
+import { Filter, SearchQuery, SearchState } from "../types";
 import {
   doesStateHaveResponseData,
   setupDriver,
@@ -24,12 +24,11 @@ const params = {
 };
 
 function getSearchCalls(specificMockApiConnector = mockApiConnector) {
-  return (specificMockApiConnector).onSearch.mock.calls;
+  return specificMockApiConnector.onSearch.mock.calls;
 }
 
 function getAutocompleteCalls(specificMockApiConnector = mockApiConnector) {
-  return (specificMockApiConnector).onAutocomplete.mock
-    .calls;
+  return specificMockApiConnector.onAutocomplete.mock.calls;
 }
 
 beforeEach(() => {
@@ -140,7 +139,8 @@ it("will sync initial state to the URL", () => {
 
   setupDriver({ initialState });
 
-  const pushStateCalls = (MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock).mock.calls;
+  const pushStateCalls = (MockedURLManager.mock.instances[0]
+    .pushStateToURL as jest.Mock).mock.calls;
   expect(pushStateCalls).toHaveLength(1);
   // "will sync to the url with 'replace' rather than 'push'"
   expect(pushStateCalls[0][1].replaceUrl).toEqual(true);
@@ -413,14 +413,20 @@ describe("tearDown", () => {
     driver.setSearchTerm("test");
     expect(called1).toBe(true);
     expect(called2).toBe(true);
-    expect((MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls.length).toBe(0);
+    expect(
+      (MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls
+        .length
+    ).toBe(0);
     called1 = false;
     called2 = false;
     driver.tearDown();
     driver.setSearchTerm("test");
     expect(called1).toBe(false); // Did not call, unsubscribed
     expect(called2).toBe(false); // Did not call, unsubscribed
-    expect((MockedURLManager.mock.instances[0].tearDown  as jest.Mock).mock.calls.length).toBe(1);
+    expect(
+      (MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls
+        .length
+    ).toBe(1);
   });
 });
 

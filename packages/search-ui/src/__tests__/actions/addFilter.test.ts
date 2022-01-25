@@ -44,7 +44,9 @@ describe("#addFilter", () => {
   });
 
   itResetsCurrent(() =>
-    subject("field", "value", undefined, { initialState: { filters: [], current: 2 } })
+    subject("field", "value", undefined, {
+      initialState: { filters: [], current: 2 }
+    })
   );
 
   it("Does not update other Search Parameter values", () => {
@@ -57,7 +59,7 @@ describe("#addFilter", () => {
         { direction: "desc", field: "title" }
       ],
       searchTerm: "test"
-    } as RequestState
+    } as RequestState;
     const {
       resultsPerPage,
       sortField,
@@ -161,7 +163,10 @@ describe("#addFilter", () => {
       },
       {
         field: "test",
-        values: [{ name: "test", from: 4, to: 5 }, { name: "test2", from: 5, to: 6 }],
+        values: [
+          { name: "test", from: 4, to: 5 },
+          { name: "test2", from: 5, to: 6 }
+        ],
         type: "all"
       }
     ]);

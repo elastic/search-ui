@@ -7,7 +7,10 @@
  * @param tag Array[String] Optional Tags which can be used to categorize
  * this click event
  */
-export default function trackClickThrough(documentId: string, tags: string[] = []): void {
+export default function trackClickThrough(
+  documentId: string,
+  tags: string[] = []
+): void {
   if (this.debug)
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "trackClickThrough", ...arguments);

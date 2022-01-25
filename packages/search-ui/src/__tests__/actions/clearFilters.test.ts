@@ -19,7 +19,7 @@ describe("#clearFilters", () => {
       initialState = {
         filters: initialFilters
       }
-    } : SubjectArguments = {}
+    }: SubjectArguments = {}
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
@@ -41,7 +41,10 @@ describe("#clearFilters", () => {
       resultsPerPage: 60,
       sortField: "name",
       sortDirection: "asc",
-      sortList: [{ field: "name", direction: "asc" }, { field: "title", direction: "desc" }],
+      sortList: [
+        { field: "name", direction: "asc" },
+        { field: "title", direction: "desc" }
+      ],
       searchTerm: "test"
     };
     const {

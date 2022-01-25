@@ -12,7 +12,7 @@
 
   To deal with this, we keep track of a sequence.
   */
-type RequestSequence = number
+type RequestSequence = number;
 
 export default class RequestSequencer {
   requestSequence: RequestSequence = 0;

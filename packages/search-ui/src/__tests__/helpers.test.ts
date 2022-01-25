@@ -149,7 +149,7 @@ describe("markSelectedFacetValuesFromFilters", () => {
       values: ["true"],
       type: "all"
     }
-  ]
+  ];
 
   it("will mark selected facets as selected based on current filters, field name, and filter type", () => {
     const marked = markSelectedFacetValuesFromFilters(

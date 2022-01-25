@@ -1,7 +1,11 @@
 import { getAutocompleteClickCalls, setupDriver } from "../../test/helpers";
 
 describe("#trackAutocompleteClickThrough", () => {
-  function subject({ initialState } : { initialState? } = {}, documentId?, tags?) {
+  function subject(
+    { initialState }: { initialState? } = {},
+    documentId?,
+    tags?
+  ) {
     const { driver, mockApiConnector, updatedStateAfterAction } = setupDriver({
       initialState
     });
