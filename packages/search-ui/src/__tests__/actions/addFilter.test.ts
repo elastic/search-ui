@@ -137,7 +137,7 @@ describe("#addFilter", () => {
     ]);
   });
 
-  fit("Adds an additional range filter", () => {
+  it("Adds an additional range filter", () => {
     expect(
       subject("test", { name: "test2", from: 5, to: 6 }, undefined, {
         initialFilters: [

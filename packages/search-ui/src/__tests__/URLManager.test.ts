@@ -1,5 +1,6 @@
 import { RequestState } from "../types";
 import URLManager from "../URLManager";
+import querystring from '../queryString'
 
 function createManager() {
   const manager = new URLManager();
@@ -26,7 +27,7 @@ const basicParameterState: RequestState = {
 };
 
 const basicParameterStateAsUrl =
-  "?filters[0][dependencies][0]=underscore&filters[0][dependencies][1]=another&filters[1][keywords][0]=node&q=node&size=20&sort-direction=asc&sort-field=name";
+  "?filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D=value&filters%5B0%5D%5Btype%5D=all&filters%5B1%5D%5Bfield%5D=node&filters%5B1%5D%5Bvalues%5D%5B0%5D=value&filters%5B1%5D%5Btype%5D=all&resultsPerPage=n_20_n&q=node&size=20&sort-direction=asc&sort-field=name";
 
 const parameterStateWithSortList: RequestState = {
   resultsPerPage: 20,
@@ -151,13 +152,13 @@ describe("#pushStateToURL", () => {
 });
 
 describe("#onURLStateChange", () => {
-  let manager;
-  let spy;
+  let manager: URLManager;
+  let listenSpy;
   let pushSpy;
 
   function setup() {
     manager = createManager();
-    spy = jest.spyOn(manager.history, "listen");
+    listenSpy = jest.spyOn(manager.history, "listen");
     pushSpy = jest.spyOn(manager.history, "push");
   }
 
@@ -170,9 +171,7 @@ describe("#onURLStateChange", () => {
   function simulateBrowserHistoryEvent(newUrl) {
     // Since we're not in a real browser, we simulate the change event that
     // would have ocurred.
-    // const spy = jest.spyOn(manager.history, "listen");
-
-    spy.mock.calls[0][0]({
+    listenSpy.mock.calls[0][0]({
       search: newUrl
     });
   }
