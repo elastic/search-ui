@@ -2,11 +2,6 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es2015",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "declaration":true,
     "outDir": "lib/esm",
     "allowJs": true,
