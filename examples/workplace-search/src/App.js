@@ -3,7 +3,6 @@ import React from "react";
 import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
 
 import {
-  ErrorBoundary,
   SearchProvider,
   SearchBox,
   Results,
@@ -21,6 +20,7 @@ const connector = new WorkplaceSearchAPIConnector({
 })
 
 const config = {
+  debug: true,
   alwaysSearchOnInitialLoad: true,
   searchQuery: {
     result_fields: {
@@ -39,7 +39,6 @@ export default function App() {
         {({ wasSearched }) => {
           return (
             <div className="App">
-              <ErrorBoundary>
                 <Layout
                   header={
                     <SearchBox />
@@ -53,7 +52,6 @@ export default function App() {
                     />
                   }
                 />
-              </ErrorBoundary>
             </div>
           );
         }}
