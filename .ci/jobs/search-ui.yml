@@ -1,16 +1,16 @@
 ---
 
 - job:
-    name: searchui/searchui
-    description: "Builds and run tests against the elastic/searchui repo"
+    name: search-ui/search-ui
+    description: "Builds and run tests against the elastic/search-ui repo"
     project-type: multibranch
     node: master
     concurrent: true
-    script-path: .ci/pipelines/searchui.groovy
+    script-path: .ci/pipelines/search-ui.groovy
     prune-dead-branches: true
     scm:
       - github:
-          repo: searchui
+          repo: search-ui
           repo-owner: elastic
           branch-discovery: 'no-pr'
           discover-pr-origin: current
