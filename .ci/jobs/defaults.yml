@@ -1,0 +1,11 @@
+---
+
+- meta:
+    cluster: devops-ci
+
+- job:
+    node: "linux && immutable"
+
+    wrappers:
+      - ansicolor
+      - timestamps

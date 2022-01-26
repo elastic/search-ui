@@ -5,14 +5,7 @@ module.exports = {
     commonjs: true,
     es6: true
   },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:jest/recommended",
-    "plugin:prettier/recommended",
-    "prettier/react"
-  ],
-  parser: "babel-eslint",
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -20,13 +13,15 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
-  plugins: ["react", "jest"],
+  plugins: ["@typescript-eslint"],
+  parser: "@typescript-eslint/parser",
   settings: {
     react: {
-      version: "6.0"
+      version: "detect"
     }
   },
   rules: {
-    "no-console": ["error", { allow: ["warn", "error"] }]
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "prefer-rest-params": "off"
   }
 };
