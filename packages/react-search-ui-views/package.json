@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui-views",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "A collection of React UI components for building search experiences",
   "license": "Apache-2.0",
   "main": "lib",
@@ -39,7 +39,8 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": ">= 16.8.0 < 18",
+    "react-dom": ">= 16.8.0 < 18"
   },
   "jest": {
     "setupFilesAfterEnv": [
@@ -60,21 +61,21 @@
     "@storybook/addon-links": "^4.1.18",
     "@storybook/addons": "^4.1.18",
     "@storybook/react": "^4.1.18",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
     "chokidar-cli": "^1.2.2",
     "core-js": "^3.6.5",
     "core-js-pure": "^3.6.5",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "enzyme-to-json": "^3.3.5",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.2",
     "jest": "^24.8.0",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "postcss-cli": "^6.1.3",
     "postcss-import": "^12.0.1",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "rimraf": "^2.6.3"
   },
   "dependencies": {
