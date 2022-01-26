@@ -3,7 +3,7 @@
 eshPipeline(
     timeout: 45,
     project_name: 'Search UI',
-    repository: 'searchui',
+    repository: 'search-ui',
     stage_name: 'Search UI Unit Tests',
     stages: [
 
