@@ -11,7 +11,8 @@
     "format": "packages/node_modules/eslint/bin/eslint.js --fix \"packages/*/src/**/*.js\"",
     "lint": "packages/node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.js\"",
     "changed": "lerna changed",
-    "sandbox": "./bin/sandbox"
+    "sandbox": "./bin/sandbox",
+    "workplace-search": "./bin/workplace-search"
   },
   "husky": {
     "hooks": {
