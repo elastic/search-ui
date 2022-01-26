@@ -1,7 +1,7 @@
 {
-  "name": "@elastic/search-ui-app-search-connector",
+  "name": "@elastic/search-ui-workplace-search-connector",
   "version": "1.9.0",
-  "description": "A Search UI connector for Elastic's App Search Service",
+  "description": "A Search UI connector for Elastic's Workplace Search Service",
   "license": "Apache-2.0",
   "main": "lib",
   "module": "es",
@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/elastic/search-ui.git",
-    "directory": "packages/search-ui-app-search-connector"
+    "directory": "packages/search-ui-workplace-search-connector"
   },
   "scripts": {
     "test-ci": "jest --runInBand",
@@ -38,8 +38,5 @@
     "jest": "^24.8.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3"
-  },
-  "dependencies": {
-    "@elastic/app-search-javascript": "^7.13.1"
   }
 }
