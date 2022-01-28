@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import queryString from "query-string";
 
 import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
 
@@ -14,7 +15,8 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new WorkplaceSearchAPIConnector({
-  endpointBase: "http://localhost:3002",
+  kibanaBase: "http://localhost:5601/urd",
+  enterpriseSearchBase: "http://localhost:3002",
   redirectUri: "http://localhost:3000",
   clientId: "ace9c82ba444dafb593250e483dc66b24713f2e6e70bf4bc2eaafc5c682d45cd",
 })
@@ -39,6 +41,11 @@ export default function App() {
         {({ wasSearched }) => {
           return (
             <div className="App">
+                <div>
+                  <a href={`${connector.kibanaBase}/app/enterprise_search/workplace_search/p/oauth/authorize?client_id=${connector.clientId}&redirect_uri=${connector.redirectUri}&response_type=token`}>
+                    Authorize
+                  </a>
+                </div>
                 <Layout
                   header={
                     <SearchBox />
