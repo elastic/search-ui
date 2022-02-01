@@ -1,7 +1,7 @@
 import React from "react";
 import { FacetContainer, FacetContainerViewProps } from "../Facet";
 import { shallow, ShallowWrapper } from "enzyme";
-import { Filter } from "@elastic/search-ui/lib/esm/types";
+import { Filter } from "@elastic/search-ui";
 
 const View = () => <div />;
 

@@ -113,7 +113,6 @@ it("passes data-foo through to the view", () => {
 });
 
 it("supports a render prop", () => {
-  // eslint-disable-next-line react/prop-types
   const render = ({ children }: ResultViewProps) => {
     return <div>{children}</div>;
   };

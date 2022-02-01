@@ -6,7 +6,7 @@ import { Result as ResultContainer } from ".";
 import { BaseContainerProps } from "../types";
 import { SearchContextState } from "../withSearch";
 import { ResultViewProps } from "./Result";
-import { SearchResult } from "@elastic/search-ui/lib/esm/types";
+import { SearchResult } from "@elastic/search-ui";
 
 function getRaw(result, value) {
   if (!result[value] || !result[value].raw) return;

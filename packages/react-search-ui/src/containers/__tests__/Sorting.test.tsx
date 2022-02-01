@@ -1,24 +1,23 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { SortingContainer } from "../Sorting";
-import { SortDirection } from "@elastic/search-ui/lib/esm/types";
 
 const params = {
   results: [{}],
   searchTerm: "test",
   setSort: jest.fn(),
-  sortDirection: "asc" as const,
+  sortDirection: "asc",
   sortField: "field",
   sortOptions: [
     {
       name: "name",
       value: "field",
-      direction: "asc" as const
+      direction: "asc"
     },
     {
       name: "name",
       value: "field",
-      direction: "desc" as const
+      direction: "desc"
     }
   ]
 };
@@ -28,34 +27,34 @@ const sortListParams = {
   sortList: [
     {
       field: "states",
-      direction: "asc" as const
+      direction: "asc"
     },
     {
       field: "title",
-      direction: "desc" as const
+      direction: "desc"
     }
   ],
   sortOptions: [
     {
       name: "name",
       value: "field",
-      direction: "asc" as const
+      direction: "asc"
     },
     {
       name: "name",
       value: "field",
-      direction: "desc" as const
+      direction: "desc"
     },
     {
       name: "multiple",
       value: [
         {
           field: "states",
-          direction: "asc" as const
+          direction: "asc"
         },
         {
           field: "title",
-          direction: "desc" as const
+          direction: "desc"
         }
       ]
     }
@@ -67,7 +66,6 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  // eslint-disable-next-line react/prop-types
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
@@ -94,11 +92,13 @@ it("will call back when sort is changed in view", () => {
   let viewProps;
 
   shallow(
-    <SortingContainer {...params} view={props => {
-      viewProps = props;
-      return <div/>;
-    }}
-  />
+    <SortingContainer
+      {...params}
+      view={props => {
+        viewProps = props;
+        return <div />;
+      }}
+    />
   ).dive();
 
   const { onChange } = viewProps;
@@ -113,10 +113,11 @@ it("will call back when sort is changed in view with sortList", () => {
   let viewProps;
 
   shallow(
-    <SortingContainer {...sortListParams} 
+    <SortingContainer
+      {...sortListParams}
       view={props => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -144,7 +145,7 @@ it("passes className through to the view", () => {
       className={className}
       view={props => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -160,7 +161,7 @@ it("passes data-foo through to the view", () => {
       data-foo={data}
       view={props => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();

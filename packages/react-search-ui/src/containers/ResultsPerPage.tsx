@@ -22,11 +22,10 @@ export type ResultsPerPageViewProps = BaseContainerProps &
 export class ResultsPerPageContainer extends Component<
   ResultsPerPageContainerProps
 > {
-
   static defaultProps = {
     options: [20, 40, 60]
   };
-  
+
   render() {
     const {
       className,

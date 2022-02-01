@@ -7,9 +7,9 @@ import { SearchDriver } from "@elastic/search-ui";
 it("Should be a context", () => {
   const searchDriver = new SearchDriver({
     apiConnector: null
-  })
+  });
 
-  searchDriver.state.searchTerm = "a search term"
+  searchDriver.state.searchTerm = "a search term";
 
   const value = mount(
     <SearchContext.Provider value={{ driver: searchDriver }}>

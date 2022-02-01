@@ -117,6 +117,14 @@ export type SearchQuery = {
 };
 
 export type APIConnector = any;
+// is QueryConfig the same as SearchQuery?
 export type QueryConfig = any;
-export type SearchResult = any;
+
+export type SearchResult = Record<
+  string,
+  {
+    raw: string | number | boolean;
+    snippet: string | number | boolean;
+  }
+>;
 export type AutocompleteResult = any;

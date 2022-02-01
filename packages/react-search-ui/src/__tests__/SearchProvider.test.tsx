@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
 import { SearchDriver } from "@elastic/search-ui";
-import { AutocompleteQuery } from "@elastic/search-ui/lib/esm/types";
+import { AutocompleteQuery } from "@elastic/search-ui";
 
 function getMockDriver() {
   const driver = new SearchDriver({

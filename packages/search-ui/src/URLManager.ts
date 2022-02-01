@@ -180,7 +180,7 @@ export default class URLManager {
    * @param {requestCallback} callback
    */
   onURLStateChange(callback: (state: RequestState) => void): void {
-    this.unlisten = this.history.listen(location => {
+    this.unlisten = this.history.listen((location) => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
       if (`?${this.lastPushSearchString}` === location.search) return;

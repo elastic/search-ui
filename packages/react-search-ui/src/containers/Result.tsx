@@ -1,32 +1,35 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Component } from "react";
 import { Result } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
 import { BaseContainerProps } from "../types";
 import { SearchContextState } from "../withSearch";
-import { SearchResult } from "@elastic/search-ui/lib/esm/types";
+import { SearchResult } from "@elastic/search-ui";
 
 type ResultContainerContext = Pick<SearchContextState, "trackClickThrough">;
 
-type ResultContainerProps = BaseContainerProps & ResultContainerContext & {
-  view?: React.ComponentType<ResultViewProps>,
-  clickThroughTags?: string[],
-  titleField?: string
-  urlField?: string
-  thumbnailField?: string
-  result: SearchResult,
-  shouldTrackClickThrough?: boolean
-};
+type ResultContainerProps = BaseContainerProps &
+  ResultContainerContext & {
+    view?: React.ComponentType<ResultViewProps>;
+    clickThroughTags?: string[];
+    titleField?: string;
+    urlField?: string;
+    thumbnailField?: string;
+    result: SearchResult;
+    shouldTrackClickThrough?: boolean;
+  };
 
-export type ResultViewProps = BaseContainerProps & Pick<ResultContainerProps, "result" | "titleField" | "urlField" | "thumbnailField"> & {
-  key?: string
-  onClickLink: () => void
-}
+export type ResultViewProps = BaseContainerProps &
+  Pick<
+    ResultContainerProps,
+    "result" | "titleField" | "urlField" | "thumbnailField"
+  > & {
+    key?: string;
+    onClickLink: () => void;
+  };
 
 export class ResultContainer extends Component<ResultContainerProps> {
-
   static defaultProps = {
     clickThroughTags: [],
     shouldTrackClickThrough: true
@@ -52,11 +55,11 @@ export class ResultContainer extends Component<ResultContainerProps> {
       urlField,
       thumbnailField,
       view,
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       trackClickThrough,
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       shouldTrackClickThrough,
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       clickThroughTags,
       ...rest
     } = this.props;
@@ -77,6 +80,6 @@ export class ResultContainer extends Component<ResultContainerProps> {
   }
 }
 
-export default withSearch<ResultContainerProps,ResultContainerContext>(({ trackClickThrough }) => ({ trackClickThrough }))(
-  ResultContainer
-);
+export default withSearch<ResultContainerProps, ResultContainerContext>(
+  ({ trackClickThrough }) => ({ trackClickThrough })
+)(ResultContainer);

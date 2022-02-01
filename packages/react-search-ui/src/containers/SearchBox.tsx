@@ -4,48 +4,65 @@ import { SearchBox } from "@elastic/react-search-ui-views";
 import { withSearch } from "..";
 import { SearchContextState } from "../withSearch";
 import { BaseContainerProps } from "../types";
-import { AutocompleteResult } from "@elastic/search-ui/lib/esm/types";
+import { AutocompleteResult } from "@elastic/search-ui";
 
-type SearchBoxContainerContext = Pick<SearchContextState, "autocompletedResults" | "autocompletedSuggestions" | "searchTerm" | "setSearchTerm" | "trackAutocompleteClickThrough">;
-type SearchBoxAutocompleteViewProps = any
-type InputViewProps = any
+type SearchBoxContainerContext = Pick<
+  SearchContextState,
+  | "autocompletedResults"
+  | "autocompletedSuggestions"
+  | "searchTerm"
+  | "setSearchTerm"
+  | "trackAutocompleteClickThrough"
+>;
+type SearchBoxAutocompleteViewProps = any;
+type InputViewProps = any;
 
-type SearchBoxContainerProps = BaseContainerProps & SearchBoxContainerContext & {
-  view?: React.ComponentType<SearchBoxViewProps>,
-  autocompleteView?: React.ComponentType<SearchBoxAutocompleteViewProps>,
-  inputView?: React.ComponentType<InputViewProps>,
-  autocompleteMinimumCharacters?: number
-  autocompleteResults?: AutocompleteResult | boolean
-  autocompleteSuggestions?: boolean | Record<string, { sectionTitle: string }>
-  shouldClearFilters?: boolean
-  debounceLength?: number,
-  inputProps?: Record<string, any>,
-  onSelectAutocomplete?: any,
-  onSubmit?: (searchTerm: string) => void,
-  searchAsYouType?: boolean
-};
+type SearchBoxContainerProps = BaseContainerProps &
+  SearchBoxContainerContext & {
+    view?: React.ComponentType<SearchBoxViewProps>;
+    autocompleteView?: React.ComponentType<SearchBoxAutocompleteViewProps>;
+    inputView?: React.ComponentType<InputViewProps>;
+    autocompleteMinimumCharacters?: number;
+    autocompleteResults?: AutocompleteResult | boolean;
+    autocompleteSuggestions?:
+      | boolean
+      | Record<string, { sectionTitle: string }>;
+    shouldClearFilters?: boolean;
+    debounceLength?: number;
+    inputProps?: Record<string, any>;
+    onSelectAutocomplete?: any;
+    onSubmit?: (searchTerm: string) => void;
+    searchAsYouType?: boolean;
+  };
 
-export type SearchBoxViewProps = BaseContainerProps
-  & Pick<SearchBoxContainerProps, "autocompleteView" | "inputView" | "autocompleteSuggestions" | "autocompleteResults" | "autocompleteSuggestions" | "autocompletedResults" | "autocompletedSuggestions">
-  & {
-    allAutocompletedItemsCount: number,
-    autocompletedSuggestionsCount: any,
-    completeSuggestion: (searchQuery: string) => void,
-    isFocused: boolean,
-    notifyAutocompleteSelected: (selection: any) => void,
-    onChange: (value: string) => void,
-    onSelectAutocomplete: any,
-    onSubmit: () => void,
-    useAutocomplete: boolean,
-    value: string,
+export type SearchBoxViewProps = BaseContainerProps &
+  Pick<
+    SearchBoxContainerProps,
+    | "autocompleteView"
+    | "inputView"
+    | "autocompleteSuggestions"
+    | "autocompleteResults"
+    | "autocompleteSuggestions"
+    | "autocompletedResults"
+    | "autocompletedSuggestions"
+  > & {
+    allAutocompletedItemsCount: number;
+    autocompletedSuggestionsCount: any;
+    completeSuggestion: (searchQuery: string) => void;
+    isFocused: boolean;
+    notifyAutocompleteSelected: (selection: any) => void;
+    onChange: (value: string) => void;
+    onSelectAutocomplete: any;
+    onSubmit: () => void;
+    useAutocomplete: boolean;
+    value: string;
     inputProps: {
-      onFocus: () => void,
-      onBlur: () => void,
-    } & Record<string, any>
-  }
+      onFocus: () => void;
+      onBlur: () => void;
+    } & Record<string, any>;
+  };
 
 export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
-
   static defaultProps = {
     autocompleteMinimumCharacters: 0,
     shouldClearFilters: true
