@@ -517,7 +517,7 @@ class SearchDriver {
   }
 
   /**
-   * Retrieves all available acitons
+   * Retrieves all available actions
    *
    * @returns Object All actions
    */

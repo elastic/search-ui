@@ -76,20 +76,44 @@ export type SearchState = RequestState & {
   rawResponse: any;
 };
 
+export type FieldConfiguration = {
+  snippet?: {
+    size?: number;
+    fallback?: boolean;
+  };
+  raw?: any;
+};
+
+// https://github.com/elastic/search-ui/blob/master/ADVANCED.md#configuring-autocomplete-queries
 export type AutocompleteQuery = {
-  results?;
-  suggestions?;
+  results?: {
+    result_fields: Record<string, FieldConfiguration>;
+  };
+  suggestions?: {
+    types?: Record<string, FieldConfiguration>;
+    size?: number;
+  };
+};
+
+export type FacetConfiguration = {
+  type: string;
+  size?: number;
+  ranges?: {
+    from?: number;
+    name?: string;
+    to?: number;
+  };
 };
 
 // todo: types
 export type SearchQuery = {
-  filters?: any;
   conditionalFacets?: any;
-  facets?: any;
-  disjunctiveFacets?: any;
-  disjunctiveFacetsAnalyticsTags?: any;
-  result_fields?: any;
-  search_fields?: any;
+  filters?: Filter[];
+  facets?: Record<string, FacetConfiguration>;
+  disjunctiveFacets?: string[];
+  disjunctiveFacetsAnalyticsTags?: string[];
+  result_fields?: Record<string, FieldConfiguration>;
+  search_fields?: Record<string, FieldConfiguration>;
 };
 
 export type APIConnector = any;
