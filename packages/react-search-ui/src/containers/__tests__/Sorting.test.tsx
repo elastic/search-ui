@@ -6,18 +6,18 @@ const params = {
   results: [{}],
   searchTerm: "test",
   setSort: jest.fn(),
-  sortDirection: "asc",
+  sortDirection: "asc" as const,
   sortField: "field",
   sortOptions: [
     {
       name: "name",
       value: "field",
-      direction: "asc"
+      direction: "asc" as const
     },
     {
       name: "name",
       value: "field",
-      direction: "desc"
+      direction: "desc" as const
     }
   ]
 };
@@ -27,34 +27,34 @@ const sortListParams = {
   sortList: [
     {
       field: "states",
-      direction: "asc"
+      direction: "asc" as const
     },
     {
       field: "title",
-      direction: "desc"
+      direction: "desc" as const
     }
   ],
   sortOptions: [
     {
       name: "name",
       value: "field",
-      direction: "asc"
+      direction: "asc" as const
     },
     {
       name: "name",
       value: "field",
-      direction: "desc"
+      direction: "desc" as const
     },
     {
       name: "multiple",
       value: [
         {
           field: "states",
-          direction: "asc"
+          direction: "asc" as const
         },
         {
           field: "title",
-          direction: "desc"
+          direction: "desc" as const
         }
       ]
     }
