@@ -1,5 +1,5 @@
 # Builds Common JS JavaScript
-babel src --out-dir lib --ignore '**/*.test.js'
+# babel src --out-dir lib --ignore '**/*.test.js'
 
 # Builds ES JavaScript
-BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'
+# BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'
