@@ -203,7 +203,7 @@ describe("#onURLStateChange", () => {
     let newState;
 
     // Provide url state change handler
-    subject(state => {
+    subject((state) => {
       newState = state;
     }, parameterStateWithSortListAsUrl);
 
@@ -230,7 +230,7 @@ describe("#onURLStateChange", () => {
     let newState;
 
     // Provide url state change handler
-    subject(state => {
+    subject((state) => {
       newState = state;
     }, newUrl);
 
@@ -247,7 +247,7 @@ describe("#onURLStateChange", () => {
     let newState;
 
     // Provide url state change handler
-    subject(state => {
+    subject((state) => {
       newState = state;
     }, newUrl);
 

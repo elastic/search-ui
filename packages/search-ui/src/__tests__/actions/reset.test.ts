@@ -33,8 +33,9 @@ describe("#reset", () => {
     const updatedStated = updatedStateAfterAction.state;
 
     // Because we only want to know if it was called AFTER reset is called
-    (MockedURLManager.mock.instances[0]
-      .pushStateToURL as jest.Mock).mockClear();
+    (
+      MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock
+    ).mockClear();
 
     expect(updatedStated).not.toEqual({
       ...DEFAULT_STATE,

@@ -192,7 +192,7 @@ class SearchDriver {
     if (trackUrlState) {
       this.URLManager = new URLManager();
       urlState = this.URLManager.getStateFromURL();
-      this.URLManager.onURLStateChange(urlState => {
+      this.URLManager.onURLStateChange((urlState) => {
         this._updateSearchResults(
           { ...DEFAULT_STATE, ...urlState },
           { skipPushToUrl: true }
@@ -273,7 +273,7 @@ class SearchDriver {
 
     return this.events
       .autocomplete({ searchTerm }, queryConfig)
-      .then(autocompleted => {
+      .then((autocompleted) => {
         if (this.autocompleteRequestSequencer.isOldRequest(requestId)) return;
         this.autocompleteRequestSequencer.completed(requestId);
 
@@ -406,7 +406,7 @@ class SearchDriver {
       };
 
       return this.events.search(requestState, queryConfig).then(
-        resultState => {
+        (resultState) => {
           if (this.searchRequestSequencer.isOldRequest(requestId)) return;
           this.searchRequestSequencer.completed(requestId);
 
@@ -454,7 +454,7 @@ class SearchDriver {
             );
           }
         },
-        error => {
+        (error) => {
           this._setState({
             error: `An unexpected error occurred: ${error.message}`
           });
@@ -468,7 +468,7 @@ class SearchDriver {
     // eslint-disable-next-line no-console
     if (this.debug) console.log("Search UI: State Update", newState, state);
     this.state = state;
-    this.subscriptions.forEach(subscription => subscription(state));
+    this.subscriptions.forEach((subscription) => subscription(state));
   }
 
   /**
@@ -504,7 +504,7 @@ class SearchDriver {
    */
   unsubscribeToStateChanges(onStateChange: SubscriptionHandler): void {
     this.subscriptions = this.subscriptions.filter(
-      sub => sub !== onStateChange
+      (sub) => sub !== onStateChange
     );
   }
 

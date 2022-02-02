@@ -12,7 +12,7 @@ export default function clearFilters(except: string[] = []): void {
 
   const { filters } = this.state;
 
-  const updatedFilters = filters.filter(filter => {
+  const updatedFilters = filters.filter((filter) => {
     const filterField = filter.field;
     return except.includes(filterField);
   });

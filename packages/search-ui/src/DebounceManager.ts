@@ -12,7 +12,7 @@ type DebounceInstance = fnType & {
  */
 function debounce(func: fnType, wait: number): DebounceInstance {
   let timeout;
-  const debouncedFn = function() {
+  const debouncedFn = function () {
     const args = arguments; //eslint-disable-line
     const later = () => {
       func.apply(null, args); //eslint-disable-line

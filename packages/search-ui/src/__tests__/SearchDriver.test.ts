@@ -139,8 +139,9 @@ it("will sync initial state to the URL", () => {
 
   setupDriver({ initialState });
 
-  const pushStateCalls = (MockedURLManager.mock.instances[0]
-    .pushStateToURL as jest.Mock).mock.calls;
+  const pushStateCalls = (
+    MockedURLManager.mock.instances[0].pushStateToURL as jest.Mock
+  ).mock.calls;
   expect(pushStateCalls).toHaveLength(1);
   // "will sync to the url with 'replace' rather than 'push'"
   expect(pushStateCalls[0][1].replaceUrl).toEqual(true);
@@ -184,7 +185,7 @@ describe("searchQuery config", () => {
     }
 
     it("will fetch a conditional facet that passes its check", () => {
-      subject(filters => !!filters);
+      subject((filters) => !!filters);
 
       // 'initial' WAS included in request to server
       expect(getSearchCalls()[1][1].facets).toEqual({
@@ -195,7 +196,7 @@ describe("searchQuery config", () => {
     });
 
     it("will not pass through `conditionalFacets` prop to connector", () => {
-      subject(filters => !!filters);
+      subject((filters) => !!filters);
 
       expect(Object.keys(getSearchCalls()[1][1])).not.toContain(
         "conditionalFacets"
@@ -203,7 +204,7 @@ describe("searchQuery config", () => {
     });
 
     it("will not fetch a conditional facet that fails its check", () => {
-      subject(filters => !filters);
+      subject((filters) => !filters);
 
       // 'initial' was NOT included in request to server
       expect(getSearchCalls()[1][1].facets).toEqual({});
@@ -367,7 +368,7 @@ describe("subscribeToStateChanges", () => {
   it("will update own state before notifying subscribers", () => {
     const { driver } = setupDriver();
     let searchTermFromDriver, searchTermFromSubscription, called;
-    driver.subscribeToStateChanges(state => {
+    driver.subscribeToStateChanges((state) => {
       // So that this subscription does not run multiple times
       if (called) return;
       called = true;
@@ -589,7 +590,7 @@ describe("Request sequencing", () => {
     const promiseResolvers = [];
     mockApiConnector[method] = jest.fn().mockImplementation(() => {
       callCount++;
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const currentCallCount = callCount;
         promiseResolvers.push(() => {
           resolve({
