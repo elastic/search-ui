@@ -1,7 +1,7 @@
 import {
   APIConnector,
   AutocompleteQuery,
-  AutocompleteResult,
+  AutocompletedResult,
   QueryConfig,
   SearchQuery,
   SearchResult
@@ -46,7 +46,7 @@ type EventOptions = {
   onSearch?: (searchQuery: SearchQuery) => void;
   onAutocomplete?: (query: AutocompleteQuery) => void;
   onResultClick?: (result: SearchResult) => void;
-  onAutocompleteResultClick?: (result: AutocompleteResult) => void;
+  onAutocompleteResultClick?: (result: AutocompletedResult) => void;
 };
 
 class Events {

@@ -1,12 +1,18 @@
-import PropTypes from "prop-types";
 import React from "react";
+import { FacetViewProps } from "@elastic/react-search-ui";
 
-import { FacetValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
+import { FieldValue } from "@elastic/search-ui";
 
-function SingleLinksFacet({ className, label, onRemove, onSelect, options }) {
-  const value = options.filter(o => o.selected).map(o => o.value)[0];
+function SingleLinksFacet({
+  className,
+  label,
+  onRemove,
+  onSelect,
+  options
+}: FacetViewProps) {
+  const value = options.filter((o) => o.selected).map((o) => o.value)[0];
   return (
     <div className={appendClassName("sui-facet", className)}>
       <div>
@@ -18,9 +24,9 @@ function SingleLinksFacet({ className, label, onRemove, onSelect, options }) {
               <span className="sui-single-option-facet__remove">
                 (
                 <a
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault();
-                    onRemove(value);
+                    onRemove(value as FieldValue);
                   }}
                   href="/"
                 >
@@ -31,7 +37,7 @@ function SingleLinksFacet({ className, label, onRemove, onSelect, options }) {
             </li>
           )}
           {!value &&
-            options.map(option => (
+            options.map((option) => (
               <li
                 className="sui-single-option-facet__item"
                 key={getFilterValueDisplay(option.value)}
@@ -39,9 +45,9 @@ function SingleLinksFacet({ className, label, onRemove, onSelect, options }) {
                 <a
                   className="sui-single-option-facet__link"
                   href="/"
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault();
-                    onSelect(option.value);
+                    onSelect(option.value as FieldValue);
                   }}
                 >
                   {getFilterValueDisplay(option.value)}
@@ -54,13 +60,5 @@ function SingleLinksFacet({ className, label, onRemove, onSelect, options }) {
     </div>
   );
 }
-
-SingleLinksFacet.propTypes = {
-  label: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
-  className: PropTypes.string
-};
 
 export default SingleLinksFacet;

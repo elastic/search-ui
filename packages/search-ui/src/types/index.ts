@@ -58,7 +58,7 @@ export type RequestState = {
 export type SearchState = RequestState & {
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
-  autocompletedResults: AutocompleteResult[];
+  autocompletedResults: AutocompletedResult[];
   autocompletedResultsRequestId: string;
   autocompletedSuggestions: any;
   autocompletedSuggestionsRequestId: string;
@@ -127,4 +127,28 @@ export type SearchResult = Record<
     snippet: string | number | boolean;
   }
 >;
-export type AutocompleteResult = any;
+// used for configuration
+export type AutocompleteResult = {
+  titleField: string;
+  urlField: string;
+  linkTarget?: string;
+  sectionTitle?: string;
+  shouldTrackClickThrough?: boolean;
+  clickThroughTags?: string[];
+};
+
+export type AutocompleteSuggestion = Record<
+  string,
+  {
+    sectionTitle: string;
+  }
+>;
+
+export type FieldResult = {
+  raw?: string | number | boolean;
+  snippet?: string;
+};
+
+export type AutocompletedResult = any | Record<string, FieldResult>;
+
+export type AutocompletedSuggestion = any | Record<string, FieldResult>;

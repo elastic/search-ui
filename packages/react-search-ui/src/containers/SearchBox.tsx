@@ -1,10 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, FormEvent } from "react";
 import { SearchBox } from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
 import { SearchContextState } from "../withSearch";
 import { BaseContainerProps } from "../types";
-import { AutocompleteResult } from "@elastic/search-ui";
+import {
+  AutocompleteResult,
+  AutocompletedResult,
+  AutocompletedSuggestion,
+  AutocompleteSuggestion
+} from "@elastic/search-ui";
 
 type SearchBoxContainerContext = Pick<
   SearchContextState,
@@ -14,8 +19,26 @@ type SearchBoxContainerContext = Pick<
   | "setSearchTerm"
   | "trackAutocompleteClickThrough"
 >;
-type SearchBoxAutocompleteViewProps = any;
-type InputViewProps = any;
+export type SearchBoxAutocompleteViewProps = {
+  allAutocompletedItemsCount: number;
+  autocompleteResults?: boolean | AutocompleteResult;
+  autocompletedResults: AutocompletedResult[];
+  autocompletedSuggestions: AutocompletedSuggestion[];
+  autocompletedSuggestionsCount: number;
+  autocompleteSuggestions?: boolean | AutocompleteSuggestion;
+  getItemProps: ({
+    key: string,
+    index: number,
+    item: AutocompletedSuggestion
+  }) => Record<string, any>;
+  getMenuProps: ({ className: string }) => Record<string, any>;
+  className?: string;
+};
+export type InputViewProps = {
+  getAutocomplete: () => JSX.Element;
+  getButtonProps: () => Record<string, any>;
+  getInputProps: () => Record<string, any>;
+};
 
 type SearchBoxContainerProps = BaseContainerProps &
   SearchBoxContainerContext & {
@@ -53,7 +76,7 @@ export type SearchBoxViewProps = BaseContainerProps &
     notifyAutocompleteSelected: (selection: any) => void;
     onChange: (value: string) => void;
     onSelectAutocomplete: any;
-    onSubmit: () => void;
+    onSubmit: (e: FormEvent) => void;
     useAutocomplete: boolean;
     value: string;
     inputProps: {
@@ -84,14 +107,14 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     });
   };
 
-  completeSuggestion = searchTerm => {
+  completeSuggestion = (searchTerm) => {
     const { shouldClearFilters, setSearchTerm } = this.props;
     setSearchTerm(searchTerm, {
       shouldClearFilters
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     const { shouldClearFilters, searchTerm, setSearchTerm } = this.props;
 
     e.preventDefault();
@@ -100,7 +123,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     });
   };
 
-  handleChange = value => {
+  handleChange = (value) => {
     const {
       autocompleteMinimumCharacters,
       autocompleteResults,
@@ -127,33 +150,42 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     setSearchTerm(value, options);
   };
 
-  handleNotifyAutocompleteSelected = selection => {
+  handleNotifyAutocompleteSelected = (selection) => {
     const { autocompleteResults, trackAutocompleteClickThrough } = this.props;
     // Because suggestions don't count as clickthroughs, only
     // results
     if (
       autocompleteResults &&
+      typeof autocompleteResults !== "boolean" &&
       autocompleteResults.shouldTrackClickThrough !== false &&
       !selection.suggestion
     ) {
-      const { clickThroughTags = [] } = autocompleteResults;
+      const clickThroughTags =
+        autocompleteResults && autocompleteResults.clickThroughTags
+          ? autocompleteResults.clickThroughTags
+          : [];
       const id = selection.id.raw;
       trackAutocompleteClickThrough(id, clickThroughTags);
     }
   };
 
-  defaultOnSelectAutocomplete = selection => {
+  defaultOnSelectAutocomplete = (selection) => {
     if (!selection) return;
 
     const { autocompleteResults } = this.props;
 
     this.handleNotifyAutocompleteSelected(selection);
     if (!selection.suggestion) {
-      const url = selection[autocompleteResults.urlField]
-        ? selection[autocompleteResults.urlField].raw
-        : "";
+      const url =
+        typeof autocompleteResults !== "boolean" &&
+        selection[autocompleteResults.urlField]
+          ? selection[autocompleteResults.urlField].raw
+          : "";
       if (url) {
-        const target = autocompleteResults.linkTarget || "_self";
+        const target =
+          (typeof autocompleteResults !== "boolean" &&
+            autocompleteResults.linkTarget) ||
+          "_self";
         window.open(url, target);
       }
     } else {
@@ -193,7 +225,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
 
     let handleOnSelectAutocomplete;
     if (onSelectAutocomplete) {
-      handleOnSelectAutocomplete = selection => {
+      handleOnSelectAutocomplete = (selection) => {
         onSelectAutocomplete(
           selection,
           {
@@ -218,11 +250,11 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
       completeSuggestion: this.completeSuggestion,
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
-      onChange: value => this.handleChange(value),
+      onChange: (value) => this.handleChange(value),
       onSelectAutocomplete:
         handleOnSelectAutocomplete || this.defaultOnSelectAutocomplete,
       onSubmit: onSubmit
-        ? e => {
+        ? (e) => {
             e.preventDefault();
             onSubmit(searchTerm);
           }

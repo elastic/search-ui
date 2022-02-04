@@ -8,14 +8,14 @@ import { SearchContextState } from "../withSearch";
 function findSortOption(sortOptions, sortData) {
   if (sortData.indexOf("|||") === -1) {
     return sortOptions.find(
-      option => JSON.stringify(option.value) === sortData
+      (option) => JSON.stringify(option.value) === sortData
     );
   }
 
   const [value, direction] = sortData.split("|||");
 
   return sortOptions.find(
-    option => option.value === value && option.direction === direction
+    (option) => option.value === value && option.direction === direction
   );
 }
 
@@ -50,8 +50,11 @@ type SortingContainerContext = Pick<
 export type SortingViewProps = BaseContainerProps &
   Pick<SortingContainerProps, "label"> & {
     onChange: (sortData: any) => void;
-    options: any;
-    value: string;
+    options: {
+      value: string;
+      label: string;
+    }[];
+    value?: string;
   };
 
 type SortingContainerProps = BaseContainerProps &
@@ -80,7 +83,7 @@ export class SortingContainer extends Component<SortingContainerProps> {
     const viewProps: SortingViewProps = {
       className,
       label,
-      onChange: o => {
+      onChange: (o) => {
         const sortOption = findSortOption(sortOptions, o);
         setSort(sortOption.value, sortOption.direction);
       },

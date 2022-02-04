@@ -8,14 +8,15 @@ import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
+import { SearchBoxViewProps } from "@elastic/react-search-ui";
 
-function SearchBox(props) {
+function SearchBox(props: SearchBoxViewProps) {
   const {
     className,
     allAutocompletedItemsCount,
     autocompleteView,
     isFocused,
-    inputProps = {},
+    inputProps = { className: "" },
     inputView,
     onChange,
     onSelectAutocomplete,
@@ -24,15 +25,15 @@ function SearchBox(props) {
     value,
     // NOTE: These are explicitly de-structured but not used so that they are
     // not passed through to the input with the 'rest' parameter
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     autocompletedResults,
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     autocompletedSuggestions,
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     autocompletedSuggestionsCount,
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     completeSuggestion,
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     notifyAutocompleteSelected,
     ...rest
   } = props;
@@ -44,7 +45,7 @@ function SearchBox(props) {
     <Downshift
       inputValue={value}
       onChange={onSelectAutocomplete}
-      onInputValueChange={newValue => {
+      onInputValueChange={(newValue) => {
         // To avoid over dispatching
         if (value === newValue) return;
         onChange(newValue);
@@ -55,12 +56,12 @@ function SearchBox(props) {
       itemToString={() => value}
       {...rest}
     >
-      {downshiftProps => {
+      {(downshiftProps) => {
         const { closeMenu, getInputProps, isOpen } = downshiftProps;
-        let autocompleteClass = isOpen === true ? " autocomplete" : "";
+        const autocompleteClass = isOpen === true ? " autocomplete" : "";
         return (
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               closeMenu();
               onSubmit(e);
             }}
@@ -72,7 +73,7 @@ function SearchBox(props) {
             >
               <InputView
                 {...downshiftProps}
-                getInputProps={additionalProps => {
+                getInputProps={(additionalProps) => {
                   const { className, ...rest } = additionalProps || {};
                   return getInputProps({
                     placeholder: "Search",
@@ -85,7 +86,7 @@ function SearchBox(props) {
                     ...rest
                   });
                 }}
-                getButtonProps={additionalProps => {
+                getButtonProps={(additionalProps) => {
                   const { className, ...rest } = additionalProps || {};
                   return {
                     type: "submit",

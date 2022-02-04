@@ -1,9 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
 
-import { Result } from "./types";
-import { Suggestion } from "./types";
 import { appendClassName } from "./view-helpers";
+import { SearchBoxAutocompleteViewProps } from "@elastic/react-search-ui";
 
 function getRaw(result, value) {
   if (!result[value] || !result[value].raw) return;
@@ -36,7 +34,7 @@ function Autocomplete({
   className,
   getItemProps,
   getMenuProps
-}) {
+}: SearchBoxAutocompleteViewProps) {
   let index = 0;
   return (
     <div
@@ -67,10 +65,9 @@ function Autocomplete({
                     )}
                   {suggestions.length > 0 && (
                     <ul className="sui-search-box__suggestion-list">
-                      {suggestions.map(suggestion => {
+                      {suggestions.map((suggestion) => {
                         index++;
                         return (
-                          // eslint-disable-next-line react/jsx-key
                           <li
                             {...getItemProps({
                               key:
@@ -99,6 +96,7 @@ function Autocomplete({
           )}
         {!!autocompleteResults &&
           !!autocompletedResults &&
+          typeof autocompleteResults !== "boolean" &&
           autocompletedResults.length > 0 &&
           autocompleteResults.sectionTitle && (
             <div className="sui-search-box__section-title">
@@ -107,9 +105,10 @@ function Autocomplete({
           )}
         {!!autocompleteResults &&
           !!autocompletedResults &&
+          typeof autocompleteResults !== "boolean" &&
           autocompletedResults.length > 0 && (
             <ul className="sui-search-box__results-list">
-              {autocompletedResults.map(result => {
+              {autocompletedResults.map((result) => {
                 index++;
                 const titleSnippet = getSnippet(
                   result,
@@ -117,7 +116,6 @@ function Autocomplete({
                 );
                 const titleRaw = getRaw(result, autocompleteResults.titleField);
                 return (
-                  // eslint-disable-next-line react/jsx-key
                   <li
                     {...getItemProps({
                       key: result.id.raw,
@@ -143,36 +141,5 @@ function Autocomplete({
     </div>
   );
 }
-
-Autocomplete.propTypes = {
-  allAutocompletedItemsCount: PropTypes.number.isRequired,
-  autocompleteResults: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      titleField: PropTypes.string.isRequired,
-      urlField: PropTypes.string.isRequired,
-      linkTarget: PropTypes.string,
-      sectionTitle: PropTypes.string
-    })
-  ]),
-  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
-  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
-    .isRequired,
-  autocompletedSuggestionsCount: PropTypes.number.isRequired,
-  autocompleteSuggestions: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.exact({
-      sectionTitle: PropTypes.string
-    }),
-    PropTypes.objectOf(
-      PropTypes.exact({
-        sectionTitle: PropTypes.string
-      })
-    )
-  ]),
-  getItemProps: PropTypes.func.isRequired,
-  getMenuProps: PropTypes.func.isRequired,
-  className: PropTypes.string
-};
 
 export default Autocomplete;

@@ -33,7 +33,6 @@ export type ResultsViewProps = BaseContainerProps &
     "results" | "titleField" | "urlField" | "thumbnailField"
   > & {
     key?: string;
-    onClickLink: () => void;
   };
 
 export class ResultsContainer extends Component<ResultsContainerProps> {
@@ -59,7 +58,7 @@ export class ResultsContainer extends Component<ResultsContainerProps> {
     const View = view || Results;
     const ResultView = resultView || Result;
 
-    const children = results.map(result => (
+    const children = results.map((result) => (
       <ResultContainer
         key={`result-${getRaw(result, "id")}`}
         titleField={titleField}

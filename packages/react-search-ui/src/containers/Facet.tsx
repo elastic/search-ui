@@ -1,7 +1,12 @@
 import React from "react";
 import { Component } from "react";
 import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
-import { helpers, FilterType } from "@elastic/search-ui";
+import {
+  helpers,
+  FilterType,
+  FacetValue,
+  FieldValue
+} from "@elastic/search-ui";
 
 import { accentFold } from "../helpers";
 import { withSearch } from "..";
@@ -10,14 +15,14 @@ import { SearchContextState } from "../withSearch";
 
 const { markSelectedFacetValuesFromFilters } = helpers;
 
-export type FacetContainerViewProps = {
-  className: string;
+export type FacetViewProps = {
+  className?: string;
   label: string;
   onMoreClick: () => void;
-  onRemove: (value: string) => void;
-  onChange: (value: string) => void;
-  onSelect: (value: string) => void;
-  options: any;
+  onRemove: (value: FieldValue) => void;
+  onChange: (value: FieldValue) => void;
+  onSelect: (value: FieldValue) => void;
+  options: FacetValue[];
   showMore: boolean;
   values: any;
   showSearch: boolean;
@@ -28,7 +33,7 @@ export type FacetContainerViewProps = {
 type FacetContainerProps = BaseContainerProps & {
   filterType: FilterType;
   show?: number;
-  view?: React.ComponentType<FacetContainerViewProps>;
+  view?: React.ComponentType<FacetViewProps>;
   isFilterable: boolean;
   field: string;
   label: string;
@@ -67,7 +72,7 @@ export class FacetContainer extends Component<
     };
   }
 
-  handleClickMore = totalOptions => {
+  handleClickMore = (totalOptions) => {
     this.setState(({ more }) => {
       let visibleOptionsCount = more + 10;
       const showingAll = visibleOptionsCount >= totalOptions;
@@ -79,7 +84,7 @@ export class FacetContainer extends Component<
     });
   };
 
-  handleFacetSearch = searchTerm => {
+  handleFacetSearch = (searchTerm) => {
     this.setState({ searchTerm });
   };
 
@@ -117,40 +122,40 @@ export class FacetContainer extends Component<
     ).data;
 
     const selectedValues = facetValues
-      .filter(fv => fv.selected)
-      .map(fv => fv.value);
+      .filter((fv) => fv.selected)
+      .map((fv) => fv.value);
 
     if (!facetValues.length && !selectedValues.length) return null;
 
     if (searchTerm.trim()) {
-      facetValues = facetValues.filter(option =>
+      facetValues = facetValues.filter((option) =>
         accentFold(option.value)
           .toLowerCase()
           .includes(accentFold(searchTerm).toLowerCase())
       );
     }
 
-    const View: React.ComponentType<FacetContainerViewProps> =
+    const View: React.ComponentType<FacetViewProps> =
       view || MultiCheckboxFacet;
 
-    const viewProps: FacetContainerViewProps = {
+    const viewProps: FacetViewProps = {
       className,
       label: label,
       onMoreClick: this.handleClickMore.bind(this, facetValues.length),
-      onRemove: value => {
+      onRemove: (value) => {
         removeFilter(field, value, filterType);
       },
-      onChange: value => {
+      onChange: (value) => {
         setFilter(field, value, filterType);
       },
-      onSelect: value => {
+      onSelect: (value) => {
         addFilter(field, value, filterType);
       },
       options: facetValues.slice(0, more),
       showMore: facetValues.length > more,
       values: selectedValues,
       showSearch: isFilterable,
-      onSearch: value => {
+      onSearch: (value) => {
         this.handleFacetSearch(value);
       },
       searchPlaceholder: `Filter ${field}`,

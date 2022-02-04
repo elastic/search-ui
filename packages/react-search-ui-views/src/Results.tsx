@@ -1,9 +1,13 @@
-import PropTypes from "prop-types";
+import { ResultsViewProps } from "@elastic/react-search-ui";
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
 
-function Results({ children, className, ...rest }) {
+function Results({
+  children,
+  className,
+  ...rest
+}: ResultsViewProps & React.HTMLAttributes<HTMLUListElement>) {
   return (
     <ul
       className={appendClassName("sui-results-container", className)}
@@ -13,10 +17,5 @@ function Results({ children, className, ...rest }) {
     </ul>
   );
 }
-
-Results.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string
-};
 
 export default Results;

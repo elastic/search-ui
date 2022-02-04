@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
+import { FacetViewProps } from "@elastic/react-search-ui";
 
-import { FacetValue, FilterValue } from "./types";
 import { appendClassName } from "./view-helpers";
 
 function BooleanFacet({
@@ -11,8 +10,8 @@ function BooleanFacet({
   onChange,
   onRemove,
   values
-}) {
-  const trueOptions = options.find(option => option.value === "true");
+}: FacetViewProps) {
+  const trueOptions = options.find((option) => option.value === "true");
   if (!trueOptions) return null;
   const isSelected = values.includes("true");
 
@@ -46,14 +45,5 @@ function BooleanFacet({
     </fieldset>
   );
 }
-
-BooleanFacet.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
-  values: PropTypes.arrayOf(FilterValue).isRequired,
-  onChange: PropTypes.func.isRequired
-};
 
 export default BooleanFacet;

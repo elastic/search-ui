@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
 import RCPagination from "rc-pagination";
+import { PagingViewProps } from "@elastic/react-search-ui";
 import enUsLocale from "rc-pagination/lib/locale/en_US";
 
 import { appendClassName } from "./view-helpers";
@@ -12,7 +12,7 @@ function Paging({
   onChange,
   totalPages,
   ...rest
-}) {
+}: PagingViewProps) {
   return (
     <RCPagination
       current={current}
@@ -25,13 +25,5 @@ function Paging({
     />
   );
 }
-
-Paging.propTypes = {
-  current: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  resultsPerPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  className: PropTypes.string
-};
 
 export default Paging;

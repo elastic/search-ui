@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import { PagingInfoViewProps } from "@elastic/react-search-ui";
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
@@ -10,7 +10,7 @@ function PagingInfo({
   start,
   totalResults,
   ...rest
-}) {
+}: PagingInfoViewProps & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={appendClassName("sui-paging-info", className)} {...rest}>
       Showing{" "}
@@ -27,13 +27,5 @@ function PagingInfo({
     </div>
   );
 }
-
-PagingInfo.propTypes = {
-  end: PropTypes.number.isRequired,
-  searchTerm: PropTypes.string.isRequired,
-  start: PropTypes.number.isRequired,
-  totalResults: PropTypes.number.isRequired,
-  className: PropTypes.string
-};
 
 export default PagingInfo;

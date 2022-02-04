@@ -1,8 +1,8 @@
+import { FacetViewProps } from "@elastic/react-search-ui";
 import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
 
-import { FacetValue } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
@@ -36,11 +36,16 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function SingleSelectFacet({ className, label, onChange, options }) {
+function SingleSelectFacet({
+  className,
+  label,
+  onChange,
+  options
+}: FacetViewProps) {
   let selectedSelectBoxOption;
   let isSelectedSelectBoxOptionSet = false;
 
-  const selectBoxOptions = options.map(option => {
+  const selectBoxOptions = options.map((option) => {
     const selectBoxOption = toSelectBoxOption(option);
     // There should never be multiple filters set for this facet because it is single select,
     // but if there is, we use the first value.
@@ -59,7 +64,7 @@ function SingleSelectFacet({ className, label, onChange, options }) {
         classNamePrefix="sui-select"
         components={{ Option }}
         value={selectedSelectBoxOption}
-        onChange={o => onChange(o.value)}
+        onChange={(o) => onChange(o.value)}
         options={selectBoxOptions}
         isSearchable={false}
         styles={setDefaultStyle}
@@ -67,12 +72,5 @@ function SingleSelectFacet({ className, label, onChange, options }) {
     </div>
   );
 }
-
-SingleSelectFacet.propTypes = {
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
-  className: PropTypes.string
-};
 
 export default SingleSelectFacet;

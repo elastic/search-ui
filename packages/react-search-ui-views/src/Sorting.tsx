@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import { SortingViewProps } from "@elastic/react-search-ui";
 import React from "react";
 import Select from "react-select";
 
@@ -11,11 +11,18 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-function Sorting({ className, label, onChange, options, value, ...rest }) {
+function Sorting({
+  className,
+  label,
+  onChange,
+  options,
+  value,
+  ...rest
+}: SortingViewProps) {
   const selectedValue = value;
 
   const selectedOption = selectedValue
-    ? options.find(option => option.value === selectedValue)
+    ? options.find((option) => option.value === selectedValue)
     : null;
 
   return (
@@ -25,7 +32,7 @@ function Sorting({ className, label, onChange, options, value, ...rest }) {
         className="sui-select"
         classNamePrefix="sui-select"
         value={selectedOption}
-        onChange={o => onChange(o.value)}
+        onChange={(o) => onChange(o.value)}
         options={options}
         isSearchable={false}
         styles={setDefaultStyle}
@@ -33,15 +40,5 @@ function Sorting({ className, label, onChange, options, value, ...rest }) {
     </div>
   );
 }
-
-Sorting.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })
-  ).isRequired,
-  value: PropTypes.string
-};
 
 export default Sorting;

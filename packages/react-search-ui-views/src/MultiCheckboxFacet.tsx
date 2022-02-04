@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
 
-import { FacetValue } from "./types";
 import { appendClassName, getFilterValueDisplay } from "./view-helpers";
+import { FacetViewProps } from "@elastic/react-search-ui";
+import { FacetValue, FieldValue } from "@elastic/search-ui";
 
 function MultiCheckboxFacet({
   className,
@@ -15,7 +15,7 @@ function MultiCheckboxFacet({
   showSearch,
   onSearch,
   searchPlaceholder
-}) {
+}: FacetViewProps) {
   return (
     <fieldset className={appendClassName("sui-facet", className)}>
       <legend className="sui-facet__title">{label}</legend>
@@ -26,7 +26,7 @@ function MultiCheckboxFacet({
             className="sui-facet-search__text-input"
             type="search"
             placeholder={searchPlaceholder || "Search"}
-            onChange={e => {
+            onChange={(e) => {
               onSearch(e.target.value);
             }}
           />
@@ -35,8 +35,9 @@ function MultiCheckboxFacet({
 
       <div className="sui-multi-checkbox-facet">
         {options.length < 1 && <div>No matching options</div>}
-        {options.map(option => {
+        {options.map((option) => {
           const checked = option.selected;
+          const value = option.value as FieldValue;
           return (
             <label
               key={`${getFilterValueDisplay(option.value)}`}
@@ -53,9 +54,7 @@ function MultiCheckboxFacet({
                   type="checkbox"
                   className="sui-multi-checkbox-facet__checkbox"
                   checked={checked}
-                  onChange={() =>
-                    checked ? onRemove(option.value) : onSelect(option.value)
-                  }
+                  onChange={() => (checked ? onRemove(value) : onSelect(value))}
                 />
                 <span className="sui-multi-checkbox-facet__input-text">
                   {getFilterValueDisplay(option.value)}
@@ -82,18 +81,5 @@ function MultiCheckboxFacet({
     </fieldset>
   );
 }
-
-MultiCheckboxFacet.propTypes = {
-  label: PropTypes.string.isRequired,
-  onMoreClick: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onSearch: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(FacetValue).isRequired,
-  showMore: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  showSearch: PropTypes.bool,
-  searchPlaceholder: PropTypes.string
-};
 
 export default MultiCheckboxFacet;

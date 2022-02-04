@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 import { appendClassName, getUrlSanitizer } from "./view-helpers";
 import { isFieldValueWrapper } from "./types/FieldValueWrapper";
+import { ResultViewProps } from "@elastic/react-search-ui";
 
 function getFieldType(result, field, type) {
   if (result[field]) return result[field][type];
@@ -57,13 +57,14 @@ function Result({
   urlField,
   thumbnailField,
   ...rest
-}) {
+}: ResultViewProps) {
   const fields = getEscapedFields(result);
   const title = getEscapedField(result, titleField);
   const url = getUrlSanitizer(URL, location)(getRaw(result, urlField));
-  const thumbnail = getUrlSanitizer(URL, location)(
-    getRaw(result, thumbnailField)
-  );
+  const thumbnail = getUrlSanitizer(
+    URL,
+    location
+  )(getRaw(result, thumbnailField));
 
   return (
     <li className={appendClassName("sui-result", className)} {...rest}>
@@ -93,28 +94,21 @@ function Result({
           </div>
         )}
         <ul className="sui-result__details">
-          {Object.entries(fields).map(([fieldName, fieldValue]) => (
-            <li key={fieldName}>
-              <span className="sui-result__key">{fieldName}</span>{" "}
-              <span
-                className="sui-result__value"
-                dangerouslySetInnerHTML={{ __html: fieldValue }}
-              />
-            </li>
-          ))}
+          {Object.entries(fields).map(
+            ([fieldName, fieldValue]: [string, string]) => (
+              <li key={fieldName}>
+                <span className="sui-result__key">{fieldName}</span>{" "}
+                <span
+                  className="sui-result__value"
+                  dangerouslySetInnerHTML={{ __html: fieldValue }}
+                />
+              </li>
+            )
+          )}
         </ul>
       </div>
     </li>
   );
 }
-
-Result.propTypes = {
-  result: PropTypes.object.isRequired,
-  onClickLink: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  titleField: PropTypes.string,
-  urlField: PropTypes.string,
-  thumbnailField: PropTypes.string
-};
 
 export default Result;
