@@ -214,7 +214,7 @@ describe("#setSearchTerm", () => {
     });
 
     describe("and autocompleteMinimumCharacters is set and less than requirement", () => {
-      it("it will not trigger", () => {
+      it("will not trigger", () => {
         const { driver, mockApiConnector } = setupDriver();
         driver.setSearchTerm("term", {
           autocompleteMinimumCharacters: 5,
@@ -226,7 +226,7 @@ describe("#setSearchTerm", () => {
     });
 
     describe("and autocompleteMinimumCharacters is set and greater than requirement", () => {
-      it("it will not trigger", () => {
+      it("will not trigger", () => {
         const { driver, mockApiConnector } = setupDriver();
         driver.setSearchTerm("term", {
           autocompleteMinimumCharacters: 2,
@@ -292,7 +292,7 @@ describe("#setSearchTerm", () => {
     });
 
     describe("and autocompleteMinimumCharacters is set and less than requirement", () => {
-      it("it will not trigger", () => {
+      it("will not trigger", () => {
         const { driver, mockApiConnector } = setupDriver();
         driver.setSearchTerm("term", {
           autocompleteMinimumCharacters: 5,
@@ -304,7 +304,7 @@ describe("#setSearchTerm", () => {
     });
 
     describe("and autocompleteMinimumCharacters is set and greater than requirement", () => {
-      it("it will not trigger", () => {
+      it("will not trigger", () => {
         const { driver, mockApiConnector } = setupDriver();
         driver.setSearchTerm("term", {
           autocompleteMinimumCharacters: 2,

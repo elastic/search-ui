@@ -23,7 +23,7 @@ describe("SearchProvider", () => {
   const setState = jest.fn();
 
   beforeEach(() => {
-    useStateMock.mockImplementation(init => [init, setState]);
+    useStateMock.mockImplementation((init) => [init, setState]);
   });
 
   function getDriverFromComponentState() {
@@ -31,7 +31,7 @@ describe("SearchProvider", () => {
   }
 
   describe("merges default and custom a11yNotificationMessages", () => {
-    const getA11yNotificationMessages = a11yNotificationMessages => {
+    const getA11yNotificationMessages = (a11yNotificationMessages) => {
       mount(
         <SearchProvider
           config={{ apiConnector: null, a11yNotificationMessages }}

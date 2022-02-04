@@ -35,12 +35,9 @@ export class ResultContainer extends Component<ResultContainerProps> {
     shouldTrackClickThrough: true
   };
 
-  handleClickLink = id => {
-    const {
-      clickThroughTags,
-      shouldTrackClickThrough,
-      trackClickThrough
-    } = this.props;
+  handleClickLink = (id) => {
+    const { clickThroughTags, shouldTrackClickThrough, trackClickThrough } =
+      this.props;
 
     if (shouldTrackClickThrough) {
       trackClickThrough(id, clickThroughTags);

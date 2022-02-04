@@ -20,7 +20,7 @@ class LayoutSidebar extends React.Component {
     }));
   };
 
-  renderToggleButton = label => {
+  renderToggleButton = (label) => {
     if (!this.props.children) return null;
 
     return (

@@ -8,6 +8,7 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
     "plugin:prettier/recommended"
   ],
   parserOptions: {
@@ -17,11 +18,14 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "jest"],
   parser: "@typescript-eslint/parser",
   settings: {
     react: {
       version: "detect"
+    },
+    jest: {
+      version:"27"
     }
   },
   rules: {

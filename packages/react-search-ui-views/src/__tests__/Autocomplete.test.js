@@ -48,8 +48,8 @@ const props = {
       { highlight: "", suggestion: "is it cool to ride a bike?" }
     ]
   },
-  getItemProps: props => props,
-  getMenuProps: props => props
+  getItemProps: (props) => props,
+  getMenuProps: (props) => props
 };
 
 it("renders correctly", () => {
@@ -197,18 +197,12 @@ describe("When there are suggestions", () => {
         }}
       />
     );
-    expect(
-      wrapper
-        .find(".sui-search-box__section-title")
-        .at(0)
-        .text()
-    ).toEqual("Suggested");
-    expect(
-      wrapper
-        .find(".sui-search-box__section-title")
-        .at(1)
-        .text()
-    ).toEqual("Suggested");
+    expect(wrapper.find(".sui-search-box__section-title").at(0).text()).toEqual(
+      "Suggested"
+    );
+    expect(wrapper.find(".sui-search-box__section-title").at(1).text()).toEqual(
+      "Suggested"
+    );
   });
 
   it("will NOT render a suggestion section title if none is provided", () => {

@@ -16,7 +16,6 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  // eslint-disable-next-line react/prop-types
   const render = ({ value }: SearchBoxViewProps) => {
     return <div>{value}</div>;
   };
@@ -28,7 +27,7 @@ it("supports a render prop", () => {
 
 it("will keep focus prop in sync with view component", () => {
   let viewProps;
-  const View = props => {
+  const View = (props) => {
     viewProps = props;
     return <div />;
   };
@@ -48,15 +47,15 @@ it("will keep focus prop in sync with view component", () => {
 
 it("will pass autocompleteView prop through to the view", () => {
   let viewProps;
-  const customAutocompleteView = () => <div/>;
+  const customAutocompleteView = () => <div />;
 
   shallow(
     <SearchBoxContainer
       {...params}
       autocompleteView={customAutocompleteView}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -81,9 +80,9 @@ describe("autocompletedSuggestionsCount", () => {
           other: [],
           another: [{ suggestion: "carlsbad" }]
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -99,9 +98,9 @@ describe("autocompletedSuggestionsCount", () => {
         {...params}
         autocompletedSuggestions={{}}
         autocompleteSuggestions={false}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -127,9 +126,9 @@ describe("allAutocompletedItemsCount", () => {
           other: [],
           another: [{ suggestion: "carlsbad" }]
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -147,9 +146,9 @@ describe("allAutocompletedItemsCount", () => {
         autocompletedResults={[]}
         autocompleteSuggestions={false}
         autocompletedSuggestions={{}}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -169,9 +168,9 @@ describe("useAutocomplete", () => {
           titleField: "title",
           urlField: "nps_link"
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -182,10 +181,11 @@ describe("useAutocomplete", () => {
   it("will be false if no autocomplete config has been provided", () => {
     let viewProps;
     shallow(
-      <SearchBoxContainer {...params}
-        view={props => {
+      <SearchBoxContainer
+        {...params}
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -204,9 +204,9 @@ describe("useAutocomplete", () => {
             sectionTitle: "Suggested Queries"
           }
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -226,9 +226,9 @@ describe("useAutocomplete", () => {
             sectionTitle: "Suggested Queries"
           }
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -245,9 +245,9 @@ describe("shouldClearFilters prop", () => {
       <SearchBoxContainer
         {...params}
         shouldClearFilters={false}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -267,9 +267,9 @@ describe("shouldClearFilters prop", () => {
       <SearchBoxContainer
         {...params}
         shouldClearFilters={false}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -288,9 +288,9 @@ describe("shouldClearFilters prop", () => {
         {...params}
         autocompleteResults={true}
         shouldClearFilters={false}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -308,13 +308,13 @@ describe("shouldClearFilters prop", () => {
 it("will call back to setSearchTerm with refresh: false when input is changed", () => {
   let viewProps;
   shallow(
-    <SearchBoxContainer 
-    {...params}         
-    view={props => {
-      viewProps = props;
-      return <div/>;
-    }}
-  />
+    <SearchBoxContainer
+      {...params}
+      view={(props) => {
+        viewProps = props;
+        return <div />;
+      }}
+    />
   ).dive();
 
   expect(viewProps.value).toBe("test");
@@ -340,9 +340,9 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
     <SearchBoxContainer
       {...params}
       autocompleteMinimumCharacters={3}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -367,9 +367,9 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
     <SearchBoxContainer
       {...params}
       searchAsYouType={true}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -399,9 +399,9 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       {...params}
       searchAsYouType={true}
       debounceLength={500}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -434,9 +434,9 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
         urlField: "nps_link"
       }}
       debounceLength={500}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -466,9 +466,9 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
       {...params}
       autocompleteSuggestions={true}
       debounceLength={500}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -498,9 +498,9 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
     <SearchBoxContainer
       {...params}
       searchTerm="a term"
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -540,9 +540,9 @@ describe("onSelectAutocomplete", () => {
         {...params}
         autocompleteResults={true}
         onSelectAutocomplete={customOnSelectAutocomplete}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -563,9 +563,9 @@ describe("onSelectAutocomplete", () => {
       <SearchBoxContainer
         {...params}
         autocompleteResults={true}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -585,9 +585,9 @@ describe("onSelectAutocomplete", () => {
       <SearchBoxContainer
         {...params}
         autocompleteResults={true}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -605,9 +605,9 @@ describe("autocomplete clickthroughs", () => {
       <SearchBoxContainer
         {...params}
         autocompleteResults={true}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -628,9 +628,9 @@ describe("autocomplete clickthroughs", () => {
           titleField: "title",
           urlField: "nps_link"
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -647,9 +647,9 @@ describe("autocomplete clickthroughs", () => {
       <SearchBoxContainer
         {...params}
         autocompleteResults={true}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -670,9 +670,9 @@ describe("autocomplete clickthroughs", () => {
           titleField: "title",
           urlField: "nps_link"
         }}
-        view={props => {
+        view={(props) => {
           viewProps = props;
-          return <div/>;
+          return <div />;
         }}
       />
     ).dive();
@@ -680,10 +680,8 @@ describe("autocomplete clickthroughs", () => {
     notifyAutocompleteSelected({
       id: { raw: "123" }
     });
-    const [
-      documentId,
-      tags
-    ] = params.trackAutocompleteClickThrough.mock.calls[0];
+    const [documentId, tags] =
+      params.trackAutocompleteClickThrough.mock.calls[0];
     expect(documentId).toEqual("123");
     expect(tags).toEqual(["whatever"]);
   });
@@ -696,9 +694,9 @@ it("passes className through to the view", () => {
     <SearchBoxContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -712,9 +710,9 @@ it("passes data-foo through to the view", () => {
     <SearchBoxContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();

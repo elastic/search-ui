@@ -14,7 +14,7 @@ function getMockDriver() {
     tearDown: jest.fn(),
     setSearchQuery: jest.fn(),
     setAutocompleteQuery: jest.fn()
-  })
+  });
 }
 
 describe("SearchProvider", () => {

@@ -73,7 +73,7 @@ it("should not render a Facet if there are no facets available", () => {
 describe("values view prop", () => {
   function subject(filterType?) {
     let viewProps;
-    const View = props => {
+    const View = (props) => {
       viewProps = props;
       return <div />;
     };
@@ -275,7 +275,7 @@ it("will remove a filter when a facet value removed, defaulting filterType to al
 it("passes className through to the view", () => {
   let viewProps;
   const className = "test-class";
-  const View = props => {
+  const View = (props) => {
     viewProps = props;
     return <div />;
   };
@@ -288,7 +288,7 @@ it("passes className through to the view", () => {
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  const View = props => {
+  const View = (props) => {
     viewProps = props;
     return <div />;
   };
@@ -350,7 +350,7 @@ describe("search facets", () => {
         .prop("options");
 
       expect(filteredOptions.length).toEqual(2);
-      expect(filteredOptions.map(opt => opt.value)).toEqual([
+      expect(filteredOptions.map((opt) => opt.value)).toEqual([
         "Virat",
         "bumŗÄh"
       ]);
@@ -372,7 +372,10 @@ describe("search facets", () => {
         .prop("options");
 
       expect(options1.length).toEqual(2);
-      expect(options1.map(opt => opt.value)).toEqual(["APPLE", "appointment"]);
+      expect(options1.map((opt) => opt.value)).toEqual([
+        "APPLE",
+        "appointment"
+      ]);
 
       // action => uppercase
       wrapper.find<FacetContainerViewProps>(View).prop("onSearch")("MENT");
@@ -382,7 +385,7 @@ describe("search facets", () => {
         .prop("options");
 
       expect(options1.length).toEqual(2);
-      expect(options2.map(opt => opt.value)).toEqual([
+      expect(options2.map((opt) => opt.value)).toEqual([
         "appointment",
         "entertainMEnt"
       ]);

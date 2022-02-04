@@ -211,7 +211,7 @@ describe("#removeFilter", () => {
     ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
   });
 
-  it("Removes filter values from all filter types, if no type is specified ", () => {
+  it("Removes filter values from all filter types, if no type is specified", () => {
     expect(
       subject("test", "value", undefined, {
         initialFilters: [

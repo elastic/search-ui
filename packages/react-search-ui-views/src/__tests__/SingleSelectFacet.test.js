@@ -69,7 +69,7 @@ describe("determining selected option", () => {
     const wrapper = render(
       <SingleSelectFacet
         {...params}
-        options={params.options.map(o => ({ ...o, selected: true }))}
+        options={params.options.map((o) => ({ ...o, selected: true }))}
       />
     );
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
@@ -79,7 +79,7 @@ describe("determining selected option", () => {
     const wrapper = render(
       <SingleSelectFacet
         {...params}
-        options={params.options.map(o => ({ ...o, selected: false }))}
+        options={params.options.map((o) => ({ ...o, selected: false }))}
       />
     );
     expect(wrapper.find(".sui-select__single-value").text()).toEqual("");

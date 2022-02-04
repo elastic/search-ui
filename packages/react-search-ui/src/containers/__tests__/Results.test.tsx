@@ -60,7 +60,7 @@ it("passes through props to individual Result items", () => {
       clickThroughTags={["whatever"]}
     />
   ).dive();
-  expect(wrapper.find("WithSearch").map(n => n.props())).toEqual([
+  expect(wrapper.find("WithSearch").map((n) => n.props())).toEqual([
     {
       result: {
         id: {
@@ -113,7 +113,7 @@ it("passes className through to the view", () => {
     <ResultsContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -129,7 +129,7 @@ it("passes data-foo through to the view", () => {
     <ResultsContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}

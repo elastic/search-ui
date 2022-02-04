@@ -121,19 +121,9 @@ it("won't render 'more' button if more param is false", () => {
 describe("determining selected option", () => {
   it("will correctly determine which of the options is selected", () => {
     const wrapper = shallow(<MultiCheckboxFacet {...params} />);
-    expect(
-      wrapper
-        .find("input")
-        .at(0)
-        .prop("checked")
-    ).toBe(false);
+    expect(wrapper.find("input").at(0).prop("checked")).toBe(false);
 
-    expect(
-      wrapper
-        .find("input")
-        .at(1)
-        .prop("checked")
-    ).toBe(true);
+    expect(wrapper.find("input").at(1).prop("checked")).toBe(true);
   });
 });
 
