@@ -56,9 +56,12 @@ class AppSearchAPIConnector {
    */
 
   client: any; // TODO: Update once the client TS definitions PR lands: https://github.com/elastic/app-search-node/pull/50
-  beforeSearchCall: (queryOptions: any, next: any) => any;
-  beforeAutocompleteResultsCall: (queryOptions: any, next: any) => any;
-  beforeAutocompleteSuggestionsCall: (queryOptions: any, next: any) => any;
+  beforeSearchCall: (queryOptions: QueryConfig, next: any) => any;
+  beforeAutocompleteResultsCall: (queryOptions: QueryConfig, next: any) => any;
+  beforeAutocompleteSuggestionsCall: (
+    queryOptions: QueryConfig,
+    next: any
+  ) => any;
 
   /**
    * @param {Options} options
