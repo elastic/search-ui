@@ -40,14 +40,14 @@ const autocompleteSearchResponse = {
 export function getMockApiConnector() {
   return {
     onAutocomplete: jest.fn().mockReturnValue({
-      then: cb =>
+      then: (cb) =>
         cb({
           autocompletedResults: autocompleteSearchResponse.results,
           autocompletedResultsRequestId: autocompleteSearchResponse.requestId,
           autocompletedSuggestions: suggestions
         })
     }),
-    onSearch: jest.fn().mockReturnValue({ then: cb => cb(searchResponse) }),
+    onSearch: jest.fn().mockReturnValue({ then: (cb) => cb(searchResponse) }),
     onResultClick: jest.fn().mockReturnValue(Promise.resolve(true)),
     onAutocompleteResultClick: jest.fn().mockReturnValue(Promise.resolve(true))
   };
@@ -73,7 +73,7 @@ export function setupDriver(
 
   if (mockSearchResponse) {
     mockApiConnector.onSearch = jest.fn().mockReturnValue({
-      then: cb => cb(mockSearchResponse)
+      then: (cb) => cb(mockSearchResponse)
     });
   }
 
@@ -88,7 +88,7 @@ export function setupDriver(
   });
 
   const updatedStateAfterAction = { state: null };
-  driver.subscribeToStateChanges(newState => {
+  driver.subscribeToStateChanges((newState) => {
     updatedStateAfterAction.state = newState;
   });
 
@@ -103,13 +103,8 @@ export function setupDriver(
 }
 
 export function doesStateHaveResponseData(response) {
-  const {
-    requestId,
-    results,
-    totalPages,
-    totalResults,
-    wasSearched
-  } = response;
+  const { requestId, results, totalPages, totalResults, wasSearched } =
+    response;
   return (
     !!results &&
     results.length &&
@@ -143,7 +138,7 @@ export function getAutocompleteClickCalls(mockApiConnector) {
  */
 export function waitATick() {
   let promiseResolve;
-  const promise = new Promise(resolve => (promiseResolve = resolve));
+  const promise = new Promise((resolve) => (promiseResolve = resolve));
   setTimeout(() => promiseResolve());
   jest.runAllTimers();
   return promise;

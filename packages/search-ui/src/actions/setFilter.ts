@@ -19,7 +19,7 @@ export default function setFilter(
 
   let { filters } = this.state;
   filters = filters.filter(
-    filter => filter.field !== name || filter.type !== type
+    (filter) => filter.field !== name || filter.type !== type
   );
 
   this._updateSearchResults({

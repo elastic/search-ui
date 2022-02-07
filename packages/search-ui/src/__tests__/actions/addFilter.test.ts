@@ -60,13 +60,8 @@ describe("#addFilter", () => {
       ],
       searchTerm: "test"
     } as RequestState;
-    const {
-      resultsPerPage,
-      sortField,
-      sortDirection,
-      sortList,
-      searchTerm
-    } = subject("field", "value", undefined, { initialState });
+    const { resultsPerPage, sortField, sortDirection, sortList, searchTerm } =
+      subject("field", "value", undefined, { initialState });
     expect({
       resultsPerPage,
       sortField,

@@ -21,12 +21,12 @@ export default function addFilter(
   const { filters } = this.state;
 
   const existingFilter =
-    filters.find(f => f.field === name && f.type === type) || {};
+    filters.find((f) => f.field === name && f.type === type) || {};
   const allOtherFilters =
-    filters.filter(f => f.field !== name || f.type !== type) || [];
+    filters.filter((f) => f.field !== name || f.type !== type) || [];
   const existingFilterValues = existingFilter.values || [];
 
-  const newFilterValues = existingFilterValues.find(existing =>
+  const newFilterValues = existingFilterValues.find((existing) =>
     doFilterValuesMatch(existing, value)
   )
     ? existingFilterValues

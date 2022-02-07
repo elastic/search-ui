@@ -25,12 +25,12 @@ export default function removeFilter(
 
   if (!value && type) {
     updatedFilters = filters.filter(
-      filter => !(filter.field === name && filter.type === type)
+      (filter) => !(filter.field === name && filter.type === type)
     );
   } else if (value) {
     updatedFilters = removeSingleFilterValue(filters, name, value, type);
   } else {
-    updatedFilters = filters.filter(filter => filter.field !== name);
+    updatedFilters = filters.filter((filter) => filter.field !== name);
   }
 
   this._updateSearchResults({

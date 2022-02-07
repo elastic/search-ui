@@ -14,7 +14,7 @@ export function findFilterValues(
   name: string,
   filterType: FilterType
 ): FilterValue[] {
-  const filter = filters.find(f => f.field === name && f.type === filterType);
+  const filter = filters.find((f) => f.field === name && f.type === filterType);
   if (!filter) return [];
   return filter.values;
 }
@@ -38,7 +38,7 @@ export function removeSingleFilterValue(
     const { field, values, type, ...rest } = filter;
     if (field === fieldName && (!filterType || type === filterType)) {
       const updatedFilterValues = values.filter(
-        filterValue => !doFilterValuesMatch(filterValue, value)
+        (filterValue) => !doFilterValuesMatch(filterValue, value)
       );
       if (updatedFilterValues.length > 0) {
         return acc.concat({
@@ -75,10 +75,10 @@ export function markSelectedFacetValuesFromFilters(
     findFilterValues(filters, fieldName, filterType) || [];
   return {
     ...facet,
-    data: facetValues.map(facetValue => {
+    data: facetValues.map((facetValue) => {
       return {
         ...facetValue,
-        selected: filterValuesForField.some(filterValue => {
+        selected: filterValuesForField.some((filterValue) => {
           return doFilterValuesMatch(filterValue, facetValue.value);
         })
       };
@@ -120,7 +120,7 @@ export function mergeFilters(filters1, filters2) {
   if (!filters2) return filters1;
 
   return filters2.reduce((acc, next) => {
-    if (acc.find(f => f.type === next.type && f.field === next.field)) {
+    if (acc.find((f) => f.type === next.type && f.field === next.field)) {
       return acc;
     }
     return [...acc, next];

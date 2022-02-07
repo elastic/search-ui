@@ -47,13 +47,8 @@ describe("#clearFilters", () => {
       ],
       searchTerm: "test"
     };
-    const {
-      resultsPerPage,
-      sortField,
-      sortDirection,
-      sortList,
-      searchTerm
-    } = subject(null, { initialState });
+    const { resultsPerPage, sortField, sortDirection, sortList, searchTerm } =
+      subject(null, { initialState });
     expect({
       resultsPerPage,
       sortField,

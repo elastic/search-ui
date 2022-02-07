@@ -23,9 +23,8 @@ describe("#trackClickThrough", () => {
       "1",
       ["test"]
     );
-    const [{ query, documentId, requestId, tags }] = getClickCalls(
-      mockApiConnector
-    )[0];
+    const [{ query, documentId, requestId, tags }] =
+      getClickCalls(mockApiConnector)[0];
     expect(documentId).toEqual("1");
     expect(query).toEqual("search terms");
     expect(tags).toEqual(["test"]);

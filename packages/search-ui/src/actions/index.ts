@@ -1,7 +1,5 @@
 export { default as addFilter } from "./addFilter";
-export {
-  default as trackAutocompleteClickThrough
-} from "./trackAutocompleteClickThrough";
+export { default as trackAutocompleteClickThrough } from "./trackAutocompleteClickThrough";
 export { default as clearFilters } from "./clearFilters";
 export { default as removeFilter } from "./removeFilter";
 export { default as reset } from "./reset";
