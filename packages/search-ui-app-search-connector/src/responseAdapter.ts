@@ -2,7 +2,7 @@ function adaptation1AdaptFacetValue(
   facetValue,
   additionalFacetValueFieldsForField = {}
 ) {
-  const hasValue = facetValue.hasOwnProperty("value");
+  const hasValue = Object.prototype.hasOwnProperty.call(facetValue, "value");
   const { count, value, ...rest } = facetValue;
   return {
     count,

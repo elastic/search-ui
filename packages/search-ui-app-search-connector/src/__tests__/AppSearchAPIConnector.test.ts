@@ -77,7 +77,11 @@ beforeEach(() => {
   mockClient.querySuggestion = jest
     .fn()
     .mockReturnValue({ then: (cb) => cb(resultsSuggestions) });
-  mockClient.click = jest.fn().mockReturnValue({ then: () => {} });
+  mockClient.click = jest.fn().mockReturnValue({
+    then: () => {
+      return;
+    }
+  });
 });
 
 function getLastSearchCall() {
