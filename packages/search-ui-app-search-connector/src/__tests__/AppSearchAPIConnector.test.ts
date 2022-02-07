@@ -97,7 +97,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   it("can be initialized with endpointBase", () => {
-    let newParams = { ...params };
+    let newParams: any = { ...params };
     newParams.hostIdentifier = undefined;
     newParams.endpointBase = "http://localhost:3001";
 
@@ -118,7 +118,7 @@ describe("AppSearchAPIConnector", () => {
 
   it("will throw when missing required parameters", () => {
     expect(() => {
-      new AppSearchAPIConnector({});
+      new AppSearchAPIConnector({} as any);
     }).toThrow();
   });
 
@@ -191,7 +191,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("onSearch", () => {
-    function subject(state = {}, queryConfig = {}, beforeSearchCall) {
+    function subject(state: any = {}, queryConfig: any = {}, beforeSearchCall?: any) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
@@ -412,9 +412,9 @@ describe("AppSearchAPIConnector", () => {
 
   describe("onAutocomplete", () => {
     function subject(
-      state = {},
+      state: any = {},
       queryConfig = {},
-      { beforeAutocompleteResultsCall, beforeAutocompleteSuggestionsCall } = {}
+      { beforeAutocompleteResultsCall, beforeAutocompleteSuggestionsCall }: any = {}
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 

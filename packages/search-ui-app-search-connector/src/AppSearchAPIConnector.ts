@@ -40,6 +40,12 @@ class AppSearchAPIConnector {
    * the API in a "suggestions" query on an "onAutocomplete" event.
    * @param {string} endpointBase="" Overrides the base of the Swiftype API endpoint completely.
    */
+  
+
+  client: any;
+  beforeSearchCall: any;
+  beforeAutocompleteResultsCall: any;
+  beforeAutocompleteSuggestionsCall: any;
 
   /**
    * @param {Options} options
@@ -119,7 +125,7 @@ class AppSearchAPIConnector {
   }
 
   async onAutocomplete({ searchTerm }, queryConfig) {
-    const autocompletedState = {};
+    const autocompletedState: any = {};
     let promises = [];
 
     if (queryConfig.results) {

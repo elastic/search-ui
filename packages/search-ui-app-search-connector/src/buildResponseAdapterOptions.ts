@@ -1,6 +1,6 @@
-export default function buildResponseAdapterOptions(config = {}) {
+export default function buildResponseAdapterOptions(config: any = {}) {
   const additionalFacetValueFields = Object.entries(config.facets || {}).reduce(
-    (acc, [fieldName, facetConfig]) => {
+    (acc: any, [fieldName, facetConfig]: any) => {
       if (facetConfig.unit && facetConfig.center) {
         return {
           ...(acc || {}),

@@ -25,7 +25,7 @@ function adaptation2AddLabelToFacet(fieldName, facet) {
 function adaptFacets(facets, { additionalFacetValueFields = {} }) {
   if (!facets || Object.keys(facets).length === 0) return facets;
 
-  return Object.entries(facets).reduce((acc, [fieldName, facet]) => {
+  return Object.entries(facets).reduce((acc, [fieldName, facet]: any) => {
     const adaptedFacet = facet.map(v => {
       const { type, data, ...rest } = v;
       return adaptation2AddLabelToFacet(fieldName, {
