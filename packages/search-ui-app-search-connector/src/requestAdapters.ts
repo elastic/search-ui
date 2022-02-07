@@ -1,4 +1,11 @@
-function removeName(v) {
+import type {
+  RequestState,
+  Filter,
+  SortDirection,
+  SortOption
+} from "@elastic/search-ui";
+
+function removeName(v: any) {
   if (v && v.name) {
     // eslint-disable-next-line
     const { name, ...rest } = v;
@@ -10,7 +17,7 @@ function removeName(v) {
   return v;
 }
 
-function rollup(f) {
+function rollup(f: Filter) {
   const values = f.values.map(removeName).map((v) => ({
     [f.field]: v
   }));
@@ -20,7 +27,7 @@ function rollup(f) {
   };
 }
 
-function adaptFilters(filters) {
+function adaptFilters(filters: Filter[]) {
   if (!filters || filters.length === 0) return {};
   const all = filters.map(rollup);
   return {
@@ -28,7 +35,11 @@ function adaptFilters(filters) {
   };
 }
 
-function getSort(sortDirection, sortField, sortList) {
+function getSort(
+  sortDirection: SortDirection,
+  sortField: string,
+  sortList: SortOption[]
+) {
   if (sortList && sortList.length) {
     return sortList.map((sortItem) => ({
       [sortItem.field]: sortItem.direction
@@ -42,7 +53,7 @@ function getSort(sortDirection, sortField, sortList) {
   }
 }
 
-export function adaptRequest(request) {
+export function adaptRequest(request: RequestState) {
   const {
     current,
     resultsPerPage,
