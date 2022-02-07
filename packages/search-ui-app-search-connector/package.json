@@ -3,16 +3,16 @@
   "version": "1.9.0",
   "description": "A Search UI connector for Elastic's App Search Service",
   "license": "Apache-2.0",
-  "main": "lib",
-  "module": "es",
+  "main": "lib/cjs",
+  "module": "lib/esm",
+  "types": "./lib/esm/index.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "devDependencies": {
+    "@elastic/search-ui": "^1.9.0",
     "@types/enzyme": "^3.10.11",
     "@types/jest": "^27.4.0",
     "jest": "^27.4.7",
