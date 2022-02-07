@@ -254,7 +254,7 @@ describe("shouldClearFilters prop", () => {
 
     const { onSubmit } = viewProps;
     onSubmit({
-      preventDefault: () => {}
+      preventDefault: () => ({})
     });
     const call = params.setSearchTerm.mock.calls[0];
     expect(call[1].shouldClearFilters).toEqual(false);

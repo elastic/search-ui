@@ -11,6 +11,10 @@ export type BaseContainerStateProps = {
   facets: { [key: string]: Facet };
 };
 
+// From SO https://stackoverflow.com/a/59071783
+// TS Utility to rename keys in a type
+// Usage type x = Rename<{ renameMe: string }, { "renameMe": "newName" }>
+// x === { newName: string }
 export type Rename<
   T,
   R extends {

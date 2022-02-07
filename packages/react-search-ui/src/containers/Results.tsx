@@ -33,6 +33,7 @@ export type ResultsViewProps = BaseContainerProps &
     "results" | "titleField" | "urlField" | "thumbnailField"
   > & {
     key?: string;
+    onClickLink: () => void;
   };
 
 export class ResultsContainer extends Component<ResultsContainerProps> {

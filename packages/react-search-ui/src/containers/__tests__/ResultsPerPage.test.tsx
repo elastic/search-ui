@@ -17,8 +17,8 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  const render = ({ resultsPerPage }: ResultsPerPageViewProps) => {
-    return <div>{resultsPerPage}</div>;
+  const render = ({ value }: ResultsPerPageViewProps) => {
+    return <div>{value}</div>;
   };
   const wrapper = shallow(
     <ResultsPerPageContainer {...params} view={render} />

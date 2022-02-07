@@ -154,18 +154,20 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     const { autocompleteResults, trackAutocompleteClickThrough } = this.props;
     // Because suggestions don't count as clickthroughs, only
     // results
-    if (
-      autocompleteResults &&
-      typeof autocompleteResults !== "boolean" &&
-      autocompleteResults.shouldTrackClickThrough !== false &&
-      !selection.suggestion
-    ) {
-      const clickThroughTags =
-        autocompleteResults && autocompleteResults.clickThroughTags
-          ? autocompleteResults.clickThroughTags
-          : [];
-      const id = selection.id.raw;
-      trackAutocompleteClickThrough(id, clickThroughTags);
+    if (autocompleteResults) {
+      const autocompleteResultsConfig =
+        autocompleteResults === true
+          ? { clickThroughTags: [], shouldTrackClickThrough: true }
+          : autocompleteResults;
+
+      if (
+        !selection.suggestion &&
+        autocompleteResultsConfig.shouldTrackClickThrough !== false
+      ) {
+        const { clickThroughTags = [] } = autocompleteResultsConfig;
+        const id = selection.id.raw;
+        trackAutocompleteClickThrough(id, clickThroughTags);
+      }
     }
   };
 
@@ -175,12 +177,10 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     const { autocompleteResults } = this.props;
 
     this.handleNotifyAutocompleteSelected(selection);
-    if (!selection.suggestion) {
-      const url =
-        typeof autocompleteResults !== "boolean" &&
-        selection[autocompleteResults.urlField]
-          ? selection[autocompleteResults.urlField].raw
-          : "";
+    if (!selection.suggestion && typeof autocompleteResults !== "boolean") {
+      const url = selection[autocompleteResults.urlField]
+        ? selection[autocompleteResults.urlField].raw
+        : "";
       if (url) {
         const target =
           (typeof autocompleteResults !== "boolean" &&

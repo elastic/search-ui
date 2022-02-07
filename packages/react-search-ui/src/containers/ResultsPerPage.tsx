@@ -4,11 +4,9 @@ import { ResultsPerPage } from "@elastic/react-search-ui-views";
 import { SearchContextState } from "../withSearch";
 import { BaseContainerProps, Rename } from "../types";
 
-type ResultsPerPageContainerContext = Rename<
-  Pick<SearchContextState, "resultsPerPage" | "setResultsPerPage">,
-  {
-    resultsPerPage: "value";
-  }
+type ResultsPerPageContainerContext = Pick<
+  SearchContextState,
+  "resultsPerPage" | "setResultsPerPage"
 >;
 
 type ResultsPerPageContainerProps = BaseContainerProps &
@@ -19,7 +17,13 @@ type ResultsPerPageContainerProps = BaseContainerProps &
 
 export type ResultsPerPageViewProps = BaseContainerProps &
   Pick<ResultsPerPageContainerProps, "options"> &
-  Rename<ResultsPerPageContainerContext, { setResultsPerPage: "onChange" }>;
+  Rename<
+    ResultsPerPageContainerContext,
+    {
+      setResultsPerPage: "onChange";
+      resultsPerPage: "value";
+    }
+  >;
 
 export class ResultsPerPageContainer extends Component<ResultsPerPageContainerProps> {
   static defaultProps = {
@@ -27,8 +31,14 @@ export class ResultsPerPageContainer extends Component<ResultsPerPageContainerPr
   };
 
   render() {
-    const { className, value, setResultsPerPage, options, view, ...rest } =
-      this.props;
+    const {
+      className,
+      resultsPerPage,
+      setResultsPerPage,
+      options,
+      view,
+      ...rest
+    } = this.props;
 
     const View = view || ResultsPerPage;
     const viewProps: ResultsPerPageViewProps = {
@@ -37,7 +47,7 @@ export class ResultsPerPageContainer extends Component<ResultsPerPageContainerPr
         setResultsPerPage(value);
       },
       options,
-      value,
+      value: resultsPerPage,
       ...rest
     };
 

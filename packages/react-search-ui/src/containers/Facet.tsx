@@ -166,14 +166,13 @@ export class FacetContainer extends Component<
   }
 }
 
-export default withSearch<
-  FacetContainerContextProps,
-  FacetContainerContextProps
->(({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
-  filters,
-  facets,
-  addFilter,
-  removeFilter,
-  setFilter,
-  a11yNotify
-}))(FacetContainer);
+export default withSearch<FacetContainerProps, FacetContainerContextProps>(
+  ({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
+    filters,
+    facets,
+    addFilter,
+    removeFilter,
+    setFilter,
+    a11yNotify
+  })
+)(FacetContainer);

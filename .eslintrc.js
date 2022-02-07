@@ -25,7 +25,7 @@ module.exports = {
       version: "detect"
     },
     jest: {
-      version:"27"
+      version: "27"
     }
   },
   rules: {
