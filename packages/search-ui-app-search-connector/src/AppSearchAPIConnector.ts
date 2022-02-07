@@ -3,6 +3,20 @@ import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
 import buildResponseAdapterOptions from "./buildResponseAdapterOptions";
+import type {
+  QueryConfig,
+  RequestState,
+  SearchState
+} from "@elastic/search-ui";
+
+interface ResultClickParams {
+  query: string;
+  documentId: string;
+  requestId: string;
+  tags: string[];
+}
+
+type AutocompleteResultClickParams = ResultClickParams;
 
 // The API will error out if empty facets or filters objects
 // are sent.
@@ -78,17 +92,30 @@ class AppSearchAPIConnector {
     this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;
   }
 
-  onResultClick({ query, documentId, requestId, tags = [] }) {
+  onResultClick({
+    query,
+    documentId,
+    requestId,
+    tags = []
+  }: ResultClickParams): void {
     tags = tags.concat("results");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  onAutocompleteResultClick({ query, documentId, requestId, tags = [] }) {
+  onAutocompleteResultClick({
+    query,
+    documentId,
+    requestId,
+    tags = []
+  }: AutocompleteResultClickParams): void {
     tags = tags.concat("autocomplete");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  async onSearch(state, queryConfig) {
+  async onSearch(
+    state: RequestState,
+    queryConfig: QueryConfig
+  ): Promise<SearchState> {
     const {
       current,
       filters,
@@ -123,7 +150,10 @@ class AppSearchAPIConnector {
     });
   }
 
-  async onAutocomplete({ searchTerm }, queryConfig) {
+  async onAutocomplete(
+    { searchTerm }: RequestState,
+    queryConfig: QueryConfig
+  ): Promise<SearchState> {
     const autocompletedState: any = {};
     const promises = [];
 
