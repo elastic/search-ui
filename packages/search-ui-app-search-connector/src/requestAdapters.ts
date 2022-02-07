@@ -11,7 +11,7 @@ function removeName(v) {
 }
 
 function rollup(f) {
-  const values = f.values.map(removeName).map(v => ({
+  const values = f.values.map(removeName).map((v) => ({
     [f.field]: v
   }));
 
@@ -30,7 +30,9 @@ function adaptFilters(filters) {
 
 function getSort(sortDirection, sortField, sortList) {
   if (sortList && sortList.length) {
-    return sortList.map(sortItem => ({ [sortItem.field]: sortItem.direction }));
+    return sortList.map((sortItem) => ({
+      [sortItem.field]: sortItem.direction
+    }));
   } else if (sortField && sortDirection) {
     return {
       [sortField]: sortDirection

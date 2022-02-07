@@ -36,10 +36,10 @@ const resultList = {
 };
 
 const mockClient = {
-  search: jest.fn().mockReturnValue({ then: cb => cb(resultList) }),
+  search: jest.fn().mockReturnValue({ then: (cb) => cb(resultList) }),
   querySuggestion: jest
     .fn()
-    .mockReturnValue({ then: cb => cb(resultsSuggestions) }),
+    .mockReturnValue({ then: (cb) => cb(resultsSuggestions) }),
   click: jest.fn().mockReturnValue(Promise.resolve())
 };
 
@@ -71,10 +71,12 @@ const params = {
 };
 
 beforeEach(() => {
-  mockClient.search = jest.fn().mockReturnValue({ then: cb => cb(resultList) });
+  mockClient.search = jest
+    .fn()
+    .mockReturnValue({ then: (cb) => cb(resultList) });
   mockClient.querySuggestion = jest
     .fn()
-    .mockReturnValue({ then: cb => cb(resultsSuggestions) });
+    .mockReturnValue({ then: (cb) => cb(resultsSuggestions) });
   mockClient.click = jest.fn().mockReturnValue({ then: () => {} });
 });
 
@@ -97,7 +99,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   it("can be initialized with endpointBase", () => {
-    let newParams: any = { ...params };
+    const newParams: any = { ...params };
     newParams.hostIdentifier = undefined;
     newParams.endpointBase = "http://localhost:3001";
 
@@ -107,7 +109,7 @@ describe("AppSearchAPIConnector", () => {
 
   // The use case for this is mostly internal to Elastic, where we rely on the logged in user session (via cookies) to authenticate
   it("can be initialized without a searchKey", () => {
-    let newParams = {
+    const newParams = {
       ...params,
       searchKey: undefined
     };
@@ -191,7 +193,11 @@ describe("AppSearchAPIConnector", () => {
   });
 
   describe("onSearch", () => {
-    function subject(state: any = {}, queryConfig: any = {}, beforeSearchCall?: any) {
+    function subject(
+      state: any = {},
+      queryConfig: any = {},
+      beforeSearchCall?: any
+    ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new AppSearchAPIConnector({
@@ -414,7 +420,10 @@ describe("AppSearchAPIConnector", () => {
     function subject(
       state: any = {},
       queryConfig = {},
-      { beforeAutocompleteResultsCall, beforeAutocompleteSuggestionsCall }: any = {}
+      {
+        beforeAutocompleteResultsCall,
+        beforeAutocompleteSuggestionsCall
+      }: any = {}
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 

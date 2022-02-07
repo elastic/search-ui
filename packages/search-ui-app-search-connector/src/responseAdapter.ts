@@ -26,11 +26,11 @@ function adaptFacets(facets, { additionalFacetValueFields = {} }) {
   if (!facets || Object.keys(facets).length === 0) return facets;
 
   return Object.entries(facets).reduce((acc, [fieldName, facet]: any) => {
-    const adaptedFacet = facet.map(v => {
+    const adaptedFacet = facet.map((v) => {
       const { type, data, ...rest } = v;
       return adaptation2AddLabelToFacet(fieldName, {
         type,
-        data: data.map(f =>
+        data: data.map((f) =>
           adaptation1AdaptFacetValue(f, additionalFacetValueFields[fieldName])
         ),
         ...rest
