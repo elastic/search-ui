@@ -17,11 +17,15 @@ type ResultsPerPageContainerProps = BaseContainerProps &
 
 export type ResultsPerPageViewProps = BaseContainerProps &
   Pick<ResultsPerPageContainerProps, "options"> &
-  Rename<ResultsPerPageContainerContext, { setResultsPerPage: "onChange" }>;
+  Rename<
+    ResultsPerPageContainerContext,
+    {
+      setResultsPerPage: "onChange";
+      resultsPerPage: "value";
+    }
+  >;
 
-export class ResultsPerPageContainer extends Component<
-  ResultsPerPageContainerProps
-> {
+export class ResultsPerPageContainer extends Component<ResultsPerPageContainerProps> {
   static defaultProps = {
     options: [20, 40, 60]
   };
@@ -39,9 +43,11 @@ export class ResultsPerPageContainer extends Component<
     const View = view || ResultsPerPage;
     const viewProps: ResultsPerPageViewProps = {
       className,
+      onChange: (value) => {
+        setResultsPerPage(value);
+      },
       options,
-      resultsPerPage,
-      onChange: setResultsPerPage,
+      value: resultsPerPage,
       ...rest
     };
 

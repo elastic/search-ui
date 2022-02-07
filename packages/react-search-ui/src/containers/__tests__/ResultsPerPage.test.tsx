@@ -17,8 +17,8 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  const render = ({ resultsPerPage }: ResultsPerPageViewProps) => {
-    return <div>{resultsPerPage}</div>;
+  const render = ({ value }: ResultsPerPageViewProps) => {
+    return <div>{value}</div>;
   };
   const wrapper = shallow(
     <ResultsPerPageContainer {...params} view={render} />
@@ -45,7 +45,7 @@ it("will call back when a selection is made in the view", () => {
   shallow(
     <ResultsPerPageContainer
       {...params}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -66,7 +66,7 @@ it("passes className through to the view", () => {
     <ResultsPerPageContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -92,7 +92,7 @@ it("passes data-foo through to the view", () => {
     <ResultsPerPageContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}

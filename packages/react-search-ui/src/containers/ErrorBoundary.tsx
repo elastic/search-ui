@@ -30,4 +30,4 @@ export class ErrorBoundaryContainer extends Component<ErrorBoundaryContainerProp
   }
 }
 
-export default withSearch<ErrorBoundaryContainerProps, ErrorBoundaryContainerContext>(({ error, addFilter }) => ({ error }))(ErrorBoundaryContainer);
+export default withSearch<ErrorBoundaryContainerProps, ErrorBoundaryContainerContext>(({ error }) => ({ error }))(ErrorBoundaryContainer);

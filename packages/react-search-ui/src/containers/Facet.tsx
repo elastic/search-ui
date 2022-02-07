@@ -67,7 +67,7 @@ export class FacetContainer extends Component<
     };
   }
 
-  handleClickMore = totalOptions => {
+  handleClickMore = (totalOptions) => {
     this.setState(({ more }) => {
       let visibleOptionsCount = more + 10;
       const showingAll = visibleOptionsCount >= totalOptions;
@@ -79,7 +79,7 @@ export class FacetContainer extends Component<
     });
   };
 
-  handleFacetSearch = searchTerm => {
+  handleFacetSearch = (searchTerm) => {
     this.setState({ searchTerm });
   };
 
@@ -117,13 +117,13 @@ export class FacetContainer extends Component<
     ).data;
 
     const selectedValues = facetValues
-      .filter(fv => fv.selected)
-      .map(fv => fv.value);
+      .filter((fv) => fv.selected)
+      .map((fv) => fv.value);
 
     if (!facetValues.length && !selectedValues.length) return null;
 
     if (searchTerm.trim()) {
-      facetValues = facetValues.filter(option =>
+      facetValues = facetValues.filter((option) =>
         accentFold(option.value)
           .toLowerCase()
           .includes(accentFold(searchTerm).toLowerCase())
@@ -137,20 +137,20 @@ export class FacetContainer extends Component<
       className,
       label: label,
       onMoreClick: this.handleClickMore.bind(this, facetValues.length),
-      onRemove: value => {
+      onRemove: (value) => {
         removeFilter(field, value, filterType);
       },
-      onChange: value => {
+      onChange: (value) => {
         setFilter(field, value, filterType);
       },
-      onSelect: value => {
+      onSelect: (value) => {
         addFilter(field, value, filterType);
       },
       options: facetValues.slice(0, more),
       showMore: facetValues.length > more,
       values: selectedValues,
       showSearch: isFilterable,
-      onSearch: value => {
+      onSearch: (value) => {
         this.handleFacetSearch(value);
       },
       searchPlaceholder: `Filter ${field}`,
@@ -161,14 +161,13 @@ export class FacetContainer extends Component<
   }
 }
 
-export default withSearch<
-  FacetContainerContextProps,
-  FacetContainerContextProps
->(({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
-  filters,
-  facets,
-  addFilter,
-  removeFilter,
-  setFilter,
-  a11yNotify
-}))(FacetContainer);
+export default withSearch<FacetContainerProps, FacetContainerContextProps>(
+  ({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
+    filters,
+    facets,
+    addFilter,
+    removeFilter,
+    setFilter,
+    a11yNotify
+  })
+)(FacetContainer);

@@ -84,14 +84,14 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     });
   };
 
-  completeSuggestion = searchTerm => {
+  completeSuggestion = (searchTerm) => {
     const { shouldClearFilters, setSearchTerm } = this.props;
     setSearchTerm(searchTerm, {
       shouldClearFilters
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     const { shouldClearFilters, searchTerm, setSearchTerm } = this.props;
 
     e.preventDefault();
@@ -100,7 +100,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     });
   };
 
-  handleChange = value => {
+  handleChange = (value) => {
     const {
       autocompleteMinimumCharacters,
       autocompleteResults,
@@ -127,28 +127,34 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     setSearchTerm(value, options);
   };
 
-  handleNotifyAutocompleteSelected = selection => {
+  handleNotifyAutocompleteSelected = (selection) => {
     const { autocompleteResults, trackAutocompleteClickThrough } = this.props;
     // Because suggestions don't count as clickthroughs, only
     // results
-    if (
-      autocompleteResults &&
-      autocompleteResults.shouldTrackClickThrough !== false &&
-      !selection.suggestion
-    ) {
-      const { clickThroughTags = [] } = autocompleteResults;
-      const id = selection.id.raw;
-      trackAutocompleteClickThrough(id, clickThroughTags);
+    if (autocompleteResults) {
+      const autocompleteResultsConfig =
+        autocompleteResults === true
+          ? { clickThroughTags: [], shouldTrackClickThrough: true }
+          : autocompleteResults;
+
+      if (
+        !selection.suggestion &&
+        autocompleteResultsConfig.shouldTrackClickThrough !== false
+      ) {
+        const { clickThroughTags = [] } = autocompleteResultsConfig;
+        const id = selection.id.raw;
+        trackAutocompleteClickThrough(id, clickThroughTags);
+      }
     }
   };
 
-  defaultOnSelectAutocomplete = selection => {
+  defaultOnSelectAutocomplete = (selection) => {
     if (!selection) return;
 
     const { autocompleteResults } = this.props;
 
     this.handleNotifyAutocompleteSelected(selection);
-    if (!selection.suggestion) {
+    if (!selection.suggestion && typeof autocompleteResults !== "boolean") {
       const url = selection[autocompleteResults.urlField]
         ? selection[autocompleteResults.urlField].raw
         : "";
@@ -193,7 +199,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
 
     let handleOnSelectAutocomplete;
     if (onSelectAutocomplete) {
-      handleOnSelectAutocomplete = selection => {
+      handleOnSelectAutocomplete = (selection) => {
         onSelectAutocomplete(
           selection,
           {
@@ -218,11 +224,11 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
       completeSuggestion: this.completeSuggestion,
       isFocused: isFocused,
       notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
-      onChange: value => this.handleChange(value),
+      onChange: (value) => this.handleChange(value),
       onSelectAutocomplete:
         handleOnSelectAutocomplete || this.defaultOnSelectAutocomplete,
       onSubmit: onSubmit
-        ? e => {
+        ? (e) => {
             e.preventDefault();
             onSubmit(searchTerm);
           }
