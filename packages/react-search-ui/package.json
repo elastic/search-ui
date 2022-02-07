@@ -3,7 +3,7 @@
   "version": "1.9.0",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
-  "main": "lib",
+  "main": "lib/cjs",
   "module": "es",
   "sideEffects": false,
   "directories": {
