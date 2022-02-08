@@ -2,11 +2,20 @@ import type {
   RequestState,
   Filter,
   SortDirection,
-  SortOption
+  SortOption,
+  FilterValue,
+  FilterValueRange
 } from "@elastic/search-ui";
 
-function removeName(v: any) {
-  if (v && v.name) {
+// Using type predicates https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+function isFilterValueRange(
+  filterValue: FilterValue
+): filterValue is FilterValueRange {
+  return (filterValue as FilterValueRange).name !== undefined;
+}
+
+function removeName(v: FilterValue) {
+  if (isFilterValueRange(v)) {
     // eslint-disable-next-line
     const { name, ...rest } = v;
     return {
