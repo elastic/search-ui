@@ -1,12 +1,13 @@
 import React from "react";
 import Sorting from "../Sorting";
 import { shallow } from "enzyme";
+import { SortingViewProps } from "@elastic/react-search-ui";
 
-const requiredProps = {
-  onChange: () => {},
+const requiredProps: SortingViewProps = {
+  onChange: jest.fn(),
   options: [
-    { name: "Name ASC", value: "name|||asc" },
-    { name: "Name DESC", value: "name|||desc" }
+    { label: "Name ASC", value: "name|||asc" },
+    { label: "Name DESC", value: "name|||desc" }
   ]
 };
 

@@ -60,10 +60,10 @@ function Result({
 }: ResultViewProps) {
   const fields = getEscapedFields(result);
   const title = getEscapedField(result, titleField);
-  const url = getUrlSanitizer(URL, location)(getRaw(result, urlField));
+  const url = getUrlSanitizer(URL, location.href)(getRaw(result, urlField));
   const thumbnail = getUrlSanitizer(
     URL,
-    location
+    location.href
   )(getRaw(result, thumbnailField));
 
   return (

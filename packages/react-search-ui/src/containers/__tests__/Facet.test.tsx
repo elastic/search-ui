@@ -1,5 +1,5 @@
 import React from "react";
-import { FacetContainer, FacetContainerViewProps } from "../Facet";
+import { FacetContainer, FacetViewProps } from "../Facet";
 import { shallow, ShallowWrapper } from "enzyme";
 import { Filter } from "@elastic/search-ui";
 
@@ -231,7 +231,7 @@ describe("show more", () => {
 it("will add a filter when a facet value is selected with onSelect", () => {
   const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
 
-  wrapper.find<FacetContainerViewProps>(View).prop("onSelect")("field1value2");
+  wrapper.find<FacetViewProps>(View).prop("onSelect")("field1value2");
 
   const [fieldName, fieldValue, filterType] = params.addFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
@@ -242,7 +242,7 @@ it("will add a filter when a facet value is selected with onSelect", () => {
 it("will overwrite a filter when a facet value is selected with onChange", () => {
   const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
 
-  wrapper.find<FacetContainerViewProps>(View).prop("onChange")("field1value2");
+  wrapper.find<FacetViewProps>(View).prop("onChange")("field1value2");
 
   const [fieldName, fieldValue, filterType] = params.setFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
@@ -253,7 +253,7 @@ it("will overwrite a filter when a facet value is selected with onChange", () =>
 it("will remove a filter when a facet value removed", () => {
   const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
 
-  wrapper.find<FacetContainerViewProps>(View).prop("onRemove")("field1value2");
+  wrapper.find<FacetViewProps>(View).prop("onRemove")("field1value2");
 
   const [fieldName, fieldValue, filterType] = params.removeFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
@@ -264,7 +264,7 @@ it("will remove a filter when a facet value removed", () => {
 it("will remove a filter when a facet value removed, defaulting filterType to all", () => {
   const wrapper = shallow(<FacetContainer {...params} />);
 
-  wrapper.find<FacetContainerViewProps>(View).prop("onRemove")("field1value2");
+  wrapper.find<FacetViewProps>(View).prop("onRemove")("field1value2");
 
   const [fieldName, fieldValue, filterType] = params.removeFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
@@ -343,10 +343,10 @@ describe("search facets", () => {
 
   describe("after a search is performed", () => {
     it("should match Facet options with/without accented characters", () => {
-      wrapper.find<FacetContainerViewProps>(View).prop("onSearch")("ra");
+      wrapper.find<FacetViewProps>(View).prop("onSearch")("ra");
 
       const filteredOptions = wrapper
-        .find<FacetContainerViewProps>(View)
+        .find<FacetViewProps>(View)
         .prop("options");
 
       expect(filteredOptions.length).toEqual(2);
@@ -365,10 +365,10 @@ describe("search facets", () => {
       const wrapper = subject({}, data);
 
       // action => lowercase
-      wrapper.find<FacetContainerViewProps>(View).prop("onSearch")("app");
+      wrapper.find<FacetViewProps>(View).prop("onSearch")("app");
 
       const options1 = wrapper
-        .find<FacetContainerViewProps>(View)
+        .find<FacetViewProps>(View)
         .prop("options");
 
       expect(options1.length).toEqual(2);
@@ -378,10 +378,10 @@ describe("search facets", () => {
       ]);
 
       // action => uppercase
-      wrapper.find<FacetContainerViewProps>(View).prop("onSearch")("MENT");
+      wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
 
       const options2 = wrapper
-        .find<FacetContainerViewProps>(View)
+        .find<FacetViewProps>(View)
         .prop("options");
 
       expect(options1.length).toEqual(2);
@@ -392,10 +392,10 @@ describe("search facets", () => {
     });
 
     it("should not render Facet options if search value not matched", () => {
-      wrapper.find<FacetContainerViewProps>(View).prop("onSearch")("MENT");
+      wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
 
       expect(
-        wrapper.find<FacetContainerViewProps>(View).prop("options").length
+        wrapper.find<FacetViewProps>(View).prop("options").length
       ).toEqual(0);
     });
   });

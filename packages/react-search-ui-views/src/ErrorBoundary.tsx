@@ -8,7 +8,7 @@ function ErrorBoundary({
   className,
   error,
   ...rest
-}: ErrorBoundaryViewProps & React.HTMLAttributes<HTMLDivElement>) {
+}: ErrorBoundaryViewProps & React.HTMLAttributes<HTMLDivElement>): JSX.Element {
   if (error) {
     return (
       <div className={appendClassName("sui-search-error", className)} {...rest}>
@@ -17,7 +17,7 @@ function ErrorBoundary({
     );
   }
 
-  return children;
+  return <>{children}</>;
 }
 
 export default ErrorBoundary;

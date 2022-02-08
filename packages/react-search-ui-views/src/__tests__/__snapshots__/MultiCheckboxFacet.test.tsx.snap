@@ -195,56 +195,54 @@ exports[`renders range filters 1`] = `
   >
     <label
       className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A FacetfieldValue1"
-      key="fieldValue1"
+      htmlFor="example_facet_A FacetThe first option"
+      key="The first option"
     >
       <div
         className="sui-multi-checkbox-facet__option-input-wrapper"
       >
         <input
-          checked={false}
           className="sui-multi-checkbox-facet__checkbox"
-          id="example_facet_A FacetfieldValue1"
+          id="example_facet_A FacetThe first option"
           onChange={[Function]}
           type="checkbox"
         />
         <span
           className="sui-multi-checkbox-facet__input-text"
         >
-          fieldValue1
+          The first option
         </span>
       </div>
       <span
         className="sui-multi-checkbox-facet__option-count"
       >
-        10
+        1
       </span>
     </label>
     <label
       className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A FacetfieldValue2"
-      key="fieldValue2"
+      htmlFor="example_facet_A FacetThe second option"
+      key="The second option"
     >
       <div
         className="sui-multi-checkbox-facet__option-input-wrapper"
       >
         <input
-          checked={true}
           className="sui-multi-checkbox-facet__checkbox"
-          id="example_facet_A FacetfieldValue2"
+          id="example_facet_A FacetThe second option"
           onChange={[Function]}
           type="checkbox"
         />
         <span
           className="sui-multi-checkbox-facet__input-text"
         >
-          fieldValue2
+          The second option
         </span>
       </div>
       <span
         className="sui-multi-checkbox-facet__option-count"
       >
-        5
+        11
       </span>
     </label>
   </div>

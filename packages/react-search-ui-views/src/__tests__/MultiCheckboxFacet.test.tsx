@@ -1,13 +1,18 @@
 import React from "react";
 import MultiCheckboxFacet from "../MultiCheckboxFacet";
 import { shallow } from "enzyme";
+import { FacetViewProps } from "@elastic/react-search-ui/lib/cjs";
 
-const params = {
+const params: FacetViewProps = {
   label: "A Facet",
   onMoreClick: jest.fn(),
   onRemove: jest.fn(),
   onSelect: jest.fn(),
   onSearch: jest.fn(),
+  onChange: jest.fn(),
+  searchPlaceholder: "Search",
+  showSearch: false,
+  values: [],
   options: [
     {
       value: "fieldValue1",
@@ -75,7 +80,7 @@ it("renders falsey values correctly", () => {
 
 it("renders range filters", () => {
   const wrapper = shallow(
-    <MultiCheckboxFacet {...params} option={rangeOptions} />
+    <MultiCheckboxFacet {...params} options={rangeOptions} />
   );
   expect(wrapper).toMatchSnapshot();
 });

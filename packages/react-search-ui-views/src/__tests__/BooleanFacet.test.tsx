@@ -1,11 +1,18 @@
 import React from "react";
 import BooleanFacet from "../BooleanFacet";
 import { shallow, mount } from "enzyme";
+import { FacetViewProps } from "@elastic/react-search-ui";
 
-const params = {
+const params: FacetViewProps = {
   label: "A Facet",
   onRemove: jest.fn(),
   onChange: jest.fn(),
+  onMoreClick: jest.fn(),
+  onSearch: jest.fn(),
+  onSelect: jest.fn(),
+  searchPlaceholder: "Search",
+  showMore: false,
+  showSearch: false,
   options: [
     {
       value: "true",

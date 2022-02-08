@@ -3,7 +3,7 @@ import ResultsPerPage from "../ResultsPerPage";
 import { shallow } from "enzyme";
 
 const requiredProps = {
-  onChange: () => {},
+  onChange: () => ({}),
   options: [20, 40]
 };
 

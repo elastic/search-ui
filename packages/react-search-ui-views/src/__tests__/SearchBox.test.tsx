@@ -1,17 +1,28 @@
 import React from "react";
 import SearchBox from "../SearchBox";
+import SearchInput from "../SearchInput";
 import { shallow } from "enzyme";
+import { SearchBoxViewProps } from "@elastic/react-search-ui";
 
-const requiredProps = {
-  completeSuggestion: () => {},
-  onChange: () => {},
-  onSubmit: () => {},
+const requiredProps: SearchBoxViewProps = {
+  completeSuggestion: () => ({}),
+  onChange: () => ({}),
+  onSubmit: () => ({}),
   allAutocompletedItemsCount: 0,
   autocompletedResults: [],
   autocompletedSuggestions: {},
   autocompletedSuggestionsCount: 0,
-  notifyAutocompleteSelected: () => {},
-  value: "test"
+  notifyAutocompleteSelected: () => ({}),
+  value: "test",
+  inputProps: {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onFocus: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onBlur: () => {}
+  },
+  isFocused: false,
+  onSelectAutocomplete: jest.fn(),
+  useAutocomplete: true
 };
 
 it("renders correctly", () => {
@@ -21,24 +32,35 @@ it("renders correctly", () => {
 
 it("applies 'focused' class when `isFocused` is true", () => {
   const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
-  const downshift = wrapper.dive("Downshift").find("SearchInput").shallow();
+  const downshift = wrapper
+    .find("Downshift")
+    .dive()
+    .find("SearchInput")
+    .shallow();
   const input = downshift.find(".sui-search-box__text-input");
   expect(input.hasClass("focus")).toBe(true);
 });
 
 it("passes through downshiftProps", () => {
   const wrapper = shallow(
-    <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
+    <SearchBox
+      {...requiredProps}
+      inputProps={{
+        placeholder: "test",
+        onBlur: jest.fn(),
+        onFocus: jest.fn()
+      }}
+    />
   );
-  const SearchInput = wrapper.dive("Downshift").find("SearchInput");
-  expect(SearchInput.props().clearSelection).toBeInstanceOf(Function);
+  const si = wrapper.find("Downshift").dive().find(SearchInput);
+  expect((si.props() as any).clearSelection).toBeInstanceOf(Function);
 });
 
 it("passes through inputProps", () => {
   const wrapper = shallow(
     <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
   );
-  const downshift = wrapper.dive("Downshift").find("SearchInput").shallow();
+  const downshift = wrapper.dive().find("SearchInput").shallow();
   const input = downshift.find(".sui-search-box__text-input");
   expect(input.props().placeholder).toBe("test");
 });
@@ -59,7 +81,7 @@ it("applies className from inputProps to input element", () => {
     <SearchBox {...requiredProps} inputProps={{ className: customClassName }} />
   );
 
-  const downshift = wrapper.dive("Downshift").find("SearchInput").shallow();
+  const downshift = wrapper.dive().find("SearchInput").shallow();
   const input = downshift.find(".sui-search-box__text-input");
   expect(input.props().className).toBe("sui-search-box__text-input test-class");
 });
@@ -93,19 +115,9 @@ describe("inputView prop", () => {
       />
     );
 
-    input = wrapper
-      .dive("Downshift")
-      .find("inputView")
-      .shallow()
-      .find("input")
-      .at(0);
+    input = wrapper.dive().find("inputView").shallow().find("input").at(0);
 
-    button = wrapper
-      .dive("Downshift")
-      .find("inputView")
-      .shallow()
-      .find("input")
-      .at(1);
+    button = wrapper.dive().find("inputView").shallow().find("input").at(1);
   }
 
   it("will render a custom view just for the input section", () => {

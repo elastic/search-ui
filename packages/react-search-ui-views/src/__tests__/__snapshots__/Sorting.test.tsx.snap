@@ -15,11 +15,11 @@ exports[`renders correctly when there is a value 1`] = `
     options={
       Array [
         Object {
-          "name": "Name ASC",
+          "label": "Name ASC",
           "value": "name|||asc",
         },
         Object {
-          "name": "Name DESC",
+          "label": "Name DESC",
           "value": "name|||desc",
         },
       ]
@@ -34,7 +34,7 @@ exports[`renders correctly when there is a value 1`] = `
     }
     value={
       Object {
-        "name": "Name DESC",
+        "label": "Name DESC",
         "value": "name|||desc",
       }
     }
@@ -57,11 +57,11 @@ exports[`renders correctly when there is not a value 1`] = `
     options={
       Array [
         Object {
-          "name": "Name ASC",
+          "label": "Name ASC",
           "value": "name|||asc",
         },
         Object {
-          "name": "Name DESC",
+          "label": "Name DESC",
           "value": "name|||desc",
         },
       ]

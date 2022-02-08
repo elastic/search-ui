@@ -18,8 +18,7 @@ export class ErrorBoundaryContainer extends Component<ErrorBoundaryContainerProp
   render() {
     const { children, className, error, view, ...rest } = this.props;
 
-    const View: React.ComponentType<ErrorBoundaryViewProps> =
-      view || ErrorBoundary;
+    const View = view || ErrorBoundary;
 
     const viewProps = {
       className,

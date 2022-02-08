@@ -105,16 +105,16 @@ function Autocomplete({
           )}
         {!!autocompleteResults &&
           !!autocompletedResults &&
-          typeof autocompleteResults !== "boolean" &&
           autocompletedResults.length > 0 && (
             <ul className="sui-search-box__results-list">
               {autocompletedResults.map((result) => {
                 index++;
-                const titleSnippet = getSnippet(
-                  result,
-                  autocompleteResults.titleField
-                );
-                const titleRaw = getRaw(result, autocompleteResults.titleField);
+                const titleField =
+                  typeof autocompleteResults === "boolean"
+                    ? null
+                    : autocompleteResults.titleField;
+                const titleSnippet = getSnippet(result, titleField);
+                const titleRaw = getRaw(result, titleField);
                 return (
                   <li
                     {...getItemProps({

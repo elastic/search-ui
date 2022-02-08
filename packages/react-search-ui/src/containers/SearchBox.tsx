@@ -23,21 +23,21 @@ export type SearchBoxAutocompleteViewProps = {
   allAutocompletedItemsCount: number;
   autocompleteResults?: boolean | AutocompleteResult;
   autocompletedResults: AutocompletedResult[];
-  autocompletedSuggestions: AutocompletedSuggestion[];
+  autocompletedSuggestions: AutocompletedSuggestion;
   autocompletedSuggestionsCount: number;
   autocompleteSuggestions?: boolean | AutocompleteSuggestion;
   getItemProps: ({
     key: string,
     index: number,
     item: AutocompletedSuggestion
-  }) => Record<string, any>;
-  getMenuProps: ({ className: string }) => Record<string, any>;
+  }) => any;
+  getMenuProps: ({ className: string }) => any;
   className?: string;
 };
 export type InputViewProps = {
   getAutocomplete: () => JSX.Element;
-  getButtonProps: () => Record<string, any>;
-  getInputProps: () => Record<string, any>;
+  getButtonProps: (additionalProps?: any) => any;
+  getInputProps: (additionalProps?: any) => any;
 };
 
 type SearchBoxContainerProps = BaseContainerProps &
@@ -52,7 +52,7 @@ type SearchBoxContainerProps = BaseContainerProps &
       | Record<string, { sectionTitle: string }>;
     shouldClearFilters?: boolean;
     debounceLength?: number;
-    inputProps?: Record<string, any>;
+    inputProps?: any;
     onSelectAutocomplete?: any;
     onSubmit?: (searchTerm: string) => void;
     searchAsYouType?: boolean;
@@ -79,10 +79,7 @@ export type SearchBoxViewProps = BaseContainerProps &
     onSubmit: (e: FormEvent) => void;
     useAutocomplete: boolean;
     value: string;
-    inputProps: {
-      onFocus: () => void;
-      onBlur: () => void;
-    } & Record<string, any>;
+    inputProps: any;
   };
 
 export class SearchBoxContainer extends Component<SearchBoxContainerProps> {

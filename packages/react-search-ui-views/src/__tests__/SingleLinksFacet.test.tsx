@@ -1,15 +1,23 @@
 import React from "react";
 import SingleLinksFacet from "../SingleLinksFacet";
 import { shallow } from "enzyme";
+import { FacetViewProps } from "@elastic/react-search-ui";
 
-const params = {
+const params: FacetViewProps = {
   label: "Facet",
-  onRemove: () => {},
-  onSelect: () => {},
+  onRemove: jest.fn(),
+  onSelect: jest.fn(),
   options: [
     { value: "1", count: 1, selected: false },
     { value: "2", count: 1, selected: false }
-  ]
+  ],
+  onChange: jest.fn(),
+  onMoreClick: jest.fn(),
+  onSearch: jest.fn(),
+  searchPlaceholder: "Search",
+  showMore: false,
+  showSearch: false,
+  values: []
 };
 
 it("renders correctly", () => {

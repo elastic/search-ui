@@ -1,6 +1,7 @@
 import React from "react";
 import Result from "../Result";
 import { shallow } from "enzyme";
+import { ResultViewProps } from "@elastic/react-search-ui";
 
 const TITLE_FIELD = "title";
 const URL_FIELD = "url";
@@ -8,9 +9,9 @@ const TITLE_RESULT_VALUE = "Title";
 const URL_RESULT_VALUE = "http://www.example.com";
 const ARBITRARY_FIELD = { _meta: "data" };
 
-const requiredProps = {
+const requiredProps: ResultViewProps = {
   result: { field: { raw: "value" } },
-  onClickLink: () => {}
+  onClickLink: () => ({})
 };
 
 it("renders correctly when there is not a URL or title", () => {

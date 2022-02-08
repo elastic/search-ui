@@ -1,10 +1,19 @@
 import React from "react";
 import SingleSelectFacet from "../SingleSelectFacet";
 import { shallow, render } from "enzyme";
+import { FacetViewProps } from "@elastic/react-search-ui";
 
-const params = {
+const params: FacetViewProps = {
   label: "A Facet",
   onChange: jest.fn(),
+  onRemove: jest.fn(),
+  onMoreClick: jest.fn(),
+  onSearch: jest.fn(),
+  onSelect: jest.fn(),
+  searchPlaceholder: "Search",
+  showMore: false,
+  showSearch: false,
+  values: [],
   options: [
     {
       count: 20,

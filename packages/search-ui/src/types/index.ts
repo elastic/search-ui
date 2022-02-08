@@ -28,7 +28,7 @@ export type FilterValue = FilterValueValue | FilterValueRange;
 export type FacetValue = {
   count: number;
   value: FilterValue;
-  selected: boolean;
+  selected?: boolean;
 };
 
 export type FacetType = "range" | "value";
@@ -122,10 +122,11 @@ export type QueryConfig = any;
 
 export type SearchResult = Record<
   string,
-  {
-    raw: string | number | boolean;
-    snippet: string | number | boolean;
-  }
+  | {
+      raw?: string | number | boolean;
+      snippet?: string | number | boolean;
+    }
+  | unknown
 >;
 // used for configuration
 export type AutocompleteResult = {
@@ -137,12 +138,13 @@ export type AutocompleteResult = {
   clickThroughTags?: string[];
 };
 
-export type AutocompleteSuggestion = Record<
-  string,
-  {
-    sectionTitle: string;
-  }
->;
+export type AutocompleteSuggestionFragment = {
+  sectionTitle: string;
+};
+
+export type AutocompleteSuggestion =
+  | Record<string, AutocompleteSuggestionFragment>
+  | AutocompleteSuggestionFragment;
 
 export type FieldResult = {
   raw?: string | number | boolean;
@@ -151,4 +153,10 @@ export type FieldResult = {
 
 export type AutocompletedResult = any | Record<string, FieldResult>;
 
-export type AutocompletedSuggestion = any | Record<string, FieldResult>;
+export type AutocompletedSuggestion = Record<
+  string,
+  {
+    highlight?: string;
+    suggestion?: string;
+  }[]
+>;

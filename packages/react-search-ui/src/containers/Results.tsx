@@ -27,14 +27,7 @@ type ResultsContainerProps = BaseContainerProps &
     shouldTrackClickThrough?: boolean;
   };
 
-export type ResultsViewProps = BaseContainerProps &
-  Pick<
-    ResultsContainerProps,
-    "results" | "titleField" | "urlField" | "thumbnailField"
-  > & {
-    key?: string;
-    onClickLink: () => void;
-  };
+export type ResultsViewProps = BaseContainerProps
 
 export class ResultsContainer extends Component<ResultsContainerProps> {
   static defaultProps = {
@@ -74,9 +67,7 @@ export class ResultsContainer extends Component<ResultsContainerProps> {
 
     const viewProps = {
       className,
-      children,
-      results,
-      ...rest
+      children
     };
 
     return <View {...viewProps} />;
