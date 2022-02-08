@@ -63,7 +63,7 @@ class AppSearchAPIConnector {
    * @param {string} endpointBase="" Overrides the base of the Swiftype API endpoint completely.
    */
 
-  client: any; // TODO: Update once the client TS definitions PR lands: https://github.com/elastic/app-search-node/pull/50
+  client: any;
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
