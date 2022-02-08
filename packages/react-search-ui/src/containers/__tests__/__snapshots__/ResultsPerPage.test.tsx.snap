@@ -9,7 +9,6 @@ exports[`renders the component with custom page options 1`] = `
       Object {},
     ]
   }
-  resultsPerPage={10}
   searchTerm="test"
 >
   <div
@@ -51,7 +50,12 @@ exports[`renders the component with custom page options 1`] = `
         "valueContainer": [Function],
       }
     }
-    value={null}
+    value={
+      Object {
+        "label": 10,
+        "value": 10,
+      }
+    }
   />
 </div>
 `;
@@ -60,7 +64,6 @@ exports[`renders when it doesn't have any results or a search term 1`] = `
 <div
   className="sui-results-per-page"
   results={Array []}
-  resultsPerPage={20}
   searchTerm=""
 >
   <div
@@ -102,7 +105,12 @@ exports[`renders when it doesn't have any results or a search term 1`] = `
         "valueContainer": [Function],
       }
     }
-    value={null}
+    value={
+      Object {
+        "label": 20,
+        "value": 20,
+      }
+    }
   />
 </div>
 `;

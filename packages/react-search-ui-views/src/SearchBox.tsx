@@ -1,9 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
 import Downshift from "downshift";
 
-import { Result } from "./types";
-import { Suggestion } from "./types";
 import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
@@ -117,48 +114,5 @@ function SearchBox(props: SearchBoxViewProps) {
     </Downshift>
   );
 }
-
-SearchBox.propTypes = {
-  // Provided by container
-  allAutocompletedItemsCount: PropTypes.number.isRequired,
-  autocompletedResults: PropTypes.arrayOf(Result).isRequired,
-  autocompletedSuggestions: PropTypes.objectOf(PropTypes.arrayOf(Suggestion))
-    .isRequired,
-  autocompletedSuggestionsCount: PropTypes.number.isRequired,
-  completeSuggestion: PropTypes.func.isRequired,
-  notifyAutocompleteSelected: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  autocompleteResults: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      titleField: PropTypes.string.isRequired,
-      urlField: PropTypes.string.isRequired,
-      linkTarget: PropTypes.string,
-      sectionTitle: PropTypes.string
-    })
-  ]),
-  autocompleteView: PropTypes.func,
-  autocompleteSuggestions: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.exact({
-      sectionTitle: PropTypes.string
-    }),
-    PropTypes.objectOf(
-      PropTypes.exact({
-        sectionTitle: PropTypes.string
-      })
-    )
-  ]),
-  className: PropTypes.string,
-  inputProps: PropTypes.object,
-  inputView: PropTypes.func,
-  isFocused: PropTypes.bool,
-  useAutocomplete: PropTypes.bool,
-
-  // Specific configuration for this view only
-  onSelectAutocomplete: PropTypes.func
-};
 
 export default SearchBox;

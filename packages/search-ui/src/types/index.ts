@@ -120,14 +120,14 @@ export type APIConnector = any;
 // is QueryConfig the same as SearchQuery?
 export type QueryConfig = any;
 
-export type SearchResult = Record<
-  string,
-  | {
-      raw?: string | number | boolean;
-      snippet?: string | number | boolean;
-    }
-  | unknown
->;
+export type ResultEntry = {
+  raw?: string | number | boolean;
+  snippet?: string | number | boolean;
+};
+
+// "any" type escape hatch due to arbitrary values may not follow the ResultEntry shape
+export type SearchResult = Record<string, ResultEntry | any>;
+
 // used for configuration
 export type AutocompleteResult = {
   titleField: string;
@@ -158,5 +158,6 @@ export type AutocompletedSuggestion = Record<
   {
     highlight?: string;
     suggestion?: string;
+    data?: any;
   }[]
 >;

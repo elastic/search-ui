@@ -1,8 +1,15 @@
 import React from "react";
 
 import { appendClassName, getUrlSanitizer } from "./view-helpers";
-import { isFieldValueWrapper } from "./types/FieldValueWrapper";
 import { ResultViewProps } from "@elastic/react-search-ui";
+
+function isFieldValueWrapper(object) {
+  return (
+    object &&
+    (Object.prototype.hasOwnProperty.call(object, "raw") ||
+      Object.prototype.hasOwnProperty.call(object, "snippet"))
+  );
+}
 
 function getFieldType(result, field, type) {
   if (result[field]) return result[field][type];

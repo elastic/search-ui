@@ -49,12 +49,12 @@ type SortingContainerContext = Pick<
 
 export type SortingViewProps = BaseContainerProps &
   Pick<SortingContainerProps, "label"> & {
-    onChange: (sortData: any) => void;
+    onChange: (sortData?: any) => void;
     options: {
       value: string;
       label: string;
     }[];
-    value?: string;
+    value: string;
   };
 
 type SortingContainerProps = BaseContainerProps &

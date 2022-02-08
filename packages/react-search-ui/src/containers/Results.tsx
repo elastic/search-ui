@@ -67,7 +67,8 @@ export class ResultsContainer extends Component<ResultsContainerProps> {
 
     const viewProps = {
       className,
-      children
+      children,
+      ...rest
     };
 
     return <View {...viewProps} />;

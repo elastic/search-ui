@@ -41,17 +41,6 @@
     "react": ">= 16.8.0 < 18",
     "react-dom": ">= 16.8.0 < 18"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(css)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "devDependencies": {
     "@types/enzyme": "^3.10.11",
     "@types/jest": "^27.4.0",

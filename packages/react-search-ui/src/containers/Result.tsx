@@ -61,12 +61,13 @@ export class ResultContainer extends Component<ResultContainerProps> {
       ...rest
     } = this.props;
     const View = view || Result;
+    const id = result.id.raw;
 
     const viewProps: ResultViewProps = {
       className,
       result: result,
-      key: `result-${result.id.raw}`,
-      onClickLink: () => this.handleClickLink(result.id.raw),
+      key: `result-${id}`,
+      onClickLink: () => this.handleClickLink(id),
       titleField,
       urlField,
       thumbnailField,
