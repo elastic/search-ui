@@ -11,6 +11,16 @@ import type {
   SuggestionsQueryConfig
 } from "@elastic/search-ui";
 
+export type AppSearchAPIConnectorParams = {
+  searchKey: string;
+  engineName: string;
+  hostIdentifier: string;
+  beforeSearchCall?: SearchQueryHook;
+  beforeAutocompleteResultsCall?: SearchQueryHook;
+  beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+  endpointBase?: string;
+};
+
 interface ResultClickParams {
   query: string;
   documentId: string;
@@ -81,15 +91,7 @@ class AppSearchAPIConnector {
       next(queryOptions),
     endpointBase = "",
     ...rest
-  }: {
-    searchKey: string;
-    engineName: string;
-    hostIdentifier: string;
-    beforeSearchCall?: SearchQueryHook;
-    beforeAutocompleteResultsCall?: SearchQueryHook;
-    beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
-    endpointBase?: string;
-  }) {
+  }: AppSearchAPIConnectorParams) {
     if (!engineName || !(hostIdentifier || endpointBase)) {
       throw Error(
         "hostIdentifier or endpointBase, and engineName are required"

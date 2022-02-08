@@ -1,5 +1,6 @@
 import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import AppSearchAPIConnector from "..";
+import type { AppSearchAPIConnectorParams } from "../AppSearchAPIConnector";
 
 jest.mock("@elastic/app-search-javascript");
 
@@ -64,7 +65,7 @@ const resultState = {
   requestId: "12345"
 };
 
-const params = {
+const params: AppSearchAPIConnectorParams = {
   engineName: "some-engine",
   hostIdentifier: "host-XXXX",
   searchKey: "search-XXXXX"
@@ -103,7 +104,7 @@ describe("AppSearchAPIConnector", () => {
   });
 
   it("can be initialized with endpointBase", () => {
-    const newParams: any = { ...params };
+    const newParams = { ...params };
     newParams.hostIdentifier = undefined;
     newParams.endpointBase = "http://localhost:3001";
 
@@ -120,12 +121,6 @@ describe("AppSearchAPIConnector", () => {
 
     const connector = new AppSearchAPIConnector(newParams);
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
-  });
-
-  it("will throw when missing required parameters", () => {
-    expect(() => {
-      new AppSearchAPIConnector({} as any);
-    }).toThrow();
   });
 
   describe("onResultClick", () => {
