@@ -6,7 +6,9 @@ import buildResponseAdapterOptions from "./buildResponseAdapterOptions";
 import type {
   QueryConfig,
   RequestState,
-  SearchState
+  SearchState,
+  AutocompleteQuery,
+  SuggestionsQueryConfig
 } from "@elastic/search-ui";
 
 interface ResultClickParams {
@@ -17,6 +19,12 @@ interface ResultClickParams {
 }
 
 type AutocompleteResultClickParams = ResultClickParams;
+
+type SearchQueryHook = (queryOptions: QueryConfig, next: any) => any;
+type SuggestionsQueryHook = (
+  queryOptions: SuggestionsQueryConfig,
+  next: any
+) => any;
 
 // The API will error out if empty facets or filters objects
 // are sent.
@@ -56,12 +64,9 @@ class AppSearchAPIConnector {
    */
 
   client: any; // TODO: Update once the client TS definitions PR lands: https://github.com/elastic/app-search-node/pull/50
-  beforeSearchCall: (queryOptions: QueryConfig, next: any) => any;
-  beforeAutocompleteResultsCall: (queryOptions: QueryConfig, next: any) => any;
-  beforeAutocompleteSuggestionsCall: (
-    queryOptions: QueryConfig,
-    next: any
-  ) => any;
+  beforeSearchCall?: SearchQueryHook;
+  beforeAutocompleteResultsCall?: SearchQueryHook;
+  beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
 
   /**
    * @param {Options} options
@@ -76,6 +81,14 @@ class AppSearchAPIConnector {
       next(queryOptions),
     endpointBase = "",
     ...rest
+  }: {
+    searchKey: string;
+    engineName: string;
+    hostIdentifier: string;
+    beforeSearchCall?: SearchQueryHook;
+    beforeAutocompleteResultsCall?: SearchQueryHook;
+    beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+    endpointBase?: string;
   }) {
     if (!engineName || !(hostIdentifier || endpointBase)) {
       throw Error(
@@ -155,7 +168,7 @@ class AppSearchAPIConnector {
 
   async onAutocomplete(
     { searchTerm }: RequestState,
-    queryConfig: QueryConfig
+    queryConfig: AutocompleteQuery
   ): Promise<SearchState> {
     const autocompletedState: any = {};
     const promises = [];

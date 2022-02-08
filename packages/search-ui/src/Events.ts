@@ -58,7 +58,7 @@ class Events {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public autocomplete: (
     query: { searchTerm: string },
-    queryConfig: QueryConfig
+    queryConfig: AutocompleteQuery
   ) => Promise<any>;
   public resultClick: () => void;
   public autocompleteResultClick: () => void;

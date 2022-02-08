@@ -2,7 +2,7 @@ import type { QueryConfig } from "@elastic/search-ui";
 
 export default function buildResponseAdapterOptions(config: QueryConfig = {}) {
   const additionalFacetValueFields = Object.entries(config.facets || {}).reduce(
-    (acc, [fieldName, facetConfig]: any) => {
+    (acc, [fieldName, facetConfig]) => {
       if (facetConfig.unit && facetConfig.center) {
         return {
           ...(acc || {}),
