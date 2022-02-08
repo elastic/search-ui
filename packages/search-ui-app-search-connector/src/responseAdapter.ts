@@ -1,11 +1,18 @@
+import type { Facet, FacetValue } from "@elastic/search-ui";
+
 function adaptation1AdaptFacetValue(
-  facetValue,
+  facetValue: FacetValue,
   additionalFacetValueFieldsForField = {}
 ) {
   const hasValue = Object.prototype.hasOwnProperty.call(facetValue, "value");
   const { count, value, ...rest } = facetValue;
   return {
     count,
+    // TODO: Looks like a bug.
+    // "value" type is
+    // FilterValue | { selected: boolean; }
+    // Doesn't look like { selected: boolean; } is the correct return type
+    // Also, when testing locally, the "selected" property never appears
     value: hasValue
       ? value
       : {
@@ -15,17 +22,21 @@ function adaptation1AdaptFacetValue(
   };
 }
 
-function adaptation2AddLabelToFacet(fieldName, facet) {
+// Should be facet: Facet, but this results in a type error, see description abouve
+function adaptation2AddLabelToFacet(fieldName: string, facet) {
   return {
     field: fieldName,
     ...facet
   };
 }
 
-function adaptFacets(facets, { additionalFacetValueFields = {} }) {
+function adaptFacets(
+  facets: { [key: string]: Facet[] },
+  { additionalFacetValueFields = {} }
+) {
   if (!facets || Object.keys(facets).length === 0) return facets;
 
-  return Object.entries(facets).reduce((acc, [fieldName, facet]: any) => {
+  return Object.entries(facets).reduce((acc, [fieldName, facet]) => {
     const adaptedFacet = facet.map((v) => {
       const { type, data, ...rest } = v;
       return adaptation2AddLabelToFacet(fieldName, {
@@ -44,7 +55,7 @@ function adaptFacets(facets, { additionalFacetValueFields = {} }) {
   }, {});
 }
 
-function limitTo100pages(totalPages) {
+function limitTo100pages(totalPages: number): number {
   // We limit this to 100 pages since App Search currently cannot page past 100 pages
   return Math.min(totalPages, 100);
 }
