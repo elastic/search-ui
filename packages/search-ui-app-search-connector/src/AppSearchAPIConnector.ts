@@ -30,8 +30,8 @@ interface ResultClickParams {
 
 type AutocompleteResultClickParams = ResultClickParams;
 
-type SearchQueryHook = (queryOptions: QueryConfig, next: any) => any;
-type SuggestionsQueryHook = (
+export type SearchQueryHook = (queryOptions: QueryConfig, next: any) => any;
+export type SuggestionsQueryHook = (
   queryOptions: SuggestionsQueryConfig,
   next: any
 ) => any;

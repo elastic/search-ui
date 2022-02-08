@@ -1,6 +1,16 @@
 import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import AppSearchAPIConnector from "..";
-import type { AppSearchAPIConnectorParams } from "../AppSearchAPIConnector";
+import type {
+  SearchQueryHook,
+  SuggestionsQueryHook,
+  AppSearchAPIConnectorParams
+} from "../AppSearchAPIConnector";
+import type {
+  QueryConfig,
+  SearchState,
+  AutocompleteQuery
+} from "@elastic/search-ui";
+import { DEFAULT_STATE } from "@elastic/search-ui";
 
 jest.mock("@elastic/app-search-javascript");
 
@@ -193,9 +203,9 @@ describe("AppSearchAPIConnector", () => {
 
   describe("onSearch", () => {
     function subject(
-      state: any = {},
-      queryConfig: any = {},
-      beforeSearchCall?: any
+      state?: SearchState,
+      queryConfig?: QueryConfig,
+      beforeSearchCall?: SearchQueryHook
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
@@ -214,6 +224,7 @@ describe("AppSearchAPIConnector", () => {
 
     it("will pass request state through to search endpoint", async () => {
       const state = {
+        ...DEFAULT_STATE,
         current: 2,
         resultsPerPage: 10,
         searchTerm: "searchTerm",
@@ -221,10 +232,10 @@ describe("AppSearchAPIConnector", () => {
           {
             field: "world_heritage_site",
             values: ["true"],
-            type: "all"
+            type: "all" as const
           }
         ],
-        sortDirection: "desc",
+        sortDirection: "desc" as const,
         sortField: "name"
       };
 
@@ -254,9 +265,7 @@ describe("AppSearchAPIConnector", () => {
     });
 
     it("will pass queryConfig to search endpoint", async () => {
-      const state = {
-        searchTerm: "searchTerm"
-      };
+      const state = { ...DEFAULT_STATE, searchTerm: "searchTerm" };
 
       const queryConfig = {
         facets: {
@@ -299,6 +308,7 @@ describe("AppSearchAPIConnector", () => {
 
     it("will not pass empty facets or filter state to search endpoint", async () => {
       const state = {
+        ...DEFAULT_STATE,
         searchTerm: "searchTerm",
         filters: [],
         facets: {}
@@ -319,21 +329,22 @@ describe("AppSearchAPIConnector", () => {
 
     it("will pass request parameter state provided to queryConfig, overriding the same value provided in state", async () => {
       const state = {
+        ...DEFAULT_STATE,
         searchTerm: "searchTerm",
         current: 1,
         resultsPerPage: 10,
-        sortDirection: "desc",
+        sortDirection: "desc" as const,
         sortField: "name",
         filters: [
           {
             field: "title",
-            type: "all",
+            type: "all" as const,
             values: ["Acadia", "Grand Canyon"]
           },
           {
             field: "world_heritage_site",
             values: ["true"],
-            type: "all"
+            type: "all" as const
           }
         ]
       };
@@ -341,13 +352,13 @@ describe("AppSearchAPIConnector", () => {
       const queryConfig = {
         current: 2,
         resultsPerPage: 5,
-        sortDirection: "asc",
+        sortDirection: "asc" as const,
         sortField: "title",
         filters: [
           {
             field: "date_made",
             values: ["yesterday"],
-            type: "all"
+            type: "all" as const
           }
         ]
       };
@@ -379,12 +390,13 @@ describe("AppSearchAPIConnector", () => {
 
     it("will use the beforeSearchCall parameter to amend option parameters to the search endpoint call", async () => {
       const state = {
+        ...DEFAULT_STATE,
         current: 2,
         searchTerm: "searchTerm"
       };
 
       const queryConfig = {
-        sortDirection: "desc",
+        sortDirection: "desc" as const,
         sortField: "name",
         resultsPerPage: 5
       };
@@ -417,12 +429,15 @@ describe("AppSearchAPIConnector", () => {
 
   describe("onAutocomplete", () => {
     function subject(
-      state: any = {},
-      queryConfig = {},
+      state?: SearchState,
+      queryConfig?: AutocompleteQuery,
       {
         beforeAutocompleteResultsCall,
         beforeAutocompleteSuggestionsCall
-      }: any = {}
+      }: {
+        beforeAutocompleteResultsCall?: SearchQueryHook;
+        beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+      } = {}
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
@@ -437,7 +452,7 @@ describe("AppSearchAPIConnector", () => {
 
     describe("when 'results' type is requested", () => {
       it("will return search state with autocompletedResults set", async () => {
-        const state = await subject({}, { results: {} });
+        const state = await subject({ ...DEFAULT_STATE }, { results: {} });
         expect(state).toEqual({
           autocompletedResults: resultState.results,
           autocompletedResultsRequestId: resultState.requestId
@@ -446,6 +461,7 @@ describe("AppSearchAPIConnector", () => {
 
       it("will pass searchTerm from state through to search endpoint", async () => {
         const state = {
+          ...DEFAULT_STATE,
           searchTerm: "searchTerm"
         };
 
@@ -459,6 +475,7 @@ describe("AppSearchAPIConnector", () => {
 
       it("will pass queryConfig to search endpoint", async () => {
         const state = {
+          ...DEFAULT_STATE,
           searchTerm: "searchTerm"
         };
 
@@ -493,6 +510,7 @@ describe("AppSearchAPIConnector", () => {
 
       it("will not pass empty facets or filter state to search endpoint", async () => {
         const state = {
+          ...DEFAULT_STATE,
           searchTerm: "searchTerm",
           filters: [],
           facets: {}
@@ -515,6 +533,7 @@ describe("AppSearchAPIConnector", () => {
 
       it("will pass request parameter state provided to queryConfig", async () => {
         const state = {
+          ...DEFAULT_STATE,
           searchTerm: "searchTerm"
         };
 
@@ -526,10 +545,10 @@ describe("AppSearchAPIConnector", () => {
               {
                 field: "world_heritage_site",
                 values: ["true"],
-                type: "all"
+                type: "all" as const
               }
             ],
-            sortDirection: "desc",
+            sortDirection: "desc" as const,
             sortField: "name"
           }
         };
@@ -562,7 +581,7 @@ describe("AppSearchAPIConnector", () => {
 
     describe("when 'suggestions' type is requested", () => {
       it("will return search state with autocompletedSuggestions set", async () => {
-        const state = await subject({}, { suggestions: {} });
+        const state = await subject({ ...DEFAULT_STATE }, { suggestions: {} });
         expect(state).toEqual({
           autocompletedSuggestions: resultsSuggestions.results,
           autocompletedSuggestionsRequestId: resultsSuggestions.meta.request_id
@@ -571,6 +590,7 @@ describe("AppSearchAPIConnector", () => {
 
       it("will pass searchTerm from state through to search endpoint", async () => {
         const state = {
+          ...DEFAULT_STATE,
           searchTerm: "searchTerm"
         };
 
@@ -582,6 +602,7 @@ describe("AppSearchAPIConnector", () => {
 
       it("will pass queryConfig to search endpoint", async () => {
         const state = {
+          ...DEFAULT_STATE,
           searchTerm: "searchTerm"
         };
 
@@ -589,7 +610,10 @@ describe("AppSearchAPIConnector", () => {
           suggestions: {
             types: {
               documents: {
-                fields: ["title"]
+                snippet: {
+                  size: 100,
+                  fallback: false
+                }
               }
             }
           }
@@ -601,7 +625,10 @@ describe("AppSearchAPIConnector", () => {
         expect(passedOptions).toEqual({
           types: {
             documents: {
-              fields: ["title"]
+              snippet: {
+                size: 100,
+                fallback: false
+              }
             }
           }
         });
@@ -610,7 +637,10 @@ describe("AppSearchAPIConnector", () => {
 
     describe("when 'results' and 'suggestions' type are both requested", () => {
       it("will return search state with autocompletedSuggestions and autocompletedResults set", async () => {
-        const state = await subject({}, { suggestions: {}, results: {} });
+        const state = await subject(
+          { ...DEFAULT_STATE },
+          { suggestions: {}, results: {} }
+        );
         expect(state).toEqual({
           autocompletedSuggestions: resultsSuggestions.results,
           autocompletedSuggestionsRequestId: resultsSuggestions.meta.request_id,
@@ -623,13 +653,14 @@ describe("AppSearchAPIConnector", () => {
     describe("beforeAutocompleteResultsCall", () => {
       it("will use the beforeAutocompleteResultsCall parameter to amend option parameters to the search endpoint call", async () => {
         const state = {
+          ...DEFAULT_STATE,
           current: 2,
           searchTerm: "searchTerm"
         };
 
         const queryConfig = {
           results: {
-            sortDirection: "desc",
+            sortDirection: "desc" as const,
             sortField: "name",
             resultsPerPage: 5
           }
@@ -663,9 +694,10 @@ describe("AppSearchAPIConnector", () => {
     describe("beforeAutocompleteSuggestionsCall", () => {
       it("will use the beforeAutocompleteSuggestionsCall parameter to amend option parameters to the search endpoint call", async () => {
         const state = {
+          ...DEFAULT_STATE,
           current: 2,
           searchTerm: "searchTerm",
-          sortDirection: "desc",
+          sortDirection: "desc" as const,
           sortField: "name"
         };
 
@@ -696,7 +728,7 @@ describe("AppSearchAPIConnector", () => {
         ]);
 
         await subject(
-          {},
+          { ...DEFAULT_STATE },
           { suggestions: {} },
           {
             beforeAutocompleteSuggestionsCall: (queryOptions, next) =>
@@ -714,7 +746,7 @@ describe("AppSearchAPIConnector", () => {
 
     describe("when no type is requested", () => {
       it("will return empty state", async () => {
-        const state = await subject({}, {});
+        const state = await subject({ ...DEFAULT_STATE }, {});
         expect(state).toEqual({});
       });
     });
