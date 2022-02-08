@@ -1,8 +1,17 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 import LayoutSidebar from "./LayoutSidebar";
 import { appendClassName } from "../view-helpers";
+
+interface LayoutProps {
+  className?: string;
+  children?: React.ReactNode;
+  header?: React.ReactNode;
+  bodyContent?: React.ReactNode;
+  bodyFooter?: React.ReactNode;
+  bodyHeader?: React.ReactNode;
+  sideContent?: React.ReactNode;
+}
 
 function Layout({
   className,
@@ -12,7 +21,7 @@ function Layout({
   bodyFooter,
   bodyHeader,
   sideContent
-}) {
+}: LayoutProps) {
   return (
     <div className={appendClassName("sui-layout", className)}>
       <div className="sui-layout-header">
@@ -37,15 +46,5 @@ function Layout({
     </div>
   );
 }
-
-Layout.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  header: PropTypes.node,
-  bodyContent: PropTypes.node,
-  bodyFooter: PropTypes.node,
-  bodyHeader: PropTypes.node,
-  sideContent: PropTypes.node
-};
 
 export default Layout;

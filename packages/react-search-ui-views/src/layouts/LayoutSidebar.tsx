@@ -1,14 +1,20 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 import { appendClassName } from "../view-helpers";
 
-class LayoutSidebar extends React.Component {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
+interface LayoutSidebarProps {
+  className: string;
+  children: React.ReactNode;
+}
 
+interface LayoutSidebarState {
+  isSidebarToggled: boolean;
+}
+
+class LayoutSidebar extends React.Component<
+  LayoutSidebarProps,
+  LayoutSidebarState
+> {
   constructor(props) {
     super(props);
     this.state = { isSidebarToggled: false };
