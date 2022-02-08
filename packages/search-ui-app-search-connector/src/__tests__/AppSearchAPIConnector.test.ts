@@ -204,7 +204,7 @@ describe("AppSearchAPIConnector", () => {
   describe("onSearch", () => {
     function subject(
       state?: SearchState,
-      queryConfig?: QueryConfig,
+      queryConfig: QueryConfig = {},
       beforeSearchCall?: SearchQueryHook
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
@@ -218,7 +218,7 @@ describe("AppSearchAPIConnector", () => {
     }
 
     it("will return updated search state", async () => {
-      const state = await subject();
+      const state = await subject({ ...DEFAULT_STATE });
       expect(state).toEqual(resultState);
     });
 
@@ -294,7 +294,10 @@ describe("AppSearchAPIConnector", () => {
             size: 30
           }
         },
-        page: {},
+        page: {
+          current: 1,
+          size: 20
+        },
         result_fields: {
           title: { raw: {}, snippet: { size: 20, fallback: true } }
         },
@@ -323,7 +326,10 @@ describe("AppSearchAPIConnector", () => {
       // eslint-disable-next-line no-unused-vars
       const [passedSearchTerm, passedOptions] = getLastSearchCall();
       expect(passedOptions).toEqual({
-        page: {}
+        page: {
+          current: 1,
+          size: 20
+        }
       });
     });
 
