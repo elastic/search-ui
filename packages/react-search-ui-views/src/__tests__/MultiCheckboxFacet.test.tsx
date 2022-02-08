@@ -1,7 +1,7 @@
 import React from "react";
 import MultiCheckboxFacet from "../MultiCheckboxFacet";
 import { shallow } from "enzyme";
-import { FacetViewProps } from "@elastic/react-search-ui/lib/cjs";
+import { FacetViewProps } from "@elastic/react-search-ui";
 
 const params: FacetViewProps = {
   label: "A Facet",
