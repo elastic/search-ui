@@ -31,7 +31,7 @@ function adaptation2AddLabelToFacet(fieldName: string, facet) {
 }
 
 function adaptFacets(
-  facets: { [key: string]: Facet[] },
+  facets: Record<string, Facet[]>,
   { additionalFacetValueFields = {} }
 ) {
   if (!facets || Object.keys(facets).length === 0) return facets;
