@@ -83,6 +83,7 @@ export type FieldConfiguration = {
     fallback?: boolean;
   };
   raw?: any;
+  fields?: string[];
 };
 
 // https://github.com/elastic/search-ui/blob/master/ADVANCED.md#configuring-autocomplete-queries

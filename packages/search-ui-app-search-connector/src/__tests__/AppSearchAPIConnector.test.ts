@@ -616,10 +616,7 @@ describe("AppSearchAPIConnector", () => {
           suggestions: {
             types: {
               documents: {
-                snippet: {
-                  size: 100,
-                  fallback: false
-                }
+                fields: ["title"]
               }
             }
           }
@@ -631,10 +628,7 @@ describe("AppSearchAPIConnector", () => {
         expect(passedOptions).toEqual({
           types: {
             documents: {
-              snippet: {
-                size: 100,
-                fallback: false
-              }
+              fields: ["title"]
             }
           }
         });
