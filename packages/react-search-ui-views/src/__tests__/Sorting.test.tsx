@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 import { SortingViewProps } from "../Sorting";
 
 const requiredProps: SortingViewProps = {
-  onChange: jest.fn().mockImplementation(() => {}),
+  onChange: jest.fn(),
   options: [
     { label: "Name ASC", value: "name|||asc" },
     { label: "Name DESC", value: "name|||desc" }

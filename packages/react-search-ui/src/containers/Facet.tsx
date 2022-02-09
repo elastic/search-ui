@@ -66,7 +66,7 @@ export class FacetContainer extends Component<
       setFilter,
       view,
       isFilterable,
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       a11yNotify,
       ...rest
     } = this.props;

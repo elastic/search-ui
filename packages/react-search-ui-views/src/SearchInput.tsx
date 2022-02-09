@@ -6,7 +6,6 @@ export type InputViewProps = {
   getInputProps: (additionalProps?: any) => any;
 };
 
-
 function SearchInput({
   getAutocomplete,
   getButtonProps,

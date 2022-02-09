@@ -23,7 +23,6 @@ export type PagingInfoContainerProps = BaseContainerProps &
     view?: React.ComponentType<PagingInfoViewProps>;
   };
 
-
 function PagingInfo({
   className,
   end,

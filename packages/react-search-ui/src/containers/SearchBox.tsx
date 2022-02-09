@@ -140,7 +140,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
       searchTerm.length >= autocompleteMinimumCharacters;
     const autocompletedSuggestionsCount = Object.entries(
       autocompletedSuggestions
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ).reduce((acc, [_, value]: [any, any]) => acc + value.length, 0);
     const allAutocompletedItemsCount =
       autocompletedSuggestionsCount + autocompletedResults.length;

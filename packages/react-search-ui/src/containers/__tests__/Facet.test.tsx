@@ -193,7 +193,9 @@ describe("show more", () => {
   describe("after a show more click", () => {
     beforeAll(() => {
       wrapper.find(View).prop("onMoreClick")();
+    });
 
+    it("a11yNotify to be called with more filters", () => {
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 15,
         showingAll: false
@@ -212,7 +214,9 @@ describe("show more", () => {
   describe("after more more show more click", () => {
     beforeAll(() => {
       wrapper.find(View).prop("onMoreClick")();
+    });
 
+    it("a11yNotify to be called with more filters", () => {
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 17,
         showingAll: true
@@ -368,9 +372,7 @@ describe("search facets", () => {
       // action => lowercase
       wrapper.find<FacetViewProps>(View).prop("onSearch")("app");
 
-      const options1 = wrapper
-        .find<FacetViewProps>(View)
-        .prop("options");
+      const options1 = wrapper.find<FacetViewProps>(View).prop("options");
 
       expect(options1.length).toEqual(2);
       expect(options1.map((opt) => opt.value)).toEqual([
@@ -381,9 +383,7 @@ describe("search facets", () => {
       // action => uppercase
       wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
 
-      const options2 = wrapper
-        .find<FacetViewProps>(View)
-        .prop("options");
+      const options2 = wrapper.find<FacetViewProps>(View).prop("options");
 
       expect(options1.length).toEqual(2);
       expect(options2.map((opt) => opt.value)).toEqual([
@@ -395,9 +395,9 @@ describe("search facets", () => {
     it("should not render Facet options if search value not matched", () => {
       wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
 
-      expect(
-        wrapper.find<FacetViewProps>(View).prop("options").length
-      ).toEqual(0);
+      expect(wrapper.find<FacetViewProps>(View).prop("options").length).toEqual(
+        0
+      );
     });
   });
 

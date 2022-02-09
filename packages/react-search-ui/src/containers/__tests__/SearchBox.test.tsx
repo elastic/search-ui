@@ -507,7 +507,7 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   ).dive();
 
   viewProps.onSubmit({
-    preventDefault: () => {}
+    preventDefault: jest.fn()
   });
 
   const call = params.setSearchTerm.mock.calls[0];
