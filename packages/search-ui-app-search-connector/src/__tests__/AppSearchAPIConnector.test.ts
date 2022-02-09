@@ -720,7 +720,7 @@ describe("AppSearchAPIConnector", () => {
         ) => {
           // Remove sort_direction and sort_field
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { sort, ...rest } = options as any; // TODO: Does the "sort" key every exist in the options?
+          const { sort, ...rest } = options as any; // TODO: Does the "sort" key ever exist in the options?
           return next({
             ...rest,
             // Add test
