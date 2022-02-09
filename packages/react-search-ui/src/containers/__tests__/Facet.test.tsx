@@ -191,11 +191,11 @@ describe("show more", () => {
   });
 
   describe("after a show more click", () => {
-    beforeAll(() => {
-      wrapper.find(View).prop("onMoreClick")();
-    });
+    // beforeAll(() => {
+    // });
 
     it("a11yNotify to be called with more filters", () => {
+      wrapper.find(View).prop("onMoreClick")();
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 15,
         showingAll: false
@@ -212,11 +212,8 @@ describe("show more", () => {
   });
 
   describe("after more more show more click", () => {
-    beforeAll(() => {
-      wrapper.find(View).prop("onMoreClick")();
-    });
-
     it("a11yNotify to be called with more filters", () => {
+      wrapper.find(View).prop("onMoreClick")();
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 17,
         showingAll: true
