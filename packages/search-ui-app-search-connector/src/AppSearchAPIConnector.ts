@@ -30,10 +30,13 @@ interface ResultClickParams {
 
 type AutocompleteResultClickParams = ResultClickParams;
 
-export type SearchQueryHook = (queryOptions: QueryConfig, next: any) => any;
+export type SearchQueryHook = (
+  queryOptions: QueryConfig,
+  next: (newQueryOptions: any) => any
+) => any;
 export type SuggestionsQueryHook = (
   queryOptions: SuggestionsQueryConfig,
-  next: any
+  next: (newQueryOptions: any) => any
 ) => any;
 
 // The API will error out if empty facets or filters objects
