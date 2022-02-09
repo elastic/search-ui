@@ -1,26 +1,12 @@
 import React from "react";
 
 import { withSearch } from "..";
-import { Paging } from "@elastic/react-search-ui-views";
-import { SearchContextState } from "../withSearch";
-import { BaseContainerProps, Rename } from "../types";
-
-type PagingContainerContext = Pick<
-  SearchContextState,
-  "current" | "resultsPerPage" | "totalPages" | "setCurrent"
->;
-
-export type PagingViewProps = Rename<
-  BaseContainerProps & PagingContainerContext,
-  {
-    setCurrent: "onChange";
-  }
->;
-
-type PagingContainerProps = BaseContainerProps &
-  PagingContainerContext & {
-    view?: React.ComponentType<PagingViewProps>;
-  };
+import {
+  Paging,
+  PagingContainerContext,
+  PagingContainerProps,
+  PagingViewProps
+} from "@elastic/react-search-ui-views";
 
 export function PagingContainer({
   className,

@@ -1,8 +1,30 @@
-import { ResultsPerPageViewProps } from "@elastic/react-search-ui";
+import { SearchContextState } from "@elastic/search-ui";
 import React from "react";
 import Select from "react-select";
+import { BaseContainerProps, Rename } from "./types";
 
 import { appendClassName } from "./view-helpers";
+
+export type ResultsPerPageContainerContext = Pick<
+  SearchContextState,
+  "resultsPerPage" | "setResultsPerPage"
+>;
+
+export type ResultsPerPageContainerProps = BaseContainerProps &
+  ResultsPerPageContainerContext & {
+    view?: React.ComponentType<ResultsPerPageViewProps>;
+    options?: number[];
+  };
+
+export type ResultsPerPageViewProps = BaseContainerProps &
+  Pick<ResultsPerPageContainerProps, "options"> &
+  Rename<
+    ResultsPerPageContainerContext,
+    {
+      setResultsPerPage: "onChange";
+      resultsPerPage: "value";
+    }
+  >;
 
 const setDefaultStyle = {
   option: () => ({}),

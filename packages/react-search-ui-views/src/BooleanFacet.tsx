@@ -1,5 +1,5 @@
 import React from "react";
-import { FacetViewProps } from "@elastic/react-search-ui";
+import { FacetViewProps } from "./Facet";
 
 import { appendClassName } from "./view-helpers";
 

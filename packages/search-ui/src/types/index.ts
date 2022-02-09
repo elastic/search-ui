@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { SearchDriverActions } from "..";
+
 export type SortOption = {
   field: string;
   direction: SortDirection;
@@ -161,3 +163,5 @@ export type AutocompletedSuggestion = Record<
     data?: any;
   }[]
 >;
+
+export type SearchContextState = SearchState & SearchDriverActions;

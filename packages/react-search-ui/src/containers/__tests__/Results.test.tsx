@@ -1,7 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ResultsContainer, ResultsViewProps } from "../Results";
-import { ResultViewProps } from "../Result";
+import { ResultsContainer } from "../Results";
+import {
+  ResultsViewProps,
+  ResultViewProps
+} from "@elastic/react-search-ui-views";
 
 const params = {
   results: [

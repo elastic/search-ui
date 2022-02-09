@@ -1,7 +1,33 @@
 import React from "react";
 
 import { appendClassName, getUrlSanitizer } from "./view-helpers";
-import { ResultViewProps } from "@elastic/react-search-ui";
+import { SearchContextState, SearchResult } from "@elastic/search-ui";
+import { BaseContainerProps } from "./types";
+
+export type ResultContainerContext = Pick<
+  SearchContextState,
+  "trackClickThrough"
+>;
+
+export type ResultContainerProps = BaseContainerProps &
+  ResultContainerContext & {
+    view?: React.ComponentType<ResultViewProps>;
+    clickThroughTags?: string[];
+    titleField?: string;
+    urlField?: string;
+    thumbnailField?: string;
+    result: SearchResult;
+    shouldTrackClickThrough?: boolean;
+  };
+
+export type ResultViewProps = BaseContainerProps &
+  Pick<
+    ResultContainerProps,
+    "result" | "titleField" | "urlField" | "thumbnailField"
+  > & {
+    key?: string;
+    onClickLink: () => void;
+  };
 
 function isFieldValueWrapper(object) {
   return (

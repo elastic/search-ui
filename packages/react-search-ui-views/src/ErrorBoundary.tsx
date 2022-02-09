@@ -1,7 +1,13 @@
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
-import { ErrorBoundaryViewProps } from "@elastic/react-search-ui";
+import { SearchContextState } from "@elastic/search-ui";
+import { BaseContainerProps } from "./types";
+
+export type ErrorBoundaryContainerContext = Pick<SearchContextState, "error">;
+
+export type ErrorBoundaryViewProps = BaseContainerProps &
+  ErrorBoundaryContainerContext;
 
 function ErrorBoundary({
   children,

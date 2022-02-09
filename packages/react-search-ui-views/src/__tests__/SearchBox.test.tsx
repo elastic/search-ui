@@ -2,7 +2,7 @@ import React from "react";
 import SearchBox from "../SearchBox";
 import SearchInput from "../SearchInput";
 import { shallow } from "enzyme";
-import { SearchBoxViewProps } from "@elastic/react-search-ui";
+import { SearchBoxViewProps } from "../SearchBox";
 
 const requiredProps: SearchBoxViewProps = {
   completeSuggestion: () => ({}),

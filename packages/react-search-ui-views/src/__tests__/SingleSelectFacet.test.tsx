@@ -1,7 +1,7 @@
 import React from "react";
 import SingleSelectFacet from "../SingleSelectFacet";
 import { shallow, render } from "enzyme";
-import { FacetViewProps } from "@elastic/react-search-ui";
+import { FacetViewProps } from "../Facet";
 
 const params: FacetViewProps = {
   label: "A Facet",

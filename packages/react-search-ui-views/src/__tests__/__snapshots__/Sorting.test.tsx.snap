@@ -74,7 +74,12 @@ exports[`renders correctly when there is not a value 1`] = `
         "option": [Function],
       }
     }
-    value={null}
+    value={
+      Object {
+        "label": "Name ASC",
+        "value": "name|||asc",
+      }
+    }
   />
 </div>
 `;

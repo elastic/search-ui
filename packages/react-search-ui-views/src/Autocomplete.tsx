@@ -1,7 +1,12 @@
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
-import { SearchBoxAutocompleteViewProps } from "@elastic/react-search-ui";
+import {
+  AutocompletedResult,
+  AutocompletedSuggestion,
+  AutocompleteResult,
+  AutocompleteSuggestion
+} from "@elastic/search-ui";
 
 function getRaw(result, value) {
   if (!result[value] || !result[value].raw) return;
@@ -25,6 +30,22 @@ function getSuggestionTitle(suggestionType, autocompleteSuggestions) {
     return autocompleteSuggestions[suggestionType].sectionTitle;
   }
 }
+
+export type SearchBoxAutocompleteViewProps = {
+  allAutocompletedItemsCount: number;
+  autocompleteResults?: boolean | AutocompleteResult;
+  autocompletedResults: AutocompletedResult[];
+  autocompletedSuggestions: AutocompletedSuggestion;
+  autocompletedSuggestionsCount: number;
+  autocompleteSuggestions?: boolean | AutocompleteSuggestion;
+  getItemProps: ({
+    key: string,
+    index: number,
+    item: AutocompletedSuggestion
+  }) => any;
+  getMenuProps: ({ className: string }) => any;
+  className?: string;
+};
 
 function Autocomplete({
   autocompleteResults,

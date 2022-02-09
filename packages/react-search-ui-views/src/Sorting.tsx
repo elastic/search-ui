@@ -1,6 +1,7 @@
-import { SortingViewProps } from "@elastic/react-search-ui";
+import { SearchContextState } from "@elastic/search-ui";
 import React from "react";
 import Select from "react-select";
+import { BaseContainerProps } from "./types";
 
 import { appendClassName } from "./view-helpers";
 
@@ -10,6 +11,28 @@ const setDefaultStyle = {
   dropdownIndicator: () => ({}),
   indicatorSeparator: () => ({})
 };
+
+export type SortingContainerContext = Pick<
+  SearchContextState,
+  "sortDirection" | "sortField" | "sortList" | "setSort"
+>;
+
+export type SortingViewProps = BaseContainerProps &
+  Pick<SortingContainerProps, "label"> & {
+    onChange: (sortData?: any) => void;
+    options: {
+      value: string;
+      label: string;
+    }[];
+    value: string;
+  };
+
+export type SortingContainerProps = BaseContainerProps &
+  SortingContainerContext & {
+    view?: React.ComponentType<SortingViewProps>;
+    label?: string;
+    sortOptions: any;
+  };
 
 function Sorting({
   className,

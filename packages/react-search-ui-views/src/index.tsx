@@ -13,3 +13,4 @@ export { default as SingleSelectFacet } from "./SingleSelectFacet";
 export { default as SingleLinksFacet } from "./SingleLinksFacet";
 export { default as Sorting } from "./Sorting";
 export { Layout } from "./layouts";
+export * from "./types";

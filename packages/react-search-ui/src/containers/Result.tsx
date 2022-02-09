@@ -1,33 +1,13 @@
 import React from "react";
 import { Component } from "react";
-import { Result } from "@elastic/react-search-ui-views";
+import {
+  Result,
+  ResultContainerProps,
+  ResultContainerContext,
+  ResultViewProps
+} from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
-import { BaseContainerProps } from "../types";
-import { SearchContextState } from "../withSearch";
-import { SearchResult } from "@elastic/search-ui";
-
-type ResultContainerContext = Pick<SearchContextState, "trackClickThrough">;
-
-type ResultContainerProps = BaseContainerProps &
-  ResultContainerContext & {
-    view?: React.ComponentType<ResultViewProps>;
-    clickThroughTags?: string[];
-    titleField?: string;
-    urlField?: string;
-    thumbnailField?: string;
-    result: SearchResult;
-    shouldTrackClickThrough?: boolean;
-  };
-
-export type ResultViewProps = BaseContainerProps &
-  Pick<
-    ResultContainerProps,
-    "result" | "titleField" | "urlField" | "thumbnailField"
-  > & {
-    key?: string;
-    onClickLink: () => void;
-  };
 
 export class ResultContainer extends Component<ResultContainerProps> {
   static defaultProps = {

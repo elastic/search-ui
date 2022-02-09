@@ -1,5 +1,11 @@
-import { InputViewProps } from "@elastic/react-search-ui";
 import React from "react";
+
+export type InputViewProps = {
+  getAutocomplete: () => JSX.Element;
+  getButtonProps: (additionalProps?: any) => any;
+  getInputProps: (additionalProps?: any) => any;
+};
+
 
 function SearchInput({
   getAutocomplete,

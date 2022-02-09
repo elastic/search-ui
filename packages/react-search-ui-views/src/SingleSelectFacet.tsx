@@ -1,8 +1,8 @@
-import { FacetViewProps } from "@elastic/react-search-ui";
 import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
 
+import { FacetViewProps } from "./Facet";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 

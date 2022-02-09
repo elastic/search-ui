@@ -1,7 +1,7 @@
 import React from "react";
 import Paging from "../Paging";
 import { shallow } from "enzyme";
-import { PagingViewProps } from "@elastic/react-search-ui";
+import { PagingViewProps } from "../Paging";
 
 const params = {
   current: 1,

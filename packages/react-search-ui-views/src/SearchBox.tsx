@@ -1,11 +1,67 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import Downshift from "downshift";
 
 import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
-import { SearchBoxViewProps } from "@elastic/react-search-ui";
+import { AutocompleteResult, SearchContextState } from "@elastic/search-ui";
+import {
+  BaseContainerProps,
+  SearchBoxAutocompleteViewProps,
+  InputViewProps
+} from "./types";
+
+export type SearchBoxContainerContext = Pick<
+  SearchContextState,
+  | "autocompletedResults"
+  | "autocompletedSuggestions"
+  | "searchTerm"
+  | "setSearchTerm"
+  | "trackAutocompleteClickThrough"
+>;
+
+export type SearchBoxContainerProps = BaseContainerProps &
+  SearchBoxContainerContext & {
+    view?: React.ComponentType<SearchBoxViewProps>;
+    autocompleteView?: React.ComponentType<SearchBoxAutocompleteViewProps>;
+    inputView?: React.ComponentType<InputViewProps>;
+    autocompleteMinimumCharacters?: number;
+    autocompleteResults?: AutocompleteResult | boolean;
+    autocompleteSuggestions?:
+      | boolean
+      | Record<string, { sectionTitle: string }>;
+    shouldClearFilters?: boolean;
+    debounceLength?: number;
+    inputProps?: any;
+    onSelectAutocomplete?: any;
+    onSubmit?: (searchTerm: string) => void;
+    searchAsYouType?: boolean;
+  };
+
+export type SearchBoxViewProps = BaseContainerProps &
+  Pick<
+    SearchBoxContainerProps,
+    | "autocompleteView"
+    | "inputView"
+    | "autocompleteSuggestions"
+    | "autocompleteResults"
+    | "autocompleteSuggestions"
+    | "autocompletedResults"
+    | "autocompletedSuggestions"
+  > & {
+    allAutocompletedItemsCount: number;
+    autocompletedSuggestionsCount: any;
+    completeSuggestion: (searchQuery: string) => void;
+    isFocused: boolean;
+    notifyAutocompleteSelected: (selection: any) => void;
+    onChange: (value: string) => void;
+    onSelectAutocomplete: any;
+    onSubmit: (e: FormEvent) => void;
+    useAutocomplete: boolean;
+    value: string;
+    inputProps: any;
+  };
 
 function SearchBox(props: SearchBoxViewProps) {
   const {

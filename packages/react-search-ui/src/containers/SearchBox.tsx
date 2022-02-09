@@ -1,86 +1,11 @@
-import React, { Component, FormEvent } from "react";
-import { SearchBox } from "@elastic/react-search-ui-views";
+import React, { Component } from "react";
+import {
+  SearchBox,
+  SearchBoxContainerProps,
+  SearchBoxContainerContext
+} from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
-import { SearchContextState } from "../withSearch";
-import { BaseContainerProps } from "../types";
-import {
-  AutocompleteResult,
-  AutocompletedResult,
-  AutocompletedSuggestion,
-  AutocompleteSuggestion
-} from "@elastic/search-ui";
-
-type SearchBoxContainerContext = Pick<
-  SearchContextState,
-  | "autocompletedResults"
-  | "autocompletedSuggestions"
-  | "searchTerm"
-  | "setSearchTerm"
-  | "trackAutocompleteClickThrough"
->;
-export type SearchBoxAutocompleteViewProps = {
-  allAutocompletedItemsCount: number;
-  autocompleteResults?: boolean | AutocompleteResult;
-  autocompletedResults: AutocompletedResult[];
-  autocompletedSuggestions: AutocompletedSuggestion;
-  autocompletedSuggestionsCount: number;
-  autocompleteSuggestions?: boolean | AutocompleteSuggestion;
-  getItemProps: ({
-    key: string,
-    index: number,
-    item: AutocompletedSuggestion
-  }) => any;
-  getMenuProps: ({ className: string }) => any;
-  className?: string;
-};
-export type InputViewProps = {
-  getAutocomplete: () => JSX.Element;
-  getButtonProps: (additionalProps?: any) => any;
-  getInputProps: (additionalProps?: any) => any;
-};
-
-type SearchBoxContainerProps = BaseContainerProps &
-  SearchBoxContainerContext & {
-    view?: React.ComponentType<SearchBoxViewProps>;
-    autocompleteView?: React.ComponentType<SearchBoxAutocompleteViewProps>;
-    inputView?: React.ComponentType<InputViewProps>;
-    autocompleteMinimumCharacters?: number;
-    autocompleteResults?: AutocompleteResult | boolean;
-    autocompleteSuggestions?:
-      | boolean
-      | Record<string, { sectionTitle: string }>;
-    shouldClearFilters?: boolean;
-    debounceLength?: number;
-    inputProps?: any;
-    onSelectAutocomplete?: any;
-    onSubmit?: (searchTerm: string) => void;
-    searchAsYouType?: boolean;
-  };
-
-export type SearchBoxViewProps = BaseContainerProps &
-  Pick<
-    SearchBoxContainerProps,
-    | "autocompleteView"
-    | "inputView"
-    | "autocompleteSuggestions"
-    | "autocompleteResults"
-    | "autocompleteSuggestions"
-    | "autocompletedResults"
-    | "autocompletedSuggestions"
-  > & {
-    allAutocompletedItemsCount: number;
-    autocompletedSuggestionsCount: any;
-    completeSuggestion: (searchQuery: string) => void;
-    isFocused: boolean;
-    notifyAutocompleteSelected: (selection: any) => void;
-    onChange: (value: string) => void;
-    onSelectAutocomplete: any;
-    onSubmit: (e: FormEvent) => void;
-    useAutocomplete: boolean;
-    value: string;
-    inputProps: any;
-  };
 
 export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
   static defaultProps = {

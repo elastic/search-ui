@@ -1,9 +1,27 @@
 import React from "react";
 import RCPagination from "rc-pagination";
-import { PagingViewProps } from "@elastic/react-search-ui";
 import enUsLocale from "rc-pagination/lib/locale/en_US";
 
 import { appendClassName } from "./view-helpers";
+import { SearchContextState } from "@elastic/search-ui";
+import { Rename, BaseContainerProps } from "./types";
+
+export type PagingContainerContext = Pick<
+  SearchContextState,
+  "current" | "resultsPerPage" | "totalPages" | "setCurrent"
+>;
+
+export type PagingViewProps = Rename<
+  BaseContainerProps & PagingContainerContext,
+  {
+    setCurrent: "onChange";
+  }
+>;
+
+export type PagingContainerProps = BaseContainerProps &
+  PagingContainerContext & {
+    view?: React.ComponentType<PagingViewProps>;
+  };
 
 function Paging({
   className,

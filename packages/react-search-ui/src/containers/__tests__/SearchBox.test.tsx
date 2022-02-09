@@ -1,6 +1,7 @@
 import React from "react";
-import { SearchBoxContainer, SearchBoxViewProps } from "../SearchBox";
+import { SearchBoxContainer } from "../SearchBox";
 import { shallow, mount } from "enzyme";
+import { SearchBoxViewProps } from "@elastic/react-search-ui-views";
 
 const params = {
   autocompletedResults: [],

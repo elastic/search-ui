@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { PagingInfoContainer, PagingInfoViewProps } from "../PagingInfo";
+import { PagingInfoContainer } from "../PagingInfo";
+import { PagingInfoViewProps } from "@elastic/react-search-ui-views";
 
 const params = {
   pagingStart: 1,

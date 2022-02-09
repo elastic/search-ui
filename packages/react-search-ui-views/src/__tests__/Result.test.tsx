@@ -1,7 +1,7 @@
 import React from "react";
 import Result from "../Result";
 import { shallow } from "enzyme";
-import { ResultViewProps } from "@elastic/react-search-ui";
+import { ResultViewProps } from "../Result";
 
 const TITLE_FIELD = "title";
 const URL_FIELD = "url";
