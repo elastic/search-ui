@@ -28,8 +28,6 @@ interface ResultClickParams {
   tags: string[];
 }
 
-type AutocompleteResultClickParams = ResultClickParams;
-
 export type SearchQueryHook = (
   queryOptions: QueryConfig,
   next: (newQueryOptions: any) => any
@@ -128,7 +126,7 @@ class AppSearchAPIConnector {
     documentId,
     requestId,
     tags = []
-  }: AutocompleteResultClickParams): void {
+  }: ResultClickParams): void {
     tags = tags.concat("autocomplete");
     return this.client.click({ query, documentId, requestId, tags });
   }
