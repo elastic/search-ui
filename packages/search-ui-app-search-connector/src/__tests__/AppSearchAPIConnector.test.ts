@@ -407,7 +407,7 @@ describe("AppSearchAPIConnector", () => {
         resultsPerPage: 5
       };
 
-      const beforeSearchCall = (options, next) => {
+      const beforeSearchCall: SearchQueryHook = (options, next) => {
         // Remove sort_direction and sort_field
         // eslint-disable-next-line no-unused-vars
         const { sort, ...rest } = options;
@@ -672,7 +672,10 @@ describe("AppSearchAPIConnector", () => {
           }
         };
 
-        const beforeAutocompleteResultsCall = (options, next) => {
+        const beforeAutocompleteResultsCall: SearchQueryHook = (
+          options,
+          next
+        ) => {
           // Remove sort_direction and sort_field
           // eslint-disable-next-line no-unused-vars
           const { sort, ...rest } = options;
@@ -711,10 +714,13 @@ describe("AppSearchAPIConnector", () => {
           suggestions: {}
         };
 
-        const beforeAutocompleteSuggestionsCall = (options, next) => {
+        const beforeAutocompleteSuggestionsCall: SuggestionsQueryHook = (
+          options,
+          next
+        ) => {
           // Remove sort_direction and sort_field
-          // eslint-disable-next-line no-unused-vars
-          const { sort, ...rest } = options;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { sort, ...rest } = options as any; // TODO: Does the "sort" key every exist in the options?
           return next({
             ...rest,
             // Add test
