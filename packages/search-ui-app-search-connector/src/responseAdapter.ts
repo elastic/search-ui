@@ -22,7 +22,7 @@ function adaptation1AdaptFacetValue(
   };
 }
 
-// Should be facet: Facet, but this results in a type error, see description abouve
+// Should be facet: Facet, but this results in a type error, see description above
 function adaptation2AddLabelToFacet(fieldName: string, facet) {
   return {
     field: fieldName,
