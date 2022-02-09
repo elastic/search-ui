@@ -3,9 +3,8 @@
   "version": "1.9.0",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
-  "types": "./lib/esm/index.d.ts",
+  "main": "lib",
+  "module": "es",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
@@ -29,9 +28,6 @@
     "build": "run-s clean build-js",
     "watch": "run-p watch-js",
     "prepare": "npm run build"
-  },
-  "bugs": {
-    "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
     "@elastic/react-search-ui-views": "1.9.0",
