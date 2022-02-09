@@ -1,10 +1,10 @@
-function adaptFilterType(type) {
+function adaptFilterType(type: any) {
   if (type === "any") return {};
   if (type === "all") return { type: "and" };
   return { type: "and" };
 }
 
-export function adaptFacetConfig(facets) {
+export function adaptFacetConfig(facets: any) {
   if (!facets) return;
 
   const convertInvalidFacetsToUndefined = ([fieldName, config]) => {
@@ -38,10 +38,10 @@ export function adaptFacetConfig(facets) {
   return config;
 }
 
-export function adaptFilterConfig(filters) {
+export function adaptFilterConfig(filters: any) {
   if (!filters || Object.keys(filters).length === 0) return;
 
-  return filters.reduce((acc, filter) => {
+  return filters.reduce((acc: any, filter: any) => {
     const fieldName = filter.field;
     const fieldValue = filter.values;
 
@@ -95,13 +95,13 @@ export function adaptFilterConfig(filters) {
   }, {});
 }
 
-export function adaptResultFieldsConfig(resultFieldsConfig) {
+export function adaptResultFieldsConfig(resultFieldsConfig: any) {
   if (!resultFieldsConfig) return [];
 
   const fetchFields = Object.keys(resultFieldsConfig);
 
   const highlightFields = Object.entries(resultFieldsConfig).reduce(
-    (acc, [fieldName, fieldConfig]) => {
+    (acc, [fieldName, fieldConfig]: [any, any]) => {
       if (!fieldConfig.snippet) return acc;
       return {
         ...acc,
@@ -114,7 +114,7 @@ export function adaptResultFieldsConfig(resultFieldsConfig) {
   return [fetchFields, highlightFields];
 }
 
-export function adaptSearchFieldsConfig(searchFieldsConfig) {
+export function adaptSearchFieldsConfig(searchFieldsConfig: any) {
   if (!searchFieldsConfig) return [];
 
   return Object.keys(searchFieldsConfig);

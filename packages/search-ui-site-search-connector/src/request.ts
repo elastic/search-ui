@@ -1,4 +1,9 @@
-export default async function request(engineKey, method, path, params) {
+export default async function request(
+  engineKey: any,
+  method: any,
+  path: any,
+  params: any
+) {
   const headers = new Headers({
     "Content-Type": "application/json"
   });
@@ -16,7 +21,7 @@ export default async function request(engineKey, method, path, params) {
     }
   );
 
-  let json;
+  let json: any;
   try {
     json = await response.json();
   } catch (error) {
