@@ -86,8 +86,8 @@ class SiteSearchAPIConnector {
   onSearch(state, queryConfig) {
     const options = adaptRequest(state, queryConfig, this.documentType);
 
-    return this.beforeSearchCall(options, newOptions =>
-      this.request("POST", "engines/search.json", newOptions).then(json =>
+    return this.beforeSearchCall(options, (newOptions) =>
+      this.request("POST", "engines/search.json", newOptions).then((json) =>
         adaptResponse(json, this.documentType)
       )
     );
@@ -101,10 +101,12 @@ class SiteSearchAPIConnector {
         this.documentType
       );
 
-      return this.beforeAutocompleteResultsCall(options, newOptions =>
-        this.request("POST", "engines/suggest.json", newOptions).then(json => ({
-          autocompletedResults: adaptResponse(json, this.documentType).results
-        }))
+      return this.beforeAutocompleteResultsCall(options, (newOptions) =>
+        this.request("POST", "engines/suggest.json", newOptions).then(
+          (json) => ({
+            autocompletedResults: adaptResponse(json, this.documentType).results
+          })
+        )
       );
     }
     if (queryConfig.suggestions) {

@@ -27,10 +27,10 @@ export function getFacets(docInfo) {
 }
 
 export function getResults(records, documentType) {
-  const isMetaField = key => key.startsWith("_");
-  const toObjectWithRaw = value => ({ raw: value });
+  const isMetaField = (key) => key.startsWith("_");
+  const toObjectWithRaw = (value) => ({ raw: value });
 
-  return records[documentType].map(record => {
+  return records[documentType].map((record) => {
     const { highlight, sort, ...rest } = record; //eslint-disable-line
 
     const result = Object.entries(rest)
