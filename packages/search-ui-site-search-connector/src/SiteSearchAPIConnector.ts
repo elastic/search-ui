@@ -2,9 +2,9 @@ import adaptRequest from "./requestAdapter";
 import adaptResponse from "./responseAdapter";
 import request from "./request";
 
-function _get(engineKey, path, params) {
+function _get(engineKey: any, path: any, params: any) {
   const query = Object.entries({ engine_key: engineKey, ...params })
-    .map(([paramName, paramValue]) => {
+    .map(([paramName, paramValue]: [any, any]) => {
       return `${paramName}=${encodeURIComponent(paramValue)}`;
     })
     .join("&");
@@ -43,12 +43,20 @@ class SiteSearchAPIConnector {
   /**
    * @param {Options} options
    */
+
+  _get: any;
+  request: any;
+  beforeAutocompleteResultsCall: any;
+  documentType: any;
+  engineKey: any;
+  beforeSearchCall: any;
+
   constructor({
     documentType,
     engineKey,
     beforeSearchCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions)
-  }) {
+  }: any) {
     this.documentType = documentType;
     this.engineKey = engineKey;
     this.beforeSearchCall = beforeSearchCall;

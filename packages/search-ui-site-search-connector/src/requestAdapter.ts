@@ -5,7 +5,11 @@ import {
   adaptSearchFieldsConfig
 } from "./requestAdapters";
 
-export default function adaptRequest(request, queryConfig, documentType) {
+export default function adaptRequest(
+  request: any,
+  queryConfig: any,
+  documentType: any
+) {
   const { disjunctiveFacets, disjunctiveFacetsAnalyticsTags } = queryConfig;
 
   if (disjunctiveFacets) {
