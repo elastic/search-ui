@@ -203,7 +203,7 @@ describe("AppSearchAPIConnector", () => {
 
   describe("onSearch", () => {
     function subject(
-      state?: SearchState,
+      state: SearchState,
       queryConfig: QueryConfig = {},
       beforeSearchCall?: SearchQueryHook
     ) {
