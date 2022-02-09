@@ -23,7 +23,7 @@ function ErrorBoundary({
     );
   }
 
-  return <>{children}</>;
+  return children as JSX.Element;
 }
 
 export default ErrorBoundary;
