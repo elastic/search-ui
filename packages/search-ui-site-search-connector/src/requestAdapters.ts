@@ -31,7 +31,7 @@ export function adaptFacetConfig(facets) {
 
   const config = Object.entries(facets)
     .map(convertInvalidFacetsToUndefined)
-    .filter(v => v)
+    .filter((v) => v)
     .map(getKey);
 
   if (!config.length) return;
@@ -43,7 +43,7 @@ export function adaptFilterConfig(filters) {
 
   return filters.reduce((acc, filter) => {
     const fieldName = filter.field;
-    let fieldValue = filter.values;
+    const fieldValue = filter.values;
 
     if (acc[fieldName]) {
       console.warn(
@@ -52,14 +52,14 @@ export function adaptFilterConfig(filters) {
       return acc;
     }
 
-    if (filter.type && (filter.type !== "all" && filter.type !== "any")) {
+    if (filter.type && filter.type !== "all" && filter.type !== "any") {
       console.warn(
         `search-ui-site-search-connector: Unsupported filter type "${filter.type}" found, only "all" and "any" are currently supported`
       );
       return acc;
     }
 
-    if (fieldValue.find(v => typeof v === "object") !== undefined) {
+    if (fieldValue.find((v) => typeof v === "object") !== undefined) {
       if (fieldValue.length > 1) {
         console.warn(
           "search-ui-site-search-connector: Cannot apply more than 1 none-value filters to a single field"
