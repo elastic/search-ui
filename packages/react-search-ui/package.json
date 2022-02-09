@@ -29,6 +29,9 @@
     "watch": "run-p watch-js",
     "prepare": "npm run build"
   },
+  "bugs": {
+    "url": "https://github.com/elastic/search-ui/issues"
+  },
   "dependencies": {
     "@elastic/react-search-ui-views": "1.9.0",
     "@elastic/search-ui": "1.9.0"
