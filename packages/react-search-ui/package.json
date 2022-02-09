@@ -4,7 +4,8 @@
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
   "main": "lib/cjs",
-  "module": "es",
+  "module": "lib/esm",
+  "types": "./lib/esm/index.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
