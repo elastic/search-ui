@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`supports a render prop 1`] = `
+exports[`Error Boundary supports a render prop 1`] = `
 <div>
   I am an error
 </div>

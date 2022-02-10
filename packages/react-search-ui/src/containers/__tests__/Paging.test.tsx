@@ -42,7 +42,7 @@ it("will call back when a the page is changed", () => {
   shallow(
     <PagingContainer
       {...params}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -63,7 +63,7 @@ it("passes className through to the view", () => {
     <PagingContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -79,7 +79,7 @@ it("passes data-foo through to the view", () => {
     <PagingContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}

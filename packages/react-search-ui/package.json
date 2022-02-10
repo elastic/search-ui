@@ -3,16 +3,15 @@
   "version": "1.9.0",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
-  "main": "lib",
-  "module": "es",
+  "main": "lib/cjs",
+  "module": "lib/esm",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es"
+    "lib"
   ],
   "repository": {
     "type": "git",

@@ -1,29 +1,13 @@
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { PagingInfo } from "@elastic/react-search-ui-views";
-import { SearchContextState } from "../withSearch";
-import { BaseContainerProps, Rename } from "../types";
+import {
+  PagingInfoContainerProps,
+  PagingInfo,
+  PagingInfoViewProps,
+  PagingInfoContainerContext
+} from "@elastic/react-search-ui-views";
 
-type PagingInfoContainerContext = Pick<
-  SearchContextState,
-  "pagingStart" | "pagingEnd" | "resultSearchTerm" | "totalResults"
->;
-
-export type PagingInfoViewProps = Rename<
-  BaseContainerProps & PagingInfoContainerContext,
-  {
-    pagingStart: "start";
-    resultSearchTerm: "searchTerm";
-    pagingEnd: "end";
-  }
->;
-
-type PagingContainerProps = BaseContainerProps &
-  PagingInfoContainerContext & {
-    view?: React.ComponentType<PagingInfoViewProps>;
-  };
-
-export class PagingInfoContainer extends Component<PagingContainerProps> {
+export class PagingInfoContainer extends Component<PagingInfoContainerProps> {
   render() {
     const {
       className,
@@ -49,7 +33,7 @@ export class PagingInfoContainer extends Component<PagingContainerProps> {
   }
 }
 
-export default withSearch<PagingContainerProps, PagingInfoContainerContext>(
+export default withSearch<PagingInfoContainerProps, PagingInfoContainerContext>(
   ({ pagingStart, pagingEnd, resultSearchTerm, totalResults }) => ({
     pagingStart,
     pagingEnd,

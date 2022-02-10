@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { ErrorBoundary } from "@elastic/react-search-ui-views";
-import { SearchContextState } from "../withSearch";
+import {
+  ErrorBoundary,
+  ErrorBoundaryContainerContext,
+  ErrorBoundaryViewProps
+} from "@elastic/react-search-ui-views";
 import { BaseContainerProps } from "../types";
 
-type ErrorBoundaryContainerContext = Pick<SearchContextState, "error">;
-
-export type ErrorBoundaryViewProps = BaseContainerProps & ErrorBoundaryContainerContext;
-
-type ErrorBoundaryContainerProps = BaseContainerProps & ErrorBoundaryContainerContext & {
-  view?: React.ComponentType<ErrorBoundaryViewProps>,
-};
+type ErrorBoundaryContainerProps = BaseContainerProps &
+  ErrorBoundaryContainerContext & {
+    view?: React.ComponentType<ErrorBoundaryViewProps>;
+  };
 
 export class ErrorBoundaryContainer extends Component<ErrorBoundaryContainerProps> {
-
   render() {
     const { children, className, error, view, ...rest } = this.props;
 
-    const View: React.ComponentType<ErrorBoundaryViewProps> = view || ErrorBoundary;
+    const View = view || ErrorBoundary;
 
     const viewProps = {
       className,
@@ -30,4 +29,7 @@ export class ErrorBoundaryContainer extends Component<ErrorBoundaryContainerProp
   }
 }
 
-export default withSearch<ErrorBoundaryContainerProps, ErrorBoundaryContainerContext>(({ error }) => ({ error }))(ErrorBoundaryContainer);
+export default withSearch<
+  ErrorBoundaryContainerProps,
+  ErrorBoundaryContainerContext
+>(({ error }) => ({ error }))(ErrorBoundaryContainer);

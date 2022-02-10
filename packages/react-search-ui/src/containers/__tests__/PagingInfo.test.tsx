@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { PagingInfoContainer, PagingInfoViewProps } from "../PagingInfo";
+import { PagingInfoContainer } from "../PagingInfo";
+import { PagingInfoViewProps } from "@elastic/react-search-ui-views";
 
 const params = {
   pagingStart: 1,
@@ -10,8 +11,7 @@ const params = {
 };
 
 it("supports a render prop", () => {
-  // eslint-disable-next-line react/prop-types
-  const render = ({ start, end } : PagingInfoViewProps) => {
+  const render = ({ start, end }: PagingInfoViewProps) => {
     return (
       <div>
         {start}
@@ -45,9 +45,9 @@ it("passes className through to the view", () => {
     <PagingInfoContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
     />
   ).dive();
@@ -61,11 +61,11 @@ it("passes data-foo through to the view", () => {
     <PagingInfoContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
-        return <div/>;
+        return <div />;
       }}
-      />
+    />
   ).dive();
   expect(viewProps["data-foo"]).toEqual(data);
 });

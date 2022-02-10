@@ -5,6 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Jest react-search-ui-views",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/packages/react-search-ui-views/node_modules/jest/bin/jest.js",
+            "stopOnEntry": false,
+            "args": [
+                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+            ],
+            "cwd": "${workspaceRoot}/packages/react-search-ui-views",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "env": {
+                "NODE_ENV": "test"
+            },
+            "console": "integratedTerminal",
+            "sourceMaps": true
+        },
+        {
             "name": "Jest react-search-ui",
             "type": "node",
             "request": "launch",

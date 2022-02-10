@@ -3,7 +3,7 @@ import withSearch from "./withSearch";
 import PropTypes from "prop-types";
 
 function WithSearch({ mapContextToProps, children }) {
-  const Search = withSearch(mapContextToProps)(props => {
+  const Search = withSearch(mapContextToProps)((props) => {
     return children(props);
   });
 

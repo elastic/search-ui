@@ -54,7 +54,7 @@ function withSearch<TProps, TContext>(
     throw "withSearch requires a function to be provided which returns an object with at least one value.";
   }
 
-  return function(Component: React.ComponentType<any>) {
+  return function (Component: React.ComponentType<any>) {
     class WithSearch extends React.PureComponent<Omit<TProps, keyof TContext>> {
       unmounted = false;
 
@@ -79,9 +79,9 @@ function withSearch<TProps, TContext>(
         this.context.driver.unsubscribeToStateChanges(this.subscription);
       }
 
-      subscription = state => {
+      subscription = (state) => {
         if (this.unmounted) return;
-        this.setState(prevState =>
+        this.setState((prevState) =>
           giveMeJustWhatINeeded(
             {
               // We pass prevState here instead of just state so that actions are

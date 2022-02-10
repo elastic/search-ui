@@ -1,48 +1,17 @@
 import React from "react";
 import { Component } from "react";
-import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
-import { helpers, FilterType } from "@elastic/search-ui";
+import {
+  FacetContainerContext,
+  FacetContainerProps,
+  FacetViewProps,
+  MultiCheckboxFacet
+} from "@elastic/react-search-ui-views";
+import { helpers } from "@elastic/search-ui";
 
 import { accentFold } from "../helpers";
 import { withSearch } from "..";
-import { BaseContainerProps } from "../types";
-import { SearchContextState } from "../withSearch";
 
 const { markSelectedFacetValuesFromFilters } = helpers;
-
-export type FacetContainerViewProps = {
-  className: string;
-  label: string;
-  onMoreClick: () => void;
-  onRemove: (value: string) => void;
-  onChange: (value: string) => void;
-  onSelect: (value: string) => void;
-  options: any;
-  showMore: boolean;
-  values: any;
-  showSearch: boolean;
-  onSearch: (value: string) => void;
-  searchPlaceholder: string;
-};
-
-type FacetContainerProps = BaseContainerProps & {
-  filterType: FilterType;
-  show?: number;
-  view?: React.ComponentType<FacetContainerViewProps>;
-  isFilterable: boolean;
-  field: string;
-  label: string;
-};
-
-type FacetContainerContextProps = Pick<
-  SearchContextState,
-  | "addFilter"
-  | "removeFilter"
-  | "setFilter"
-  | "a11yNotify"
-  | "filters"
-  | "facets"
->;
 
 type FacetContainerState = {
   searchTerm: string;
@@ -50,7 +19,7 @@ type FacetContainerState = {
 };
 
 export class FacetContainer extends Component<
-  FacetContainerProps & FacetContainerContextProps,
+  FacetContainerProps,
   FacetContainerState
 > {
   static defaultProps = {
@@ -97,7 +66,7 @@ export class FacetContainer extends Component<
       setFilter,
       view,
       isFilterable,
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       a11yNotify,
       ...rest
     } = this.props;
@@ -130,10 +99,10 @@ export class FacetContainer extends Component<
       );
     }
 
-    const View: React.ComponentType<FacetContainerViewProps> =
+    const View: React.ComponentType<FacetViewProps> =
       view || MultiCheckboxFacet;
 
-    const viewProps: FacetContainerViewProps = {
+    const viewProps: FacetViewProps = {
       className,
       label: label,
       onMoreClick: this.handleClickMore.bind(this, facetValues.length),
@@ -161,7 +130,7 @@ export class FacetContainer extends Component<
   }
 }
 
-export default withSearch<FacetContainerProps, FacetContainerContextProps>(
+export default withSearch<FacetContainerProps, FacetContainerContext>(
   ({ filters, facets, addFilter, removeFilter, setFilter, a11yNotify }) => ({
     filters,
     facets,

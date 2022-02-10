@@ -94,7 +94,7 @@ it("will call back when sort is changed in view", () => {
   shallow(
     <SortingContainer
       {...params}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -115,7 +115,7 @@ it("will call back when sort is changed in view with sortList", () => {
   shallow(
     <SortingContainer
       {...sortListParams}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -143,7 +143,7 @@ it("passes className through to the view", () => {
     <SortingContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -159,7 +159,7 @@ it("passes data-foo through to the view", () => {
     <SortingContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}

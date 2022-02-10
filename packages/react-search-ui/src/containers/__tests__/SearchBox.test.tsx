@@ -1,6 +1,7 @@
 import React from "react";
-import { SearchBoxContainer, SearchBoxViewProps } from "../SearchBox";
+import { SearchBoxContainer } from "../SearchBox";
 import { shallow, mount } from "enzyme";
+import { SearchBoxViewProps } from "@elastic/react-search-ui-views";
 
 const params = {
   autocompletedResults: [],
@@ -506,7 +507,7 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   ).dive();
 
   viewProps.onSubmit({
-    preventDefault: () => {}
+    preventDefault: jest.fn()
   });
 
   const call = params.setSearchTerm.mock.calls[0];

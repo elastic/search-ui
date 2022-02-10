@@ -1,7 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ResultsContainer, ResultsViewProps } from "../Results";
-import { ResultViewProps } from "../Result";
+import { ResultsContainer } from "../Results";
+import {
+  ResultsViewProps,
+  ResultViewProps
+} from "@elastic/react-search-ui-views";
 
 const params = {
   results: [
@@ -60,7 +63,7 @@ it("passes through props to individual Result items", () => {
       clickThroughTags={["whatever"]}
     />
   ).dive();
-  expect(wrapper.find("WithSearch").map(n => n.props())).toEqual([
+  expect(wrapper.find("WithSearch").map((n) => n.props())).toEqual([
     {
       result: {
         id: {
@@ -113,7 +116,7 @@ it("passes className through to the view", () => {
     <ResultsContainer
       {...params}
       className={className}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}
@@ -129,7 +132,7 @@ it("passes data-foo through to the view", () => {
     <ResultsContainer
       {...params}
       data-foo={data}
-      view={props => {
+      view={(props) => {
         viewProps = props;
         return <div />;
       }}

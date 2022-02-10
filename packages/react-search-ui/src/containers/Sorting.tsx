@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import { withSearch } from "..";
-import { Sorting } from "@elastic/react-search-ui-views";
-
-import { BaseContainerProps } from "../types";
-import { SearchContextState } from "../withSearch";
+import {
+  Sorting,
+  SortingContainerContext,
+  SortingContainerProps,
+  SortingViewProps
+} from "@elastic/react-search-ui-views";
 
 function findSortOption(sortOptions, sortData) {
   if (sortData.indexOf("|||") === -1) {
     return sortOptions.find(
-      option => JSON.stringify(option.value) === sortData
+      (option) => JSON.stringify(option.value) === sortData
     );
   }
 
   const [value, direction] = sortData.split("|||");
 
   return sortOptions.find(
-    option => option.value === value && option.direction === direction
+    (option) => option.value === value && option.direction === direction
   );
 }
 
@@ -42,25 +44,6 @@ function formatSelectOption(sortOption) {
   };
 }
 
-type SortingContainerContext = Pick<
-  SearchContextState,
-  "sortDirection" | "sortField" | "sortList" | "setSort"
->;
-
-export type SortingViewProps = BaseContainerProps &
-  Pick<SortingContainerProps, "label"> & {
-    onChange: (sortData: any) => void;
-    options: any;
-    value: string;
-  };
-
-type SortingContainerProps = BaseContainerProps &
-  SortingContainerContext & {
-    view?: React.ComponentType<SortingViewProps>;
-    label?: string;
-    sortOptions: any;
-  };
-
 export class SortingContainer extends Component<SortingContainerProps> {
   render() {
     const {
@@ -80,7 +63,7 @@ export class SortingContainer extends Component<SortingContainerProps> {
     const viewProps: SortingViewProps = {
       className,
       label,
-      onChange: o => {
+      onChange: (o) => {
         const sortOption = findSortOption(sortOptions, o);
         setSort(sortOption.value, sortOption.direction);
       },

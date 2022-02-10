@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { SearchDriverActions } from "..";
+
 export type SortOption = {
   field: string;
   direction: SortDirection;
@@ -28,7 +30,7 @@ export type FilterValue = FilterValueValue | FilterValueRange;
 export type FacetValue = {
   count: number;
   value: FilterValue;
-  selected: boolean;
+  selected?: boolean;
 };
 
 export type FacetType = "range" | "value";
@@ -58,7 +60,7 @@ export type RequestState = {
 export type SearchState = RequestState & {
   // Result State -- This state represents state that is updated automatically
   // as the result of changing input state.
-  autocompletedResults: AutocompleteResult[];
+  autocompletedResults: AutocompletedResult[];
   autocompletedResultsRequestId: string;
   autocompletedSuggestions: any;
   autocompletedSuggestionsRequestId: string;
@@ -120,11 +122,46 @@ export type APIConnector = any;
 // is QueryConfig the same as SearchQuery?
 export type QueryConfig = any;
 
-export type SearchResult = Record<
+export type ResultEntry = {
+  raw?: string | number | boolean;
+  snippet?: string | number | boolean;
+};
+
+// "any" type escape hatch due to arbitrary values may not follow the ResultEntry shape
+export type SearchResult = Record<string, ResultEntry | any>;
+
+// used for configuration
+export type AutocompleteResult = {
+  titleField: string;
+  urlField: string;
+  linkTarget?: string;
+  sectionTitle?: string;
+  shouldTrackClickThrough?: boolean;
+  clickThroughTags?: string[];
+};
+
+export type AutocompleteSuggestionFragment = {
+  sectionTitle: string;
+};
+
+export type AutocompleteSuggestion =
+  | Record<string, AutocompleteSuggestionFragment>
+  | AutocompleteSuggestionFragment;
+
+export type FieldResult = {
+  raw?: string | number | boolean;
+  snippet?: string;
+};
+
+export type AutocompletedResult = any | Record<string, FieldResult>;
+
+export type AutocompletedSuggestion = Record<
   string,
   {
-    raw: string | number | boolean;
-    snippet: string | number | boolean;
-  }
+    highlight?: string;
+    suggestion?: string;
+    data?: any;
+  }[]
 >;
-export type AutocompleteResult = any;
+
+export type SearchContextState = SearchState & SearchDriverActions;

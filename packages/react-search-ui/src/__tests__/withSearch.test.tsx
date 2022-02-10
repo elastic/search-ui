@@ -27,9 +27,11 @@ describe("withSearch", () => {
         });
       });
 
-    jest.spyOn(mockDriver, "subscribeToStateChanges").mockImplementation(cb => {
-      callback = cb;
-    });
+    jest
+      .spyOn(mockDriver, "subscribeToStateChanges")
+      .mockImplementation((cb) => {
+        callback = cb;
+      });
 
     jest
       .spyOn(mockDriver, "unsubscribeToStateChanges")
@@ -50,7 +52,7 @@ describe("withSearch", () => {
     }
 
     it("will subscribe to state updates", () => {
-      const element = setup(c => c);
+      const element = setup((c) => c);
       mockDriver.getActions().setSearchTerm("New Term");
       expect(element.text()).toEqual("New Term");
     });
@@ -65,7 +67,7 @@ describe("withSearch", () => {
     });
 
     it("will unsubsribe on unmount", () => {
-      const element = setup(c => c);
+      const element = setup((c) => c);
       element.unmount();
       expect(
         (mockDriver.unsubscribeToStateChanges as jest.Mock).mock.calls.length

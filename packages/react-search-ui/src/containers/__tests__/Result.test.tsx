@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { shallow } from "enzyme";
-import { ResultContainer, ResultViewProps } from "../Result";
+import { ResultContainer } from "../Result";
+import { ResultViewProps } from "@elastic/react-search-ui-views";
 
 const params = {
   result: {
@@ -29,7 +30,7 @@ beforeEach(() => {
 describe("link clicks", () => {
   it("will call back when a document link is clicked in the view", () => {
     let viewProps;
-    const View = props => {
+    const View = (props) => {
       viewProps = props;
       return <div />;
     };
@@ -45,7 +46,7 @@ describe("link clicks", () => {
 
   it("will not call back when shouldTrackClickThrough is false", () => {
     let viewProps;
-    const View = props => {
+    const View = (props) => {
       viewProps = props;
       return <div />;
     };
@@ -66,7 +67,7 @@ describe("link clicks", () => {
 
   it("will pass through tags", () => {
     let viewProps;
-    const View = props => {
+    const View = (props) => {
       viewProps = props;
       return <div />;
     };
@@ -90,7 +91,7 @@ describe("link clicks", () => {
 
 it("passes className through to the view", () => {
   let viewProps;
-  const View = props => {
+  const View = (props) => {
     viewProps = props;
     return <div />;
   };
@@ -103,7 +104,7 @@ it("passes className through to the view", () => {
 
 it("passes data-foo through to the view", () => {
   let viewProps;
-  const View = props => {
+  const View = (props) => {
     viewProps = props;
     return <div />;
   };

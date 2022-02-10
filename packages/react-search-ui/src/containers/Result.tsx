@@ -1,33 +1,13 @@
 import React from "react";
 import { Component } from "react";
-import { Result } from "@elastic/react-search-ui-views";
+import {
+  Result,
+  ResultContainerProps,
+  ResultContainerContext,
+  ResultViewProps
+} from "@elastic/react-search-ui-views";
 
 import { withSearch } from "..";
-import { BaseContainerProps } from "../types";
-import { SearchContextState } from "../withSearch";
-import { SearchResult } from "@elastic/search-ui";
-
-type ResultContainerContext = Pick<SearchContextState, "trackClickThrough">;
-
-type ResultContainerProps = BaseContainerProps &
-  ResultContainerContext & {
-    view?: React.ComponentType<ResultViewProps>;
-    clickThroughTags?: string[];
-    titleField?: string;
-    urlField?: string;
-    thumbnailField?: string;
-    result: SearchResult;
-    shouldTrackClickThrough?: boolean;
-  };
-
-export type ResultViewProps = BaseContainerProps &
-  Pick<
-    ResultContainerProps,
-    "result" | "titleField" | "urlField" | "thumbnailField"
-  > & {
-    key?: string;
-    onClickLink: () => void;
-  };
 
 export class ResultContainer extends Component<ResultContainerProps> {
   static defaultProps = {
@@ -35,12 +15,9 @@ export class ResultContainer extends Component<ResultContainerProps> {
     shouldTrackClickThrough: true
   };
 
-  handleClickLink = id => {
-    const {
-      clickThroughTags,
-      shouldTrackClickThrough,
-      trackClickThrough
-    } = this.props;
+  handleClickLink = (id) => {
+    const { clickThroughTags, shouldTrackClickThrough, trackClickThrough } =
+      this.props;
 
     if (shouldTrackClickThrough) {
       trackClickThrough(id, clickThroughTags);
@@ -64,12 +41,13 @@ export class ResultContainer extends Component<ResultContainerProps> {
       ...rest
     } = this.props;
     const View = view || Result;
+    const id = result.id.raw;
 
     const viewProps: ResultViewProps = {
       className,
       result: result,
-      key: `result-${result.id.raw}`,
-      onClickLink: () => this.handleClickLink(result.id.raw),
+      key: `result-${id}`,
+      onClickLink: () => this.handleClickLink(id),
       titleField,
       urlField,
       thumbnailField,
