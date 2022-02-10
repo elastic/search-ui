@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
 
-import { FacetViewProps } from "./Facet";
+import { FacetViewProps } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 

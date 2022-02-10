@@ -1,5 +1,5 @@
 import React from "react";
-import { FacetViewProps } from "./Facet";
+import { FacetViewProps } from "./types";
 
 import { appendClassName } from "./view-helpers";
 
