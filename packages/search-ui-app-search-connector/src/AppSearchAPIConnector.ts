@@ -31,7 +31,7 @@ interface ResultClickParams {
 export type SearchQueryHook = (
   queryOptions: QueryConfig,
   next: (newQueryOptions: any) => any
-) => void;
+) => SearchState;
 export type SuggestionsQueryHook = (
   queryOptions: SuggestionsQueryConfig,
   next: (newQueryOptions: any) => any
