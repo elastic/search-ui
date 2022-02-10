@@ -5,7 +5,7 @@ filter in the UI.
 */
 export default function getFilterValueDisplay(filterValue: any): string {
   if (filterValue === undefined || filterValue === null) return "";
-  // eslint-disable-next-line no-prototype-builtins
-  if (filterValue.hasOwnProperty("name")) return filterValue.name;
+  if (Object.prototype.hasOwnProperty.call(filterValue, "name"))
+    return filterValue.name;
   return String(filterValue);
 }
