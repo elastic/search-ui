@@ -31,11 +31,11 @@ interface ResultClickParams {
 export type SearchQueryHook = (
   queryOptions: QueryConfig,
   next: (newQueryOptions: any) => any
-) => SearchState;
+) => any;
 export type SuggestionsQueryHook = (
   queryOptions: SuggestionsQueryConfig,
   next: (newQueryOptions: any) => any
-) => void;
+) => any;
 
 // The API will error out if empty facets or filters objects
 // are sent.
