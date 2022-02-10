@@ -52,9 +52,10 @@ export type RequestState = {
   filters?: Filter[];
   resultsPerPage?: number;
   searchTerm?: string;
-  sortDirection?: SortDirection;
-  sortField?: string;
-  sortList?: SortOption[];
+  sortDirection?: SortDirection; // Deprecated
+  sortField?: string; // Deprecated
+  sortList?: SortOption[]; // Maybe deprecated? Not in docs
+  sort?: SortOption[];
 };
 
 export type SearchState = RequestState & {
@@ -84,27 +85,26 @@ export type FieldConfiguration = {
     fallback?: boolean;
   };
   raw?: any;
+  fields?: string[];
 };
 
 // https://github.com/elastic/search-ui/blob/master/ADVANCED.md#configuring-autocomplete-queries
 export type AutocompleteQuery = {
-  results?: {
-    result_fields: Record<string, FieldConfiguration>;
-  };
-  suggestions?: {
-    types?: Record<string, FieldConfiguration>;
-    size?: number;
-  };
+  results?: QueryConfig;
+  suggestions?: SuggestionsQueryConfig;
+};
+
+export type SuggestionsQueryConfig = {
+  types?: Record<string, FieldConfiguration>;
+  size?: number;
 };
 
 export type FacetConfiguration = {
   type: string;
   size?: number;
-  ranges?: {
-    from?: number;
-    name?: string;
-    to?: number;
-  };
+  ranges?: FilterValueRange | FilterValueRange[];
+  center?: string;
+  unit?: string;
 };
 
 // todo: types
@@ -119,8 +119,9 @@ export type SearchQuery = {
 };
 
 export type APIConnector = any;
-// is QueryConfig the same as SearchQuery?
-export type QueryConfig = any;
+
+// From https://github.com/elastic/search-ui/blob/9db35e1a49d95f854b77172f7ccfe540b22a793d/ADVANCED.md#query-config
+export type QueryConfig = RequestState & SearchQuery;
 
 export type ResultEntry = {
   raw?: string | number | boolean;

@@ -8,7 +8,7 @@ export type BaseContainerProps = {
 export type BaseContainerStateProps = {
   error: string;
   filters: Filter[];
-  facets: { [key: string]: Facet };
+  facets: Record<string, Facet>;
 };
 
 // From SO https://stackoverflow.com/a/59071783

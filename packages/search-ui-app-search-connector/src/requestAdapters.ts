@@ -1,5 +1,21 @@
-function removeName(v) {
-  if (v && v.name) {
+import type {
+  RequestState,
+  Filter,
+  SortDirection,
+  SortOption,
+  FilterValue,
+  FilterValueRange
+} from "@elastic/search-ui";
+
+// Using type predicates https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+function isFilterValueRange(
+  filterValue: FilterValue
+): filterValue is FilterValueRange {
+  return (filterValue as FilterValueRange).name !== undefined;
+}
+
+function removeName(v: FilterValue) {
+  if (isFilterValueRange(v)) {
     // eslint-disable-next-line
     const { name, ...rest } = v;
     return {
@@ -10,8 +26,8 @@ function removeName(v) {
   return v;
 }
 
-function rollup(f) {
-  const values = f.values.map(removeName).map(v => ({
+function rollup(f: Filter) {
+  const values = f.values.map(removeName).map((v) => ({
     [f.field]: v
   }));
 
@@ -20,7 +36,7 @@ function rollup(f) {
   };
 }
 
-function adaptFilters(filters) {
+function adaptFilters(filters: Filter[]) {
   if (!filters || filters.length === 0) return {};
   const all = filters.map(rollup);
   return {
@@ -28,9 +44,15 @@ function adaptFilters(filters) {
   };
 }
 
-function getSort(sortDirection, sortField, sortList) {
+function getSort(
+  sortDirection: SortDirection,
+  sortField: string,
+  sortList: SortOption[]
+) {
   if (sortList && sortList.length) {
-    return sortList.map(sortItem => ({ [sortItem.field]: sortItem.direction }));
+    return sortList.map((sortItem) => ({
+      [sortItem.field]: sortItem.direction
+    }));
   } else if (sortField && sortDirection) {
     return {
       [sortField]: sortDirection
@@ -40,7 +62,7 @@ function getSort(sortDirection, sortField, sortList) {
   }
 }
 
-export function adaptRequest(request) {
+export function adaptRequest(request: RequestState) {
   const {
     current,
     resultsPerPage,
