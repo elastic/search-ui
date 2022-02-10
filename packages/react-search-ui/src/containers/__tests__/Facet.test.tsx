@@ -191,9 +191,6 @@ describe("show more", () => {
   });
 
   describe("after a show more click", () => {
-    // beforeAll(() => {
-    // });
-
     it("a11yNotify to be called with more filters", () => {
       wrapper.find(View).prop("onMoreClick")();
       expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
