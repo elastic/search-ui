@@ -133,6 +133,12 @@ describe("AppSearchAPIConnector", () => {
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
   });
 
+  it("will throw when missing required parameters", () => {
+    expect(() => {
+      new AppSearchAPIConnector({} as any);
+    }).toThrow();
+  });
+
   describe("onResultClick", () => {
     function subject() {
       const connector = new AppSearchAPIConnector({
