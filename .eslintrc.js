@@ -7,12 +7,10 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
-    "plugin:prettier/recommended",
-    "prettier/react"
+    "plugin:prettier/recommended"
   ],
-  parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -20,13 +18,18 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
-  plugins: ["react", "jest"],
+  plugins: ["@typescript-eslint", "jest"],
+  parser: "@typescript-eslint/parser",
   settings: {
     react: {
-      version: "6.0"
+      version: "detect"
+    },
+    jest: {
+      version: "27"
     }
   },
   rules: {
-    "no-console": ["error", { allow: ["warn", "error"] }]
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "prefer-rest-params": "off"
   }
 };

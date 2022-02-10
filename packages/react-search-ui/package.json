@@ -3,16 +3,15 @@
   "version": "1.9.0",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
-  "main": "lib",
-  "module": "es",
+  "main": "lib/cjs",
+  "module": "lib/esm",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -40,28 +39,18 @@
     "react": ">= 16.8.0 < 18",
     "react-dom": ">= 16.8.0 < 18"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(css)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "devDependencies": {
-    "@babel/cli": "^7.5.0",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.5.4",
+    "@types/enzyme": "^3.10.11",
+    "@types/jest": "^27.4.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
-    "jest": "^24.8.0",
+    "jest": "^27.4.7",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.4"
   }
 }

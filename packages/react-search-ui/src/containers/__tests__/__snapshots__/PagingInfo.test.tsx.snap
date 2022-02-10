@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[
+  `renders when it doesn't have any results or a result search term 1`
+] = `
+<div
+  className="sui-paging-info"
+  results={Array []}
+>
+  Showing
+   
+  <strong>
+    1
+     - 
+    20
+  </strong>
+   
+  out of 
+  <strong>
+    100
+  </strong>
+</div>
+`;
+
+exports[`supports a render prop 1`] = `
+<div>
+  1
+  20
+</div>
+`;
