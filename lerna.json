@@ -1,9 +1,10 @@
 {
   "packages": [
-    "examples/*",
+    "examples/sandbox",
     "packages/*"
   ],
   "version": "1.10.0-rc.0",
+  "useWorkspaces": true,
   "command": {
     "publish": {
       "ignoreChanges": [
