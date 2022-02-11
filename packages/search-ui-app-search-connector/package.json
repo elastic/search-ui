@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-app-search-connector",
-  "version": "1.9.0",
+  "version": "1.10.0-rc.0",
   "description": "A Search UI connector for Elastic's App Search Service",
   "license": "Apache-2.0",
   "main": "lib/cjs",
@@ -33,7 +33,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "devDependencies": {
-    "@elastic/search-ui": "^1.9.0",
+    "@elastic/search-ui": "1.10.0-rc.0",
     "@types/enzyme": "^3.10.11",
     "@types/jest": "^27.4.0",
     "jest": "^27.4.7",

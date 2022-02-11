@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui-views",
-  "version": "1.9.0",
+  "version": "1.10.0-rc.0",
   "description": "A collection of React UI components for building search experiences",
   "license": "Apache-2.0",
   "main": "lib/cjs",
@@ -42,12 +42,12 @@
     "react-dom": ">= 16.8.0 < 18"
   },
   "devDependencies": {
-    "@types/enzyme": "^3.10.11",
-    "@types/jest": "^27.4.0",
     "@storybook/addon-actions": "^4.1.18",
     "@storybook/addon-links": "^4.1.18",
     "@storybook/addons": "^4.1.18",
     "@storybook/react": "^4.1.18",
+    "@types/enzyme": "^3.10.11",
+    "@types/jest": "^27.4.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
@@ -68,9 +68,9 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
+    "@elastic/search-ui": "1.10.0-rc.0",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
-    "react-select": "^2.4.4",
-    "@elastic/search-ui": "^1.9.0"
+    "react-select": "^2.4.4"
   }
 }
