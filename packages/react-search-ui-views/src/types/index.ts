@@ -87,10 +87,10 @@ export type FacetContainerContext = Pick<
 >;
 
 export type FacetContainerProps = BaseContainerProps & {
-  filterType: FilterType;
+  filterType?: FilterType;
   show?: number;
   view?: React.ComponentType<FacetViewProps>;
-  isFilterable: boolean;
+  isFilterable?: boolean;
   field: string;
   label: string;
 } & FacetContainerContext;
