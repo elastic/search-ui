@@ -1,6 +1,6 @@
 import * as helpersSource from "./helpers";
 
-export { default as SearchDriver } from "./SearchDriver";
+export { default as SearchDriver, DEFAULT_STATE } from "./SearchDriver";
 export const helpers = {
   ...helpersSource
 };

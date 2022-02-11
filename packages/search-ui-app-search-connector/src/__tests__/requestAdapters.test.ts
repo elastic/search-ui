@@ -2,11 +2,13 @@ import { adaptRequest } from "../requestAdapters";
 
 describe("adaptRequest", () => {
   it("adapts request", () => {
-    expect(adaptRequest(request)).toEqual(adaptedRequest);
+    expect(adaptRequest(request as any)).toEqual(adaptedRequest);
   });
 
   it("adapts sortList request", () => {
-    expect(adaptRequest(sortListRequest)).toEqual(adaptedSortListRequest);
+    expect(adaptRequest(sortListRequest as any)).toEqual(
+      adaptedSortListRequest
+    );
   });
 
   it("adapts empty request", () => {
@@ -22,18 +24,18 @@ const request = {
   searchTerm: "test",
   resultsPerPage: 10,
   current: 4,
-  sortDirection: "asc",
+  sortDirection: "asc" as const,
   sortField: "title",
   filters: [
     {
       field: "initial",
       values: ["values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["more values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "test",
@@ -44,21 +46,22 @@ const request = {
           name: "test"
         }
       ],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "any"
+      type: "any" as const
     },
     {
       field: "whatever",
       values: ["value"]
+      // TODO: is it possible to not have type here?
     }
   ]
 };
@@ -122,11 +125,11 @@ const sortListRequest = {
   sortList: [
     {
       field: "states",
-      direction: "asc"
+      direction: "asc" as const
     },
     {
       field: "title",
-      direction: "desc"
+      direction: "desc" as const
     }
   ],
   sortDirection: undefined,

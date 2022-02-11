@@ -3,6 +3,39 @@ import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
 import buildResponseAdapterOptions from "./buildResponseAdapterOptions";
+import type {
+  QueryConfig,
+  RequestState,
+  SearchState,
+  AutocompleteQuery,
+  SuggestionsQueryConfig
+} from "@elastic/search-ui";
+
+export type AppSearchAPIConnectorParams = {
+  searchKey: string;
+  engineName: string;
+  hostIdentifier: string;
+  beforeSearchCall?: SearchQueryHook;
+  beforeAutocompleteResultsCall?: SearchQueryHook;
+  beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+  endpointBase?: string;
+};
+
+interface ResultClickParams {
+  query: string;
+  documentId: string;
+  requestId: string;
+  tags: string[];
+}
+
+export type SearchQueryHook = (
+  queryOptions: QueryConfig,
+  next: (newQueryOptions: any) => any
+) => any;
+export type SuggestionsQueryHook = (
+  queryOptions: SuggestionsQueryConfig,
+  next: (newQueryOptions: any) => any
+) => any;
 
 // The API will error out if empty facets or filters objects
 // are sent.
@@ -41,6 +74,11 @@ class AppSearchAPIConnector {
    * @param {string} endpointBase="" Overrides the base of the Swiftype API endpoint completely.
    */
 
+  client: any;
+  beforeSearchCall?: SearchQueryHook;
+  beforeAutocompleteResultsCall?: SearchQueryHook;
+  beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+
   /**
    * @param {Options} options
    */
@@ -54,7 +92,7 @@ class AppSearchAPIConnector {
       next(queryOptions),
     endpointBase = "",
     ...rest
-  }) {
+  }: AppSearchAPIConnectorParams) {
     if (!engineName || !(hostIdentifier || endpointBase)) {
       throw Error(
         "hostIdentifier or endpointBase, and engineName are required"
@@ -73,17 +111,30 @@ class AppSearchAPIConnector {
     this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;
   }
 
-  onResultClick({ query, documentId, requestId, tags = [] }) {
+  onResultClick({
+    query,
+    documentId,
+    requestId,
+    tags = []
+  }: ResultClickParams): void {
     tags = tags.concat("results");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  onAutocompleteResultClick({ query, documentId, requestId, tags = [] }) {
+  onAutocompleteResultClick({
+    query,
+    documentId,
+    requestId,
+    tags = []
+  }: ResultClickParams): void {
     tags = tags.concat("autocomplete");
     return this.client.click({ query, documentId, requestId, tags });
   }
 
-  async onSearch(state, queryConfig) {
+  async onSearch(
+    state: RequestState,
+    queryConfig: QueryConfig
+  ): Promise<SearchState> {
     const {
       current,
       filters,
@@ -112,15 +163,18 @@ class AppSearchAPIConnector {
       ...removeEmptyFacetsAndFilters(withQueryConfigOptions)
     };
 
-    return this.beforeSearchCall(options, async newOptions => {
+    return this.beforeSearchCall(options, async (newOptions) => {
       const response = await this.client.search(query, newOptions);
       return adaptResponse(response, buildResponseAdapterOptions(queryConfig));
     });
   }
 
-  async onAutocomplete({ searchTerm }, queryConfig) {
-    const autocompletedState = {};
-    let promises = [];
+  async onAutocomplete(
+    { searchTerm }: RequestState,
+    queryConfig: AutocompleteQuery
+  ): Promise<SearchState> {
+    const autocompletedState: any = {};
+    const promises = [];
 
     if (queryConfig.results) {
       const {
@@ -149,11 +203,10 @@ class AppSearchAPIConnector {
       };
       const options = removeEmptyFacetsAndFilters(withQueryConfigOptions);
       promises.push(
-        this.beforeAutocompleteResultsCall(options, newOptions => {
-          return this.client.search(query, newOptions).then(response => {
-            autocompletedState.autocompletedResults = adaptResponse(
-              response
-            ).results;
+        this.beforeAutocompleteResultsCall(options, (newOptions) => {
+          return this.client.search(query, newOptions).then((response) => {
+            autocompletedState.autocompletedResults =
+              adaptResponse(response).results;
             autocompletedState.autocompletedResultsRequestId =
               response.info.meta.request_id;
           });
@@ -165,12 +218,14 @@ class AppSearchAPIConnector {
       const options = queryConfig.suggestions;
 
       promises.push(
-        this.beforeAutocompleteSuggestionsCall(options, newOptions =>
-          this.client.querySuggestion(searchTerm, newOptions).then(response => {
-            autocompletedState.autocompletedSuggestions = response.results;
-            autocompletedState.autocompletedSuggestionsRequestId =
-              response.meta.request_id;
-          })
+        this.beforeAutocompleteSuggestionsCall(options, (newOptions) =>
+          this.client
+            .querySuggestion(searchTerm, newOptions)
+            .then((response) => {
+              autocompletedState.autocompletedSuggestions = response.results;
+              autocompletedState.autocompletedSuggestionsRequestId =
+                response.meta.request_id;
+            })
         )
       );
     }
