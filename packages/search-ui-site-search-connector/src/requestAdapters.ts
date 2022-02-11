@@ -1,3 +1,5 @@
+import { helpers } from "@elastic/search-ui";
+
 function adaptFilterType(type: any) {
   if (type === "any") return {};
   if (type === "all") return { type: "and" };
@@ -68,12 +70,7 @@ export function adaptFilterConfig(filters: any) {
       }
 
       const firstValue = fieldValue[0];
-      if (
-        firstValue.from ||
-        firstValue.from === 0 ||
-        firstValue.to ||
-        firstValue.to === 0
-      ) {
+      if (helpers.isFilterValueRange(firstValue)) {
         // eslint-disable-next-line
         const { name, ...rest } = firstValue;
         acc[fieldName] = {
