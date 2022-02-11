@@ -7,7 +7,6 @@
     "examples/*"
   ],
   "scripts": {
-    "postinstall": "lerna bootstrap --no-ci",
     "test": "lerna run test --stream --no-private",
     "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",

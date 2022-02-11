@@ -18,7 +18,7 @@ Lerna configuration is contained in `lerna.json`.
 
 - `/packages` - Contains publishable search-ui npm packages.
 - `/examples` - Contains non-publishable examples of search-ui usage. They are declared
-  as "packages" in `lerna.json` so that `npx lerna bootstrap` will automatically wire up the
+  as "packages" in `lerna.json` so that yarn workspaces will automatically wire up the
   examples to local dependencies.
 
 Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and `test`), the `--no-private` flag should be appended.
