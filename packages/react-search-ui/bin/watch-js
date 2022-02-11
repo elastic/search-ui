@@ -1,3 +1,2 @@
-rm -rf ./lib 
 ./node_modules/typescript/bin/tsc --watch &
 ./node_modules/typescript/bin/tsc -p tsconfig-cjs.json --watch &

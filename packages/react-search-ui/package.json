@@ -21,7 +21,7 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "./bin/test",
-    "clean": "rimraf es lib",
+    "clean": "rimraf lib",
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "build": "run-s clean build-js",
