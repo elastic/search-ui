@@ -1,8 +1,8 @@
 export default async function request(
-  engineKey: any,
-  method: any,
-  path: any,
-  params: any
+  engineKey: string,
+  method: string,
+  path: string,
+  params: Record<string, any>
 ) {
   const headers = new Headers({
     "Content-Type": "application/json"
