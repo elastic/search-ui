@@ -21,7 +21,7 @@ export default async function request(
     }
   );
 
-  let json: any;
+  let json;
   try {
     json = await response.json();
   } catch (error) {
@@ -31,7 +31,10 @@ export default async function request(
   if (response.status >= 200 && response.status < 300) {
     return json;
   } else {
-    const message = json && json.error ? json.error : response.status;
-    throw new Error(message);
+    const message =
+      json && json.errors && Object.entries(json.errors).length > 0
+        ? JSON.stringify(json.errors)
+        : response.status;
+    throw new Error(`${message}`);
   }
 }
