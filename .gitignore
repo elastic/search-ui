@@ -5,3 +5,4 @@ storybook-static
 .env
 examples/elasticsearch/netlify-lambda/
 package-lock.json
+docs/yarn.lock
