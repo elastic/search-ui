@@ -13,8 +13,7 @@
     "build": "lerna run build --stream --scope @elastic/search-ui && lerna run build --stream --scope '{@elastic/react-search-ui*,@elastic/search-ui-*}'",
     "format": "node_modules/eslint/bin/eslint.js --fix \"packages/*/src/**/*.{ts,tsx}\"",
     "lint": "node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.{ts,tsx}\"",
-    "changed": "lerna changed",
-    "sandbox": "./bin/sandbox"
+    "changed": "lerna changed"
   },
   "husky": {
     "hooks": {
