@@ -1,7 +1,7 @@
 import React from "react";
 import BooleanFacet from "../BooleanFacet";
 import { shallow, mount } from "enzyme";
-import { FacetViewProps } from "../Facet";
+import { FacetViewProps } from "../types";
 
 const params: FacetViewProps = {
   label: "A Facet",

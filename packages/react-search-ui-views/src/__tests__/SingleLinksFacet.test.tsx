@@ -1,7 +1,7 @@
 import React from "react";
 import SingleLinksFacet from "../SingleLinksFacet";
 import { shallow } from "enzyme";
-import { FacetViewProps } from "../Facet";
+import { FacetViewProps } from "../types";
 
 const params: FacetViewProps = {
   label: "Facet",
