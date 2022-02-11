@@ -83,6 +83,7 @@ export type FieldConfiguration = {
     size?: number;
     fallback?: boolean;
   };
+  fields?: string[];
   raw?: any;
 };
 
@@ -100,11 +101,13 @@ export type AutocompleteQuery = {
 export type FacetConfiguration = {
   type: string;
   size?: number;
+  center?: string;
+  unit?: string;
   ranges?: {
-    from?: number;
+    from?: number | string;
     name?: string;
-    to?: number;
-  };
+    to?: number | string;
+  }[];
 };
 
 // todo: types
