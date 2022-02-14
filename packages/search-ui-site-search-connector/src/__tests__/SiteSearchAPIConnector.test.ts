@@ -14,7 +14,7 @@ beforeEach(() => {
   global.fetch = jest.fn().mockReturnValue(fetchResponse(exampleAPIResponse));
 });
 
-const engineKey = 12345;
+const engineKey = "12345";
 const documentType = "national-parks";
 const params = {
   documentType,
@@ -27,7 +27,7 @@ it("can be initialized", () => {
 });
 
 describe("#onSearch", () => {
-  function subject({ beforeSearchCall, state, queryConfig = {} }) {
+  function subject({ beforeSearchCall = undefined, state, queryConfig = {} }) {
     const connector = new SiteSearchAPIConnector({
       ...params,
       beforeSearchCall
@@ -63,7 +63,9 @@ describe("#onSearch", () => {
 
     await subject({ state });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       page: 1,
       per_page: 10,
@@ -113,7 +115,9 @@ describe("#onSearch", () => {
 
     await subject({ state, queryConfig });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       facets: {
         "national-parks": ["states"]
@@ -170,7 +174,9 @@ describe("#onSearch", () => {
 
     await subject({ state, queryConfig });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       page: 2,
       per_page: 5,
@@ -218,7 +224,9 @@ describe("#onSearch", () => {
       queryConfig
     });
 
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       per_page: 5,
       engine_key: engineKey,
       q: "searchTerm",
@@ -229,7 +237,7 @@ describe("#onSearch", () => {
 
 describe("#onAutocomplete", () => {
   function subject({
-    beforeAutocompleteResultsCall,
+    beforeAutocompleteResultsCall = undefined,
     state,
     queryConfig = {
       results: {}
@@ -259,7 +267,9 @@ describe("#onAutocomplete", () => {
 
     await subject({ state });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       q: "searchTerm"
     });
@@ -285,7 +295,9 @@ describe("#onAutocomplete", () => {
 
     await subject({ state, queryConfig });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       q: "searchTerm",
       fetch_fields: {
@@ -325,7 +337,9 @@ describe("#onAutocomplete", () => {
 
     await subject({ state, queryConfig });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       q: "searchTerm",
       page: 2,
@@ -373,7 +387,9 @@ describe("#onAutocomplete", () => {
 
     await subject({ beforeAutocompleteResultsCall, state, queryConfig });
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(JSON.parse(global.fetch.mock.calls[0][1].body)).toEqual({
+    expect(
+      JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)
+    ).toEqual({
       engine_key: engineKey,
       q: "searchTerm",
       per_page: 5,
@@ -398,7 +414,7 @@ describe("#onResultClick", () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const url = global.fetch.mock.calls[0][0];
+    const url = (global.fetch as jest.Mock).mock.calls[0][0];
     const urlWithoutTimestamp = url.replace(/&t=\d*/, "").replace(/t=\d*&/, "");
     expect(urlWithoutTimestamp).toEqual(
       `https://search-api.swiftype.com/api/v1/public/analytics/pc?engine_key=${engineKey}&q=${query}&doc_id=${documentId}`
@@ -422,7 +438,7 @@ describe("#onAutocompleteResultClick", () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const url = global.fetch.mock.calls[0][0];
+    const url = (global.fetch as jest.Mock).mock.calls[0][0];
     const urlWithoutTimestamp = url.replace(/&t=\d*/, "").replace(/t=\d*&/, "");
     expect(urlWithoutTimestamp).toEqual(
       `https://search-api.swiftype.com/api/v1/public/analytics/pas?engine_key=${engineKey}&q=${query}&doc_id=${documentId}`

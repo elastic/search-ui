@@ -1,10 +1,16 @@
 import adaptRequest from "./requestAdapter";
 import adaptResponse from "./responseAdapter";
 import request from "./request";
+import type { RequestState } from "@elastic/search-ui";
+import type {
+  SearchQueryHook,
+  SiteSearchAPIConnectorParams,
+  SiteSearchQueryConfig
+} from "./types";
 
-function _get(engineKey: any, path: any, params: any) {
+function _get(engineKey: string, path: string, params: Record<string, any>) {
   const query = Object.entries({ engine_key: engineKey, ...params })
-    .map(([paramName, paramValue]: [any, any]) => {
+    .map(([paramName, paramValue]) => {
       return `${paramName}=${encodeURIComponent(paramValue)}`;
     })
     .join("&");
@@ -44,19 +50,23 @@ class SiteSearchAPIConnector {
    * @param {Options} options
    */
 
-  _get: any;
-  request: any;
-  beforeAutocompleteResultsCall: any;
-  documentType: any;
-  engineKey: any;
-  beforeSearchCall: any;
+  _get: (path: string, params: Record<string, any>) => Promise<Response>;
+  request: (
+    method: string,
+    path: string,
+    params: Record<string, any>
+  ) => Promise<any>;
+  beforeAutocompleteResultsCall: SearchQueryHook;
+  documentType: string;
+  engineKey: string;
+  beforeSearchCall: SearchQueryHook;
 
   constructor({
     documentType,
     engineKey,
     beforeSearchCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions)
-  }: any) {
+  }: SiteSearchAPIConnectorParams) {
     this.documentType = documentType;
     this.engineKey = engineKey;
     this.beforeSearchCall = beforeSearchCall;
@@ -65,7 +75,15 @@ class SiteSearchAPIConnector {
     this._get = _get.bind(this, engineKey);
   }
 
-  onResultClick({ query, documentId, tags }) {
+  onResultClick({
+    query,
+    documentId,
+    tags
+  }: {
+    query: string;
+    documentId: string;
+    tags: string[];
+  }) {
     if (tags && tags.length > 0) {
       console.warn(
         "search-ui-site-search-connector: Site Search does not support tags on click"
@@ -78,7 +96,15 @@ class SiteSearchAPIConnector {
     });
   }
 
-  onAutocompleteResultClick({ query, documentId, tags }) {
+  onAutocompleteResultClick({
+    query,
+    documentId,
+    tags
+  }: {
+    query: string;
+    documentId: string;
+    tags: string[];
+  }) {
     if (tags) {
       console.warn(
         "search-ui-site-search-connector: Site Search does not support tags on autocompleteClick"
@@ -91,7 +117,7 @@ class SiteSearchAPIConnector {
     });
   }
 
-  onSearch(state, queryConfig) {
+  onSearch(state: RequestState, queryConfig: SiteSearchQueryConfig) {
     const options = adaptRequest(state, queryConfig, this.documentType);
 
     return this.beforeSearchCall(options, (newOptions) =>
@@ -101,7 +127,10 @@ class SiteSearchAPIConnector {
     );
   }
 
-  async onAutocomplete({ searchTerm }, queryConfig) {
+  async onAutocomplete(
+    { searchTerm }: { searchTerm: string },
+    queryConfig: { results?: SiteSearchQueryConfig; [key: string]: any }
+  ) {
     if (queryConfig.results) {
       const options = adaptRequest(
         { searchTerm },
