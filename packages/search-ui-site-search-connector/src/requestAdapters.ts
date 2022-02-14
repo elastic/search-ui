@@ -1,12 +1,14 @@
+import type { FieldConfiguration } from "@elastic/search-ui";
 import { helpers } from "@elastic/search-ui";
+import type { Filter, FacetConfiguration } from "@elastic/search-ui";
 
-function adaptFilterType(type: any) {
+function adaptFilterType(type: string) {
   if (type === "any") return {};
   if (type === "all") return { type: "and" };
   return { type: "and" };
 }
 
-export function adaptFacetConfig(facets: any) {
+export function adaptFacetConfig(facets: Record<string, FacetConfiguration>) {
   if (!facets) return;
 
   const convertInvalidFacetsToUndefined = ([fieldName, config]) => {
@@ -40,10 +42,10 @@ export function adaptFacetConfig(facets: any) {
   return config;
 }
 
-export function adaptFilterConfig(filters: any) {
+export function adaptFilterConfig(filters: Filter[]) {
   if (!filters || Object.keys(filters).length === 0) return;
 
-  return filters.reduce((acc: any, filter: any) => {
+  return filters.reduce((acc, filter) => {
     const fieldName = filter.field;
     const fieldValue = filter.values;
 
@@ -92,13 +94,15 @@ export function adaptFilterConfig(filters: any) {
   }, {});
 }
 
-export function adaptResultFieldsConfig(resultFieldsConfig: any) {
+export function adaptResultFieldsConfig(
+  resultFieldsConfig: Record<string, FieldConfiguration>
+): [string[]?, Record<string, { size?: number; fallback?: boolean }>?] {
   if (!resultFieldsConfig) return [];
 
   const fetchFields = Object.keys(resultFieldsConfig);
 
   const highlightFields = Object.entries(resultFieldsConfig).reduce(
-    (acc, [fieldName, fieldConfig]: [any, any]) => {
+    (acc, [fieldName, fieldConfig]) => {
       if (!fieldConfig.snippet) return acc;
       return {
         ...acc,
@@ -111,7 +115,9 @@ export function adaptResultFieldsConfig(resultFieldsConfig: any) {
   return [fetchFields, highlightFields];
 }
 
-export function adaptSearchFieldsConfig(searchFieldsConfig: any) {
+export function adaptSearchFieldsConfig(
+  searchFieldsConfig: Record<string, string[]>
+) {
   if (!searchFieldsConfig) return [];
 
   return Object.keys(searchFieldsConfig);

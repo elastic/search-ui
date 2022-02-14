@@ -121,7 +121,7 @@ describe("adaptFilterConfig", () => {
           field: "test",
           values: ["values"]
         }
-      ])
+      ] as any) // TODO: is "type" field optional?
     ).toEqual({
       test: {
         type: "and",
@@ -166,7 +166,7 @@ describe("adaptFilterConfig", () => {
           values: ["values"],
           type: "whatever"
         }
-      ])
+      ] as any)
     ).toEqual({});
   });
 
@@ -205,7 +205,7 @@ describe("adaptFilterConfig", () => {
           ],
           type: "all"
         }
-      ])
+      ] as any)
     ).toEqual({});
   });
 
@@ -250,9 +250,9 @@ describe("adaptSearchFieldsConfig", () => {
   it("adapts config to site search search fields config", () => {
     expect(
       adaptSearchFieldsConfig({
-        title: {},
-        description: {},
-        states: {}
+        title: [],
+        description: [],
+        states: []
       })
     ).toEqual(["title", "description", "states"]);
   });
