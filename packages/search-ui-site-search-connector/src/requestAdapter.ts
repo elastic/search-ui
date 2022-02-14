@@ -5,10 +5,13 @@ import {
   adaptSearchFieldsConfig
 } from "./requestAdapters";
 
+import type { RequestState } from "@elastic/search-ui";
+import type { SiteSearchQueryConfig } from "./types";
+
 export default function adaptRequest(
-  request: any,
-  queryConfig: any,
-  documentType: any
+  request: RequestState,
+  queryConfig: SiteSearchQueryConfig,
+  documentType: string
 ) {
   const { disjunctiveFacets, disjunctiveFacetsAnalyticsTags } = queryConfig;
 
@@ -24,7 +27,7 @@ export default function adaptRequest(
     );
   }
 
-  const updatedFacets = adaptFacetConfig(queryConfig.facets);
+  const updatedFacets = adaptFacetConfig(queryConfig.facets as any); // See SiteSearchQueryConfig type
   const updatedFilters = adaptFilterConfig(
     queryConfig.filters !== undefined ? queryConfig.filters : request.filters
   );

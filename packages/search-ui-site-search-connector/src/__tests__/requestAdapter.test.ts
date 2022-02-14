@@ -8,7 +8,7 @@ describe("adaptRequest", () => {
   });
 
   it("adapts empty request", () => {
-    expect(adaptRequest(emptyRequest, {})).toEqual(adaptedEmptyRequest);
+    expect(adaptRequest(emptyRequest, {}, "")).toEqual(adaptedEmptyRequest);
   });
 });
 
@@ -22,18 +22,20 @@ const adaptedEmptyRequest = {
 
 const queryConfig = {
   facets: {
+    // TODO: Is it Record<string, string[]> or Record<string, { type: string, size: number}>?
+    // Check with the docs: https://swiftype.com/documentation/site-search/searching/faceting
     states: {
       type: "value",
       size: 30
-    }
+    } as any
   },
   result_fields: {
     title: { raw: {}, snippet: { size: 20, fallback: true } }
   },
   search_fields: {
-    title: {},
-    description: {},
-    states: {}
+    title: [],
+    description: [],
+    states: []
   }
 };
 
@@ -41,26 +43,26 @@ const request = {
   searchTerm: "test",
   resultsPerPage: 10,
   current: 4,
-  sortDirection: "asc",
+  sortDirection: "asc" as const,
   sortField: "title",
   result_fields: {
     title: { raw: {}, snippet: { size: 20, fallback: true } }
   },
   search_fields: {
-    title: {},
-    description: {},
-    states: {}
+    title: [],
+    description: [],
+    states: []
   },
   filters: [
     {
       field: "initial",
       values: ["values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["more values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "test",
@@ -71,24 +73,25 @@ const request = {
           name: "test"
         }
       ],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "another",
       values: ["additional values", "and values", "and even more values"],
-      type: "any"
+      type: "any" as const
     },
     {
+      // TODO: check if "type" can be omitted here
       field: "whatever",
       values: ["value"]
-    },
+    } as any,
     {
-      type: "none",
+      type: "none" as const,
       field: "nunya",
       values: ["busi", "ness"]
     }
