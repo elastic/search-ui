@@ -26,8 +26,8 @@ export function getFacets(docInfo: any) {
     .reduce(addEachKeyValueToObject, {});
 }
 
-export function getResults(records: any, documentType) {
-  const isMetaField = (key: any) => key.startsWith("_");
+export function getResults(records: Record<string, any>, documentType: string) {
+  const isMetaField = (key: string) => key.startsWith("_");
   const toObjectWithRaw = (value: any) => ({ raw: value });
 
   return records[documentType].map((record: any) => {
