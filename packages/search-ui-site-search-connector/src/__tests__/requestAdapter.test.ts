@@ -86,10 +86,9 @@ const requestState = {
       type: "any" as const
     },
     {
-      // TODO: check if "type" can be omitted here
       field: "whatever",
       values: ["value"]
-    } as any,
+    } as any, // "type" field is intentionally omitted for testing
     {
       type: "none" as const,
       field: "nunya",

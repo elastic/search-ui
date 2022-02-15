@@ -121,7 +121,7 @@ describe("adaptFilterConfig", () => {
           field: "test",
           values: ["values"]
         }
-      ] as any) // TODO: is "type" field optional?
+      ] as any) // "type" field is intentionally omitted for testing
     ).toEqual({
       test: {
         type: "and",
