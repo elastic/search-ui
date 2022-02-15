@@ -27,7 +27,7 @@ export default function adaptRequest(
     );
   }
 
-  const updatedFacets = adaptFacetConfig(queryConfig.facets as any); // See SiteSearchQueryConfig type
+  const updatedFacets = adaptFacetConfig(queryConfig.facets);
   const updatedFilters = adaptFilterConfig(
     queryConfig.filters !== undefined
       ? queryConfig.filters

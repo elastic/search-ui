@@ -1,3 +1,5 @@
+import adaptRequest from "../requestAdapter";
+
 import type {
   FieldConfiguration,
   FacetConfiguration
@@ -20,7 +22,7 @@ export type SiteSearchQueryConfig = {
   sortList?: any;
   result_fields?: Record<string, FieldConfiguration>;
   search_fields?: Record<string, string[]>;
-  facets?: Record<string, string[] | FacetConfiguration>; // which type is it? Tests conflict with docs.
+  facets?: Record<string, FacetConfiguration>;
   // extra params not handled by requestAdapter but available on API
   spelling?: "strict" | "always" | "retry";
   functional_boosts?: Record<string, Record<string, Boost>>;
@@ -29,8 +31,8 @@ export type SiteSearchQueryConfig = {
 };
 
 export type SearchQueryHook = (
-  queryOptions: SiteSearchQueryConfig,
-  next: (newQueryOptions: SiteSearchQueryConfig) => any
+  queryOptions: ReturnType<typeof adaptRequest>,
+  next: (newQueryOptions: ReturnType<typeof adaptRequest>) => any
 ) => any;
 
 export type SiteSearchAPIConnectorParams = {

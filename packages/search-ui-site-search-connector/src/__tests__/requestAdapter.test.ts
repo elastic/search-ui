@@ -24,12 +24,10 @@ const adaptedEmptyRequest = {
 
 const queryConfig = {
   facets: {
-    // TODO: Is it Record<string, string[]> or Record<string, { type: string, size: number}>?
-    // Check with the docs: https://swiftype.com/documentation/site-search/searching/faceting
     states: {
       type: "value",
       size: 30
-    } as any
+    }
   },
   result_fields: {
     title: { raw: {}, snippet: { size: 20, fallback: true } }
