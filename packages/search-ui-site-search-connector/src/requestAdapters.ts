@@ -1,10 +1,14 @@
-function adaptFilterType(type) {
+import type { FieldConfiguration } from "@elastic/search-ui";
+import { helpers } from "@elastic/search-ui";
+import type { Filter, FacetConfiguration } from "@elastic/search-ui";
+
+function adaptFilterType(type: string) {
   if (type === "any") return {};
   if (type === "all") return { type: "and" };
   return { type: "and" };
 }
 
-export function adaptFacetConfig(facets) {
+export function adaptFacetConfig(facets: Record<string, FacetConfiguration>) {
   if (!facets) return;
 
   const convertInvalidFacetsToUndefined = ([fieldName, config]) => {
@@ -31,19 +35,19 @@ export function adaptFacetConfig(facets) {
 
   const config = Object.entries(facets)
     .map(convertInvalidFacetsToUndefined)
-    .filter(v => v)
+    .filter((v) => v)
     .map(getKey);
 
   if (!config.length) return;
   return config;
 }
 
-export function adaptFilterConfig(filters) {
+export function adaptFilterConfig(filters: Filter[]) {
   if (!filters || Object.keys(filters).length === 0) return;
 
   return filters.reduce((acc, filter) => {
     const fieldName = filter.field;
-    let fieldValue = filter.values;
+    const fieldValue = filter.values;
 
     if (acc[fieldName]) {
       console.warn(
@@ -52,14 +56,14 @@ export function adaptFilterConfig(filters) {
       return acc;
     }
 
-    if (filter.type && (filter.type !== "all" && filter.type !== "any")) {
+    if (filter.type && filter.type !== "all" && filter.type !== "any") {
       console.warn(
         `search-ui-site-search-connector: Unsupported filter type "${filter.type}" found, only "all" and "any" are currently supported`
       );
       return acc;
     }
 
-    if (fieldValue.find(v => typeof v === "object") !== undefined) {
+    if (fieldValue.find((v) => typeof v === "object") !== undefined) {
       if (fieldValue.length > 1) {
         console.warn(
           "search-ui-site-search-connector: Cannot apply more than 1 none-value filters to a single field"
@@ -68,12 +72,7 @@ export function adaptFilterConfig(filters) {
       }
 
       const firstValue = fieldValue[0];
-      if (
-        firstValue.from ||
-        firstValue.from === 0 ||
-        firstValue.to ||
-        firstValue.to === 0
-      ) {
+      if (helpers.isFilterValueRange(firstValue)) {
         // eslint-disable-next-line
         const { name, ...rest } = firstValue;
         acc[fieldName] = {
@@ -95,7 +94,9 @@ export function adaptFilterConfig(filters) {
   }, {});
 }
 
-export function adaptResultFieldsConfig(resultFieldsConfig) {
+export function adaptResultFieldsConfig(
+  resultFieldsConfig: Record<string, FieldConfiguration>
+): [string[]?, Record<string, { size?: number; fallback?: boolean }>?] {
   if (!resultFieldsConfig) return [];
 
   const fetchFields = Object.keys(resultFieldsConfig);
@@ -114,7 +115,9 @@ export function adaptResultFieldsConfig(resultFieldsConfig) {
   return [fetchFields, highlightFields];
 }
 
-export function adaptSearchFieldsConfig(searchFieldsConfig) {
+export function adaptSearchFieldsConfig(
+  searchFieldsConfig: Record<string, string[]>
+) {
   if (!searchFieldsConfig) return [];
 
   return Object.keys(searchFieldsConfig);
