@@ -1,8 +1,9 @@
 import request from "../request";
+import type { SearchResponse } from "../types";
 
-const responseJson = {};
+const responseJson: SearchResponse = {};
 
-function fetchResponse(response, statusCode) {
+function fetchResponse(response: SearchResponse, statusCode: number) {
   return Promise.resolve({
     status: statusCode,
     json: () => {
@@ -20,11 +21,11 @@ beforeEach(() => {
   global.fetch = jest.fn().mockReturnValue(fetchResponse(responseJson, 200));
 });
 
-function respondWithSuccess(json) {
+function respondWithSuccess(json?: SearchResponse) {
   global.fetch = jest.fn().mockReturnValue(fetchResponse(json, 200));
 }
 
-function respondWithError(json) {
+function respondWithError(json?: SearchResponse) {
   global.fetch = jest.fn().mockReturnValue(fetchResponse(json, 401));
 }
 
@@ -46,7 +47,7 @@ it("will return undefined on successful request without json", async () => {
 
 it("will throw with status on unsuccessful request without json", async () => {
   respondWithError();
-  let error;
+  let error: Error;
 
   try {
     error = await subject();
@@ -58,8 +59,10 @@ it("will throw with status on unsuccessful request without json", async () => {
 });
 
 it("will throw with message on unsuccessful request with json and message", async () => {
-  respondWithError({ error: "I am a server error message" });
-  let error;
+  respondWithError({
+    errors: { some_parameter: ["I am a server error message"] }
+  });
+  let error: Error;
 
   try {
     error = await subject();
@@ -67,12 +70,14 @@ it("will throw with message on unsuccessful request with json and message", asyn
     error = e;
   }
 
-  expect(error.message).toEqual("I am a server error message");
+  expect(error.message).toEqual(
+    '{"some_parameter":["I am a server error message"]}'
+  );
 });
 
 it("will throw with message on unsuccessful request with json but no message", async () => {
   respondWithError({});
-  let error;
+  let error: Error;
 
   try {
     error = await subject();

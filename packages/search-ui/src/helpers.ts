@@ -1,5 +1,5 @@
 import deepEqual from "deep-equal";
-import { Filter, FilterType, FilterValue } from "./types";
+import { Filter, FilterType, FilterValue, FilterValueRange } from "./types";
 
 /**
  * Given a list of applied Filters, find FilterValues based on
@@ -125,4 +125,12 @@ export function mergeFilters(filters1, filters2) {
     }
     return [...acc, next];
   }, filters1);
+}
+
+// Check if filterValue is of type FilterValueRange
+// Using type predicates https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+export function isFilterValueRange(
+  filterValue: FilterValue
+): filterValue is FilterValueRange {
+  return (filterValue as FilterValueRange).name !== undefined;
 }
