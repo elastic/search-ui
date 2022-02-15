@@ -2,17 +2,19 @@ import adaptRequest from "../requestAdapter";
 
 describe("adaptRequest", () => {
   it("adapts request", () => {
-    expect(adaptRequest(request, queryConfig, "national-parks")).toEqual(
+    expect(adaptRequest(requestState, queryConfig, "national-parks")).toEqual(
       adaptedRequest
     );
   });
 
   it("adapts empty request", () => {
-    expect(adaptRequest(emptyRequest, {}, "")).toEqual(adaptedEmptyRequest);
+    expect(adaptRequest(emptyRequestState, {}, "")).toEqual(
+      adaptedEmptyRequest
+    );
   });
 });
 
-const emptyRequest = {
+const emptyRequestState = {
   searchTerm: ""
 };
 
@@ -39,7 +41,7 @@ const queryConfig = {
   }
 };
 
-const request = {
+const requestState = {
   searchTerm: "test",
   resultsPerPage: 10,
   current: 4,
