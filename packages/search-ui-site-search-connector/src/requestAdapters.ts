@@ -11,14 +11,17 @@ function adaptFilterType(type: string) {
 export function adaptFacetConfig(facets: Record<string, FacetConfiguration>) {
   if (!facets) return;
 
-  const convertInvalidFacetsToUndefined = ([fieldName, config]) => {
+  const convertInvalidFacetsToUndefined = ([fieldName, config]: [
+    string,
+    FacetConfiguration
+  ]): [string, FacetConfiguration] | undefined => {
     if (config.type != "value") {
       console.warn(
         `search-ui-site-search-connector: Dropping ${fieldName} facet, only value facets are supported in Site Search`
       );
-      return;
+      return undefined;
     }
-    if (config.sort) {
+    if ((config as any).sort) {
       console.warn(
         "search-ui-site-search-connector: Site Search does not support 'sort' on facets"
       );
@@ -31,12 +34,10 @@ export function adaptFacetConfig(facets: Record<string, FacetConfiguration>) {
     return [fieldName, config];
   };
 
-  const getKey = ([key]) => key;
-
   const config = Object.entries(facets)
     .map(convertInvalidFacetsToUndefined)
-    .filter((v) => v)
-    .map(getKey);
+    .filter((v) => v) // filter out undefined
+    .map(([key]) => key); // get keys
 
   if (!config.length) return;
   return config;

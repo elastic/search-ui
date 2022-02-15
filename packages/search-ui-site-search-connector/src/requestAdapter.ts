@@ -9,7 +9,7 @@ import type { RequestState } from "@elastic/search-ui";
 import type { SiteSearchQueryConfig } from "./types";
 
 export default function adaptRequest(
-  request: RequestState,
+  requestState: RequestState,
   queryConfig: SiteSearchQueryConfig,
   documentType: string
 ) {
@@ -27,35 +27,39 @@ export default function adaptRequest(
     );
   }
 
-  const updatedFacets = adaptFacetConfig(queryConfig.facets as any); // See SiteSearchQueryConfig type
+  const updatedFacets = adaptFacetConfig(queryConfig.facets);
   const updatedFilters = adaptFilterConfig(
-    queryConfig.filters !== undefined ? queryConfig.filters : request.filters
+    queryConfig.filters !== undefined
+      ? queryConfig.filters
+      : requestState.filters
   );
   const page =
-    queryConfig.current !== undefined ? queryConfig.current : request.current;
+    queryConfig.current !== undefined
+      ? queryConfig.current
+      : requestState.current;
   const per_page =
     queryConfig.resultsPerPage !== undefined
       ? queryConfig.resultsPerPage
-      : request.resultsPerPage;
+      : requestState.resultsPerPage;
   const sortDirection =
     queryConfig.sortDirection !== undefined
       ? queryConfig.sortDirection
-      : request.sortDirection;
+      : requestState.sortDirection;
   const sortField =
     queryConfig.sortField !== undefined
       ? queryConfig.sortField
-      : request.sortField;
+      : requestState.sortField;
   const sortList =
     queryConfig.sortList !== undefined
       ? queryConfig.sortList
-      : request.sortList;
+      : requestState.sortList;
   const [fetchFields, highlightFields] = adaptResultFieldsConfig(
     queryConfig.result_fields
   );
   const updatedSearchFields = adaptSearchFieldsConfig(
     queryConfig.search_fields
   );
-  const searchTerm = request.searchTerm;
+  const searchTerm = requestState.searchTerm;
 
   return {
     ...(per_page && { per_page }),

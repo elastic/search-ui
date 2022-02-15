@@ -117,8 +117,8 @@ class SiteSearchAPIConnector {
     });
   }
 
-  onSearch(state: RequestState, queryConfig: SiteSearchQueryConfig) {
-    const options = adaptRequest(state, queryConfig, this.documentType);
+  onSearch(requestState: RequestState, queryConfig: SiteSearchQueryConfig) {
+    const options = adaptRequest(requestState, queryConfig, this.documentType);
 
     return this.beforeSearchCall(options, (newOptions) =>
       this.request("POST", "engines/search.json", newOptions).then((json) =>

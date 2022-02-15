@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "jsx": "react",
     "target": "es2015",
-    "declaration":true,
+    "declaration": true,
     "outDir": "lib/esm",
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,7 +18,6 @@
   ],
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx",
     "src/**/*.js"
   ]
 }

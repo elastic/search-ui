@@ -1,6 +1,6 @@
 import SiteSearchAPIConnector from "..";
 
-import exampleAPIResponse from "../../resources/example-response.json";
+import exampleAPIResponse from "./example-response.json";
 
 function fetchResponse(response) {
   return Promise.resolve({

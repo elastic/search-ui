@@ -2,17 +2,19 @@ import adaptRequest from "../requestAdapter";
 
 describe("adaptRequest", () => {
   it("adapts request", () => {
-    expect(adaptRequest(request, queryConfig, "national-parks")).toEqual(
+    expect(adaptRequest(requestState, queryConfig, "national-parks")).toEqual(
       adaptedRequest
     );
   });
 
   it("adapts empty request", () => {
-    expect(adaptRequest(emptyRequest, {}, "")).toEqual(adaptedEmptyRequest);
+    expect(adaptRequest(emptyRequestState, {}, "")).toEqual(
+      adaptedEmptyRequest
+    );
   });
 });
 
-const emptyRequest = {
+const emptyRequestState = {
   searchTerm: ""
 };
 
@@ -22,12 +24,10 @@ const adaptedEmptyRequest = {
 
 const queryConfig = {
   facets: {
-    // TODO: Is it Record<string, string[]> or Record<string, { type: string, size: number}>?
-    // Check with the docs: https://swiftype.com/documentation/site-search/searching/faceting
     states: {
       type: "value",
       size: 30
-    } as any
+    }
   },
   result_fields: {
     title: { raw: {}, snippet: { size: 20, fallback: true } }
@@ -39,7 +39,7 @@ const queryConfig = {
   }
 };
 
-const request = {
+const requestState = {
   searchTerm: "test",
   resultsPerPage: 10,
   current: 4,
@@ -86,10 +86,9 @@ const request = {
       type: "any" as const
     },
     {
-      // TODO: check if "type" can be omitted here
       field: "whatever",
       values: ["value"]
-    } as any,
+    } as any, // "type" field is intentionally omitted for testing
     {
       type: "none" as const,
       field: "nunya",
