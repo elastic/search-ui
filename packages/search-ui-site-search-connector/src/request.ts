@@ -1,4 +1,9 @@
-export default async function request(engineKey, method, path, params) {
+export default async function request(
+  engineKey: string,
+  method: string,
+  path: string,
+  params: Record<string, any>
+) {
   const headers = new Headers({
     "Content-Type": "application/json"
   });
@@ -26,7 +31,10 @@ export default async function request(engineKey, method, path, params) {
   if (response.status >= 200 && response.status < 300) {
     return json;
   } else {
-    const message = json && json.error ? json.error : response.status;
-    throw new Error(message);
+    const message =
+      json && json.errors && Object.entries(json.errors).length > 0
+        ? JSON.stringify(json.errors)
+        : response.status;
+    throw new Error(`${message}`);
   }
 }

@@ -1,9 +1,9 @@
-const addEachKeyValueToObject = (acc, [key, value]) => ({
+const addEachKeyValueToObject = (acc: any, [key, value]) => ({
   ...acc,
   [key]: value
 });
 
-export function getFacets(docInfo) {
+export function getFacets(docInfo: any) {
   if (!docInfo.facets) return {};
 
   return Object.entries(docInfo.facets)
@@ -26,11 +26,11 @@ export function getFacets(docInfo) {
     .reduce(addEachKeyValueToObject, {});
 }
 
-export function getResults(records, documentType) {
-  const isMetaField = key => key.startsWith("_");
-  const toObjectWithRaw = value => ({ raw: value });
+export function getResults(records: Record<string, any>, documentType: string) {
+  const isMetaField = (key: string) => key.startsWith("_");
+  const toObjectWithRaw = (value: any) => ({ raw: value });
 
-  return records[documentType].map(record => {
+  return records[documentType].map((record: any) => {
     const { highlight, sort, ...rest } = record; //eslint-disable-line
 
     const result = Object.entries(rest)
