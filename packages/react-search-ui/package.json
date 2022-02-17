@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui",
-  "version": "1.10.0-rc.0",
+  "version": "1.10.0-rc.1",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
   "main": "lib/cjs",
@@ -32,8 +32,8 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
-    "@elastic/react-search-ui-views": "1.10.0-rc.0",
-    "@elastic/search-ui": "1.10.0-rc.0"
+    "@elastic/react-search-ui-views": "1.10.0-rc.1",
+    "@elastic/search-ui": "1.10.0-rc.1"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 < 18",

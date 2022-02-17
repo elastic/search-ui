@@ -2,17 +2,19 @@ import adaptRequest from "../requestAdapter";
 
 describe("adaptRequest", () => {
   it("adapts request", () => {
-    expect(adaptRequest(request, queryConfig, "national-parks")).toEqual(
+    expect(adaptRequest(requestState, queryConfig, "national-parks")).toEqual(
       adaptedRequest
     );
   });
 
   it("adapts empty request", () => {
-    expect(adaptRequest(emptyRequest, {})).toEqual(adaptedEmptyRequest);
+    expect(adaptRequest(emptyRequestState, {}, "")).toEqual(
+      adaptedEmptyRequest
+    );
   });
 });
 
-const emptyRequest = {
+const emptyRequestState = {
   searchTerm: ""
 };
 
@@ -31,36 +33,36 @@ const queryConfig = {
     title: { raw: {}, snippet: { size: 20, fallback: true } }
   },
   search_fields: {
-    title: {},
-    description: {},
-    states: {}
+    title: [],
+    description: [],
+    states: []
   }
 };
 
-const request = {
+const requestState = {
   searchTerm: "test",
   resultsPerPage: 10,
   current: 4,
-  sortDirection: "asc",
+  sortDirection: "asc" as const,
   sortField: "title",
   result_fields: {
     title: { raw: {}, snippet: { size: 20, fallback: true } }
   },
   search_fields: {
-    title: {},
-    description: {},
-    states: {}
+    title: [],
+    description: [],
+    states: []
   },
   filters: [
     {
       field: "initial",
       values: ["values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["more values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "test",
@@ -71,24 +73,24 @@ const request = {
           name: "test"
         }
       ],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "initial",
       values: ["additional values", "and values", "and even more values"],
-      type: "all"
+      type: "all" as const
     },
     {
       field: "another",
       values: ["additional values", "and values", "and even more values"],
-      type: "any"
+      type: "any" as const
     },
     {
       field: "whatever",
       values: ["value"]
-    },
+    } as any, // "type" field is intentionally omitted for testing
     {
-      type: "none",
+      type: "none" as const,
       field: "nunya",
       values: ["busi", "ness"]
     }
