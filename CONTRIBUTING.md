@@ -6,7 +6,7 @@ How to build and contribute to Search UI.
 
 ### Requirements
 
-- Node: 10.16
+- Node: 14.17.0
 - NPM: 6.9
 - OS: Unix/Linux or Windows Subsystem for Linux
 
