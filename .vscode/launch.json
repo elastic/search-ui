@@ -8,7 +8,7 @@
             "name": "Jest react-search-ui-views",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/packages/react-search-ui-views/node_modules/jest/bin/jest.js",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
                  "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
@@ -26,7 +26,7 @@
             "name": "Jest react-search-ui",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/packages/react-search-ui/node_modules/jest/bin/jest.js",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
                  "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
@@ -44,7 +44,7 @@
             "name": "Jest search-ui",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/packages/search-ui/node_modules/jest/bin/jest.js",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
                  "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"

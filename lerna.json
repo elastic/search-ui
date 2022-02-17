@@ -4,13 +4,17 @@
     "packages/*"
   ],
   "version": "1.10.0-rc.1",
+  "useWorkspaces": true,
+  "npmClient": "yarn",
   "command": {
     "publish": {
+      "npmClient": "npm",
       "ignoreChanges": [
         "**/__tests__/**",
         "**/*.md",
         "**/src/test/**"
       ],
+      "registry": "https://registry.npmjs.org/",
       "message": "Release: %s"
     }
   }

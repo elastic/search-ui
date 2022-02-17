@@ -1,7 +1,7 @@
 # clear directory
 rm -rf ./lib
 # Builds ESM JavaScript
-./node_modules/typescript/bin/tsc 
+./node_modules/.bin/tsc  
 
 # Builds CJS JavaScript
-./node_modules/typescript/bin/tsc -p tsconfig-cjs.json
+./node_modules/.bin/tsc  -p tsconfig-cjs.json
