@@ -11,7 +11,7 @@ import type {
   SuggestionsQueryConfig
 } from "@elastic/search-ui";
 
-export type AppSearchAPIConnectorParams = {
+export type WorkplaceSearchAPIConnectorParams = {
   searchKey: string;
   engineName: string;
   hostIdentifier: string;
@@ -47,7 +47,7 @@ function removeEmptyFacetsAndFilters(options) {
     ...rest
   };
 }
-class AppSearchAPIConnector {
+class WorkplaceSearchAPIConnector {
   /**
    * @callback next
    * @param {Object} updatedQueryOptions The options to send to the API
@@ -92,7 +92,7 @@ class AppSearchAPIConnector {
       next(queryOptions),
     endpointBase = "",
     ...rest
-  }: AppSearchAPIConnectorParams) {
+  }: WorkplaceSearchAPIConnectorParams) {
     if (!engineName || !(hostIdentifier || endpointBase)) {
       throw Error(
         "hostIdentifier or endpointBase, and engineName are required"
@@ -235,4 +235,4 @@ class AppSearchAPIConnector {
   }
 }
 
-export default AppSearchAPIConnector;
+export default WorkplaceSearchAPIConnector;

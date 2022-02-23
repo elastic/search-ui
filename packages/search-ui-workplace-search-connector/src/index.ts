@@ -1,1 +1,1 @@
-export { default } from "./AppSearchAPIConnector";
+export { default } from "./WorkplaceSearchAPIConnector";

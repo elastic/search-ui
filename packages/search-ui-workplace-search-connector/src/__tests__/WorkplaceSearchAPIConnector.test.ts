@@ -1,10 +1,10 @@
 import * as ElasticAppSearch from "@elastic/app-search-javascript";
-import AppSearchAPIConnector from "..";
+import WorkplaceSearchAPIConnector from "..";
 import type {
   SearchQueryHook,
   SuggestionsQueryHook,
-  AppSearchAPIConnectorParams
-} from "../AppSearchAPIConnector";
+  WorkplaceSearchAPIConnectorParams
+} from "../WorkplaceSearchAPIConnector";
 import type {
   QueryConfig,
   SearchState,
@@ -75,7 +75,7 @@ const resultState = {
   requestId: "12345"
 };
 
-const params: AppSearchAPIConnectorParams = {
+const params: WorkplaceSearchAPIConnectorParams = {
   engineName: "some-engine",
   hostIdentifier: "host-XXXX",
   searchKey: "search-XXXXX"
@@ -107,10 +107,10 @@ function getLastClickCall() {
   return mockClient.click.mock.calls[0];
 }
 
-describe("AppSearchAPIConnector", () => {
+describe("WorkplaceSearchAPIConnector", () => {
   it("can be initialized", () => {
-    const connector = new AppSearchAPIConnector(params);
-    expect(connector).toBeInstanceOf(AppSearchAPIConnector);
+    const connector = new WorkplaceSearchAPIConnector(params);
+    expect(connector).toBeInstanceOf(WorkplaceSearchAPIConnector);
   });
 
   it("can be initialized with endpointBase", () => {
@@ -118,8 +118,8 @@ describe("AppSearchAPIConnector", () => {
     newParams.hostIdentifier = undefined;
     newParams.endpointBase = "http://localhost:3001";
 
-    const connector = new AppSearchAPIConnector(newParams);
-    expect(connector).toBeInstanceOf(AppSearchAPIConnector);
+    const connector = new WorkplaceSearchAPIConnector(newParams);
+    expect(connector).toBeInstanceOf(WorkplaceSearchAPIConnector);
   });
 
   // The use case for this is mostly internal to Elastic, where we rely on the logged in user session (via cookies) to authenticate
@@ -129,19 +129,19 @@ describe("AppSearchAPIConnector", () => {
       searchKey: undefined
     };
 
-    const connector = new AppSearchAPIConnector(newParams);
-    expect(connector).toBeInstanceOf(AppSearchAPIConnector);
+    const connector = new WorkplaceSearchAPIConnector(newParams);
+    expect(connector).toBeInstanceOf(WorkplaceSearchAPIConnector);
   });
 
   it("will throw when missing required parameters", () => {
     expect(() => {
-      new AppSearchAPIConnector({} as any);
+      new WorkplaceSearchAPIConnector({} as any);
     }).toThrow();
   });
 
   describe("onResultClick", () => {
     function subject() {
-      const connector = new AppSearchAPIConnector({
+      const connector = new WorkplaceSearchAPIConnector({
         ...params
       });
 
@@ -153,7 +153,7 @@ describe("AppSearchAPIConnector", () => {
       });
     }
 
-    it("calls the App Search click endpoint", () => {
+    it("calls the Workplace Search click endpoint", () => {
       subject();
       expect(getLastClickCall()).toBeDefined();
     });
@@ -175,7 +175,7 @@ describe("AppSearchAPIConnector", () => {
 
   describe("onAutocompleteResultClick", () => {
     function subject() {
-      const connector = new AppSearchAPIConnector({
+      const connector = new WorkplaceSearchAPIConnector({
         ...params
       });
 
@@ -187,7 +187,7 @@ describe("AppSearchAPIConnector", () => {
       });
     }
 
-    it("calls the App Search click endpoint", () => {
+    it("calls the Workplace Search click endpoint", () => {
       subject();
       expect(getLastClickCall()).toBeDefined();
     });
@@ -215,7 +215,7 @@ describe("AppSearchAPIConnector", () => {
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
-      const connector = new AppSearchAPIConnector({
+      const connector = new WorkplaceSearchAPIConnector({
         ...params,
         beforeSearchCall
       });
@@ -453,7 +453,7 @@ describe("AppSearchAPIConnector", () => {
     ) {
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
-      const connector = new AppSearchAPIConnector({
+      const connector = new WorkplaceSearchAPIConnector({
         ...params,
         beforeAutocompleteResultsCall,
         beforeAutocompleteSuggestionsCall
