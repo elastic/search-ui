@@ -3,6 +3,7 @@ import moment from "moment";
 
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
+import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
 import {
   ErrorBoundary,
   Facet,
@@ -84,6 +85,13 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
     engineKey:
       process.env.REACT_SITE_SEARCH_ENGINE_KEY || "Z43R5U3HiDsDgpKawZkA",
     documentType: process.env.REACT_SITE_SEARCH_ENGINE_NAME || "national-parks"
+  });
+} else if (process.env.REACT_APP_SOURCE === "WORKPLACE_SEARCH") {
+  connector = new WorkplaceSearchAPIConnector({
+    kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
+    enterpriseSearchBase: "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
+    redirectUri: "http://localhost:3000",
+    clientId: "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e",
   });
 } else {
   connector = new AppSearchAPIConnector({
