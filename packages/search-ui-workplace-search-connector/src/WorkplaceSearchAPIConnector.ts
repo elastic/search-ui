@@ -12,13 +12,13 @@ import type {
 } from "@elastic/search-ui";
 
 export type WorkplaceSearchAPIConnectorParams = {
-  searchKey: string;
-  engineName: string;
-  hostIdentifier: string;
+  kibanaBase: string;
+  enterpriseSearchBase: string;
+  redirectUri: string;
+  clientId: string;
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
-  endpointBase?: string;
 };
 
 interface ResultClickParams {
@@ -61,17 +61,12 @@ class WorkplaceSearchAPIConnector {
 
   /**
    * @typedef Options
-   * @param {string} searchKey Credential found in your App Search Dashboard
-   * @param {string} engineName Engine to query, found in your App Search Dashboard
-   * @param {string} hostIdentifier Credential found in your App Search Dashboard
-   *  Useful when proxying the Swiftype API or developing against a local API server.
    * @param {hook} beforeSearchCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to the
    *   API in a query on an "onSearch" event.
    * @param {hook} beforeAutocompleteResultsCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to the
    *   API in a "results" query on an "onAutocomplete" event.
    * @param {hook} beforeAutocompleteSuggestionsCall=(queryOptions,next)=>next(queryOptions) A hook to amend query options before the request is sent to
    * the API in a "suggestions" query on an "onAutocomplete" event.
-   * @param {string} endpointBase="" Overrides the base of the Swiftype API endpoint completely.
    */
 
   client: any;
@@ -83,29 +78,30 @@ class WorkplaceSearchAPIConnector {
    * @param {Options} options
    */
   constructor({
-    searchKey,
-    engineName,
-    hostIdentifier,
+    kibanaBase,
+    enterpriseSearchBase,
+    redirectUri,
+    clientId,
     beforeSearchCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteSuggestionsCall = (queryOptions, next) =>
       next(queryOptions),
-    endpointBase = "",
     ...rest
   }: WorkplaceSearchAPIConnectorParams) {
-    if (!engineName || !(hostIdentifier || endpointBase)) {
+    if (!kibanaBase || !enterpriseSearchBase || !redirectUri || !clientId) {
       throw Error(
-        "hostIdentifier or endpointBase, and engineName are required"
+        "Missing a required parameter. Please provide kibanaBase, enterpriseSearchBase, redirectUri, and clientId."
       );
     }
 
-    this.client = ElasticAppSearch.createClient({
-      ...(endpointBase && { endpointBase }), //Add property on condition
-      ...(hostIdentifier && { hostIdentifier: hostIdentifier }),
-      apiKey: searchKey,
-      engineName: engineName,
-      ...rest
-    });
+    // TODO: replace with enterprise-search-js client once it's available
+    // this.client = ElasticAppSearch.createClient({
+    //   ...(endpointBase && { endpointBase }), //Add property on condition
+    //   ...(hostIdentifier && { hostIdentifier: hostIdentifier }),
+    //   apiKey: searchKey,
+    //   engineName: engineName,
+    //   ...rest
+    // });
     this.beforeSearchCall = beforeSearchCall;
     this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
     this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;

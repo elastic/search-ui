@@ -76,9 +76,11 @@ const resultState = {
 };
 
 const params: WorkplaceSearchAPIConnectorParams = {
-  engineName: "some-engine",
-  hostIdentifier: "host-XXXX",
-  searchKey: "search-XXXXX"
+  kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
+  enterpriseSearchBase:
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
+  redirectUri: "http://localhost:3000",
+  clientId: "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e"
 };
 
 beforeEach(() => {
@@ -110,15 +112,6 @@ function getLastClickCall() {
 describe("WorkplaceSearchAPIConnector", () => {
   it("can be initialized", () => {
     const connector = new WorkplaceSearchAPIConnector(params);
-    expect(connector).toBeInstanceOf(WorkplaceSearchAPIConnector);
-  });
-
-  it("can be initialized with endpointBase", () => {
-    const newParams = { ...params };
-    newParams.hostIdentifier = undefined;
-    newParams.endpointBase = "http://localhost:3001";
-
-    const connector = new WorkplaceSearchAPIConnector(newParams);
     expect(connector).toBeInstanceOf(WorkplaceSearchAPIConnector);
   });
 
