@@ -230,7 +230,12 @@ class WorkplaceSearchAPIConnector {
     queryConfig: AutocompleteQuery
   ): Promise<SearchState> {
     const autocompletedState: any = {};
-    const promises = [];
+
+    if (queryConfig.suggestions) {
+      console.warn(
+        "search-ui-workplace-search-connector: Workplace Search does support query suggestions on autocomplete"
+      );
+    }
 
     if (queryConfig.results) {
       const {
@@ -257,36 +262,31 @@ class WorkplaceSearchAPIConnector {
         ...restOfQueryConfig,
         ...optionsFromState
       };
+
       const options = removeInvalidFields(withQueryConfigOptions);
-      promises.push(
-        this.beforeAutocompleteResultsCall(options, (newOptions) => {
-          return this.client.search(query, newOptions).then((response) => {
+
+      await this.beforeAutocompleteResultsCall(options, (newOptions) => {
+        return fetch(`${this.enterpriseSearchBase}/api/ws/v1/search`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.accessToken}`
+          },
+          body: JSON.stringify({
+            query,
+            ...newOptions
+          })
+        })
+          .then((response) => response.json())
+          .then((response) => {
             autocompletedState.autocompletedResults =
               adaptResponse(response).results;
             autocompletedState.autocompletedResultsRequestId =
               response.meta.request_id;
           });
-        })
-      );
+      });
     }
 
-    if (queryConfig.suggestions) {
-      const options = queryConfig.suggestions;
-
-      promises.push(
-        this.beforeAutocompleteSuggestionsCall(options, (newOptions) =>
-          this.client
-            .querySuggestion(searchTerm, newOptions)
-            .then((response) => {
-              autocompletedState.autocompletedSuggestions = response.results;
-              autocompletedState.autocompletedSuggestionsRequestId =
-                response.meta.request_id;
-            })
-        )
-      );
-    }
-
-    await Promise.all(promises);
     return autocompletedState;
   }
 }
