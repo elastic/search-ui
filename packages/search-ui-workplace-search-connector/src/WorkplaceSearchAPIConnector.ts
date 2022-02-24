@@ -212,7 +212,7 @@ class WorkplaceSearchAPIConnector {
             Authorization: `Bearer ${this.accessToken}`
           },
           body: JSON.stringify({
-            query: state.searchTerm,
+            query,
             ...newOptions
           })
         }
