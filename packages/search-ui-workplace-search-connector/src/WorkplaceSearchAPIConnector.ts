@@ -70,6 +70,7 @@ class WorkplaceSearchAPIConnector {
    */
 
   client: any;
+  enterpriseSearchBase: string;
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
@@ -120,6 +121,7 @@ class WorkplaceSearchAPIConnector {
     this.accessToken = accessToken;
     // TODO: maybe clear the URL afterwards?
 
+    this.enterpriseSearchBase = enterpriseSearchBase;
     this.beforeSearchCall = beforeSearchCall;
     this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
     this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;
@@ -178,8 +180,23 @@ class WorkplaceSearchAPIConnector {
     };
 
     return this.beforeSearchCall(options, async (newOptions) => {
-      const response = await this.client.search(query, newOptions);
-      return adaptResponse(response, buildResponseAdapterOptions(queryConfig));
+      // TODO: temporary code until we have the enterprise-search-js client
+      const searchResponse = await fetch(
+        `${this.enterpriseSearchBase}/api/ws/v1/search`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.accessToken}`
+          },
+          body: JSON.stringify({
+            query: state.searchTerm
+          })
+        }
+      ).then((response) => response.json());
+      return searchResponse;
+      // const response = await this.client.search(query, newOptions);
+      // return adaptResponse(response, buildResponseAdapterOptions(queryConfig));
     });
   }
 
