@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@elastic/app-search-javascript": "^7.13.1",
-    "@elastic/search-ui": "1.10.0-rc.1"
+    "@elastic/search-ui": "1.10.0-rc.1",
+    "query-string": "^7.1.1"
   }
 }

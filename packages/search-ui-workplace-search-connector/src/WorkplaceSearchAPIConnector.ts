@@ -1,5 +1,5 @@
 import * as ElasticAppSearch from "@elastic/app-search-javascript";
-
+import queryString from "query-string";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
 import buildResponseAdapterOptions from "./buildResponseAdapterOptions";
@@ -76,6 +76,7 @@ class WorkplaceSearchAPIConnector {
   state: {
     authorizeUrl: string;
   };
+  accessToken: string;
 
   /**
    * @param {Options} options
@@ -108,6 +109,17 @@ class WorkplaceSearchAPIConnector {
     //   engineName: engineName,
     //   ...rest
     // });
+
+    // Saving the access token from the url in case initial load happens
+    // after returning from the OAuth flow.
+    const parsedUrlHash = queryString.parse(window.location.hash);
+    const accessToken = Array.isArray(parsedUrlHash.access_token)
+      ? "" // we don't expect multiple access tokens
+      : parsedUrlHash.access_token;
+
+    this.accessToken = accessToken;
+    // TODO: maybe clear the URL afterwards?
+
     this.beforeSearchCall = beforeSearchCall;
     this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
     this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;
