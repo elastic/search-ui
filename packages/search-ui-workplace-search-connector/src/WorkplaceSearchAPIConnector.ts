@@ -190,7 +190,8 @@ class WorkplaceSearchAPIConnector {
             Authorization: `Bearer ${this.accessToken}`
           },
           body: JSON.stringify({
-            query: state.searchTerm
+            query: state.searchTerm,
+            ...newOptions
           })
         }
       ).then((response) => response.json());
@@ -241,7 +242,7 @@ class WorkplaceSearchAPIConnector {
             autocompletedState.autocompletedResults =
               adaptResponse(response).results;
             autocompletedState.autocompletedResultsRequestId =
-              response.info.meta.request_id;
+              response.meta.request_id;
           });
         })
       );
