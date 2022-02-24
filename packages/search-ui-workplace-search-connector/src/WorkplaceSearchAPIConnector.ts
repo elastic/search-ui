@@ -37,16 +37,38 @@ export type SuggestionsQueryHook = (
   next: (newQueryOptions: any) => any
 ) => any;
 
-// The API will error out if empty facets or filters objects
-// are sent.
-function removeEmptyFacetsAndFilters(options) {
-  const { facets, filters, ...rest } = options;
+// The API will error out if empty facets or filters objects are sent,
+// or if disjunctiveFacets or disjunctiveFacetsAnalyticsTags are sent.
+function removeInvalidFields(options) {
+  const {
+    facets,
+    filters,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    disjunctiveFacets,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    disjunctiveFacetsAnalyticsTags,
+    ...rest
+  } = options;
+
+  if (disjunctiveFacets) {
+    console.warn(
+      "search-ui-workplace-search-connector: disjunctiveFacets are not supported by Workplace Search"
+    );
+  }
+
+  if (disjunctiveFacetsAnalyticsTags) {
+    console.warn(
+      "search-ui-workplace-search-connector: disjunctiveFacetsAnalyticsTags are not supported by Workplace Search"
+    );
+  }
+
   return {
     ...(facets && Object.entries(facets).length > 0 && { facets }),
     ...(filters && Object.entries(filters).length > 0 && { filters }),
     ...rest
   };
 }
+
 class WorkplaceSearchAPIConnector {
   /**
    * @callback next
@@ -176,7 +198,7 @@ class WorkplaceSearchAPIConnector {
       ...optionsFromState
     };
     const options = {
-      ...removeEmptyFacetsAndFilters(withQueryConfigOptions)
+      ...removeInvalidFields(withQueryConfigOptions)
     };
 
     return this.beforeSearchCall(options, async (newOptions) => {
@@ -235,7 +257,7 @@ class WorkplaceSearchAPIConnector {
         ...restOfQueryConfig,
         ...optionsFromState
       };
-      const options = removeEmptyFacetsAndFilters(withQueryConfigOptions);
+      const options = removeInvalidFields(withQueryConfigOptions);
       promises.push(
         this.beforeAutocompleteResultsCall(options, (newOptions) => {
           return this.client.search(query, newOptions).then((response) => {
