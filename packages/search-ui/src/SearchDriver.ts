@@ -232,6 +232,7 @@ class SearchDriver {
     // to the correct default values for the initial UI render
     this.state = {
       ...this.state,
+      ...(apiConnector?.state && { ...apiConnector.state }),
       ...searchParameters
     };
 

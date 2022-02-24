@@ -226,11 +226,12 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
-        {({ wasSearched }) => {
+      <WithSearch mapContextToProps={({ wasSearched, authorizeUrl }) => ({ wasSearched, authorizeUrl })}>
+        {({ wasSearched, authorizeUrl }) => {
           return (
             <div className="App">
               <ErrorBoundary>
+                {authorizeUrl && <a href={authorizeUrl}>Authorize</a>}
                 <Layout
                   header={
                     <SearchBox

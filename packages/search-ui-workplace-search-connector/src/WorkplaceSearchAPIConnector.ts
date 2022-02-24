@@ -73,6 +73,9 @@ class WorkplaceSearchAPIConnector {
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+  state: {
+    authorizeUrl: string;
+  };
 
   /**
    * @param {Options} options
@@ -94,6 +97,9 @@ class WorkplaceSearchAPIConnector {
       );
     }
 
+    this.state = {
+      authorizeUrl: `${kibanaBase}/app/enterprise_search/workplace_search/p/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`
+    };
     // TODO: replace with enterprise-search-js client once it's available
     // this.client = ElasticAppSearch.createClient({
     //   ...(endpointBase && { endpointBase }), //Add property on condition
