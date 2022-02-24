@@ -194,9 +194,11 @@ class WorkplaceSearchAPIConnector {
           })
         }
       ).then((response) => response.json());
-      return searchResponse;
       // const response = await this.client.search(query, newOptions);
-      // return adaptResponse(response, buildResponseAdapterOptions(queryConfig));
+      return adaptResponse(
+        searchResponse,
+        buildResponseAdapterOptions(queryConfig)
+      );
     });
   }
 
