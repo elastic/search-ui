@@ -7,8 +7,7 @@ import {
   EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
-  EuiProvider,
-  EuiSpacer
+  EuiProvider
 } from "@elastic/eui";
 import "@elastic/eui/dist/eui_theme_light.css";
 
@@ -249,28 +248,28 @@ export default function App() {
             return (
               <div className="App">
                 <ErrorBoundary>
-                  {!isLoggedIn && (
-                    <EuiModal onClose={() => {}}>
-                      <EuiModalHeader>
-                        <EuiModalHeaderTitle>
-                          <h1>Log in to continue</h1>
-                        </EuiModalHeaderTitle>
-                      </EuiModalHeader>
+                  {process.env.REACT_APP_SOURCE === "WORKPLACE_SEARCH" &&
+                    !isLoggedIn && (
+                      <EuiModal onClose={() => {}}>
+                        <EuiModalHeader>
+                          <EuiModalHeaderTitle>
+                            <h1>Log in to continue</h1>
+                          </EuiModalHeaderTitle>
+                        </EuiModalHeader>
 
-                      <EuiModalBody>
-                        Search UI requires an active, authorized connection to
-                        Elastic Enteprise Search. Select “Log in” below to
-                        continue.
-                      </EuiModalBody>
+                        <EuiModalBody>
+                          Search UI requires an active, authorized connection to
+                          Elastic Enteprise Search. Select “Log in” below to
+                          continue.
+                        </EuiModalBody>
 
-                      <EuiModalFooter>
-                        <EuiButton href={authorizeUrl} fill>
-                          Log in
-                        </EuiButton>
-                      </EuiModalFooter>
-                    </EuiModal>
-                  )}
-                  {/* {authorizeUrl && <a href={authorizeUrl}>Authorize</a>} */}
+                        <EuiModalFooter>
+                          <EuiButton href={authorizeUrl} fill>
+                            Log in
+                          </EuiButton>
+                        </EuiModalFooter>
+                      </EuiModal>
+                    )}
                   <Layout
                     header={
                       <SearchBox
