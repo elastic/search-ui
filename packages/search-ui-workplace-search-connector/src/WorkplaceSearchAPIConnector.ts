@@ -1,4 +1,4 @@
-import * as ElasticAppSearch from "@elastic/app-search-javascript";
+// import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import queryString from "query-string";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
@@ -10,6 +10,7 @@ import type {
   AutocompleteQuery,
   SuggestionsQueryConfig
 } from "@elastic/search-ui";
+import { INVALID_CREDENTIALS } from "@elastic/search-ui";
 
 export type WorkplaceSearchAPIConnectorParams = {
   kibanaBase: string;
@@ -96,10 +97,11 @@ class WorkplaceSearchAPIConnector {
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+  accessToken: string | null;
   state: {
     authorizeUrl: string;
+    isLoggedIn: boolean;
   };
-  accessToken: string;
 
   /**
    * @param {Options} options
@@ -121,9 +123,8 @@ class WorkplaceSearchAPIConnector {
       );
     }
 
-    this.state = {
-      authorizeUrl: `${kibanaBase}/app/enterprise_search/workplace_search/p/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`
-    };
+    const authorizeUrl = `${kibanaBase}/app/enterprise_search/workplace_search/p/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`;
+
     // TODO: replace with enterprise-search-js client once it's available
     // this.client = ElasticAppSearch.createClient({
     //   ...(endpointBase && { endpointBase }), //Add property on condition
@@ -140,8 +141,13 @@ class WorkplaceSearchAPIConnector {
       ? "" // we don't expect multiple access tokens
       : parsedUrlHash.access_token;
 
-    this.accessToken = accessToken;
     // TODO: maybe clear the URL afterwards?
+
+    this.accessToken = accessToken;
+    this.state = {
+      authorizeUrl,
+      isLoggedIn: !!accessToken
+    };
 
     this.enterpriseSearchBase = enterpriseSearchBase;
     this.beforeSearchCall = beforeSearchCall;
@@ -173,6 +179,11 @@ class WorkplaceSearchAPIConnector {
     state: RequestState,
     queryConfig: QueryConfig
   ): Promise<SearchState> {
+    // Do not perform a search if not logged in
+    if (!this.state.isLoggedIn) {
+      return Promise.reject(new Error(INVALID_CREDENTIALS));
+    }
+
     const {
       current,
       filters,
@@ -216,10 +227,18 @@ class WorkplaceSearchAPIConnector {
             ...newOptions
           })
         }
-      ).then((response) => response.json());
+      );
+
+      if (searchResponse.status === 401) {
+        this.state.isLoggedIn = false; // Remove the token to trigger the Log in dialog
+        throw new Error(INVALID_CREDENTIALS);
+      }
+
+      const responseJson = await searchResponse.json();
+
       // const response = await this.client.search(query, newOptions);
       return adaptResponse(
-        searchResponse,
+        responseJson,
         buildResponseAdapterOptions(queryConfig)
       );
     });
