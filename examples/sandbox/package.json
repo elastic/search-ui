@@ -3,9 +3,13 @@
   "version": "1.10.0-rc.1",
   "private": true,
   "dependencies": {
+    "express": "^4.17.3",
+    "cross-fetch": "^3.1.5",
     "@elastic/react-search-ui": "1.10.0-rc.1",
     "@elastic/react-search-ui-views": "1.10.0-rc.1",
     "@elastic/search-ui": "1.10.0-rc.1",
+    "@elastic/search-ui-elasticsearch-connector": "1.10.0-rc.1",
+
     "@elastic/search-ui-app-search-connector": "1.10.0-rc.1",
     "@elastic/search-ui-site-search-connector": "1.10.0-rc.1",
     "moment": "^2.24.0",
@@ -17,11 +21,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server-start": "node server/index"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:4000",
   "browserslist": [
     ">0.2%",
     "not dead",
