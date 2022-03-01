@@ -75,7 +75,7 @@ export type SearchState = RequestState & {
   totalResults: number;
   pagingStart: number;
   pagingEnd: number;
-  wasSearched: false;
+  wasSearched: boolean;
   rawResponse: any;
 };
 
