@@ -7,3 +7,19 @@
 .sui-facet-search__text-input:focus:focus-visible {
   outline: none;
 }
+
+.login-modal {
+  min-width: 0;
+}
+
+.login-modal:focus:focus-visible {
+  outline: none;
+}
+
+.login-modal__header {
+  justify-content: center;
+}
+
+.login-modal .euiModal__closeIcon {
+  display: none;
+}

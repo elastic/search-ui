@@ -7,6 +7,7 @@ import {
   EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
+  EuiText,
   EuiProvider
 } from "@elastic/eui";
 import "@elastic/eui/dist/eui_theme_light.css";
@@ -251,21 +252,30 @@ export default function App() {
                 <ErrorBoundary>
                   {process.env.REACT_APP_SOURCE === "WORKPLACE_SEARCH" &&
                     !isLoggedIn && (
-                      <EuiModal onClose={() => {}}>
-                        <EuiModalHeader>
+                      <EuiModal
+                        onClose={() => {}}
+                        maxWidth={354}
+                        className="login-modal"
+                      >
+                        <EuiModalHeader className="login-modal__header">
                           <EuiModalHeaderTitle>
                             <h1>Log in to continue</h1>
                           </EuiModalHeaderTitle>
                         </EuiModalHeader>
 
                         <EuiModalBody>
-                          Search UI requires an active, authorized connection to
-                          Elastic Enteprise Search. Select “Log in” below to
-                          continue.
+                          <EuiText size="m">
+                            <p>
+                              Search UI requires an active, authorized
+                              connection to Elastic Enteprise Search.
+                              <br />
+                              Select “Log in” below to continue.
+                            </p>
+                          </EuiText>
                         </EuiModalBody>
 
                         <EuiModalFooter>
-                          <EuiButton href={authorizeUrl} fill>
+                          <EuiButton href={authorizeUrl} fill fullWidth>
                             Log in
                           </EuiButton>
                         </EuiModalFooter>
