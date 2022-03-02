@@ -97,7 +97,6 @@ class WorkplaceSearchAPIConnector {
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
-  accessToken: string | null;
   state: {
     authorizeUrl: string;
     isLoggedIn: boolean;
@@ -134,25 +133,48 @@ class WorkplaceSearchAPIConnector {
     //   ...rest
     // });
 
-    // Saving the access token from the url in case initial load happens
-    // after returning from the OAuth flow.
+    // There are 3 ways the initial load might happen:
+    // 1) First load: there is no accessToken in localStorage
+    // 2) Second+ load: there is an accessToken in localStorage
+    // 3) Returning from OAuth: the new accessToken is in the URL, the old one is not relevant anymore
+
+    // First, we get the accessToken from the URL
     const parsedUrlHash = queryString.parse(window.location.hash);
-    const accessToken = Array.isArray(parsedUrlHash.access_token)
+    const accessTokenFromUrl = Array.isArray(parsedUrlHash.access_token)
       ? "" // we don't expect multiple access tokens
       : parsedUrlHash.access_token;
-
     // TODO: maybe clear the URL afterwards?
 
-    this.accessToken = accessToken;
+    // If access_token is in url, that means we're returning from OAuth, so we add new accessToken to localStorage
+    if (accessTokenFromUrl) {
+      this.accessToken = accessTokenFromUrl;
+    }
+
+    // Now we can work with only localStorage
+    // Setting loggedIn based on whether we have an accessToken there
     this.state = {
       authorizeUrl,
-      isLoggedIn: !!accessToken
+      isLoggedIn: !!this.accessToken || false
     };
 
     this.enterpriseSearchBase = enterpriseSearchBase;
     this.beforeSearchCall = beforeSearchCall;
     this.beforeAutocompleteResultsCall = beforeAutocompleteResultsCall;
     this.beforeAutocompleteSuggestionsCall = beforeAutocompleteSuggestionsCall;
+  }
+
+  // get accessToken from localStorage
+  get accessToken() {
+    return localStorage.getItem("SearchUIWorkplaceSearchAccessToken");
+  }
+
+  // save accessToken to localStorage
+  set accessToken(token) {
+    if (token) {
+      localStorage.setItem("SearchUIWorkplaceSearchAccessToken", token);
+    } else {
+      localStorage.removeItem("SearchUIWorkplaceSearchAccessToken");
+    }
   }
 
   onResultClick({
