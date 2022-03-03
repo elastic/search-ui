@@ -1,5 +1,6 @@
 {
   "name": "@elastic/search-ui-workplace-search-connector",
+  "private": true,
   "version": "1.10.0-rc.1",
   "description": "A Search UI connector for Elastic's Workplace Search Service",
   "license": "Apache-2.0",
