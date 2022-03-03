@@ -112,8 +112,7 @@ class WorkplaceSearchAPIConnector {
     beforeSearchCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteSuggestionsCall = (queryOptions, next) =>
-      next(queryOptions),
-    ...rest
+      next(queryOptions)
   }: WorkplaceSearchAPIConnectorParams) {
     if (!kibanaBase || !enterpriseSearchBase || !redirectUri || !clientId) {
       throw Error(
