@@ -306,25 +306,28 @@ class WorkplaceSearchAPIConnector {
 
       const options = removeInvalidFields(withQueryConfigOptions);
 
-      await this.beforeAutocompleteResultsCall(options, (newOptions) => {
-        return fetch(`${this.enterpriseSearchBase}/api/ws/v1/search`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.accessToken}`
-          },
-          body: JSON.stringify({
-            query,
-            ...newOptions
-          })
-        })
-          .then((response) => response.json())
-          .then((response) => {
-            autocompletedState.autocompletedResults =
-              adaptResponse(response).results;
-            autocompletedState.autocompletedResultsRequestId =
-              response.meta.request_id;
-          });
+      this.beforeAutocompleteResultsCall(options, async (newOptions) => {
+        const searchResponse = await fetch(
+          `${this.enterpriseSearchBase}/api/ws/v1/search`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${this.accessToken}`
+            },
+            body: JSON.stringify({
+              query,
+              ...newOptions
+            })
+          }
+        );
+
+        const responseJson = await searchResponse.json();
+
+        autocompletedState.autocompletedResults =
+          adaptResponse(responseJson).results;
+        autocompletedState.autocompletedResultsRequestId =
+          responseJson.meta.request_id;
       });
     }
 
