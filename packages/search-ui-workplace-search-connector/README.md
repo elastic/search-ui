@@ -26,6 +26,11 @@ const connector = new WorkplaceSearchAPIConnector({
 
 The Workplace Search API requires authentication. This connector uses OAuth authentication. You can read more about that [here](https://www.elastic.co/guide/en/workplace-search/7.13/workplace-search-api-authentication.html#oauth-token) and [here](https://www.elastic.co/guide/en/workplace-search/7.13/workplace-search-search-oauth.html).
 
+Using this connector will populate two additional pieces of Application State:
+
+`isLoggedIn` - This can be used to determine whether or not a user is authenticated. Requests using this connector will only work if a user is authenticatied. If this is false, consider showing a "Login" link using the `authorizeUrl` state.
+`authorizeUrl` - This can be used to create a "Login" link for users to initiate OAuth authentication.
+
 ## Classes
 
 <dl>

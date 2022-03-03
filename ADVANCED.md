@@ -271,11 +271,13 @@ It is updated indirectly by invoking an action which results in a new API reques
 
 Application state is the general application state.
 
-| field         | type    | description                                                                                                        |
-| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
-| `error`       | String  | Error message, if an error was thrown.                                                                             |
-| `isLoading`   | boolean | Whether or not a search is currently being performed.                                                              |
-| `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
+| field          | type    | description                                                                                                             |
+| -------------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `error`        | String  | Error message, if an error was thrown.                                                                                  |
+| `isLoading`    | boolean | Whether or not a search is currently being performed.                                                                   |
+| `wasSearched`  | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI.      |
+| `isLoggedIn`   | boolean | Certain connectors (like Workplace Search) will populate this in order to show the user's current authentication state. |
+| `authorizeUrl` | boolean | Certain connectors (like Workplace Search) will populate this. It can be used to create a "Login" link.                 |
 
 # Component Reference
 
