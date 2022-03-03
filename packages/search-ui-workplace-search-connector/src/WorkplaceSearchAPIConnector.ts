@@ -1,4 +1,3 @@
-// import * as ElasticAppSearch from "@elastic/app-search-javascript";
 import queryString from "query-string";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
@@ -124,15 +123,6 @@ class WorkplaceSearchAPIConnector {
 
     const authorizeUrl = `${kibanaBase}/app/enterprise_search/workplace_search/p/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`;
 
-    // TODO: replace with enterprise-search-js client once it's available
-    // this.client = ElasticAppSearch.createClient({
-    //   ...(endpointBase && { endpointBase }), //Add property on condition
-    //   ...(hostIdentifier && { hostIdentifier: hostIdentifier }),
-    //   apiKey: searchKey,
-    //   engineName: engineName,
-    //   ...rest
-    // });
-
     // There are 3 ways the initial load might happen:
     // 1) First load: there is no accessToken in localStorage
     // 2) Second+ load: there is an accessToken in localStorage
@@ -235,7 +225,6 @@ class WorkplaceSearchAPIConnector {
     };
 
     return this.beforeSearchCall(options, async (newOptions) => {
-      // TODO: temporary code until we have the enterprise-search-js client
       const searchResponse = await fetch(
         `${this.enterpriseSearchBase}/api/ws/v1/search`,
         {
