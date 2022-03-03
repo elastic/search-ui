@@ -1,0 +1,864 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`adaptResponse adapts empty response 1`] = `
+Object {
+  "rawResponse": Object {
+    "meta": Object {
+      "page": Object {
+        "current": 1,
+        "size": 5,
+        "total_pages": 0,
+        "total_results": 0,
+      },
+      "request_id": "wVlg15HbT0yyHJSJUlnHQw",
+      "sources": Object {
+        "621581b6174a804659f9dc16": Object {
+          "name": "National parks",
+          "service_type": "custom",
+        },
+      },
+      "warnings": Array [],
+    },
+    "results": Array [],
+  },
+  "requestId": "wVlg15HbT0yyHJSJUlnHQw",
+  "results": Array [],
+  "totalPages": 0,
+  "totalResults": 0,
+}
+`;
+
+exports[`adaptResponse adapts facets with empty values 1`] = `
+Object {
+  "facets": Object {
+    "world_heritage_site": Array [
+      Object {
+        "data": Array [
+          Object {
+            "count": 1,
+            "value": "",
+          },
+        ],
+        "field": "world_heritage_site",
+        "type": "value",
+      },
+    ],
+  },
+  "rawResponse": Object {
+    "facets": Object {
+      "world_heritage_site": Array [
+        Object {
+          "data": Array [
+            Object {
+              "count": 1,
+              "value": "",
+            },
+          ],
+          "type": "value",
+        },
+      ],
+    },
+    "meta": Object {
+      "page": Object {
+        "current": 1,
+        "size": 20,
+        "total_pages": 1,
+        "total_results": 1,
+      },
+      "request_id": "W6qPJzEBS0eoUnVG4FZTnw",
+      "sources": Object {
+        "621581b6174a804659f9dc16": Object {
+          "name": "National parks",
+          "service_type": "custom",
+        },
+      },
+      "warnings": Array [
+        "unknown result field 'image_url'",
+      ],
+    },
+    "results": Array [
+      Object {
+        "_meta": Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "id": "park_great-smoky-mountains",
+          "last_updated": "2022-02-23T00:40:10+00:00",
+          "score": 2.057784,
+          "source": "custom",
+        },
+        "acres": Object {
+          "raw": 522426.88,
+        },
+        "content_source_id": Object {
+          "raw": "621581b6174a804659f9dc16",
+        },
+        "date_established": Object {
+          "raw": "1934-06-15T05:00:00+00:00",
+        },
+        "description": Object {
+          "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+        },
+        "id": Object {
+          "raw": "park_great-smoky-mountains",
+        },
+        "last_updated": Object {
+          "raw": "2022-02-23T00:40:10+00:00",
+        },
+        "location": Object {
+          "raw": "35.68,-83.53",
+        },
+        "nps_link": Object {
+          "raw": "https://www.nps.gov/grsm/index.htm",
+        },
+        "source": Object {
+          "raw": "custom",
+        },
+        "square_km": Object {
+          "raw": 2114.2,
+        },
+        "states": Object {
+          "raw": Array [
+            "Tennessee",
+            "North Carolina",
+          ],
+        },
+        "title": Object {
+          "snippet": "Great Smoky Mountains",
+        },
+        "visitors": Object {
+          "raw": 11312786,
+        },
+        "world_heritage_site": Object {
+          "raw": "true",
+        },
+      },
+    ],
+  },
+  "requestId": "W6qPJzEBS0eoUnVG4FZTnw",
+  "results": Array [
+    Object {
+      "_meta": Object {
+        "content_source_id": "621581b6174a804659f9dc16",
+        "id": "park_great-smoky-mountains",
+        "last_updated": "2022-02-23T00:40:10+00:00",
+        "score": 2.057784,
+        "source": "custom",
+      },
+      "acres": Object {
+        "raw": 522426.88,
+      },
+      "content_source_id": Object {
+        "raw": "621581b6174a804659f9dc16",
+      },
+      "date_established": Object {
+        "raw": "1934-06-15T05:00:00+00:00",
+      },
+      "description": Object {
+        "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+      },
+      "id": Object {
+        "raw": "park_great-smoky-mountains",
+      },
+      "last_updated": Object {
+        "raw": "2022-02-23T00:40:10+00:00",
+      },
+      "location": Object {
+        "raw": "35.68,-83.53",
+      },
+      "nps_link": Object {
+        "raw": "https://www.nps.gov/grsm/index.htm",
+      },
+      "source": Object {
+        "raw": "custom",
+      },
+      "square_km": Object {
+        "raw": 2114.2,
+      },
+      "states": Object {
+        "raw": Array [
+          "Tennessee",
+          "North Carolina",
+        ],
+      },
+      "title": Object {
+        "snippet": "Great Smoky Mountains",
+      },
+      "visitors": Object {
+        "raw": 11312786,
+      },
+      "world_heritage_site": Object {
+        "raw": "true",
+      },
+    },
+  ],
+  "totalPages": 1,
+  "totalResults": 1,
+}
+`;
+
+exports[`adaptResponse adapts facets with zero values 1`] = `
+Object {
+  "facets": Object {
+    "world_heritage_site": Array [
+      Object {
+        "data": Array [
+          Object {
+            "count": 1,
+            "value": 0,
+          },
+        ],
+        "field": "world_heritage_site",
+        "type": "value",
+      },
+    ],
+  },
+  "rawResponse": Object {
+    "facets": Object {
+      "world_heritage_site": Array [
+        Object {
+          "data": Array [
+            Object {
+              "count": 1,
+              "value": 0,
+            },
+          ],
+          "type": "value",
+        },
+      ],
+    },
+    "meta": Object {
+      "page": Object {
+        "current": 1,
+        "size": 20,
+        "total_pages": 1,
+        "total_results": 1,
+      },
+      "request_id": "W6qPJzEBS0eoUnVG4FZTnw",
+      "sources": Object {
+        "621581b6174a804659f9dc16": Object {
+          "name": "National parks",
+          "service_type": "custom",
+        },
+      },
+      "warnings": Array [
+        "unknown result field 'image_url'",
+      ],
+    },
+    "results": Array [
+      Object {
+        "_meta": Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "id": "park_great-smoky-mountains",
+          "last_updated": "2022-02-23T00:40:10+00:00",
+          "score": 2.057784,
+          "source": "custom",
+        },
+        "acres": Object {
+          "raw": 522426.88,
+        },
+        "content_source_id": Object {
+          "raw": "621581b6174a804659f9dc16",
+        },
+        "date_established": Object {
+          "raw": "1934-06-15T05:00:00+00:00",
+        },
+        "description": Object {
+          "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+        },
+        "id": Object {
+          "raw": "park_great-smoky-mountains",
+        },
+        "last_updated": Object {
+          "raw": "2022-02-23T00:40:10+00:00",
+        },
+        "location": Object {
+          "raw": "35.68,-83.53",
+        },
+        "nps_link": Object {
+          "raw": "https://www.nps.gov/grsm/index.htm",
+        },
+        "source": Object {
+          "raw": "custom",
+        },
+        "square_km": Object {
+          "raw": 2114.2,
+        },
+        "states": Object {
+          "raw": Array [
+            "Tennessee",
+            "North Carolina",
+          ],
+        },
+        "title": Object {
+          "snippet": "Great Smoky Mountains",
+        },
+        "visitors": Object {
+          "raw": 11312786,
+        },
+        "world_heritage_site": Object {
+          "raw": "true",
+        },
+      },
+    ],
+  },
+  "requestId": "W6qPJzEBS0eoUnVG4FZTnw",
+  "results": Array [
+    Object {
+      "_meta": Object {
+        "content_source_id": "621581b6174a804659f9dc16",
+        "id": "park_great-smoky-mountains",
+        "last_updated": "2022-02-23T00:40:10+00:00",
+        "score": 2.057784,
+        "source": "custom",
+      },
+      "acres": Object {
+        "raw": 522426.88,
+      },
+      "content_source_id": Object {
+        "raw": "621581b6174a804659f9dc16",
+      },
+      "date_established": Object {
+        "raw": "1934-06-15T05:00:00+00:00",
+      },
+      "description": Object {
+        "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+      },
+      "id": Object {
+        "raw": "park_great-smoky-mountains",
+      },
+      "last_updated": Object {
+        "raw": "2022-02-23T00:40:10+00:00",
+      },
+      "location": Object {
+        "raw": "35.68,-83.53",
+      },
+      "nps_link": Object {
+        "raw": "https://www.nps.gov/grsm/index.htm",
+      },
+      "source": Object {
+        "raw": "custom",
+      },
+      "square_km": Object {
+        "raw": 2114.2,
+      },
+      "states": Object {
+        "raw": Array [
+          "Tennessee",
+          "North Carolina",
+        ],
+      },
+      "title": Object {
+        "snippet": "Great Smoky Mountains",
+      },
+      "visitors": Object {
+        "raw": 11312786,
+      },
+      "world_heritage_site": Object {
+        "raw": "true",
+      },
+    },
+  ],
+  "totalPages": 1,
+  "totalResults": 1,
+}
+`;
+
+exports[`adaptResponse adapts response 1`] = `
+Object {
+  "facets": Object {
+    "world_heritage_site": Array [
+      Object {
+        "data": Array [
+          Object {
+            "count": 1,
+            "value": "true",
+          },
+        ],
+        "field": "world_heritage_site",
+        "type": "value",
+      },
+    ],
+  },
+  "rawResponse": Object {
+    "facets": Object {
+      "world_heritage_site": Array [
+        Object {
+          "data": Array [
+            Object {
+              "count": 1,
+              "value": "true",
+            },
+          ],
+          "type": "value",
+        },
+      ],
+    },
+    "meta": Object {
+      "page": Object {
+        "current": 1,
+        "size": 20,
+        "total_pages": 1,
+        "total_results": 1,
+      },
+      "request_id": "W6qPJzEBS0eoUnVG4FZTnw",
+      "sources": Object {
+        "621581b6174a804659f9dc16": Object {
+          "name": "National parks",
+          "service_type": "custom",
+        },
+      },
+      "warnings": Array [
+        "unknown result field 'image_url'",
+      ],
+    },
+    "results": Array [
+      Object {
+        "_meta": Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "id": "park_great-smoky-mountains",
+          "last_updated": "2022-02-23T00:40:10+00:00",
+          "score": 2.057784,
+          "source": "custom",
+        },
+        "acres": Object {
+          "raw": 522426.88,
+        },
+        "content_source_id": Object {
+          "raw": "621581b6174a804659f9dc16",
+        },
+        "date_established": Object {
+          "raw": "1934-06-15T05:00:00+00:00",
+        },
+        "description": Object {
+          "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+        },
+        "id": Object {
+          "raw": "park_great-smoky-mountains",
+        },
+        "last_updated": Object {
+          "raw": "2022-02-23T00:40:10+00:00",
+        },
+        "location": Object {
+          "raw": "35.68,-83.53",
+        },
+        "nps_link": Object {
+          "raw": "https://www.nps.gov/grsm/index.htm",
+        },
+        "source": Object {
+          "raw": "custom",
+        },
+        "square_km": Object {
+          "raw": 2114.2,
+        },
+        "states": Object {
+          "raw": Array [
+            "Tennessee",
+            "North Carolina",
+          ],
+        },
+        "title": Object {
+          "snippet": "Great Smoky Mountains",
+        },
+        "visitors": Object {
+          "raw": 11312786,
+        },
+        "world_heritage_site": Object {
+          "raw": "true",
+        },
+      },
+    ],
+  },
+  "requestId": "W6qPJzEBS0eoUnVG4FZTnw",
+  "results": Array [
+    Object {
+      "_meta": Object {
+        "content_source_id": "621581b6174a804659f9dc16",
+        "id": "park_great-smoky-mountains",
+        "last_updated": "2022-02-23T00:40:10+00:00",
+        "score": 2.057784,
+        "source": "custom",
+      },
+      "acres": Object {
+        "raw": 522426.88,
+      },
+      "content_source_id": Object {
+        "raw": "621581b6174a804659f9dc16",
+      },
+      "date_established": Object {
+        "raw": "1934-06-15T05:00:00+00:00",
+      },
+      "description": Object {
+        "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+      },
+      "id": Object {
+        "raw": "park_great-smoky-mountains",
+      },
+      "last_updated": Object {
+        "raw": "2022-02-23T00:40:10+00:00",
+      },
+      "location": Object {
+        "raw": "35.68,-83.53",
+      },
+      "nps_link": Object {
+        "raw": "https://www.nps.gov/grsm/index.htm",
+      },
+      "source": Object {
+        "raw": "custom",
+      },
+      "square_km": Object {
+        "raw": 2114.2,
+      },
+      "states": Object {
+        "raw": Array [
+          "Tennessee",
+          "North Carolina",
+        ],
+      },
+      "title": Object {
+        "snippet": "Great Smoky Mountains",
+      },
+      "visitors": Object {
+        "raw": 11312786,
+      },
+      "world_heritage_site": Object {
+        "raw": "true",
+      },
+    },
+  ],
+  "totalPages": 1,
+  "totalResults": 1,
+}
+`;
+
+exports[`adaptResponse will accept additional facet value fields to inject into response 1`] = `
+Object {
+  "facets": Object {
+    "world_heritage_site": Array [
+      Object {
+        "data": Array [
+          Object {
+            "count": 1,
+            "value": "true",
+          },
+        ],
+        "field": "world_heritage_site",
+        "type": "value",
+      },
+    ],
+  },
+  "rawResponse": Object {
+    "facets": Object {
+      "world_heritage_site": Array [
+        Object {
+          "data": Array [
+            Object {
+              "count": 1,
+              "value": "true",
+            },
+          ],
+          "type": "value",
+        },
+      ],
+    },
+    "meta": Object {
+      "page": Object {
+        "current": 1,
+        "size": 20,
+        "total_pages": 1,
+        "total_results": 1,
+      },
+      "request_id": "W6qPJzEBS0eoUnVG4FZTnw",
+      "sources": Object {
+        "621581b6174a804659f9dc16": Object {
+          "name": "National parks",
+          "service_type": "custom",
+        },
+      },
+      "warnings": Array [
+        "unknown result field 'image_url'",
+      ],
+    },
+    "results": Array [
+      Object {
+        "_meta": Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "id": "park_great-smoky-mountains",
+          "last_updated": "2022-02-23T00:40:10+00:00",
+          "score": 2.057784,
+          "source": "custom",
+        },
+        "acres": Object {
+          "raw": 522426.88,
+        },
+        "content_source_id": Object {
+          "raw": "621581b6174a804659f9dc16",
+        },
+        "date_established": Object {
+          "raw": "1934-06-15T05:00:00+00:00",
+        },
+        "description": Object {
+          "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+        },
+        "id": Object {
+          "raw": "park_great-smoky-mountains",
+        },
+        "last_updated": Object {
+          "raw": "2022-02-23T00:40:10+00:00",
+        },
+        "location": Object {
+          "raw": "35.68,-83.53",
+        },
+        "nps_link": Object {
+          "raw": "https://www.nps.gov/grsm/index.htm",
+        },
+        "source": Object {
+          "raw": "custom",
+        },
+        "square_km": Object {
+          "raw": 2114.2,
+        },
+        "states": Object {
+          "raw": Array [
+            "Tennessee",
+            "North Carolina",
+          ],
+        },
+        "title": Object {
+          "snippet": "Great Smoky Mountains",
+        },
+        "visitors": Object {
+          "raw": 11312786,
+        },
+        "world_heritage_site": Object {
+          "raw": "true",
+        },
+      },
+    ],
+  },
+  "requestId": "W6qPJzEBS0eoUnVG4FZTnw",
+  "results": Array [
+    Object {
+      "_meta": Object {
+        "content_source_id": "621581b6174a804659f9dc16",
+        "id": "park_great-smoky-mountains",
+        "last_updated": "2022-02-23T00:40:10+00:00",
+        "score": 2.057784,
+        "source": "custom",
+      },
+      "acres": Object {
+        "raw": 522426.88,
+      },
+      "content_source_id": Object {
+        "raw": "621581b6174a804659f9dc16",
+      },
+      "date_established": Object {
+        "raw": "1934-06-15T05:00:00+00:00",
+      },
+      "description": Object {
+        "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+      },
+      "id": Object {
+        "raw": "park_great-smoky-mountains",
+      },
+      "last_updated": Object {
+        "raw": "2022-02-23T00:40:10+00:00",
+      },
+      "location": Object {
+        "raw": "35.68,-83.53",
+      },
+      "nps_link": Object {
+        "raw": "https://www.nps.gov/grsm/index.htm",
+      },
+      "source": Object {
+        "raw": "custom",
+      },
+      "square_km": Object {
+        "raw": 2114.2,
+      },
+      "states": Object {
+        "raw": Array [
+          "Tennessee",
+          "North Carolina",
+        ],
+      },
+      "title": Object {
+        "snippet": "Great Smoky Mountains",
+      },
+      "visitors": Object {
+        "raw": 11312786,
+      },
+      "world_heritage_site": Object {
+        "raw": "true",
+      },
+    },
+  ],
+  "totalPages": 1,
+  "totalResults": 1,
+}
+`;
+
+exports[`adaptResponse will limit total pages to 100 1`] = `
+Object {
+  "facets": Object {
+    "world_heritage_site": Array [
+      Object {
+        "data": Array [
+          Object {
+            "count": 1,
+            "value": "true",
+          },
+        ],
+        "field": "world_heritage_site",
+        "type": "value",
+      },
+    ],
+  },
+  "rawResponse": Object {
+    "facets": Object {
+      "world_heritage_site": Array [
+        Object {
+          "data": Array [
+            Object {
+              "count": 1,
+              "value": "true",
+            },
+          ],
+          "type": "value",
+        },
+      ],
+    },
+    "meta": Object {
+      "page": Object {
+        "current": 1,
+        "size": 20,
+        "total_pages": 5000,
+        "total_results": 100000,
+      },
+      "request_id": "W6qPJzEBS0eoUnVG4FZTnw",
+      "sources": Object {
+        "621581b6174a804659f9dc16": Object {
+          "name": "National parks",
+          "service_type": "custom",
+        },
+      },
+      "warnings": Array [
+        "unknown result field 'image_url'",
+      ],
+    },
+    "results": Array [
+      Object {
+        "_meta": Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "id": "park_great-smoky-mountains",
+          "last_updated": "2022-02-23T00:40:10+00:00",
+          "score": 2.057784,
+          "source": "custom",
+        },
+        "acres": Object {
+          "raw": 522426.88,
+        },
+        "content_source_id": Object {
+          "raw": "621581b6174a804659f9dc16",
+        },
+        "date_established": Object {
+          "raw": "1934-06-15T05:00:00+00:00",
+        },
+        "description": Object {
+          "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+        },
+        "id": Object {
+          "raw": "park_great-smoky-mountains",
+        },
+        "last_updated": Object {
+          "raw": "2022-02-23T00:40:10+00:00",
+        },
+        "location": Object {
+          "raw": "35.68,-83.53",
+        },
+        "nps_link": Object {
+          "raw": "https://www.nps.gov/grsm/index.htm",
+        },
+        "source": Object {
+          "raw": "custom",
+        },
+        "square_km": Object {
+          "raw": 2114.2,
+        },
+        "states": Object {
+          "raw": Array [
+            "Tennessee",
+            "North Carolina",
+          ],
+        },
+        "title": Object {
+          "snippet": "Great Smoky Mountains",
+        },
+        "visitors": Object {
+          "raw": 11312786,
+        },
+        "world_heritage_site": Object {
+          "raw": "true",
+        },
+      },
+    ],
+  },
+  "requestId": "W6qPJzEBS0eoUnVG4FZTnw",
+  "results": Array [
+    Object {
+      "_meta": Object {
+        "content_source_id": "621581b6174a804659f9dc16",
+        "id": "park_great-smoky-mountains",
+        "last_updated": "2022-02-23T00:40:10+00:00",
+        "score": 2.057784,
+        "source": "custom",
+      },
+      "acres": Object {
+        "raw": 522426.88,
+      },
+      "content_source_id": Object {
+        "raw": "621581b6174a804659f9dc16",
+      },
+      "date_established": Object {
+        "raw": "1934-06-15T05:00:00+00:00",
+      },
+      "description": Object {
+        "snippet": "The Great Smoky Mountains, part of the Appalachian Mountains, span a wide range of elevations",
+      },
+      "id": Object {
+        "raw": "park_great-smoky-mountains",
+      },
+      "last_updated": Object {
+        "raw": "2022-02-23T00:40:10+00:00",
+      },
+      "location": Object {
+        "raw": "35.68,-83.53",
+      },
+      "nps_link": Object {
+        "raw": "https://www.nps.gov/grsm/index.htm",
+      },
+      "source": Object {
+        "raw": "custom",
+      },
+      "square_km": Object {
+        "raw": 2114.2,
+      },
+      "states": Object {
+        "raw": Array [
+          "Tennessee",
+          "North Carolina",
+        ],
+      },
+      "title": Object {
+        "snippet": "Great Smoky Mountains",
+      },
+      "visitors": Object {
+        "raw": 11312786,
+      },
+      "world_heritage_site": Object {
+        "raw": "true",
+      },
+    },
+  ],
+  "totalPages": 100,
+  "totalResults": 100000,
+}
+`;

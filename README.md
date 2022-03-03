@@ -17,8 +17,8 @@
 
 A **[React](https://reactjs.org)** library that allows you to quickly implement search experiences without re-inventing the wheel.
 
-Use it with [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product) or
-[**Elastic Site Search**](https://www.elastic.co/cloud/site-search-service?ultron=searchui-repo&blade=readme&hulk=product) to have a
+Use it with [**Elastic App Search**](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product),
+[**Elastic Site Search**](https://www.elastic.co/cloud/site-search-service?ultron=searchui-repo&blade=readme&hulk=product), or [**Elastic Workplace Search**](https://www.elastic.co/workplace-search/) to have a
 search experience up and running in minutes.
 
 ### Features :+1:
@@ -103,9 +103,9 @@ Or go "headless", and take complete control over the look and feel of your searc
         <div>
           <input
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {results.map(r => (
+          {results.map((r) => (
             <div key={r.id.raw}>{r.title.raw}</div>
           ))}
         </div>
@@ -281,7 +281,7 @@ Check out the [Build Your Own Component Guide](./ADVANCED.md#build-your-own-comp
 
 ### Does Search UI only work with App Search?
 
-Nope! We do have two first party connectors: Site Search and App Search.
+Nope! We do have three first party connectors: Site Search, App Search, and Workplace Search.
 
 But Search UI is headless. You can use _any_ Search API.
 
@@ -304,7 +304,7 @@ If something is not working as expected, please open an [issue](https://github.c
 
 ### Where can I go to get help?
 
-The Enterprise Search team at Elastic maintains this library and are happy to help. Try posting your question to the [Elastic Enterprise Search](https://discuss.elastic.co/c/enterprise-search/84) discuss forums. Be sure to mention that you're using search-ui and also let us know what backend your using; whether it's App Search, Site Search, Elasticsearch, or something else entirely.
+The Enterprise Search team at Elastic maintains this library and are happy to help. Try posting your question to the [Elastic Enterprise Search](https://discuss.elastic.co/c/enterprise-search/84) discuss forums. Be sure to mention that you're using search-ui and also let us know what backend your using; whether it's App Search, Site Search, Workplace Search, Elasticsearch, or something else entirely.
 
 ## Contribute 🚀
 

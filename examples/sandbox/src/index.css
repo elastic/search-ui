@@ -1,3 +1,7 @@
+html {
+  background: none !important; /* overriding default EUI background color */
+}
+
 body {
   margin: 0;
   padding: 0;
