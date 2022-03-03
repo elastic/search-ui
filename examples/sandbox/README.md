@@ -83,9 +83,12 @@ npm start
 
 ## Startup options
 
-This project can also be started, using a Site Search connector, rather than an
-App Search connector, using the following command.
+This project can also be started, using a Site Search or Workplace Search connector, rather than an App Search connector, using the following commands:
 
 ```shell
+# Site Search
 REACT_APP_SOURCE=SITE_SEARCH npm start
+
+# Workplace Search
+REACT_APP_SOURCE=WORKPLACE_SEARCH yarn start
 ```

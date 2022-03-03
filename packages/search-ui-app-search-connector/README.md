@@ -2,7 +2,7 @@
 
 Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
-This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/app-search/) API.
+This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/cloud/app-search-service) API.
 
 ## Usage
 
