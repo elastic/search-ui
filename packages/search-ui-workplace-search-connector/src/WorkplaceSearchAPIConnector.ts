@@ -22,10 +22,8 @@ export type WorkplaceSearchAPIConnectorParams = {
 };
 
 interface ResultClickParams {
-  query: string;
   documentId: string;
   requestId: string;
-  tags: string[];
 }
 
 export type SearchQueryHook = (
@@ -166,24 +164,50 @@ class WorkplaceSearchAPIConnector {
     }
   }
 
-  onResultClick({
-    query,
-    documentId,
-    requestId,
-    tags = []
-  }: ResultClickParams): void {
-    tags = tags.concat("results");
-    return this.client.click({ query, documentId, requestId, tags });
+  onResultClick({ documentId, requestId }: ResultClickParams): void {
+    const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
+
+    this.performFetchRequest(apiUrl, {
+      type: "click",
+      document_id: documentId,
+      query_id: requestId,
+      content_source_id: null, // todo: where would this be available?
+      page: 1 // todo: where can i reach to meta?
+    });
   }
 
   onAutocompleteResultClick({
-    query,
     documentId,
-    requestId,
-    tags = []
+    requestId
   }: ResultClickParams): void {
-    tags = tags.concat("autocomplete");
-    return this.client.click({ query, documentId, requestId, tags });
+    const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
+
+    this.performFetchRequest(apiUrl, {
+      type: "click",
+      document_id: documentId,
+      query_id: requestId,
+      content_source_id: null, // where would this be available?
+      page: 1
+    });
+  }
+
+  async performFetchRequest(apiUrl: string, payload: any) {
+    const searchResponse = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (searchResponse.status === 401) {
+      this.state.isLoggedIn = false; // Remove the token to trigger the Log in dialog
+      throw new Error(INVALID_CREDENTIALS);
+    }
+
+    const responseJson = await searchResponse.json();
+    return responseJson;
   }
 
   async onSearch(
@@ -224,33 +248,17 @@ class WorkplaceSearchAPIConnector {
     };
 
     return this.beforeSearchCall(options, async (newOptions) => {
-      const searchResponse = await fetch(
-        `${this.enterpriseSearchBase}/api/ws/v1/search`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.accessToken}`
-          },
-          body: JSON.stringify({
-            query,
-            ...newOptions
-          })
-        }
-      );
+      const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/search`;
 
-      if (searchResponse.status === 401) {
-        this.state.isLoggedIn = false; // Remove the token to trigger the Log in dialog
-        throw new Error(INVALID_CREDENTIALS);
-      }
-
-      const responseJson = await searchResponse.json();
-
-      // const response = await this.client.search(query, newOptions);
+      const responseJson = await this.performFetchRequest(apiUrl, {
+        query,
+        ...newOptions
+      });
       return adaptResponse(
         responseJson,
         buildResponseAdapterOptions(queryConfig)
       );
+      // const response = await this.client.search(query, newOptions);
     });
   }
 
@@ -295,25 +303,16 @@ class WorkplaceSearchAPIConnector {
       const options = removeInvalidFields(withQueryConfigOptions);
 
       this.beforeAutocompleteResultsCall(options, async (newOptions) => {
-        const searchResponse = await fetch(
+        const responseJson = await this.performFetchRequest(
           `${this.enterpriseSearchBase}/api/ws/v1/search`,
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${this.accessToken}`
-            },
-            body: JSON.stringify({
-              query,
-              ...newOptions
-            })
+            query,
+            ...newOptions
           }
         );
 
-        const responseJson = await searchResponse.json();
-
         autocompletedState.autocompletedResults =
-          adaptResponse(responseJson).results;
+          adaptResponse(responseJson)?.results || [];
         autocompletedState.autocompletedResultsRequestId =
           responseJson.meta.request_id;
       });
