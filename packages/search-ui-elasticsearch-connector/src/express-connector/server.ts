@@ -5,6 +5,7 @@ type SearchUIConnectorOptions = {
   apiPath?: string;
   host: string;
   index: string;
+  apiKey: string;
   queryFields: string[];
 };
 
@@ -20,6 +21,7 @@ function SearchUIConnector(options: SearchUIConnectorOptions) {
           queryConfig,
           options.host,
           options.index,
+          options.apiKey,
           options.queryFields
         );
         res.json(response);
@@ -35,6 +37,7 @@ function SearchUIConnector(options: SearchUIConnectorOptions) {
           queryConfig,
           options.host,
           options.index,
+          options.apiKey,
           options.queryFields
         );
         res.json(response);

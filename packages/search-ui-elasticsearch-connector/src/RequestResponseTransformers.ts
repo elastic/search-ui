@@ -51,6 +51,7 @@ export function buildSKConfiguration(
   queryConfig: QueryConfig,
   host: string,
   index: string,
+  apiKey: string,
   queryFields: string[]
 ): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
@@ -87,9 +88,12 @@ export function buildSKConfiguration(
           }, [])
         }
       : { id: "selectedOption", label: "selectedOption", field: "_score" };
-  const configuration = {
+  const configuration: SearchkitConfig = {
     host: host,
     index: index,
+    connectionOptions: {
+      apiKey: apiKey
+    },
     hits: {
       fields: hitFields,
       highlightedFields: highlightFields

@@ -20,6 +20,7 @@ export async function handleSearchRequest(
   queryConfig: QueryConfig,
   host: string,
   index: string,
+  apiKey: string,
   queryFields: string[]
 ): Promise<SearchState> {
   const skConfig = buildSKConfiguration(
@@ -27,6 +28,7 @@ export async function handleSearchRequest(
     queryConfig,
     host,
     index,
+    apiKey,
     queryFields
   );
   const request = Searchkit(skConfig);
@@ -91,6 +93,7 @@ export async function handleAutocompleteRequest(
   queryConfig: AutocompleteQuery,
   host: string,
   index: string,
+  apiKey: string,
   queryFields: string[]
 ): Promise<SearchState> {
   const requests = [];
@@ -104,6 +107,9 @@ export async function handleAutocompleteRequest(
     const skConfig: SearchkitConfig = {
       host: host,
       index: index,
+      connectionOptions: {
+        apiKey: apiKey
+      },
       query: new MultiMatchQuery({
         fields: queryFields
       }),

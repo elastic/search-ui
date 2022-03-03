@@ -13,6 +13,7 @@ export { default as ClientConnector } from "./express-connector/client";
 type ConnectionOptions = {
   host: string;
   index: string;
+  apiKey?: string;
 };
 
 type SearchConfiguration = {
@@ -42,6 +43,7 @@ class APIConnector {
       queryConfig,
       this.config.host,
       this.config.index,
+      this.config.apiKey,
       this.searchConfig.queryFields
     );
   }
@@ -55,6 +57,7 @@ class APIConnector {
       queryConfig,
       this.config.host,
       this.config.index,
+      this.config.apiKey,
       this.searchConfig.queryFields
     );
   }

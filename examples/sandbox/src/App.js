@@ -27,7 +27,7 @@ import { config as EntSearchConfig } from './configurations/EntSearch';
 
 const sourceMode = process.env.REACT_APP_SOURCE
 
-const isElasticsearchSource = sourceMode.indexOf("ELASTICSEARCH") !== -1;
+const isElasticsearchSource = sourceMode && sourceMode.indexOf("ELASTICSEARCH") !== -1;
 
 function lookupField(fieldName) {
   return {
