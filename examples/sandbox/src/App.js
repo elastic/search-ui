@@ -100,11 +100,18 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
   });
 } else if (process.env.REACT_APP_SOURCE === "WORKPLACE_SEARCH") {
   connector = new WorkplaceSearchAPIConnector({
-    kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
+    kibanaBase:
+      process.env.REACT_WORKPLACE_SEARCH_KIBANA_BASE ||
+      "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
     enterpriseSearchBase:
+      process.env.REACT_WORKPLACE_SEARCH_ENTERPRISE_SEARCH_BASE ||
       "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
-    redirectUri: "http://localhost:3000",
-    clientId: "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e"
+    redirectUri:
+      process.env.REACT_WORKPLACE_SEARCH_REDIRECT_URI ||
+      "http://localhost:3000",
+    clientId:
+      process.env.REACT_WORKPLACE_SEARCH_CLIENT_ID ||
+      "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e"
   });
 } else {
   connector = new AppSearchAPIConnector({
