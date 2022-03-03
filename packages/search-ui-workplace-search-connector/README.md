@@ -1,56 +1,40 @@
-# search-ui-app-search-connector
+# search-ui-workplace-search-connector
 
 Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
-This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/app-search/) API.
+This Connector is used to connect Search UI to Elastic's [Workplace Search](https://www.elastic.co/workplace-search/) API.
 
 ## Usage
 
 ```shell
-npm install --save @elastic/search-ui-app-search-connector
+npm install --save @elastic/search-ui-workplace-search-connector
 ```
 
 ```js
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
 
-const connector = new AppSearchAPIConnector({
-  searchKey: "search-371auk61r2bwqtdzocdgutmg",
-  engineName: "search-ui-examples",
-  endpointBase: "http://127.0.0.1:3002"
+const connector = new WorkplaceSearchAPIConnector({
+  kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
+  enterpriseSearchBase:
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
+  redirectUri: "http://localhost:3000",
+  clientId: "8e495e40fc4e6acf515e557e634de39d4f727f7f60a3afed24a99ce316607c1e"
 });
 ```
 
-### Swiftype.com App Search users:
+## Authentication
 
-When using the [SaaS version available on swiftype.com](https://app.swiftype.com/as) of App Search, you can configure the connector using your `hostIdentifier` instead of the `endpointBase` parameter.
-The `hostIdentifier` can be found within the [Credentials](https://app.swiftype.com/as#/credentials) menu.
+The Workplace Search API requires authentication. This connector uses OAuth authentication. You can read more about that [here](https://www.elastic.co/guide/en/workplace-search/7.13/workplace-search-api-authentication.html#oauth-token) and [here](https://www.elastic.co/guide/en/workplace-search/7.13/workplace-search-search-oauth.html).
 
-```
-const connector = new AppSearchAPIConnector({
-  searchKey: "search-371auk61r2bwqtdzocdgutmg",
-  engineName: "search-ui-examples",
-  hostIdentifier: "host-c5s2mj"
-});
-```
+Using this connector will populate two additional pieces of Application State:
 
-### Additional options
-
-Additional options will be passed through to the underlying
-[APIclient](https://github.com/elastic/app-search-javascript). Any valid parameter of the client can be used.
-
-```js
-const connector = new AppSearchAPIConnector({
-  searchKey: "search-371auk61r2bwqtdzocdgutmg",
-  engineName: "search-ui-examples",
-  endpointBase: "http://127.0.0.1:3002",
-  cacheResponses: false
-});
-```
+`isLoggedIn` - This can be used to determine whether or not a user is authenticated. Requests using this connector will only work if a user is authenticatied. If this is false, consider showing a "Login" link using the `authorizeUrl` state.
+`authorizeUrl` - This can be used to create a "Login" link for users to initiate OAuth authentication.
 
 ## Classes
 
 <dl>
-<dt><a href="#AppSearchAPIConnector">AppSearchAPIConnector</a></dt>
+<dt><a href="#WorkplaceSearchAPIConnector">WorkplaceSearchAPIConnector</a></dt>
 <dd></dd>
 </dl>
 
@@ -65,14 +49,14 @@ const connector = new AppSearchAPIConnector({
 <dd></dd>
 </dl>
 
-<a name="AppSearchAPIConnector"></a>
+<a name="WorkplaceSearchAPIConnector"></a>
 
-## AppSearchAPIConnector
+## WorkplaceSearchAPIConnector
 
 **Kind**: global class
-<a name="new_AppSearchAPIConnector_new"></a>
+<a name="new_WorkplaceSearchAPIConnector_new"></a>
 
-### new AppSearchAPIConnector(options)
+### new WorkplaceSearchAPIConnector(options)
 
 | Param   | Type                             |
 | ------- | -------------------------------- |
@@ -105,12 +89,12 @@ const connector = new AppSearchAPIConnector({
 
 **Kind**: global typedef
 
-| Param                             | Type                       | Default                                                      | Description                                                                                                                   |
-| --------------------------------- | -------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| searchKey                         | <code>string</code>        |                                                              | Credential found in your App Search Dashboard                                                                                 |
-| engineName                        | <code>string</code>        |                                                              | Engine to query, found in your App Search Dashboard                                                                           |
-| hostIdentifier                    | <code>string</code>        |                                                              | Credential found in your App Search Dashboard Useful when proxying the Swiftype API or developing against a local API server. |
-| beforeSearchCall                  | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                        |
-| beforeAutocompleteResultsCall     | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.        |
-| beforeAutocompleteSuggestionsCall | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event.    |
-| endpointBase                      | <code>string</code>        | <code>""</code>                                              | Overrides the base of the Swiftype API endpoint completely.                                                                   |
+| Param                             | Type                       | Default                                                      | Description                                                                                                                                                                                  |
+| --------------------------------- | -------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| enterpriseSearchBase              | <code>string</code>        |                                                              | The publicly accessible url of the Enterprise Search deployment.                                                                                                                             |
+| kibanaBase                        | <code>string</code>        |                                                              | The publicly accessible url for the Kibana deployment associated with the Enterprise Search deployment. Used for OAuth authentication.                                                       |
+| redirectUri                       | <code>string</code>        |                                                              | The publicly accessible url of this Search UI deployment, which Kibana will redirect back to after successful OAuth authentication. Must match a URI as configured in the OAuth Application. |
+| clientId                          | <code>string</code>        |                                                              | Client ID as generated when setting up the OAuth Application.                                                                                                                                |
+| beforeSearchCall                  | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                                                                                       |
+| beforeAutocompleteResultsCall     | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.                                                                       |
+| beforeAutocompleteSuggestionsCall | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event.                                                                   |

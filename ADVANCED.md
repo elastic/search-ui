@@ -55,7 +55,7 @@ It looks like this:
 <SearchProvider config={config}>
   <WithSearch>
     {/*WithSearch exposes the "Context"*/}
-    {context => {
+    {(context) => {
       // Context contains state, like "searchTerm"
       const searchTerm = context.searchTerm;
       // Context also contains actions, like "setSearchTerm"
@@ -209,7 +209,7 @@ ex.
 | `setCurrent`        | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |        | Update the current page number. Used for paging.                                                                                          |
 | `setResultsPerPage` | Integer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |        |                                                                                                                                           |
 | `setSearchTerm`     | `searchTerm` String<br/> `options` Object<br/>`options.refresh` Boolean - Refresh search results on update. Default: `true`.<br/>`options.debounce` Number - Length to debounce any resulting queries.<br/>`options.shouldClearFilters` Boolean - Should existing filters be cleared? Default: `true`.<br/>`options.autocompleteSuggestions` Boolean - Fetch query suggestions for autocomplete on update, stored in `autocompletedSuggestions` state<br/>`options.autocompleteResults` Boolean - Fetch results on update, stored in `autocompletedResults` state |        |                                                                                                                                           |
-| `setSort`           | `sort \| sortField` One of: [SortList](./packages/react-search-ui/src/types/SortList.js) \| String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |        |                                                                                                                                           |
+| `setSort`           | `sort \| sortField` One of: [SortList](./packages/react-search-ui/src/types/SortList.js) \| String - field to sort on<br/>`sortDirection` String - "asc" or "desc"                                                                                                                                                                                                                                                                                                                                                                                                |        |                                                                                                                                           |
 | `trackClickThrough` | `documentId` String - The document ID associated with the result that was clicked<br/>`tag` - Array[String] Optional tags which can be used to categorize this click event                                                                                                                                                                                                                                                                                                                                                                                        |        | Report a clickthrough event, which is when a user clicks on a result link.                                                                |
 | `a11yNotify`        | `messageFunc` String - object key to run as function<br/>`messageArgs` Object - Arguments to pass to form your screen reader message string                                                                                                                                                                                                                                                                                                                                                                                                                       |        | Reads out a screen reader accessible notification. See `a11yNotificationMessages` under [Advanced Configuration](#advanced-configuration) |
 
@@ -236,15 +236,15 @@ Request state can be set by:
 - The `initialState` option.
 - The URL query string, if `trackUrlState` is enabled.
 
-| option                                             | type                                                                | required? | source                                     |
-| -------------------------------------------------- | ------------------------------------------------------------------- | --------- | ------------------------------------------ |
-| `current`                                          | Integer                                                             | optional  | Current page number                        |
-| `filters`                                          | Array[[Filter](./packages/react-search-ui/src/types/Filter.js)]     | optional  |                                            |
-| <a name="resultsPerPageProp"></a>`resultsPerPage`  | Integer                                                             | optional  | Number of results to show on each page     |
-| `searchTerm`                                       | String                                                              | optional  | Search terms to search for                 |
-| `sort`                                             | [SortList](./packages/react-search-ui/src/types/SortList.js)        | optional  | List of fields and directions to sort on   |
-| `sortDirection` **deprecated, use `sort` instead** | String ["asc" \| "desc"]                                            | optional  | Direction to sort                          |
-| `sortField`     **deprecated, use `sort` instead** | String                                                              | optional  | Name of field to sort on                   |
+| option                                             | type                                                            | required? | source                                   |
+| -------------------------------------------------- | --------------------------------------------------------------- | --------- | ---------------------------------------- |
+| `current`                                          | Integer                                                         | optional  | Current page number                      |
+| `filters`                                          | Array[[Filter](./packages/react-search-ui/src/types/Filter.js)] | optional  |                                          |
+| <a name="resultsPerPageProp"></a>`resultsPerPage`  | Integer                                                         | optional  | Number of results to show on each page   |
+| `searchTerm`                                       | String                                                          | optional  | Search terms to search for               |
+| `sort`                                             | [SortList](./packages/react-search-ui/src/types/SortList.js)    | optional  | List of fields and directions to sort on |
+| `sortDirection` **deprecated, use `sort` instead** | String ["asc" \| "desc"]                                        | optional  | Direction to sort                        |
+| `sortField` **deprecated, use `sort` instead**     | String                                                          | optional  | Name of field to sort on                 |
 
 #### Response State
 
@@ -271,11 +271,13 @@ It is updated indirectly by invoking an action which results in a new API reques
 
 Application state is the general application state.
 
-| field         | type    | description                                                                                                        |
-| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
-| `error`       | String  | Error message, if an error was thrown.                                                                             |
-| `isLoading`   | boolean | Whether or not a search is currently being performed.                                                              |
-| `wasSearched` | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
+| field          | type    | description                                                                                                             |
+| -------------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `error`        | String  | Error message, if an error was thrown.                                                                                  |
+| `isLoading`    | boolean | Whether or not a search is currently being performed.                                                                   |
+| `wasSearched`  | boolean | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI.      |
+| `isLoggedIn`   | boolean | Certain connectors (like Workplace Search) will populate this in order to show the user's current authentication state. |
+| `authorizeUrl` | boolean | Certain connectors (like Workplace Search) will populate this. It can be used to create a "Login" link.                 |
 
 # Component Reference
 
@@ -331,7 +333,7 @@ customizations, like simply hiding the search button, this is often overkill.
 <SearchBox
   view={({ onChange, value, onSubmit }) => (
     <form onSubmit={onSubmit}>
-      <input value={value} onChange={e => onChange(e.currentTarget.value)} />
+      <input value={value} onChange={(e) => onChange(e.currentTarget.value)} />
     </form>
   )}
 />
@@ -485,8 +487,8 @@ common terms and phrases inside of documents, or be "popular" queries
 generated from actual search queries made by users. This will differ
 depending on the particular Search API you are using.
 
-**Note**: Elastic App Search currently only supports type "documents", and Elastic Site Search
-does not support suggestions. This is purely illustrative in case a Connector is used that
+**Note**: Elastic App Search currently only supports type "documents", and Elastic Site Search and Workplace Search
+do not support suggestions. This is purely illustrative in case a Connector is used that
 does support multiple types.
 
 ```jsx
@@ -530,7 +532,7 @@ page for suggestions, and maintaining the default behavior when selecting a resu
     urlField: "nps_link"
   }}
   autocompleteSuggestions={true}
-  onSubmit={searchTerm => {
+  onSubmit={(searchTerm) => {
     navigate("/search?q=" + searchTerm);
   }}
   onSelectAutocomplete={(selection, {}, defaultOnSelectAutocomplete) => {
@@ -995,13 +997,13 @@ This example orders a list of states by name:
 
 ```jsx
 <Facet
-  mapContextToProps={context => {
+  mapContextToProps={(context) => {
     if (!context.facets.states) return context;
     return {
       ...context,
       facets: {
         ...(context.facets || {}),
-        states: context.facets.states.map(s => ({
+        states: context.facets.states.map((s) => ({
           ...s,
           data: s.data.sort((a, b) => {
             if (a.value > b.value) return 1;
@@ -1034,10 +1036,10 @@ function reportChange(value) {
 }
 
 <Paging
-  view={props =>
+  view={(props) =>
     PagingView({
       ...props,
-      onChange: value => {
+      onChange: (value) => {
         reportChange(value);
         return props.onChange(value);
       }
@@ -1308,7 +1310,7 @@ handler implementations directly on the `SearchProvider`.
 ```jsx
 <SearchProvider
   config={{
-    onSearch: async state => {
+    onSearch: async (state) => {
       const queryForOtherService = transformSearchUIStateToQuery(state);
       const otherServiceResponse = await callSomeOtherService(
         queryForOtherService
@@ -1418,7 +1420,9 @@ Instead, do:
 
 ```jsx
 // Create a new options array and copy the old values into that new array.
-this.setState(prevState => ({ options: [...prevState.options, "newOption"] }));
+this.setState((prevState) => ({
+  options: [...prevState.options, "newOption"]
+}));
 ```
 
 If you ever need to debug performance related issues, see the instructions in the Optimizing Performance guide for
