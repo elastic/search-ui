@@ -20,12 +20,14 @@ export default function trackAutocompleteClickThrough(
     );
   }
 
-  const { autocompletedResultsRequestId, searchTerm } = this.state;
+  const { autocompletedResultsRequestId, searchTerm, results } = this.state;
+  const result = results.find((result) => result._meta.id === documentId);
 
   this.events.autocompleteResultClick({
     query: searchTerm,
     documentId,
     requestId: autocompletedResultsRequestId,
-    tags
+    tags,
+    result
   });
 }

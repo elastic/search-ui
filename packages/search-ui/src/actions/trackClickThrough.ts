@@ -1,3 +1,5 @@
+import { SearchState } from "..";
+
 /**
  * Report a click through event. A click through event is when a user
  * clicks on a result link.
@@ -15,12 +17,16 @@ export default function trackClickThrough(
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "trackClickThrough", ...arguments);
 
-  const { requestId, searchTerm } = this.state;
+  const { requestId, searchTerm, results, current }: SearchState = this.state;
+
+  const result = results.find((result) => result._meta.id === documentId);
 
   this.events.resultClick({
     query: searchTerm,
     documentId,
     requestId,
-    tags
+    tags,
+    result,
+    page: current
   });
 }

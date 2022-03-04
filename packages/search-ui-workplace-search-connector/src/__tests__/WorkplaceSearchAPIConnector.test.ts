@@ -72,7 +72,9 @@ describe("WorkplaceSearchAPIConnector", () => {
 
       return connector.onResultClick({
         documentId: "11111",
-        requestId: "12345"
+        requestId: "12345",
+        page: 1,
+        result: exampleResponse.results[0]
       });
     }
 
@@ -81,7 +83,7 @@ describe("WorkplaceSearchAPIConnector", () => {
       const { body } = getLastFetchCall();
       expect(body).toMatchInlineSnapshot(`
         Object {
-          "content_source_id": null,
+          "content_source_id": "621581b6174a804659f9dc16",
           "document_id": "11111",
           "page": 1,
           "query_id": "12345",
@@ -186,7 +188,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         return connector.onAutocompleteResultClick({
           documentId: "11111",
-          requestId: "12345"
+          requestId: "12345",
+          result: exampleResponse.results[0]
         });
       }
 
@@ -195,7 +198,7 @@ describe("WorkplaceSearchAPIConnector", () => {
         const { body } = getLastFetchCall();
         expect(body).toMatchInlineSnapshot(`
           Object {
-            "content_source_id": null,
+            "content_source_id": "621581b6174a804659f9dc16",
             "document_id": "11111",
             "page": 1,
             "query_id": "12345",

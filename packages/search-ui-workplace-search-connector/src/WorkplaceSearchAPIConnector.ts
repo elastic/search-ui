@@ -7,7 +7,9 @@ import type {
   RequestState,
   SearchState,
   AutocompleteQuery,
-  SuggestionsQueryConfig
+  SuggestionsQueryConfig,
+  SearchResult,
+  AutocompletedResult
 } from "@elastic/search-ui";
 import { INVALID_CREDENTIALS } from "@elastic/search-ui";
 
@@ -24,6 +26,14 @@ export type WorkplaceSearchAPIConnectorParams = {
 interface ResultClickParams {
   documentId: string;
   requestId: string;
+  result: SearchResult;
+  page: number;
+}
+
+interface AutocompleteClickParams {
+  documentId: string;
+  requestId: string;
+  result: AutocompletedResult;
 }
 
 export type SearchQueryHook = (
@@ -164,21 +174,11 @@ class WorkplaceSearchAPIConnector {
     }
   }
 
-  onResultClick({ documentId, requestId }: ResultClickParams): void {
-    const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
-
-    this.performFetchRequest(apiUrl, {
-      type: "click",
-      document_id: documentId,
-      query_id: requestId,
-      content_source_id: null, // todo: where would this be available?
-      page: 1 // todo: where can i reach to meta?
-    });
-  }
-
-  onAutocompleteResultClick({
+  onResultClick({
     documentId,
-    requestId
+    requestId,
+    result,
+    page
   }: ResultClickParams): void {
     const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
 
@@ -186,7 +186,23 @@ class WorkplaceSearchAPIConnector {
       type: "click",
       document_id: documentId,
       query_id: requestId,
-      content_source_id: null, // where would this be available?
+      content_source_id: result?._meta.content_source_id,
+      page: page
+    });
+  }
+
+  onAutocompleteResultClick({
+    documentId,
+    requestId,
+    result
+  }: AutocompleteClickParams): void {
+    const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
+
+    this.performFetchRequest(apiUrl, {
+      type: "click",
+      document_id: documentId,
+      query_id: requestId,
+      content_source_id: result?._meta.content_source_id,
       page: 1
     });
   }
