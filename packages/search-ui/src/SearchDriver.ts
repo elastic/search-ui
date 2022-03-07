@@ -6,6 +6,7 @@ import DebounceManager from "./DebounceManager";
 import * as actions from "./actions";
 import Events from "./Events";
 import { mergeFilters } from "./helpers";
+import { INVALID_CREDENTIALS } from ".";
 
 import * as a11y from "./A11yNotifications";
 import {
@@ -135,6 +136,7 @@ class SearchDriver {
     (expansions?: Record<string, unknown>) => string
   >;
   startingState: SearchState;
+  apiConnector: APIConnector;
 
   constructor({
     apiConnector,
@@ -187,6 +189,7 @@ class SearchDriver {
     this.trackUrlState = trackUrlState;
     this.urlPushDebounceLength = urlPushDebounceLength;
     this.alwaysSearchOnInitialLoad = alwaysSearchOnInitialLoad;
+    this.apiConnector = apiConnector;
 
     let urlState;
     if (trackUrlState) {
@@ -232,6 +235,7 @@ class SearchDriver {
     // to the correct default values for the initial UI render
     this.state = {
       ...this.state,
+      ...(apiConnector?.state && { ...apiConnector.state }),
       ...searchParameters
     };
 
@@ -455,6 +459,17 @@ class SearchDriver {
           }
         },
         (error) => {
+          if (error.message === INVALID_CREDENTIALS) {
+            // The connector should have invalidated the credentials in its state by now
+            // Getting the latest state from the connector
+            this._setState({
+              ...(this.apiConnector?.state && { ...this.apiConnector.state })
+            });
+            // Stop execution of request
+            // and let the consuming application handle the missing credentials
+            return;
+          }
+
           this._setState({
             error: `An unexpected error occurred: ${error.message}`
           });
