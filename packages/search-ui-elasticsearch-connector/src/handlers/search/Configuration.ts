@@ -8,7 +8,6 @@ import {
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
-import { MixedFilter } from "@searchkit/sdk/lib/cjs/core/QueryManager";
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>
@@ -35,18 +34,7 @@ export function getResultFields(
   return { hitFields, highlightFields };
 }
 
-export function getSKFilters(state: RequestState): MixedFilter[] {
-  return state.filters.reduce((acc, f) => {
-    const subFilters = f.values.map((v) => ({
-      identifier: f.field,
-      value: v
-    }));
-
-    return [...acc, ...subFilters];
-  }, []);
-}
-
-export function buildSKConfiguration(
+function buildConfiguration(
   state: RequestState,
   queryConfig: QueryConfig,
   host: string,
@@ -58,25 +46,28 @@ export function buildSKConfiguration(
     queryConfig.result_fields
   );
 
-  const facets = Object.keys(queryConfig.facets).reduce((sum, facetKey) => {
-    const facetConfiguration = queryConfig.facets[facetKey];
-    const isDisJunctive = queryConfig.disjunctiveFacets.includes(facetKey);
-    if (facetConfiguration.type === "value") {
-      sum.push(
-        new RefinementSelectFacet({
-          identifier: facetKey,
-          field: facetKey,
-          label: facetKey,
-          size: facetConfiguration.size || 20,
-          multipleSelect: isDisJunctive
-        })
-      );
-    }
-    return sum;
-  }, []);
+  const facets = Object.keys(queryConfig.facets || {}).reduce(
+    (sum, facetKey) => {
+      const facetConfiguration = queryConfig.facets[facetKey];
+      const isDisJunctive = queryConfig.disjunctiveFacets?.includes(facetKey);
+      if (facetConfiguration.type === "value") {
+        sum.push(
+          new RefinementSelectFacet({
+            identifier: facetKey,
+            field: facetKey,
+            label: facetKey,
+            size: facetConfiguration.size || 20,
+            multipleSelect: isDisJunctive
+          })
+        );
+      }
+      return sum;
+    },
+    []
+  );
 
   const sortOption =
-    state.sortList.length > 0
+    state.sortList?.length > 0
       ? {
           id: "selectedOption",
           label: "selectedOption",
@@ -88,6 +79,7 @@ export function buildSKConfiguration(
           }, [])
         }
       : { id: "selectedOption", label: "selectedOption", field: "_score" };
+
   const configuration: SearchkitConfig = {
     host: host,
     index: index,
@@ -107,3 +99,5 @@ export function buildSKConfiguration(
 
   return configuration;
 }
+
+export default buildConfiguration;
