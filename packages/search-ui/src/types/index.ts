@@ -58,24 +58,32 @@ export type RequestState = {
   sort?: SortOption[];
 };
 
-export type SearchState = RequestState & {
-  // Result State -- This state represents state that is updated automatically
-  // as the result of changing input state.
+export type SearchState = RequestState &
+  ResponseState &
+  AutocompleteResponseState & {
+    // Result State -- This state represents state that is updated automatically
+    // as the result of changing input state.
+    error: string;
+    isLoading: boolean;
+  };
+
+export type AutocompleteResponseState = {
   autocompletedResults: AutocompletedResult[];
   autocompletedResultsRequestId: string;
   autocompletedSuggestions: any;
   autocompletedSuggestionsRequestId: string;
-  error: string;
-  isLoading: boolean;
-  facets: Record<string, any>;
+};
+
+export type ResponseState = {
   requestId: string;
-  results: SearchResult[];
+  facets: Record<string, any>;
   resultSearchTerm: string;
   totalPages: number;
   totalResults: number;
   pagingStart: number;
   pagingEnd: number;
   wasSearched: boolean;
+  results: SearchResult[];
   rawResponse: any;
 };
 

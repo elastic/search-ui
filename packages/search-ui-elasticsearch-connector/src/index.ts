@@ -1,14 +1,13 @@
 import type {
   QueryConfig,
   RequestState,
-  SearchState,
-  AutocompleteQuery
+  AutocompleteQuery,
+  ResponseState,
+  AutocompleteResponseState
 } from "@elastic/search-ui";
 
-import { handleAutocompleteRequest, handleSearchRequest } from "./core";
-
-export { default as ServerConnector } from "./express-connector/server";
-export { default as ClientConnector } from "./express-connector/client";
+import handleSearchRequest from "./handlers/search";
+import handleAutocompleteRequest from "./handlers/autocomplete";
 
 type ConnectionOptions = {
   host: string;
@@ -37,7 +36,7 @@ class APIConnector {
   async onSearch(
     state: RequestState,
     queryConfig: QueryConfig
-  ): Promise<SearchState> {
+  ): Promise<ResponseState> {
     return handleSearchRequest(
       state,
       queryConfig,
@@ -51,7 +50,7 @@ class APIConnector {
   async onAutocomplete(
     state: RequestState,
     queryConfig: AutocompleteQuery
-  ): Promise<SearchState> {
+  ): Promise<AutocompleteResponseState> {
     return handleAutocompleteRequest(
       state,
       queryConfig,
