@@ -1,5 +1,5 @@
 import React from "react";
-import ElasticSearchAPIConnector, { ClientConnector } from "@elastic/search-ui-elasticsearch-connector";
+import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
@@ -104,15 +104,10 @@ const SORT_OPTIONS = [
 let connector = null
 let queryConfig = null
 
-if (sourceMode === "ELASTICSEARCH_SERVER_CONNECTOR") {
-  connector = new ClientConnector({
-    apiUrl: "/api"
-  });
-  queryConfig = ElasticSearchConfig
-} else if (sourceMode === "ELASTICSEARCH_CONNECTOR") {
+if (sourceMode === "ELASTICSEARCH_CONNECTOR") {
   connector = new ElasticSearchAPIConnector({
-    host: "http://localhost:9200",
-    index: "us_parks"
+    host: process.env.REACT_ELASTICSEARCH_HOST || "http://localhost:9200",
+    index: process.env.REACT_ELASTICSEARCH_INDEX || "us_parks"
   }, {
     queryFields: ["title", "description", "states"]
   });
