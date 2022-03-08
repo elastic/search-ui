@@ -36,11 +36,11 @@ const connector = new ElasticsearchAPIConnector({
 
 **Kind**: global typedef
 
-| Param     | Type                | Default | Description                                                                                                                                    |
-| --------- | ------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| host      | <code>string</code> |         | Url for elasticsearch instance. Can also be found in your cloud dashboard. Can also                                                            |
-| indexName | <code>string</code> |         | Index name for where the search documents are contained in                                                                                     |
-| apiKey    | <code>string</code> |         | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
+| Param  | Type                | Default | Description                                                                                                                                    |
+| ------ | ------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| host   | <code>string</code> |         | Url for elasticsearch instance. Can also be found in your cloud dashboard. Can also                                                            |
+| index  | <code>string</code> |         | Index name for where the search documents are contained in                                                                                     |
+| apiKey | <code>string</code> |         | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
 
 ## Connection & Authentication
 
@@ -56,7 +56,7 @@ This envolves building an API route that will proxy the elasticsearch call throu
 - Your own user based authentication for your API
 - Add a caching layer between the API and Elasticsearch
 
-To do this, provide the host to be the location of the API. Example `host: "https://search.acme.co/search"`. In this example, you would need to implement a POST endpoint for `<rootURL>/search/_search` which the payload contains the Elasticsearch Query DSL.
+To do this, provide the host to be the location of the API. Example `host: "https://search.acme.co/search", index: "movies"`. In this example, you would need to implement a POST endpoint for `https://search.acme.co/search/movies/_search` . When the connector performs a network request, the Elasticsearch Query DSL will be contained within the body.
 
 ### Use an Elasticsearch api-key
 
