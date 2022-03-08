@@ -1,0 +1,13 @@
+{
+  "mission": "Content demo",
+  "id": "Demo",
+  "landingPageId": "one",
+  "icon": "gear",
+  "description": "This loads sample docs from the content directory",
+  "items": [
+    {
+      "label": "Demo content",
+      "items": [{ "id": "one" }, { "id": "two" }]
+    }
+  ]
+}

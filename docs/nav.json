@@ -1,0 +1,4 @@
+{
+  "structure": ["nav-docs", "nav-content"],
+  "default": "nav-content"
+}

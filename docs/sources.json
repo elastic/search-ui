@@ -1,0 +1,13 @@
+{
+  "sources": [
+    {
+      "type": "file",
+      "location": "../content"
+    },
+    {
+      "type": "github",
+      "location": "elastic/docsmobile",
+      "subdirs": ["doc-site"]
+    }
+  ]
+}

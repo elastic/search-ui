@@ -1,0 +1,19 @@
+{
+  "name": "community-site",
+  "version": "1.0.0",
+  "description": "Community site for elastic",
+  "repository": "git@github.com:elastic/community-site.git",
+  "contributors": [
+    "Dave Snider <dsnider@elastic.co>"
+  ],
+  "private": true,
+  "scripts": {
+    "init-docs": "docsmobile init",
+    "dev": "docsmobile dev",
+    "build": "docsmobile build",
+    "start": "docsmobile start"
+  },
+  "dependencies": {
+    "@elastic/docsmobile": "^1.6.0"
+  }
+}
