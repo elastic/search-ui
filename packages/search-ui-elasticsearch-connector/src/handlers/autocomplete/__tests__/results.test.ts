@@ -10,7 +10,7 @@ const mockSearchkitResponse: SearchkitResponse = {
     disabledFilters: [],
     sortOptions: []
   },
-  items: {
+  hits: {
     page: {
       pageNumber: 0,
       size: 10,
@@ -18,7 +18,7 @@ const mockSearchkitResponse: SearchkitResponse = {
       total: 100,
       from: 0
     },
-    hits: [
+    items: [
       {
         id: "test",
         fields: {

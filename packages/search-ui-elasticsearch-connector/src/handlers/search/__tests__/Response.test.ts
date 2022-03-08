@@ -12,7 +12,7 @@ describe("Search - Response", () => {
         disabledFilters: [],
         sortOptions: []
       },
-      items: {
+      hits: {
         page: {
           pageNumber: 0,
           size: 10,
@@ -20,7 +20,7 @@ describe("Search - Response", () => {
           total: 100,
           from: 0
         },
-        hits: [
+        items: [
           {
             id: "test",
             fields: {
