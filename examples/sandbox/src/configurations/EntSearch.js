@@ -1,5 +1,11 @@
 import moment from "moment";
 
+export const fields = {
+  title: "title",
+  states: "states",
+  world_heritage_site: "world_heritage_site"
+}
+
 export const config = {
   searchQuery: {
     result_fields: {

@@ -34,30 +34,15 @@ import {
   SingleSelectFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
-import { config as ElasticSearchConfig } from './configurations/Elasticsearch';
-import { config as EntSearchConfig } from './configurations/EntSearch';
+import { config as ElasticSearchConfig, fields as ElasticsearchFields } from './configurations/Elasticsearch';
+import { config as EntSearchConfig, fields as EntSearchFields } from './configurations/EntSearch';
 import "./App.css";
 
 const sourceMode = process.env.REACT_APP_SOURCE
 
 const isElasticsearchSource = sourceMode && sourceMode.indexOf("ELASTICSEARCH") !== -1;
 
-function lookupField(fieldName) {
-  return {
-    "title": {
-      "es": "title.keyword",
-      "ent": "title"
-    },
-    "states": {
-      "es": "states.keyword",
-      "ent": "states"
-    },
-    "world_heritage_site": {
-      "es": "world_heritage_site.keyword",
-      "ent": "world_heritage_site"
-    }
-  }[fieldName][isElasticsearchSource ? "es" : "ent"] || fieldName
-};
+const fields = isElasticsearchSource ? ElasticsearchFields : EntSearchFields;
 
 const SORT_OPTIONS = [
   {
@@ -68,7 +53,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: lookupField("title"),
+        field: fields.title,
         direction: "asc"
       }
     ]
@@ -77,7 +62,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: lookupField("states"),
+        field: fields.states,
         direction: "asc"
       }
     ]
@@ -86,11 +71,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: lookupField("states"),
+        field: fields.states,
         direction: "asc"
       },
       {
-        field: lookupField("title"),
+        field: fields.title,
         direction: "asc"
       }
     ]
@@ -99,15 +84,15 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: lookupField("world_heritage_site"),
+        field: fields.world_heritage_site,
         direction: "asc"
       },
       {
-        field: lookupField("states"),
+        field: fields.states,
         direction: "asc"
       },
       {
-        field: lookupField("title"),
+        field: fields.title,
         direction: "asc"
       }
     ]
@@ -240,13 +225,13 @@ export default function App() {
                           />
                         )}
                         <Facet
-                          field={lookupField("states")}
+                          field={fields.states}
                           label="States"
                           filterType="any"
                           isFilterable={true}
                         />
                         <Facet
-                          field={lookupField("world_heritage_site")}
+                          field={fields.world_heritage_site}
                           label="World Heritage Site"
                           view={BooleanFacet}
                         />

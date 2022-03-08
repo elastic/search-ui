@@ -1,5 +1,11 @@
 import moment from "moment";
 
+export const fields = {
+  title: "title.keyword",
+  states: "states.keyword",
+  world_heritage_site: "world_heritage_site.keyword"
+}
+
 export const config = {
   searchQuery: {
     result_fields: {
@@ -25,10 +31,10 @@ export const config = {
         }
       }
     },
-    disjunctiveFacets: ["acres", "states.keyword", "date_established", "location"],
+    disjunctiveFacets: ["acres", fields.states, "date_established", "location"],
     facets: {
-      "world_heritage_site.keyword": { type: "value" },
-      "states.keyword": { type: "value", size: 30 },
+      [fields.world_heritage_site]: { type: "value" },
+      [fields.states]: { type: "value", size: 30 },
       acres: {
         type: "range",
         ranges: [
@@ -107,7 +113,7 @@ export const config = {
     suggestions: {
       types: {
         documents: {
-          fields: ["states.keyword"]
+          fields: [fields.states]
         }
       },
       size: 4
