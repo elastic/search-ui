@@ -20,13 +20,13 @@ function SearchResponse(results: SearchkitResponse): ResponseState {
 
   const response: ResponseState = {
     resultSearchTerm: results.summary.query,
-    totalPages: results.items.page.totalPages,
-    pagingStart: results.items.page.pageNumber * results.items.page.size,
-    pagingEnd: (results.items.page.pageNumber + 1) * results.items.page.size,
+    totalPages: results.hits.page.totalPages,
+    pagingStart: results.hits.page.pageNumber * results.hits.page.size,
+    pagingEnd: (results.hits.page.pageNumber + 1) * results.hits.page.size,
     wasSearched: false,
     totalResults: results.summary.total,
     facets,
-    results: results.items.hits.map(fieldResponseMapper),
+    results: results.hits.items.map(fieldResponseMapper),
     requestId: null,
     rawResponse: null
   };

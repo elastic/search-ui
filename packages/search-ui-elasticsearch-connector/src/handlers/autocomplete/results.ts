@@ -67,5 +67,5 @@ export default async function handler(
       }
     });
 
-  return response.items.hits.map(fieldResponseMapper);
+  return response.hits.items.map(fieldResponseMapper);
 }
