@@ -147,7 +147,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-_Read the [advanced README](./ADVANCED.md#build-your-own-connector) to learn how to build a connector for any Search API._
+_Read the <DocLink id="advanced" section="build-your-own-connector" text="advanced README" /> to learn how to build a connector for any Search API._
 
 ### 3. SearchProvider
 
@@ -186,7 +186,7 @@ While components can be handy, a search experience can have requirements that do
 </SearchProvider>
 ```
 
-_Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration) or learn more about the state management and the [Headless Core](./ADVANCED.md#headless-core)._
+_Read the <DocLink id="advanced" section="advanced-configuration" text="Advanced Configuration Guide" /> or learn more about the state management and the <DocLink id="advanced" section="headless-core" text="Headless Core" />._
 
 ### 4. Components
 
@@ -223,7 +223,7 @@ The following Components are available:
 - PagingInfo
 - ErrorBoundary
 
-_Read the [Component Reference](./ADVANCED.md#component-reference) for a full breakdown._
+_Read the <DocLink id="advanced" section="component-reference" text="Component Reference" /> for a full breakdown._
 
 ### 5. Styles and Layout
 
@@ -233,7 +233,7 @@ For basic styles, include:
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 ```
 
-For a basic layout, which helps quickly get a UI bootstrapped, use the [Layout](packages/react-search-ui-views/src/layouts/Layout.js) Component.
+For a basic layout, which helps quickly get a UI bootstrapped, use the [Layout](https://github.com/elastic/search-ui/blob/master/packages/react-search-ui-views/src/layouts/Layout.js) Component.
 
 ```jsx
 import { Layout } from "@elastic/react-search-ui-views";
@@ -241,15 +241,15 @@ import { Layout } from "@elastic/react-search-ui-views";
 <Layout header={<SearchBox />} bodyContent={<Results />} />;
 ```
 
-The provided styles and layout can be found in the [react-search-ui-views](packages/react-search-ui-views) package.
+The provided styles and layout can be found in the [react-search-ui-views](https://github.com/elastic/search-ui/tree/master/packages/react-search-ui-views) package.
 
-_Read the [Customization guide](./ADVANCED.md#customization) for more design details._
+_Read the <DocLink id="advanced" section="customization" text="Customization guide" /> for more design details._
 
 ## FAQ 🔮
 
 ### Where can I learn more?
 
-The [Advanced README](./ADVANCED.md) contains several useful guides. :sunglasses:
+The <DocLink id="advanced" text="Advanced guide" /> contains several useful guides. 😎
 
 ### Is Search UI only for React?
 
@@ -257,19 +257,19 @@ Nope. Search UI is "headless".
 
 You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
 
-[Read about the search-ui package](./packages/search-ui/README.md#headless-core) for more information, or check out the [Vue.js Example](https://github.com/elastic/vue-search-ui-demo).
+[Read about the search-ui package](https://github.com/elastic/search-ui/tree/master/packages/search-ui) for more information, or check out the [Vue.js Example](https://github.com/elastic/vue-search-ui-demo).
 
 ### Can I use my own styles?
 
 You can!
 
-Read the [Custom Styles and Layout Guide](./ADVANCED.md#custom-styles-and-layout) to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
+Read the <DocLink id="advanced" section="custom-styles-and-layout" text="Custom Styles and Layout Guide" /> to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
 
 ### Can I build my own Components?
 
 Yes! Absolutely.
 
-Check out the [Build Your Own Component Guide](./ADVANCED.md#build-your-own-component).
+Check out the <DocLink id="advanced" section="build-your-own-component" text="Build Your Own Component Guide" />.
 
 ### Does Search UI only work with App Search?
 
@@ -277,7 +277,7 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ Search API.
 
-Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers).
+Read the <DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers Guide" />.
 
 ### How do I use this with Elasticsearch?
 
@@ -287,8 +287,8 @@ from a browser, as noted in the [elasticsearch-js client](https://github.com/ela
 The safest way to interact with Elasticsearch from a browser is to make all Elasticsearch queries server-side. Or you can use [Elastic App Search](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product), which can create public, scoped API credentials and be exposed directly to a browser.
 
 That being said, Search UI will still work with Elasticsearch (or any other API, for that matter). Read the
-[Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check out the
-[Elasticsearch Example](./examples/elasticsearch).
+<DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers Guide" /> to learn more, or check out the
+[Elasticsearch Example](https://github.com/elastic/search-ui/tree/master/examples/elasticsearch).
 
 ### Where do I report issues with the Search UI?
 
@@ -302,7 +302,7 @@ The Enterprise Search team at Elastic maintains this library and are happy to he
 
 We welcome contributors to the project. Before you begin, a couple notes...
 
-- Read the [Search UI Contributor's Guide](./CONTRIBUTING.md).
+- Read the [Search UI Contributor's Guide](https://github.com/elastic/search-ui/blob/master/CONTRIBUTING.md).
 - Prior to opening a pull request, please:
   - Create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
   - Sign the [Contributor License Agreement](https://www.elastic.co/contributor-agreement/). We are not asking you to assign copyright to us, but to give us the right to distribute your code without restriction. We ask this of all contributors in order to assure our users of the origin and continuing existence of the code. You only need to sign the CLA once.

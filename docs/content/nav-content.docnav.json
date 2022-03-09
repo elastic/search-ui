@@ -7,7 +7,7 @@
   "items": [
     {
       "label": "Demo content",
-      "items": [{ "id": "overview" }, { "id": "two" }]
+      "items": [{ "id": "overview" }, { "id": "advanced" }]
     }
   ]
 }
