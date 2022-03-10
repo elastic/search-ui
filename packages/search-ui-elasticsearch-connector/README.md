@@ -38,7 +38,7 @@ const connector = new ElasticsearchAPIConnector({
 
 | Param     | Type                | Default | Description                                                                                                                                    |
 | --------- | ------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| host      | <code>string</code> |         | Url for elasticsearch instance. Can also be found in your cloud dashboard. Can also                                                            |
+| host      | <code>string</code> |         | Url for elasticsearch instance. Can also be found in your cloud dashboard.                                                            |
 | indexName | <code>string</code> |         | Index name for where the search documents are contained in                                                                                     |
 | apiKey    | <code>string</code> |         | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
 
