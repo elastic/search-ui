@@ -1,8 +1,7 @@
 {
-  "name": "@elastic/search-ui-workplace-search-connector",
-  "private": true,
+  "name": "@elastic/search-ui-elasticsearch-connector",
   "version": "1.10.0-rc.1",
-  "description": "A Search UI connector for Elastic's Workplace Search Service",
+  "description": "A Search UI connector for Elasticsearch",
   "license": "Apache-2.0",
   "main": "lib/cjs",
   "module": "lib/esm",
@@ -18,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/elastic/search-ui.git",
-    "directory": "packages/search-ui-workplace-search-connector"
+    "directory": "packages/search-ui-elasticsearch-connector"
   },
   "scripts": {
     "test-ci": "jest --runInBand",
@@ -39,6 +38,6 @@
   },
   "dependencies": {
     "@elastic/search-ui": "1.10.0-rc.1",
-    "query-string": "^7.1.1"
+    "@searchkit/sdk": "^3.0.0-canary.48"
   }
 }

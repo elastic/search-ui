@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import {
   EuiButton,
   EuiModal,
@@ -15,6 +14,7 @@ import "@elastic/eui/dist/eui_theme_light.css";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
 import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
+import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import {
   ErrorBoundary,
   Facet,
@@ -28,13 +28,21 @@ import {
   WithSearch
 } from "@elastic/react-search-ui";
 import {
+  BooleanFacet,
   Layout,
-  SingleSelectFacet,
   SingleLinksFacet,
-  BooleanFacet
+  SingleSelectFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { config as ElasticSearchConfig, fields as ElasticsearchFields } from './configurations/Elasticsearch';
+import { config as EntSearchConfig, fields as EntSearchFields } from './configurations/EntSearch';
 import "./App.css";
+
+const sourceMode = process.env.REACT_APP_SOURCE
+
+const isElasticsearchSource = sourceMode && sourceMode.indexOf("ELASTICSEARCH") !== -1;
+
+const fields = isElasticsearchSource ? ElasticsearchFields : EntSearchFields;
 
 const SORT_OPTIONS = [
   {
@@ -45,7 +53,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: "title",
+        field: fields.title,
         direction: "asc"
       }
     ]
@@ -54,7 +62,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: "states",
+        field: fields.states,
         direction: "asc"
       }
     ]
@@ -63,11 +71,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: "states",
+        field: fields.states,
         direction: "asc"
       },
       {
-        field: "title",
+        field: fields.title,
         direction: "asc"
       }
     ]
@@ -76,29 +84,41 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: "world_heritage_site",
+        field: fields.world_heritage_site,
         direction: "asc"
       },
       {
-        field: "states",
+        field: fields.states,
         direction: "asc"
       },
       {
-        field: "title",
+        field: fields.title,
         direction: "asc"
       }
     ]
   }
 ];
 
-let connector;
-if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
+let connector = null
+let queryConfig = null
+
+if (sourceMode === "ELASTICSEARCH_CONNECTOR") {
+  connector = new ElasticSearchAPIConnector({
+    host: process.env.REACT_ELASTICSEARCH_HOST || "http://localhost:9200",
+    index: process.env.REACT_ELASTICSEARCH_INDEX || "us_parks"
+  }, {
+    queryFields: ["title", "description", "states"]
+  });
+  queryConfig = ElasticSearchConfig
+} else if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
   connector = new SiteSearchAPIConnector({
     engineKey:
       process.env.REACT_SITE_SEARCH_ENGINE_KEY || "Z43R5U3HiDsDgpKawZkA",
     documentType: process.env.REACT_SITE_SEARCH_ENGINE_NAME || "national-parks"
   });
+  queryConfig = EntSearchConfig;
 } else if (process.env.REACT_APP_SOURCE === "WORKPLACE_SEARCH") {
+  queryConfig = EntSearchConfig;
   connector = new WorkplaceSearchAPIConnector({
     kibanaBase:
       process.env.REACT_WORKPLACE_SEARCH_KIBANA_BASE ||
@@ -123,121 +143,13 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
       process.env.REACT_APP_SEARCH_HOST_IDENTIFIER || "host-2376rb",
     endpointBase: process.env.REACT_APP_SEARCH_ENDPOINT_BASE || ""
   });
+  queryConfig = EntSearchConfig;
 }
 
 const config = {
   debug: true,
   alwaysSearchOnInitialLoad: true,
-  searchQuery: {
-    result_fields: {
-      visitors: { raw: {} },
-      world_heritage_site: { raw: {} },
-      location: { raw: {} },
-      acres: { raw: {} },
-      square_km: { raw: {} },
-      title: {
-        snippet: {
-          size: 100,
-          fallback: true
-        }
-      },
-      nps_link: { raw: {} },
-      states: { raw: {} },
-      date_established: { raw: {} },
-      image_url: { raw: {} },
-      description: {
-        snippet: {
-          size: 100,
-          fallback: true
-        }
-      }
-    },
-    disjunctiveFacets: ["acres", "states", "date_established", "location"],
-    disjunctiveFacetsAnalyticsTags: [
-      "acres",
-      "states",
-      "date_established",
-      "location"
-    ],
-    facets: {
-      world_heritage_site: { type: "value" },
-      states: { type: "value", size: 30 },
-      acres: {
-        type: "range",
-        ranges: [
-          { from: -1, name: "Any" },
-          { from: 0, to: 1000, name: "Small" },
-          { from: 1001, to: 100000, name: "Medium" },
-          { from: 100001, name: "Large" }
-        ]
-      },
-      location: {
-        // San Francisco. In the future, make this the user's current position
-        center: "37.7749, -122.4194",
-        type: "range",
-        unit: "mi",
-        ranges: [
-          { from: 0, to: 100, name: "Nearby" },
-          { from: 100, to: 500, name: "A longer drive" },
-          { from: 500, name: "Perhaps fly?" }
-        ]
-      },
-      date_established: {
-        type: "range",
-        ranges: [
-          {
-            from: moment().subtract(50, "years").toISOString(),
-            name: "Within the last 50 years"
-          },
-          {
-            from: moment().subtract(100, "years").toISOString(),
-            to: moment().subtract(50, "years").toISOString(),
-            name: "50 - 100 years ago"
-          },
-          {
-            to: moment().subtract(100, "years").toISOString(),
-            name: "More than 100 years ago"
-          }
-        ]
-      },
-      visitors: {
-        type: "range",
-        ranges: [
-          { from: 0, to: 10000, name: "0 - 10000" },
-          { from: 10001, to: 100000, name: "10001 - 100000" },
-          { from: 100001, to: 500000, name: "100001 - 500000" },
-          { from: 500001, to: 1000000, name: "500001 - 1000000" },
-          { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
-          { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
-          { from: 10000001, name: "10000001+" }
-        ]
-      }
-    }
-  },
-  autocompleteQuery: {
-    results: {
-      resultsPerPage: 5,
-      result_fields: {
-        title: {
-          snippet: {
-            size: 100,
-            fallback: true
-          }
-        },
-        nps_link: {
-          raw: {}
-        }
-      }
-    },
-    suggestions: {
-      types: {
-        documents: {
-          fields: ["title"]
-        }
-      },
-      size: 4
-    }
-  },
+  ...queryConfig,
   apiConnector: connector,
   hasA11yNotifications: true
 };
@@ -313,13 +225,13 @@ export default function App() {
                           />
                         )}
                         <Facet
-                          field="states"
+                          field={fields.states}
                           label="States"
                           filterType="any"
                           isFilterable={true}
                         />
                         <Facet
-                          field="world_heritage_site"
+                          field={fields.world_heritage_site}
                           label="World Heritage Site"
                           view={BooleanFacet}
                         />
