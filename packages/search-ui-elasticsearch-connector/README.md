@@ -44,7 +44,7 @@ const connector = new ElasticsearchAPIConnector({
 
 ## Connection & Authentication
 
-This connector will talk to the elasticsearch instance directly from the browser. This requires further additional steps to keep your Elasticsearch instance secure as possible. You have the following options available to you to keep your any sensitive data protected
+This connector will talk to the elasticsearch instance directly from the browser. This requires further additional steps to keep your Elasticsearch instance secure as possible. You have the following options available to you to keep any sensitive data protected
 
 ### Proxy the \_search API call through your API
 
