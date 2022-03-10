@@ -187,7 +187,10 @@ class WorkplaceSearchAPIConnector {
       document_id: documentId,
       query_id: requestId,
       content_source_id: result?._meta.content_source_id,
-      page: page
+      page: page,
+      rank: 1,
+      event: "api",
+      score: result?._meta.score
     });
   }
 
