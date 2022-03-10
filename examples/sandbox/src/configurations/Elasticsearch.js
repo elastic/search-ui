@@ -44,17 +44,17 @@ export const config = {
           { from: 100001, name: "Large" }
         ]
       },
-      // location: {
-      //   // San Francisco. In the future, make this the user's current position
-      //   center: "37.7749, -122.4194",
-      //   type: "range",
-      //   unit: "mi",
-      //   ranges: [
-      //     { from: 0, to: 100, name: "Nearby" },
-      //     { from: 100, to: 500, name: "A longer drive" },
-      //     { from: 500, name: "Perhaps fly?" }
-      //   ]
-      // },
+      location: {
+        // San Francisco. In the future, make this the user's current position
+        center: "37.7749, -122.4194",
+        type: "range",
+        unit: "mi",
+        ranges: [
+          { from: 0, to: 100, name: "Nearby" },
+          { from: 100, to: 500, name: "A longer drive" },
+          { from: 500, name: "Perhaps fly?" }
+        ]
+      },
       date_established: {
         type: "range",
         ranges: [

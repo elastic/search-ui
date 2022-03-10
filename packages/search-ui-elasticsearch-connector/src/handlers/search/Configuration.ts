@@ -4,6 +4,7 @@ import {
   RequestState
 } from "@elastic/search-ui";
 import {
+  GeoDistanceOptionsFacet,
   MultiMatchQuery,
   MultiQueryOptionsFacet,
   RefinementSelectFacet,
@@ -65,7 +66,10 @@ function buildConfiguration(
             multipleSelect: isDisJunctive
           })
         );
-      } else if (facetConfiguration.type === "range") {
+      } else if (
+        facetConfiguration.type === "range" &&
+        !facetConfiguration.center
+      ) {
         sum.push(
           new MultiQueryOptionsFacet({
             identifier: facetKey,
@@ -87,7 +91,29 @@ function buildConfiguration(
             })
           })
         );
+      } else if (
+        facetConfiguration.type === "range" &&
+        facetConfiguration.center
+      ) {
+        sum.push(
+          new GeoDistanceOptionsFacet({
+            identifier: facetKey,
+            field: facetKey,
+            label: facetKey,
+            multipleSelect: isDisJunctive,
+            origin: facetConfiguration.center,
+            unit: facetConfiguration.unit,
+            ranges: facetConfiguration.ranges.map((range) => {
+              return {
+                label: range.name,
+                from: Number(range.from),
+                to: Number(range.to)
+              };
+            })
+          })
+        );
       }
+
       return sum;
     },
     []
