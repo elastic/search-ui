@@ -17,7 +17,7 @@ const connector = new ElasticsearchAPIConnector({
   host: "http://localhost:9200", // host url for the elasticsearch instance
   index: "search-ui-examples", // index name where the search documents are contained
   apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-  // This key will be visible to everyone so ensure its setup with restricted privilages.
+  // This key will be visible to everyone so ensure its setup with restricted privileges.
   // See Authentication section for more details.
 });
 ```
