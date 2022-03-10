@@ -60,4 +60,4 @@ To do this, provide the host to be the location of the API. Example `host: "http
 
 ### Use an Elasticsearch api-key
 
-You can restrict access to indicies via an api-key. See [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html)
+You can restrict access to indices via an api-key. See [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html)
