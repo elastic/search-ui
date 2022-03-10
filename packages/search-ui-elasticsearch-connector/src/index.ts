@@ -37,28 +37,32 @@ class APIConnector {
     state: RequestState,
     queryConfig: QueryConfig
   ): Promise<ResponseState> {
-    return handleSearchRequest(
+    return handleSearchRequest({
       state,
       queryConfig,
-      this.config.host,
-      this.config.index,
-      this.config.apiKey,
-      this.searchConfig.queryFields
-    );
+      host: this.config.host,
+      index: this.config.index,
+      connectionOptions: {
+        apiKey: this.config.apiKey
+      },
+      queryFields: this.searchConfig.queryFields
+    });
   }
 
   async onAutocomplete(
     state: RequestState,
     queryConfig: AutocompleteQuery
   ): Promise<AutocompleteResponseState> {
-    return handleAutocompleteRequest(
+    return handleAutocompleteRequest({
       state,
       queryConfig,
-      this.config.host,
-      this.config.index,
-      this.config.apiKey,
-      this.searchConfig.queryFields
-    );
+      host: this.config.host,
+      index: this.config.index,
+      connectionOptions: {
+        apiKey: this.config.apiKey
+      },
+      queryFields: this.searchConfig.queryFields
+    });
   }
 }
 
