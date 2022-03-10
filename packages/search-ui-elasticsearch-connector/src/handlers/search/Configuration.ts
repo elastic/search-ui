@@ -5,6 +5,7 @@ import {
 } from "@elastic/search-ui";
 import {
   MultiMatchQuery,
+  MultiQueryOptionsFacet,
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
@@ -34,6 +35,10 @@ export function getResultFields(
   return { hitFields, highlightFields };
 }
 
+function isValidDateString(dateString: unknown): boolean {
+  return typeof dateString === "string" && !isNaN(Date.parse(dateString));
+}
+
 function buildConfiguration(
   state: RequestState,
   queryConfig: QueryConfig,
@@ -58,6 +63,28 @@ function buildConfiguration(
             label: facetKey,
             size: facetConfiguration.size || 20,
             multipleSelect: isDisJunctive
+          })
+        );
+      } else if (facetConfiguration.type === "range") {
+        sum.push(
+          new MultiQueryOptionsFacet({
+            identifier: facetKey,
+            field: facetKey,
+            label: facetKey,
+            multipleSelect: isDisJunctive,
+            options: facetConfiguration.ranges.map((range) => {
+              return {
+                label: range.name,
+                ...(typeof range.from === "number" ? { min: range.from } : {}),
+                ...(typeof range.to === "number" ? { max: range.to } : {}),
+                ...(isValidDateString(range.from)
+                  ? { dateMin: range.from.toString() }
+                  : {}),
+                ...(isValidDateString(range.to)
+                  ? { dateMax: range.to.toString() }
+                  : {})
+              };
+            })
           })
         );
       }
