@@ -1,5 +1,4 @@
 # clear directory
-rm -rf ./lib
 # Builds ESM JavaScript
 ./node_modules/.bin/tsc  
 

@@ -4,14 +4,23 @@ import buildConfiguration from "./Configuration";
 import buildRequest from "./Request";
 import buildResponse from "./Response";
 
+interface SearchHandlerConfiguration {
+  state: RequestState;
+  queryConfig: QueryConfig;
+  host: string;
+  index: string;
+  connectionOptions?: {
+    apiKey: string;
+  };
+  queryFields: string[];
+}
+
 export default async function handleRequest(
-  state: RequestState,
-  queryConfig: QueryConfig,
-  host: string,
-  index: string,
-  apiKey: string,
-  queryFields: string[]
+  configuration: SearchHandlerConfiguration
 ): Promise<ResponseState> {
+  const { state, queryConfig, host, index, connectionOptions, queryFields } =
+    configuration;
+  const { apiKey } = connectionOptions || {};
   const searchkitConfig = buildConfiguration(
     state,
     queryConfig,

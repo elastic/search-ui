@@ -6,14 +6,23 @@ import {
 import resultsHandler from "./results";
 import suggestionsHandler from "./suggestions";
 
+interface AutocompleteHandlerConfiguration {
+  state: RequestState;
+  queryConfig: AutocompleteQuery;
+  host: string;
+  index: string;
+  connectionOptions?: {
+    apiKey: string;
+  };
+  queryFields: string[];
+}
+
 export default async function handleRequest(
-  state: RequestState,
-  queryConfig: AutocompleteQuery,
-  host: string,
-  index: string,
-  apiKey: string,
-  queryFields: string[]
+  configuration: AutocompleteHandlerConfiguration
 ): Promise<AutocompleteResponseState> {
+  const { state, queryConfig, host, index, connectionOptions, queryFields } =
+    configuration;
+  const { apiKey } = connectionOptions || {};
   const requests = [];
 
   if (queryConfig.results) {

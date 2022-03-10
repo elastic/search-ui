@@ -91,14 +91,16 @@ describe("Search results", () => {
       },
       disjunctiveFacets: ["another_field.keyword"]
     };
-    const results = await handleRequest(
+    const results = await handleRequest({
       state,
       queryConfig,
-      "http://localhost:9200",
-      "test",
-      "test",
-      ["title", "description"]
-    );
+      host: "http://localhost:9200",
+      index: "test",
+      connectionOptions: {
+        apiKey: "test"
+      },
+      queryFields: ["title", "description"]
+    });
 
     expect(results).toMatchInlineSnapshot(`
       Object {
