@@ -106,8 +106,8 @@ function buildConfiguration(
             ranges: facetConfiguration.ranges.map((range) => {
               return {
                 label: range.name,
-                from: Number(range.from),
-                to: Number(range.to)
+                ...(range.from ? { from: Number(range.from) } : {}),
+                ...(range.to ? { to: Number(range.to) } : {})
               };
             })
           })

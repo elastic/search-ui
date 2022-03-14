@@ -3,51 +3,51 @@ import { SearchkitResponse } from "@searchkit/sdk";
 import SearchResponse from "../Response";
 
 describe("Search - Response", () => {
-  it("should transform Searchkit ResponseState into SearchUI ResponseState", () => {
-    const searchkitResponse: SearchkitResponse = {
-      summary: {
-        query: "test",
+  const searchkitResponse: SearchkitResponse = {
+    summary: {
+      query: "test",
+      total: 100,
+      appliedFilters: [],
+      disabledFilters: [],
+      sortOptions: []
+    },
+    hits: {
+      page: {
+        pageNumber: 0,
+        size: 10,
+        totalPages: 10,
         total: 100,
-        appliedFilters: [],
-        disabledFilters: [],
-        sortOptions: []
+        from: 0
       },
-      hits: {
-        page: {
-          pageNumber: 0,
-          size: 10,
-          totalPages: 10,
-          total: 100,
-          from: 0
-        },
-        items: [
-          {
-            id: "test",
-            fields: {
-              title: "hello",
-              description: "test"
-            },
-            highlight: {
-              title: "hello",
-              fieldOnlyHighlight: "test"
-            }
-          }
-        ]
-      },
-      facets: [
+      items: [
         {
-          identifier: "test",
-          display: "RefinementList",
-          label: "test",
-          type: "value",
-          entries: [
-            { label: "labeltest", count: "10" },
-            { label: "label2", count: "20" }
-          ]
+          id: "test",
+          fields: {
+            title: "hello",
+            description: "test"
+          },
+          highlight: {
+            title: "hello",
+            fieldOnlyHighlight: "test"
+          }
         }
       ]
-    };
+    },
+    facets: [
+      {
+        identifier: "test",
+        display: "RefinementList",
+        label: "test",
+        type: "value",
+        entries: [
+          { label: "labeltest", count: "10" },
+          { label: "label2", count: "20" }
+        ]
+      }
+    ]
+  };
 
+  it("should transform Searchkit ResponseState into SearchUI ResponseState", () => {
     const response: ResponseState = SearchResponse(searchkitResponse);
 
     expect(response).toMatchInlineSnapshot(`
@@ -70,7 +70,7 @@ describe("Search - Response", () => {
           ],
         },
         "pagingEnd": 10,
-        "pagingStart": 0,
+        "pagingStart": 1,
         "rawResponse": null,
         "requestId": null,
         "resultSearchTerm": "test",
@@ -96,5 +96,45 @@ describe("Search - Response", () => {
         "wasSearched": false,
       }
     `);
+  });
+
+  it("should transform Searchkit ResponseState Paging correctly", () => {
+    let response: ResponseState = SearchResponse({
+      ...searchkitResponse,
+      hits: {
+        ...searchkitResponse.hits,
+        page: {
+          ...searchkitResponse.hits.page,
+          pageNumber: 1,
+          size: 10
+        }
+      },
+      summary: {
+        ...searchkitResponse.summary,
+        total: 100
+      }
+    });
+
+    expect(response.pagingStart).toBe(11);
+    expect(response.pagingEnd).toBe(20);
+
+    response = SearchResponse({
+      ...searchkitResponse,
+      hits: {
+        ...searchkitResponse.hits,
+        page: {
+          ...searchkitResponse.hits.page,
+          pageNumber: 1,
+          size: 10
+        }
+      },
+      summary: {
+        ...searchkitResponse.summary,
+        total: 9
+      }
+    });
+
+    expect(response.pagingStart).toBe(11);
+    expect(response.pagingEnd).toBe(9);
   });
 });
