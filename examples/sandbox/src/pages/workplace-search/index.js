@@ -25,19 +25,10 @@ import {
   WithSearch
 } from "@elastic/react-search-ui";
 import {
-  BooleanFacet,
-  Layout,
-  SingleLinksFacet,
-  SingleSelectFacet
+  Layout
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
-import {
-  config as WorkplaceSearchConfig,
-  fields as WorkplaceSearchFields
-} from "./configurations/WorkplaceSearch";
-import "./App.css";
-
-const fields = WorkplaceSearchFields;
+import "./index.css";
 
 const SORT_OPTIONS = [
   {
@@ -45,49 +36,10 @@ const SORT_OPTIONS = [
     value: []
   },
   {
-    name: "Title",
+    name: "Source",
     value: [
       {
-        field: fields.title,
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "State",
-    value: [
-      {
-        field: fields.states,
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "State -> Title",
-    value: [
-      {
-        field: fields.states,
-        direction: "asc"
-      },
-      {
-        field: fields.title,
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "Heritage Site -> State -> Title",
-    value: [
-      {
-        field: fields.world_heritage_site,
-        direction: "asc"
-      },
-      {
-        field: fields.states,
-        direction: "asc"
-      },
-      {
-        field: fields.title,
+        field: "source",
         direction: "asc"
       }
     ]
@@ -111,7 +63,37 @@ let connector = new WorkplaceSearchAPIConnector({
 const config = {
   debug: true,
   alwaysSearchOnInitialLoad: true,
-  ...WorkplaceSearchConfig,
+  searchQuery: {
+    disjunctiveFacets: [],
+    facets: {
+      source: { type: "value" },
+      type: { type: "value" }
+    }
+  },
+  autocompleteQuery: {
+    results: {
+      resultsPerPage: 5,
+      result_fields: {
+        title: {
+          snippet: {
+            size: 100,
+            fallback: true
+          }
+        },
+        nps_link: {
+          raw: {}
+        }
+      }
+    },
+    suggestions: {
+      types: {
+        documents: {
+          fields: ["title"]
+        }
+      },
+      size: 4
+    }
+  },
   apiConnector: connector,
   hasA11yNotifications: true
 };
@@ -186,46 +168,15 @@ export default function WorkplaceSearch() {
                           />
                         )}
                         <Facet
-                          field={fields.source}
+                          field={"source"}
                           label="Source"
                           filterType="any"
                         />
                         <Facet
-                          field={fields.type}
+                          field={"type"}
                           label="Type"
                           filterType="any"
                           isFilterable={true}
-                        />
-                        <Facet
-                          field={fields.states}
-                          label="States"
-                          filterType="any"
-                          isFilterable={true}
-                        />
-                        <Facet
-                          field={fields.world_heritage_site}
-                          label="World Heritage Site"
-                          view={BooleanFacet}
-                        />
-                        <Facet
-                          field="visitors"
-                          label="Visitors"
-                          view={SingleLinksFacet}
-                        />
-                        <Facet
-                          field="date_established"
-                          label="Date Established"
-                          filterType="any"
-                        />
-                        <Facet
-                          field="location"
-                          label="Distance"
-                          filterType="any"
-                        />
-                        <Facet
-                          field="acres"
-                          label="Acres"
-                          view={SingleSelectFacet}
                         />
                       </div>
                     }
