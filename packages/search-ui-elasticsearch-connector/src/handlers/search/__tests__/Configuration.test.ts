@@ -5,7 +5,12 @@ import {
 } from "@elastic/search-ui";
 import buildConfiguration, { getResultFields } from "../Configuration";
 jest.mock("@searchkit/sdk");
-import { MultiMatchQuery, RefinementSelectFacet } from "@searchkit/sdk";
+import {
+  MultiMatchQuery,
+  RefinementSelectFacet,
+  MultiQueryOptionsFacet,
+  GeoDistanceOptionsFacet
+} from "@searchkit/sdk";
 
 describe("Search - Configuration", () => {
   describe("getResultFields", () => {
@@ -158,6 +163,153 @@ describe("Search - Configuration", () => {
         label: "type",
         size: 20,
         multipleSelect: false
+      });
+    });
+
+    it("Range facets Configuration", () => {
+      const state: RequestState = {
+        searchTerm: "test"
+      };
+
+      expect(
+        buildConfiguration(
+          state,
+          {
+            ...queryConfig,
+            disjunctiveFacets: [
+              ...queryConfig.disjunctiveFacets,
+              "date_established"
+            ],
+            facets: {
+              acres: {
+                type: "range",
+                ranges: [
+                  { from: -1, name: "Any" },
+                  { from: 0, to: 1000, name: "Small" },
+                  { from: 1001, to: 100000, name: "Medium" },
+                  { from: 100001, name: "Large" }
+                ]
+              },
+              location: {
+                center: "37.7749, -122.4194",
+                type: "range",
+                unit: "mi",
+                ranges: [
+                  { from: 0, to: 100, name: "Nearby" },
+                  { from: 100, to: 500, name: "A longer drive" },
+                  { from: 500, name: "Perhaps fly?" }
+                ]
+              },
+              date_established: {
+                type: "range",
+                ranges: [
+                  {
+                    from: "1952-03-14T10:34:22.464Z",
+                    name: "Within the last 50 years"
+                  },
+                  {
+                    from: "1922-03-14T10:34:22.464Z",
+                    to: "1952-03-14T10:34:22.464Z",
+                    name: "50 - 100 years ago"
+                  },
+                  {
+                    to: "1922-03-14T10:34:22.464Z",
+                    name: "More than 100 years ago"
+                  }
+                ]
+              }
+            }
+          },
+          host,
+          index,
+          apiKey,
+          queryFields
+        )
+      ).toEqual(
+        expect.objectContaining({
+          host: "http://localhost:9200",
+          index: "test_index",
+          connectionOptions: {
+            apiKey: "apiKey"
+          },
+          hits: {
+            fields: ["title", "url"],
+            highlightedFields: ["title", "description"]
+          }
+        })
+      );
+
+      expect(GeoDistanceOptionsFacet).toHaveBeenCalledTimes(1);
+      expect(GeoDistanceOptionsFacet).toHaveBeenCalledWith({
+        field: "location",
+        identifier: "location",
+        label: "location",
+        multipleSelect: false,
+        origin: "37.7749, -122.4194",
+        ranges: [
+          {
+            label: "Nearby",
+            to: 100
+          },
+          {
+            from: 100,
+            label: "A longer drive",
+            to: 500
+          },
+          {
+            from: 500,
+            label: "Perhaps fly?"
+          }
+        ],
+        unit: "mi"
+      });
+      expect(MultiQueryOptionsFacet).toHaveBeenCalledTimes(2);
+      expect(MultiQueryOptionsFacet).toHaveBeenCalledWith({
+        field: "acres",
+        identifier: "acres",
+        label: "acres",
+        multipleSelect: false,
+        options: [
+          {
+            label: "Any",
+            min: -1
+          },
+          {
+            label: "Small",
+            max: 1000,
+            min: 0
+          },
+          {
+            label: "Medium",
+            max: 100000,
+            min: 1001
+          },
+          {
+            label: "Large",
+            min: 100001
+          }
+        ]
+      });
+      expect(MultiQueryOptionsFacet).toHaveBeenCalledWith({
+        field: "date_established",
+        identifier: "date_established",
+        label: "date_established",
+        multipleSelect: true,
+        options: [
+          {
+            dateMin: "1952-03-14T10:34:22.464Z",
+            label: "Within the last 50 years"
+          },
+          {
+            dateMax: "1952-03-14T10:34:22.464Z",
+            dateMin: "1922-03-14T10:34:22.464Z",
+            label: "50 - 100 years ago"
+          },
+          {
+            dateMax: "1922-03-14T10:34:22.464Z",
+            label: "More than 100 years ago"
+          }
+        ]
       });
     });
   });

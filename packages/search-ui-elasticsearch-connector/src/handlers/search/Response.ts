@@ -18,11 +18,14 @@ function SearchResponse(results: SearchkitResponse): ResponseState {
     };
   }, {});
 
+  const pageEnd = (results.hits.page.pageNumber + 1) * results.hits.page.size;
+
   const response: ResponseState = {
     resultSearchTerm: results.summary.query,
     totalPages: results.hits.page.totalPages,
-    pagingStart: results.hits.page.pageNumber * results.hits.page.size,
-    pagingEnd: (results.hits.page.pageNumber + 1) * results.hits.page.size,
+    pagingStart: results.hits.page.pageNumber * results.hits.page.size + 1,
+    pagingEnd:
+      pageEnd > results.summary.total ? results.summary.total : pageEnd,
     wasSearched: false,
     totalResults: results.summary.total,
     facets,
