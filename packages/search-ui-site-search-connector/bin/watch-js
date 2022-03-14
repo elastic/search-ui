@@ -1,2 +1,5 @@
-babel src --out-dir lib --ignore '**/*.test.js' --watch &
-BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js' --watch &
+# Builds ESM JavaScript
+./node_modules/.bin/tsc --watch &
+
+# Builds CJS JavaScript
+./node_modules/.bin/tsc -p tsconfig-cjs.json --watch &

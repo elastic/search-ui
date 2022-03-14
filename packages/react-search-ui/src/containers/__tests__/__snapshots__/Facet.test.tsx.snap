@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  label="Field 1"
+  onChange={[Function]}
+  onMoreClick={[Function]}
+  onRemove={[Function]}
+  onSearch={[Function]}
+  onSelect={[Function]}
+  options={
+    Array [
+      Object {
+        "count": 20,
+        "selected": true,
+        "value": "field1value1",
+      },
+      Object {
+        "count": 10,
+        "selected": false,
+        "value": "field1value2",
+      },
+    ]
+  }
+  searchPlaceholder="Filter field1"
+  show={5}
+  showMore={false}
+  showSearch={false}
+  values={
+    Array [
+      "field1value1",
+    ]
+  }
+/>
+`;

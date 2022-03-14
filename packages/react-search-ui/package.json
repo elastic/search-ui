@@ -1,18 +1,17 @@
 {
   "name": "@elastic/react-search-ui",
-  "version": "1.9.0",
+  "version": "1.10.0-rc.1",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
-  "main": "lib",
-  "module": "es",
+  "main": "lib/cjs",
+  "module": "lib/esm",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -21,47 +20,29 @@
   },
   "scripts": {
     "test-ci": "jest --runInBand",
-    "test": "./bin/test",
-    "clean": "rimraf es lib",
+    "test": "jest",
+    "clean": "rimraf lib",
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
-    "build": "run-s clean build-js",
-    "watch": "run-p watch-js",
+    "build": "npm run clean && npm run build-js",
+    "watch": "npm run clean && npm run watch-js",
     "prepare": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
-    "@elastic/react-search-ui-views": "1.9.0",
-    "@elastic/search-ui": "1.9.0"
+    "@elastic/react-search-ui-views": "1.10.0-rc.1",
+    "@elastic/search-ui": "1.10.0-rc.1"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 < 18",
     "react-dom": ">= 16.8.0 < 18"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(css)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "devDependencies": {
-    "@babel/cli": "^7.5.0",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.5.4",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
-    "enzyme": "^3.11.0",
-    "enzyme-to-json": "^3.6.2",
-    "jest": "^24.8.0",
-    "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "typescript": "^4.5.4"
   }
 }

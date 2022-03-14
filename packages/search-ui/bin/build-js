@@ -1,5 +1,6 @@
-# Builds Common JS JavaScript
-babel src --out-dir lib --ignore '**/*.test.js'
+# Builds ESM JavaScript
+./node_modules/.bin/tsc  
 
-# Builds ES JavaScript
-BABEL_MODULES=false babel src --out-dir es --ignore '**/*.test.js'
+# Builds CJS JavaScript
+./node_modules/.bin/tsc  -p tsconfig-cjs.json
+

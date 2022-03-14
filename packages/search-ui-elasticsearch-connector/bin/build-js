@@ -1,0 +1,6 @@
+# clear directory
+# Builds ESM JavaScript
+./node_modules/.bin/tsc  
+
+# Builds CJS JavaScript
+./node_modules/.bin/tsc  -p tsconfig-cjs.json

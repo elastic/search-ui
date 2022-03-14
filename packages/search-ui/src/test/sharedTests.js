@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-export */
+
 import { doesStateHaveResponseData } from "../test/helpers";
 
 export function itResetsCurrent(fn) {

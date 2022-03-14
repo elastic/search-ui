@@ -6,8 +6,8 @@ How to build and contribute to Search UI.
 
 ### Requirements
 
-- Node: 10.16
-- NPM: 6.9
+- Node: ^14
+- Yarn: ^1.2
 - OS: Unix/Linux or Windows Subsystem for Linux
 
 ### Mono-repo explanation
@@ -18,7 +18,7 @@ Lerna configuration is contained in `lerna.json`.
 
 - `/packages` - Contains publishable search-ui npm packages.
 - `/examples` - Contains non-publishable examples of search-ui usage. They are declared
-  as "packages" in `lerna.json` so that `npx lerna bootstrap` will automatically wire up the
+  as "packages" in `lerna.json` so that yarn workspaces will automatically wire up the
   examples to local dependencies.
 
 Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and `test`), the `--no-private` flag should be appended.
@@ -26,7 +26,6 @@ Because all examples are declared as "private", when running lerna commands othe
 Dependencies are declared in a package.json hierarchy.
 
 - `/package.json` - Dependencies for repo tooling, like `husky` and `lerna`.
-- `/packages/package.json` - Common dev dependencies for all Search UI npm packages. Any dev Common dev dependencies for al that does not need to be called directly in a package level npm command
   can be declared here.
 - /`packages/{package_name}/package.json` - Package specific dependencies.
 
@@ -38,10 +37,10 @@ cause the examples applications to error out from dependency version conflicts.
 From the root level of this repository:
 
 ```shell
-npm install
+yarn
 ```
 
-Behind the scenes, this installs dependencies in the root folder, in the `packages` folder, and for each lerna package and example repo.
+Behind the scenes, yarn will installs dependencies in the root folder, and for each lerna package and example repo. Lerna is configured to use yarn workspaces which will hoist shared dependencies in the packages into the root.
 
 ### Building
 
@@ -50,10 +49,10 @@ package root.
 
 ```shell
 # Build
-npm run build
+yarn build
 
 # Watch for changes and re-build
-npm run watch
+yarn watch
 ```
 
 ### Testing
@@ -65,10 +64,10 @@ All packages:
 
 ```shell
 # from project root
-npm run test
+yarn test
 
 # Watch for changes and re-run
-npm run test -- --watch
+yarn test -- --watch
 ```
 
 ### Editor Setup
