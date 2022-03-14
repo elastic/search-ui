@@ -81,7 +81,7 @@ export const config = {
           }
         ]
       },
-      "visitors": {
+      visitors: {
         type: "range",
         ranges: [
           { from: 0, to: 10000, name: "0 - 10000" },
