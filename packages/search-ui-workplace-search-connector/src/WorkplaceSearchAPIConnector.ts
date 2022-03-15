@@ -284,7 +284,6 @@ class WorkplaceSearchAPIConnector {
         responseJson,
         buildResponseAdapterOptions(queryConfig)
       );
-      // const response = await this.client.search(query, newOptions);
     });
   }
 
