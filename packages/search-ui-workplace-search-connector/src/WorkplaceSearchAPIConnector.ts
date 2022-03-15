@@ -6,10 +6,12 @@ import type {
   QueryConfig,
   RequestState,
   SearchState,
-  AutocompleteQueryConfig,
-  SuggestionsQueryConfig,
   APIConnector,
-  AutocompleteSearchQuery
+  AutocompleteQueryConfig,
+  AutocompleteSearchQuery,
+  SearchResult,
+  AutocompletedResult,
+  SuggestionsQueryConfig
 } from "@elastic/search-ui";
 import { INVALID_CREDENTIALS } from "@elastic/search-ui";
 
@@ -24,10 +26,19 @@ export type WorkplaceSearchAPIConnectorParams = {
 };
 
 interface ResultClickParams {
-  query: string;
   documentId: string;
   requestId: string;
-  tags: string[];
+  result: SearchResult;
+  page: number;
+  resultsPerPage: number;
+  resultIndexOnPage: number;
+}
+
+interface AutocompleteClickParams {
+  documentId: string;
+  requestId: string;
+  result: AutocompletedResult;
+  resultIndex: number;
 }
 
 export type SearchQueryHook = (
@@ -169,23 +180,62 @@ class WorkplaceSearchAPIConnector implements APIConnector {
   }
 
   onResultClick({
-    query,
     documentId,
     requestId,
-    tags = []
+    result,
+    page,
+    resultsPerPage,
+    resultIndexOnPage
   }: ResultClickParams): void {
-    tags = tags.concat("results");
-    return this.client.click({ query, documentId, requestId, tags });
+    const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
+
+    this.performFetchRequest(apiUrl, {
+      type: "click",
+      document_id: documentId,
+      query_id: requestId,
+      content_source_id: result?._meta.content_source_id,
+      page: page,
+      rank: (page - 1) * resultsPerPage + resultIndexOnPage,
+      event: "search-ui-result-click"
+    });
   }
 
   onAutocompleteResultClick({
-    query,
     documentId,
     requestId,
-    tags = []
-  }: ResultClickParams): void {
-    tags = tags.concat("autocomplete");
-    return this.client.click({ query, documentId, requestId, tags });
+    result,
+    resultIndex
+  }: AutocompleteClickParams): void {
+    const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
+
+    this.performFetchRequest(apiUrl, {
+      type: "click",
+      document_id: documentId,
+      query_id: requestId,
+      content_source_id: result?._meta.content_source_id,
+      page: 1, // there is no pagination in autocomplete
+      rank: resultIndex,
+      event: "search-ui-autocomplete-result-click"
+    });
+  }
+
+  async performFetchRequest(apiUrl: string, payload: any) {
+    const searchResponse = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (searchResponse.status === 401) {
+      this.state.isLoggedIn = false; // Remove the token to trigger the Log in dialog
+      throw new Error(INVALID_CREDENTIALS);
+    }
+
+    const responseJson = await searchResponse.json();
+    return responseJson;
   }
 
   async onSearch(
@@ -226,29 +276,12 @@ class WorkplaceSearchAPIConnector implements APIConnector {
     };
 
     return this.beforeSearchCall(options, async (newOptions) => {
-      const searchResponse = await fetch(
-        `${this.enterpriseSearchBase}/api/ws/v1/search`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${this.accessToken}`
-          },
-          body: JSON.stringify({
-            query,
-            ...newOptions
-          })
-        }
-      );
+      const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/search`;
 
-      if (searchResponse.status === 401) {
-        this.state.isLoggedIn = false; // Remove the token to trigger the Log in dialog
-        throw new Error(INVALID_CREDENTIALS);
-      }
-
-      const responseJson = await searchResponse.json();
-
-      // const response = await this.client.search(query, newOptions);
+      const responseJson = await this.performFetchRequest(apiUrl, {
+        query,
+        ...newOptions
+      });
       return adaptResponse(
         responseJson,
         buildResponseAdapterOptions(queryConfig)
@@ -296,28 +329,19 @@ class WorkplaceSearchAPIConnector implements APIConnector {
 
       const options = removeInvalidFields(withQueryConfigOptions);
 
-      this.beforeAutocompleteResultsCall(options, async (newOptions) => {
-        const searchResponse = await fetch(
+      await this.beforeAutocompleteResultsCall(options, (newOptions) => {
+        return this.performFetchRequest(
           `${this.enterpriseSearchBase}/api/ws/v1/search`,
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${this.accessToken}`
-            },
-            body: JSON.stringify({
-              query,
-              ...newOptions
-            })
+            query,
+            ...newOptions
           }
-        );
-
-        const responseJson = await searchResponse.json();
-
-        autocompletedState.autocompletedResults =
-          adaptResponse(responseJson)?.results;
-        autocompletedState.autocompletedResultsRequestId =
-          responseJson.meta.request_id;
+        ).then((responseJson) => {
+          autocompletedState.autocompletedResults =
+            adaptResponse(responseJson)?.results || [];
+          autocompletedState.autocompletedResultsRequestId =
+            responseJson.meta.request_id;
+        });
       });
     }
 
