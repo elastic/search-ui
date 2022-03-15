@@ -1,13 +1,18 @@
 import React from "react";
 import {
   EuiButton,
+  EuiButtonEmpty,
   EuiModal,
   EuiModalBody,
   EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiText,
-  EuiProvider
+  EuiProvider,
+  EuiHeader,
+  EuiHeaderSectionItem,
+  EuiHeaderSection,
+  EuiHeaderLogo
 } from "@elastic/eui";
 import "@elastic/eui/dist/eui_theme_light.css";
 
@@ -53,7 +58,7 @@ let connector = new WorkplaceSearchAPIConnector({
     "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
   redirectUri:
     process.env.REACT_WORKPLACE_SEARCH_REDIRECT_URI ||
-    "http://localhost:3000/workplace-search",
+    "http://localhost:3000/workplace-search/",
   clientId:
     process.env.REACT_WORKPLACE_SEARCH_CLIENT_ID ||
     "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e"
@@ -117,7 +122,27 @@ export default function WorkplaceSearch() {
           {({ wasSearched, authorizeUrl, isLoggedIn, logout }) => {
             return (
               <div className="App">
-                <EuiButton onClick={() => logout()}>Logout</EuiButton>
+                <EuiHeader>
+                  <EuiHeaderSection>
+                    <EuiHeaderSectionItem>
+                      <EuiHeaderLogo iconType="logoWorkplaceSearch">
+                        Workplace Search
+                      </EuiHeaderLogo>
+                    </EuiHeaderSectionItem>
+                  </EuiHeaderSection>
+                  {isLoggedIn && (
+                    <EuiHeaderSection side="right">
+                      <EuiHeaderSectionItem>
+                        <EuiButtonEmpty
+                          iconType="exit"
+                          onClick={() => logout()}
+                        >
+                          Logout
+                        </EuiButtonEmpty>
+                      </EuiHeaderSectionItem>
+                    </EuiHeaderSection>
+                  )}
+                </EuiHeader>
                 <ErrorBoundary>
                   {!isLoggedIn && (
                     <EuiModal
