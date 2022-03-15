@@ -11,7 +11,10 @@
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
-                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+                "--runInBand",
+                "--forceExit",
+                "--detectOpenHandles",
+                "--watch"
             ],
             "cwd": "${workspaceRoot}/packages/react-search-ui-views",
             "preLaunchTask": null,
@@ -29,7 +32,10 @@
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
-                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+                "--runInBand",
+                "--forceExit",
+                "--detectOpenHandles",
+                "--watch"
             ],
             "cwd": "${workspaceRoot}/packages/react-search-ui",
             "preLaunchTask": null,
@@ -47,7 +53,10 @@
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
-                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+                "--runInBand",
+                "--forceExit",
+                "--detectOpenHandles",
+                "--watch"
             ],
             "cwd": "${workspaceRoot}/packages/search-ui",
             "preLaunchTask": null,
@@ -65,7 +74,10 @@
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
-                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+                "--runInBand",
+                "--forceExit",
+                "--detectOpenHandles",
+                "--watch"
             ],
             "cwd": "${workspaceRoot}/packages/search-ui-elasticsearch-connector",
             "preLaunchTask": null,
@@ -83,7 +95,10 @@
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
-                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+                "--runInBand",
+                "--forceExit",
+                "--detectOpenHandles",
+                "--watch"
             ],
             "cwd": "${workspaceRoot}/packages/search-ui-workplace-search-connector",
             "preLaunchTask": null,
@@ -94,6 +109,5 @@
             "console": "integratedTerminal",
             "sourceMaps": true
         }
-
     ]
 }
