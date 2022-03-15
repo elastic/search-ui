@@ -52,7 +52,8 @@ let connector = new WorkplaceSearchAPIConnector({
     process.env.REACT_WORKPLACE_SEARCH_ENTERPRISE_SEARCH_BASE ||
     "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
   redirectUri:
-    process.env.REACT_WORKPLACE_SEARCH_REDIRECT_URI || "http://localhost:3000",
+    process.env.REACT_WORKPLACE_SEARCH_REDIRECT_URI ||
+    "http://localhost:3000/workplace-search",
   clientId:
     process.env.REACT_WORKPLACE_SEARCH_CLIENT_ID ||
     "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e"
