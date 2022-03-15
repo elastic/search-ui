@@ -73,8 +73,10 @@ describe("WorkplaceSearchAPIConnector", () => {
       return connector.onResultClick({
         documentId: "11111",
         requestId: "12345",
-        page: 1,
-        result: exampleResponse.results[0]
+        page: 2,
+        result: exampleResponse.results[0],
+        resultsPerPage: 20,
+        resultIndexOnPage: 4
       });
     }
 
@@ -85,8 +87,10 @@ describe("WorkplaceSearchAPIConnector", () => {
         Object {
           "content_source_id": "621581b6174a804659f9dc16",
           "document_id": "11111",
-          "page": 1,
+          "event": "search-ui-result-click",
+          "page": 2,
           "query_id": "12345",
+          "rank": 24,
           "type": "click",
         }
       `);
@@ -189,7 +193,8 @@ describe("WorkplaceSearchAPIConnector", () => {
         return connector.onAutocompleteResultClick({
           documentId: "11111",
           requestId: "12345",
-          result: exampleResponse.results[0]
+          result: exampleResponse.results[0],
+          resultIndex: 4
         });
       }
 
@@ -200,8 +205,10 @@ describe("WorkplaceSearchAPIConnector", () => {
           Object {
             "content_source_id": "621581b6174a804659f9dc16",
             "document_id": "11111",
+            "event": "search-ui-autocomplete-result-click",
             "page": 1,
             "query_id": "12345",
+            "rank": 4,
             "type": "click",
           }
         `);

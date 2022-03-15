@@ -12,7 +12,7 @@ describe("#trackAutocompleteClickThrough", () => {
     driver.setSearchTerm("search terms", {
       autocompleteResults: true
     });
-    driver.state.results = [
+    driver.state.autocompletedResults = [
       {
         _meta: {
           last_updated: "2022-02-23T00:40:10+00:00",

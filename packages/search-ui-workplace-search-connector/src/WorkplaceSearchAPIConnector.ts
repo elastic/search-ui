@@ -28,12 +28,15 @@ interface ResultClickParams {
   requestId: string;
   result: SearchResult;
   page: number;
+  resultsPerPage: number;
+  resultIndexOnPage: number;
 }
 
 interface AutocompleteClickParams {
   documentId: string;
   requestId: string;
   result: AutocompletedResult;
+  resultIndex: number;
 }
 
 export type SearchQueryHook = (
@@ -178,7 +181,9 @@ class WorkplaceSearchAPIConnector {
     documentId,
     requestId,
     result,
-    page
+    page,
+    resultsPerPage,
+    resultIndexOnPage
   }: ResultClickParams): void {
     const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
 
@@ -188,16 +193,16 @@ class WorkplaceSearchAPIConnector {
       query_id: requestId,
       content_source_id: result?._meta.content_source_id,
       page: page,
-      rank: 1,
-      event: "api",
-      score: result?._meta.score
+      rank: (page - 1) * resultsPerPage + resultIndexOnPage,
+      event: "search-ui-result-click"
     });
   }
 
   onAutocompleteResultClick({
     documentId,
     requestId,
-    result
+    result,
+    resultIndex
   }: AutocompleteClickParams): void {
     const apiUrl = `${this.enterpriseSearchBase}/api/ws/v1/analytics/event`;
 
@@ -206,7 +211,9 @@ class WorkplaceSearchAPIConnector {
       document_id: documentId,
       query_id: requestId,
       content_source_id: result?._meta.content_source_id,
-      page: 1
+      page: 1, // there is no pagination in autocomplete
+      rank: resultIndex,
+      event: "search-ui-autocomplete-result-click"
     });
   }
 
@@ -321,19 +328,19 @@ class WorkplaceSearchAPIConnector {
 
       const options = removeInvalidFields(withQueryConfigOptions);
 
-      this.beforeAutocompleteResultsCall(options, async (newOptions) => {
-        const responseJson = await this.performFetchRequest(
+      await this.beforeAutocompleteResultsCall(options, (newOptions) => {
+        return this.performFetchRequest(
           `${this.enterpriseSearchBase}/api/ws/v1/search`,
           {
             query,
             ...newOptions
           }
-        );
-
-        autocompletedState.autocompletedResults =
-          adaptResponse(responseJson)?.results || [];
-        autocompletedState.autocompletedResultsRequestId =
-          responseJson.meta.request_id;
+        ).then((responseJson) => {
+          autocompletedState.autocompletedResults =
+            adaptResponse(responseJson)?.results || [];
+          autocompletedState.autocompletedResultsRequestId =
+            responseJson.meta.request_id;
+        });
       });
     }
 

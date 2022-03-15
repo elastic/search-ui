@@ -17,9 +17,18 @@ export default function trackClickThrough(
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "trackClickThrough", ...arguments);
 
-  const { requestId, searchTerm, results, current }: SearchState = this.state;
+  const {
+    requestId,
+    searchTerm,
+    results,
+    current,
+    resultsPerPage
+  }: SearchState = this.state;
 
-  const result = results.find((result) => result._meta.id === documentId);
+  const resultIndexOnPage = results.findIndex(
+    (result) => result._meta.id === documentId
+  );
+  const result = results[resultIndexOnPage];
 
   this.events.resultClick({
     query: searchTerm,
@@ -27,6 +36,8 @@ export default function trackClickThrough(
     requestId,
     tags,
     result,
-    page: current
+    page: current,
+    resultsPerPage,
+    resultIndexOnPage
   });
 }
