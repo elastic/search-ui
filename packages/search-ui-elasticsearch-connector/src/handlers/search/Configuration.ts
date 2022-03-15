@@ -4,7 +4,9 @@ import {
   RequestState
 } from "@elastic/search-ui";
 import {
+  GeoDistanceOptionsFacet,
   MultiMatchQuery,
+  MultiQueryOptionsFacet,
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
@@ -34,6 +36,10 @@ export function getResultFields(
   return { hitFields, highlightFields };
 }
 
+function isValidDateString(dateString: unknown): boolean {
+  return typeof dateString === "string" && !isNaN(Date.parse(dateString));
+}
+
 function buildConfiguration(
   state: RequestState,
   queryConfig: QueryConfig,
@@ -60,7 +66,54 @@ function buildConfiguration(
             multipleSelect: isDisJunctive
           })
         );
+      } else if (
+        facetConfiguration.type === "range" &&
+        !facetConfiguration.center
+      ) {
+        sum.push(
+          new MultiQueryOptionsFacet({
+            identifier: facetKey,
+            field: facetKey,
+            label: facetKey,
+            multipleSelect: isDisJunctive,
+            options: facetConfiguration.ranges.map((range) => {
+              return {
+                label: range.name,
+                ...(typeof range.from === "number" ? { min: range.from } : {}),
+                ...(typeof range.to === "number" ? { max: range.to } : {}),
+                ...(isValidDateString(range.from)
+                  ? { dateMin: range.from.toString() }
+                  : {}),
+                ...(isValidDateString(range.to)
+                  ? { dateMax: range.to.toString() }
+                  : {})
+              };
+            })
+          })
+        );
+      } else if (
+        facetConfiguration.type === "range" &&
+        facetConfiguration.center
+      ) {
+        sum.push(
+          new GeoDistanceOptionsFacet({
+            identifier: facetKey,
+            field: facetKey,
+            label: facetKey,
+            multipleSelect: isDisJunctive,
+            origin: facetConfiguration.center,
+            unit: facetConfiguration.unit,
+            ranges: facetConfiguration.ranges.map((range) => {
+              return {
+                label: range.name,
+                ...(range.from ? { from: Number(range.from) } : {}),
+                ...(range.to ? { to: Number(range.to) } : {})
+              };
+            })
+          })
+        );
       }
+
       return sum;
     },
     []

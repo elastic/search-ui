@@ -479,6 +479,19 @@ describe("_updateSearchResults", () => {
     expect(stateAfterCreation.pagingEnd).toEqual(30);
   });
 
+  it("calculates pagingEnd correctly when resultsPerPage is one less than totalResults", () => {
+    const mockSearchResponse = { totalResults: 41, totalPages: 2 };
+
+    const { stateAfterCreation } = setupDriver({
+      initialState,
+      mockSearchResponse
+    });
+
+    expect(stateAfterCreation.totalResults).toEqual(41);
+    expect(stateAfterCreation.pagingStart).toEqual(21);
+    expect(stateAfterCreation.pagingEnd).toEqual(40);
+  });
+
   it("zeroes out pagingStart and pagingEnd correctly", () => {
     const mockSearchResponse = { totalResults: 0 };
 

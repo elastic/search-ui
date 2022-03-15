@@ -110,7 +110,7 @@ export type SuggestionsQueryConfig = {
 export type FacetConfiguration = {
   type: string;
   size?: number;
-  ranges?: FilterValueRange | FilterValueRange[];
+  ranges?: FilterValueRange[];
   center?: string;
   unit?: string;
 };
