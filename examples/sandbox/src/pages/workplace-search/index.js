@@ -24,9 +24,7 @@ import {
   Sorting,
   WithSearch
 } from "@elastic/react-search-ui";
-import {
-  Layout
-} from "@elastic/react-search-ui-views";
+import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import "./index.css";
 
@@ -103,15 +101,22 @@ export default function WorkplaceSearch() {
     <EuiProvider colorMode="light">
       <SearchProvider config={config}>
         <WithSearch
-          mapContextToProps={({ wasSearched, authorizeUrl, isLoggedIn }) => ({
+          mapContextToProps={({
             wasSearched,
             authorizeUrl,
-            isLoggedIn
+            isLoggedIn,
+            logout
+          }) => ({
+            wasSearched,
+            authorizeUrl,
+            isLoggedIn,
+            logout
           })}
         >
-          {({ wasSearched, authorizeUrl, isLoggedIn }) => {
+          {({ wasSearched, authorizeUrl, isLoggedIn, logout }) => {
             return (
               <div className="App">
+                <EuiButton onClick={() => logout()}>Logout</EuiButton>
                 <ErrorBoundary>
                   {!isLoggedIn && (
                     <EuiModal

@@ -111,6 +111,9 @@ class WorkplaceSearchAPIConnector {
     authorizeUrl: string;
     isLoggedIn: boolean;
   };
+  actions: {
+    logout: () => void;
+  };
 
   /**
    * @param {Options} options
@@ -132,6 +135,12 @@ class WorkplaceSearchAPIConnector {
     }
 
     const authorizeUrl = `${kibanaBase}/app/enterprise_search/workplace_search/p/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token`;
+    // We need to logout from both application: Kibana, because a user can get a new access token with it,
+    // and Enterprise Search, because it serves the default search experience with the same data.
+    // There are 2 logout urls: [kibanaBase]/logout and [enterpriseSearchBase]/logout
+    // Hitting the Kibana logout only logs out of Kibana, but hitting the Enterprise Search logout logs out of both Entperise Search and Kibana.
+    // That's why we use [enterpriseSearchBase]/logout as the logout url.
+    const logoutUrl = `${enterpriseSearchBase}/logout`;
 
     // There are 3 ways the initial load might happen:
     // 1) First load: there is no accessToken in localStorage
@@ -155,6 +164,14 @@ class WorkplaceSearchAPIConnector {
     this.state = {
       authorizeUrl,
       isLoggedIn: !!this.accessToken || false
+    };
+
+    this.actions = {
+      logout: () => {
+        this.accessToken = null;
+        this.state.isLoggedIn = false;
+        window.location.href = logoutUrl;
+      }
     };
 
     this.enterpriseSearchBase = enterpriseSearchBase;
