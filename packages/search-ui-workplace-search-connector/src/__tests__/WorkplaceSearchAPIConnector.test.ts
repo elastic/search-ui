@@ -25,6 +25,25 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+type AnalyticsEvent = {
+  query: string;
+  documentId: string;
+  requestId: string;
+  tags: string[];
+};
+
+function getLastFetchCall() {
+  const lastFetchCall = (
+    (window as any).fetch as jest.MockedFn<(url, body) => any>
+  ).mock.calls[0];
+  const [url, body] = lastFetchCall;
+  return {
+    url,
+    body: JSON.parse(body.body) as AnalyticsEvent,
+    token: body.headers.Authorization
+  };
+}
+
 const params: WorkplaceSearchAPIConnectorParams = {
   kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
   enterpriseSearchBase:
@@ -43,6 +62,39 @@ describe("WorkplaceSearchAPIConnector", () => {
     expect(() => {
       new WorkplaceSearchAPIConnector({} as any);
     }).toThrow();
+  });
+
+  describe("Result click Analytics Event", () => {
+    function subject() {
+      const connector = new WorkplaceSearchAPIConnector({
+        ...params
+      });
+
+      return connector.onResultClick({
+        documentId: "11111",
+        requestId: "12345",
+        page: 2,
+        result: exampleResponse.results[0],
+        resultsPerPage: 20,
+        resultIndexOnPage: 4
+      });
+    }
+
+    it("passes documentId and queryId to the click endpoint", () => {
+      subject();
+      const { body } = getLastFetchCall();
+      expect(body).toMatchInlineSnapshot(`
+        Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "document_id": "11111",
+          "event": "search-ui-result-click",
+          "page": 2,
+          "query_id": "12345",
+          "rank": 24,
+          "type": "click",
+        }
+      `);
+    });
   });
 
   describe("onSearch", () => {
@@ -129,6 +181,37 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         await subject({ ...DEFAULT_STATE }, { results: {} });
         expect(fetch).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe("Autocomplete Analytics Event", () => {
+      function subject() {
+        const connector = new WorkplaceSearchAPIConnector({
+          ...params
+        });
+
+        return connector.onAutocompleteResultClick({
+          documentId: "11111",
+          requestId: "12345",
+          result: exampleResponse.results[0],
+          resultIndex: 4
+        });
+      }
+
+      it("passes documentId and queryId to the autocomplete click endpoint", () => {
+        subject();
+        const { body } = getLastFetchCall();
+        expect(body).toMatchInlineSnapshot(`
+          Object {
+            "content_source_id": "621581b6174a804659f9dc16",
+            "document_id": "11111",
+            "event": "search-ui-autocomplete-result-click",
+            "page": 1,
+            "query_id": "12345",
+            "rank": 4,
+            "type": "click",
+          }
+        `);
       });
     });
   });
