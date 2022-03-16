@@ -312,7 +312,7 @@ class WorkplaceSearchAPIConnector {
 
     if (queryConfig.suggestions) {
       console.warn(
-        "search-ui-workplace-search-connector: Workplace Search does support query suggestions on autocomplete"
+        "search-ui-workplace-search-connector: Workplace Search does not support query suggestions on autocomplete"
       );
     }
 
