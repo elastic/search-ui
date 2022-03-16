@@ -1,13 +1,18 @@
 import React from "react";
 import {
   EuiButton,
+  EuiButtonEmpty,
   EuiModal,
   EuiModalBody,
   EuiModalFooter,
   EuiModalHeader,
   EuiModalHeaderTitle,
   EuiText,
-  EuiProvider
+  EuiProvider,
+  EuiHeader,
+  EuiHeaderSectionItem,
+  EuiHeaderSection,
+  EuiHeaderLogo
 } from "@elastic/eui";
 import "@elastic/eui/dist/eui_theme_light.css";
 
@@ -24,9 +29,7 @@ import {
   Sorting,
   WithSearch
 } from "@elastic/react-search-ui";
-import {
-  Layout
-} from "@elastic/react-search-ui-views";
+import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import "./index.css";
 
@@ -54,7 +57,8 @@ let connector = new WorkplaceSearchAPIConnector({
     process.env.REACT_WORKPLACE_SEARCH_ENTERPRISE_SEARCH_BASE ||
     "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
   redirectUri:
-    process.env.REACT_WORKPLACE_SEARCH_REDIRECT_URI || "http://localhost:3000",
+    process.env.REACT_WORKPLACE_SEARCH_REDIRECT_URI ||
+    "http://localhost:3000/workplace-search/",
   clientId:
     process.env.REACT_WORKPLACE_SEARCH_CLIENT_ID ||
     "8e495e40fc1e6acf515e557e534de39d4f727f7f60a3afed24a99ce3a6607c1e"
@@ -103,15 +107,42 @@ export default function WorkplaceSearch() {
     <EuiProvider colorMode="light">
       <SearchProvider config={config}>
         <WithSearch
-          mapContextToProps={({ wasSearched, authorizeUrl, isLoggedIn }) => ({
+          mapContextToProps={({
             wasSearched,
             authorizeUrl,
-            isLoggedIn
+            isLoggedIn,
+            logout
+          }) => ({
+            wasSearched,
+            authorizeUrl,
+            isLoggedIn,
+            logout
           })}
         >
-          {({ wasSearched, authorizeUrl, isLoggedIn }) => {
+          {({ wasSearched, authorizeUrl, isLoggedIn, logout }) => {
             return (
               <div className="App">
+                <EuiHeader>
+                  <EuiHeaderSection>
+                    <EuiHeaderSectionItem>
+                      <EuiHeaderLogo iconType="logoWorkplaceSearch">
+                        Workplace Search
+                      </EuiHeaderLogo>
+                    </EuiHeaderSectionItem>
+                  </EuiHeaderSection>
+                  {isLoggedIn && (
+                    <EuiHeaderSection side="right">
+                      <EuiHeaderSectionItem>
+                        <EuiButtonEmpty
+                          iconType="exit"
+                          onClick={() => logout()}
+                        >
+                          Logout
+                        </EuiButtonEmpty>
+                      </EuiHeaderSectionItem>
+                    </EuiHeaderSection>
+                  )}
+                </EuiHeader>
                 <ErrorBoundary>
                   {!isLoggedIn && (
                     <EuiModal

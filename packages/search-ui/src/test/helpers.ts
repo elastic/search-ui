@@ -59,6 +59,16 @@ export function getMockApiConnector(): APIConnector {
   };
 }
 
+export function getMockApiConnectorWithStateAndActions() {
+  return {
+    ...getMockApiConnector(),
+    state: { foo: "foo" },
+    actions: {
+      bar: jest.fn().mockReturnValue("bar")
+    }
+  };
+}
+
 type SetupDriverOptions = {
   mockSearchResponse?: any; //eslint-disable-line @typescript-eslint/no-explicit-any
   mockApiConnector?: APIConnector;
