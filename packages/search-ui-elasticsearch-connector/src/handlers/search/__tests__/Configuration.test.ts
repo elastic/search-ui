@@ -65,7 +65,8 @@ describe("Search - Configuration", () => {
         },
         type: {
           type: "value",
-          size: 20
+          size: 20,
+          sort: "value"
         }
       },
       disjunctiveFacets: ["category"]
@@ -106,14 +107,16 @@ describe("Search - Configuration", () => {
         field: "category",
         label: "category",
         size: 20,
-        multipleSelect: true
+        multipleSelect: true,
+        order: "count"
       });
       expect(RefinementSelectFacet).toHaveBeenCalledWith({
         identifier: "type",
         field: "type",
         label: "type",
         size: 20,
-        multipleSelect: false
+        multipleSelect: false,
+        order: "value"
       });
     });
 
@@ -155,14 +158,16 @@ describe("Search - Configuration", () => {
         field: "category",
         label: "category",
         size: 20,
-        multipleSelect: true
+        multipleSelect: true,
+        order: "count"
       });
       expect(RefinementSelectFacet).toHaveBeenCalledWith({
         identifier: "type",
         field: "type",
         label: "type",
         size: 20,
-        multipleSelect: false
+        multipleSelect: false,
+        order: "value"
       });
     });
 
