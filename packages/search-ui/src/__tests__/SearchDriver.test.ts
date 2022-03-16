@@ -10,8 +10,9 @@ import {
   doesStateHaveResponseData,
   setupDriver,
   getMockApiConnector,
-  waitATick,
-  searchResponse
+  searchResponse,
+  getMockApiConnectorWithStateAndActions,
+  waitATick
 } from "../test/helpers";
 
 // We mock this so no state is actually written to the URL
@@ -442,7 +443,7 @@ describe("tearDown", () => {
 });
 
 describe("#getActions", () => {
-  it("returns the current state", () => {
+  it("returns the current actions", () => {
     const driver = new SearchDriver(params);
     const actions = driver.getActions();
     expect(Object.keys(actions).length).toBe(12);
@@ -458,6 +459,16 @@ describe("#getActions", () => {
     expect(actions.trackClickThrough).toBeInstanceOf(Function);
     expect(actions.trackAutocompleteClickThrough).toBeInstanceOf(Function);
     expect(actions.a11yNotify).toBeInstanceOf(Function);
+  });
+
+  it("includes connector actions if they're available", () => {
+    const driver = new SearchDriver({
+      apiConnector: getMockApiConnectorWithStateAndActions(),
+      trackUrlState: false
+    });
+
+    const actions = driver.getActions();
+    expect(Object.keys(actions).length).toBe(13);
   });
 });
 
