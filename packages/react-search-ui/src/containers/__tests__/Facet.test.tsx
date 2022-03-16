@@ -298,6 +298,7 @@ it("passes data-foo through to the view", () => {
 describe("search facets", () => {
   let wrapper: ShallowWrapper;
   const field = "field1";
+  const label = "field label";
   const fieldData = [
     { count: 20, value: "Virat" },
     { count: 9, value: "LÒpez" },
@@ -310,6 +311,7 @@ describe("search facets", () => {
         {...{
           ...params,
           field,
+          label,
           facets: {
             field1: [
               {
@@ -336,7 +338,7 @@ describe("search facets", () => {
 
   it("should use the field name as a search input placeholder", () => {
     expect(wrapper.find(View).prop("searchPlaceholder")).toBe(
-      `Filter ${field}`
+      `Filter ${label}`
     );
   });
 

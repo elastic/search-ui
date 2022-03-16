@@ -22,7 +22,7 @@ exports[`renders correctly 1`] = `
       },
     ]
   }
-  searchPlaceholder="Filter field1"
+  searchPlaceholder="Filter Field 1"
   show={5}
   showMore={false}
   showSearch={false}
