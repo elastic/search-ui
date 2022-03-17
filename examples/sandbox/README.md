@@ -32,18 +32,9 @@ REACT_APP_SOURCE=SITE_SEARCH
 
 ## Running and using local development version of search-ui
 
-This project requires a complex `npm link` based setup to properly run using your local search-ui source code.
-To start this project properly, you'll need to start it from the root directory of the search-ui project
-with the following commands
-
-NOTE: The following is semi-destructive, it will "link" your "react" dependencies
-in react-search-ui and react-search-ui-views. All that means is, when running
-`npm test` on either one of those projects you may be prompted to run `npm unlink`
-before continuing.
-
 ```shell
-npm install
-npm run sandbox
+yarn
+yarn start
 ```
 
 If you're actively developing Search UI and testing in this Sandbox, you'll probably want
@@ -52,33 +43,7 @@ level of this repository and run the following command.
 
 ```shell
 # Run this from the root of this repository
-npm run watch
-```
-
-Note: If you get error about dependency version conflicts when starting this application ...
-
-You've probably installed dependencies at the top level of this repository either by adding a new dependency, or installing dependencies with hoisting (i.e. `lerna boostrap --hoist`).
-
-To resolve this, delete the `node_modules` directory at all levels and try this process again.
-
-To delete all `node_modules` directories:
-
-```shell
-# Run this to clear all node_modules director
-# Run this from the root of this repository
-rm -rf node_modules
-rm -rf packages/node_modules
-npx lerna exec -- rm -rf node_modules
-```
-
-## Running stand-alone
-
-To start this project against the released versions of search-ui libs defined in the local `package.json`, simply
-run the following commands from within THIS directory.
-
-```
-npm install
-npm start
+yarn watch
 ```
 
 ## Startup options
