@@ -1,11 +1,8 @@
 {
-  "name": "community-site",
-  "version": "1.0.0",
-  "description": "Community site for elastic",
-  "repository": "git@github.com:elastic/community-site.git",
-  "contributors": [
-    "Dave Snider <dsnider@elastic.co>"
-  ],
+  "name": "search-ui-docs",
+  "version": "1.10.0-beta1",
+  "description": "Docs for Elastic Search UI",
+  "repository": "git@github.com:elastic/search-ui.git",
   "private": true,
   "scripts": {
     "init-docs": "docsmobile init",
