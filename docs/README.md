@@ -1,18 +1,17 @@
-# Docsmobile starter
+# Built with Docsmobile
 
-This repo is a Github template to create a new repository that gives you everything you need to build a [docsmobile][2] site. Note that once installed it will be on you to occasionally check for docsmobile updates and change your `package.json` to point to the latest [docsmobile][3] version.
+This repo is built with [docsmobile][2]. Note we'll occasionally check for docsmobile updates and change our `package.json` to point to the latest [docsmobile][3] version.
 
 ## Setup
 
 ![Use a github template](template-example.png)
 
-1. [Create a new repo][1] using `docsmobile-starter` as a template.
-2. Run `cp .env-example .env` and add a Github token
-3. Run `cp sources.json sources-dev.json` and optionally point to different sources (like a local version of another repo).
-4. Run `yarn`
-5. Run `yarn init-docs`
-6. Run `yarn dev`
-7. Visit http://localhost:3000
+1. Run `cp .env-example .env` and add a Github token
+2. Run `cp sources.json sources-dev.json` and optionally point to different sources (like a local version of another repo).
+3. Run `yarn`
+4. Run `yarn init-docs`
+5. Run `yarn dev`
+6. Visit http://localhost:3000
 
 ## Adding or removing content
 
@@ -29,7 +28,7 @@ Custom pages can live in the `/pages/` directory. These can be TypeScript files 
 
 ## Hosting & deployment
 
-At a certain stage you'll want to host your site. Contact @goodroot (Kellen Person) who will prep setup for hosting with Vercel.
+TBD
 
 ## More docs
 
