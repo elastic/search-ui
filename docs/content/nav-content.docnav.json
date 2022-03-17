@@ -1,12 +1,12 @@
 {
-  "mission": "Content demo",
-  "id": "Demo",
+  "mission": "Search UI",
+  "id": "search-ui",
   "landingPageId": "overview",
-  "icon": "gear",
-  "description": "This loads sample docs from the content directory",
+  "icon": "inspect",
+  "description": "Docs for Elastic's Search UI project",
   "items": [
     {
-      "label": "Demo content",
+      "label": "Search UI",
       "items": [{ "id": "overview" }, { "id": "advanced" }]
     }
   ]
