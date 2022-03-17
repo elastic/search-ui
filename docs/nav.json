@@ -1,4 +1,4 @@
 {
-  "structure": ["nav-docs", "nav-content"],
-  "default": "nav-content"
+  "structure": ["nav-searchui"],
+  "default": "nav-searchui"
 }
