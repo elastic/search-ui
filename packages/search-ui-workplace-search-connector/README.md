@@ -15,21 +15,27 @@ import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-con
 
 const connector = new WorkplaceSearchAPIConnector({
   kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
-  enterpriseSearchBase:
-    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
+  enterpriseSearchBase: "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
   redirectUri: "http://localhost:3000",
   clientId: "8e495e40fc4e6acf515e557e634de39d4f727f7f60a3afed24a99ce316607c1e"
 });
 ```
 
+See the [usage example](https://github.com/elastic/search-ui/blob/master/examples/sandbox/src/pages/workplace-search/index.js) in our sandbox app. The example uses a private Elastic Cloud deployment. Make sure to update the configuration values to use with your own [Elastic Cloud](https://www.elastic.co/cloud/) deployment. 
+
 ## Authentication
 
-The Workplace Search API requires authentication. This connector uses OAuth authentication. You can read more about that [here](https://www.elastic.co/guide/en/workplace-search/7.13/workplace-search-api-authentication.html#oauth-token) and [here](https://www.elastic.co/guide/en/workplace-search/7.13/workplace-search-search-oauth.html).
+The Workplace Search API requires authentication. This connector uses OAuth authentication. You can read more about that [here](https://www.elastic.co/guide/en/workplace-search/current/building-custom-search-workplace-search.html) and [here](https://www.elastic.co/guide/en/workplace-search/current/workplace-search-search-oauth.html).
 
 Using this connector will populate two additional pieces of Application State:
 
-`isLoggedIn` - This can be used to determine whether or not a user is authenticated. Requests using this connector will only work if a user is authenticatied. If this is false, consider showing a "Login" link using the `authorizeUrl` state.
-`authorizeUrl` - This can be used to create a "Login" link for users to initiate OAuth authentication.
+`isLoggedIn` (boolean) - This can be used to determine whether or not a user is authenticated. Requests using this connector will only work if a user is authenticatied. If this is false, consider showing a "Login" link using the `authorizeUrl` state.
+
+`authorizeUrl` (string) - This can be used to create a "Login" link for users to initiate OAuth authentication.
+
+`logout` - (function) - This action can be used to log out user out of the search experience. Under the hood it 1) deletes the saved token from LocalStorage and 2) logs user out of Enterprise Search and Kibana to prevent the ability to get a new access token.
+
+
 
 ## Classes
 
@@ -97,4 +103,4 @@ Using this connector will populate two additional pieces of Application State:
 | clientId                          | <code>string</code>        |                                                              | Client ID as generated when setting up the OAuth Application.                                                                                                                                |
 | beforeSearchCall                  | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                                                                                       |
 | beforeAutocompleteResultsCall     | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.                                                                       |
-| beforeAutocompleteSuggestionsCall | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event.                                                                   |
+| beforeAutocompleteSuggestionsCall | [<code>hook</code>](#hook) | <code>(queryOptions,next)&#x3D;&gt;next(queryOptions)</code> | (Currently not supported as Workplace Search doesn't have a query suggestions API) A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event.                                                                    |
