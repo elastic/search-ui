@@ -63,7 +63,8 @@ function buildConfiguration(
             field: facetKey,
             label: facetKey,
             size: facetConfiguration.size || 20,
-            multipleSelect: isDisJunctive
+            multipleSelect: isDisJunctive,
+            order: facetConfiguration.sort || "count"
           })
         );
       } else if (

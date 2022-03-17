@@ -113,6 +113,7 @@ export type FacetConfiguration = {
   ranges?: FilterValueRange[];
   center?: string;
   unit?: string;
+  sort?: "count" | "value";
 };
 
 // todo: types

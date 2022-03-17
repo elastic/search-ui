@@ -66,7 +66,7 @@ const config = {
     disjunctiveFacets: ["acres", "states.keyword", "date_established", "location"],
     facets: {
       "world_heritage_site.keyword": { type: "value" },
-      "states.keyword": { type: "value", size: 30 },
+      "states.keyword": { type: "value", size: 30, sort: "count" },
       acres: {
         type: "range",
         ranges: [
