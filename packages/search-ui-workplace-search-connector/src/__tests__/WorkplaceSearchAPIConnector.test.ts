@@ -12,26 +12,22 @@ import type {
 } from "@elastic/search-ui";
 import { DEFAULT_STATE } from "@elastic/search-ui";
 import exampleResponse from "./exampleResponse.json";
-import { adaptResponse } from "../responseAdapter";
 
 jest.mock("../responseAdapter");
 
-(window as any).fetch = jest.fn();
-(window as any).fetch.mockReturnValue({
-  status: 200,
-  json: jest.fn().mockReturnValue(exampleResponse)
-});
-
 beforeEach(() => {
-  jest.clearAllMocks();
-});
+  localStorage.clear();
+  window.location.hash = "";
 
-type AnalyticsEvent = {
-  query: string;
-  documentId: string;
-  requestId: string;
-  tags: string[];
-};
+  jest.clearAllMocks();
+
+  (window as any).fetch = jest.fn(() =>
+    Promise.resolve({
+      status: 200,
+      json: () => Promise.resolve(exampleResponse)
+    })
+  );
+});
 
 function getLastFetchCall() {
   const lastFetchCall = (
@@ -40,7 +36,7 @@ function getLastFetchCall() {
   const [url, body] = lastFetchCall;
   return {
     url,
-    body: JSON.parse(body.body) as AnalyticsEvent,
+    body: JSON.parse(body.body),
     token: body.headers.Authorization
   };
 }
@@ -81,7 +77,7 @@ describe("WorkplaceSearchAPIConnector", () => {
       });
     }
 
-    it("passes documentId and queryId to the click endpoint", () => {
+    it("passes all the required params to the click endpoint", () => {
       subject();
       const { body } = getLastFetchCall();
       expect(body).toMatchInlineSnapshot(`
@@ -98,12 +94,85 @@ describe("WorkplaceSearchAPIConnector", () => {
     });
   });
 
+  describe("Autocomplete result click Analytics Event", () => {
+    function subject() {
+      const connector = new WorkplaceSearchAPIConnector({
+        ...params
+      });
+
+      return connector.onAutocompleteResultClick({
+        documentId: "11111",
+        requestId: "12345",
+        result: exampleResponse.results[0],
+        resultIndex: 4
+      });
+    }
+
+    it("passes all the required params to the click endpoint", () => {
+      subject();
+      const { body } = getLastFetchCall();
+      expect(body).toMatchInlineSnapshot(`
+        Object {
+          "content_source_id": "621581b6174a804659f9dc16",
+          "document_id": "11111",
+          "event": "search-ui-autocomplete-result-click",
+          "page": 1,
+          "query_id": "12345",
+          "rank": 4,
+          "type": "click",
+        }
+      `);
+    });
+  });
+
+  describe("performFetchRequest", () => {
+    function subject() {
+      const connector = new WorkplaceSearchAPIConnector({
+        ...params
+      });
+
+      return connector.performFetchRequest("http://example.com", {});
+    }
+
+    it("will throw an error if there is no accessToken in localstorage or in url", async () => {
+      window.location.hash = "";
+      localStorage.clear();
+
+      (window as any).fetch = jest.fn(() =>
+        Promise.resolve({
+          status: 401,
+          json: () => Promise.resolve()
+        })
+      );
+
+      await expect(subject()).rejects.toThrow();
+    });
+
+    it("will issue a request if access token is in the localstorage", async () => {
+      window.location.hash = "";
+      localStorage.setItem("SearchUIWorkplaceSearchAccessToken", "faketoken");
+
+      await subject();
+      expect(fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it("will issue a request if access token is in the url", async () => {
+      window.location.hash = "access_token=faketoken";
+      localStorage.clear();
+
+      await subject();
+      expect(fetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe("onSearch", () => {
-    function subject(
+    async function subject(
       state: SearchState = { ...DEFAULT_STATE },
       queryConfig: QueryConfig = {},
       beforeSearchCall?: SearchQueryHook
     ) {
+      window.location.hash = "access_token=faketoken";
+
       if (!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new WorkplaceSearchAPIConnector({
@@ -111,31 +180,194 @@ describe("WorkplaceSearchAPIConnector", () => {
         beforeSearchCall
       });
 
-      return connector.onSearch(state, queryConfig);
+      return await connector.onSearch(state, queryConfig);
     }
 
-    it("will throw an error if there is no accessToken in localstorage or in url", async () => {
-      await expect(subject()).rejects.toThrow();
-      expect(fetch).not.toHaveBeenCalled();
-      expect(adaptResponse).not.toHaveBeenCalled();
+    it("will pass request state through to search endpoint", async () => {
+      const state = {
+        ...DEFAULT_STATE,
+        resultsPerPage: 40,
+        current: 2,
+        sortField: "foo",
+        sortDirection: "desc" as const
+      };
+
+      await subject(state);
+
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+        Object {
+          "page": Object {
+            "current": 2,
+            "size": 40,
+          },
+          "query": "searchTerm",
+          "sort": Object {
+            "foo": "desc",
+          },
+        }
+      `);
     });
 
-    it("will issue a request if access token is in the localstorage", async () => {
-      localStorage.setItem("SearchUIWorkplaceSearchAccessToken", "faketoken");
+    it("will pass queryConfig to search endpoint", async () => {
+      const state = { ...DEFAULT_STATE };
+      const queryConfig = {
+        facets: {
+          states: {
+            type: "value",
+            size: 30
+          }
+        }
+      };
 
-      await subject();
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(adaptResponse).toHaveBeenCalledTimes(1);
+      await subject(state, queryConfig);
+
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+        Object {
+          "facets": Object {
+            "states": Object {
+              "size": 30,
+              "type": "value",
+            },
+          },
+          "page": Object {
+            "current": 1,
+            "size": 20,
+          },
+          "query": "searchTerm",
+        }
+      `);
     });
 
-    it("will issue a request if access token is in the url", async () => {
-      const mockUrl = new URL(window.location.href);
-      mockUrl.hash = "access_token=faketoken";
-      window.location.href = mockUrl.href;
+    it("will not pass empty facets or filter state to search endpoint", async () => {
+      const state = {
+        ...DEFAULT_STATE,
+        searchTerm: "searchTerm",
+        filters: [],
+        facets: {}
+      };
 
-      await subject();
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(adaptResponse).toHaveBeenCalledTimes(1);
+      const queryConfig = {
+        filters: [],
+        facets: {}
+      };
+
+      await subject(state, queryConfig);
+
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+        Object {
+          "page": Object {
+            "current": 1,
+            "size": 20,
+          },
+          "query": "searchTerm",
+        }
+      `);
+    });
+
+    it("will pass request parameter state provided to queryConfig, overriding the same value provided in state", async () => {
+      const state = {
+        ...DEFAULT_STATE,
+        searchTerm: "searchTerm",
+        current: 1,
+        resultsPerPage: 10,
+        sortDirection: "desc" as const,
+        sortField: "name",
+        filters: [
+          {
+            field: "title",
+            type: "all" as const,
+            values: ["Acadia", "Grand Canyon"]
+          },
+          {
+            field: "world_heritage_site",
+            values: ["true"],
+            type: "all" as const
+          }
+        ]
+      };
+
+      const queryConfig = {
+        current: 2,
+        resultsPerPage: 5,
+        sortDirection: "asc" as const,
+        sortField: "title",
+        filters: [
+          {
+            field: "date_made",
+            values: ["yesterday"],
+            type: "all" as const
+          }
+        ]
+      };
+
+      await subject(state, queryConfig);
+
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+        Object {
+          "filters": Object {
+            "all": Array [
+              Object {
+                "all": Array [
+                  Object {
+                    "date_made": "yesterday",
+                  },
+                ],
+              },
+            ],
+          },
+          "page": Object {
+            "current": 2,
+            "size": 5,
+          },
+          "query": "searchTerm",
+          "sort": Object {
+            "title": "asc",
+          },
+        }
+      `);
+    });
+
+    it("will use the beforeSearchCall parameter to amend option parameters to the search endpoint call", async () => {
+      const state = {
+        ...DEFAULT_STATE,
+        current: 2,
+        searchTerm: "searchTerm"
+      };
+
+      const queryConfig = {
+        sortDirection: "desc" as const,
+        sortField: "name",
+        resultsPerPage: 5
+      };
+
+      const beforeSearchCall: SearchQueryHook = (options, next) => {
+        // Remove sort_direction and sort_field
+        // eslint-disable-next-line no-unused-vars
+        const { sort, ...rest } = options;
+        return next({
+          ...rest,
+          // Add test
+          test: "value"
+        });
+      };
+
+      await subject(state, queryConfig, beforeSearchCall);
+
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+        Object {
+          "page": Object {
+            "current": 2,
+            "size": 5,
+          },
+          "query": "searchTerm",
+          "test": "value",
+        }
+      `);
     });
   });
 
@@ -151,6 +383,8 @@ describe("WorkplaceSearchAPIConnector", () => {
         beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
       } = {}
     ) {
+      window.location.hash = "access_token=faketoken";
+
       const connector = new WorkplaceSearchAPIConnector({
         ...params,
         beforeAutocompleteResultsCall,
@@ -161,58 +395,220 @@ describe("WorkplaceSearchAPIConnector", () => {
     }
 
     describe("when 'results' type is requested", () => {
-      it("will issue a request even if there is no accessToken in localstorage or in url", async () => {
-        subject(undefined, {
-          results: {}
-        });
-        expect(fetch).toHaveBeenCalledTimes(1);
+      it("will pass request state through to search endpoint", async () => {
+        const state = {
+          ...DEFAULT_STATE,
+          resultsPerPage: 40,
+          current: 2,
+          sortField: "foo",
+          sortDirection: "desc" as const
+        };
+
+        await subject(state, { results: {} });
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+          Object {
+            "page": Object {},
+            "query": "searchTerm",
+          }
+        `);
       });
 
-      it("will issue a request if access token is in the localstorage", async () => {
-        localStorage.setItem("SearchUIWorkplaceSearchAccessToken", "faketoken");
+      it("will pass queryConfig to search endpoint", async () => {
+        const state = { ...DEFAULT_STATE };
+        const queryConfig = {
+          facets: {
+            states: {
+              type: "value",
+              size: 30
+            }
+          }
+        };
 
-        await subject(undefined, { results: {} });
-        expect(fetch).toHaveBeenCalledTimes(1);
+        await subject(state, { results: queryConfig });
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+          Object {
+            "facets": Object {
+              "states": Object {
+                "size": 30,
+                "type": "value",
+              },
+            },
+            "page": Object {},
+            "query": "searchTerm",
+          }
+        `);
       });
 
-      it("will issue a request if access token is in the url", async () => {
-        const mockUrl = new URL(window.location.href);
-        mockUrl.hash = "access_token=faketoken";
-        window.location.href = mockUrl.href;
+      it("will not pass empty facets or filter state to search endpoint", async () => {
+        const state = {
+          ...DEFAULT_STATE,
+          searchTerm: "searchTerm",
+          filters: [],
+          facets: {}
+        };
 
-        await subject(undefined, { results: {} });
-        expect(fetch).toHaveBeenCalledTimes(1);
+        const queryConfig = {
+          filters: [],
+          facets: {}
+        };
+
+        await subject(state, { results: queryConfig });
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+          Object {
+            "page": Object {},
+            "query": "searchTerm",
+          }
+        `);
+      });
+
+      it("will pass request parameter state provided to queryConfig, overriding the same value provided in state", async () => {
+        const state = {
+          ...DEFAULT_STATE,
+          searchTerm: "searchTerm",
+          current: 1,
+          resultsPerPage: 10,
+          sortDirection: "desc" as const,
+          sortField: "name",
+          filters: [
+            {
+              field: "title",
+              type: "all" as const,
+              values: ["Acadia", "Grand Canyon"]
+            },
+            {
+              field: "world_heritage_site",
+              values: ["true"],
+              type: "all" as const
+            }
+          ]
+        };
+
+        const queryConfig = {
+          current: 2,
+          resultsPerPage: 5,
+          sortDirection: "asc" as const,
+          sortField: "title",
+          filters: [
+            {
+              field: "date_made",
+              values: ["yesterday"],
+              type: "all" as const
+            }
+          ]
+        };
+
+        await subject(state, { results: queryConfig });
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+          Object {
+            "filters": Object {
+              "all": Array [
+                Object {
+                  "all": Array [
+                    Object {
+                      "date_made": "yesterday",
+                    },
+                  ],
+                },
+              ],
+            },
+            "page": Object {
+              "current": 2,
+              "size": 5,
+            },
+            "query": "searchTerm",
+            "sort": Object {
+              "title": "asc",
+            },
+          }
+        `);
+      });
+
+      it("will use the beforeSearchCall parameter to amend option parameters to the search endpoint call", async () => {
+        const state = {
+          ...DEFAULT_STATE,
+          current: 2,
+          searchTerm: "searchTerm"
+        };
+
+        const queryConfig = {
+          sortDirection: "desc" as const,
+          sortField: "name",
+          resultsPerPage: 5
+        };
+
+        const beforeAutocompleteResultsCall: SearchQueryHook = (
+          options,
+          next
+        ) => {
+          // Remove sort_direction and sort_field
+          // eslint-disable-next-line no-unused-vars
+          const { sort, ...rest } = options;
+          return next({
+            ...rest,
+            // Add test
+            test: "value"
+          });
+        };
+
+        await subject(
+          state,
+          { results: queryConfig },
+          { beforeAutocompleteResultsCall }
+        );
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(getLastFetchCall().body).toMatchInlineSnapshot(`
+          Object {
+            "page": Object {
+              "size": 5,
+            },
+            "query": "searchTerm",
+            "test": "value",
+          }
+        `);
       });
     });
 
-    describe("Autocomplete Analytics Event", () => {
-      function subject() {
-        const connector = new WorkplaceSearchAPIConnector({
-          ...params
-        });
+    describe("when 'suggestions' type is requested", () => {
+      it("returns an empty state", async () => {
+        const autocompletedState = await subject(
+          { ...DEFAULT_STATE },
+          { suggestions: {} }
+        );
 
-        return connector.onAutocompleteResultClick({
-          documentId: "11111",
-          requestId: "12345",
-          result: exampleResponse.results[0],
-          resultIndex: 4
-        });
-      }
+        expect(autocompletedState).toEqual({});
+      });
+    });
 
-      it("passes documentId and queryId to the autocomplete click endpoint", () => {
-        subject();
-        const { body } = getLastFetchCall();
-        expect(body).toMatchInlineSnapshot(`
+    describe("when 'results' and 'suggestions' type are both requested", () => {
+      it("returns only the results part of the state", async () => {
+        const autocompletedState = await subject(
+          { ...DEFAULT_STATE },
+          { suggestions: {}, results: {} }
+        );
+
+        expect(autocompletedState).toMatchInlineSnapshot(`
           Object {
-            "content_source_id": "621581b6174a804659f9dc16",
-            "document_id": "11111",
-            "event": "search-ui-autocomplete-result-click",
-            "page": 1,
-            "query_id": "12345",
-            "rank": 4,
-            "type": "click",
+            "autocompletedResults": Array [],
+            "autocompletedResultsRequestId": "W6qPJzEBS0eoUnVG4FZTnw",
           }
         `);
+      });
+    });
+
+    describe("when no type is requested", () => {
+      it("returns an empty state", async () => {
+        const autocompletedState = await subject({ ...DEFAULT_STATE }, {});
+
+        expect(autocompletedState).toEqual({});
       });
     });
   });
