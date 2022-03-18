@@ -7,7 +7,25 @@
   "items": [
     {
       "label": "Search UI",
-      "items": [{ "id": "overview" }, { "id": "advanced" }]
+      "items": [
+        { "label": "Overview", "id": "overview" },
+        { "id": "quick-start" },
+        { "id": "advanced" },
+        {
+          "label": "Components",
+          "items": [
+            { "id": "search-box" },
+            { "id": "results" },
+            { "id": "result" },
+            { "id": "results-per-page" },
+            { "id": "facet" },
+            { "id": "sorting" },
+            { "id": "paging" },
+            { "id": "paging-info" },
+            { "id": "error-boundary" }
+          ]
+        }
+      ]
     }
   ]
 }
