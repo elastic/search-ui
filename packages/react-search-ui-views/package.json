@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test-ci": "jest --runInBand",
-    "test": "./bin/test",
+    "test": "jest",
     "clean": "rimraf lib",
     "build-css": "./bin/build-css",
     "watch-css": "./bin/watch-css",
@@ -48,7 +48,7 @@
     "@storybook/react": "^4.1.18",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
-    "chokidar-cli": "^1.2.2",
+    "chokidar-cli": "^3.0.0",
     "core-js": "^3.6.5",
     "core-js-pure": "^3.6.5",
     "node-sass": "^4.12.0",
@@ -58,6 +58,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rimraf": "^2.6.3",
+    "sass": "^1.49.9",
     "typescript": "^4.5.4"
   },
   "dependencies": {

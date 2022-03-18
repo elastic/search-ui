@@ -1,9 +1,7 @@
 # Compile Sass to a temporary location
-node-sass src/ -o .temp/
+sass src/:lib/
 
 # Process compiled SASS to inline imported CSS files and add vendor prefixes
 # Move it to /lib
-postcss .temp/styles/styles.css --use postcss-import autoprefixer -o lib/styles/styles.css
+postcss lib/styles/styles.css --use postcss-import autoprefixer -o lib/styles/styles.css
 
-# Cleanup temp directory
-rimraf .temp
