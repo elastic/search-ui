@@ -108,17 +108,19 @@ function getLastClickCall() {
 }
 
 describe("AppSearchAPIConnector", () => {
-  it("can be initialized", () => {
+  it("can be initialized with hostIdentifier", () => {
     const connector = new AppSearchAPIConnector(params);
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
   });
 
   it("can be initialized with endpointBase", () => {
-    const newParams = { ...params };
-    newParams.hostIdentifier = undefined;
-    newParams.endpointBase = "http://localhost:3001";
+    const params = {
+      engineName: "some-engine",
+      searchKey: "search-XXXXX",
+      endpointBase: "http://localhost:3001"
+    };
 
-    const connector = new AppSearchAPIConnector(newParams);
+    const connector = new AppSearchAPIConnector(params);
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
   });
 
