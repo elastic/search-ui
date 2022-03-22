@@ -6,9 +6,7 @@ import { SearchDriver } from "@elastic/search-ui";
 import { AutocompleteQuery } from "@elastic/search-ui";
 
 function getMockDriver() {
-  const driver = new SearchDriver({
-    apiConnector: null
-  });
+  const driver = new SearchDriver({});
 
   return Object.assign(driver, {
     tearDown: jest.fn(),
@@ -51,7 +49,6 @@ describe("SearchProvider", () => {
       <SearchProvider
         driver={driver}
         config={{
-          apiConnector: null,
           searchQuery: originalSearchQueryConfig
         }}
       >

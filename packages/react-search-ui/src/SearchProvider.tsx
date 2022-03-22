@@ -9,6 +9,7 @@ import {
 import SearchContext from "./SearchContext";
 
 import defaultA11yMessages from "./A11yNotifications";
+import { SearchDriverOptions } from "@elastic/search-ui/lib/esm/SearchDriver";
 
 export interface SearchProviderContextInterface {
   driver: SearchDriver;
@@ -16,14 +17,7 @@ export interface SearchProviderContextInterface {
 
 type SearchProviderProps = {
   children: React.ReactNode;
-  config?: {
-    apiConnector?: APIConnector;
-    searchQuery?: SearchQuery;
-    autocompleteQuery?: AutocompleteQuery;
-    a11yNotificationMessages?: any;
-    initialState?: any;
-    onSearch?: any;
-  };
+  config?: SearchDriverOptions;
   driver?: SearchDriver;
 };
 
@@ -45,7 +39,6 @@ const SearchProvider = ({
     const currentDriver =
       driver ||
       new SearchDriver({
-        apiConnector: null,
         ...config,
         a11yNotificationMessages: {
           ...defaultA11yMessages,

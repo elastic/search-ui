@@ -89,7 +89,7 @@ function removeConditionalFacets(
 }
 
 export type SearchDriverOptions = {
-  apiConnector: APIConnector;
+  apiConnector?: APIConnector;
   autocompleteQuery?: AutocompleteQuery;
   debug?: boolean;
   initialState?: Partial<SearchState>;
@@ -136,7 +136,7 @@ class SearchDriver {
     (expansions?: Record<string, unknown>) => string
   >;
   startingState: SearchState;
-  apiConnector: APIConnector;
+  apiConnector?: APIConnector;
 
   constructor({
     apiConnector,

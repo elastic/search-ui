@@ -8,7 +8,6 @@ describe("WithSearch", () => {
     const wrapper = mount(
       <SearchProvider
         config={{
-          apiConnector: null,
           initialState: {
             searchTerm: "test"
           },
@@ -32,7 +31,6 @@ describe("WithSearch", () => {
       return mount(
         <SearchProvider
           config={{
-            apiConnector: null,
             initialState: {
               resultsPerPage: 90,
               searchTerm: "test"

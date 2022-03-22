@@ -5,9 +5,7 @@ import { SearchContext } from "..";
 import { SearchDriver } from "@elastic/search-ui";
 
 it("Should be a context", () => {
-  const searchDriver = new SearchDriver({
-    apiConnector: null
-  });
+  const searchDriver = new SearchDriver({});
 
   searchDriver.state.searchTerm = "a search term";
 
