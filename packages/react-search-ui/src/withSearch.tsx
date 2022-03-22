@@ -56,7 +56,7 @@ function withSearch<TProps, TContext>(
 
   return function (Component: React.ComponentType<any>) {
     class WithSearch extends React.PureComponent<Omit<TProps, keyof TContext>> {
-      unmounted = false;
+      unmounted = true;
 
       constructor(props, context) {
         super(props);
@@ -67,11 +67,15 @@ function withSearch<TProps, TContext>(
             props
           )
         };
+      }
+
+      componentDidMount() {
+        this.unmounted = false;
 
         // Note that we subscribe to changes at the component level, rather than
         // at the top level Provider, so that we are re-rendering the entire
         // subtree when state changes in the Provider.
-        context.driver.subscribeToStateChanges(this.subscription);
+        this.context.driver.subscribeToStateChanges(this.subscription);
       }
 
       componentWillUnmount() {
