@@ -6,7 +6,7 @@ How to build and contribute to Search UI.
 
 ### Requirements
 
-- Node: ^14
+- Node: ^16.14.1
 - Yarn: ^1.2
 - OS: Unix/Linux or Windows Subsystem for Linux
 

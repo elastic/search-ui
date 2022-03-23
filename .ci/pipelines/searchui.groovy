@@ -12,7 +12,7 @@ eshPipeline(
             type: 'script',
             label: 'Run tests',
             script: {
-                sh "docker run --rm -v `pwd`:/ci -w=/ci node:14.17 npm install && npm run test-ci"
+                sh "docker run --rm -v `pwd`:/ci -w=/ci node:16.14 npm install && npm run test-ci"
             },
             match_on_all_branches: true,
         ]
