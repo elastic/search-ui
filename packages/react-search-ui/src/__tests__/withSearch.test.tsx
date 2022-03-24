@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-focused-tests */
 import React from "react";
 import { mount } from "enzyme";
 
@@ -8,7 +9,6 @@ import { SearchContextState } from "../withSearch";
 
 describe("withSearch", () => {
   let mockDriver: SearchDriver;
-  let callback;
 
   beforeEach(() => {
     mockDriver = new SearchDriver({ apiConnector: null });
@@ -19,23 +19,11 @@ describe("withSearch", () => {
       resultSearchTerm: "another search term"
     };
 
-    jest
-      .spyOn(mockDriver.actions, "setSearchTerm")
-      .mockImplementation(function setSearchTerm(searchTerm) {
-        callback({
-          searchTerm
-        });
-      });
+    jest.spyOn(mockDriver.actions, "setSearchTerm");
 
-    jest
-      .spyOn(mockDriver, "subscribeToStateChanges")
-      .mockImplementation((cb) => {
-        callback = cb;
-      });
+    jest.spyOn(mockDriver, "subscribeToStateChanges");
 
-    jest
-      .spyOn(mockDriver, "unsubscribeToStateChanges")
-      .mockImplementation(() => ({}));
+    jest.spyOn(mockDriver, "unsubscribeToStateChanges");
   });
 
   describe("driver subscription", () => {
@@ -44,34 +32,49 @@ describe("withSearch", () => {
         return <div>{searchTerm}</div>;
       });
 
-      return mount(
+      const wrapper = mount(
         <SearchContext.Provider value={{ driver: mockDriver }}>
           <Component />
         </SearchContext.Provider>
       );
+
+      return {
+        wrapper,
+        Component
+      };
     }
 
     it("will subscribe to state updates", () => {
-      const element = setup((c) => c);
+      const { wrapper } = setup((c) => c);
       mockDriver.getActions().setSearchTerm("New Term");
-      expect(element.text()).toEqual("New Term");
+      expect(wrapper.text()).toEqual("New Term");
     });
 
     it("will maintain action properties on state updates when mapContextToProps parameter is passed", () => {
-      const element = setup(({ searchTerm, setSearchTerm }) => ({
+      const { wrapper } = setup(({ searchTerm, setSearchTerm }) => ({
         searchTerm,
         setSearchTerm
       }));
       mockDriver.getActions().setSearchTerm("New Term");
-      expect(element.text()).toEqual("New Term");
+      expect(wrapper.text()).toEqual("New Term");
     });
 
     it("will unsubsribe on unmount", () => {
-      const element = setup((c) => c);
-      element.unmount();
+      console.error = jest.fn();
+
+      const { wrapper } = setup(({ searchTerm, setSearchTerm }) => ({
+        searchTerm,
+        setSearchTerm
+      }));
+      expect(mockDriver.subscriptions).toHaveLength(1);
+      wrapper.unmount();
       expect(
-        (mockDriver.unsubscribeToStateChanges as jest.Mock).mock.calls.length
-      ).toEqual(1);
+        mockDriver.unsubscribeToStateChanges as jest.Mock
+      ).toHaveBeenCalledTimes(1);
+
+      expect(mockDriver.subscriptions).toHaveLength(0);
+      mockDriver.getActions().setSearchTerm("New Term");
+      expect(console.error).not.toBeCalled();
     });
   });
 
