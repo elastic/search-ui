@@ -9,7 +9,7 @@ import {
 import SearchContext from "./SearchContext";
 
 import defaultA11yMessages from "./A11yNotifications";
-import { SearchDriverOptions } from "@elastic/search-ui/lib/esm/SearchDriver";
+import { SearchDriverOptions } from "@elastic/search-ui";
 
 export interface SearchProviderContextInterface {
   driver: SearchDriver;
