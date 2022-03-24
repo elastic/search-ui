@@ -96,48 +96,48 @@ var listener = app.listen(8080, function () {
 
 next you can add a simple connector which passes the configuration and query from the client to the server.
 
-```
+```js
 class CustomConnector {
-
   constructor(host) {
     this.host = host;
   }
 
   async onSearch(query, options) {
-    const response = await fetch(this.host + '/search', {
-      method: 'POST',
+    const response = await fetch(this.host + "/search", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         query,
         options
       })
-    })
-    return response.json()
+    });
+    return response.json();
   }
 
   async onAutocomplete(query, options) {
-    const response = await fetch(this.host + '/autocomplete', {
-      method: 'POST',
+    const response = await fetch(this.host + "/autocomplete", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         query,
         options
       })
-    })
-    return response.json()
+    });
+    return response.json();
   }
 }
 
-const connector = new CustomConnector("https://my-api-host/")
+const connector = new CustomConnector("https://my-api-host/");
 
 const config = {
   alwaysSearchOnInitialLoad: true,
-  apiConnector: connector,
+  apiConnector: connector
   // ... typical search-ui configuration
-}
-
+};
 ```
+
+Thats it!. You should see the `CustomConnector` executing requests to the server, providing the search state and configuration in the body. The node.js server will use the Elasticsearch connector to perform a search to Elasticsearch and return the results back to the client.
