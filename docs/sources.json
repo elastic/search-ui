@@ -1,0 +1,8 @@
+{
+  "sources": [
+    {
+      "type": "file",
+      "location": "../search-ui"
+    }
+  ]
+}
