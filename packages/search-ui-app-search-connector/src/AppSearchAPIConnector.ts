@@ -8,7 +8,8 @@ import type {
   RequestState,
   SearchState,
   AutocompleteQuery,
-  SuggestionsQueryConfig
+  SuggestionsQueryConfig,
+  APIConnector
 } from "@elastic/search-ui";
 
 interface AppSearchAPIConnectorParamsBase {
@@ -59,7 +60,7 @@ function removeEmptyFacetsAndFilters(options) {
     ...rest
   };
 }
-class AppSearchAPIConnector {
+class AppSearchAPIConnector implements APIConnector {
   /**
    * @callback next
    * @param {Object} updatedQueryOptions The options to send to the API
@@ -87,6 +88,7 @@ class AppSearchAPIConnector {
    */
 
   client: any;
+  state: any = {};
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;

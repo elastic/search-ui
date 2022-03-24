@@ -2,13 +2,22 @@ import React from "react";
 import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
+import { APIConnector } from "@elastic/search-ui";
 
 describe("WithSearch", () => {
+  const mockApiConnector: APIConnector = {
+    onSearch: jest.fn(),
+    onAutocomplete: jest.fn(),
+    onResultClick: jest.fn(),
+    onAutocompleteResultClick: jest.fn(),
+    state: {}
+  };
+
   it("exposes state and actions to components", () => {
     const wrapper = mount(
       <SearchProvider
         config={{
-          apiConnector: null,
+          apiConnector: mockApiConnector,
           initialState: {
             searchTerm: "test"
           },
@@ -32,7 +41,7 @@ describe("WithSearch", () => {
       return mount(
         <SearchProvider
           config={{
-            apiConnector: null,
+            apiConnector: mockApiConnector,
             initialState: {
               resultsPerPage: 90,
               searchTerm: "test"

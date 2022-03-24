@@ -37,7 +37,7 @@ const autocompleteSearchResponse = {
   results: [{}, {}]
 };
 
-export function getMockApiConnector() {
+export function getMockApiConnector(): APIConnector {
   return {
     onAutocomplete: jest.fn().mockReturnValue({
       then: (cb) =>
@@ -49,7 +49,8 @@ export function getMockApiConnector() {
     }),
     onSearch: jest.fn().mockReturnValue({ then: (cb) => cb(searchResponse) }),
     onResultClick: jest.fn().mockReturnValue(Promise.resolve(true)),
-    onAutocompleteResultClick: jest.fn().mockReturnValue(Promise.resolve(true))
+    onAutocompleteResultClick: jest.fn().mockReturnValue(Promise.resolve(true)),
+    state: {}
   };
 }
 
