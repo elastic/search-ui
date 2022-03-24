@@ -7,7 +7,8 @@ import type {
   RequestState,
   SearchState,
   AutocompleteQuery,
-  SuggestionsQueryConfig
+  SuggestionsQueryConfig,
+  APIConnector
 } from "@elastic/search-ui";
 import { INVALID_CREDENTIALS } from "@elastic/search-ui";
 
@@ -69,7 +70,7 @@ function removeInvalidFields(options) {
   };
 }
 
-class WorkplaceSearchAPIConnector {
+class WorkplaceSearchAPIConnector implements APIConnector {
   /**
    * @callback next
    * @param {Object} updatedQueryOptions The options to send to the API

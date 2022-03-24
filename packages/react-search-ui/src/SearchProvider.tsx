@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  APIConnector,
-  AutocompleteQuery,
-  SearchDriver,
-  SearchQuery
-} from "@elastic/search-ui";
+import { SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
 
 import defaultA11yMessages from "./A11yNotifications";
@@ -17,7 +12,7 @@ export interface SearchProviderContextInterface {
 
 type SearchProviderProps = {
   children: React.ReactNode;
-  config?: SearchDriverOptions;
+  config: SearchDriverOptions;
   driver?: SearchDriver;
 };
 
@@ -27,7 +22,7 @@ type SearchProviderProps = {
  */
 const SearchProvider = ({
   children,
-  config = {},
+  config,
   driver
 }: SearchProviderProps): JSX.Element => {
   const [driverInstance, setDriverInstance] = useState<SearchDriver>(null);

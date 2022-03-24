@@ -2,33 +2,39 @@ import React from "react";
 import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
-import { SearchDriver } from "@elastic/search-ui";
+import { APIConnector, SearchDriver } from "@elastic/search-ui";
 import { AutocompleteQuery } from "@elastic/search-ui";
 
-function getMockDriver() {
-  const driver = new SearchDriver({});
+function getMocks() {
+  const mockApiConnector: APIConnector = {
+    onSearch: jest.fn(),
+    onAutocomplete: jest.fn(),
+    onResultClick: jest.fn(),
+    onAutocompleteResultClick: jest.fn(),
+    state: {}
+  };
 
-  return Object.assign(driver, {
+  const driver = new SearchDriver({
+    apiConnector: mockApiConnector
+  });
+
+  const mockedDriver = Object.assign(driver, {
     tearDown: jest.fn(),
     setSearchQuery: jest.fn(),
     setAutocompleteQuery: jest.fn()
   });
+
+  return {
+    apiConnector: mockApiConnector,
+    driver: mockedDriver
+  };
 }
 
 describe("SearchProvider", () => {
-  it("will mount even if no config is provided", () => {
-    const wrapper = mount(
-      <SearchProvider>
-        <div></div>
-      </SearchProvider>
-    );
-    expect(wrapper).toBeDefined();
-  });
-
   it("will clean up searchDriver on unmount", () => {
-    const driver = getMockDriver();
+    const { driver, apiConnector } = getMocks();
     const wrapper = mount(
-      <SearchProvider driver={driver}>
+      <SearchProvider driver={driver} config={{ apiConnector }}>
         <div></div>
       </SearchProvider>
     );
@@ -44,11 +50,12 @@ describe("SearchProvider", () => {
     };
     const updatedSearchQueryConfig = {};
 
-    const driver = getMockDriver();
+    const { driver, apiConnector } = getMocks();
     const wrapper = mount(
       <SearchProvider
         driver={driver}
         config={{
+          apiConnector: apiConnector,
           searchQuery: originalSearchQueryConfig
         }}
       >
@@ -74,11 +81,12 @@ describe("SearchProvider", () => {
     };
     const updatedAutocompleteQueryConfig = {};
 
-    const driver = getMockDriver();
+    const { driver, apiConnector } = getMocks();
     const wrapper = mount(
       <SearchProvider
         driver={driver}
         config={{
+          apiConnector: apiConnector,
           autocompleteQuery: autocompleteQueryConfig
         }}
       >
@@ -102,6 +110,7 @@ describe("SearchProvider", () => {
     const wrapper = mount(
       <SearchProvider
         config={{
+          apiConnector: null,
           initialState: {
             searchTerm: "test"
           },
