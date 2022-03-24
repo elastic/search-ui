@@ -1,0 +1,830 @@
+---
+id: advanced
+slug: /advanced
+title: Advanced
+description: Advanced configuration
+date: 2022-02-27
+tags: ["demo"]
+---
+
+# Headless Core
+
+## Headless Core Concepts
+
+```
+                                    |
+    @elastic/react-search-ui        |   @elastic/search-ui
+                                    |
+                                    |
+          SearchProvider <--------------- SearchDriver
+              |     |               |          |
+   State /    |     |               |          | State /
+   Actions    |     |               |          | Actions
+              |     |               |          |
+        Components  |               |          |
+              |     |               |          |
+              v     v               |          v
+------------------------------------+----------------------------
+              |     |                          |
+              v     v                          v
+          Using     Headless Usage       Headless Usage outside
+     Components     in React             of React
+```
+
+The core is a separate, vanilla JS library which can be used for any JavaScript based implementation.
+
+> [@elastic/search-ui](https://github.com/elastic/search-ui/tree/master/packages/search-ui)
+
+The Headless Core implements the functionality behind a search experience, but without its own view. It provides the underlying "state" and "actions" associated with that view. For instance, the core provides a `setSearchTerm` action, which can be used to save a `searchTerm` property in the state. Calling `setSearchTerm` using the value of an `<input>` will save the `searchTerm` to be used to build a query.
+
+All of the Components in this library use the Headless Core under the hood. For instance, Search UI provides a `SearchBox` Component for collecting input from a user. But you are not restricted to using just that Component. Since Search UI lets you work directly with "state" and "actions", you could use any type of input you want! As long as your input or Component calls the Headless Core's `setSearchTerm` action, it will "just work". This gives you maximum flexibility over your experience if you need more than the Components in Search UI have to offer.
+
+The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI
+and in a React [Context](https://reactjs.org/docs/context.html), and also via a
+[Render Prop](https://reactjs.org/docs/render-props.html).
+
+It looks like this:
+
+```jsx
+<SearchProvider config={config}>
+  <WithSearch>
+    {/*WithSearch exposes the "Context"*/}
+    {(context) => {
+      // Context contains state, like "searchTerm"
+      const searchTerm = context.searchTerm;
+      // Context also contains actions, like "setSearchTerm"
+      const setSearchTerm = context.setSearchTerm;
+      return (
+        <div className="App">
+          {/*An out-of-the-box Component like SearchBox uses State and Actions under the hood*/}
+          <SearchBox />
+          {/*We could work directly with those State and Actions also */}
+          <input value={searchTerm} onChange={setSearchTerm} />
+        </div>
+      );
+    }}
+  </WithSearch>
+</SearchProvider>
+```
+
+## Working with the Headless Core
+
+If you wish to work with Search UI outside of a particular Component, you'll work
+directly with the core.
+
+There are two methods for accessing the headless core directly, `withSearch` and
+`WithSearch`. They use the [HOC](https://reactjs.org/docs/higher-order-components.html) and
+[Render Props](https://reactjs.org/docs/render-props.html) patterns, respectively. The two methods
+are similar, and choosing between the two is mostly personal preference.
+
+Both methods expose a `mapContextToProps` function which allows you to pick which state and actions
+from context you need to work with.
+
+### mapContextToProps
+
+`mapContextToProps` allows you to pick which state and actions
+from Context you need to work with. `withSearch` and `WithSearch` both use [React.PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent),
+and will only re-render when the picked state has changed.
+
+| name    | type   | description         |
+| ------- | ------ | ------------------- |
+| context | Object | The current Context |
+| props   | Object | The current props   |
+
+ex.:
+
+```jsx
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(({ searchTerm, setSearchTerm }) => ({
+  searchTerm,
+  setSearchTerm
+}))(Component);
+
+// Uses current `props` to conditionally modify context
+withSearch(({ searchTerm }, { someProp }) => ({
+  searchTerm: someProp ? "" : searchTerm
+}))(Component);
+```
+
+### withSearch
+
+This is the [HOC](https://reactjs.org/docs/higher-order-components.html) approach to working with the
+core.
+
+This is typically used for creating your own Components.
+
+See <DocLink id="advanced" section="build-your-own-component" text="Build Your Own Component" />.
+
+### WithSearch
+
+This is the [Render Props](https://reactjs.org/docs/render-props.html) approach to working with the core.
+
+One use case for that would be to render a "loading" indicator any time the application is fetching data.
+
+For example:
+
+```jsx
+<SearchProvider config={config}>
+  <WithSearch mapContextToProps={({ isLoading }) => ({ isLoading })}>
+    {({ isLoading }) => (
+      <div className="App">
+        {isLoading && <div>I'm loading now</div>}
+        {!isLoading && (
+          <Layout
+            header={<SearchBox />}
+            bodyContent={<Results titleField="title" urlField="nps_link" />}
+          />
+        )}
+      </div>
+    )}
+  </WithSearch>
+</SearchProvider>
+```
+
+### Combining Actions
+
+There are certain cases where you may need to apply one or more actions at a time. Search UI intelligently
+batches actions into a single API call.
+
+For example, if you need to apply two filters at once, it is perfectly acceptable to write the following code:
+
+```js
+addFilter("states", "Alaska", "any");
+addFilter("world_heritage_site", "true");
+```
+
+This will only result in a single API call.
+
+## Headless Core Reference
+
+### SearchProvider
+
+The `SearchProvider` is a top-level Component which is essentially a wrapper around the core.
+
+It exposes the <DocLink id="advanced" section="state" text="State" /> and <DocLink id="advanced" section="actions" text="Actions" /> of the core in a <DocLink id="advanced" section="context" text="Context" />.
+
+Params:
+
+| name     | type       | description                                                                                               |
+| -------- | ---------- | --------------------------------------------------------------------------------------------------------- |
+| config   | Object     | See the <DocLink id="advanced" section="advanced-configuration" text="Advanced Configuration" /> section. |
+| children | React Node |                                                                                                           |
+
+### Context
+
+The "Context" is a flattened object containing, as keys, all <DocLink id="advanced" section="state" text="State" /> and <DocLink id="advanced" section="actions" text="Actions" />.
+
+We refer to it as "Context" because it is implemented with a [React Context](https://reactjs.org/docs/context.html).
+
+ex.
+
+```js
+{
+  resultsPerPage: 10, // Request State
+  setResultsPerPage: () => {}, // Action
+  current: 1, // Request State
+  setCurrent: () => {}, // Action
+  error: '', // Response State
+  isLoading: false, // Response State
+  totalResults: 1000, // Response State
+  ...
+}
+```
+
+### Actions
+
+| method              | description                                                                                                                                                                      |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `addFilter`         | Add a filter in addition to current filters values.                                                                                                                              |
+| `setFilter`         | Set a filter value, replacing current filter values.                                                                                                                             |
+| `removeFilter`      | Removes filters or filter values.                                                                                                                                                |
+| `reset`             | Reset state to initial search state.                                                                                                                                             |
+| `clearFilters`      | Clear all filters.                                                                                                                                                               |
+| `setCurrent`        | Update the current page number. Used for paging.                                                                                                                                 |
+| `setResultsPerPage` |                                                                                                                                                                                  |
+| `setSearchTerm`     |                                                                                                                                                                                  |
+| `setSort`           |                                                                                                                                                                                  |
+| `trackClickThrough` | Report a clickthrough event, which is when a user clicks on a result link.                                                                                                       |
+| `a11yNotify`        | Reads out a screen reader accessible notification. See `a11yNotificationMessages` under <DocLink id="advanced" section="advanced-configuration" text="Advanced Configuration" /> |
+
+### State
+
+State can be divided up into a few different types.
+
+1. Request State - State that is used as parameters on Search API calls.
+2. Result State - State that represents a response from a Search API call.
+3. Application State - The general state.
+
+Request State and Result State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
+`searchTerm` is the current search term in the UI, and `resultSearchTerm` is the term associated with the current
+`results`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER
+a response is received, so you'd use the `resultSearchTerm` state.
+
+#### Request State
+
+State that is used as parameters on Search API calls.
+
+Request state can be set by:
+
+- Using actions, like `setSearchTerm`
+- The `initialState` option.
+- The URL query string, if `trackUrlState` is enabled.
+
+| option                                             | Description                              |
+| -------------------------------------------------- | ---------------------------------------- |
+| `current`                                          | Current page number                      |
+| `filters`                                          |                                          |
+| `resultsPerPage`                                   |                                          |
+| `searchTerm`                                       | Search terms to search for               |
+| `sort`                                             | List of fields and directions to sort on |
+| `sortDirection` **deprecated, use `sort` instead** | Direction to sort                        |
+| `sortField` **deprecated, use `sort` instead**     | Name of field to sort on                 |
+
+#### Response State
+
+State that represents a response from a Search API call.
+
+It is not directly update-able.
+
+It is updated indirectly by invoking an action which results in a new API request.
+
+| field                               | description                                                                                                                                                                                                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`              | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedResultsRequestId`     | A unique ID for the current autocompleted search results.                                                                                                                                                                                                                 |
+| `autocompletedSuggestions`          | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `autocompletedSuggestionsRequestId` | A unique ID for the current autocompleted suggestion results.                                                                                                                                                                                                             |
+| `facets`                            | Will be populated if `facets` configured in <DocLink id="advanced" section="advanced-configuration" text="Advanced Configuration" />.                                                                                                                                     |
+| `rawResponse`                       | The response object received from the API                                                                                                                                                                                                                                 |
+| `requestId`                         | A unique ID for the current search results.                                                                                                                                                                                                                               |
+| `results`                           | An array of result items.                                                                                                                                                                                                                                                 |
+| `resultSearchTerm`                  | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`                      | Total number of results found for the current query.                                                                                                                                                                                                                      |
+
+#### Application State
+
+Application state is the general application state.
+
+| field         | description                                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `error`       | Error message, if an error was thrown.                                                                             |
+| `isLoading`   | Whether or not a search is currently being performed.                                                              |
+| `wasSearched` | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
+
+# Customization
+
+## Custom Styles and Layout
+
+Styling is up to you.
+
+You can choose use the out of the box styles, or customize them.
+
+To provide custom styles:
+
+1. Write your own styles that target the class names in the individual Components. Do **NOT** include `styles.css`.
+2. Override the default styles. Include `styles.css`, and then overwrite with your own styles.
+
+For layout, provide your own layout instead of using the `Layout` Component.
+
+For views and HTML, see the next section.
+
+## Component Views and HTML
+
+All Components in this library can be customized by providing a `view` prop.
+
+Each Component's `view` will have a custom signature.
+
+This follows the [React Render Props](https://reactjs.org/docs/render-props.html) pattern.
+
+The clearest way to determine a Component's `view` function signature is to
+look at the corresponding view Component's source code in
+[react-search-ui-views](https://github.com/elastic/search-ui/tree/master/packages/react-search-ui-views). Each Component in that
+library implements a `view` function for a Component in the React library, so it
+serves as a great reference.
+
+For example, if we were to customize the `PagingInfo` Component...
+
+We'd look up the default view from the <DocLink id="advanced" section="component-reference" text="Components Reference" /> section for the `PagingInfo` Component.
+
+The corresponding view is [PagingInfo](https://github.com/elastic/search-ui/tree/master/packages/react-search-ui-views/src/PagingInfo.tsx) -- see how the naming matches up?
+
+After viewing that Component's source, you'll see it accepts 4 props:
+
+1. `end`
+2. `searchTerm`
+3. `start`
+4. `totalResults`
+
+In our case, we care about the `start` and `end` values.
+
+We provide a view function that uses those two props:
+
+```jsx
+<PagingInfo
+  view={({ start, end }) => (
+    <div className="paging-info">
+      <strong>
+        {start} - {end}
+      </strong>
+    </div>
+  )}
+/>
+```
+
+We could also accomplish this with a functional Component:
+
+```jsx
+const PagingInfoView = ({ start, end }) => (
+  <div className="paging-info">
+    <strong>
+      {start} - {end}
+    </strong>
+  </div>
+);
+
+return <PagingInfo view={PagingInfoView} />;
+```
+
+## Component Behavior
+
+**It will be helpful to read the <DocLink id="advanced" section="headless-core" text="Headless Core" /> section first.**
+
+We have two primary recommendations for customizing Component behavior:
+
+1. Override state and action props before they are passed to your Component, using the `mapContextToProps` param. This
+   will override the default `mapContextToProps` for the component.
+2. Override props before they are passed to your Component's view.
+
+### Override mapContextToProps
+
+Every Component supports a `mapContextToProps` prop, which allows you to modify state and actions
+before they are received by the Component.
+
+**NOTE** This MUST be an immutable function. If you directly update the props or context, you will have major issues in your application.
+
+A practical example might be putting a custom sort on your facet data.
+
+This example orders a list of states by name:
+
+```jsx
+<Facet
+  mapContextToProps={(context) => {
+    if (!context.facets.states) return context;
+    return {
+      ...context,
+      facets: {
+        ...(context.facets || {}),
+        states: context.facets.states.map((s) => ({
+          ...s,
+          data: s.data.sort((a, b) => {
+            if (a.value > b.value) return 1;
+            if (a.value < b.value) return -1;
+            return 0;
+          })
+        }))
+      }
+    };
+  }}
+  field="states"
+  label="States"
+  show={10}
+/>
+```
+
+### Overriding view props
+
+An example of this is modifying the `onChange` handler of the `Paging` Component
+view. Hypothetically, you may need to know every time a user
+pages past page 1, indicating that they are not finding what they need on the first page
+of search results.
+
+```jsx
+import { Paging } from "@elastic/react-search-ui";
+import { Paging as PagingView } from "@elastic/react-search-ui-views";
+
+function reportChange(value) {
+  // Some logic to report the change
+}
+
+<Paging
+  view={(props) =>
+    PagingView({
+      ...props,
+      onChange: (value) => {
+        reportChange(value);
+        return props.onChange(value);
+      }
+    })
+  }
+/>;
+```
+
+In this example, we did the following:
+
+1. Looked up what the default view is for our Component in the
+   <DocLink
+     id="advanced"
+     section="component-reference"
+     text="Component Reference"
+   /> guide.
+2. Imported that view as `PagingView`.
+3. Passed an explicit `view` to our `Paging` Component, overriding
+   the `onChange` prop with our own implementation, and ultimately rendering
+   `PagingView` with the updated props.
+
+# Advanced Configuration
+
+All configuration for Search UI is provided in a single configuration object.
+
+```jsx
+const configurationOptions = {
+  apiConnector: connector,
+  searchQuery: {
+    disjunctiveFacets: ["acres"],
+    disjunctiveFacetsAnalyticsTags: ["Ignore"],
+    search_fields: {
+      title: {},
+      description: {}
+    },
+    result_fields: {
+      title: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
+      },
+      nps_link: {
+        raw: {}
+      },
+      description: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
+      }
+    },
+    facets: {
+      states: { type: "value", size: 30 },
+      acres: {
+        type: "range",
+        ranges: [
+          { from: -1, name: "Any" },
+          { from: 0, to: 1000, name: "Small" },
+          { from: 1001, to: 100000, name: "Medium" },
+          { from: 100001, name: "Large" }
+        ]
+      }
+    }
+  },
+  hasA11yNotifications: true,
+  a11yNotificationMessages: {
+    searchResults: ({ start, end, totalResults, searchTerm }) =>
+      `Searching for "${searchTerm}". Showing ${start} to ${end} results out of ${totalResults}.`
+  },
+  alwaysSearchOnInitialLoad: true
+};
+
+return (
+  <SearchProvider config={configurationOptions}>
+    {() => (
+      <div className="App">
+        <Layout
+          header={<SearchBox />}
+          bodyContent={<Results titleField="title" urlField="nps_link" />}
+        />
+      </div>
+    )}
+  </SearchProvider>
+);
+```
+
+**It is helpful to <DocLink id="advanced" section="headless-core" text="read the section on the headless core" /> first!**
+
+| option                      | description                                                                                                                                                                                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiConnector`              | Instance of a Connector. For instance, [search-ui-app-search-connector](https://github.com/elastic/search-ui/tree/master/packages/search-ui-app-search-connector).                                                                                                            |
+| `onSearch`                  | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See <DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers" /> for more information. |
+| `onAutocomplete`            | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See <DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers" /> for more information. |
+| `onResultClick`             | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See <DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers" /> for more information. |
+| `onAutocompleteResultClick` | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See <DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers" /> for more information. |
+| `autocompleteQuery`         | Configuration options for the main search query.                                                                                                                                                                             |
+|                             | Configuration options for results query, used by autocomplete.                                                                                                                                                               |
+|                             | Configuration options for suggestions query, used by autocomplete.                                                                                                                                                           |
+| `debug`                     | Trace log actions and state changes.                                                                                                                                                                                         |
+| `initialState`              | Set initial <DocLink id="advanced" section="state" text="State" /> of the search. Any <DocLink id="advanced" section="request-state" text="Request State" /> can be set here. This is useful for defaulting a search term, sort, etc.<br/><br/>Example:<br/>`{ searchTerm: "test", resultsPerPage: 40 }`   |
+| `searchQuery`               | Configuration options for the main search query.                                                                                                                                                                             |
+| `trackUrlState`             | By default, <DocLink id="advanced" section="request-state" text="Request State" /> will be synced with the browser url. To turn this off, pass `false`.                                                                                                             |
+| `urlPushDebounceLength`     | The amount of time in milliseconds to debounce/delay updating the browser url after the UI update. This, for example, prevents excessive history entries while a user is still typing in a live search box.                  |
+| `hasA11yNotifications`      | Search UI will create a visually hidden live region to announce search results & other actions to screen reader users. This accessibility feature will be turned on by default in our 2.0 release.                           |
+| `a11yNotificationMessages`  | You can override our default screen reader [messages](https://github.com/elastic/search-ui/tree/master/packages/search-ui/src/A11yNotifications.ts#L50) (e.g. for localization), or create your own custom notification, by passing in your own key and message function(s).  |
+| `alwaysSearchOnInitialLoad` | If true, Search UI will always do an initial search, even when no inital Request State is set.                                                                                                                               |
+
+## Query Config
+
+Query configuration for Search UI largely follows the same API as the [App Search Search API](https://www.elastic.co/guide/en/app-search/current/search.html).
+
+For example, if you add a `search_fields` configuration option, it will control which fields are actually returned from the API.
+
+| option                             | description                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `facets`                           | [App Search Facets API Reference](https://www.elastic.co/guide/en/app-search/current/facets.html). Tells Search UI to fetch facet data that can be used to build <DocLink id="advanced" section="facet" text="Facet" /> Components. <br /><br />Example, using `states` field for faceting:<br/>`facets: {states: { type: "value", size: 30 }`                                                                                 |
+| `disjunctiveFacets`                | An array of field names. Every field listed here must have been configured in the `facets` field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied. <br /><br />Example, specifying `states` field as disjunctive:<br/>`disjunctiveFacets: ['states']`               |
+| `disjunctiveFacetsAnalyticsTags`   | Used in conjunction with the `disjunctiveFacets` parameter. Adding `disjunctiveFacets` can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these. <br /><br />Example, use `junk` as a tag on all disjunctive API calls:<br/>`disjunctiveFacetsAnalyticsTags: ['junk']` |
+| `conditionalFacets`                | This facet will only be fetched if the condition specified returns `true`, based on the currently applied filters. This is useful for creating hierarchical facets.<br/><br/>Example: don't return `states` facet data unless `parks` is a selected filter.<br/> `{ states: filters => isParkSelected(filters) }`                                                                                                              |
+| `search_fields`                    | Fields which should be searched with search term.<br/><br/>[App Search search_fields API Reference](https://www.elastic.co/guide/en/app-search/current/search-fields-weights.html)                                                                                                                                                                                                                                                    |
+| `result_fields`                    | Fields which should be returned in results.<br/><br/>[App Search result_fields API Reference](https://www.elastic.co/guide/en/app-search/current/result-fields-highlights.html)                                                                                                                                                                                                                                                |
+| \* <DocLink id="advanced" section="request-state" text="Request State" /> | Any request state value can be provided here. If provided, it will ALWAYS override the value from state.                                                                                                                                                                                                                                                                                                                       |
+
+## Global filters
+
+Using Query Config, it is possible to create "Global" filters. "Global filters" are filters that are added to _every_ query. The user has no control over whether or not this filter is added or removed, it doesn't show up in the query string, and is completely transparent to the user. It is applied IN ADDITION to filters which the user applies.
+
+```jsx
+<SearchProvider config={{
+    searchQuery: {
+      filters: [{ field: "world_heritage_site", values: ["true"] }],
+    }}>
+</SearchProvider>
+```
+
+## Suggestions Query Config
+
+Suggestions Query configuration for Search UI largely follows the same API as the [App Search Search API](https://www.elastic.co/guide/en/app-search/current/query-suggestion.html).
+
+Ex.
+
+```json
+{
+  "types": {
+    "documents": {
+      "fields": ["title", "states"]
+    }
+  },
+  "size": 4
+}
+```
+
+| option  | type    | required? | source                                                                                       |
+| ------- | ------- | --------- | -------------------------------------------------------------------------------------------- |
+| `types` | Object  | required  | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
+| `size`  | Integer | optional  | Number of suggestions to return.                                                             |
+
+## API Config
+
+Search UI makes all of the search API calls for your application.
+
+You can control what these API calls look like with options such as `search_fields`, `result_fields`, and `facets`.
+
+But there may be cases where certain API operations are not supported by Search UI.
+
+For example, [App Search](https://www.elastic.co/cloud/app-search-service) supports a "grouping" feature, which Search UI does not support out of the box.
+
+We can work around that by using the `beforeSearchCall` hook on the App Search Connector. This acts as a middleware
+that gives you an opportunity to modify API requests and responses before they are made.
+
+```js
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
+  hostIdentifier: "host-2376rb",
+  beforeSearchCall: (existingSearchOptions, next) =>
+    next({
+      ...existingSearchOptions,
+      group: { field: "title" }
+    })
+});
+```
+
+# Build Your Own Component
+
+**Learn about the <DocLink id="advanced" section="headless-core" text="Headless Core" /> concepts first!**
+
+---
+
+We provide a variety of Components out of the box.
+
+There might be cases where we do not have the Component you need.
+
+In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
+called [withSearch](https://github.com/elastic/search-ui/tree/master/packages/react-search-ui/src/withSearch.tsx).
+
+It gives you access to work directly with Search UI's <DocLink id="advanced" section="headless-core" text="Headless Core" />.
+
+This lets you create your own Components for Search UI.
+
+Ex. Creating a Component for clearing all filters
+
+```jsx
+import React from "react";
+import { withSearch } from "@elastic/react-search-ui";
+
+function ClearFilters({ filters, clearFilters }) {
+  return (
+    <div>
+      <button onClick={() => clearFilters()}>
+        Clear {filters.length} Filters
+      </button>
+    </div>
+  );
+}
+
+export default withSearch(({ filters, clearFilters }) => ({
+  filters,
+  clearFilters
+}))(ClearFilters);
+```
+
+Note that `withSearch` accepts a `mapContextToProps` function as the first parameter. Read more about that
+in the `mapContextToProps` section.
+
+Also note that all components created with `withSearch` will be Pure Components. Read more
+about that <DocLink id="advanced" section="performance" text="here" />.
+
+# Connectors and Handlers
+
+**Learn about the <DocLink id="advanced" section="headless-core" text="Headless Core" /> concepts first!**
+
+---
+
+Search UI exposes a number of event hooks which need handlers to be implemented in order for Search UI
+to function properly.
+
+The easiest way to provide handlers for these events is via an out-of-the-box "Connector", which
+provides pre-built handlers, which can then be configured for your particular use case.
+
+While we do provide out-of-the-box Connectors, it is also possible to implement these handlers directly,
+override Connector methods, or provide "middleware" to Connectors in order to further customize
+how Search UI interacts with your services.
+
+#### Event Handlers
+
+| method                      | description                                                                                                                                         |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onResultClick`             | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                             | The query used to generate the current results.                                                                                                     |
+|                             | The id of the result that a user clicked.                                                                                                           |
+|                             | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | Tags used for analytics.                                                                                                                            |
+| `onSearch`                  |                                                                                                                                                     |
+|                             |                                                                                                                                                     |
+| `onAutocompleteResultClick` | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                             | The query used to generate the current results.                                                                                                     |
+|                             | The id of the result that a user clicked.                                                                                                           |
+|                             | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | Tags used for analytics.                                                                                                                            |
+| `onAutocomplete`            |                                                                                                                                                     |
+|                             |                                                                                                                                                     |
+|                             | If this is set, results should be returned for autocomplete.                                                                                        |
+|                             | If this is set, query suggestions should be returned for autocomplete.                                                                              |
+
+### Implementing Handlers without a Connector
+
+If you are using an API for search that there is no Connector for, it is possible to simply provide
+handler implementations directly on the `SearchProvider`.
+
+```jsx
+<SearchProvider
+  config={{
+    onSearch: async (state) => {
+      const queryForOtherService = transformSearchUIStateToQuery(state);
+      const otherServiceResponse = await callSomeOtherService(
+        queryForOtherService
+      );
+      return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
+    }
+  }}
+/>
+```
+
+This makes Search UI useful for services like `elasticsearch` which do not have a Connector
+available.
+
+For a thorough example of this, see the demo in [examples/elasticsearch](https://github.com/elastic/search-ui/tree/master/examples/elasticsearch/README.md)
+
+### Overriding Connector Handlers
+
+Explicitly providing a Handler will override the Handler provided by the Connector.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: async (state, queryConfig) => {
+      const queryForOtherService = transformSearchUIStateToQuery(
+        state,
+        queryConfig
+      );
+      const otherServiceResponse = await callSomeOtherService(
+        queryForOtherService
+      );
+      return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
+    }
+  }}
+/>
+```
+
+### Using middleware in Connector Handlers
+
+Handler implementations can also be used as middleware for Connectors by leveraging
+the `next` function.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: (state, queryConfig, next) => {
+      const updatedState = someStateTransformation(state);
+      return next(updatedState, queryConfig);
+    }
+  }}
+/>
+```
+
+### Build your own Connector
+
+An example of a connector is the [Site Search API Connector](https://github.com/elastic/search-ui/tree/master/packages/search-ui-site-search-connector/README.md) .
+
+A connector simply needs to implement the Event Handlers listed above. The handlers typically:
+
+1. Convert the current <DocLink id="advanced" section="request-state" text="Request State" /> and <DocLink id="advanced" section="query-config" text="Query Config" /> into the search semantics of
+   your particular Search API.
+2. Convert the response from your particular Search API into <DocLink id="advanced" section="response-state" text="Response State" />.
+
+While some handlers are meant for fetching data and performing searches, other handlers are meant for recording
+certain user events in analytics services, such as `onResultClick` or `onAutocompleteResultClick`.
+
+#### Errors
+
+For error handling, a method must throw any error with a "message" field populated for any unrecoverable error. This
+includes things like 404s, 500s, etc.
+
+# Performance
+
+This library is optimized to avoid full sub-tree re-rendering, and so that components only re-render when state changes
+that are relevant to those particular components occur.
+
+In order to accomplish this, all components within
+this library are "Pure Components". You can read more about the concept and potential pitfalls
+of Pure Components in the React
+[Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html#avoid-reconciliation) guide.
+
+The thing to be most cautious of is not to
+[mutate state](https://reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data) that you will
+pass as props to any of these components.
+
+Example of what not to do:
+
+```jsx
+class SomeComponent extends React.Component {
+  changeSorting = () => {
+    const { options } = this.state;
+    // Mutating an existing array in state rather than creating a new one is bad. Since Sorting component is "Pure"
+    // it won't update after calling `setState` here.
+    options.push("newOption");
+    this.setState({ options });
+  };
+
+  render() {
+    const { options } = this.state;
+    return <Sorting options={options} />;
+  }
+}
+```
+
+Instead, do:
+
+```jsx
+// Create a new options array and copy the old values into that new array.
+this.setState((prevState) => ({
+  options: [...prevState.options, "newOption"]
+}));
+```
+
+If you ever need to debug performance related issues, see the instructions in the Optimizing Performance guide for
+enabling the "Highlight Updates" feature in the
+[React Developer tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi).
+
+# Debugging
+
+There is a `debug` flag available on the configuration for `SearchDriver` and `SearchProvider`.
+
+```jsx
+<SearchProvider config={
+  debug: true
+  //...
+}>
+```
+
+Setting this to `true` will make the `searchUI` object available globally on window. This will allow you to
+programmatically execute actions in the browser console which can be helpful for debugging.
+
+```js
+window.searchUI.addFilter("states", "California", "all");
+```
+
+This will also log actions and state updates as they occur to the console in the following form:
+
+```
+Search UI: Action {Action Name} {Action Parameters}
+Search UI: State Update {State to update} {Full State after update}
+```
