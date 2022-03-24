@@ -31,7 +31,7 @@ search experience up and running in minutes.
 - **Flexible front-end** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
 - **Flexible back-end** - Not just for Elastic App Search. Use with any backend.
 
-<img src="packages/react-search-ui/resources/screenshot.png" width="600">
+<img src="docs/search-ui/images/screenshot.png" width="600">
 
 ### Live Demo
 
