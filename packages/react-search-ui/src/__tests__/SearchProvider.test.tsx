@@ -107,10 +107,12 @@ describe("SearchProvider", () => {
   });
 
   it("exposes state and actions to components", () => {
+    const { apiConnector } = getMocks();
+
     const wrapper = mount(
       <SearchProvider
         config={{
-          apiConnector: null,
+          apiConnector: apiConnector,
           initialState: {
             searchTerm: "test"
           },
