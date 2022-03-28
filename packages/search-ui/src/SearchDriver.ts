@@ -136,7 +136,7 @@ class SearchDriver {
     (expansions?: Record<string, unknown>) => string
   >;
   startingState: SearchState;
-  apiConnector: APIConnector;
+  apiConnector?: APIConnector;
 
   constructor({
     apiConnector,

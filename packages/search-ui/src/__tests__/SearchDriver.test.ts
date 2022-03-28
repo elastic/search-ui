@@ -24,18 +24,18 @@ const params = {
 };
 
 function getSearchCalls(specificMockApiConnector = mockApiConnector) {
-  return specificMockApiConnector.onSearch.mock.calls;
+  return (specificMockApiConnector.onSearch as jest.Mock).mock.calls;
 }
 
 function getAutocompleteCalls(specificMockApiConnector = mockApiConnector) {
-  return specificMockApiConnector.onAutocomplete.mock.calls;
+  return (specificMockApiConnector.onAutocomplete as jest.Mock).mock.calls;
 }
 
 beforeEach(() => {
-  mockApiConnector.onAutocomplete.mockClear();
-  mockApiConnector.onSearch.mockClear();
-  mockApiConnector.onResultClick.mockClear();
-  mockApiConnector.onAutocompleteResultClick.mockClear();
+  (mockApiConnector.onAutocomplete as jest.Mock).mockClear();
+  (mockApiConnector.onSearch as jest.Mock).mockClear();
+  (mockApiConnector.onResultClick as jest.Mock).mockClear();
+  (mockApiConnector.onAutocompleteResultClick as jest.Mock).mockClear();
 });
 
 it("can be initialized", () => {

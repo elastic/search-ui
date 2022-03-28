@@ -3,7 +3,8 @@ import type {
   RequestState,
   AutocompleteQuery,
   ResponseState,
-  AutocompleteResponseState
+  AutocompleteResponseState,
+  APIConnector
 } from "@elastic/search-ui";
 
 import handleSearchRequest from "./handlers/search";
@@ -19,7 +20,9 @@ type SearchConfiguration = {
   queryFields: string[];
 };
 
-class APIConnector {
+class ElasticsearchAPIConnector implements APIConnector {
+  state = {};
+
   constructor(
     private config: ConnectionOptions,
     private searchConfig: SearchConfiguration
@@ -66,4 +69,4 @@ class APIConnector {
   }
 }
 
-export default APIConnector;
+export default ElasticsearchAPIConnector;
