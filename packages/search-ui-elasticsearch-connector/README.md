@@ -13,13 +13,18 @@ npm install --save @elastic/search-ui-elasticsearch-connector
 ```js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-const connector = new ElasticsearchAPIConnector({
-  host: "http://localhost:9200", // host url for the elasticsearch instance
-  index: "search-ui-examples", // index name where the search documents are contained
-  apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-  // This key will be visible to everyone so ensure its setup with restricted privileges.
-  // See Authentication section for more details.
-});
+const connector = new ElasticsearchAPIConnector(
+  {
+    host: "http://localhost:9200", // host url for the elasticsearch instance
+    index: "search-ui-examples", // index name where the search documents are contained
+    apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+    // This key will be visible to everyone so ensure its setup with restricted privileges.
+    // See Authentication section for more details.
+  },
+  {
+    queryFields: ["title", "description"]
+  }
+);
 ```
 
 ## ElasticsearchAPIConnector
@@ -28,9 +33,10 @@ const connector = new ElasticsearchAPIConnector({
 
 ### new ElasticsearchAPIConnector(options)
 
-| Param   | Type                             |
-| ------- | -------------------------------- |
-| options | [<code>Options</code>](#Options) |
+| Param         | Type                                    |
+| ------------- | --------------------------------------- |
+| options       | [<code>Options</code>](#Options)        |
+| searchOptions | [<code>Options</code>](#Search Options) |
 
 ## Options
 
@@ -41,6 +47,14 @@ const connector = new ElasticsearchAPIConnector({
 | host   | <code>string</code> |         | Url for elasticsearch instance. Can also be found in your cloud dashboard.                                                                     |
 | index  | <code>string</code> |         | Index name for where the search documents are contained in                                                                                     |
 | apiKey | <code>string</code> |         | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
+
+## Search Options
+
+**Kind**: global typedef
+
+| Param       | Type                  | Default | Description                          |
+| ----------- | --------------------- | ------- | ------------------------------------ |
+| queryFields | <code>[string]</code> |         | String Array of fields to search on. |
 
 ## Connection & Authentication
 
