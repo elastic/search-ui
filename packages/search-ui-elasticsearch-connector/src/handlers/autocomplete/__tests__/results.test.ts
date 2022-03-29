@@ -1,4 +1,4 @@
-import { AutocompleteQuery, RequestState } from "@elastic/search-ui";
+import { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
 import { SearchkitResponse } from "@searchkit/sdk";
 import handleRequest from "../index";
 
@@ -52,7 +52,7 @@ describe("Autocomplete results", () => {
     const state: RequestState = {
       searchTerm: "test"
     };
-    const queryConfig: AutocompleteQuery = {
+    const queryConfig: AutocompleteQueryConfig = {
       results: {
         resultsPerPage: 5,
         result_fields: {

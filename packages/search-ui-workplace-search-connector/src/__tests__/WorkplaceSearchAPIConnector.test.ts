@@ -7,7 +7,8 @@ import type {
 import type {
   QueryConfig,
   SearchState,
-  AutocompleteQuery
+  AutocompleteQueryConfig,
+  AutocompleteSearchQuery
 } from "@elastic/search-ui";
 import { DEFAULT_STATE } from "@elastic/search-ui";
 import exampleResponse from "./exampleResponse.json";
@@ -88,8 +89,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
   describe("onAutocomplete", () => {
     function subject(
-      state: SearchState = { ...DEFAULT_STATE },
-      queryConfig: AutocompleteQuery = {},
+      state: AutocompleteSearchQuery = { searchTerm: "searchTerm" },
+      queryConfig: AutocompleteQueryConfig = {},
       {
         beforeAutocompleteResultsCall,
         beforeAutocompleteSuggestionsCall
@@ -98,7 +99,7 @@ describe("WorkplaceSearchAPIConnector", () => {
         beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
       } = {}
     ) {
-      if (!state.searchTerm) state.searchTerm = "searchTerm";
+      if (!state || !!state.searchTerm) state.searchTerm = "searchTerm";
 
       const connector = new WorkplaceSearchAPIConnector({
         ...params,
@@ -111,14 +112,16 @@ describe("WorkplaceSearchAPIConnector", () => {
 
     describe("when 'results' type is requested", () => {
       it("will issue a request even if there is no accessToken in localstorage or in url", async () => {
-        subject({ ...DEFAULT_STATE }, { results: {} });
+        subject(undefined, {
+          results: {}
+        });
         expect(fetch).toHaveBeenCalledTimes(1);
       });
 
       it("will issue a request if access token is in the localstorage", async () => {
         localStorage.setItem("SearchUIWorkplaceSearchAccessToken", "faketoken");
 
-        await subject({ ...DEFAULT_STATE }, { results: {} });
+        await subject(undefined, { results: {} });
         expect(fetch).toHaveBeenCalledTimes(1);
       });
 
@@ -127,7 +130,7 @@ describe("WorkplaceSearchAPIConnector", () => {
         mockUrl.hash = "access_token=faketoken";
         window.location.href = mockUrl.href;
 
-        await subject({ ...DEFAULT_STATE }, { results: {} });
+        await subject(undefined, { results: {} });
         expect(fetch).toHaveBeenCalledTimes(1);
       });
     });

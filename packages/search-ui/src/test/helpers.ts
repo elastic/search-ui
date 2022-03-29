@@ -1,5 +1,5 @@
 import SearchDriver, { SearchDriverOptions } from "../SearchDriver";
-import { APIConnector, Filter, SearchState } from "../types";
+import { APIConnector, Filter, SearchState, ResponseState } from "../types";
 
 export type SubjectArguments = {
   initialState?: Partial<SearchState>;
@@ -24,12 +24,17 @@ const suggestions = {
   ]
 };
 
-const searchResponse = {
+export const searchResponse: ResponseState = {
   totalResults: 1000,
   totalPages: 100,
   requestId: "12345",
   facets: {},
-  results: [{}, {}]
+  results: [{}, {}],
+  resultSearchTerm: "test",
+  pagingStart: 21,
+  pagingEnd: 40,
+  wasSearched: true,
+  rawResponse: {}
 };
 
 const autocompleteSearchResponse = {

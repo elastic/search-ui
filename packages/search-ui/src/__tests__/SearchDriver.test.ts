@@ -1,10 +1,17 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
-import { Filter, SearchQuery, SearchState } from "../types";
+import {
+  Filter,
+  SearchQuery,
+  SearchState,
+  QueryConfig,
+  AutocompleteQueryConfig
+} from "../types";
 import {
   doesStateHaveResponseData,
   setupDriver,
   getMockApiConnector,
-  waitATick
+  waitATick,
+  searchResponse
 } from "../test/helpers";
 
 // We mock this so no state is actually written to the URL
@@ -39,7 +46,10 @@ beforeEach(() => {
 });
 
 it("can be initialized", () => {
-  const driver = new SearchDriver(params);
+  const driver = new SearchDriver({
+    ...params,
+    onSearch: (test, test2) => Promise.resolve(searchResponse)
+  });
   expect(driver).toBeInstanceOf(SearchDriver);
 });
 
@@ -765,5 +775,58 @@ describe("Request sequencing", () => {
 
     // If the autocomplete request had interfered with the search request, then this would be false
     expect(latestRequestId).toBe(FIRST_SEARCH_REQUEST_ID);
+  });
+
+  describe("SearchDriver hooks", () => {
+    it("onSearch Hook", () => {
+      const onSearchMock = jest
+        .fn()
+        .mockImplementation(
+          async (query: SearchState, searchConfig: QueryConfig, next) => {
+            expect(query).toBeDefined();
+            expect(query.searchTerm).toBe("hello");
+            expect(searchConfig).toBeDefined();
+            expect(searchConfig.facets).toEqual({});
+            expect(typeof next).toBe("function");
+            const x = await next();
+            return x;
+          }
+        );
+      const mockApiConnector = getMockApiConnector();
+      const driver = new SearchDriver({
+        apiConnector: mockApiConnector,
+        onSearch: onSearchMock
+      });
+
+      driver.setSearchTerm("hello");
+      jest.runAllTimers();
+
+      expect(onSearchMock).toHaveBeenCalled();
+    });
+
+    it("onAutocomplete Hook", () => {
+      const onAutocompleteHook = jest
+        .fn()
+        .mockImplementation(
+          (query: SearchState, searchConfig: AutocompleteQueryConfig, next) => {
+            expect(query).toBeDefined();
+            expect(query.searchTerm).toBe("hello");
+            expect(searchConfig).toBeDefined();
+            expect(searchConfig.results).toEqual({});
+            expect(typeof next).toBe("function");
+            return next();
+          }
+        );
+      const mockApiConnector = getMockApiConnector();
+      const driver = new SearchDriver({
+        apiConnector: mockApiConnector,
+        onAutocomplete: onAutocompleteHook
+      });
+
+      driver.setSearchTerm("hello", { autocompleteResults: true });
+      jest.runAllTimers();
+
+      expect(onAutocompleteHook).toHaveBeenCalled();
+    });
   });
 });

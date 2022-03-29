@@ -5,6 +5,19 @@ import { SearchProvider, WithSearch } from "../";
 import { APIConnector } from "@elastic/search-ui";
 
 describe("WithSearch", () => {
+  const mockResponse = {
+    results: [],
+    facets: {},
+    pagingStart: 0,
+    pagingEnd: 100,
+    rawResponse: {},
+    requestId: "1",
+    resultSearchTerm: "test",
+    totalPages: 100,
+    totalResults: 1000,
+    wasSearched: true
+  };
+
   const mockApiConnector: APIConnector = {
     onSearch: jest.fn(),
     onAutocomplete: jest.fn(),
@@ -22,9 +35,7 @@ describe("WithSearch", () => {
             searchTerm: "test"
           },
           onSearch: () => {
-            return {
-              then: () => ({})
-            };
+            return Promise.resolve(mockResponse);
           }
         }}
       >
@@ -47,9 +58,7 @@ describe("WithSearch", () => {
               searchTerm: "test"
             },
             onSearch: () => {
-              return {
-                then: () => ({})
-              };
+              return Promise.resolve(mockResponse);
             }
           }}
         >

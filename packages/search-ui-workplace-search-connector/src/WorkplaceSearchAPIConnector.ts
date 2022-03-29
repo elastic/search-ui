@@ -6,9 +6,10 @@ import type {
   QueryConfig,
   RequestState,
   SearchState,
-  AutocompleteQuery,
+  AutocompleteQueryConfig,
   SuggestionsQueryConfig,
-  APIConnector
+  APIConnector,
+  AutocompleteSearchQuery
 } from "@elastic/search-ui";
 import { INVALID_CREDENTIALS } from "@elastic/search-ui";
 
@@ -256,8 +257,8 @@ class WorkplaceSearchAPIConnector implements APIConnector {
   }
 
   async onAutocomplete(
-    { searchTerm }: RequestState,
-    queryConfig: AutocompleteQuery
+    { searchTerm }: AutocompleteSearchQuery,
+    queryConfig: AutocompleteQueryConfig
   ): Promise<SearchState> {
     const autocompletedState: any = {};
 
@@ -314,7 +315,7 @@ class WorkplaceSearchAPIConnector implements APIConnector {
         const responseJson = await searchResponse.json();
 
         autocompletedState.autocompletedResults =
-          adaptResponse(responseJson).results;
+          adaptResponse(responseJson)?.results;
         autocompletedState.autocompletedResultsRequestId =
           responseJson.meta.request_id;
       });

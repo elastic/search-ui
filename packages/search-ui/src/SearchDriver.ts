@@ -6,11 +6,17 @@ import DebounceManager from "./DebounceManager";
 import * as actions from "./actions";
 import Events from "./Events";
 import { mergeFilters } from "./helpers";
-import { INVALID_CREDENTIALS } from ".";
+import {
+  AutocompleteResponseState,
+  AutocompleteSearchQuery,
+  INVALID_CREDENTIALS,
+  QueryConfig,
+  ResponseState
+} from ".";
 
 import * as a11y from "./A11yNotifications";
 import {
-  AutocompleteQuery,
+  AutocompleteQueryConfig,
   SearchState,
   SearchQuery,
   APIConnector,
@@ -88,15 +94,30 @@ function removeConditionalFacets(
   }, {});
 }
 
+export type onSearchHook = (
+  query: RequestState,
+  queryConfig: QueryConfig,
+  next: () => Promise<ResponseState>
+) => Promise<ResponseState>;
+
+export type onAutocompleteHook = (
+  query: AutocompleteSearchQuery,
+  queryConfig: QueryConfig,
+  next: () => Promise<AutocompleteResponseState>
+) => Promise<AutocompleteResponseState>;
+
+export type onResultClickHook = (resultParams: any) => void;
+export type onAutocompleteResultClickHook = (resultParams: any) => void;
+
 export type SearchDriverOptions = {
   apiConnector: APIConnector;
-  autocompleteQuery?: AutocompleteQuery;
+  autocompleteQuery?: AutocompleteQueryConfig;
   debug?: boolean;
   initialState?: Partial<SearchState>;
-  onSearch?: (query: SearchQuery) => void;
-  onAutocomplete?: (query: AutocompleteQuery) => void;
-  onResultClick?: (result: SearchResult) => void;
-  onAutocompleteResultClick?: (result: AutocompleteResult) => void;
+  onSearch?: onSearchHook;
+  onAutocomplete?: onAutocompleteHook;
+  onResultClick?: onResultClickHook;
+  onAutocompleteResultClick?: onAutocompleteResultClickHook;
   searchQuery?: SearchQuery;
   trackUrlState?: boolean;
   urlPushDebounceLength?: number;
@@ -123,7 +144,7 @@ class SearchDriver {
   autocompleteRequestSequencer: RequestSequencer;
   searchRequestSequencer: RequestSequencer;
   debounceManager: DebounceManager;
-  autocompleteQuery: AutocompleteQuery;
+  autocompleteQuery: AutocompleteQueryConfig;
   searchQuery: SearchQuery;
   subscriptions: SubscriptionHandler[];
   trackUrlState: boolean;
@@ -260,7 +281,7 @@ class SearchDriver {
    * @param {boolean|Object} options.autocompleteSuggestions - Should autocomplete suggestions
    */
   private _updateAutocomplete = (
-    searchTerm,
+    searchTerm: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     { autocompleteResults, autocompleteSuggestions }: any = {}
   ) => {
@@ -500,7 +521,7 @@ class SearchDriver {
   /**
    * @param Object autocompleteQuery
    */
-  setAutocompleteQuery(autocompleteQuery: AutocompleteQuery): void {
+  setAutocompleteQuery(autocompleteQuery: AutocompleteQueryConfig): void {
     this.autocompleteQuery = autocompleteQuery;
   }
 
