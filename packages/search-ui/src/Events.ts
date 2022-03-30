@@ -1,10 +1,17 @@
 import {
+  onAutocompleteHook,
+  onAutocompleteResultClickHook,
+  onResultClickHook,
+  onSearchHook
+} from "./SearchDriver";
+import {
   APIConnector,
-  AutocompleteQuery,
-  AutocompletedResult,
+  AutocompleteQueryConfig,
   QueryConfig,
   SearchQuery,
-  SearchResult
+  AutocompleteSearchQuery,
+  ResponseState,
+  AutocompleteResponseState
 } from "./types";
 
 function wireUpEventHandler(
@@ -43,25 +50,25 @@ function wireUpEventHandler(
 
 type EventOptions = {
   apiConnector?: APIConnector;
-  onSearch?: (searchQuery: SearchQuery) => void;
-  onAutocomplete?: (query: AutocompleteQuery) => void;
-  onResultClick?: (result: SearchResult) => void;
-  onAutocompleteResultClick?: (result: AutocompletedResult) => void;
+  onSearch?: onSearchHook;
+  onAutocomplete?: onAutocompleteHook;
+  onResultClick?: onResultClickHook;
+  onAutocompleteResultClick?: onAutocompleteResultClickHook;
 };
 
 class Events {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public search: (
-    searchQuery: SearchQuery,
+    query: SearchQuery,
     queryConfig: QueryConfig
-  ) => Promise<any>;
+  ) => Promise<ResponseState>;
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public autocomplete: (
-    query: { searchTerm: string },
-    queryConfig: AutocompleteQuery
-  ) => Promise<any>;
-  public resultClick: () => void;
-  public autocompleteResultClick: () => void;
+    query: AutocompleteSearchQuery,
+    queryConfig: AutocompleteQueryConfig
+  ) => Promise<AutocompleteResponseState>;
+  public resultClick: (resultParams: any) => void;
+  public autocompleteResultClick: (resultParams: any) => void;
 
   constructor({
     apiConnector,

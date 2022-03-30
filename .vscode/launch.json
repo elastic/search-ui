@@ -75,6 +75,24 @@
             },
             "console": "integratedTerminal",
             "sourceMaps": true
+        },
+        {
+            "name": "Jest workplace-connector",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "stopOnEntry": false,
+            "args": [
+                 "--runInBand", "--forceExit", "--detectOpenHandles", "--watch"
+            ],
+            "cwd": "${workspaceRoot}/packages/search-ui-workplace-search-connector",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "env": {
+                "NODE_ENV": "test"
+            },
+            "console": "integratedTerminal",
+            "sourceMaps": true
         }
 
     ]

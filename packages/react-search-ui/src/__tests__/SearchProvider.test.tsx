@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
 import { APIConnector, SearchDriver } from "@elastic/search-ui";
-import { AutocompleteQuery } from "@elastic/search-ui";
+import { AutocompleteQueryConfig } from "@elastic/search-ui";
 
 function getMocks() {
   const mockApiConnector: APIConnector = {
@@ -76,7 +76,7 @@ describe("SearchProvider", () => {
   });
 
   it("will update searchDriver when autocompleteQuery config changes", () => {
-    const autocompleteQueryConfig: AutocompleteQuery = {
+    const autocompleteQueryConfig: AutocompleteQueryConfig = {
       results: { result_fields: { states: { snippet: { size: 30 } } } }
     };
     const updatedAutocompleteQueryConfig = {};
@@ -117,9 +117,18 @@ describe("SearchProvider", () => {
             searchTerm: "test"
           },
           onSearch: () => {
-            return {
-              then: () => ({})
-            };
+            return Promise.resolve({
+              results: [],
+              facets: {},
+              pagingStart: 0,
+              pagingEnd: 100,
+              rawResponse: {},
+              requestId: "1",
+              resultSearchTerm: "test",
+              totalPages: 100,
+              totalResults: 1000,
+              wasSearched: true
+            });
           }
         }}
       >

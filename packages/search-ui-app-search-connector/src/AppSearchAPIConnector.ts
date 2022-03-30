@@ -7,9 +7,9 @@ import type {
   QueryConfig,
   RequestState,
   SearchState,
-  AutocompleteQuery,
   SuggestionsQueryConfig,
-  APIConnector
+  APIConnector,
+  AutocompleteQueryConfig
 } from "@elastic/search-ui";
 
 interface AppSearchAPIConnectorParamsBase {
@@ -183,7 +183,7 @@ class AppSearchAPIConnector implements APIConnector {
 
   async onAutocomplete(
     { searchTerm }: RequestState,
-    queryConfig: AutocompleteQuery
+    queryConfig: AutocompleteQueryConfig
   ): Promise<SearchState> {
     const autocompletedState: any = {};
     const promises = [];

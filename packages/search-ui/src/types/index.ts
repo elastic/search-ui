@@ -97,7 +97,7 @@ export type FieldConfiguration = {
 };
 
 // https://github.com/elastic/search-ui/blob/master/ADVANCED.md#configuring-autocomplete-queries
-export type AutocompleteQuery = {
+export type AutocompleteQueryConfig = {
   results?: QueryConfig;
   suggestions?: SuggestionsQueryConfig;
 };
@@ -125,16 +125,20 @@ export type SearchQuery = {
   disjunctiveFacetsAnalyticsTags?: string[];
   result_fields?: Record<string, FieldConfiguration>;
   search_fields?: Record<string, FieldConfiguration>;
+} & RequestState;
+
+export type AutocompleteSearchQuery = {
+  searchTerm: string;
 };
 
 export interface APIConnector {
-  onSearch(
+  onSearch: (
     state: RequestState,
     queryConfig: QueryConfig
-  ): Promise<ResponseState>;
+  ) => Promise<ResponseState>;
   onAutocomplete(
     state: RequestState,
-    queryConfig: AutocompleteQuery
+    queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState>;
   onResultClick(params): void;
   onAutocompleteResultClick(params): void;
