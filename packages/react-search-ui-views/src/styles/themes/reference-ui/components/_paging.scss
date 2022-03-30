@@ -1,6 +1,6 @@
-@include block("paging") {
-  @import "../../../../node_modules/rc-pagination/dist/rc-pagination.min.css";
+@import "../../../../../../../node_modules/rc-pagination/dist/rc-pagination.min";
 
+@include block("paging") {
   > li {
     border: none;
     background: transparent;

@@ -1,5 +1,5 @@
 # Compile Sass to a temporary location
-sass src/:lib/
+sass --no-source-map src/:lib/
 
 # Process compiled SASS to inline imported CSS files and add vendor prefixes
 # Move it to /lib
