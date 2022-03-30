@@ -1,5 +1,5 @@
 import {
-  AutocompleteQuery,
+  AutocompleteQueryConfig,
   FieldConfiguration,
   RequestState
 } from "@elastic/search-ui";
@@ -43,7 +43,7 @@ function buildConfiguration({
 
 export default async function handler(
   state: RequestState,
-  queryConfig: AutocompleteQuery,
+  queryConfig: AutocompleteQueryConfig,
   host: string,
   index: string,
   apiKey: string,

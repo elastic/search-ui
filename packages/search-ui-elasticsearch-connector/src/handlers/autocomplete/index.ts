@@ -1,5 +1,5 @@
 import {
-  AutocompleteQuery,
+  AutocompleteQueryConfig,
   AutocompleteResponseState,
   RequestState
 } from "@elastic/search-ui";
@@ -8,7 +8,7 @@ import suggestionsHandler from "./suggestions";
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
-  queryConfig: AutocompleteQuery;
+  queryConfig: AutocompleteQueryConfig;
   host: string;
   index: string;
   connectionOptions?: {

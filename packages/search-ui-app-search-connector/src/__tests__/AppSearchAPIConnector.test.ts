@@ -6,9 +6,9 @@ import type {
   AppSearchAPIConnectorParams
 } from "../AppSearchAPIConnector";
 import type {
+  AutocompleteQueryConfig,
   QueryConfig,
-  SearchState,
-  AutocompleteQuery
+  SearchState
 } from "@elastic/search-ui";
 import { DEFAULT_STATE } from "@elastic/search-ui";
 
@@ -444,7 +444,7 @@ describe("AppSearchAPIConnector", () => {
   describe("onAutocomplete", () => {
     function subject(
       state?: SearchState,
-      queryConfig?: AutocompleteQuery,
+      queryConfig?: AutocompleteQueryConfig,
       {
         beforeAutocompleteResultsCall,
         beforeAutocompleteSuggestionsCall

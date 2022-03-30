@@ -1,10 +1,10 @@
 import type {
   QueryConfig,
   RequestState,
-  AutocompleteQuery,
   ResponseState,
   AutocompleteResponseState,
-  APIConnector
+  APIConnector,
+  AutocompleteQueryConfig
 } from "@elastic/search-ui";
 
 import handleSearchRequest from "./handlers/search";
@@ -54,7 +54,7 @@ class ElasticsearchAPIConnector implements APIConnector {
 
   async onAutocomplete(
     state: RequestState,
-    queryConfig: AutocompleteQuery
+    queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
     return handleAutocompleteRequest({
       state,
