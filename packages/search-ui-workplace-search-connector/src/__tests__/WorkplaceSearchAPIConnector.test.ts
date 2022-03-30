@@ -99,8 +99,6 @@ describe("WorkplaceSearchAPIConnector", () => {
         beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
       } = {}
     ) {
-      if (!state || !!state.searchTerm) state.searchTerm = "searchTerm";
-
       const connector = new WorkplaceSearchAPIConnector({
         ...params,
         beforeAutocompleteResultsCall,
