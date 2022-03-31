@@ -143,6 +143,7 @@ export interface APIConnector {
   onResultClick(params): void;
   onAutocompleteResultClick(params): void;
   state: any;
+  actions?: any;
 }
 
 // From https://github.com/elastic/search-ui/blob/9db35e1a49d95f854b77172f7ccfe540b22a793d/ADVANCED.md#query-config

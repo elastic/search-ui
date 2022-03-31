@@ -397,7 +397,7 @@ describe("WorkplaceSearchAPIConnector", () => {
     describe("when 'results' type is requested", () => {
       it("will pass request state through to search endpoint", async () => {
         const state = {
-          ...DEFAULT_STATE,
+          searchTerm: "searchTerm",
           resultsPerPage: 40,
           current: 2,
           sortField: "foo",
@@ -416,7 +416,6 @@ describe("WorkplaceSearchAPIConnector", () => {
       });
 
       it("will pass queryConfig to search endpoint", async () => {
-        const state = { ...DEFAULT_STATE };
         const queryConfig = {
           facets: {
             states: {
@@ -426,7 +425,7 @@ describe("WorkplaceSearchAPIConnector", () => {
           }
         };
 
-        await subject(state, { results: queryConfig });
+        await subject(undefined, { results: queryConfig });
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(getLastFetchCall().body).toMatchInlineSnapshot(`
@@ -579,10 +578,9 @@ describe("WorkplaceSearchAPIConnector", () => {
 
     describe("when 'suggestions' type is requested", () => {
       it("returns an empty state", async () => {
-        const autocompletedState = await subject(
-          { ...DEFAULT_STATE },
-          { suggestions: {} }
-        );
+        const autocompletedState = await subject(undefined, {
+          suggestions: {}
+        });
 
         expect(autocompletedState).toEqual({});
       });
@@ -590,10 +588,10 @@ describe("WorkplaceSearchAPIConnector", () => {
 
     describe("when 'results' and 'suggestions' type are both requested", () => {
       it("returns only the results part of the state", async () => {
-        const autocompletedState = await subject(
-          { ...DEFAULT_STATE },
-          { suggestions: {}, results: {} }
-        );
+        const autocompletedState = await subject(undefined, {
+          suggestions: {},
+          results: {}
+        });
 
         expect(autocompletedState).toMatchInlineSnapshot(`
           Object {
@@ -606,7 +604,7 @@ describe("WorkplaceSearchAPIConnector", () => {
 
     describe("when no type is requested", () => {
       it("returns an empty state", async () => {
-        const autocompletedState = await subject({ ...DEFAULT_STATE }, {});
+        const autocompletedState = await subject(undefined, {});
 
         expect(autocompletedState).toEqual({});
       });
