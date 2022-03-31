@@ -8,7 +8,7 @@ tags: ["demo"]
 
 Install **React Search UI** and the **App Search** connector.
 
-```sh
+```shell
 # Install React Search UI and a Connector, like the Elastic App Search Connector
 npm install --save @elastic/react-search-ui @elastic/search-ui-app-search-connector
 ```
@@ -66,9 +66,9 @@ Or go "headless", and take complete control over the look and feel of your searc
         <div>
           <input
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {results.map(r => (
+          {results.map((r) => (
             <div key={r.id.raw}>{r.title.raw}</div>
           ))}
         </div>
@@ -84,7 +84,11 @@ A search experience built with Search UI is composed of the following layers:
 2. <DocLink id="overview" section="2-connectors" text="A Connector" />
 3. <DocLink id="overview" section="3-searchprovider" text="A SearchProvider" />
 4. <DocLink id="overview" section="4-components" text="Components" />
-5. <DocLink id="overview" section="5-styles-and-layout" text="Styles and Layout" />
+5. <DocLink
+     id="overview"
+     section="5-styles-and-layout"
+     text="Styles and Layout"
+   />
 
 ```
 Styles and Layout -> Components -> SearchProvider -> Connector -> Search API
