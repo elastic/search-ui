@@ -27,7 +27,7 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_SEARCH_UI }}} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_SEARCH_UI }} #Required
           vercel-project-name: search-ui
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
           vercel-args: --prod
