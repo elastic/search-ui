@@ -32,4 +32,3 @@ jobs:
           github-token: ${{ secrets.VERCEL_GITHUB_TOKEN }} #Optional
           vercel-args: --prod
           github-comment: false
-          working-directory: ./
