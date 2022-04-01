@@ -16,7 +16,7 @@ jobs:
         with:
           repository: elastic/search-ui
           token: ${{ secrets.VERCEL_GITHUB_TOKEN }}
-          path: ${{ github.workspace }}/docsmobile
+          path: ${{ github.workspace }}/search-ui
 
       - name: Show workspace
         shell: bash
