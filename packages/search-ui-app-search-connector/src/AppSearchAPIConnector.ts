@@ -88,7 +88,6 @@ class AppSearchAPIConnector implements APIConnector {
    */
 
   client: any;
-  state: any = {};
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
