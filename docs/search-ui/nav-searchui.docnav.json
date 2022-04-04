@@ -39,7 +39,6 @@
       ]},
       { "label": "Guides", "items": [
         { "id": "guides-philosphy" },
-        { "id": "guides-customizing-results-display" },
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-debugging" }

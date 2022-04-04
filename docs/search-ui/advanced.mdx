@@ -522,51 +522,6 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-# Build Your Own Component
-
-**Learn about the <DocLink id="advanced" section="headless-core" text="Headless Core" /> concepts first!**
-
----
-
-We provide a variety of Components out of the box.
-
-There might be cases where we do not have the Component you need.
-
-In this case, we provide a [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
-called [withSearch](https://github.com/elastic/search-ui/tree/master/packages/react-search-ui/src/withSearch.tsx).
-
-It gives you access to work directly with Search UI's <DocLink id="advanced" section="headless-core" text="Headless Core" />.
-
-This lets you create your own Components for Search UI.
-
-Ex. Creating a Component for clearing all filters
-
-```jsx
-import React from "react";
-import { withSearch } from "@elastic/react-search-ui";
-
-function ClearFilters({ filters, clearFilters }) {
-  return (
-    <div>
-      <button onClick={() => clearFilters()}>
-        Clear {filters.length} Filters
-      </button>
-    </div>
-  );
-}
-
-export default withSearch(({ filters, clearFilters }) => ({
-  filters,
-  clearFilters
-}))(ClearFilters);
-```
-
-Note that `withSearch` accepts a `mapContextToProps` function as the first parameter. Read more about that
-in the `mapContextToProps` section.
-
-Also note that all components created with `withSearch` will be Pure Components. Read more
-about that <DocLink id="advanced" section="performance" text="here" />.
-
 # Connectors and Handlers
 
 **Learn about the <DocLink id="advanced" section="headless-core" text="Headless Core" /> concepts first!**
