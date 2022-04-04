@@ -5,3 +5,409 @@ title: State & Actions
 date: 2022-02-27
 tags: ["demo"]
 ---
+
+## State
+
+State can be divided up into a few different types.
+
+1. Request State - State that is used as parameters on Search API calls.
+2. Result State - State that represents a response from a Search API call.
+3. Application State - The general state.
+
+Request State and Result State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
+`searchTerm` is the current search term in the UI, and `resultSearchTerm` is the term associated with the current
+`results`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER
+a response is received, so you'd use the `resultSearchTerm` state.
+
+### Request State
+
+State that is used as parameters on Search API calls.
+
+Request state can be set by:
+
+- Using actions, like `setSearchTerm`
+- The `initialState` option.
+- The URL query string, if `trackUrlState` is enabled.
+
+| option           | Description                              |
+| ---------------- | ---------------------------------------- |
+| `current`        | Current page number                      |
+| `filters`        | Array of filters. See Filters section.   |
+| `resultsPerPage` |                                          |
+| `searchTerm`     | Search terms to search for               |
+| `sort`           | List of fields and directions to sort on |
+
+### Response State
+
+State that represents a response from a Search API call.
+
+It is not directly update-able.
+
+It is updated indirectly by invoking an action which results in a new API request.
+
+| field                               | description                                                                                                                                                                                                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocompletedResults`              | An array of results items fetched for an autocomplete dropdown.                                                                                                                                                                                                           |
+| `autocompletedResultsRequestId`     | A unique ID for the current autocompleted search results.                                                                                                                                                                                                                 |
+| `autocompletedSuggestions`          | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
+| `autocompletedSuggestionsRequestId` | A unique ID for the current autocompleted suggestion results.                                                                                                                                                                                                             |
+| `facets`                            | Will be populated if `facets` configured in <DocLink id="advanced" section="advanced-configuration" text="Advanced Configuration" />.                                                                                                                                     |
+| `rawResponse`                       | The response object received from the API                                                                                                                                                                                                                                 |
+| `requestId`                         | A unique ID for the current search results.                                                                                                                                                                                                                               |
+| `results`                           | An array of result items.                                                                                                                                                                                                                                                 |
+| `resultSearchTerm`                  | As opposed the the `searchTerm` state, which is tied to the current search parameter, this is tied to the searchTerm for the current results. There will be a period of time in between when a request is started and finishes where the two pieces of state will differ. |
+| `totalResults`                      | Total number of results found for the current query.                                                                                                                                                                                                                      |
+
+### Application State
+
+Application state is the general application state.
+
+| field         | description                                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `error`       | Error message, if an error was thrown.                                                                             |
+| `isLoading`   | Whether or not a search is currently being performed.                                                              |
+| `wasSearched` | Has any query been performed since this driver was created? Can be useful for displaying initial states in the UI. |
+
+## Actions
+
+To update the state, you can use actions below. Actions are functions that update the Request State and performs an API request.
+
+```js
+setSearchTerm("search term");
+```
+
+To get access to the actions within your component, you must wrap your component with our context HOCs.
+
+```jsx
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(({ searchTerm, setSearchTerm }) => ({
+  searchTerm,
+  setSearchTerm
+}))(Component);
+```
+
+See TODO-LINK for more information.
+
+There are certain cases where you may need to apply one or more actions at a time. Search UI intelligently
+batches actions into a single API call.
+
+For example, if you need to apply two filters at once, it is perfectly acceptable to write the following code:
+
+```js
+addFilter("states", "Alaska", "any");
+addFilter("world_heritage_site", "true");
+```
+
+This will only result in a single API call.
+
+### addFilter
+
+```ts
+addFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+)
+```
+
+Add a filter in addition to current filters values.
+
+#### Examples
+
+```
+addFilter("states", "Alaska");
+addFilter("isPublished", true);
+addFilter("rating", 1);
+
+addFilter("states", ["Alaska", "California"], "all");
+addFilter("states", ["Alaska", "California"], "any");
+
+addFilter("published",{
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+addFilter("rating",{
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+
+```
+
+| field   | description                                                                                |
+| ------- | ------------------------------------------------------------------------------------------ |
+| `name`  | Required. Name of the field                                                                |
+| `value` | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`  | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+
+### setFilter
+
+```js
+setFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+)
+```
+
+Set a filter value, replacing current filter values.
+
+#### Examples
+
+```
+setFilter("states", "Alaska");
+setFilter("isPublished", true);
+setFilter("rating", 1);
+
+setFilter("states", ["Alaska", "California"], "all");
+setFilter("states", ["Alaska", "California"], "any");
+
+setFilter("published",{
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+setFilter("rating",{
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+
+```
+
+| field   | description                                                                                |
+| ------- | ------------------------------------------------------------------------------------------ |
+| `name`  | Required. Name of the field                                                                |
+| `value` | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`  | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+
+### removeFilter
+
+Removes filters or filter values.
+
+```js
+removeFilter(
+  name: string,
+  value?: FilterValue,
+  type?: FilterType
+)
+```
+
+#### Examples
+
+```js
+removeFilter("states");
+removeFilter("states", ["Alaska", "California"]);
+
+removeFilter("published", {
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+removeFilter("rating", {
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+```
+
+| field   | description                                                                                                 |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
+| `name`  | Required. Name of the field                                                                                 |
+| `value` | Optional. Filter Value. Will remove all filters under field if value not specified. See `FilterValue` type. |
+| `type`  | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none`                  |
+
+### reset
+
+Reset state to initial search state.
+
+```js
+reset();
+```
+
+### clearFilters
+
+Clear all filters.
+
+```js
+clearFilters((except: string[] = []));
+```
+
+#### Examples
+
+```js
+clearFilters();
+clearFilters(["states"]); // field name
+```
+
+| field    | description                                                                 |
+| -------- | --------------------------------------------------------------------------- |
+| `except` | Optional. String array. Field names which you want to ignore being cleared. |
+
+### setCurrent
+
+Update the current page number. Used for paging.
+
+```js
+setCurrent(current: number)
+```
+
+#### Examples
+
+```js
+setCurrent(2);
+```
+
+| field     | description                             |
+| --------- | --------------------------------------- |
+| `current` | Required. Number type. The page number. |
+
+### setResultsPerPage
+
+Update the number of results per page. Used for paging.
+
+```js
+setResultsPerPage(resultsPerPage: number)
+```
+
+#### Examples
+
+```js
+setResultsPerPage(20);
+```
+
+| field            | description                                             |
+| ---------------- | ------------------------------------------------------- |
+| `resultsPerPage` | Required. Number type. Sets number of results per page. |
+
+### setSearchTerm
+
+```js
+setSearchTerm(
+  searchTerm: string,
+  {
+    autocompleteMinimumCharacters = 0,
+    autocompleteResults = false,
+    autocompleteSuggestions = false,
+    shouldClearFilters = true,
+    refresh = true,
+    debounce = 0
+  }: SetSearchTermOptions = {}
+)
+```
+
+Update the search term. Also gives you the ability to control autocomplete options.
+
+#### Examples
+
+```js
+setSearchTerm("train");
+```
+
+| field        | description                                             |
+| ------------ | ------------------------------------------------------- |
+| `searchTerm` | Required. String type. the new search term to query by  |
+| `options`    | Optional. Object type. See `SetSearchTermOptions` type. |
+
+#### SetSearchTermOptions
+
+| field                           | description                                                           |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `autocompleteMinimumCharacters` | Optional. miniumum terms to start performing autocomplete suggestions |
+| `autocompleteResults`           | Optional. To perform autocomplete Results                             |
+| `autocompleteSuggestions`       | Optional. To perform autocomplete Suggestions                         |
+| `shouldClearFilters`            | Optional. To clear filters                                            |
+| `refresh`                       | Optional. To refresh results                                          |
+| `debounce`                      | Optional.                                                             |
+
+### setSort
+
+```js
+setSort(
+  sort: SortOption[] | string,
+  sortDirection: SortDirection
+)
+```
+
+Update the sort option.
+
+| field           | description                               |
+| --------------- | ----------------------------------------- |
+| `sort`          | `SortOption` or String - field to sort on |
+| `sortDirection` | String - "asc" or "desc"                  |
+
+### trackClickThrough
+
+```js
+trackClickThrough(
+  documentId: string,
+  tags: string[] = []
+)
+```
+
+Report a clickthrough event, which is when a user clicks on a result link.
+
+| field        | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
+
+### trackAutocompleteClickThrough
+
+```js
+trackAutocompleteClickThrough(
+  documentId: string,
+  tags: string[] = []
+)
+```
+
+Report a clickthrough event, which is when a user clicks on an autocomplete suggestion.
+
+| field        | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
+
+### a11yNotify
+
+```js
+a11yNotify(
+  messageFunc: string,
+  messageArgs?: unknown
+)
+```
+
+Reads out a screen reader accessible notification. See `a11yNotificationMessages` under TODO LINK
+
+| field         | description                                                          |
+| ------------- | -------------------------------------------------------------------- |
+| `messageFunc` | String - object key to run as function                               |
+| `messageArgs` | Object - Arguments to pass to form your screen reader message string |
+
+## Types
+
+### FilterValue & FilterType Types
+
+`FilterValue` can be either a value type or a range type.
+
+#### Types
+
+```ts
+type FilterValue = FilterValueValue | FilterValueRange;
+
+type FieldValue = string | number | boolean | Array<string | number | boolean>;
+
+type FilterValueValue = FieldValue;
+
+type FilterValueRange = {
+  from?: FieldValue;
+  name: string;
+  to?: FieldValue;
+};
+
+type FilterType = "any" | "all" | "none";
+```

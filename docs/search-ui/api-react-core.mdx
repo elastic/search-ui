@@ -6,5 +6,205 @@ date: 2022-03-31
 tags: ["core"]
 ---
 
-providers
-installation
+The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI
+and in a React [Context](https://reactjs.org/docs/context.html), and also via a
+[Render Prop](https://reactjs.org/docs/render-props.html).
+
+It looks like this:
+
+```jsx
+import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
+
+const configurationOptions = {
+  apiConnector: connector,
+  searchQuery: { ... },
+  autocompleteQuery: { ... },
+  hasA11yNotifications: true,
+  a11yNotificationMessages: {
+    searchResults: ({ start, end, totalResults, searchTerm }) =>
+      `Searching for "${searchTerm}". Showing ${start} to ${end} results out of ${totalResults}.`
+  },
+  alwaysSearchOnInitialLoad: true
+};
+
+const App = () => (
+  <SearchProvider config={configurationOptions}>
+    <div className="App">
+      <SearchBox />
+    </div>
+  </SearchProvider>
+);
+```
+
+| option                      | type                                                               | description                                                                                                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiConnector`              | APIConnector                                                       | Instance of a Connector. See Connectors API section.                                                                                                                                                                        |
+| `onSearch`                  | function                                                           | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
+| `onAutocomplete`            | function                                                           | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
+| `onResultClick`             | function                                                           | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
+| `onAutocompleteResultClick` | function                                                           | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
+| `autocompleteQuery`         | [Autocomplete Query Config](/api/configuration#autocomplete-query) | Configuration options for the autocomplete query.                                                                                                                                                                           |
+| `debug`                     | Boolean                                                            | Trace log actions and state changes. Default is false.                                                                                                                                                                      |
+| `initialState`              | Object                                                             | Set initial [State](#state) of the search. Any [Request State](#request-state) can be set here. This is useful for defaulting a search term, sort, etc. `{ searchTerm: "test", resultsPerPage: 40 }`                        |
+| `searchQuery`               | [Search Query Config](/api/configuration#searchquery)              | Configuration options for the main search query.                                                                                                                                                                            |
+| `trackUrlState`             | Boolean                                                            | By default, [Request State](#request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                            |
+| `urlPushDebounceLength`     | Integer                                                            | The amount of time in milliseconds to debounce/delay updating the browser url after the UI update. This, for example, prevents excessive history entries while a user is still typing in a live search box. Default is 500. |
+| `hasA11yNotifications`      | Boolean                                                            | Search UI will create a visually hidden live region to announce search results & other actions to screen reader users. This accessibility feature will be turned on by default in our 2.0 release. Default is false.        |
+| `a11yNotificationMessages`  | Object                                                             | You can override our default screen reader [messages](packages/search-ui/src/A11yNotifications.js#L49) (e.g. for localization), or create your own custom notification, by passing in your own key and message function(s). |
+| `alwaysSearchOnInitialLoad` | Boolean                                                            | If true, Search UI will always do an initial search, even when no inital Request State is set.                                                                                                                              |
+
+### Handlers
+
+Search UI exposes a number of event hooks which need handlers to be implemented in order for Search UI
+to function properly.
+
+The easiest way to provide handlers for these events is via an out-of-the-box "Connector", which
+provides pre-built handlers, which can then be configured for your particular use case.
+
+While we do provide out-of-the-box Connectors, it is also possible to implement these handlers directly,
+override Connector methods, or provide "middleware" to Connectors in order to further customize
+how Search UI interacts with your services.
+
+#### Event Handlers
+
+| method                      | params                                                                  | return                            | description                                                                                                                                         |
+| --------------------------- | ----------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onResultClick`             | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                             | - `query` - String                                                      |                                   | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `onSearch`                  | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - [Query Config](#query-config)                           |                                   |                                                                                                                                                     |
+| `onAutocompleteResultClick` | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                             | - `query` - String                                                      |                                   | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `onAutocomplete`            | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - Object                                                  |                                   |                                                                                                                                                     |
+|                             | - `results` - [Query Config](#query-config)                             |                                   | If this is set, results should be returned for autocomplete.                                                                                        |
+|                             | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |                                   | If this is set, query suggestions should be returned for autocomplete.                                                                              |
+
+Explicitly providing a Handler will override the Handler provided by the Connector.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: async (state, queryConfig) => {
+      const queryForOtherService = transformSearchUIStateToQuery(
+        state,
+        queryConfig
+      );
+      const otherServiceResponse = await callSomeOtherService(
+        queryForOtherService
+      );
+      return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
+    }
+  }}
+/>
+```
+
+### Using middleware in Connector Handlers
+
+Handler implementations can also be used as middleware for Connectors by leveraging
+the `next` function.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: (state, queryConfig, next) => {
+      const updatedState = someStateTransformation(state);
+      return next(updatedState, queryConfig);
+    }
+  }}
+/>
+```
+
+## Component HOCs
+
+If you wish to use Search UI and build your own custom component, you will need to use our HOCs to use Search UI's core state and actions.
+
+There are two HOCs for accessing Search UI's state & actions, `withSearch` and
+`WithSearch`. They use the [HOC](https://reactjs.org/docs/higher-order-components.html) and
+[Render Props](https://reactjs.org/docs/render-props.html) patterns, respectively. The two methods
+are similar, and choosing between the two is mostly personal preference.
+
+Both methods expose a `mapContextToProps` function which allows you to pick which state and actions
+from context you need to work with.
+
+### mapContextToProps
+
+`mapContextToProps` allows you to pick which state and actions
+from Context you need to work with. `withSearch` and `WithSearch` both use [React.PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent),
+and will only re-render when the picked state has changed.
+
+| name    | type   | description         |
+| ------- | ------ | ------------------- |
+| context | Object | The current Context |
+| props   | Object | The current props   |
+
+ex.:
+
+```jsx
+import { withSearch } from "@elastic/react-search-ui";
+
+const Component = ({ searchTerm, setSearchTerm }) => {
+  return (
+    <form onSubmit={(e) => {
+
+    }}
+    <input type="text" value={searchTerm}>
+  )
+}
+
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(({ searchTerm, setSearchTerm }) => ({
+  searchTerm,
+  setSearchTerm
+}))(Component);
+
+// Uses current `props` to conditionally modify context
+withSearch(({ searchTerm }, { someProp }) => ({
+  searchTerm: someProp ? "" : searchTerm
+}))(Component);
+```
+
+### withSearch
+
+This is the [HOC](https://reactjs.org/docs/higher-order-components.html) approach to working with the
+core.
+
+This is typically used for creating your own Components.
+
+See [Build Your Own Component](#build-your-own-component).
+
+### WithSearch
+
+This is the [Render Props](https://reactjs.org/docs/render-props.html) approach to working with the core.
+
+One use case for that would be to render a "loading" indicator any time the application is fetching data.
+
+For example:
+
+```jsx
+import { WithSearch } from "@elastic/react-search-ui";
+
+<SearchProvider config={config}>
+  <WithSearch mapContextToProps={({ isLoading }) => ({ isLoading })}>
+    {({ isLoading }) => (
+      <div className="App">
+        {isLoading && <div>I'm loading now</div>}
+        {!isLoading && (
+          <Layout
+            header={<SearchBox />}
+            bodyContent={<Results titleField="title" urlField="nps_link" />}
+          />
+        )}
+      </div>
+    )}
+  </WithSearch>
+</SearchProvider>;
+```

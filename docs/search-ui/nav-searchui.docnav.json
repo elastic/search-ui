@@ -5,44 +5,54 @@
   "icon": "inspect",
   "description": "Docs for Elastic's Search UI project",
   "items": [
-      { "label": "Search UI", "items": [ {"id": "overview" }]},
-      { "label": "Tutorials", "items": [
-        { "id": "tutorials-us-parks-search" }
-      ] },
-      { "label": "API", "items": [
-        { "id": "api-core" },
-        { "id": "api-state-and-actions"},
-        { "label": "React", "items": [
-          { "id": "api-react-core" },
-          {
-            "label": "Search Components",
-            "items": [
-              { "id": "api-react-components-search-box" },
-              { "id": "api-react-components-results" },
-              { "id": "api-react-components-result" },
-              { "id": "api-react-components-results-per-page" },
-              { "id": "api-react-components-facet" },
-              { "id": "api-react-components-sorting" },
-              { "id": "api-react-components-paging" },
-              { "id": "api-react-components-paging-info" },
-              { "id": "api-react-components-error-boundary" }
-            ]
-          }
-        ]}
-      ]},
-      { "label": "Connectors API", "items": [
+    { "label": "Search UI", "items": [{ "id": "overview" }] },
+    { "label": "Tutorials", "items": [{ "id": "tutorials-us-parks-search" }] },
+    {
+      "label": "API",
+      "items": [
+        { "id": "api-configuration" },
+        { "id": "api-state-and-actions" },
+        {
+          "label": "React",
+          "items": [
+            { "id": "api-react-core" },
+            {
+              "label": "Search Components",
+              "items": [
+                { "id": "api-react-components-search-box" },
+                { "id": "api-react-components-results" },
+                { "id": "api-react-components-result" },
+                { "id": "api-react-components-results-per-page" },
+                { "id": "api-react-components-facet" },
+                { "id": "api-react-components-sorting" },
+                { "id": "api-react-components-paging" },
+                { "id": "api-react-components-paging-info" },
+                { "id": "api-react-components-error-boundary" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Connectors API",
+      "items": [
         { "id": "connectors-api-app-search" },
         { "id": "connectors-api-site-search" },
         { "id": "connectors-api-elasticsearch" },
         { "id": "connectors-api-workplace-search" },
         { "id": "connectors-api-custom-connector" }
-      ]},
-      { "label": "Guides", "items": [
+      ]
+    },
+    {
+      "label": "Guides",
+      "items": [
         { "id": "guides-philosphy" },
         { "id": "guides-customizing-results-display" },
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-debugging" }
-      ]}
+      ]
+    }
   ]
 }
