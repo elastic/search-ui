@@ -184,6 +184,12 @@ class SearchDriver {
       },
       {}
     ) as actions.SearchDriverActions;
+
+    this.actions = {
+      ...this.actions,
+      ...(apiConnector?.actions && { ...apiConnector.actions })
+    };
+
     Object.assign(this, this.actions);
 
     this.events = new Events({
