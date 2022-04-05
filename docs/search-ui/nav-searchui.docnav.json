@@ -13,6 +13,7 @@
         { "id": "api-configuration" },
         { "id": "api-state" },
         { "id": "api-actions" },
+        { "id": "api-event-hooks"},
         {
           "label": "React",
           "items": [
@@ -48,6 +49,7 @@
       "label": "Guides",
       "items": [
         { "id": "guides-philosphy" },
+        { "id": "guides-extending-view-components"},
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-debugging" }

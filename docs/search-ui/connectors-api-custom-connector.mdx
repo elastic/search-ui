@@ -15,7 +15,13 @@ A connector is a class that implements the following methods:
 - `onResultClick`
 - `onAutocompleteResultClick`
 
+### Connector Example
+
 Below is an example of a custom connector. Example is given in typescript as the types may be helpful to you.
+
+See <DocLink id="api-state" section="request-state" text="Request State"/>, <DocLink id="api-state" section="response-state" text="Response State"/> and <DocLink id="api-configuration" section="search-query-queryconfig" text="Search Query Config"/> for more information.
+
+````typescript
 
 ```ts
 import type { APIConnector } from "@elastic/search-ui";
@@ -73,7 +79,9 @@ class MyAPIConnector implements APIConnector {
     );
   }
 }
-```
+````
+
+### Integration
 
 Once you have built your connector, you can simply use it within Search UI.
 

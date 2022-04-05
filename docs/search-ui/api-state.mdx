@@ -10,10 +10,10 @@ State can be divided up into a few different types.
 
 1. [Request State](#request-state) - State that is used
    as parameters on Search API calls.
-2. [Result State](#result-state) - State that represents a response from a Search API call.
+2. [Response State](#response-state) - State that represents a response from a Search API call.
 3. [Application State](#application-state) - The general state.
 
-Request State and Result State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
+Request State and Response State will often have similar values. For instance, `searchTerm` and `resultSearchTerm`.
 `searchTerm` is the current search term in the UI, and `resultSearchTerm` is the term associated with the current
 `results`. This can be relevant in the UI, where you might not want the search term on the page to change until AFTER
 a response is received, so you'd use the `resultSearchTerm` state.
