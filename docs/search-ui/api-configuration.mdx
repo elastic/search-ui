@@ -42,6 +42,21 @@ searchQuery: {
 
 ```
 
+### Filters (Global Filters)
+
+Using Query Config, it is possible to create "Global" filters. "Global filters" are filters that are added to every query. The user has no control over whether or not this filter is added or removed, it doesn't show up in the query string, and is completely transparent to the user. It is applied IN ADDITION to filters which the user applies.
+
+```
+filters: [{
+  // value filter example
+  field: "world_heritage_site", values: ["true"],
+  // Range filter example
+  field: "acres", values: [{
+    from: 0, to: 1000, name: "Small"
+  }]
+}]
+```
+
 ### Facets
 
 Tells Search UI to fetch facet data that can be used with Facet Components.
@@ -209,21 +224,6 @@ result_fields: {
 | ---------- | ------------------------------------------------------------------------------- |
 | `size`     | Character length of the snippet returned. Must be at least 20; defaults to 100. |
 | `fallback` | If true, fallback to the raw field if no match is found.                        |
-
-### Filters (Global Filters)
-
-Using Query Config, it is possible to create "Global" filters. "Global filters" are filters that are added to every query. The user has no control over whether or not this filter is added or removed, it doesn't show up in the query string, and is completely transparent to the user. It is applied IN ADDITION to filters which the user applies.
-
-```
-filters: [{
-  // value filter example
-  field: "world_heritage_site", values: ["true"],
-  // Range filter example
-  field: "acres", values: [{
-    from: 0, to: 1000, name: "Small"
-  }]
-}]
-```
 
 ## Autocomplete Query
 
