@@ -10,8 +10,7 @@ function getMocks() {
     onSearch: jest.fn(),
     onAutocomplete: jest.fn(),
     onResultClick: jest.fn(),
-    onAutocompleteResultClick: jest.fn(),
-    state: {}
+    onAutocompleteResultClick: jest.fn()
   };
 
   const driver = new SearchDriver({
