@@ -113,7 +113,7 @@ export type SearchDriverOptions = {
   apiConnector: APIConnector;
   autocompleteQuery?: AutocompleteQueryConfig;
   debug?: boolean;
-  initialState?: Partial<SearchState>;
+  initialState?: Partial<RequestState>;
   onSearch?: onSearchHook;
   onAutocomplete?: onAutocompleteHook;
   onResultClick?: onResultClickHook;

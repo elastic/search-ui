@@ -6,8 +6,25 @@ date: 2022-02-27
 tags: ["demo"]
 ---
 
-TODO
+There is a `debug` flag available on the configuration for `SearchDriver` and `SearchProvider`.
 
-- how to enable debugging on searchui
-- check network tab
-- check chrome dev tools
+```jsx
+<SearchProvider config={
+  debug: true
+  //...
+}>
+```
+
+Setting this to `true` will make the `searchUI` object available globally on window. This will allow you to
+programmatically execute actions in the browser console which can be helpful for debugging.
+
+```js
+window.searchUI.addFilter("states", "California", "all");
+```
+
+This will also log actions and state updates as they occur to the console in the following form:
+
+```
+Search UI: Action {Action Name} {Action Parameters}
+Search UI: State Update {State to update} {Full State after update}
+```

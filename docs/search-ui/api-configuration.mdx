@@ -1,33 +1,18 @@
 ---
 id: api-configuration
 slug: /api/configuration
-title: Configuration
+title: Query Configuration
 date: 2022-03-31
 tags: ["configuration"]
 ---
 
-```js
+Below is the configuration of both Search UI query and autocomplete configuration. These configurations are used in conjunction with the API connector to provide data to Search UI.
 
-  const configuration = {
-    searchQuery: {...},
-    autocompleteQuery: {...},
-    alwaysSearchOnInitialLoad: true,
-    hasA11yNotifications: true,
-    a11yNotificationMessages: {
-      searchResults: ({ start, end, totalResults, searchTerm }) =>
-        `Searching for "${searchTerm}". Showing ${start} to ${end} results out of ${totalResults}.`
-    },
-  }
+See <DocLink id="api-react-core" text="React Core" /> page for more information on how to use the configuration with the Provider.
 
-```
+## Search Query (QueryConfig)
 
-| field                       | description                                                    |
-| --------------------------- | -------------------------------------------------------------- |
-| `alwaysSearchOnInitialLoad` | Boolean. Optional. Executes a search query when the page loads |
-| `hasA11yNotifications`      | Boolean. Optional. Enables a11y notifications                  |
-| `a11yNotificationMessages`  | Object. Optional. Customizes a11y notifications                |
-
-## SearchQuery
+This is the configuration for the main search query. Some of these configuration options are not supported by some connectors. Each connector will document the options that are not supported.
 
 ```js
 
@@ -62,7 +47,7 @@ searchQuery: {
 Tells Search UI to fetch facet data that can be used with Facet Components.
 
 ```js
-facets: {
+  facets: {
     // example of a value facet
     states: { type: "value", size: 30 },
 
@@ -108,7 +93,8 @@ facets: {
           { from: 500, name: "Perhaps fly?" },
         ],
       },
-    },
+    }
+  }
 ```
 
 #### Disjunctive Faceting
@@ -155,8 +141,8 @@ All fields specified within the search relevance section will be used for search
 
 Select from two ways to render text field values:
 
-Raw: An exact representation of the value within a field. And it is exact! It is not HTML escaped.
-Snippet: A snippet is an HTML escaped representation of the value within a field, where query matches are captured in `<em>` tags.
+- **Raw**: An exact representation of the value within a field. And it is exact! It is not HTML escaped.
+- **Snippet**: A snippet is an HTML escaped representation of the value within a field, where query matches are captured in `<em>` tags.
 
 A raw field defaults to the full field with no character limit outside of max document size. A custom range must be at least 20 characters.
 
@@ -241,9 +227,7 @@ filters: [{
 
 ## Autocomplete Query
 
-Provide relevant query suggestions for incomplete queries.
-
-`results` will perform autocomplete on the query being typed. This will give back results that are relevant to the query before the user has typed any additional characters.
+This is the configuration that provide relevant query suggestions for incomplete queries. Some of these configuration options are not supported by some connectors. Each connector will document the options that are not supported.
 
 ```js
 autocompleteQuery: {
@@ -267,3 +251,42 @@ autocompleteQuery: {
   }
 }
 ```
+
+### Results
+
+`results` will perform autocomplete on the query being typed. This will give back results that are relevant to the query before the user has typed any additional characters.
+
+```json
+results: {
+  resultsPerPage: 5,
+  result_fields: {
+    title: { snippet: { size: 100, fallback: true }},
+    nps_link: { raw: {} }
+  }
+},
+```
+
+| field           | description                                                                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                                             |
+| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as <DocLink id="api-configuration" section="result_fields" text="result fields" /> |
+
+### Suggestions
+
+Suggestions Query configuration for Search UI largely follows the same API as the [App Search Search API](https://www.elastic.co/guide/en/app-search/current/query-suggestion.html).
+
+```json
+{
+  "types": {
+    "documents": {
+      "fields": ["title", "states"]
+    }
+  },
+  "size": 4
+}
+```
+
+| option  | type    | required? | source                                                                                       |
+| ------- | ------- | --------- | -------------------------------------------------------------------------------------------- |
+| `types` | Object  | required  | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
+| `size`  | Integer | optional  | Number of suggestions to return.                                                             |

@@ -12,7 +12,7 @@ Uses [20, 40, 60] as default options. You can use `options` prop to pass custom 
 
 **Note:** When passing custom options make sure one of the option values match
 the current `resultsPerPageProp` value, which is 20 by default.
-To override `resultsPerPage` default value <DocLink id="advanced" section="Example-using-custom-options" text="refer to the custom options example" />.
+To override `resultsPerPage` default value, use the <DocLink id="api-react-core" section="initial-state" text="initial state" /> property.
 
 ### Example
 
@@ -45,8 +45,8 @@ import { SearchProvider, ResultsPerPage } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name      | Description                                                                                                                                                                                 |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| className |                                                                                                                                                                                             |
-| options   | Dropdown options to select the number of results to show per page.                                                                                                                          |
-| view      | Used to override the default view for this Component. See <DocLink id="advanced" section="component-views-and-html" text="Customization: Component views and HTML" /> for more information. |
+| Name      | Description                                                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className |                                                                                                                                                                                                               |
+| options   | Dropdown options to select the number of results to show per page.                                                                                                                                            |
+| view      | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |
