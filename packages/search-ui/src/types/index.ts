@@ -142,7 +142,7 @@ export interface APIConnector {
   ): Promise<AutocompleteResponseState>;
   onResultClick(params): void;
   onAutocompleteResultClick(params): void;
-  state: any;
+  state?: any;
   actions?: any;
 }
 

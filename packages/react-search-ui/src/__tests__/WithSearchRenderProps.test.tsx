@@ -22,8 +22,7 @@ describe("WithSearch", () => {
     onSearch: jest.fn(),
     onAutocomplete: jest.fn(),
     onResultClick: jest.fn(),
-    onAutocompleteResultClick: jest.fn(),
-    state: {}
+    onAutocompleteResultClick: jest.fn()
   };
 
   it("exposes state and actions to components", () => {
