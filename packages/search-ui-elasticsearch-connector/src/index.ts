@@ -21,8 +21,6 @@ type SearchConfiguration = {
 };
 
 class ElasticsearchAPIConnector implements APIConnector {
-  state = {};
-
   constructor(
     private config: ConnectionOptions,
     private searchConfig: SearchConfiguration
