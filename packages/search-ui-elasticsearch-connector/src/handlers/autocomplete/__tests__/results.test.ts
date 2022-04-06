@@ -55,6 +55,11 @@ describe("Autocomplete results", () => {
     const queryConfig: AutocompleteQueryConfig = {
       results: {
         resultsPerPage: 5,
+        search_fields: {
+          title: {
+            weight: 2
+          }
+        },
         result_fields: {
           title: {
             snippet: {
@@ -75,8 +80,7 @@ describe("Autocomplete results", () => {
       index: "test",
       connectionOptions: {
         apiKey: "test"
-      },
-      queryFields: ["title", "description"]
+      }
     });
 
     expect(results).toMatchInlineSnapshot(`

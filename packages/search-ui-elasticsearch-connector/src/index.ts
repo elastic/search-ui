@@ -16,15 +16,8 @@ type ConnectionOptions = {
   apiKey?: string;
 };
 
-type SearchConfiguration = {
-  queryFields: string[];
-};
-
 class ElasticsearchAPIConnector implements APIConnector {
-  constructor(
-    private config: ConnectionOptions,
-    private searchConfig: SearchConfiguration
-  ) {}
+  constructor(private config: ConnectionOptions) {}
 
   onResultClick(): void {
     console.error("not implemented");
@@ -45,8 +38,7 @@ class ElasticsearchAPIConnector implements APIConnector {
       index: this.config.index,
       connectionOptions: {
         apiKey: this.config.apiKey
-      },
-      queryFields: this.searchConfig.queryFields
+      }
     });
   }
 
@@ -61,8 +53,7 @@ class ElasticsearchAPIConnector implements APIConnector {
       index: this.config.index,
       connectionOptions: {
         apiKey: this.config.apiKey
-      },
-      queryFields: this.searchConfig.queryFields
+      }
     });
   }
 }

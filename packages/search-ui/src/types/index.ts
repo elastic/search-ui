@@ -87,6 +87,10 @@ export type ResponseState = {
   rawResponse: any;
 };
 
+export type SearchFieldConfiguration = {
+  weight?: number;
+};
+
 export type FieldConfiguration = {
   snippet?: {
     size?: number;
@@ -124,7 +128,7 @@ export type SearchQuery = {
   disjunctiveFacets?: string[];
   disjunctiveFacetsAnalyticsTags?: string[];
   result_fields?: Record<string, FieldConfiguration>;
-  search_fields?: Record<string, FieldConfiguration>;
+  search_fields?: Record<string, SearchFieldConfiguration>;
 } & RequestState;
 
 export type AutocompleteSearchQuery = {
