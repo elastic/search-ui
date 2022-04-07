@@ -40,11 +40,11 @@ export function getResultFields(
 export function getQueryFields(
   searchFields: Record<string, SearchFieldConfiguration> = {}
 ): string[] {
-  return Object.keys(searchFields).reduce((sum, fieldKey) => {
+  return Object.keys(searchFields).map((fieldKey) => {
     const fieldConfiguration = searchFields[fieldKey];
-    const weight = fieldConfiguration.weight || 1;
-    return [...sum, `${fieldKey}^${weight}`];
-  }, []);
+    const weight = `^${fieldConfiguration.weight || 1}`;
+    return fieldKey + weight;
+  });
 }
 
 function isValidDateString(dateString: unknown): boolean {
