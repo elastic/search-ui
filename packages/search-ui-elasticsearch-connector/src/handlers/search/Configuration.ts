@@ -38,7 +38,7 @@ export function getResultFields(
 }
 
 export function getQueryFields(
-  searchFields: Record<string, SearchFieldConfiguration>
+  searchFields: Record<string, SearchFieldConfiguration> = {}
 ): string[] {
   return Object.keys(searchFields).reduce((sum, fieldKey) => {
     const fieldConfiguration = searchFields[fieldKey];
