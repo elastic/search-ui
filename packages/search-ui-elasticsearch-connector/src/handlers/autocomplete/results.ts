@@ -1,17 +1,20 @@
 import {
+  AutocompletedResult,
   AutocompleteQueryConfig,
   FieldConfiguration,
-  RequestState
+  RequestState,
+  ResponseState,
+  SearchFieldConfiguration
 } from "@elastic/search-ui";
 import Searchkit, { MultiMatchQuery, SearchkitConfig } from "@searchkit/sdk";
 import { fieldResponseMapper } from "../common";
-import { getResultFields } from "../search/Configuration";
+import { getResultFields, getQueryFields } from "../search/Configuration";
 
 interface ConfigurationOptions {
   host: string;
   index: string;
   apiKey?: string;
-  queryFields: string[];
+  searchFields: Record<string, SearchFieldConfiguration>;
   resultFields: Record<string, FieldConfiguration>;
 }
 
@@ -19,10 +22,11 @@ function buildConfiguration({
   host,
   index,
   apiKey,
-  queryFields,
+  searchFields,
   resultFields
 }: ConfigurationOptions): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(resultFields);
+  const queryFields = getQueryFields(searchFields);
 
   const searchkitConfiguration: SearchkitConfig = {
     host: host,
@@ -46,14 +50,13 @@ export default async function handler(
   queryConfig: AutocompleteQueryConfig,
   host: string,
   index: string,
-  apiKey: string,
-  queryFields: string[]
-): Promise<any> {
+  apiKey: string
+): Promise<AutocompletedResult[]> {
   const searchkitConfiguration = buildConfiguration({
     host,
     index,
     apiKey,
-    queryFields,
+    searchFields: queryConfig.results.search_fields,
     resultFields: queryConfig.results.result_fields
   });
 

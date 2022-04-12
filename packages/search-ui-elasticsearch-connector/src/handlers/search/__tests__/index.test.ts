@@ -98,8 +98,7 @@ describe("Search results", () => {
       index: "test",
       connectionOptions: {
         apiKey: "test"
-      },
-      queryFields: ["title", "description"]
+      }
     });
 
     expect(results).toMatchInlineSnapshot(`
