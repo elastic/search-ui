@@ -1,6 +1,6 @@
 ---
-id: search-box
-slug: /search-box
+id: api-react-components-search-box
+slug: /api/react/components/search-box
 title: SearchBox
 date: 2022-02-27
 tags: ["demo"]
@@ -22,12 +22,10 @@ import { SearchBox } from "@elastic/react-search-ui";
 ### Configuring search queries
 
 The input from `SearchBox` will be used to trigger a new search query. That query can be further customized
-in the `SearchProvider` configuration, using the `searchQuery` property. See the
-
-<DocLink
-  id="advanced"
-  section="advanced-configuration"
-  text="Advanced Configuration"
+in the `SearchProvider` configuration, using the `searchQuery` property. See the <DocLink
+  id="api-configuration"
+  section="search-query-queryconfig"
+  text="Search Query Configuration"
 /> guide for more information.
 
 ### Example of passing custom props to text input element
@@ -153,7 +151,7 @@ sections. Section titles can be added to help distinguish between the two.
 ### Configuring autocomplete queries
 
 Autocomplete queries can be customized in the `SearchProvider` configuration, using the `autocompleteQuery` property.
-See the <DocLink id="advanced" section="advanced-configuration" text="Advanced Configuration Guide" /> for more information.
+See the <DocLink id="api-configuration" section="Autocomplete Query" text="Autocomplete Query Configuration" /> for more information.
 
 ```jsx
 <SearchProvider
@@ -267,7 +265,7 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 | inputProps                    | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`.                                                                                                                                                                                                                                                                                  |
 | searchAsYouType               | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                                                                                                                                                                                                 |
 | debounceLength                | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait.                                                                                                                                                                                 |
-| view                          | Used to override the default view for this Component. See the <DocLink id="advanced" section="component-views-and-html" text="Customization: Component views and HTML" /> section for more information.                                                                                                                                                      |
+| view                          | Used to override the default view for this Component. See the <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> section for more information.                                                                                                                                    |
 | autocompleteResults           | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                                                                              |
 | autocompleteSuggestions       | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
 | autocompleteMinimumCharacters | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
@@ -292,26 +290,3 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 | Name         | Description                              |
 | ------------ | ---------------------------------------- |
 | sectionTitle | Title to show in section within dropdown |
-
-
-
----
-
-
----
-
-
----
-
----
-
-
----
-
-
-
----
-
-
----
-

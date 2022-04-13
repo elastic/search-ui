@@ -87,10 +87,6 @@ export type ResponseState = {
   rawResponse: any;
 };
 
-export type SearchFieldConfiguration = {
-  weight?: number;
-};
-
 export type FieldConfiguration = {
   snippet?: {
     size?: number;
@@ -98,6 +94,10 @@ export type FieldConfiguration = {
   };
   fields?: string[];
   raw?: any;
+};
+
+export type SearchFieldConfiguration = {
+  weight?: number;
 };
 
 // https://github.com/elastic/search-ui/blob/master/ADVANCED.md#configuring-autocomplete-queries
