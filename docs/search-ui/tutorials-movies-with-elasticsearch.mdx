@@ -14,9 +14,11 @@ Within this tutorial, we assume that you have node.js installed on your machine.
 
 First we need to setup elasticsearch. The easiest way to do this is to create an elasticsearch instance via [cloud](https://cloud.elastic.co/registration).
 
+### Setting up an Index
+
 We are going to issue commands via the dev tools that's accessible within kibana. You can alternatively use a REST client like Postman to achieve this.
 
-Next we need to create an index for our data. We can do this simply via the following request:
+First we need to create an index for our data. We can do this simply via the following request:
 
 ```shell
 PUT /my-example-movies
@@ -52,6 +54,28 @@ Notice here we are only giving read privileges for this api key. You will need t
 Once saved, you are presented with the api-key. Copy this and keep it safe. We will need to use this further down in the tutorial.
 
 ![copy api key](images/elasticsearch-tutorial/api-key-view.jpeg)
+
+### Enabling CORS
+
+If you're going to be accessing elasticsearch directly from a browser and the elasticsearch host domain doesn't match your site's domain, you will need to enable CORS.
+
+CORS is a browser mechanism which enables controlled access to resources located outside of the current domain. In order for the browser to make requests to elasticsearch, CORS configuration headers need to specified in the elasticsearch configuration.
+
+![edit-deployment-settings](images/elasticsearch-tutorial/edit-settings.png)
+
+You can do this in cloud by going to the deployment settings for your elasticsearch instance, click "Edit user settings and plugins" and under "user settings", add the CORS configuration below:
+
+```yaml
+http.cors.allow-origin: "*"
+http.cors.enabled: true
+http.cors.allow-credentials: true
+http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers: X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept
+```
+
+![edit-deployment-settings](images/elasticsearch-tutorial/cors-settings.png)
+
+then save. Your elasticsearch instance will be restarted and the CORS configuration will be active.
 
 ## Step 2: Setup Movies Index
 
@@ -399,4 +423,4 @@ Lets recap of the steps we have covered:
 - we updated the search-ui configuration to specify the fields to be searchable, facetable
 - we updated the components to use these fields
 
-Next you can add more data into the index, <DocLink id="guides-customizing-styles-and-html" section="results-component" text="update the results view to display more fields" />, and test the app.
+Next you can add more data into the index, <DocLink id="guides-customizing-styles-and-html" section="results-component" text="update the results view to display more fields" />, and deploy the app.
