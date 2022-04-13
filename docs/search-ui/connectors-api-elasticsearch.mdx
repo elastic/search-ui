@@ -1,9 +1,9 @@
 ---
-id: connectors-elasticsearch
-slug: /connectors/elasticsearch
+id: connectors-api-elasticsearch
+slug: /connectors-api/elasticsearch-connector
 title: Elasticsearch Connector
-date: 2022-03-24
-tags: ["elasticsearch-connector"]
+date: 2022-02-27
+tags: ["demo"]
 ---
 
 Search UI provides a way to connect to Elasticsearch directly without needing Enterprise Search. This is useful for when you dont need the features of Enterprise Search such as relevance tuning.
@@ -13,19 +13,20 @@ The connector uses the same Search UI configuration that other connectors use.
 ```js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-const connector = new ElasticsearchAPIConnector(
-  {
-    host: "http://localhost:9200", // host url for the elasticsearch instance
-    index: "search-ui-examples", // index name where the search documents are contained
-    apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-    // This key will be visible to everyone so ensure its setup with restricted privileges.
-    // See Authentication section for more details.
-  },
-  {
-    queryFields: ["title", "description"]
-  }
-);
+const connector = new ElasticsearchAPIConnector({
+  host: "http://localhost:9200", // host url for the elasticsearch instance
+  index: "search-ui-examples", // index name where the search documents are contained
+  apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+  // This key will be visible to everyone so ensure its setup with restricted privileges.
+  // See Authentication section for more details.
+});
 ```
+
+| Param  | Description                                                                                                                       |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| host   | Required. String type. The host url to the elasticsearch instance                                                                 |
+| index  | Required. String type. The search index name                                                                                      |
+| apiKey | Optional. a credential used to access the elasticsearch instance. See [Connection & Authentication](#connection-&-authentication) |
 
 ## Connection & Authentication
 

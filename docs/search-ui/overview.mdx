@@ -1,7 +1,7 @@
 ---
 id: overview
 slug: /overview
-title: Search UI
+title: Overview
 description: For the fast development of modern, engaging search experiences. 🎉
 date: 2022-02-27
 tags: ["demo"]
@@ -28,12 +28,7 @@ Checkout the [live demo of Search UI](https://search-ui-stable.netlify.com).
 
 [![Edit search-ui-national-parks-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/search-ui-national-parks-example-ts-k6u5iz)
 
-
 ## FAQ 🔮
-
-### Where can I learn more?
-
-The <DocLink id="advanced" text="Advanced guide" /> contains several useful guides. 😎
 
 ### Is Search UI only for React?
 
@@ -47,13 +42,13 @@ You can write support for it into any JavaScript framework. You can even use van
 
 You can!
 
-Read the <DocLink id="advanced" section="custom-styles-and-layout" text="Custom Styles and Layout Guide" /> to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
+Read the <DocLink id="guides-customizing-styles-and-html" text="Custom Styles and Layout Guide" /> to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
 
 ### Can I build my own Components?
 
 Yes! Absolutely.
 
-Check out the <DocLink id="advanced" section="build-your-own-component" text="Build Your Own Component Guide" />.
+Check out the <DocLink id="guides-creating-your-own-components" text="Build Your Own Component Guide" />.
 
 ### Does Search UI only work with App Search?
 
@@ -61,18 +56,11 @@ Nope! We do have two first party connectors: Site Search and App Search.
 
 But Search UI is headless. You can use _any_ Search API.
 
-Read the <DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers Guide" />.
+Read the <DocLink id="connectors-api-custom-connector" /> to learn more about building your own connector for your API.
 
 ### How do I use this with Elasticsearch?
 
-First off, we should mention that it is not recommended to make API calls directly to Elasticsearch
-from a browser, as noted in the [elasticsearch-js client](https://github.com/elastic/elasticsearch-js#browser).
-
-The safest way to interact with Elasticsearch from a browser is to make all Elasticsearch queries server-side. Or you can use [Elastic App Search](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product), which can create public, scoped API credentials and be exposed directly to a browser.
-
-That being said, Search UI will still work with Elasticsearch (or any other API, for that matter). Read the
-<DocLink id="advanced" section="connectors-and-handlers" text="Connectors and Handlers Guide" /> to learn more, or check out the
-[Elasticsearch Example](https://github.com/elastic/search-ui/tree/master/examples/elasticsearch).
+Read the <DocLink id="connectors-api-elasticsearch" text="Elasticsearch Connector" /> docs.
 
 ### Where do I report issues with the Search UI?
 

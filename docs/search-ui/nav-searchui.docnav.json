@@ -5,26 +5,55 @@
   "icon": "inspect",
   "description": "Docs for Elastic's Search UI project",
   "items": [
+    { "label": "Search UI", "items": [{ "id": "overview" }] },
+    { "label": "Tutorials", "items": [{ "id": "tutorials-us-parks-search" }, { "id": "tutorials-movies-with-elasticsearch" }] },
     {
-      "label": "Search UI",
+      "label": "API",
       "items": [
-        { "label": "Overview", "id": "overview" },
-        { "id": "quick-start" },
-        { "id": "advanced" },
+        { "id": "api-configuration" },
+        { "id": "api-state" },
+        { "id": "api-actions" },
+        { "id": "api-event-hooks"}
+      ]
+    },
+    {
+      "label": "React API",
+      "items": [
+        { "id": "api-react-core" },
+        { "id": "api-react-hocs" },
         {
-          "label": "Components",
+          "label": "Search Components",
           "items": [
-            { "id": "search-box" },
-            { "id": "results" },
-            { "id": "result" },
-            { "id": "results-per-page" },
-            { "id": "facet" },
-            { "id": "sorting" },
-            { "id": "paging" },
-            { "id": "paging-info" },
-            { "id": "error-boundary" }
+            { "id": "api-react-components-search-box" },
+            { "id": "api-react-components-results" },
+            { "id": "api-react-components-result" },
+            { "id": "api-react-components-results-per-page" },
+            { "id": "api-react-components-facet" },
+            { "id": "api-react-components-sorting" },
+            { "id": "api-react-components-paging" },
+            { "id": "api-react-components-paging-info" },
+            { "id": "api-react-components-error-boundary" }
           ]
         }
+      ]
+    },
+    {
+      "label": "Connectors API",
+      "items": [
+        { "id": "connectors-api-app-search" },
+        { "id": "connectors-api-site-search" },
+        { "id": "connectors-api-elasticsearch" },
+        { "id": "connectors-api-custom-connector" }
+      ]
+    },
+    {
+      "label": "Guides",
+      "items": [
+        { "id": "guides-philosphy" },
+        { "id": "guides-extending-view-components"},
+        { "id": "guides-customizing-styles-and-html" },
+        { "id": "guides-creating-your-own-components" },
+        { "id": "guides-debugging" }
       ]
     }
   ]
