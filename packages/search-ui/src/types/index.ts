@@ -87,6 +87,10 @@ export type ResponseState = {
   rawResponse: any;
 };
 
+export type SearchFieldConfiguration = {
+  weight?: number;
+};
+
 export type FieldConfiguration = {
   snippet?: {
     size?: number;

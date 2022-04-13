@@ -28,9 +28,6 @@ const connector = new ElasticSearchAPIConnector(
   {
     host: process.env.REACT_ELASTICSEARCH_HOST || "http://localhost:9200",
     index: process.env.REACT_ELASTICSEARCH_INDEX || "us_parks"
-  },
-  {
-    queryFields: ["title", "description", "states"]
   }
 );
 
@@ -40,6 +37,14 @@ const config = {
   apiConnector: connector,
   hasA11yNotifications: true,
   searchQuery: {
+    search_fields: {
+      title: { 
+        weight: 3
+      },
+      description: {
+        
+      }
+    },
     result_fields: {
       visitors: { raw: {} },
       world_heritage_site: { raw: {} },

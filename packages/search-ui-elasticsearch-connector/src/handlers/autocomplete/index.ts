@@ -14,21 +14,17 @@ interface AutocompleteHandlerConfiguration {
   connectionOptions?: {
     apiKey: string;
   };
-  queryFields: string[];
 }
 
 export default async function handleRequest(
   configuration: AutocompleteHandlerConfiguration
 ): Promise<AutocompleteResponseState> {
-  const { state, queryConfig, host, index, connectionOptions, queryFields } =
-    configuration;
+  const { state, queryConfig, host, index, connectionOptions } = configuration;
   const { apiKey } = connectionOptions || {};
   const requests = [];
 
   if (queryConfig.results) {
-    requests.push(
-      resultsHandler(state, queryConfig, host, index, apiKey, queryFields)
-    );
+    requests.push(resultsHandler(state, queryConfig, host, index, apiKey));
   }
 
   if (queryConfig.suggestions && queryConfig.suggestions.types) {
