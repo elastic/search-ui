@@ -1,72 +1,48 @@
 ---
-id: tutorials-us-parks-search
-slug: /tutorials/us-parks
-title: US Parks Tutorial
-date: 2022-03-31
+id: tutorials-app-search
+slug: "/tutorials/app-search"
+title: "Search UI with App Search"
+description: Build a search experience with App Search and Search UI
+date: 2022-04-13
 tags: ["Tutorial", "Parks", "US"]
 ---
 
-This tutorial will guide you through the process of creating a Search UI with App Search, using the app search connector. We will be using a sample US parks data-set.
+This tutorial will guide you through the process of creating a Search UI with [App Search](https://elastic.co/app-search), using the `search-ui-app-search-connector`. We will be using a sample engine in App Search, which comes pre-loaded with A US national parks dataset.
 
-Within this tutorial, we assume that you have node.js installed on your machine.
+Within this tutorial, we assume that you have Node.js installed on your machine.
 
-## Step 1: Setup App Search
+## Setup App Search
 
-First we need to setup App Search. The easiest way to do this is to use the Elastic's Cloud to create an App Search deployment. You can signup for an App Search deployment [here](https://cloud.elastic.co/registration).
+First we need to setup App Search, which is a part of [Elastic Enterprise Search](https://elastic.co/enterprise-search). The easiest way to do this is to create a deployment on [Elastic Cloud](https://elastic.co/cloud). You can sign up for a free 14-day trial [here](https://cloud.elastic.co/register), no credit card required.
 
-Once App Search has been setup, navigate to App Search in Kibana. You should be able to see a link to Enterprise Search from the home menu.
+Once your deployment has been created, navigate to Enterprise Search in Kibana. You should be able to see a link to Enterprise Search from the home menu.
 
 ![search-ui](images/app-search-tutorial/kibana-home.png)
-
-Then next navigate to App Search and start to create your engine that will hold our us parks records.
-
 ![search-ui](images/app-search-tutorial/ent-search-home.png)
 
-### Setup Engine
+In the next step, we'll navigate to App Search and create an engine that will hold our US national parks documents.
 
-Add a name for the engine. Here we have chosen "us-parks".
+## Create an Engine with Sample Data
+
+Select "Try a sample engine", which creates a engine loaded with useful sample data. The sample engine will be pre-loaded with the US national parks dataset that we'll need for our search experience. Easy!
 
 ![search-ui](images/app-search-tutorial/create-engine.png)
 
-### Index Data
+### Configure Schema
 
-Once we have created an engine, we need to index our data. We will be using the [US Parks dataset](https://www.us-parks.org/dataset/). To do this, we use the "Paste JSON" option and App search has provided a sample dataset.
-
-```json
-{
-  "id": "park_rocky-mountain",
-  "title": "Rocky Mountain",
-  "description": "Bisected north to south by the Continental Divide, this portion of the Rockies has ecosystems varying from over 150 riparian lakes to montane and subalpine forests to treeless alpine tundra. Wildlife including mule deer, bighorn sheep, black bears, and cougars inhabit its igneous mountains and glacial valleys. Longs Peak, a classic Colorado fourteener, and the scenic Bear Lake are popular destinations, as well as the historic Trail Ridge Road, which reaches an elevation of more than 12,000 feet (3,700 m).",
-  "nps_link": "https://www.nps.gov/romo/index.htm",
-  "states": ["Colorado"],
-  "visitors": 4517585,
-  "world_heritage_site": false,
-  "location": "40.4,-105.58",
-  "acres": 265795.2,
-  "square_km": 1075.6,
-  "date_established": "1915-01-26T06:00:00Z"
-}
-```
-
-![search-ui](images/app-search-tutorial/paste-json-data.png)
-
-### Field Schema
-
-App Search will infer the data types for each field based on the data. We can also manually configure the data types for each field.
-
-To do this, we go to the `Schema` section of the engine.
+Once our sample engine has been created, the next step is to inspect our engine's schema. By default, App Search will choose the field type "text" for each field, but we can manually configure the field types to match the type of data each field represents — text, date, geolocation, or number. **For the sample engine, the fields have been pre-configured for us.**
 
 ![search-ui](images/app-search-tutorial/configure-schema.png)
 
-Here we have adjusted a number of fields from their default `text` field type:
+If you inspect the schema, you'll notice that a number of fields have been changed from their default `text` field type:
 
-- visitors to be a number
-- square_km to be a number
-- date_established to be a date
-- location to be a geolocation
-- acres to be a number
+- `visitors` to be a **number**
+- `square_km` to be a **number**
+- `date_established` to be a **date**
+- `location` to be a **geolocation**
+- `acres` to be a **number**
 
-Adjusting the field type allows us to use different queries and facet filters only applicable to the data types we are using.
+Adjusting the field type allows us to use different queries, facets, and filters only applicable to the field types we are using. [Learn more about App Search schemas](https://www.elastic.co/guide/en/app-search/current/indexing-documents-guide.html#indexing-documents-guide-schema)
 
 ### API Keys
 
@@ -79,9 +55,9 @@ API keys are used to access the engine. By default, there are two key types avai
 
 For this example, we are going to use the search-key. By default the search-key has been created. To use it, we must copy the key. Keep this key safe, we will be using it later on.
 
-Also above is the host url. Copy this as we will use this later on too.
+Also above is the host url. Copy this as we will use it later on as well.
 
-## Step 2: Building a Search UI
+## Build a Search Experience with Search UI
 
 For this tutorial, we are going to be using the popular [Create React App (CRA) framework](https://reactjs.org/docs/create-a-new-react-app.html). To get started, we run the following command
 
@@ -103,7 +79,7 @@ This will download the latest version of the packages and install them into our 
 
 ### Add Search UI React Components
 
-We can now add the Search UI React components to our project. First we need to open the `src/App.js` file and add the following:
+We can now add the Search UI React components to our project. First we need to open `src/App.js` and replace it's contents with the following:
 
 ```js
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
@@ -129,9 +105,9 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new AppSearchAPIConnector({
-  searchKey: "<your-api-key>",
-  engineName: "us-parks",
-  endpointBase: "<your-host-url>"
+  searchKey: "<your-search-key>",
+  engineName: "national-parks-demo",
+  endpointBase: "<your-endpoint-url>"
 });
 
 const config = {
@@ -190,21 +166,39 @@ export default function App() {
 }
 ```
 
+Before we can run our app, we'll have to do some initial configuration. To start, let's add our deployment details to the `connector` configuration. Replace `<your-search-key>` with your deployment's public search key and replace `<your-endpoint-url>` with your deployment's endpoint URL.
+
+```jsx
+const connector = new AppSearchAPIConnector({
+  searchKey: "<your-search-key>",
+  engineName: "national-parks-demo",
+  endpointBase: "<your-endpoint-url>"
+});
+```
+
+Next, we'll have to add at least one field to `search_fields` within the `config` object, otherwise Search UI won't be able to successfully execute a query. Let's start by adding the `title` field:
+
+```jsx
+search_fields: {
+  title: {}
+},
+```
+
 Lets check that the app works by running the following command:
 
 ```shell
 yarn start
 ```
 
-Hopefully you now have a working search UI, something similar to below.
+You should now have a working, basic search experience that looks similar to the example below:
 
 ![search-ui](images/app-search-tutorial/initial-cra.png)
 
-## Step 5: Setup configuration
+## Configure Search UI
 
-We have a working search UI, but we need to configure it now to use the data we have. Lets start by identifying which fields we want to search, display and be a facet.
+We now have a working search experience, but we need to configure it now to take advantage of the data we have. Lets start by identifying which fields we want to search, display, and make available as facets.
 
-Here is the data that we have indexed:
+Here's an example document from the data that we have indexed:
 
 ```json
 {
@@ -222,7 +216,7 @@ Here is the data that we have indexed:
 }
 ```
 
-and the fields that we want to be:
+Based on this document, we can determine the fields that we want to be:
 
 - **Searchable**: title, description, states
 - **Displayable**: title, description, states, visitors, acres, square_km, date_established, nps_link
@@ -230,26 +224,26 @@ and the fields that we want to be:
 
 ### Searchable Configuration
 
-We want title, description, and states to be searchable. We can do this by adding the following to the `config` object:
+In a previous step we added the `title` to `search_fields`, but we'll expand on that here. For our complete search experience, we want `title`, `description`, and `states` to be searchable. We can do this by adding the following to the `config` object:
 
 ```js
-  search_fields: {
-    title: {
-      weight: 5
-    },
-    description: {},
-    states: {}
-  }
+search_fields: {
+  title: {
+    weight: 5
+  },
+  description: {},
+  states: {}
+}
 ```
 
-The weight is the weight of the field. The higher the weight, the more important the field is.
+The `weight` parameter that we added to `title` is the weight of the field. The higher the weight, the more important the field is when relevance is calculated. [Learn more about relevance tuning](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html)
 
 ### Displayble Configuration
 
-We want title, description, states, visitors, acres, square_km, nps_link and date_established to be displayable. We can do this by adding the following to the `config` object:
+We want `title`, `description`, `states`, `visitors`, `acres`, `square_km`, `nps_link` and `date_established` to be displayable, or usable in our search results. We can do this by adding the following to the `config` object:
 
 ```js
-  result_fields: {
+result_fields: {
   title: {
     snippet: {
       fallback: true
@@ -273,17 +267,11 @@ We want title, description, states, visitors, acres, square_km, nps_link and dat
 }
 ```
 
-Snippet is a configuration for the display of the field. Any value that matches a field will be displayed in the results as a highlight. The fallback will be used if a highlight is not found.
+`snippet` is a configuration for the display of the field. Any value that matches a field will be displayed in the results as a highlight. The `fallback` will be used if a highlight is not found. [Learn more about result settings](https://www.elastic.co/guide/en/app-search/current/result-settings-guide.html)
 
 ### Facetable Configuration
 
-We want states, visitors, acres, square_km, and date_established to be facetable. We can do this by adding the following to the `config` object:
-
-Below is an example of a variety of facet types, including:
-
-- value facet: displays a list of filters aggregated by their counts
-- range facet: displays a list of range filters (both numeric and date) aggregated by their counts
-- geo-location facet: geo distance filters based on a location
+We want `states`, `visitors`, `acres`, `square_km`, and `date_established` to be facetable. We can do this by adding the following to the `config` object:
 
 ```js
 facets: {
@@ -342,7 +330,15 @@ facets: {
 }
 ```
 
-For these facets to appear, we need to add the facet components
+The example above shows a variety of facet types, including:
+
+- value facet: displays a list of filters aggregated by their counts
+- range facet: displays a list of range filters (both numeric and date) aggregated by their counts
+- geo-location facet: geo distance filters based on a location
+
+[Learn more about facets](https://www.elastic.co/guide/en/app-search/current/facets-guide.html)
+
+For these facets to appear, we need to add the facet components to our view. Let's replace the `sideContent` prop in our view with the example below:
 
 ```jsx
 sideContent={
@@ -382,7 +378,7 @@ sideContent={
 }
 ```
 
-## Step 6: Test Drive!
+## Test Drive!
 
 You should be able to see the results of your search like below:
 

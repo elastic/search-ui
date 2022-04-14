@@ -1,22 +1,23 @@
 ---
-id: tutorials-movies-with-elasticsearch
-slug: /tutorials/movies-with-elasticsearch
-title: Movies with Elasticsearch
-date: 2022-03-31
-tags: ["Tutorial", "elasticsearch", "movies"]
+id: tutorials-elasticsearch
+slug: /tutorials/elasticsearch
+title: "Search UI with Elasticsearch"
+description: Build a search experience with Elasticsearch and Search UI
+date: 2022-04-13
+tags: ["Tutorial", "Elasticsearch", "movies"]
 ---
 
-This tutorial will guide you through the process of creating a Search UI with elasticsearch directly, using the elasticsearch-connector. We will be using a sample movie data-set of around 1000 movies.
+This tutorial will guide you through the process of creating a Search UI with Elasticsearch directly, using the `elasticsearch-connector`. We will be using a sample movie data-set of around 1000 movies.
 
-Within this tutorial, we assume that you have node.js installed on your machine.
+Within this tutorial, we assume that you have Node.js installed on your machine.
 
 ## Step 1: Setup Elasticsearch
 
-First we need to setup elasticsearch. The easiest way to do this is to create an elasticsearch instance via [cloud](https://cloud.elastic.co/registration).
+First we need to setup Elasticsearch. The easiest way to do this is to create an Elasticsearch instance via [Elastic Cloud](https://cloud.elastic.co/registration).
 
 ### Setting up an Index
 
-We are going to issue commands via the dev tools that's accessible within kibana. You can alternatively use a REST client like Postman to achieve this.
+We are going to issue commands via [Kibana's dev tools console](https://www.elastic.co/guide/en/kibana/current/console-kibana.html). You can alternatively use a REST client like Postman to achieve this.
 
 First we need to create an index for our data. We can do this simply via the following request:
 
@@ -30,7 +31,7 @@ Elasticsearch will acknowledge our request in the response.
 
 ### Setting up a read-only API Key
 
-Next we need to setup an API key to access the data from the index. We can do this via Kibana's Stack Management API Keys page. (/app/management/security/api_keys). Note that security needs to be enabled for this option to be available.
+Next we need to setup an API key to access the data from the index. We can do this via Kibana's Stack Management API Keys page (`<your Kibana endpoint>/app/management/security/api_keys`). Note that security needs to be enabled for this option to be available.
 
 Notice here we are only giving read privileges for this api key. You will need to setup an api key with write privileges to add and update data to the index.
 
@@ -57,13 +58,13 @@ Once saved, you are presented with the api-key. Copy this and keep it safe. We w
 
 ### Enabling CORS
 
-If you're going to be accessing elasticsearch directly from a browser and the elasticsearch host domain doesn't match your site's domain, you will need to enable CORS.
+If you're going to be accessing Elasticsearch directly from a browser and the Elasticsearch host domain doesn't match your site's domain, you will need to enable CORS.
 
-CORS is a browser mechanism which enables controlled access to resources located outside of the current domain. In order for the browser to make requests to elasticsearch, CORS configuration headers need to specified in the elasticsearch configuration.
+CORS is a browser mechanism which enables controlled access to resources located outside of the current domain. In order for the browser to make requests to Elasticsearch, CORS configuration headers need to specified in the Elasticsearch configuration.
 
 ![edit-deployment-settings](images/elasticsearch-tutorial/edit-settings.png)
 
-You can do this in cloud by going to the deployment settings for your elasticsearch instance, click "Edit user settings and plugins" and under "user settings", add the CORS configuration below:
+You can do this in cloud by going to the deployment settings for your Elasticsearch instance, click "Edit user settings and plugins" and under "user settings", add the CORS configuration below:
 
 ```yaml
 http.cors.allow-origin: "*"
@@ -75,7 +76,7 @@ http.cors.allow-headers: X-Requested-With, X-Auth-Token, Content-Type, Content-L
 
 ![edit-deployment-settings](images/elasticsearch-tutorial/cors-settings.png)
 
-then save. Your elasticsearch instance will be restarted and the CORS configuration will be active.
+then save. Your Elasticsearch instance will be restarted and the CORS configuration will be active.
 
 ## Step 2: Setup Movies Index
 
@@ -142,13 +143,13 @@ For our movie data-set, we will be using the following fields:
 
 - title (searchable)
 - plot (searchable)
-- genre (searchable), facetable)
+- genre (searchable, facetable)
 - actors (searchable, facetable)
 - directors (searchable, facetable)
 - released (filterable)
 - imdbRating (filterable)
 
-so the mapping file will be as follows and we use the kibana dev tools to update the mapping file for our index.
+The mapping file will be as follows, and we'll once again use Kibana's dev tools console to update the mapping file for our index.
 
 ```shell
 PUT /my-example-movies/_mapping
@@ -228,19 +229,19 @@ yarn
 
 ### Installing connector
 
-Within the folder, we can now install the @elastic/search-ui-elasticsearch-connector library with yarn.
+Within the folder, we can now install the `@elastic/search-ui-elasticsearch-connector` library with Yarn.
 
 ```shell
 yarn add @elastic/search-ui-elasticsearch-connector
 ```
 
-Make sure to check and update Search-UI dependencies to the latest version. You can find the latest version by going to [NPM's page for @elastic/search-ui](https://www.npmjs.com/package/@elastic/search-ui).
+Make sure to check and update Search UI dependencies to the latest version. You can find the latest version by going to [NPM's page for @elastic/search-ui](https://www.npmjs.com/package/@elastic/search-ui).
 
 ### Setting up the connector
 
 Open the project within your favorite editor.
 
-Within `src/App.js`, change line 3 to import the elasticsearch connector. You no longer need the app-search connector.
+Within `src/App.js`, change line 3 to import the Elasticsearch connector. You no longer need the app-search connector.
 
 ```js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
@@ -256,11 +257,11 @@ const connector = new ElasticsearchAPIConnector({
 });
 ```
 
-You can find your elasticsearch host in deployment if your hosted your elasticsearch on cloud.
+If you're using Elastic Cloud, you can find your Elasticsearch host within your deployment's details.
 
 ![copy es endpoint](images/elasticsearch-tutorial/copy-es-endpoint.jpeg)
 
-### Step 5: Configure Search UI
+## Step 5: Configure Search UI
 
 Next lets configure Search UI for our needs! Navigate to the config within app.js and update the following:
 
@@ -360,10 +361,10 @@ In the above example, we configured the:
 
 We are going to do several steps here:
 
-- update the Searchbox to switch off autocomplete
+- update the `<Searchbox />` component to switch off autocomplete
 - remove sorting options
-- add facet component for each facet field
-- update results component to display all the fields
+- add a `<Facet />` component for each facet field
+- update the `<Results />` component to display all the fields
 
 ```jsx
 <div className="App">
@@ -416,10 +417,10 @@ and then view the results in the browser at http://localhost:3000/
 
 Lets recap of the steps we have covered:
 
-- we setup and configured the elasticsearch index for our data
+- we setup and configured the Elasticsearch index for our data
 - we indexed an example movie
-- we checked out the starter app and added the elasticsearch connector
-- we configured the elasticsearch connector to connect to our elasticsearch index
+- we checked out the starter app and added the Elasticsearch connector
+- we configured the Elasticsearch connector to connect to our Elasticsearch index
 - we updated the search-ui configuration to specify the fields to be searchable, facetable
 - we updated the components to use these fields
 
