@@ -49,6 +49,7 @@
       "items": [
         { "id": "connectors-api-app-search" },
         { "id": "connectors-api-site-search" },
+        { "id": "connectors-api-workplace-search" },
         { "id": "connectors-api-elasticsearch" },
         { "id": "connectors-api-custom-connector" }
       ]
