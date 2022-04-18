@@ -6,14 +6,21 @@
   "description": "Docs for Elastic's Search UI project",
   "items": [
     { "label": "Search UI", "items": [{ "id": "overview" }] },
-    { "label": "Tutorials", "items": [{ "id": "tutorials-us-parks-search" }, { "id": "tutorials-movies-with-elasticsearch" }] },
+    {
+      "label": "Tutorials",
+      "items": [
+        { "id": "tutorials-us-parks-search" },
+        { "id": "tutorials-movies-with-elasticsearch" },
+        { "id": "tutorials-workplace-search" }
+      ]
+    },
     {
       "label": "API",
       "items": [
         { "id": "api-configuration" },
         { "id": "api-state" },
         { "id": "api-actions" },
-        { "id": "api-event-hooks"}
+        { "id": "api-event-hooks" }
       ]
     },
     {
@@ -50,7 +57,7 @@
       "label": "Guides",
       "items": [
         { "id": "guides-philosphy" },
-        { "id": "guides-extending-view-components"},
+        { "id": "guides-extending-view-components" },
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-debugging" }
