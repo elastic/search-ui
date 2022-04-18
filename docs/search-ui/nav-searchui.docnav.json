@@ -74,7 +74,7 @@
     {
       "label": "Guides",
       "items": [
-        { "id": "guides-philosphy" },
+        { "id": "guides-philosophy" },
         { "id": "guides-extending-view-components" },
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
