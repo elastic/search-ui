@@ -5,13 +5,30 @@
   "icon": "inspect",
   "description": "Docs for Elastic's Search UI project",
   "items": [
-    { "label": "Search UI", "items": [{ "id": "overview" }] },
+    {
+      "label": "Overview",
+      "items": [
+        {
+          "id": "overview",
+          "label": "Overview"
+        }
+      ]
+    },
     {
       "label": "Tutorials",
       "items": [
-        { "id": "tutorials-us-parks-search" },
-        { "id": "tutorials-movies-with-elasticsearch" },
-        { "id": "tutorials-workplace-search" }
+        {
+          "id": "tutorials-app-search",
+          "label": "App Search"
+        },
+        {
+          "id": "tutorials-elasticsearch",
+          "label": "Elasticsearch"
+        },
+        {
+          "id": "tutorials-workplace-search",
+          "label": "Workplace Search"
+        },
       ]
     },
     {
