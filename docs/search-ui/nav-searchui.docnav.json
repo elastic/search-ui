@@ -24,6 +24,10 @@
         {
           "id": "tutorials-elasticsearch",
           "label": "Elasticsearch"
+        },
+        {
+          "id": "tutorials-workplace-search",
+          "label": "Workplace Search"
         }
       ]
     },
@@ -33,7 +37,7 @@
         { "id": "api-configuration" },
         { "id": "api-state" },
         { "id": "api-actions" },
-        { "id": "api-event-hooks"}
+        { "id": "api-event-hooks" }
       ]
     },
     {
@@ -62,6 +66,7 @@
       "items": [
         { "id": "connectors-api-app-search" },
         { "id": "connectors-api-site-search" },
+        { "id": "connectors-api-workplace-search" },
         { "id": "connectors-api-elasticsearch" },
         { "id": "connectors-api-custom-connector" }
       ]
@@ -69,8 +74,8 @@
     {
       "label": "Guides",
       "items": [
-        { "id": "guides-philosphy" },
-        { "id": "guides-extending-view-components"},
+        { "id": "guides-philosophy" },
+        { "id": "guides-extending-view-components" },
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-debugging" }
