@@ -4,7 +4,7 @@ Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
 This Connector is used to connect Search UI to Elastic's [Workplace Search](https://www.elastic.co/workplace-search/) API.
 
-> ⚠️ This is a technical preview of the Workplace Search connector for Search UI. It is not ready for production use. ⚠️
+> ⚠️ Workplace Search connector for Search UI is currently in technical preview status. It is not ready for production use. ⚠️
 
 ## Usage
 
