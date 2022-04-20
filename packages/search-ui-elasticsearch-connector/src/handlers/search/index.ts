@@ -38,7 +38,8 @@ export default async function handleRequest(
       facets: queryConfig.facets && Object.keys(queryConfig.facets).length > 0,
       hits: {
         from: searchkitVariables.from,
-        size: searchkitVariables.size
+        size: searchkitVariables.size,
+        includeRawHit: true
       }
     });
 
