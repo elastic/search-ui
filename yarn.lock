@@ -2784,10 +2784,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@searchkit/sdk@^3.0.0-canary.51":
-  version "3.0.0-canary.51"
-  resolved "https://registry.yarnpkg.com/@searchkit/sdk/-/sdk-3.0.0-canary.51.tgz#a4a2098471fc9c26c69ac15d360a7fae54b35966"
-  integrity sha512-RUaUBS6IyuugSuk7sHbTQRR+d+uhEjflN1oI4rTZmZPBVDNZ7I2xT5Wucjj7GanVGCK+Gx5jJ0BfylBJTqzBkQ==
+"@searchkit/sdk@^3.0.0-canary.54":
+  version "3.0.0-canary.54"
+  resolved "https://registry.yarnpkg.com/@searchkit/sdk/-/sdk-3.0.0-canary.54.tgz#d914e8baca0388af3c90786350dc5d6c2c94b659"
+  integrity sha512-A3KwDrttX+ZIwMeZ1hE7TcX+1TW2WM9n/N7F6JxgzQPcYH36aXb95Lrzo88e3j7diPRKuSqY29JwKfSHDPQ7iQ==
   dependencies:
     agentkeepalive "^4.1.3"
     lodash "^4.17.21"

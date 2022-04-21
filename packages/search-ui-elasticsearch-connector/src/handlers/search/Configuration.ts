@@ -18,13 +18,7 @@ export function getResultFields(
   hitFields: string[];
   highlightFields: string[];
 } {
-  const hitFields = Object.keys(resultFields).reduce((sum, fieldKey) => {
-    const fieldConfiguration = resultFields[fieldKey];
-    if (fieldConfiguration.raw) {
-      sum.push(fieldKey);
-    }
-    return sum;
-  }, []);
+  const hitFields = Object.keys(resultFields);
 
   const highlightFields = Object.keys(resultFields).reduce((sum, fieldKey) => {
     const fieldConfiguration = resultFields[fieldKey];

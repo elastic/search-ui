@@ -38,7 +38,7 @@ describe("Search - Configuration", () => {
       };
 
       expect(getResultFields(resultFields)).toEqual({
-        hitFields: ["title", "url"],
+        hitFields: ["title", "description", "url"],
         highlightFields: ["title", "description"]
       });
     });
@@ -54,7 +54,6 @@ describe("Search - Configuration", () => {
       },
       result_fields: {
         title: {
-          raw: {},
           snippet: {}
         },
         description: {
@@ -96,7 +95,7 @@ describe("Search - Configuration", () => {
             apiKey: "apiKey"
           },
           hits: {
-            fields: ["title", "url"],
+            fields: ["title", "description", "url"],
             highlightedFields: ["title", "description"]
           }
         })
@@ -146,7 +145,7 @@ describe("Search - Configuration", () => {
             apiKey: "apiKey"
           },
           hits: {
-            fields: ["title", "url"],
+            fields: ["title", "description", "url"],
             highlightedFields: ["title", "description"]
           }
         })
@@ -241,7 +240,7 @@ describe("Search - Configuration", () => {
             apiKey: "apiKey"
           },
           hits: {
-            fields: ["title", "url"],
+            fields: ["title", "description", "url"],
             highlightedFields: ["title", "description"]
           }
         })
