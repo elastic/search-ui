@@ -27,6 +27,9 @@ const mockSearchkitResponse: SearchkitResponse = {
         },
         highlight: {
           title: "hello"
+        },
+        rawHit: {
+          _id: "test"
         }
       }
     ]
@@ -87,6 +90,9 @@ describe("Autocomplete results", () => {
       Object {
         "autocompletedResults": Array [
           Object {
+            "_meta": Object {
+              "id": "test",
+            },
             "description": Object {
               "raw": "test",
             },

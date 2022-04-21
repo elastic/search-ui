@@ -19,13 +19,11 @@ type ConnectionOptions = {
 class ElasticsearchAPIConnector implements APIConnector {
   constructor(private config: ConnectionOptions) {}
 
-  onResultClick(): void {
-    console.error("not implemented");
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onResultClick(): void {}
 
-  onAutocompleteResultClick(): void {
-    console.error("not implemented");
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onAutocompleteResultClick(): void {}
 
   async onSearch(
     state: RequestState,
