@@ -97,7 +97,7 @@ function removeConditionalFacets(
 export type onSearchHook = (
   query: RequestState,
   queryConfig: QueryConfig,
-  next: () => Promise<ResponseState>
+  next: (state: RequestState, queryConfig: QueryConfig) => Promise<ResponseState>
 ) => Promise<ResponseState>;
 
 export type onAutocompleteHook = (
