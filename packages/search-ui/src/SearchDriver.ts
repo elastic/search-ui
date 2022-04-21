@@ -103,7 +103,7 @@ export type onSearchHook = (
 export type onAutocompleteHook = (
   query: AutocompleteSearchQuery,
   queryConfig: QueryConfig,
-  next: () => Promise<AutocompleteResponseState>
+  next: (state: RequestState, queryConfig: QueryConfig) => Promise<ResponseState>
 ) => Promise<AutocompleteResponseState>;
 
 export type onResultClickHook = (resultParams: any) => void;
