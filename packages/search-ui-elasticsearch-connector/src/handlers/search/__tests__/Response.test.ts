@@ -29,6 +29,9 @@ describe("Search - Response", () => {
           highlight: {
             title: "hello",
             fieldOnlyHighlight: "test"
+          },
+          rawHit: {
+            _id: "test"
           }
         }
       ]
@@ -76,6 +79,9 @@ describe("Search - Response", () => {
         "resultSearchTerm": "test",
         "results": Array [
           Object {
+            "_meta": Object {
+              "id": "test",
+            },
             "description": Object {
               "raw": "test",
             },

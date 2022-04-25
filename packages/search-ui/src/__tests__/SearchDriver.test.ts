@@ -799,7 +799,7 @@ describe("Request sequencing", () => {
             expect(searchConfig).toBeDefined();
             expect(searchConfig.facets).toEqual({});
             expect(typeof next).toBe("function");
-            const x = await next();
+            const x = await next(query, searchConfig);
             return x;
           }
         );
@@ -825,7 +825,7 @@ describe("Request sequencing", () => {
             expect(searchConfig).toBeDefined();
             expect(searchConfig.results).toEqual({});
             expect(typeof next).toBe("function");
-            return next();
+            return next(query, searchConfig);
           }
         );
       const mockApiConnector = getMockApiConnector();
