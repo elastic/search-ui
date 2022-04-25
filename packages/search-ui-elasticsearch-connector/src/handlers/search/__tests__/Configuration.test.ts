@@ -185,60 +185,61 @@ describe("Search - Configuration", () => {
       const state: RequestState = {
         searchTerm: "test"
       };
-      expect(
-        buildConfiguration(
-          state,
-          {
-            ...queryConfig,
-            disjunctiveFacets: [
-              ...queryConfig.disjunctiveFacets,
-              "date_established"
-            ],
-            facets: {
-              acres: {
-                type: "range",
-                ranges: [
-                  { from: -1, name: "Any" },
-                  { from: 0, to: 1000, name: "Small" },
-                  { from: 1001, to: 100000, name: "Medium" },
-                  { from: 100001, name: "Large" }
-                ]
-              },
-              location: {
-                center: "37.7749, -122.4194",
-                type: "range",
-                unit: "mi",
-                ranges: [
-                  { from: 0, to: 100, name: "Nearby" },
-                  { from: 100, to: 500, name: "A longer drive" },
-                  { from: 500, name: "Perhaps fly?" }
-                ]
-              },
-              date_established: {
-                type: "range",
-                ranges: [
-                  {
-                    from: "1952-03-14T10:34:22.464Z",
-                    name: "Within the last 50 years"
-                  },
-                  {
-                    from: "1922-03-14T10:34:22.464Z",
-                    to: "1952-03-14T10:34:22.464Z",
-                    name: "50 - 100 years ago"
-                  },
-                  {
-                    to: "1922-03-14T10:34:22.464Z",
-                    name: "More than 100 years ago"
-                  }
-                ]
-              }
+
+      const configuration = buildConfiguration(
+        state,
+        {
+          ...queryConfig,
+          disjunctiveFacets: [
+            ...queryConfig.disjunctiveFacets,
+            "date_established"
+          ],
+          facets: {
+            acres: {
+              type: "range",
+              ranges: [
+                { from: -1, name: "Any" },
+                { from: 0, to: 1000, name: "Small" },
+                { from: 1001, to: 100000, name: "Medium" },
+                { from: 100001, name: "Large" }
+              ]
+            },
+            location: {
+              center: "37.7749, -122.4194",
+              type: "range",
+              unit: "mi",
+              ranges: [
+                { from: 0, to: 100, name: "Nearby" },
+                { from: 100, to: 500, name: "A longer drive" },
+                { from: 500, name: "Perhaps fly?" }
+              ]
+            },
+            date_established: {
+              type: "range",
+              ranges: [
+                {
+                  from: "1952-03-14T10:34:22.464Z",
+                  name: "Within the last 50 years"
+                },
+                {
+                  from: "1922-03-14T10:34:22.464Z",
+                  to: "1952-03-14T10:34:22.464Z",
+                  name: "50 - 100 years ago"
+                },
+                {
+                  to: "1922-03-14T10:34:22.464Z",
+                  name: "More than 100 years ago"
+                }
+              ]
             }
-          },
-          host,
-          index,
-          apiKey
-        )
-      ).toEqual(
+          }
+        },
+        host,
+        index,
+        apiKey
+      );
+
+      expect(configuration).toEqual(
         expect.objectContaining({
           host: "http://localhost:9200",
           index: "test_index",
@@ -254,6 +255,13 @@ describe("Search - Configuration", () => {
           }
         })
       );
+
+      const validHeaderRegex =
+        // eslint-disable-next-line no-useless-escape
+        /^[a-z]{1,}=[a-z0-9\.\-]{1,}(?:,[a-z]{1,}=[a-z0-9\.\-]+)*$/;
+      expect(
+        configuration.connectionOptions.headers["x-elastic-client-meta"]
+      ).toMatch(validHeaderRegex);
 
       expect(GeoDistanceOptionsFacet).toHaveBeenCalledTimes(1);
       expect(GeoDistanceOptionsFacet).toHaveBeenCalledWith({

@@ -51,24 +51,25 @@ describe("Search - Configuration within node context", () => {
       };
 
       const nodeVersion = process.version;
+      const configuration = buildConfiguration(
+        state,
+        queryConfig,
+        host,
+        index,
+        apiKey
+      );
+
+      const validHeaderRegex =
+        // eslint-disable-next-line no-useless-escape
+        /^[a-z]{1,}=[a-z0-9\.\-]{1,}(?:,[a-z]{1,}=[a-z0-9\.\-]+)*$/;
+      expect(
+        configuration.connectionOptions.headers["x-elastic-client-meta"]
+      ).toMatch(validHeaderRegex);
 
       expect(
-        buildConfiguration(state, queryConfig, host, index, apiKey)
+        configuration.connectionOptions.headers["x-elastic-client-meta"]
       ).toEqual(
-        expect.objectContaining({
-          host: "http://localhost:9200",
-          index: "test_index",
-          connectionOptions: {
-            apiKey: "apiKey",
-            headers: {
-              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=${nodeVersion},t=${LIB_VERSION}-es-connector,ft=universal`
-            }
-          },
-          hits: {
-            fields: ["title", "description", "url"],
-            highlightedFields: ["title", "description"]
-          }
-        })
+        `ent=${LIB_VERSION}-es-connector,js=${nodeVersion},t=${LIB_VERSION}-es-connector,ft=universal`
       );
     });
   });
