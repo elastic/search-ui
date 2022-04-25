@@ -1,0 +1,75 @@
+---
+id: api-event-hooks
+slug: search-ui/api/event-hooks
+title: Event Hooks
+date: 2022-02-27
+tags: ["middleware", "handler", "function hooks"]
+---
+
+Search UI exposes a number of event hooks which need handlers to be implemented in order for Search UI
+to function properly.
+
+The easiest way to provide handlers for these events is via an out-of-the-box "Connector", which
+provides pre-built handlers, which can then be configured for your particular use case.
+
+While we do provide out-of-the-box Connectors, it is also possible to implement these handlers directly,
+override Connector methods, or provide "middleware" to Connectors in order to further customize
+how Search UI interacts with your services.
+
+#### Event Handlers
+
+| method                      | params                                                                  | return                            | description                                                                                                                                         |
+| --------------------------- | ----------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onResultClick`             | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                             | - `query` - String                                                      |                                   | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `onSearch`                  | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - [Query Config](#query-config)                           |                                   |                                                                                                                                                     |
+| `onAutocompleteResultClick` | `props` - Object                                                        |                                   | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                             | - `query` - String                                                      |                                   | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                 |                                   | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                  |                                   | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                |                                   | Tags used for analytics.                                                                                                                            |
+| `onAutocomplete`            | `state` - [Request State](#request-state)                               | [Response State](#response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - Object                                                  |                                   |                                                                                                                                                     |
+|                             | - `results` - [Query Config](#query-config)                             |                                   | If this is set, results should be returned for autocomplete.                                                                                        |
+|                             | - `suggestions` - [Suggestions Query Config](#suggestions-query-config) |                                   | If this is set, query suggestions should be returned for autocomplete.                                                                              |
+
+Explicitly providing a Handler will override the Handler provided by the Connector.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: async (requestState, queryConfig) => {
+      const queryForOtherService = transformSearchUIStateToQuery(
+        requestState,
+        queryConfig
+      );
+      const otherServiceResponse = await callSomeOtherService(
+        queryForOtherService
+      );
+      return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
+    }
+  }}
+/>
+```
+
+### Using middleware in Connector Handlers
+
+Handler implementations can also be used as middleware for Connectors by leveraging
+the `next` function.
+
+```jsx
+<SearchProvider
+  config={{
+    apiConnector: connector,
+    onSearch: (requestState, queryConfig, next) => {
+      const updatedState = someStateTransformation(requestState);
+      return next(updatedState, queryConfig);
+    }
+  }}
+/>
+```
