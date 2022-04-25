@@ -11,6 +11,7 @@ import {
   MultiQueryOptionsFacet,
   GeoDistanceOptionsFacet
 } from "@searchkit/sdk";
+import { LIB_VERSION } from "../../../version";
 
 describe("Search - Configuration", () => {
   describe("getResultFields", () => {
@@ -92,7 +93,10 @@ describe("Search - Configuration", () => {
           host: "http://localhost:9200",
           index: "test_index",
           connectionOptions: {
-            apiKey: "apiKey"
+            apiKey: "apiKey",
+            headers: {
+              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
+            }
           },
           hits: {
             fields: ["title", "description", "url"],
@@ -142,7 +146,10 @@ describe("Search - Configuration", () => {
           host: "http://localhost:9200",
           index: "test_index",
           connectionOptions: {
-            apiKey: "apiKey"
+            apiKey: "apiKey",
+            headers: {
+              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
+            }
           },
           hits: {
             fields: ["title", "description", "url"],
@@ -178,7 +185,6 @@ describe("Search - Configuration", () => {
       const state: RequestState = {
         searchTerm: "test"
       };
-
       expect(
         buildConfiguration(
           state,
@@ -237,7 +243,10 @@ describe("Search - Configuration", () => {
           host: "http://localhost:9200",
           index: "test_index",
           connectionOptions: {
-            apiKey: "apiKey"
+            apiKey: "apiKey",
+            headers: {
+              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
+            }
           },
           hits: {
             fields: ["title", "description", "url"],
