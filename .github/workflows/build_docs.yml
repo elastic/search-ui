@@ -1,4 +1,4 @@
-name: Preview & publish Elastic docs
+name: Elastic docs
 
 on:
   pull_request_target:
@@ -15,7 +15,7 @@ on:
     types: [closed, opened, synchronize, reopened]
 
 jobs:
-  preview:
+  publish:
     uses: elastic/workflows/.github/workflows/co-docs-a-preview.yml@v1
     with:
       project-name: docs-elastic-co
