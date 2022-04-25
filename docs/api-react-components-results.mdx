@@ -1,0 +1,60 @@
+---
+id: api-react-components-results
+slug: /search-ui/api/react/components/results
+title: Results
+date: 2022-02-27
+tags: ["demo"]
+---
+
+Displays all search results.
+
+### Example
+
+```jsx
+
+import { Results } from "@elastic/react-search-ui";
+
+...
+
+<Results titleField="title" urlField="nps_link" />
+```
+
+### Example overriding Result view
+
+```jsx
+<Results
+  resultView={({ result, onClickLink }) => {
+    return (
+      <div onClick={onClickLink}>
+        <h4>{result.title.snippet}</h4>
+        <a href={result.nps_link.raw}>Link</a>
+      </div>
+    );
+  }}
+/>
+```
+
+for more examples on how to override the view, see <DocLink id="guides-customizing-styles-and-html" section="results-component" text="Customizing styles and HTML" />.
+
+### Configuring search queries
+
+Certain aspects of search results can be configured in `SearchProvider`, using the `searchQuery` configuration, such as
+term highlighting and search fields. See the <DocLink
+  id="api-configuration"
+  section="search-query-queryconfig"
+  text="Search Query Configuration"
+/> guide
+for more information.
+
+### Properties
+
+| Name                    | Description                                                                                                                                                                                                   |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className               |                                                                                                                                                                                                               |
+| resultView              | Used to override individual Result views. See the Customizing Component views and html section for more information.                                                                                          |
+| titleField              | Name of field to use as the title from each result.                                                                                                                                                           |
+| shouldTrackClickThrough | Whether or not to track a clickthrough event when clicked.                                                                                                                                                    |
+| clickThroughTags        | Tags to send to analytics API when tracking clickthrough.                                                                                                                                                     |
+| urlField                | Name of field to use as the href from each result.                                                                                                                                                            |
+| thumbnailField          | Name of field to use for thumbnail image. Should be a valid URL and at least 220px wide.                                                                                                                      |
+| view                    | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |

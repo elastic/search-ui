@@ -1,0 +1,292 @@
+---
+id: api-configuration
+slug: /search-ui/api/configuration
+title: Query Configuration
+date: 2022-03-31
+tags: ["configuration"]
+---
+
+Below is the configuration of both Search UI query and autocomplete configuration. These configurations are used in conjunction with the API connector to provide data to Search UI.
+
+See <DocLink id="api-react-core" text="React Core" /> page for more information on how to use the configuration with the Provider.
+
+## Search Query (QueryConfig)
+
+This is the configuration for the main search query. Some of these configuration options are not supported by some connectors. Each connector will document the options that are not supported.
+
+```js
+
+searchQuery: {
+  filters: [{ field: "world_heritage_site", values: ["true"] }],
+  facets: {
+    states: { type: "value", size: 30 },
+  }
+  disjunctiveFacets: ["states"], // Array of field names to use for disjunctive searches
+  disjunctiveFacetsAnalyticsTags: ["Ignore"],
+  search_fields: {
+    title: {},
+    description: {}
+  },
+  result_fields: {
+    title: {
+      snippet: {
+        size: 100,
+        fallback: true
+      }
+    },
+    nps_link: {
+      raw: {}
+    }
+  }
+}
+
+```
+
+### Filters (Global Filters)
+
+Using Query Config, it is possible to create "Global" filters. "Global filters" are filters that are added to every query. The user has no control over whether or not this filter is added or removed, it doesn't show up in the query string, and is completely transparent to the user. It is applied IN ADDITION to filters which the user applies.
+
+```
+filters: [{
+  // value filter example
+  field: "world_heritage_site", values: ["true"],
+  // Range filter example
+  field: "acres", values: [{
+    from: 0, to: 1000, name: "Small"
+  }]
+}]
+```
+
+### Facets
+
+Tells Search UI to fetch facet data that can be used with Facet Components.
+
+```js
+  facets: {
+    // example of a value facet
+    states: { type: "value", size: 30 },
+
+    // example of a numeric range facet
+    acres: {
+      type: "range",
+      ranges: [
+        { from: -1, name: "Any" },
+        { from: 0, to: 1000, name: "Small" },
+        { from: 1001, to: 100000, name: "Medium" },
+        { from: 100001, name: "Large" },
+      ],
+    },
+
+    // example of a date range facet
+    date_established: {
+      type: "range",
+      ranges: [
+        {
+          from: "1950-10-05T14:48:00.000Z",
+          name: "Within the last 50 years",
+        },
+        {
+          from: "1900-10-05T14:48:00.000Z",
+          to: "1950-10-05T14:48:00.000Z",
+          name: "50 - 100 years ago",
+        },
+        {
+          to: "1920-10-05T14:48:00.000Z",
+          name: "More than 100 years ago",
+        },
+      ],
+
+      // example of a geo location range facet
+      location: {
+        // center location to base ranges off of
+        center: "37.7749, -122.4194",
+        type: "range",
+        unit: "mi",
+        ranges: [
+          { from: 0, to: 100, name: "Nearby" },
+          { from: 100, to: 500, name: "A longer drive" },
+          { from: 500, name: "Perhaps fly?" },
+        ],
+      },
+    }
+  }
+```
+
+#### Disjunctive Faceting
+
+"Disjunctive" facets are facets that do not change when a selection is made. Meaning, all available options will remain as selectable options even after a selection is made.
+
+Configured in the searchQuery.disjunctiveFacets array. An array of field names. Every field listed here must have been configured in the facets field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied.
+
+##### disjunctiveFacetsAnalyticsTags
+
+Used in conjunction with the disjunctiveFacets parameter. Adding disjunctiveFacets can cause additional API requests to be made to your API, which can create deceiving analytics. These queries will be tagged with "Facet-Only" by default. This field lets you specify a different tag for these.
+
+Example, use ignore as a tag on all disjunctive API calls:
+
+```js
+disjunctiveFacetsAnalyticsTags: ["ignore"];
+```
+
+### search_fields
+
+Fields which should be searched with search term.
+
+```js
+search_fields: {
+  title: {
+    weight: 10,
+  },
+  description: {},
+  tags: {
+    weight: 5,
+  }
+}
+```
+
+Apply Weights to each search field.
+
+Engine level Weight settings will be applied is none are provided.
+
+Query time Weights take precedence over Engine level values.
+
+All fields specified within the search relevance section will be used for searching if not specified.
+
+### result_fields
+
+Select from two ways to render text field values:
+
+- **Raw**: An exact representation of the value within a field. And it is exact! It is not HTML escaped.
+- **Snippet**: A snippet is an HTML escaped representation of the value within a field, where query matches are captured in `<em>` tags.
+
+A raw field defaults to the full field with no character limit outside of max document size. A custom range must be at least 20 characters.
+
+A snippet field defaults to 100 characters. A custom range must be between 20-1000 characters.
+
+Only text fields provide these two options, as they are functions of the deep full-text search capabilities of App Search.
+
+#### Raw
+
+```js
+result_fields: {
+  title: {
+    raw: {}
+  },
+  description: {
+    raw: {
+      size: 50
+    }
+  }
+}
+```
+
+| field  | description                                                                                                                                                                                                               |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size` | Number - Optional. Length of the return value. Only can be used on text fields. Must be at least 20; defaults to the entire text field. If given for a different field type other than text, it will be silently ignored. |
+
+#### Snippet (Highlighting)
+
+Requests a snippet of a text field.
+
+The query match will be wrapped in <em></em> tags, for highlighting, if a match exists.
+
+Use escaped quotations to highlight only on exact, case insensitive matches.
+
+Matches are HTML escaped prior to inserting <em></em> tags. Fallbacks are also HTML escaped.
+
+If requesting a snippet on a non-text field, the snippet field will be null.
+
+If there is no match for your query, the snippet field will be null.
+
+Snippets on an array value will return the first match or null. There is no fallback support.
+
+On synonyms: If a search finds a synonym for a query, the synonym will not be highlighted.
+
+For example, if "path" and "trail" are synonyms and a query is done for "path", the term "trail" will not be highlighted.
+
+```js
+result_fields: {
+  title: {
+    snippet: {
+      size: 100,
+      fallback: true
+    }
+  },
+  description: {
+    raw: {
+      size: 50
+    }
+  }
+}
+```
+
+| field      | description                                                                     |
+| ---------- | ------------------------------------------------------------------------------- |
+| `size`     | Character length of the snippet returned. Must be at least 20; defaults to 100. |
+| `fallback` | If true, fallback to the raw field if no match is found.                        |
+
+## Autocomplete Query
+
+This is the configuration that provide relevant query suggestions for incomplete queries. Some of these configuration options are not supported by some connectors. Each connector will document the options that are not supported.
+
+```js
+autocompleteQuery: {
+  // performs a prefix search on the query
+  results: {
+    resultsPerPage: 5,
+    result_fields: {
+      // Add snippet highlighting within autocomplete suggestions
+      title: { snippet: { size: 100, fallback: true }},
+      nps_link: { raw: {} }
+    }
+  },
+  // performs a query to suggest for values that partially match the incomplete query
+  suggestions: {
+    types: {
+      // Limit query to only suggest based on "title" field
+      documents: {  fields: ["title"] }
+    },
+    // Limit the number of suggestions returned from the server
+    size: 4
+  }
+}
+```
+
+### Results
+
+`results` will perform autocomplete on the query being typed. This will give back results that are relevant to the query before the user has typed any additional characters.
+
+```json
+results: {
+  resultsPerPage: 5,
+  result_fields: {
+    title: { snippet: { size: 100, fallback: true }},
+    nps_link: { raw: {} }
+  }
+},
+```
+
+| field           | description                                                                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                                             |
+| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as <DocLink id="api-configuration" section="result_fields" text="result fields" /> |
+
+### Suggestions
+
+Suggestions Query configuration for Search UI largely follows the same API as the [App Search Search API](https://www.elastic.co/guide/en/app-search/current/query-suggestion.html).
+
+```json
+{
+  "types": {
+    "documents": {
+      "fields": ["title", "states"]
+    }
+  },
+  "size": 4
+}
+```
+
+| option  | type    | required? | source                                                                                       |
+| ------- | ------- | --------- | -------------------------------------------------------------------------------------------- |
+| `types` | Object  | required  | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
+| `size`  | Integer | optional  | Number of suggestions to return.                                                             |

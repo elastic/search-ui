@@ -1,0 +1,58 @@
+---
+id: api-react-components-result
+slug: /search-ui/api/react/components/result
+title: Result
+date: 2022-02-27
+tags: ["demo"]
+---
+
+## Result
+
+Displays a search result.
+
+### Example
+
+```jsx
+
+import { Result } from "@elastic/react-search-ui";
+
+...
+
+<SearchProvider config={config}>
+  {({ results }) => {
+    return (
+      <div>
+        {results.map(result => (
+          <Result key={result.id.raw}
+            result={result}
+            titleField="title"
+            urlField="nps_link"
+          />
+        ))}
+      </div>
+    );
+  }}
+</SearchProvider>
+```
+
+### Configuring search queries
+
+Certain aspects of search results can be configured in `SearchProvider`, using the `searchQuery` configuration, such as
+term highlighting and search fields. See the <DocLink
+  id="api-configuration"
+  section="search-query-queryconfig"
+  text="Search Query Configuration"
+/> guide
+for more information.
+
+### Properties
+
+| Name                    | Description                                                                                                                                                                                                   |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className               |                                                                                                                                                                                                               |
+| titleField              | Name of field to use as the title from each result.                                                                                                                                                           |
+| shouldTrackClickThrough | Whether or not to track a clickthrough event when clicked.                                                                                                                                                    |
+| clickThroughTags        | Tags to send to analytics API when tracking clickthrough.                                                                                                                                                     |
+| urlField                | Name of field to use as the href from each result.                                                                                                                                                            |
+| view                    | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |
+| result                  | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |

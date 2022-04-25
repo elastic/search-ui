@@ -1,0 +1,371 @@
+---
+id: api-actions
+slug: /search-ui/api/actions
+title: Actions
+date: 2022-02-27
+tags: ["demo"]
+---
+
+To update the state, you can use actions below. Actions are functions that update the Request State and performs an API request.
+
+```js
+setSearchTerm("search term");
+```
+
+To get access to the actions within your component, you must wrap your component with our context HOCs.
+
+```jsx
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(({ searchTerm, setSearchTerm }) => ({
+  searchTerm,
+  setSearchTerm
+}))(Component);
+```
+
+See <DocLink id="api-react-hocs" text="Search UI HOCs" /> for more information.
+
+There are certain cases where you may need to apply one or more actions at a time. Search UI intelligently
+batches actions into a single API call.
+
+For example, if you need to apply two filters at once, it is perfectly acceptable to write the following code:
+
+```js
+addFilter("states", "Alaska", "any");
+addFilter("world_heritage_site", "true");
+```
+
+This will only result in a single API call.
+
+### addFilter
+
+```ts
+addFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+)
+```
+
+Add a filter in addition to current filters values.
+
+#### Examples
+
+```
+addFilter("states", "Alaska");
+addFilter("isPublished", true);
+addFilter("rating", 1);
+
+addFilter("states", ["Alaska", "California"], "all");
+addFilter("states", ["Alaska", "California"], "any");
+
+addFilter("published",{
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+addFilter("rating",{
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+
+```
+
+#### Parameters
+
+| Parameters | description                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| `name`     | Required. Name of the field                                                                |
+| `value`    | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+
+### setFilter
+
+```js
+setFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+)
+```
+
+Set a filter value, replacing current filter values.
+
+#### Examples
+
+```
+setFilter("states", "Alaska");
+setFilter("isPublished", true);
+setFilter("rating", 1);
+
+setFilter("states", ["Alaska", "California"], "all");
+setFilter("states", ["Alaska", "California"], "any");
+
+setFilter("published",{
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+setFilter("rating",{
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+
+```
+
+#### Parameters
+
+| Parameters | description                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| `name`     | Required. Name of the field                                                                |
+| `value`    | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+
+### removeFilter
+
+Removes filters or filter values.
+
+```js
+removeFilter(
+  name: string,
+  value?: FilterValue,
+  type?: FilterType
+)
+```
+
+#### Examples
+
+```js
+removeFilter("states");
+removeFilter("states", ["Alaska", "California"]);
+
+removeFilter("published", {
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+removeFilter("rating", {
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+```
+
+#### Parameters
+
+| Parameters | description                                                                                                 |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| `name`     | Required. Name of the field                                                                                 |
+| `value`    | Optional. Filter Value. Will remove all filters under field if value not specified. See `FilterValue` type. |
+| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none`                  |
+
+### reset
+
+Reset state to initial search state.
+
+```js
+reset();
+```
+
+### clearFilters
+
+Clear all filters.
+
+```js
+clearFilters((except: string[] = []));
+```
+
+#### Examples
+
+```js
+clearFilters();
+clearFilters(["states"]); // field name
+```
+
+#### Parameters
+
+| Parameters | description                                                                 |
+| ---------- | --------------------------------------------------------------------------- |
+| `except`   | Optional. String array. Field names which you want to ignore being cleared. |
+
+### setCurrent
+
+Update the current page number. Used for paging.
+
+```js
+setCurrent(current: number)
+```
+
+#### Examples
+
+```js
+setCurrent(2);
+```
+
+#### Parameters
+
+| Parameters | description                             |
+| ---------- | --------------------------------------- |
+| `current`  | Required. Number type. The page number. |
+
+### setResultsPerPage
+
+Update the number of results per page. Used for paging.
+
+```js
+setResultsPerPage(resultsPerPage: number)
+```
+
+#### Examples
+
+```js
+setResultsPerPage(20);
+```
+
+#### Parameters
+
+| Parameters       | description                                             |
+| ---------------- | ------------------------------------------------------- |
+| `resultsPerPage` | Required. Number type. Sets number of results per page. |
+
+### setSearchTerm
+
+```js
+setSearchTerm(
+  searchTerm: string,
+  {
+    autocompleteMinimumCharacters = 0,
+    autocompleteResults = false,
+    autocompleteSuggestions = false,
+    shouldClearFilters = true,
+    refresh = true,
+    debounce = 0
+  }: SetSearchTermOptions = {}
+)
+```
+
+Update the search term. Also gives you the ability to control autocomplete options.
+
+#### Examples
+
+```js
+setSearchTerm("train");
+```
+
+#### Parameters
+
+| Parameters   | description                                             |
+| ------------ | ------------------------------------------------------- |
+| `searchTerm` | Required. String type. the new search term to query by  |
+| `options`    | Optional. Object type. See `SetSearchTermOptions` type. |
+
+#### SetSearchTermOptions Parameters
+
+| Parameters                      | description                                                           |
+| ------------------------------- | --------------------------------------------------------------------- |
+| `autocompleteMinimumCharacters` | Optional. miniumum terms to start performing autocomplete suggestions |
+| `autocompleteResults`           | Optional. To perform autocomplete Results                             |
+| `autocompleteSuggestions`       | Optional. To perform autocomplete Suggestions                         |
+| `shouldClearFilters`            | Optional. To clear filters                                            |
+| `refresh`                       | Optional. To refresh results                                          |
+| `debounce`                      | Optional.                                                             |
+
+### setSort
+
+```js
+setSort(
+  sort: SortOption[] | string,
+  sortDirection: SortDirection
+)
+```
+
+Update the sort option.
+
+#### Parameters
+
+| Parameters      | description                               |
+| --------------- | ----------------------------------------- |
+| `sort`          | `SortOption` or String - field to sort on |
+| `sortDirection` | String - "asc" or "desc"                  |
+
+### trackClickThrough
+
+```js
+trackClickThrough(
+  documentId: string,
+  tags: string[] = []
+)
+```
+
+Report a clickthrough event, which is when a user clicks on a result link.
+
+#### Parameters
+
+| Parameters   | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
+
+### trackAutocompleteClickThrough
+
+```js
+trackAutocompleteClickThrough(
+  documentId: string,
+  tags: string[] = []
+)
+```
+
+Report a clickthrough event, which is when a user clicks on an autocomplete suggestion.
+
+#### Parameters
+
+| Parameters   | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
+
+### a11yNotify
+
+```js
+a11yNotify(
+  messageFunc: string,
+  messageArgs?: unknown
+)
+```
+
+Reads out a screen reader accessible notification. See `a11yNotificationMessages` under TODO LINK
+
+#### Parameters
+
+| Parameters    | description                                                          |
+| ------------- | -------------------------------------------------------------------- |
+| `messageFunc` | String - object key to run as function                               |
+| `messageArgs` | Object - Arguments to pass to form your screen reader message string |
+
+## Types
+
+### FilterValue & FilterType Types
+
+`FilterValue` can be either a value type or a range type.
+
+#### Types
+
+```ts
+type FilterValue = FilterValueValue | FilterValueRange;
+
+type FieldValue = string | number | boolean | Array<string | number | boolean>;
+
+type FilterValueValue = FieldValue;
+
+type FilterValueRange = {
+  from?: FieldValue;
+  name: string;
+  to?: FieldValue;
+};
+
+type FilterType = "any" | "all" | "none";
+```

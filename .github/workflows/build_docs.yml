@@ -1,0 +1,28 @@
+name: Elastic docs
+
+on:
+  pull_request_target:
+    paths:
+    # Change docs dir to your repos docs dir
+      - 'docs/**.mdx'
+      - 'docs/**.docnav.json'
+      - 'docs/**.docapi.json'
+      - 'docs/**.devdocs.json'
+      - 'docs/**.jpg'
+      - 'docs/**.jpeg'
+      - 'docs/**.png'
+      - 'docs/**.gif'
+    types: [closed, opened, synchronize, reopened]
+
+jobs:
+  publish:
+    uses: elastic/workflows/.github/workflows/co-docs-a-preview.yml@v1
+    with:
+      project-name: docs-elastic-co
+      prebuild: wordlake
+      repo: docs.elastic.co
+    secrets:
+      VERCEL_GITHUB_TOKEN: ${{ secrets.VERCEL_GITHUB_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID_DOCS_CO: ${{ secrets.VERCEL_PROJECT_ID_DOCS_CO }}

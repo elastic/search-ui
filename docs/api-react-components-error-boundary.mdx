@@ -1,0 +1,29 @@
+---
+id: api-react-components-error-boundary
+slug: /search-ui/api/react/components/error-boundary
+title: ErrorBoundary
+date: 2022-02-27
+tags: ["demo"]
+---
+
+Handle unexpected errors.
+
+### Example
+
+```jsx
+import { ErrorBoundary } from "@elastic/react-search-ui";
+
+...
+
+<ErrorBoundary>
+  <div>Some Content</div>
+</ErrorBoundary>
+```
+
+### Properties
+
+| Name      | Description                                                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className |                                                                                                                                                                                                               |
+| children  | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                                                                                        |
+| view      | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |
