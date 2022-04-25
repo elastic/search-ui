@@ -39,7 +39,8 @@ function buildConfiguration({
     }),
     hits: {
       fields: hitFields,
-      highlightedFields: highlightFields
+      highlightedFields: highlightFields,
+      includeRawHit: true
     }
   };
   return searchkitConfiguration;
