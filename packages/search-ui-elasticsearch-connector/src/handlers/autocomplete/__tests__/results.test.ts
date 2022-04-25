@@ -1,5 +1,5 @@
 import { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
-import { SearchkitResponse } from "@searchkit/sdk";
+import Searchkit, { SearchkitResponse } from "@searchkit/sdk";
 import handleRequest from "../index";
 
 const mockSearchkitResponse: SearchkitResponse = {
@@ -42,11 +42,11 @@ jest.mock("@searchkit/sdk", () => {
   return {
     __esModule: true, // Use it when dealing with esModules
     ...originalModule,
-    default: (config) => {
+    default: jest.fn((config) => {
       const sk = originalModule.default(config);
       sk.execute = jest.fn(() => mockSearchkitResponse);
       return sk;
-    }
+    })
   };
 });
 
@@ -84,6 +84,13 @@ describe("Autocomplete results", () => {
       connectionOptions: {
         apiKey: "test"
       }
+    });
+
+    const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
+      .value;
+    expect(searchkitRequestInstance.execute).toBeCalledWith({
+      facets: false,
+      hits: { from: 0, includeRawHit: true, size: 5 }
     });
 
     expect(results).toMatchInlineSnapshot(`
