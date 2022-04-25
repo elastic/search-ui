@@ -39,8 +39,7 @@ function buildConfiguration({
     }),
     hits: {
       fields: hitFields,
-      highlightedFields: highlightFields,
-      includeRawHit: true
+      highlightedFields: highlightFields
     }
   };
   return searchkitConfiguration;
@@ -67,7 +66,8 @@ export default async function handler(
       facets: false,
       hits: {
         from: 0,
-        size: queryConfig.results.resultsPerPage || 5
+        size: queryConfig.results.resultsPerPage || 5,
+        includeRawHit: true
       }
     });
 
