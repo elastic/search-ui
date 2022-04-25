@@ -36,8 +36,8 @@
     "@elastic/search-ui": "1.11.1"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0 < 18",
-    "react-dom": ">= 16.8.0 < 18"
+    "react": ">= 16.8.0 <= 18",
+    "react-dom": ">= 16.8.0 <= 18"
   },
   "devDependencies": {
     "react": "^17.0.2",
