@@ -12,6 +12,7 @@ import type {
 } from "@elastic/search-ui";
 import { DEFAULT_STATE } from "@elastic/search-ui";
 import exampleResponse from "./exampleResponse.json";
+import { LIB_VERSION } from "../version";
 
 jest.mock("../responseAdapter");
 
@@ -37,6 +38,7 @@ function getLastFetchCall() {
   return {
     url,
     body: JSON.parse(body.body),
+    headers: body.headers,
     token: body.headers.Authorization
   };
 }
@@ -306,6 +308,7 @@ describe("WorkplaceSearchAPIConnector", () => {
       await subject(state, queryConfig);
 
       expect(global.fetch).toHaveBeenCalledTimes(1);
+
       expect(getLastFetchCall().body).toMatchInlineSnapshot(`
         Object {
           "filters": Object {
@@ -329,6 +332,55 @@ describe("WorkplaceSearchAPIConnector", () => {
           },
         }
       `);
+    });
+
+    it("will include meta header information correct for the browser context", async () => {
+      const state = {
+        ...DEFAULT_STATE,
+        searchTerm: "searchTerm",
+        current: 1,
+        resultsPerPage: 10,
+        sortDirection: "desc" as const,
+        sortField: "name",
+        filters: [
+          {
+            field: "title",
+            type: "all" as const,
+            values: ["Acadia", "Grand Canyon"]
+          },
+          {
+            field: "world_heritage_site",
+            values: ["true"],
+            type: "all" as const
+          }
+        ]
+      };
+
+      const queryConfig = {
+        current: 2,
+        resultsPerPage: 5,
+        sortDirection: "asc" as const,
+        sortField: "title",
+        filters: [
+          {
+            field: "date_made",
+            values: ["yesterday"],
+            type: "all" as const
+          }
+        ]
+      };
+
+      await subject(state, queryConfig);
+
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      const metaHeader = getLastFetchCall().headers["x-elastic-client-meta"];
+      expect(metaHeader).toEqual(
+        "ent=1.11.0-ws-connector,js=browser,t=1.11.0-ws-connector,ft=universal"
+      );
+      const validHeaderRegex =
+        // eslint-disable-next-line no-useless-escape
+        /^[a-z]{1,}=[a-z0-9\.\-]{1,}(?:,[a-z]{1,}=[a-z0-9\.\-]+)*$/;
+      expect(metaHeader).toMatch(validHeaderRegex);
     });
 
     it("will use the beforeSearchCall parameter to amend option parameters to the search endpoint call", async () => {
@@ -413,6 +465,9 @@ describe("WorkplaceSearchAPIConnector", () => {
             "query": "searchTerm",
           }
         `);
+        expect(getLastFetchCall().headers["x-elastic-client-meta"]).toEqual(
+          `ent=${LIB_VERSION}-ws-connector,js=browser,t=${LIB_VERSION}-ws-connector,ft=universal`
+        );
       });
 
       it("will pass queryConfig to search endpoint", async () => {

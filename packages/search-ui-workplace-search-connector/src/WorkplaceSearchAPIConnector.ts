@@ -14,6 +14,7 @@ import type {
   SuggestionsQueryConfig
 } from "@elastic/search-ui";
 import { INVALID_CREDENTIALS } from "@elastic/search-ui";
+import { LIB_VERSION } from "./version";
 
 export type WorkplaceSearchAPIConnectorParams = {
   kibanaBase: string;
@@ -237,11 +238,15 @@ class WorkplaceSearchAPIConnector implements APIConnector {
   }
 
   async performFetchRequest(apiUrl: string, payload: any) {
+    const jsVersion = "browser";
+    const metaHeader = `ent=${LIB_VERSION}-ws-connector,js=${jsVersion},t=${LIB_VERSION}-ws-connector,ft=universal`;
+
     const searchResponse = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.accessToken}`
+        Authorization: `Bearer ${this.accessToken}`,
+        "x-elastic-client-meta": metaHeader
       },
       body: JSON.stringify(payload)
     });
