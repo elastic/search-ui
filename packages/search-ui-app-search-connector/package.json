@@ -37,7 +37,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@elastic/app-search-javascript": "^7.13.1",
+    "@elastic/app-search-javascript": "^8.1.1",
     "@elastic/search-ui": "1.11.2"
   }
 }

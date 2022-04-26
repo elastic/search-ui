@@ -25,6 +25,7 @@
     "clean": "rimraf es lib",
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
+    "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
     "build": "npm run clean && npm run build-js",
     "watch": "npm run clean && npm run watch-js",
     "prepare": "npm run build"
