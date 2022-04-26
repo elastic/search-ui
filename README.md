@@ -33,6 +33,10 @@ search experience up and running in minutes.
 
 <img src="docs/search-ui/images/screenshot.png" width="600">
 
+### Docs
+
+Checkout our [documentation site](https://docs.elastic.co/search-ui/overview)
+
 ### Live Demo
 
 Checkout the [live demo of Search UI](https://search-ui-stable.netlify.com).
@@ -155,7 +159,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-_Read the [advanced README](./ADVANCED.md#build-your-own-connector) to learn how to build a connector for any Search API._
+_Read our [Custom Connector](https://docs.elastic.co/search-ui/connectors-api/custom-connector) to learn how to build a connector for any Search API._
 
 ### 3. SearchProvider
 
@@ -194,7 +198,7 @@ While components can be handy, a search experience can have requirements that do
 </SearchProvider>
 ```
 
-_Read the [Advanced Configuration Guide](./ADVANCED.md#advanced-configuration) or learn more about the state management and the [Headless Core](./ADVANCED.md#headless-core)._
+_Read the [Advanced Configuration Guide](https://docs.elastic.co/search-ui) or learn more about the state management and the [Headless Core](https://docs.elastic.co/search-ui/guides/philosophy)._
 
 ### 4. Components
 
@@ -231,7 +235,7 @@ The following Components are available:
 - PagingInfo
 - ErrorBoundary
 
-_Read the [Component Reference](./ADVANCED.md#component-reference) for a full breakdown._
+_Read the [Component Reference](https://docs.elastic.co/search-ui/api/react/components/search-box) for a full breakdown._
 
 ### 5. Styles and Layout
 
@@ -251,13 +255,13 @@ import { Layout } from "@elastic/react-search-ui-views";
 
 The provided styles and layout can be found in the [react-search-ui-views](packages/react-search-ui-views) package.
 
-_Read the [Customization guide](./ADVANCED.md#customization) for more design details._
+_Read the [Customization guide](https://docs.elastic.co/search-ui/guides/customizing-styles-and-html) for more design details._
 
 ## FAQ 🔮
 
 ### Where can I learn more?
 
-The [Advanced README](./ADVANCED.md) contains several useful guides. :sunglasses:
+Take a look at our [docs](https://docs.elastic.co/search-ui) :sunglasses:
 
 ### Is Search UI only for React?
 
@@ -271,13 +275,13 @@ You can write support for it into any JavaScript framework. You can even use van
 
 You can!
 
-Read the [Custom Styles and Layout Guide](./ADVANCED.md#custom-styles-and-layout) to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
+Read the [Custom Styles and Layout Guide](https://docs.elastic.co/search-ui/guides/customizing-styles-and-html) to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
 
 ### Can I build my own Components?
 
 Yes! Absolutely.
 
-Check out the [Build Your Own Component Guide](./ADVANCED.md#build-your-own-component).
+Check out the [Build Your Own Component Guide](https://docs.elastic.co/search-ui/guides/creating-your-own-components).
 
 ### Does Search UI only work with App Search?
 
@@ -285,7 +289,7 @@ Nope! We do have three first party connectors: Site Search, App Search, and Work
 
 But Search UI is headless. You can use _any_ Search API.
 
-Read the [Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers).
+Read the [Connectors and Handlers Guide](https://docs.elastic.co/search-ui/connectors-api/custom-connector).
 
 ### How do I use this with Elasticsearch?
 
@@ -295,7 +299,7 @@ from a browser, as noted in the [elasticsearch-js client](https://github.com/ela
 The safest way to interact with Elasticsearch from a browser is to make all Elasticsearch queries server-side. Or you can use [Elastic App Search](https://www.elastic.co/cloud/app-search-service?ultron=searchui-repo&blade=readme&hulk=product), which can create public, scoped API credentials and be exposed directly to a browser.
 
 That being said, Search UI will still work with Elasticsearch (or any other API, for that matter). Read the
-[Connectors and Handlers Guide](./ADVANCED.md#connectors-and-handlers) to learn more, or check out the
+[Connectors and Handlers Guide](https://docs.elastic.co/search-ui/connectors-api/custom-connector) to learn more, or check out the
 [Elasticsearch Example](./examples/elasticsearch).
 
 ### Where do I report issues with the Search UI?

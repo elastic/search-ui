@@ -2,6 +2,7 @@
   "name": "@elastic/search-ui-workplace-search-connector",
   "version": "1.11.2",
   "description": "A Search UI connector for Elastic's Workplace Search Service",
+  "homepage": "https://docs.elastic.co/search-ui/overview",
   "license": "Apache-2.0",
   "main": "lib/cjs",
   "module": "lib/esm",
