@@ -38,8 +38,8 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0 < 18",
-    "react-dom": ">= 16.8.0 < 18"
+    "react": ">= 16.8.0 <= 18",
+    "react-dom": ">= 16.8.0 <= 18"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.1.18",
