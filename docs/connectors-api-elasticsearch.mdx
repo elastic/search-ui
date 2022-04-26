@@ -1,0 +1,152 @@
+---
+id: connectors-api-elasticsearch
+slug: /search-ui/connectors-api/elasticsearch-connector
+title: Elasticsearch Connector
+date: 2022-04-13
+tags: ["demo"]
+---
+
+<DocCallOut color="warning" title="Technical preview">
+Elasticsearch connector for Search UI is currently in technical preview status. It is not ready for production use.
+</DocCallOut>
+
+Search UI provides a way to connect to Elasticsearch directly without needing Enterprise Search. This is useful for when you dont need the features of Enterprise Search, such as relevance tuning.
+
+The connector uses the same Search UI configuration that other connectors use.
+
+```js
+import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
+
+const connector = new ElasticsearchAPIConnector({
+  host: "http://localhost:9200", // host url for the Elasticsearch instance
+  index: "<index-name>", // index name where the search documents are contained
+  apiKey: "<api-key>" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+  // This key will be visible to everyone so ensure its setup with restricted privileges.
+  // See Authentication section for more details.
+});
+```
+
+| Param  | Description                                                                                                                       |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| host   | Required. String type. The host url to the Elasticsearch instance                                                                 |
+| index  | Required. String type. The search index name                                                                                      |
+| apiKey | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#connection-&-authentication) |
+
+## Connection & Authentication
+
+<DocCallOut color="warning" title="A note about security">
+This connector will talk to the Elasticsearch instance directly from the browser. We **strongly** suggest you take additional steps to keep your Elasticsearch instance as secure as possible.
+</DocCallOut>
+
+You have the following options available to you for securely exposing your Elasticsearch instance to the internet:
+
+### Proxy the \_search API call through your API
+
+This envolves building an API route that will proxy the Elasticsearch call through your API. During the proxy, you are able to:
+
+- Ability to add any additional authentication headers / keys as you proxy the request through the API and to Elasticsearch.
+- Update the Elasticsearch query request to add any filters to filter restricted documents
+- Application performance monitoring of functionality
+- Your own user based authentication for your API
+- Add a caching layer between the API and Elasticsearch
+
+The connector will perform a `_search` query and will derive the endpoint path with the host and index. With `http://localhost:9200` host and `search-ui-example` index, the endpoint path will be `http://localhost:9200/search-ui-example/_search`. The connector will make a POST call with the elasticsearch query in the body of the request. To proxy the request through your API, you need to implement a route and update the connector's settings to use the proxy route.
+
+### Use an Elasticsearch api-key
+
+You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has read-only authorization. See [Kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). To use the API key, place it within the Elasticsearch connection configuration.
+
+## Node.js Integration
+
+The Elasticsearch API Connector builds the Elasticsearch query and performs the request directly to Elasticsearch from the browser. Depending on what you're building, you may want this logic to be done on the server and provide your clients a simplified API.
+
+First step is to implement two routes to handle `search` and `autocomplete` requests. In example below, we are using express.js framework to implement these http routes within node.js.
+
+```js
+// index.js
+
+var express = require("express");
+var APIConnector =
+  require("@elastic/search-ui-elasticsearch-connector").default;
+require("cross-fetch/polyfill");
+
+var app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+const connector = new APIConnector(
+  {
+    host: "http://localhost:9200", // host url for the Elasticsearch instance
+    index: "search-ui-examples", // index name where the search documents are contained
+    apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+  },
+  {
+    queryFields: ["title", "description"]
+  }
+);
+
+app.post("/search", async (req, res) => {
+  const { query, options } = req.body;
+  const response = await connector.onSearch(query, options);
+  res.json(response);
+});
+
+app.post("/autocomplete", async (req, res) => {
+  const { query, options } = req.body;
+  const response = await connector.onAutocomplete(query, options);
+  res.json(response);
+});
+
+var listener = app.listen(8080, function () {
+  console.log("Listening on port " + listener.address().port);
+});
+```
+
+Next, you can add a simple connector which passes the configuration and query from the client to the server.
+
+```js
+class CustomConnector {
+  constructor(host) {
+    this.host = host;
+  }
+
+  async onSearch(query, options) {
+    const response = await fetch(this.host + "/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        query,
+        options
+      })
+    });
+    return response.json();
+  }
+
+  async onAutocomplete(query, options) {
+    const response = await fetch(this.host + "/autocomplete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        query,
+        options
+      })
+    });
+    return response.json();
+  }
+}
+
+const connector = new CustomConnector("https://my-api-host/");
+
+const config = {
+  alwaysSearchOnInitialLoad: true,
+  apiConnector: connector
+  // ... typical search-ui configuration
+};
+```
+
+Thats it!. You should see the `CustomConnector` executing requests to the server, providing the search state and configuration in the body. The node.js server will use the Elasticsearch connector to perform a search to Elasticsearch and return the results back to the client.

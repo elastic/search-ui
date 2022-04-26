@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui-views",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "description": "A collection of React UI components for building search experiences",
   "license": "Apache-2.0",
   "main": "lib/cjs",
@@ -38,8 +38,8 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0 < 18",
-    "react-dom": ">= 16.8.0 < 18"
+    "react": ">= 16.8.0 <= 18",
+    "react-dom": ">= 16.8.0 <= 18"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.1.18",
@@ -60,7 +60,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.11.1",
+    "@elastic/search-ui": "1.11.2",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
     "react-select": "^2.4.4"

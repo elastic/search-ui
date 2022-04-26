@@ -1,0 +1,52 @@
+---
+id: connectors-api-app-search
+slug: /search-ui/connectors-api/app-search-connector
+title: App Search Connector
+date: 2022-02-27
+tags: ["app search connector"]
+---
+
+This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/cloud/app-search-service) API.
+
+## Usage
+
+```shell
+npm install --save @elastic/search-ui-app-search-connector
+```
+
+```js
+import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
+  endpointBase: "http://127.0.0.1:3002"
+});
+```
+
+### Additional options
+
+Additional options will be passed through to the underlying
+[APIclient](https://github.com/elastic/app-search-javascript). Any valid parameter of the client can be used.
+
+```js
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-371auk61r2bwqtdzocdgutmg",
+  engineName: "search-ui-examples",
+  endpointBase: "http://127.0.0.1:3002",
+  cacheResponses: false
+});
+```
+
+## Options
+
+| Param                             | Description                                                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| searchKey                         | Required. String. Credential found in your App Search Dashboard                                                                      |
+| engineName                        | Required. String. Engine to query, found in your App Search Dashboard                                                                |
+| endpointBase                      | Required. String. Endpoint path, found in your App Search Dashboard                                                                  |
+| cacheResponses                    | Optional. Boolean. Default is true. By default, connector will keep an in browser memory result cache of previous requests.          |
+| hostIdentifier                    | Optional. Useful when proxying the Swiftype API or developing against a local API server.                                            |
+| beforeSearchCall                  | Optional. A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                     |
+| beforeAutocompleteResultsCall     | Optional. A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.     |
+| beforeAutocompleteSuggestionsCall | Optional. A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event. |
