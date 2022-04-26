@@ -159,7 +159,7 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-_Read our [Custom Connector](https://docs.elastic.co/search-ui/connectors-api/custom-connector) to learn how to build a connector for any Search API._
+_Read our [Custom Connector Guide](https://docs.elastic.co/search-ui/connectors-api/custom-connector) to learn how to build a connector for any Search API._
 
 ### 3. SearchProvider
 
