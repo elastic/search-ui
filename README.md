@@ -35,7 +35,7 @@ search experience up and running in minutes.
 
 ### Docs
 
-Checkout our [documentation site](https://docs.elastic.co/search-ui/overview)
+Check out our [documentation site](https://docs.elastic.co/search-ui/overview).
 
 ### Live Demo
 
