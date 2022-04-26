@@ -5,6 +5,7 @@
 ## Contents
 
 - [About Search UI](#about-search-ui-rocket)
+- [Docs](#Docs)
 - [Getting started](#getting-started-)
 - [Creating a search experience](#creating-a-search-experience)
 - [FAQ](#faq-)
