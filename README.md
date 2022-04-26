@@ -39,7 +39,7 @@ Check out our [documentation site](https://docs.elastic.co/search-ui/overview).
 
 ### Live Demo
 
-Checkout the [live demo of Search UI](https://search-ui-stable.netlify.com).
+Check out the [live demo of Search UI](https://search-ui-stable.netlify.com).
 
 [![Edit search-ui-national-parks-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/search-ui-national-parks-example-ts-k6u5iz)
 
