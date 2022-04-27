@@ -26,7 +26,7 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
-let connector
+let connector;
 
 if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
   connector = new SiteSearchAPIConnector({
@@ -37,12 +37,12 @@ if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
 } else {
   connector = new AppSearchAPIConnector({
     searchKey:
-      process.env.REACT_APP_SEARCH_KEY || "search-371auk61r2bwqtdzocdgutmg",
+      process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
     engineName:
-      process.env.REACT_APP_SEARCH_ENGINE_NAME || "search-ui-examples",
-    hostIdentifier:
-      process.env.REACT_APP_SEARCH_HOST_IDENTIFIER || "host-2376rb",
-    endpointBase: process.env.REACT_APP_SEARCH_ENDPOINT_BASE || ""
+      process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
+    endpointBase:
+      process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
+      "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
   });
 }
 
@@ -103,24 +103,16 @@ const config = {
         type: "range",
         ranges: [
           {
-            from: moment()
-              .subtract(50, "years")
-              .toISOString(),
+            from: moment().subtract(50, "years").toISOString(),
             name: "Within the last 50 years"
           },
           {
-            from: moment()
-              .subtract(100, "years")
-              .toISOString(),
-            to: moment()
-              .subtract(50, "years")
-              .toISOString(),
+            from: moment().subtract(100, "years").toISOString(),
+            to: moment().subtract(50, "years").toISOString(),
             name: "50 - 100 years ago"
           },
           {
-            to: moment()
-              .subtract(100, "years")
-              .toISOString(),
+            to: moment().subtract(100, "years").toISOString(),
             name: "More than 100 years ago"
           }
         ]
