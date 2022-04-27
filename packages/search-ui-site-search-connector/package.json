@@ -2,7 +2,7 @@
   "name": "@elastic/search-ui-site-search-connector",
   "version": "1.11.2",
   "description": "A Search UI connector for Elastic's Site Search Service",
-  "homepage": "https://docs.elastic.co/search-ui/overview",
+  "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
   "main": "lib/cjs",
   "module": "lib/esm",
