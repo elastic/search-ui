@@ -7,7 +7,7 @@
   "module": "lib/esm",
   "types": "./lib/esm/index.d.ts",
   "sideEffects": false,
-  "homepage": "https://docs.elastic.co/search-ui/overview",
+  "homepage": "https://docs.elastic.co/search-ui",
   "directories": {
     "lib": "lib",
     "test": "__tests__"

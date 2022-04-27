@@ -1,7 +1,7 @@
 {
   "name": "@elastic/react-search-ui",
   "version": "1.11.2",
-  "homepage": "https://docs.elastic.co/search-ui/overview",
+  "homepage": "https://docs.elastic.co/search-ui",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
   "main": "lib/cjs",
