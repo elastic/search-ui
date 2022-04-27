@@ -11,6 +11,7 @@ import {
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
+import { LIB_VERSION } from "../../version";
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>
@@ -140,11 +141,17 @@ function buildConfiguration(
         }
       : { id: "selectedOption", label: "selectedOption", field: "_score" };
 
+  const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
+  const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
+
   const configuration: SearchkitConfig = {
     host: host,
     index: index,
     connectionOptions: {
-      apiKey: apiKey
+      apiKey: apiKey,
+      headers: {
+        "x-elastic-client-meta": metaHeader
+      }
     },
     hits: {
       fields: hitFields,

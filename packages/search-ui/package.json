@@ -1,12 +1,13 @@
 {
   "name": "@elastic/search-ui",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
   "main": "lib/cjs",
   "module": "lib/esm",
   "types": "./lib/esm/index.d.ts",
   "sideEffects": false,
+  "homepage": "https://docs.elastic.co/search-ui/overview",
   "directories": {
     "lib": "lib",
     "test": "__tests__"

@@ -1,0 +1,72 @@
+---
+id: api-react-components-facet
+slug: /search-ui/api/react/components/facet
+title: Facet
+date: 2022-02-27
+tags: ["facet"]
+---
+
+Show a Facet filter for a particular field.
+
+Must configure the corresponding field in the `SearchProvider` <DocLink id="api-configuration" section="facets" text="facets" /> object.
+
+### Example
+
+```jsx
+import { Facet } from "@elastic/react-search-ui";
+import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
+
+...
+
+<SearchProvider config={{
+  ...otherConfig,
+  searchQuery: {
+    facets: {
+     states: { type: "value", size: 30 }
+    }
+  }
+}}>
+  {() => (
+    <Facet field="states" label="States" view={MultiCheckboxFacet} />
+  )}
+</SearchProvider>
+```
+
+### Example of an OR based Facet filter
+
+Certain configuration of the `Facet` Component will require a "disjunctive" facet to work
+correctly. "Disjunctive" facets are facets that do not change when a selection is made. Meaning, all available options
+will remain as selectable options even after a selection is made.
+
+```jsx
+import { Facet } from "@elastic/react-search-ui";
+import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
+
+...
+
+<SearchProvider config={{
+  ...otherConfig,
+  searchQuery: {
+    disjunctiveFacets: ["states"],
+    facets: {
+     states: { type: "value", size: 30 }
+    }
+  }
+}}>
+  {() => (
+    <Facet field="states" label="States" view={MultiCheckboxFacet} filterType="any" />
+  )}
+</SearchProvider>
+```
+
+### Properties
+
+| Name         | Description                                                                                                                                                                                                                                                |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className    |                                                                                                                                                                                                                                                            |
+| field        | Field name corresponding to this filter. This requires that the corresponding field has been configured in `facets` on the top level Provider.                                                                                                             |
+| filterType   | The type of filter to apply with the selected values. I.e., should "all" of the values match, or just "any" of the values, or "none" of the values. Note: See the example above which describes using "disjunctive" facets in conjunction with filterType. |
+| label        | A static label to show in the facet filter.                                                                                                                                                                                                                |
+| show         | The number of facet filter options to show before concatenating with a "more" link.                                                                                                                                                                        |
+| view         | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information.                                              |
+| isFilterable | Whether or not to show Facet quick filter.                                                                                                                                                                                                                 |

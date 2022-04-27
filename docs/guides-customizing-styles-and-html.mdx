@@ -1,0 +1,151 @@
+---
+id: guides-customizing-styles-and-html
+slug: /search-ui/guides/customizing-styles-and-html
+title: Customizing Styles and HTML
+date: 2022-02-27
+tags: ["demo"]
+---
+
+For a live example of the customizations made below, [check out this project on CodeSandbox](https://codesandbox.io/s/search-ui-customize-html-and-styles-demo-30v93e).
+## Customizing styles
+
+We provide a default stylesheet to get your project started quickly.
+
+```jsx
+import "@elastic/react-search-ui-views/lib/styles/styles.css";
+```
+
+You could choose to add your own stylesheet to override or augment these styles:
+```jsx
+import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import "your-custom-styles.css";
+```
+
+You could also choose to replace these styles completely with your own stylesheet:
+```jsx
+import "your-custom-styles.css";
+```
+
+When target styles to override, we generally advise that you rely only on styles that are prefixed with `.sui`. We try to keep these compatible for version upgrades so that we don't break your custom styles. However, we do recommend that you test your styles thoroughly when upgrading versions, even within minors.
+
+Here is an example of a simple stylesheet that overrides much of the blue in the base styles with red to create a simple red theme:
+
+```css
+.sui-search-box__submit {
+  background: none;
+  background-color: red;
+}
+
+.sui-layout-sidebar-toggle {
+  color: red;
+  border: 1px solid red;
+}
+
+.sui-result__title,
+.sui-result__title-link {
+  color: red;
+}
+
+.sui-facet-view-more {
+  color: red;
+}
+```
+
+## Customizing html
+
+All components in this library can be customized by providing a `view` prop.
+
+The view prop can be used to customize a component's look and feel while still maintaining the component's logic.
+
+This follows the [React Render Props](https://reactjs.org/docs/render-props.html) pattern. The `view` prop is a function. The various
+logic and values your view needs are passed through as parameters to the `view` function you provide.
+
+Every component will have a different function signature for its view.
+
+Here is an example of a custom view being provided for the `PagingInfo` component:
+
+```jsx
+<PagingInfo
+  view={({ start, end }: { start: number, end: number }) => (
+    <div className="paging-info">
+      <strong>
+        {start} - {end}
+      </strong>
+    </div>
+  )}
+/>;
+```
+
+You'll note that the `view` function here has four parameters that are available to use:
+
+2. `searchTerm` - The search term used for this query.
+3. `start` - The number of the first result shown.
+1. `end` - The number of the last result shown.
+4. `totalResults` - The total number of results for this query.
+
+In this case, we've decided to create a simple view that shows the starting and ending result numbers on this page. We've chosen not to use
+the `totalResults` or `searchTerm` properties.
+
+## Common customizations
+### Results component
+
+Note that you can override the entire list of results in the `Results` component using the `view` propety or you can just override individual
+result views with the `resultView` prop.
+
+```jsx
+const CustomResultView = ({
+  result,
+  onClickLink
+}: {
+  result: SearchResult;
+  onClickLink: () => void;
+}) => (
+  <li className="sui-result">
+    <div className="sui-result__header">
+      <h3>
+        {/* Maintain onClickLink to correct track click throughs for analytics*/}
+        <a onClick={onClickLink} href={result.nps_link.raw}>
+          {result.title.snippet}
+        </a>
+      </h3>
+    </div>
+    <div className="sui-result__body">
+      {/* use 'raw' values of fields to access values without snippets */}
+      <div className="sui-result__image">
+        <img src={result.image_url.raw} alt="" />
+      </div>
+      {/* Use the 'snippet' property of fields with dangerouslySetInnerHtml to render snippets */}
+      <div
+        className="sui-result__details"
+        dangerouslySetInnerHTML={{ __html: result.description.snippet }}
+      ></div>
+    </div>
+  </li>
+);
+
+<Results resultView={CustomResultView}>
+```
+### Facets component
+
+When overriding Facet views, note that there are pre-built options that you can choose from, in addition to providing your own:
+
+```jsx
+import {
+  BooleanFacet,
+  SingleSelectFacet,
+  SingleLinksFacet
+} from "@elastic/react-search-ui-views";
+
+// Default out-of-the-box view
+<Facet
+  field="acres"
+  label="Acres"
+/>
+
+// Choose an alternate out-of-the-box view
+<Facet
+  field="acres"
+  label="Acres"
+  view={SingleSelectFacet}
+/>
+```
