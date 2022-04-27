@@ -8,10 +8,37 @@ A **[React](https://reactjs.org)** library that allows you to quickly implement 
 
 Check out our [full documentation site](https://docs.elastic.co/search-ui) which contains detailed documentation for setting up and using Search UI in your products.
 
-## Running locally
+## Running Locally
+
+### Node
+
+We depend upon the version of node defined in [.nvmrc](.nvmrc).
+
+You will probably want to install a node version manager. [nvm](https://github.com/creationix/nvm) is recommended.
+
+To install and use the correct node version with `nvm`:
+
+```bash
+nvm install
+```
+
+Install dependencies with yarn:
+```
+yarn
+```
+
+### Sandbox
   
-Instructions for running locally can be found in the [Search UI Contributor's Guide](./CONTRIBUTING.md).
+A [sandbox application](https://github.com/elastic/search-ui/blob/master/examples/sandbox/README.md) is available to demo usage and act as a development aid.
   
+To run it locally at [http://localhost:3000/](http://localhost:3000/):
+
+```bash
+yarn build
+cd examples/sandbox
+yarn start
+```
+
 ## Contribute
 
 We welcome contributors to the project. Before you begin, a couple notes...
