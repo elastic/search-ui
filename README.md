@@ -4,7 +4,7 @@
 
 # Elastic Search UI
 
-A **[React](https://reactjs.org)** library that allows you to quickly implement search experiences without re-inventing the wheel.
+A [React](https://reactjs.org) library that allows you to quickly implement search experiences without re-inventing the wheel.
 
 Check out our [full documentation site](https://docs.elastic.co/search-ui) which contains detailed documentation for setting up and using Search UI in your products.
 
