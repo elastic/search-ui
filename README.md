@@ -38,6 +38,8 @@ yarn build
 cd examples/sandbox
 yarn start
 ```
+  
+Additional development tips are available in the [Search UI Contributor's Guide](./CONTRIBUTING.md)
 
 ## Contribute
 
