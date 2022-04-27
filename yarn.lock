@@ -1336,10 +1336,10 @@
   dependencies:
     postcss-value-parser "^4.2.0"
 
-"@elastic/app-search-javascript@^7.13.1":
-  version "7.16.0"
-  resolved "https://registry.yarnpkg.com/@elastic/app-search-javascript/-/app-search-javascript-7.16.0.tgz#452d492d71745e8c40a0329c8084154188e3aad8"
-  integrity sha512-0QhoMP245tmb5iNdf1SylFMAdRo2+KMdsItR/GGakwnFCmyNnUERqM8uLSxHrIVpNYEtEf8Rp1tBqXk9H1UnRA==
+"@elastic/app-search-javascript@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@elastic/app-search-javascript/-/app-search-javascript-8.1.1.tgz#3b675f811c8a5621d264b021666a85500d8a7b19"
+  integrity sha512-rGa3/zxSzdRjlpzangFwdtierdIWHdEnWhjNPH9MshB70ibqaUKd61OS3/hXsE0ZYGLrJ8BrIEhpshjIXI4Dbw==
   dependencies:
     object-hash "^1.3.0"
 
