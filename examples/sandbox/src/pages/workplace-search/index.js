@@ -145,11 +145,7 @@ export default function WorkplaceSearch() {
                 </EuiHeader>
                 <ErrorBoundary>
                   {!isLoggedIn && (
-                    <EuiModal
-                      onClose={() => {}}
-                      maxWidth={354}
-                      className="login-modal"
-                    >
+                    <EuiModal maxWidth={354} className="login-modal">
                       <EuiModalHeader className="login-modal__header">
                         <EuiModalHeaderTitle>
                           <h1>Log in to continue</h1>
