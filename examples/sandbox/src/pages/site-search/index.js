@@ -1,7 +1,6 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
 
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
 
 import moment from "moment";
@@ -26,25 +25,10 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
-let connector;
-
-if (process.env.REACT_APP_SOURCE === "SITE_SEARCH") {
-  connector = new SiteSearchAPIConnector({
-    engineKey:
-      process.env.REACT_SITE_SEARCH_ENGINE_KEY || "Z43R5U3HiDsDgpKawZkA",
-    documentType: process.env.REACT_SITE_SEARCH_ENGINE_NAME || "national-parks"
-  });
-} else {
-  connector = new AppSearchAPIConnector({
-    searchKey:
-      process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
-    engineName:
-      process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
-    endpointBase:
-      process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
-      "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
-  });
-}
+const connector = new SiteSearchAPIConnector({
+  engineKey: process.env.REACT_SITE_SEARCH_ENGINE_KEY || "Z43R5U3HiDsDgpKawZkA",
+  documentType: process.env.REACT_SITE_SEARCH_ENGINE_NAME || "national-parks"
+});
 
 const config = {
   debug: true,
