@@ -13,10 +13,10 @@ export default function Root() {
           <Link to="/app-search">Elastic App Search</Link>
         </li>
         <li>
-          <Link to="/workplace-search">Elastic Workplace Search</Link>
+          <Link to="/site-search">Elastic Site Search</Link>
         </li>
         <li>
-          <Link to="/site-search">Elastic Site Search</Link>
+          <Link to="/workplace-search">Elastic Workplace Search</Link>
         </li>
       </ul>
     </>
