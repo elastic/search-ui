@@ -24,13 +24,15 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
-const connector = new ElasticSearchAPIConnector(
-  {
-    host: process.env.REACT_ELASTICSEARCH_HOST || "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
-    index: process.env.REACT_ELASTICSEARCH_INDEX || "national-parks",
-    apiKey: process.env.REACT_ELASTICSEARCH_API_KEY ||"SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
-  }
-);
+const connector = new ElasticSearchAPIConnector({
+  host:
+    process.env.REACT_ELASTICSEARCH_HOST ||
+    "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
+  index: process.env.REACT_ELASTICSEARCH_INDEX || "national-parks",
+  apiKey:
+    process.env.REACT_ELASTICSEARCH_API_KEY ||
+    "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
+});
 
 const config = {
   debug: true,
@@ -39,12 +41,10 @@ const config = {
   hasA11yNotifications: true,
   searchQuery: {
     search_fields: {
-      title: { 
+      title: {
         weight: 3
       },
-      description: {
-        
-      }
+      description: {}
     },
     result_fields: {
       visitors: { raw: {} },
@@ -69,7 +69,12 @@ const config = {
         }
       }
     },
-    disjunctiveFacets: ["acres", "states.keyword", "date_established", "location"],
+    disjunctiveFacets: [
+      "acres",
+      "states.keyword",
+      "date_established",
+      "location"
+    ],
     facets: {
       "world_heritage_site.keyword": { type: "value" },
       "states.keyword": { type: "value", size: 30, sort: "count" },
@@ -97,24 +102,16 @@ const config = {
         type: "range",
         ranges: [
           {
-            from: moment()
-              .subtract(50, "years")
-              .toISOString(),
+            from: moment().subtract(50, "years").toISOString(),
             name: "Within the last 50 years"
           },
           {
-            from: moment()
-              .subtract(100, "years")
-              .toISOString(),
-            to: moment()
-              .subtract(50, "years")
-              .toISOString(),
+            from: moment().subtract(100, "years").toISOString(),
+            to: moment().subtract(50, "years").toISOString(),
             name: "50 - 100 years ago"
           },
           {
-            to: moment()
-              .subtract(100, "years")
-              .toISOString(),
+            to: moment().subtract(100, "years").toISOString(),
             name: "More than 100 years ago"
           }
         ]
