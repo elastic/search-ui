@@ -8,7 +8,8 @@ tags: ["Tutorial", "Elasticsearch", "movies"]
 ---
 
 <DocCallOut color="warning" title="Technical preview">
-Elasticsearch connector for Search UI is currently in technical preview status. It is not ready for production use.
+  Elasticsearch connector for Search UI is currently in technical preview
+  status. It is not ready for production use.
 </DocCallOut>
 
 This tutorial will guide you through the process of creating a Search UI with Elasticsearch directly, using the `elasticsearch-connector`. We will be using a sample movie data-set of around 1000 movies.
@@ -75,7 +76,7 @@ http.cors.allow-origin: "*"
 http.cors.enabled: true
 http.cors.allow-credentials: true
 http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
-http.cors.allow-headers: X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept
+http.cors.allow-headers: "*"
 ```
 
 ![edit-deployment-settings](images/elasticsearch-tutorial/cors-settings.png)
