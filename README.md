@@ -1,55 +1,23 @@
-<p><a href="https://circleci.com/gh/elastic/search-ui/tree/master"><img src="https://circleci.com/gh/elastic/search-ui/tree/master.svg?style=svg&circle-token=c637bc2af60035a1f4cb5367071999ced238be76" alt="CircleCI buidl"></a>
-  
-> Libraries for the fast development of modern, engaging search experiences. 🎉
+# [Elastic Search UI](https://www.elastic.co/enterprise-search/search-ui)
 
-# Elastic Search UI
+Search UI is a JavaScript search framework for implementing world-class search experiences without reinventing the wheel.
 
-A [React](https://reactjs.org) library that allows you to quickly implement search experiences without re-inventing the wheel.
+<img src="docs/images/screenshot.png">
 
-Check out our [full documentation site](https://docs.elastic.co/search-ui) which contains detailed documentation for setting up and using Search UI in your products.
+## Get started
 
-## Running Locally
+To quickly get started with Search UI, follow one of our tutorials:
+- [Search UI with Elastic App Search](https://docs.elastic.co/search-ui/tutorials/app-search)
+- [Search UI with Elasticsearch](https://docs.elastic.co/search-ui/tutorials/elasticsearch)
 
-### Node
+## Documentation
 
-We depend upon the version of node defined in [.nvmrc](.nvmrc).
+Check out our [documentation site](https://docs.elastic.co/search-ui) which contains detailed guides for setting up and using Search UI.
 
-You will probably want to install a node version manager. [nvm](https://github.com/creationix/nvm) is recommended.
+## Contributing
 
-To install and use the correct node version with `nvm`:
+We welcome contributors to the project. Follow our [contributing guide](./CONTRIBUTING.md) to get started.
 
-```bash
-nvm install
-```
-
-Install dependencies with yarn:
-```
-yarn
-```
-
-### Sandbox
-  
-A [sandbox application](https://github.com/elastic/search-ui/blob/master/examples/sandbox/README.md) is available to demo usage and act as a development aid.
-  
-To run it locally at [http://localhost:3000/](http://localhost:3000/):
-
-```bash
-yarn build
-cd examples/sandbox
-yarn start
-```
-  
-Additional development tips are available in the [Search UI Contributor's Guide](./CONTRIBUTING.md)
-
-## Contribute
-
-We welcome contributors to the project. Before you begin, a couple notes...
-
-- Read the [Search UI Contributor's Guide](./CONTRIBUTING.md).
-- Prior to opening a pull request, please:
-  - Create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
-  - Sign the [Contributor License Agreement](https://www.elastic.co/contributor-agreement/). We are not asking you to assign copyright to us, but to give us the right to distribute your code without restriction. We ask this of all contributors in order to assure our users of the origin and continuing existence of the code. You only need to sign the CLA once.
-- Please write simple code and concise documentation, when appropriate.
 
 ## License 📗
 
