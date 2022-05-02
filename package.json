@@ -14,6 +14,9 @@
     "prettier-check": "prettier --check --ignore-path .gitignore .",
     "prettier-format": "prettier --write --ignore-path .gitignore .",
     "lint": "eslint --ignore-path .gitignore .",
+    "lint-fix": "eslint --fix --ignore-path .gitignore .",
+    "validate": "yarn prettier-check && yarn lint && yarn test && yarn build",
+    "validate-fix": "yarn prettier-format && yarn lint-fix && yarn test && yarn build",
     "changed": "lerna changed"
   },
   "husky": {
