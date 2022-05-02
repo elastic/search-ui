@@ -9,7 +9,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
   parserOptions: {
     ecmaFeatures: {
