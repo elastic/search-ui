@@ -3,7 +3,7 @@ module.exports = {
     node: true,
     browser: true,
     commonjs: true,
-    es6: true
+    es2021: true
   },
   extends: [
     "eslint:recommended",
@@ -15,7 +15,6 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    ecmaVersion: 2018,
     sourceType: "module"
   },
   plugins: ["@typescript-eslint", "jest"],
