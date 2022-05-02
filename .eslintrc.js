@@ -29,6 +29,7 @@ module.exports = {
   },
   rules: {
     "no-console": ["error", { allow: ["warn", "error"] }],
-    "prefer-rest-params": "off"
+    "prefer-rest-params": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 };
