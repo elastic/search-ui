@@ -11,8 +11,8 @@
     "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --stream --scope @elastic/search-ui && lerna run build --stream --scope '{@elastic/react-search-ui*,@elastic/search-ui-*}'",
-    "format": "node_modules/eslint/bin/eslint.js --fix \"packages/*/src/**/*.{ts,tsx}\"",
-    "lint": "node_modules/eslint/bin/eslint.js \"packages/*/src/**/*.{ts,tsx}\"",
+    "format": "eslint --fix \"packages/*/src/**/*.{ts,tsx}\"",
+    "lint": "eslint \"packages/*/src/**/*.{ts,tsx}\"",
     "changed": "lerna changed"
   },
   "husky": {
@@ -22,7 +22,7 @@
   },
   "lint-staged": {
     "packages/*/src/**/*.{ts,tsx}": [
-      "node_modules/eslint/bin/eslint.js --fix",
+      "eslint --fix",
       "git add"
     ]
   },
