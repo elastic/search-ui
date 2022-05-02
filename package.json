@@ -12,7 +12,7 @@
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --stream --scope @elastic/search-ui && lerna run build --stream --scope '{@elastic/react-search-ui*,@elastic/search-ui-*}'",
     "format": "eslint --fix \"packages/*/src/**/*.{ts,tsx}\"",
-    "lint": "eslint \"packages/*/src/**/*.{ts,tsx}\"",
+    "lint": "eslint --ignore-path .gitignore .",
     "changed": "lerna changed"
   },
   "husky": {
