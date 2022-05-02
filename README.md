@@ -1,4 +1,4 @@
-# [Elastic Search UI](https://www.elastic.co/enterprise-search/search-ui)
+# [Elastic Search UI](https://docs.elastic.co/search-ui)
 
 Search UI is a JavaScript search framework for implementing world-class search experiences without reinventing the wheel.
 
@@ -7,6 +7,7 @@ Search UI is a JavaScript search framework for implementing world-class search e
 ## Get started
 
 To quickly get started with Search UI, follow one of our tutorials:
+
 - [Search UI with Elastic App Search](https://docs.elastic.co/search-ui/tutorials/app-search)
 - [Search UI with Elasticsearch](https://docs.elastic.co/search-ui/tutorials/elasticsearch)
 
@@ -17,7 +18,6 @@ Check out our [documentation site](https://docs.elastic.co/search-ui) which cont
 ## Contributing
 
 We welcome contributors to the project. Follow our [contributing guide](./CONTRIBUTING.md) to get started.
-
 
 ## License 📗
 
