@@ -1,4 +1,4 @@
-@include block('results-per-page') {
+@include block("results-per-page") {
   @include themeTypography;
   color: $metaTextColor;
   font-size: 12px;
@@ -6,7 +6,7 @@
   align-items: center;
   height: 100%;
 
-  @include element('label') {
+  @include element("label") {
     margin-right: $sizeS;
   }
 

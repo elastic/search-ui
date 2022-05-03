@@ -3,15 +3,15 @@ name: Elastic docs
 on:
   pull_request_target:
     paths:
-    # Change docs dir to your repos docs dir
-      - 'docs/**.mdx'
-      - 'docs/**.docnav.json'
-      - 'docs/**.docapi.json'
-      - 'docs/**.devdocs.json'
-      - 'docs/**.jpg'
-      - 'docs/**.jpeg'
-      - 'docs/**.png'
-      - 'docs/**.gif'
+      # Change docs dir to your repos docs dir
+      - "docs/**.mdx"
+      - "docs/**.docnav.json"
+      - "docs/**.docapi.json"
+      - "docs/**.devdocs.json"
+      - "docs/**.jpg"
+      - "docs/**.jpeg"
+      - "docs/**.png"
+      - "docs/**.gif"
     types: [closed, opened, synchronize, reopened]
 
 jobs:
