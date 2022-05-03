@@ -363,7 +363,7 @@ describe("WorkplaceSearchAPIConnector", () => {
 
       const beforeSearchCall: SearchQueryHook = (options, next) => {
         // Remove sort_direction and sort_field
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { sort, ...rest } = options;
         return next({
           ...rest,
@@ -568,7 +568,7 @@ describe("WorkplaceSearchAPIConnector", () => {
           next
         ) => {
           // Remove sort_direction and sort_field
-          // eslint-disable-next-line no-unused-vars
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { sort, ...rest } = options;
           return next({
             ...rest,
