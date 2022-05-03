@@ -5,3 +5,4 @@ storybook-static
 .env
 package-lock.json
 packages/**/src/version.ts
+packages/**/lib/*
