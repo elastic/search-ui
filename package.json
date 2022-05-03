@@ -54,7 +54,9 @@
   },
   "lint-staged": {
     "*": [
-      "yarn prettier-format",
+      "yarn prettier-format"
+    ],
+    "*.{js,jsx,ts,tsx}": [
       "yarn lint-fix"
     ]
   }
