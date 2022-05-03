@@ -16,10 +16,13 @@ on:
 
 jobs:
   publish:
-    uses: elastic/workflows/.github/workflows/co-docs-a-preview.yml@v1
+    uses: elastic/workflows/.github/workflows/docs-elastic-co-publish.yml@main
     with:
+      # Refers to Vercel project
       project-name: docs-elastic-co
+      # Which prebuild step (dev or not)
       prebuild: wordlake
+      # Docsmobile project dir
       repo: docs.elastic.co
     secrets:
       VERCEL_GITHUB_TOKEN: ${{ secrets.VERCEL_GITHUB_TOKEN }}
