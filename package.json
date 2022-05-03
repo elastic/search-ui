@@ -11,8 +11,8 @@
     "test-ci": "lerna run test-ci --stream --no-private",
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --stream --scope @elastic/search-ui && lerna run build --stream --scope '{@elastic/react-search-ui*,@elastic/search-ui-*}'",
-    "prettier-check": "prettier --check --ignore-path .gitignore .",
-    "prettier-format": "prettier --write --ignore-path .gitignore .",
+    "prettier-check": "prettier --check --ignore-unknown --ignore-path .gitignore .",
+    "prettier-format": "prettier --write --ignore-unknown --ignore-path .gitignore .",
     "lint": "eslint --ignore-path .gitignore .",
     "lint-fix": "eslint --fix --ignore-path .gitignore .",
     "validate": "yarn prettier-check && yarn lint && yarn test && yarn build",
@@ -53,6 +53,9 @@
     "react-dom": "17.0.2"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix"
+    "*": [
+      "yarn prettier-format",
+      "yarn lint-fix"
+    ]
   }
 }
