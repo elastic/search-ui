@@ -104,5 +104,4 @@ export type Rename<
   R extends {
     [K in keyof R]: K extends keyof T ? PropertyKey : "Error: key not in T";
   }
-  // eslint-disable-next-line prettier/prettier
 > = { [P in keyof T as P extends keyof R ? R[P] : P]: T[P] };
