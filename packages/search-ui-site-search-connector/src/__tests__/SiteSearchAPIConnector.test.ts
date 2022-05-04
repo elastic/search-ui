@@ -209,7 +209,7 @@ describe("#onSearch", () => {
 
     const beforeSearchCall = (options, next) => {
       // Remove sort_direction and sort_field
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { sort_direction, sort_field, ...rest } = options;
       return next({
         ...rest,
@@ -376,7 +376,7 @@ describe("#onAutocomplete", () => {
 
     const beforeAutocompleteResultsCall = (options, next) => {
       // Remove sort_direction and sort_field
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { sort_direction, sort_field, ...rest } = options;
       return next({
         ...rest,

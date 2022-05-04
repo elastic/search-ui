@@ -1,0 +1,12 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Fixes commits issued from VSCode. Compiled from: https://github.com/typicode/husky/issues/912
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+a=$(nvm ls | grep 'node')
+b=${a#*(-> }
+v=${b%%[)| ]*}
+export PATH="$NVM_DIR/versions/node/$v/bin:$PATH"
+
+npx lint-staged

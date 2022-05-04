@@ -1,9 +1,9 @@
-@include block('sorting') {
+@include block("sorting") {
   @include themeTypography;
   display: inline-block;
   width: 100%;
 
-  @include element('label') {
+  @include element("label") {
     font-size: $sizeM;
     color: $facetLabel;
     text-transform: uppercase;

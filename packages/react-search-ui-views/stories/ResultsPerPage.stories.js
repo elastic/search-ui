@@ -12,6 +12,6 @@ const baseProps = {
 };
 
 storiesOf("Results per page", module)
-  .addDecorator(story => <div style={{ display: "flex" }}>{story()}</div>)
+  .addDecorator((story) => <div style={{ display: "flex" }}>{story()}</div>)
   .add("basic", () => <ResultsPerPage {...{ ...baseProps }} />)
   .add("no value", () => <ResultsPerPage {...{ ...baseProps, value: null }} />);
