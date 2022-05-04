@@ -7,6 +7,7 @@ We will create branches for all minor releases.
 > Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and `test`), the `--no-private` flag should be appended.
 
 ## Publish a new major or minor from master
+
 (Example, publishing 0.6.0)
 
 1. Run `npx lerna version 0.6.0 --force-publish --exact`.
@@ -26,6 +27,7 @@ We will create branches for all minor releases.
    https://search-ui-stable.netlify.app/
 
 ## Publish a patch
+
 (Example, publish 0.6.1)
 
 1. Create a `0.6` branch from the `0.6.0` tag, if one does not already exist.

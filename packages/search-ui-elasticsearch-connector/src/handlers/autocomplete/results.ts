@@ -3,7 +3,6 @@ import {
   AutocompleteQueryConfig,
   FieldConfiguration,
   RequestState,
-  ResponseState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
 import Searchkit, { MultiMatchQuery, SearchkitConfig } from "@searchkit/sdk";

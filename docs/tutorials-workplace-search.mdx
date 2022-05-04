@@ -7,7 +7,8 @@ tags: ["demo"]
 ---
 
 <DocCallOut color="warning" title="Technical preview">
-Workplace Search connector for Search UI is currently in technical preview status. It is not ready for production use.
+  Workplace Search connector for Search UI is currently in technical preview
+  status. It is not ready for production use.
 </DocCallOut>
 
 This guide will walk you through getting up and running with a Search UI using [Elastic Workplace Search](https://www.elastic.co/workplace-search/) as a backend.
@@ -17,12 +18,13 @@ Have problems with the setup? Let us know in the [feedback issue](https://github
 ## Prerequisites
 
 Before continuing with this guide, make sure you:
-1) have a running Elastic deployment with Enterprise Search and 
-2) indexed some data in Workplace Search.
+
+1. have a running Elastic deployment with Enterprise Search and
+2. indexed some data in Workplace Search.
 
 The best way to get started with Elastic Workplace Search is to follow our [Getting Started guide](https://www.elastic.co/guide/en/workplace-search/current/workplace-search-getting-started.html).
 
-To index data into Workplace Search, read the [Content Sources Overview](https://www.elastic.co/guide/en/workplace-search/current/workplace-search-content-sources.html) and follow a guide for any content source available there. 
+To index data into Workplace Search, read the [Content Sources Overview](https://www.elastic.co/guide/en/workplace-search/current/workplace-search-content-sources.html) and follow a guide for any content source available there.
 
 ## Creating a search page
 
@@ -41,7 +43,13 @@ Next, create a new page in your application and add the following code:
 ```jsx
 import React from "react";
 import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
-import { SearchProvider, SearchBox, Results, Paging, WithSearch } from "@elastic/react-search-ui";
+import {
+  SearchProvider,
+  SearchBox,
+  Results,
+  Paging,
+  WithSearch
+} from "@elastic/react-search-ui";
 import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
@@ -49,12 +57,12 @@ const connector = new WorkplaceSearchAPIConnector({
   kibanaBase: "",
   enterpriseSearchBase: "",
   redirectUri: "",
-  clientId: "",
+  clientId: ""
 });
 
 const config = {
   apiConnector: connector,
-  alwaysSearchOnInitialLoad: true,
+  alwaysSearchOnInitialLoad: true
 };
 
 export default function WorkplaceSearch() {
@@ -64,7 +72,7 @@ export default function WorkplaceSearch() {
         mapContextToProps={({ authorizeUrl, isLoggedIn, logout }) => ({
           authorizeUrl,
           isLoggedIn,
-          logout,
+          logout
         })}
       >
         {({ authorizeUrl, isLoggedIn, logout }) => {
@@ -75,7 +83,11 @@ export default function WorkplaceSearch() {
               ) : (
                 <a href={authorizeUrl}>Log in</a>
               )}
-              <Layout header={<SearchBox />} bodyContent={<Results />} bodyFooter={<Paging />} />
+              <Layout
+                header={<SearchBox />}
+                bodyContent={<Results />}
+                bodyFooter={<Paging />}
+              />
             </div>
           );
         }}
@@ -107,6 +119,7 @@ Use the path to the page where Search UI is going to live.
 ### `clientId`
 
 To get a clientId, you need to create a new OAuth application in Workplace Search.
+
 1. In Workplace Search, go to Settings, then OAuth application.
 2. In the Redirect URIs field, add the `redirectUri` value from the previous step.
 3. Deselect Confidential toggle.
@@ -115,15 +128,16 @@ To get a clientId, you need to create a new OAuth application in Workplace Searc
 
 ![oauth-application](images/workplace-search-tutorial/oauth-application.png)
 
-
 After finishing these steps, you should have a configuration that looks something like this:
 
 ```js
 const connector = new WorkplaceSearchAPIConnector({
-  kibanaBase: "https://my-deployment-10151b.kb.us-central1.gcp.cloud.es.io:9243",
-  enterpriseSearchBase: "https://my-deployment-10151b.ent.us-central1.gcp.cloud.es.io",
+  kibanaBase:
+    "https://my-deployment-10151b.kb.us-central1.gcp.cloud.es.io:9243",
+  enterpriseSearchBase:
+    "https://my-deployment-10151b.ent.us-central1.gcp.cloud.es.io",
   redirectUri: "http://localhost:3001",
-  clientId: "d06a6d2db34ac6f6315cb5e37f84186fa84279371b5fd44186ed84afba14c70e",
+  clientId: "d06a6d2db34ac6f6315cb5e37f84186fa84279371b5fd44186ed84afba14c70e"
 });
 ```
 

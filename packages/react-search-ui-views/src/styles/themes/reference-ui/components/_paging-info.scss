@@ -1,4 +1,4 @@
-@include block('paging-info') {
+@include block("paging-info") {
   @include themeTypography;
   color: $metaTextColor;
   font-size: $sizeM;

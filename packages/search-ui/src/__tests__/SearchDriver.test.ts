@@ -49,7 +49,7 @@ beforeEach(() => {
 it("can be initialized", () => {
   const driver = new SearchDriver({
     ...params,
-    onSearch: (test, test2) => Promise.resolve(searchResponse)
+    onSearch: () => Promise.resolve(searchResponse)
   });
   expect(driver).toBeInstanceOf(SearchDriver);
 });

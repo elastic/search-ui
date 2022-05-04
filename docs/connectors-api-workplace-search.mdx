@@ -7,7 +7,8 @@ tags: ["demo"]
 ---
 
 <DocCallOut color="warning" title="Technical preview">
-Workplace Search connector for Search UI is currently in technical preview status. It is not ready for production use.
+  Workplace Search connector for Search UI is currently in technical preview
+  status. It is not ready for production use.
 </DocCallOut>
 
 This Connector is used to connect Search UI to Elastic's [Workplace Search](https://www.elastic.co/workplace-search/) API.
@@ -23,7 +24,8 @@ import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-con
 
 const connector = new WorkplaceSearchAPIConnector({
   kibanaBase: "https://search-ui-sandbox.kb.us-central1.gcp.cloud.es.io:9243",
-  enterpriseSearchBase: "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
+  enterpriseSearchBase:
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
   redirectUri: "http://localhost:3000",
   clientId: "8e495e40fc4e6acf515e557e634de39d4f727f7f60a3afed24a99ce316607c1e"
 });
@@ -46,10 +48,10 @@ Using this connector will populate two additional pieces of Application State:
 ## Options
 
 | Param                         | Description                                                                                                                                                                                                    |
-|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | enterpriseSearchBase          | Required. String. The publicly accessible url of the Enterprise Search.                                                                                                                                        |
 | kibanaBase                    | Required. String. The publicly accessible url for the Kibana deployment associated with the Enterprise Search deployment. Used for OAuth authentication.                                                       |
 | redirectUri                   | Required. String. The publicly accessible url of this Search UI deployment, which Kibana will redirect back to after successful OAuth authentication. Must match a URI as configured in the OAuth Application. |
 | clientId                      | Required. String. Client ID as generated when setting up the OAuth Application.                                                                                                                                |
 | beforeSearchCall              | Optional. A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                                                                                               |
-| beforeAutocompleteResultsCall | Optional. A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.  
+| beforeAutocompleteResultsCall | Optional. A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.                                                                               |

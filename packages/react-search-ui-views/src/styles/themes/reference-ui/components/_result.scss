@@ -1,4 +1,4 @@
-@include block('result') {
+@include block("result") {
   @include themeTypography;
   list-style: none;
   padding: $sizeL 0;
@@ -33,26 +33,26 @@
     }
   }
 
-  @include element('header') {
+  @include element("header") {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 24px;
   }
 
-  @include element('title') {
+  @include element("title") {
     font-size: 1.8em;
     font-weight: $fontWeightNormal;
     color: $black;
     text-decoration: none;
   }
 
-  @include element('title-link') {
+  @include element("title-link") {
     color: $linkColor;
     text-decoration: none;
   }
 
-  @include element('key') {
+  @include element("key") {
     font-family: monospace;
     font-weight: $fontWeightNormal;
     font-size: 14px;
@@ -67,18 +67,18 @@
     }
   }
 
-  @include element('value') {
+  @include element("value") {
     font-weight: $fontWeightNormal;
     font-size: 14px;
   }
 
-  @include element('version') {
+  @include element("version") {
     font-size: 12px;
     display: inline;
     vertical-align: bottom;
   }
 
-  @include element('license') {
+  @include element("license") {
     font-size: 12px;
     color: #999999;
     display: inline-block;
@@ -88,7 +88,7 @@
     padding: 4px 4px 3px 4px;
   }
 
-  @include element('body') {
+  @include element("body") {
     line-height: 1.5;
     margin-top: 0;
     display: flex;
@@ -98,7 +98,7 @@
     }
   }
 
-  @include element('image') {
+  @include element("image") {
     padding-top: $sizeM;
     padding-left: $sizeL;
     flex-basis: 220px;
@@ -110,7 +110,7 @@
     }
   }
 
-  @include element('details') {
+  @include element("details") {
     flex: 1;
     list-style: none;
     padding: $sizeM $sizeL;

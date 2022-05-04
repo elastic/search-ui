@@ -20,8 +20,6 @@ import {
   SearchState,
   SearchQuery,
   APIConnector,
-  SearchResult,
-  AutocompleteResult,
   RequestState,
   SortDirection
 } from "./types";

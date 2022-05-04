@@ -1,4 +1,4 @@
-@include block('search-error') {
+@include block("search-error") {
   @include themeTypography;
   color: $red;
   margin: auto;

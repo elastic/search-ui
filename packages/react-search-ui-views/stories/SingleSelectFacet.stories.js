@@ -47,7 +47,7 @@ storiesOf("Facets/SingleSelectFacet", module)
     <SingleSelectFacet
       {...{
         ...baseProps,
-        options: baseProps.options.map(o =>
+        options: baseProps.options.map((o) =>
           o.value.name === "The second option" ? { ...o, selected: true } : o
         )
       }}
@@ -57,7 +57,7 @@ storiesOf("Facets/SingleSelectFacet", module)
     <SingleSelectFacet
       {...{
         ...baseProps,
-        options: valueFacetOptions.map(o =>
+        options: valueFacetOptions.map((o) =>
           o.value === "Pennsylvania" ? { ...o, selected: true } : o
         )
       }}

@@ -76,7 +76,7 @@ The [sandbox app](examples/sandbox/README.md) is available to demo usage and act
 
 It is wired up to use the local source of the Search UI libraries as dependencies via Lerna.
 This means as you update library code you can see it updated live in the sandbox app.
-  
+
 To run it locally:
 
 ```shell

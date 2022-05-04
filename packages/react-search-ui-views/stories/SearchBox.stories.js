@@ -15,7 +15,7 @@ const baseProps = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   completeSuggestion: () => {},
   onChange: action("changed"),
-  onSubmit: e => {
+  onSubmit: (e) => {
     e.preventDefault();
     action("submitted")();
   },
@@ -74,13 +74,13 @@ const autocompleteProps = {
   autocompletedResults: autocompletedResults,
   autocompleteSuggestions: autocompleteSuggestions,
   autocompletedSuggestions: autocompletedSuggestions,
-  notifyAutocompleteSelected: selection => {
+  notifyAutocompleteSelected: (selection) => {
     action("selectAutocomplete")(selection);
   },
-  completeSuggestion: suggestion => {
+  completeSuggestion: (suggestion) => {
     action("selectAutocomplete")(suggestion);
   },
-  onSelectAutocomplete: selection => {
+  onSelectAutocomplete: (selection) => {
     action("selectAutocomplete")(selection);
   }
 };
@@ -101,11 +101,11 @@ class Wrapper extends React.Component {
       <SearchBox
         {...autocompleteProps}
         value={this.state.value}
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           action("submitted")();
         }}
-        onChange={value => {
+        onChange={(value) => {
           action("changed")(value);
           this.setState({
             value
