@@ -10,6 +10,9 @@ export default function Root() {
           <Link to="/elasticsearch">Elasticsearch</Link>
         </li>
         <li>
+          <Link to="/elasticsearch-ecommerce">Elasticsearch E-Commerce</Link>
+        </li>
+        <li>
           <Link to="/app-search">Elastic App Search</Link>
         </li>
         <li>
