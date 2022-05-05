@@ -12,7 +12,7 @@ on:
       - "docs/**.jpeg"
       - "docs/**.png"
       - "docs/**.gif"
-    types: [opened, synchronize]
+    types: [closed, opened, synchronize]
 
 jobs:
   publish:
