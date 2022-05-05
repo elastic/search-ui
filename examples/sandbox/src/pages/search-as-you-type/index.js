@@ -215,17 +215,23 @@ export default function App() {
                 <Layout
                   header={
                     <SearchBox
-                      autocompleteMinimumCharacters={3}
-                      autocompleteResults={{
-                        linkTarget: "_blank",
-                        sectionTitle: "Results",
-                        titleField: "title",
-                        urlField: "nps_link",
-                        shouldTrackClickThrough: true,
-                        clickThroughTags: ["test"]
-                      }}
-                      autocompleteSuggestions={true}
-                      debounceLength={0}
+                      // 1. Remove the autocomplete-related props
+                      // (to prevent autocomplete dropdown from covering the results
+
+                      //   autocompleteMinimumCharacters={3}
+                      //   autocompleteResults={{
+                      //     linkTarget: "_blank",
+                      //     sectionTitle: "Results",
+                      //     titleField: "title",
+                      //     urlField: "nps_link",
+                      //     shouldTrackClickThrough: true,
+                      //     clickThroughTags: ["test"]
+                      //   }}
+                      //   autocompleteSuggestions={true}
+
+                      // 2. Set debounceLength and searchAsYouType props
+                      debounceLength={500}
+                      searchAsYouType={true}
                     />
                   }
                   sideContent={
