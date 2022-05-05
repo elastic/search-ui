@@ -32,6 +32,15 @@
       ]
     },
     {
+      "label": "Examples",
+      "items": [
+        {
+          "id": "examples-search-as-you-type",
+          "label": "Search-as-you-type"
+        }
+      ]
+    },
+    {
       "label": "API",
       "items": [
         { "id": "api-configuration" },
