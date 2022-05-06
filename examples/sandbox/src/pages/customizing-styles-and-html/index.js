@@ -237,7 +237,7 @@ export default function App() {
       <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
         {({ wasSearched }) => {
           return (
-            <div className="App">
+            <div className="App customization-example">
               <ErrorBoundary>
                 <Layout
                   header={
