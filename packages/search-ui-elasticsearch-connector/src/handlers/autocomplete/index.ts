@@ -44,7 +44,7 @@ export default async function handleRequest(
           highlightedFields: highlightFields
         },
         query: new PrefixQuery({ fields: queryFields }),
-        size: 5
+        size: queryConfig.results.resultsPerPage || 5
       })
     );
   }
