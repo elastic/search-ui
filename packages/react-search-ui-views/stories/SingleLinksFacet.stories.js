@@ -66,7 +66,7 @@ storiesOf("Facets/SingleLinksFacet", module)
     <SingleLinksFacet
       {...{
         ...baseProps,
-        options: baseProps.options.map(o =>
+        options: baseProps.options.map((o) =>
           o.value === "Compact Cars" ? { ...o, selected: true } : o
         )
       }}
@@ -79,7 +79,7 @@ storiesOf("Facets/SingleLinksFacet", module)
     <SingleLinksFacet
       {...{
         ...baseProps,
-        options: rangeOptions.map(o =>
+        options: rangeOptions.map((o) =>
           o.value.name === "The second option" ? { ...o, selected: true } : o
         )
       }}

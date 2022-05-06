@@ -6,6 +6,7 @@ import ElasticsearchEcommerce from "./pages/elasticsearch-ecommerce";
 import AppSearch from "./pages/app-search";
 import SiteSearch from "./pages/site-search";
 import WorkplaceSearch from "./pages/workplace-search";
+import SearchAsYouType from "./pages/search-as-you-type";
 
 export default function Router() {
   return (
@@ -28,6 +29,9 @@ export default function Router() {
         </Route>
         <Route exact path="/workplace-search">
           <WorkplaceSearch />
+        </Route>
+        <Route exact path="/search-as-you-type">
+          <SearchAsYouType />
         </Route>
       </Switch>
     </div>

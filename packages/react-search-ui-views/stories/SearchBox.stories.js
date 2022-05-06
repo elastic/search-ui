@@ -10,10 +10,12 @@ const baseProps = {
   autocompletedResults: [],
   autocompletedSuggestions: {},
   autocompletedSuggestionsCount: 0,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   notifyAutocompleteSelected: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   completeSuggestion: () => {},
   onChange: action("changed"),
-  onSubmit: e => {
+  onSubmit: (e) => {
     e.preventDefault();
     action("submitted")();
   },
@@ -72,13 +74,13 @@ const autocompleteProps = {
   autocompletedResults: autocompletedResults,
   autocompleteSuggestions: autocompleteSuggestions,
   autocompletedSuggestions: autocompletedSuggestions,
-  notifyAutocompleteSelected: selection => {
+  notifyAutocompleteSelected: (selection) => {
     action("selectAutocomplete")(selection);
   },
-  completeSuggestion: suggestion => {
+  completeSuggestion: (suggestion) => {
     action("selectAutocomplete")(suggestion);
   },
-  onSelectAutocomplete: selection => {
+  onSelectAutocomplete: (selection) => {
     action("selectAutocomplete")(selection);
   }
 };
@@ -99,11 +101,11 @@ class Wrapper extends React.Component {
       <SearchBox
         {...autocompleteProps}
         value={this.state.value}
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           action("submitted")();
         }}
-        onChange={value => {
+        onChange={(value) => {
           action("changed")(value);
           this.setState({
             value
@@ -169,7 +171,6 @@ storiesOf("SearchBox", module)
       autocompleteView={({ autocompletedResults, getItemProps }) => (
         <div className="sui-search-box__autocomplete-container">
           {autocompletedResults.map((result, i) => (
-            // eslint-disable-next-line react/jsx-key
             <div
               {...getItemProps({
                 key: result.id.raw,

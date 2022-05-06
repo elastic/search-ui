@@ -22,6 +22,13 @@ export default function Root() {
           <Link to="/workplace-search">Elastic Workplace Search</Link>
         </li>
       </ul>
+
+      <p>Or check out our examples:</p>
+      <ul>
+        <li>
+          <Link to="/search-as-you-type">Search-as-you-type</Link>
+        </li>
+      </ul>
     </>
   );
 }

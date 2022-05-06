@@ -1,19 +1,12 @@
 {
-  "packages": [
-    "examples/*",
-    "packages/*"
-  ],
-  "version": "1.11.2",
+  "packages": ["examples/*", "packages/*"],
+  "version": "1.11.3",
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
     "publish": {
       "npmClient": "npm",
-      "ignoreChanges": [
-        "**/__tests__/**",
-        "**/*.md",
-        "**/src/test/**"
-      ],
+      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/src/test/**"],
       "registry": "https://registry.npmjs.org/",
       "message": "Release: %s"
     }

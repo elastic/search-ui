@@ -57,7 +57,7 @@ storiesOf("Facets/MultiCheckboxFacet", module)
     <MultiCheckboxFacet
       {...{
         ...baseProps,
-        options: baseProps.options.map(o => ({ ...o, selected: true }))
+        options: baseProps.options.map((o) => ({ ...o, selected: true }))
       }}
     />
   ))
@@ -73,7 +73,7 @@ storiesOf("Facets/MultiCheckboxFacet", module)
     <MultiCheckboxFacet
       {...{
         ...baseProps,
-        options: rangeOptions.map(o => ({ ...o, selected: true }))
+        options: rangeOptions.map((o) => ({ ...o, selected: true }))
       }}
     />
   ))
