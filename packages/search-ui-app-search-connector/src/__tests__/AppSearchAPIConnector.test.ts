@@ -483,7 +483,8 @@ describe("AppSearchAPIConnector", () => {
         const [passedSearchTerm, passedOptions] = getLastSearchCall();
         expect(passedSearchTerm).toEqual(state.searchTerm);
         expect(passedOptions).toEqual({
-          page: {}
+          page: {},
+          record_analytics: false
         });
       });
 
@@ -510,6 +511,7 @@ describe("AppSearchAPIConnector", () => {
         const [passedSearchTerm, passedOptions] = getLastSearchCall();
         expect(passedSearchTerm).toEqual(state.searchTerm);
         expect(passedOptions).toEqual({
+          record_analytics: false,
           page: {},
           result_fields: {
             title: { raw: {}, snippet: { size: 20, fallback: true } }
@@ -541,7 +543,8 @@ describe("AppSearchAPIConnector", () => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [passedSearchTerm, passedOptions] = getLastSearchCall();
         expect(passedOptions).toEqual({
-          page: {}
+          page: {},
+          record_analytics: false
         });
       });
 
@@ -582,6 +585,7 @@ describe("AppSearchAPIConnector", () => {
               }
             ]
           },
+          record_analytics: false,
           page: {
             current: 2,
             size: 5
@@ -693,6 +697,7 @@ describe("AppSearchAPIConnector", () => {
         expect(getLastSearchCall()).toEqual([
           state.searchTerm,
           {
+            record_analytics: false,
             page: {
               size: 5
             },
