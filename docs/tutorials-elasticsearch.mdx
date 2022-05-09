@@ -153,6 +153,7 @@ For our movie data-set, we will be using the following fields:
 - directors (searchable, facetable)
 - released (filterable)
 - imdbRating (filterable)
+- url
 
 The mapping file will be as follows, and we'll once again use Kibana's dev tools console to update the mapping file for our index.
 
@@ -162,6 +163,11 @@ PUT /my-example-movies/_mapping
   "properties": {
     "title": {
       "type": "text"
+      "fields": {
+        "suggest": {
+          "type": "search_as_you_type"
+        }
+      }
     },
     "plot": {
       "type": "text"
@@ -195,6 +201,12 @@ PUT /my-example-movies/_mapping
     },
     "imdbRating": {
       "type": "float"
+    },
+    "url": {
+      "type": "keyword"
+    },
+    "movie_completion": {
+      "type": "completion"
     }
   }
 }
@@ -203,6 +215,16 @@ PUT /my-example-movies/_mapping
 ![add mapping](images/elasticsearch-tutorial/update-mapping.jpeg)
 
 Elasticsearch will acknowledge the request in the response.
+
+We also want to provide autocomplete functionality, so we need to setup fields for autocomplete.
+
+For suggestions, we want to suggest terms that appear within the actors, directors and genre fields.
+For quick result hits, we want to suggest movies that partially match the title field.
+
+In the above example:
+
+- we have included `movie_completion` field, which is used to provide suggestion completion functionality. This field is not searchable, but is used to provide autocomplete functionality.
+- we have included a `suggest` field for the title field. This field is searchable, but is used to provide "quick hits" functionality.
 
 ## Step 3: Index Movies Data
 
@@ -213,7 +235,7 @@ We will use the following request. In this example we will be indexing the first
 ```shell
 PUT /my-example-movies/_bulk
 { "index": {}}
-{"title": "The Godfather", "released": "1972-03-23T23:00:00.000Z","genre": ["Crime", "Drama"],"directors": ["Francis Ford Coppola"],"actors": ["Marlon Brando", "Al Pacino", "James Caan", "Richard S. Castellano"],"plot": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.","imdbRating": "9.2"}
+{"title": "The Godfather", "released": "1972-03-23T23:00:00.000Z","genre": ["Crime", "Drama"],"directors": ["Francis Ford Coppola"],"actors": ["Marlon Brando", "Al Pacino", "James Caan", "Richard S. Castellano"],"plot": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.","imdbRating": "9.2", "movie_completion": ["Crime", "Drama", "Marlon Brando", "Al Pacino", "James Caan", "Richard S. Castellano"], "url": "https://www.imdb.com/title/tt0068646/"}
 ```
 
 ## Step 4: Setup CRA for Search UI
@@ -328,13 +350,9 @@ const config = {
     results: {
       resultsPerPage: 5,
       search_fields: {
-        title: {
+        "title.suggest": {
           weight: 3
-        },
-        plot: {},
-        genre: {},
-        actors: {},
-        directors: {}
+        }
       },
       result_fields: {
         title: {
@@ -343,10 +361,16 @@ const config = {
             fallback: true
           }
         },
-        nps_link: {
+        url: {
           raw: {}
         }
       }
+    },
+    suggestions: {
+      types: {
+        results: { fields: ["movie_completion"] }
+      },
+      size: 4
     }
   },
   apiConnector: connector,
@@ -362,11 +386,13 @@ In the above example, we configured the:
 - we made the facets disjunctive for better user experience. The user can select more than one facet to expand their search.
 - autocomplete results to suggest results with the same query fields as main search + returning some fields for display.
 
+For more information on configuration, visit the <DocLink id="api-configuration" text="API configuration docs" />.
+
 ### Updating Components
 
 We are going to do several steps here:
 
-- update the `<Searchbox />` component to switch off autocomplete
+- update the `<Searchbox />` component to configure autocomplete
 - remove sorting options
 - add a `<Facet />` component for each facet field
 - update the `<Results />` component to display all the fields
@@ -378,8 +404,14 @@ We are going to do several steps here:
       header={
         <SearchBox
           autocompleteMinimumCharacters={3}
-          autocompleteResults={false}
-          autocompleteSuggestions={false}
+          autocompleteResults={{
+            linkTarget: "_blank",
+            sectionTitle: "Results",
+            titleField: "title",
+            urlField: "url",
+            shouldTrackClickThrough: true
+          }}
+          autocompleteSuggestions={true}
           debounceLength={0}
         />
       }
