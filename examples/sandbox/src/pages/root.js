@@ -28,6 +28,11 @@ export default function Root() {
         <li>
           <Link to="/search-as-you-type">Search-as-you-type</Link>
         </li>
+        <li>
+          <Link to="/customizing-styles-and-html">
+            Customizing styles and HTML
+          </Link>
+        </li>
       </ul>
     </>
   );
