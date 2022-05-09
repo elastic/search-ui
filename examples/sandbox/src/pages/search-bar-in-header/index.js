@@ -208,7 +208,7 @@ export default function App() {
         >
           <SearchBox
             onSubmit={(searchTerm) => {
-              window.location.href = "https://ren2l.csb.app?q=" + searchTerm;
+              window.location.href = `${window.location.origin}${window.location.pathname}?q=${searchTerm}`;
             }}
           />
         </SearchProvider>
