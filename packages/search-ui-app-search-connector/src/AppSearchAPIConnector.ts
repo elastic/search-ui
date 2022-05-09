@@ -215,12 +215,17 @@ class AppSearchAPIConnector implements APIConnector {
       const options = removeEmptyFacetsAndFilters(withQueryConfigOptions);
       promises.push(
         this.beforeAutocompleteResultsCall(options, (newOptions) => {
-          return this.client.search(query, newOptions).then((response) => {
-            autocompletedState.autocompletedResults =
-              adaptResponse(response).results;
-            autocompletedState.autocompletedResultsRequestId =
-              response.info.meta.request_id;
-          });
+          return this.client
+            .search(query, {
+              ...newOptions,
+              record_analytics: false
+            })
+            .then((response) => {
+              autocompletedState.autocompletedResults =
+                adaptResponse(response).results;
+              autocompletedState.autocompletedResultsRequestId =
+                response.info.meta.request_id;
+            });
         })
       );
     }
