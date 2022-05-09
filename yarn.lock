@@ -1329,10 +1329,10 @@
   dependencies:
     postcss-value-parser "^4.2.0"
 
-"@elastic/app-search-javascript@^8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@elastic/app-search-javascript/-/app-search-javascript-8.1.1.tgz#3b675f811c8a5621d264b021666a85500d8a7b19"
-  integrity sha512-rGa3/zxSzdRjlpzangFwdtierdIWHdEnWhjNPH9MshB70ibqaUKd61OS3/hXsE0ZYGLrJ8BrIEhpshjIXI4Dbw==
+"@elastic/app-search-javascript@^8.1.2":
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/@elastic/app-search-javascript/-/app-search-javascript-8.1.2.tgz#8b60d74deab05b6e8603078c013d75cbd41c2f80"
+  integrity sha512-o3S3GrwaKhZWedLDrPpyHwAhidovTqG0oEz0+f1Hk4mDLmnlViPBIJhg12KuCuM0MYFUavKDHoqARlsbW8z6Kw==
   dependencies:
     object-hash "^1.3.0"
 
