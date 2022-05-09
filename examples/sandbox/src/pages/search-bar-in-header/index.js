@@ -203,6 +203,7 @@ export default function App() {
       <div style={{ height: "100px", border: "1px solid black" }}>
         <SearchProvider
           config={{
+            ...config,
             trackUrlState: false
           }}
         >
@@ -210,6 +211,17 @@ export default function App() {
             onSubmit={(searchTerm) => {
               window.location.href = `${window.location.origin}${window.location.pathname}?q=${searchTerm}`;
             }}
+            autocompleteMinimumCharacters={3}
+            autocompleteResults={{
+              linkTarget: "_blank",
+              sectionTitle: "Results",
+              titleField: "title",
+              urlField: "nps_link",
+              shouldTrackClickThrough: true,
+              clickThroughTags: ["test"]
+            }}
+            autocompleteSuggestions={true}
+            debounceLength={0}
           />
         </SearchProvider>
       </div>
