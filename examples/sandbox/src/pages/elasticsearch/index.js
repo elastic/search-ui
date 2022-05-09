@@ -44,7 +44,8 @@ const config = {
       title: {
         weight: 3
       },
-      description: {}
+      description: {},
+      states: {}
     },
     result_fields: {
       visitors: { raw: {} },
@@ -132,6 +133,9 @@ const config = {
   },
   autocompleteQuery: {
     results: {
+      search_fields: {
+        parks_search_as_you_type: {}
+      },
       resultsPerPage: 5,
       result_fields: {
         title: {
@@ -148,7 +152,7 @@ const config = {
     suggestions: {
       types: {
         documents: {
-          fields: ["states.keyword"]
+          fields: ["parks_completion"]
         }
       },
       size: 4
