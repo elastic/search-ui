@@ -84,9 +84,12 @@ const SORT_OPTIONS = [
 ];
 
 const connector = new AppSearchAPIConnector({
-  searchKey: "search-371auk61r2bwqtdzocdgutmg",
-  engineName: "search-ui-examples",
-  hostIdentifier: "host-2376rb"
+  searchKey:
+    process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
+  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
+  endpointBase:
+    process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
 });
 
 const config = {
