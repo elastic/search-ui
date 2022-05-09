@@ -6,6 +6,7 @@ import AppSearch from "./pages/app-search";
 import SiteSearch from "./pages/site-search";
 import WorkplaceSearch from "./pages/workplace-search";
 import SearchAsYouType from "./pages/search-as-you-type";
+import CustomizingStylesAndHtml from "./pages/customizing-styles-and-html";
 
 export default function Router() {
   return (
@@ -28,6 +29,9 @@ export default function Router() {
         </Route>
         <Route exact path="/search-as-you-type">
           <SearchAsYouType />
+        </Route>
+        <Route exact path="/customizing-styles-and-html">
+          <CustomizingStylesAndHtml />
         </Route>
       </Switch>
     </div>
