@@ -30,6 +30,9 @@ export default function Root() {
             Customizing styles and HTML
           </Link>
         </li>
+        <li>
+          <Link to="/search-bar-in-header">Search bar in header</Link>
+        </li>
       </ul>
     </>
   );
