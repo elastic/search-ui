@@ -40,6 +40,6 @@
   },
   "dependencies": {
     "@elastic/search-ui": "1.11.3",
-    "@searchkit/sdk": "^3.0.0-canary.54"
+    "@searchkit/sdk": "^3.0.0-canary.55"
   }
 }
