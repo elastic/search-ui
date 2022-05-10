@@ -3,8 +3,14 @@ import {
   AutocompleteResponseState,
   RequestState
 } from "@elastic/search-ui";
-import resultsHandler from "./results";
-import suggestionsHandler from "./suggestions";
+import Searchkit, {
+  CompletionSuggester,
+  HitsSuggestor,
+  PrefixQuery,
+  SearchkitConfig
+} from "@searchkit/sdk";
+import { fieldResponseMapper } from "../common";
+import { getQueryFields, getResultFields } from "../search/Configuration";
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
@@ -21,25 +27,80 @@ export default async function handleRequest(
 ): Promise<AutocompleteResponseState> {
   const { state, queryConfig, host, index, connectionOptions } = configuration;
   const { apiKey } = connectionOptions || {};
-  const requests = [];
+
+  const suggestionConfigurations = [];
 
   if (queryConfig.results) {
-    requests.push(resultsHandler(state, queryConfig, host, index, apiKey));
+    const { hitFields, highlightFields } = getResultFields(
+      queryConfig.results.result_fields
+    );
+    const queryFields = getQueryFields(queryConfig.results.search_fields);
+
+    suggestionConfigurations.push(
+      new HitsSuggestor({
+        identifier: "hits-suggestions",
+        hits: {
+          fields: hitFields,
+          highlightedFields: highlightFields
+        },
+        query: new PrefixQuery({ fields: queryFields }),
+        size: queryConfig.results.resultsPerPage || 5
+      })
+    );
   }
 
   if (queryConfig.suggestions && queryConfig.suggestions.types) {
-    const promises = Object.keys(queryConfig.suggestions.types).map((type) => {
-      const typeConfig = queryConfig.suggestions.types[type];
-      return suggestionsHandler(state, typeConfig);
+    const configs = Object.keys(queryConfig.suggestions.types).map((type) => {
+      const { fields } = queryConfig.suggestions.types[type];
+      return new CompletionSuggester({
+        identifier: type,
+        field: fields[0],
+        size: queryConfig.suggestions.size || 5
+      });
     });
-
-    requests.push(...promises);
+    suggestionConfigurations.push(...configs);
   }
 
-  const results = await Promise.all(requests);
+  const searchkitConfig: SearchkitConfig = {
+    host,
+    index,
+    connectionOptions: {
+      apiKey
+    },
+    suggestions: suggestionConfigurations
+  };
 
-  return {
-    autocompletedResults: results[0],
-    autocompletedSuggestions: results[1] //todo: figure out how to handle multiple suggestions
-  } as AutocompleteResponseState;
+  const response = await Searchkit(searchkitConfig).executeSuggestions(
+    state.searchTerm
+  );
+
+  const results: AutocompleteResponseState = response.reduce(
+    (sum, suggestion) => {
+      if (suggestion.identifier === "hits-suggestions") {
+        return {
+          ...sum,
+          autocompletedResults: suggestion.hits.map(fieldResponseMapper)
+        };
+      } else {
+        return {
+          ...sum,
+          autocompletedSuggestions: {
+            ...sum.autocompletedSuggestions,
+            [suggestion.identifier]: suggestion.suggestions.map(
+              (suggestion) => {
+                return {
+                  suggestion: suggestion
+                };
+              }
+            )
+          }
+        };
+      }
+    },
+    {
+      autocompletedSuggestions: {}
+    }
+  );
+
+  return results;
 }
