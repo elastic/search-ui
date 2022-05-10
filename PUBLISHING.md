@@ -1,3 +1,19 @@
+# Running docs locally
+
+1. Clone https://github.com/elastic/docs.elastic.co next to search-ui repo
+2. Edit your source.json file so that:
+   ```
+   {
+   "sources": [
+      {
+         "type": "file",
+         "location": "../../search-ui"
+      }
+   ]
+   }
+   ```
+3. Run `yarn`, then `yarn init-docs`, then `yarn dev`
+
 # Publishing
 
 Releases should be performed directly in master (or a minor branch for patches), following the [Publishing guide](./PUBLISHING.md).
