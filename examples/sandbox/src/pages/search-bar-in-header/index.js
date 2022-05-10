@@ -1,3 +1,4 @@
+import React from "react";
 import moment from "moment";
 
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
@@ -21,12 +22,6 @@ import {
   SingleLinksFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
-// We import custom.css here to override styles defined by the out-ofthe-box stylesheet
-// avove
-import "./custom.css";
-
-// This is a custom component we've created.
-import ClearFilters from "./ClearFilters";
 
 const SORT_OPTIONS = [
   {
@@ -202,127 +197,120 @@ const config = {
   apiConnector: connector
 };
 
-const CustomPagingInfoView = ({ start, end }) => (
-  <div className="paging-info">
-    <strong>
-      {start} - {end}
-    </strong>
-  </div>
-);
-
-const CustomResultView = ({ result, onClickLink }) => (
-  <li className="sui-result">
-    <div className="sui-result__header">
-      <h3>
-        {/* Maintain onClickLink to correct track click throughs for analytics*/}
-        <a onClick={onClickLink} href={result.nps_link.raw}>
-          {result.title.snippet}
-        </a>
-      </h3>
-    </div>
-    <div className="sui-result__body">
-      {/* use 'raw' values of fields to access values without snippets */}
-      <div className="sui-result__image">
-        <img src={result.image_url.raw} alt="" />
-      </div>
-      {/* Use the 'snippet' property of fields with dangerouslySetInnerHtml to render snippets */}
-      <div
-        className="sui-result__details"
-        dangerouslySetInnerHTML={{ __html: result.description.snippet }}
-      ></div>
-    </div>
-  </li>
-);
-
 export default function App() {
   return (
-    <SearchProvider config={config}>
-      <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
-        {({ wasSearched }) => {
-          return (
-            <div className="App customization-example">
-              <ErrorBoundary>
-                <Layout
-                  header={
-                    <SearchBox
-                      autocompleteMinimumCharacters={3}
-                      autocompleteResults={{
-                        linkTarget: "_blank",
-                        sectionTitle: "Results",
-                        titleField: "title",
-                        urlField: "nps_link",
-                        shouldTrackClickThrough: true,
-                        clickThroughTags: ["test"]
-                      }}
-                      autocompleteSuggestions={true}
-                      debounceLength={0}
-                    />
-                  }
-                  sideContent={
-                    <div>
-                      <ClearFilters />
-                      <br />
-                      <br />
-                      {wasSearched && (
-                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                      )}
-                      <Facet
-                        field="states"
-                        label="States"
-                        filterType="any"
-                        isFilterable={true}
+    <div>
+      <div style={{ height: "100px", border: "1px solid black" }}>
+        <SearchProvider
+          config={{
+            ...config,
+            trackUrlState: false
+          }}
+        >
+          <SearchBox
+            onSubmit={(searchTerm) => {
+              window.location.href = `${window.location.origin}${window.location.pathname}?q=${searchTerm}`;
+            }}
+            autocompleteMinimumCharacters={3}
+            autocompleteResults={{
+              linkTarget: "_blank",
+              sectionTitle: "Results",
+              titleField: "title",
+              urlField: "nps_link",
+              shouldTrackClickThrough: true,
+              clickThroughTags: ["test"]
+            }}
+            autocompleteSuggestions={true}
+            debounceLength={0}
+          />
+        </SearchProvider>
+      </div>
+      <SearchProvider config={config}>
+        <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
+          {({ wasSearched }) => {
+            return (
+              <div className="App">
+                <ErrorBoundary>
+                  <Layout
+                    header={
+                      <SearchBox
+                        autocompleteMinimumCharacters={3}
+                        //searchAsYouType={true}
+                        autocompleteResults={{
+                          linkTarget: "_blank",
+                          sectionTitle: "Results",
+                          titleField: "title",
+                          urlField: "nps_link",
+                          shouldTrackClickThrough: true,
+                          clickThroughTags: ["test"]
+                        }}
+                        autocompleteSuggestions={true}
+                        debounceLength={0}
                       />
-                      <Facet
-                        field="world_heritage_site"
-                        label="World Heritage Site?"
-                        view={BooleanFacet}
+                    }
+                    sideContent={
+                      <div>
+                        {wasSearched && (
+                          <Sorting
+                            label={"Sort by"}
+                            sortOptions={SORT_OPTIONS}
+                          />
+                        )}
+                        <Facet
+                          field="states"
+                          label="States"
+                          filterType="any"
+                          isFilterable={true}
+                        />
+                        <Facet
+                          field="world_heritage_site"
+                          label="World Heritage Site?"
+                          view={BooleanFacet}
+                        />
+                        <Facet
+                          field="visitors"
+                          label="Visitors"
+                          view={SingleLinksFacet}
+                        />
+                        <Facet
+                          field="date_established"
+                          label="Date Established"
+                          filterType="any"
+                        />
+                        <Facet
+                          field="location"
+                          label="Distance"
+                          filterType="any"
+                        />
+                        <Facet
+                          field="acres"
+                          label="Acres"
+                          view={SingleSelectFacet}
+                        />
+                      </div>
+                    }
+                    bodyContent={
+                      <Results
+                        titleField="title"
+                        urlField="nps_link"
+                        thumbnailField="image_url"
+                        shouldTrackClickThrough={true}
                       />
-                      <Facet
-                        field="visitors"
-                        label="Visitors"
-                        view={SingleLinksFacet}
-                      />
-                      <Facet
-                        field="date_established"
-                        label="Date Established"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="location"
-                        label="Distance"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="acres"
-                        label="Acres"
-                        view={SingleSelectFacet}
-                      />
-                    </div>
-                  }
-                  bodyContent={
-                    <Results
-                      resultView={CustomResultView}
-                      titleField="title"
-                      urlField="nps_link"
-                      thumbnailField="image_url"
-                      shouldTrackClickThrough={true}
-                    />
-                  }
-                  bodyHeader={
-                    <>
-                      {wasSearched && (
-                        <PagingInfo view={CustomPagingInfoView} />
-                      )}
-                      {wasSearched && <ResultsPerPage />}
-                    </>
-                  }
-                  bodyFooter={<Paging />}
-                />
-              </ErrorBoundary>
-            </div>
-          );
-        }}
-      </WithSearch>
-    </SearchProvider>
+                    }
+                    bodyHeader={
+                      <React.Fragment>
+                        {wasSearched && <PagingInfo />}
+                        {wasSearched && <ResultsPerPage />}
+                      </React.Fragment>
+                    }
+                    bodyFooter={<Paging />}
+                  />
+                </ErrorBoundary>
+              </div>
+            );
+          }}
+        </WithSearch>
+      </SearchProvider>
+    </div>
   );
 }
