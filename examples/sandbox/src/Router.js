@@ -7,7 +7,8 @@ import SiteSearch from "./pages/site-search";
 import WorkplaceSearch from "./pages/workplace-search";
 import SearchAsYouType from "./pages/search-as-you-type";
 import CustomizingStylesAndHtml from "./pages/customizing-styles-and-html";
-import SearchBarInHeader from "./pages/search-bar-in-header";
+import SearchBarInHeaderIndex from "./pages/search-bar-in-header/index";
+import SearchBarInHeaderSearch from "./pages/search-bar-in-header/search";
 
 export default function Router() {
   return (
@@ -35,7 +36,10 @@ export default function Router() {
           <CustomizingStylesAndHtml />
         </Route>
         <Route exact path="/search-bar-in-header">
-          <SearchBarInHeader />
+          <SearchBarInHeaderIndex />
+        </Route>
+        <Route exact path="/search-bar-in-header/search">
+          <SearchBarInHeaderSearch />
         </Route>
       </Switch>
     </div>
