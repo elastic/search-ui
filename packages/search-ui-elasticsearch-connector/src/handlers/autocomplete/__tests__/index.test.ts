@@ -1,24 +1,15 @@
 import { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
-import Searchkit, { SearchkitResponse } from "@searchkit/sdk";
+import Searchkit from "@searchkit/sdk";
 import handleRequest from "../index";
 
-const mockSearchkitResponse: SearchkitResponse = {
-  summary: {
-    query: "test",
-    total: 100,
-    appliedFilters: [],
-    disabledFilters: [],
-    sortOptions: []
+const mockSearchkitResponse = [
+  {
+    identifier: "results",
+    suggestions: ["sweaters", "sweatpants"]
   },
-  hits: {
-    page: {
-      pageNumber: 0,
-      size: 10,
-      totalPages: 10,
-      total: 100,
-      from: 0
-    },
-    items: [
+  {
+    identifier: "hits-suggestions",
+    hits: [
       {
         id: "test",
         fields: {
@@ -33,9 +24,8 @@ const mockSearchkitResponse: SearchkitResponse = {
         }
       }
     ]
-  },
-  facets: []
-};
+  }
+];
 
 jest.mock("@searchkit/sdk", () => {
   const originalModule = jest.requireActual("@searchkit/sdk");
@@ -44,7 +34,7 @@ jest.mock("@searchkit/sdk", () => {
     ...originalModule,
     default: jest.fn((config) => {
       const sk = originalModule.default(config);
-      sk.execute = jest.fn(() => mockSearchkitResponse);
+      sk.executeSuggestions = jest.fn(() => mockSearchkitResponse);
       return sk;
     })
   };
@@ -74,6 +64,13 @@ describe("Autocomplete results", () => {
             raw: {}
           }
         }
+      },
+      suggestions: {
+        types: {
+          results: {
+            fields: ["title"]
+          }
+        }
       }
     };
     const results = await handleRequest({
@@ -88,10 +85,7 @@ describe("Autocomplete results", () => {
 
     const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
       .value;
-    expect(searchkitRequestInstance.execute).toBeCalledWith({
-      facets: false,
-      hits: { from: 0, includeRawHit: true, size: 5 }
-    });
+    expect(searchkitRequestInstance.executeSuggestions).toBeCalledWith("test");
 
     expect(results).toMatchInlineSnapshot(`
       Object {
@@ -112,7 +106,16 @@ describe("Autocomplete results", () => {
             },
           },
         ],
-        "autocompletedSuggestions": undefined,
+        "autocompletedSuggestions": Object {
+          "results": Array [
+            Object {
+              "suggestion": "sweaters",
+            },
+            Object {
+              "suggestion": "sweatpants",
+            },
+          ],
+        },
       }
     `);
   });
