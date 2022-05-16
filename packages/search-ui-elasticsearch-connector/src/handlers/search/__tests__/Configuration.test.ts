@@ -181,6 +181,31 @@ describe("Search - Configuration", () => {
       });
     });
 
+    it("works with postProcessQuery Function", () => {
+      const state: RequestState = {
+        searchTerm: "test"
+      };
+
+      const postProcessQuery = (esQuery) => {
+        return esQuery;
+      };
+
+      expect(
+        buildConfiguration(
+          state,
+          { ...queryConfig, facets: null },
+          host,
+          index,
+          apiKey,
+          postProcessQuery
+        )
+      ).toEqual(
+        expect.objectContaining({
+          postProcessRequest: postProcessQuery
+        })
+      );
+    });
+
     it("Range facets Configuration", () => {
       const state: RequestState = {
         searchTerm: "test"
