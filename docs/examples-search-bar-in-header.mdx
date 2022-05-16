@@ -1,0 +1,41 @@
+---
+id: examples-search-bar-in-header
+slug: /search-ui/examples/search-bar-in-header
+title: Search bar in header
+date: 2022-05-11
+tags: ["search-bar-in-header"]
+---
+
+It's a common pattern to have a search bar in the header of your website.
+Submitting a query in this search bar usually redirects user to a separate search results page.
+
+To implement this with Search UI use the `<SearchBar>` component and add `onSubmit` prop that redirects user to the search page:
+
+```js
+<SearchBox
+  onSubmit={(searchTerm) => {
+    window.location.href = `${PATH_TO_YOUR_SEARCH_PAGE}?q=${searchTerm}`;
+  }}
+/>
+```
+
+Once the redirect happens, Search UI will pick up the query from the URL and display the results.
+
+Check out the example implementation below.
+
+<iframe
+  src="https://codesandbox.io/embed/github/elastic/search-ui/tree/master/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fsearch-bar-in-header&module=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.js&theme=light&view=preview&hidedevtools=1"
+  style={{
+    width: "100%",
+    height: "800px",
+    overflow: "hidden"
+  }}
+  highlights="218,219,220"
+  title="Search UI"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+Related documentation:
+
+- <DocLink id="api-react-components-search-box" text="SearchBox component" />
