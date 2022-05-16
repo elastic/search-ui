@@ -85,6 +85,7 @@
       "items": [
         { "id": "guides-philosophy" },
         { "id": "guides-extending-view-components" },
+        { "id": "guides-conditional-facets" },
         { "id": "guides-customizing-styles-and-html" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-debugging" }

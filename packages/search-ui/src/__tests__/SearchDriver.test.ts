@@ -14,6 +14,7 @@ import {
   getMockApiConnectorWithStateAndActions,
   waitATick
 } from "../test/helpers";
+import { Rule } from "../";
 
 // We mock this so no state is actually written to the URL
 jest.mock("../URLManager");
@@ -175,7 +176,10 @@ describe("searchQuery config", () => {
       const driver = new SearchDriver({
         ...params,
         initialState: {
-          filters: [{ field: "initial", values: ["value"], type: "all" }],
+          filters: [
+            { field: "initial", values: ["value"], type: "all" },
+            { field: "conditional", values: ["value"], type: "all" }
+          ],
           searchTerm: "test"
         },
         searchQuery: {
@@ -196,7 +200,9 @@ describe("searchQuery config", () => {
     }
 
     it("will fetch a conditional facet that passes its check", () => {
-      subject((filters) => !!filters);
+      subject(Rule.FilterNotSelected("initial"));
+
+      expect(getSearchCalls()[0][1].facets).toEqual({});
 
       // 'initial' WAS included in request to server
       expect(getSearchCalls()[1][1].facets).toEqual({
@@ -207,7 +213,7 @@ describe("searchQuery config", () => {
     });
 
     it("will not pass through `conditionalFacets` prop to connector", () => {
-      subject((filters) => !!filters);
+      subject(Rule.FilterNotSelected("initial"));
 
       expect(Object.keys(getSearchCalls()[1][1])).not.toContain(
         "conditionalFacets"
@@ -215,10 +221,38 @@ describe("searchQuery config", () => {
     });
 
     it("will not fetch a conditional facet that fails its check", () => {
-      subject((filters) => !filters);
+      subject(Rule.FilterIsSelected("initial"));
 
       // 'initial' was NOT included in request to server
       expect(getSearchCalls()[1][1].facets).toEqual({});
+    });
+
+    it("must satisfy all Rules", () => {
+      subject(
+        Rule.Must([
+          Rule.FilterIsSelected("initial"),
+          Rule.FilterIsSelected("conditional")
+        ])
+      );
+
+      // 'initial' was NOT included in request to server
+      expect(getSearchCalls()[0][1].facets).toEqual({
+        initial: {
+          type: "value"
+        }
+      });
+    });
+
+    it("must all Rules - fails one rule", () => {
+      subject(
+        Rule.Must([
+          Rule.FilterIsSelected("initial"),
+          Rule.FilterIsSelected("conditional1")
+        ])
+      );
+
+      // 'initial' was NOT included in request to server
+      expect(getSearchCalls()[0][1].facets).toEqual({});
     });
   });
 

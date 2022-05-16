@@ -1,0 +1,87 @@
+---
+id: guides-conditional-facets
+slug: /search-ui/guides/conditional-facets
+title: Conditional Facets
+date: 2022-05-16
+tags: ["conditional facets"]
+---
+
+Search UI has the ability to conditionally show facets based on the filters selected. This is useful for showing facets that are only relevant to certain filters.
+
+To use, add a `conditionalFacets` property to the configuration object. This property is a map of facet field names and a function to determine whether or not the facet should be shown.
+
+```
+{
+  conditionalFacets: {
+    'category': ({ filters }) => {
+      return filters.some(filter => filter.field === 'category' && filter.value === 'books');
+    }
+  }
+}
+```
+
+### Helpful Utility Functions
+
+Some sugar functions are provided for the conditional facets to make it easier to use. To use this, import `Rule`
+
+```javascript
+import { Rule } from "@elastic/search-ui";
+```
+
+#### Rule.FilterNotSelected(fieldName: string, filterValue: string)
+
+Returns true if the filter is not selected.
+
+Example below is do not show the category facet if a category filter has been applied.
+
+```javascript
+  conditionalFacets: {
+    'category': Rule.FilterNotSelected('category')
+  }
+```
+
+Can also be scoped to a particular value of a filter.
+
+```javascript
+  conditionalFacets: {
+    'category': Rule.FilterNotSelected('category', 'books')
+  }
+```
+
+#### Rule.FilterIsSelected(fieldName: string, filterValue: string)
+
+Returns true if the filter is selected.
+
+Example below is show the shoe size facet if the shoes category filter has been applied.
+
+```javascript
+  conditionalFacets: {
+    'shoe_size': Rule.FilterIsSelected('category', 'Shoes')
+  }
+```
+
+#### Rule.Must(rules: Array[])
+
+A rule wrapper that will only show the facet if all of the rules are true.
+
+```javascript
+  conditionalFacets: {
+    'trainer_shoe_size': Rule.Must([
+      Rule.FilterIsSelected('category', 'Shoes'),
+      Rule.FilterIsSelected('category_lvl2', 'Trainers')
+    ])
+  }
+```
+
+#### Rule.Should(rules: Array[])
+
+A rule wrapper that will only show the facet if one of the rules are true.
+
+```javascript
+  conditionalFacets: {
+    'trainer_shoe_size': Rule.Should([
+      Rule.FilterIsSelected('category', 'Shoes'),
+      Rule.FilterIsSelected('category_lvl2', 'Trainers')
+    ])
+  }
+```
