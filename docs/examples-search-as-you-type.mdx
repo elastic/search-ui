@@ -1,0 +1,34 @@
+---
+id: examples-search-as-you-type
+slug: /search-ui/examples/search-as-you-type
+title: Search-as-you-type
+date: 2022-05-05
+tags: ["search-as-you-type"]
+---
+
+Usually, the search query is executed when the user presses the enter key or clicks the search button.
+
+Search-as-you-type feature allows search queries to be executed on every keystroke.
+
+To implement this in Search UI, you'll need to add a `searchAsYouType={true}` prop to `<SearchBox/>` component.
+
+It's a good idea to add a debounce time — the Search UI will wait for users to finish typing before issuing the request. You can do it by adding a `debounceLength={300}` prop to `<SearchBox/>` component.
+
+See the example implementation below.
+
+<iframe
+  src="https://codesandbox.io/embed/github/elastic/search-ui/tree/master/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fsearch-as-you-type&module=%2Fsrc%2Fpages%2Fsearch-as-you-type%2Findex.js&theme=light&view=preview&hidedevtools=1"
+  style={{
+    width: "100%",
+    height: "800px",
+    overflow: "hidden"
+  }}
+  highlights="218,219,220"
+  title="Search UI"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+Related documentation:
+
+- <DocLink id="api-react-components-search-box" text="SearchBox component" />

@@ -1,0 +1,19 @@
+/* We selectedivly override base styles to create a red theme */
+.customization-example .sui-search-box__submit {
+  background: none;
+  background-color: red;
+}
+
+.customization-example .sui-layout-sidebar-toggle {
+  color: red;
+  border: 1px solid red;
+}
+
+.customization-example .sui-result__title,
+.customization-example .sui-result__title-link {
+  color: red;
+}
+
+.customization-example .sui-facet-view-more {
+  color: red;
+}

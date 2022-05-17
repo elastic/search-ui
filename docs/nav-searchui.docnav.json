@@ -32,6 +32,19 @@
       ]
     },
     {
+      "label": "Examples",
+      "items": [
+        {
+          "id": "examples-search-as-you-type",
+          "label": "Search-as-you-type"
+        },
+        {
+          "id": "examples-search-bar-in-header",
+          "label": "Search bar in header"
+        }
+      ]
+    },
+    {
       "label": "API",
       "items": [
         { "id": "api-configuration" },

@@ -59,6 +59,66 @@ The connector will perform a `_search` query and will derive the endpoint path w
 
 You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has read-only authorization. See [Kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). To use the API key, place it within the Elasticsearch connection configuration.
 
+## Autocomplete
+
+Search UI supports autocomplete functionality to suggest search terms that provide results. The autocomplete functionality is built on top of the Elasticsearch `suggest` and `bool prefix query` API.
+
+To take advantage of the feature, first update the <DocLink id="api-configuration" section="autocomplete-query" text="autocomplete query" /> configuration.
+
+Below is an example of what the `autocompleteQuery` may look like.
+
+```js
+autocompleteQuery: {
+  // performs a prefix search on the query
+  results: {
+    resultsPerPage: 5, // number of results to display. Default is 5.
+    search_fields: {
+      // the fields to prefix search on
+      title_suggest: {}
+    },
+    result_fields: {
+      // Add snippet highlighting within autocomplete suggestions
+      title: { snippet: { size: 100, fallback: true }},
+      nps_link: { raw: {} }
+    }
+  },
+  // performs a query to suggest for values that partially match the incomplete query
+  suggestions: {
+    types: {
+      // Limit query to only suggest based on "title" field
+      documents: {  fields: ["title_completion"] }
+    },
+    // Limit the number of suggestions returned from the server
+    size: 4
+  }
+}
+
+```
+
+Above we are configuring both the `results` and `suggestions` sections of the autocomplete query.
+
+`results` will need a search field to perform a prefix search on the query. We advise using a `search_as_you_type` field to be used.
+`suggestions` require a `completion` type field to perform a query to suggest for values that partially match the incomplete query.
+
+Below is an example of the mappings for the above example. `title_suggest` is a `search_as_you_type` field and `title_completion` is a `completion` type field.
+
+```json
+{
+  "mappings": {
+    "properties": {
+      "title_suggest": {
+        "type": "search_as_you_type"
+      },
+      "title_completion": {
+        "type": "completion"
+      }
+    }
+  }
+}
+```
+
+With a combination of this configuration + the <DocLink id="api-react-components-search-box" text="Searchbox" /> component with autocomplete configuration, your users will be able to see suggestions as they type within the search box.
+
 ## Node.js Integration
 
 The Elasticsearch API Connector builds the Elasticsearch query and performs the request directly to Elasticsearch from the browser. Depending on what you're building, you may want this logic to be done on the server and provide your clients a simplified API.
@@ -78,16 +138,11 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const connector = new APIConnector(
-  {
-    host: "http://localhost:9200", // host url for the Elasticsearch instance
-    index: "search-ui-examples", // index name where the search documents are contained
-    apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-  },
-  {
-    queryFields: ["title", "description"]
-  }
-);
+const connector = new APIConnector({
+  host: "http://localhost:9200", // host url for the Elasticsearch instance
+  index: "search-ui-examples", // index name where the search documents are contained
+  apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+});
 
 app.post("/search", async (req, res) => {
   const { query, options } = req.body;
