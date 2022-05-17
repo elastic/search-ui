@@ -1,8 +1,6 @@
-import React from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
-
-import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import moment from "moment";
+
+import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
 import {
   ErrorBoundary,
@@ -19,34 +17,84 @@ import {
 import {
   BooleanFacet,
   Layout,
-  SingleLinksFacet,
-  SingleSelectFacet
+  SingleSelectFacet,
+  SingleLinksFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+// We import custom.css here to override styles defined by the out-ofthe-box stylesheet
+// avove
+import "./custom.css";
 
-const connector = new ElasticSearchAPIConnector({
-  host:
-    process.env.REACT_ELASTICSEARCH_HOST ||
-    "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
-  index: process.env.REACT_ELASTICSEARCH_INDEX || "national-parks",
-  apiKey:
-    process.env.REACT_ELASTICSEARCH_API_KEY ||
-    "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
+// This is a custom component we've created.
+import ClearFilters from "./ClearFilters";
+
+const SORT_OPTIONS = [
+  {
+    name: "Relevance",
+    value: []
+  },
+  {
+    name: "Title",
+    value: [
+      {
+        field: "title",
+        direction: "asc"
+      }
+    ]
+  },
+  {
+    name: "State",
+    value: [
+      {
+        field: "states",
+        direction: "asc"
+      }
+    ]
+  },
+  {
+    name: "State -> Title",
+    value: [
+      {
+        field: "states",
+        direction: "asc"
+      },
+      {
+        field: "title",
+        direction: "asc"
+      }
+    ]
+  },
+  {
+    name: "Heritage Site -> State -> Title",
+    value: [
+      {
+        field: "world_heritage_site",
+        direction: "asc"
+      },
+      {
+        field: "states",
+        direction: "asc"
+      },
+      {
+        field: "title",
+        direction: "asc"
+      }
+    ]
+  }
+];
+
+const connector = new AppSearchAPIConnector({
+  searchKey:
+    process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
+  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
+  endpointBase:
+    process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
 });
 
 const config = {
-  debug: true,
   alwaysSearchOnInitialLoad: true,
-  apiConnector: connector,
-  hasA11yNotifications: true,
   searchQuery: {
-    search_fields: {
-      title: {
-        weight: 3
-      },
-      description: {},
-      states: {}
-    },
     result_fields: {
       visitors: { raw: {} },
       world_heritage_site: { raw: {} },
@@ -70,15 +118,10 @@ const config = {
         }
       }
     },
-    disjunctiveFacets: [
-      "acres",
-      "states.keyword",
-      "date_established",
-      "location"
-    ],
+    disjunctiveFacets: ["acres", "states", "date_established", "location"],
     facets: {
-      "world_heritage_site.keyword": { type: "value" },
-      "states.keyword": { type: "value", size: 30, sort: "count" },
+      world_heritage_site: { type: "value" },
+      states: { type: "value", size: 30 },
       acres: {
         type: "range",
         ranges: [
@@ -101,6 +144,7 @@ const config = {
       },
       date_established: {
         type: "range",
+
         ranges: [
           {
             from: moment().subtract(50, "years").toISOString(),
@@ -133,9 +177,6 @@ const config = {
   },
   autocompleteQuery: {
     results: {
-      search_fields: {
-        parks_search_as_you_type: {}
-      },
       resultsPerPage: 5,
       result_fields: {
         title: {
@@ -152,80 +193,54 @@ const config = {
     suggestions: {
       types: {
         documents: {
-          fields: ["parks_completion"]
+          fields: ["title", "description"]
         }
       },
       size: 4
     }
-  }
+  },
+  apiConnector: connector
 };
 
-const SORT_OPTIONS = [
-  {
-    name: "Relevance",
-    value: []
-  },
-  {
-    name: "Title",
-    value: [
-      {
-        field: "title.keyword",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "State",
-    value: [
-      {
-        field: "states.keyword",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "State -> Title",
-    value: [
-      {
-        field: "states.keyword",
-        direction: "asc"
-      },
-      {
-        field: "title.keyword",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "Heritage Site -> State -> Title",
-    value: [
-      {
-        field: "world_heritage_site.keyword",
-        direction: "asc"
-      },
-      {
-        field: "states.keyword",
-        direction: "asc"
-      },
-      {
-        field: "title.keyword",
-        direction: "asc"
-      }
-    ]
-  }
-];
+const CustomPagingInfoView = ({ start, end }) => (
+  <div className="paging-info">
+    <strong>
+      {start} - {end}
+    </strong>
+  </div>
+);
+
+const CustomResultView = ({ result, onClickLink }) => (
+  <li className="sui-result">
+    <div className="sui-result__header">
+      <h3>
+        {/* Maintain onClickLink to correct track click throughs for analytics*/}
+        <a onClick={onClickLink} href={result.nps_link.raw}>
+          {result.title.snippet}
+        </a>
+      </h3>
+    </div>
+    <div className="sui-result__body">
+      {/* use 'raw' values of fields to access values without snippets */}
+      <div className="sui-result__image">
+        <img src={result.image_url.raw} alt="" />
+      </div>
+      {/* Use the 'snippet' property of fields with dangerouslySetInnerHtml to render snippets */}
+      <div
+        className="sui-result__details"
+        dangerouslySetInnerHTML={{ __html: result.description.snippet }}
+      ></div>
+    </div>
+  </li>
+);
 
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch
-        mapContextToProps={({ wasSearched }) => ({
-          wasSearched
-        })}
-      >
+      <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
         {({ wasSearched }) => {
           return (
-            <div className="App">
+            <div className="App customization-example">
               <ErrorBoundary>
                 <Layout
                   header={
@@ -245,18 +260,21 @@ export default function App() {
                   }
                   sideContent={
                     <div>
+                      <ClearFilters />
+                      <br />
+                      <br />
                       {wasSearched && (
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
-                        field="states.keyword"
+                        field="states"
                         label="States"
                         filterType="any"
                         isFilterable={true}
                       />
                       <Facet
-                        field="world_heritage_site.keyword"
-                        label="World Heritage Site"
+                        field="world_heritage_site"
+                        label="World Heritage Site?"
                         view={BooleanFacet}
                       />
                       <Facet
@@ -283,6 +301,7 @@ export default function App() {
                   }
                   bodyContent={
                     <Results
+                      resultView={CustomResultView}
                       titleField="title"
                       urlField="nps_link"
                       thumbnailField="image_url"
@@ -290,10 +309,12 @@ export default function App() {
                     />
                   }
                   bodyHeader={
-                    <React.Fragment>
-                      {wasSearched && <PagingInfo />}
+                    <>
+                      {wasSearched && (
+                        <PagingInfo view={CustomPagingInfoView} />
+                      )}
                       {wasSearched && <ResultsPerPage />}
-                    </React.Fragment>
+                    </>
                   }
                   bodyFooter={<Paging />}
                 />

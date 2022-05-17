@@ -87,7 +87,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
         autocompleteResultsConfig.shouldTrackClickThrough !== false
       ) {
         const { clickThroughTags = [] } = autocompleteResultsConfig;
-        const id = selection.id.raw;
+        const id = selection.id?.raw;
         trackAutocompleteClickThrough(id, clickThroughTags);
       }
     }

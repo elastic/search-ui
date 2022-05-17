@@ -1,3 +1,19 @@
+# Running docs locally
+
+1. Clone https://github.com/elastic/docs.elastic.co next to search-ui repo
+2. Edit your source.json file so that:
+   ```
+   {
+   "sources": [
+      {
+         "type": "file",
+         "location": "../../search-ui"
+      }
+   ]
+   }
+   ```
+3. Run `yarn`, then `yarn init-docs`, then `yarn dev`
+
 # Publishing
 
 Releases should be performed directly in master (or a minor branch for patches), following the [Publishing guide](./PUBLISHING.md).
@@ -20,11 +36,7 @@ We will create branches for all minor releases.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
 1. If this is the latest release, update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
-1. Verify the demos on Netlify are functioning:
-
-   https://search-ui-stable-elasticsearch.netlify.app/
-   https://search-ui-stable-site-search.netlify.app/
-   https://search-ui-stable.netlify.app/
+1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/stable/examples/sandbox
 
 ## Publish a patch
 
@@ -41,11 +53,7 @@ We will create branches for all minor releases.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
 1. If this is the latest release, update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
-1. Verify the demos on Netlify are functioning:
-
-   https://search-ui-stable-elasticsearch.netlify.app/
-   https://search-ui-stable-site-search.netlify.app/
-   https://search-ui-stable.netlify.app/
+1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/stable/examples/sandbox
 
 ## Canary releases for testing
 
@@ -60,7 +68,7 @@ option for this.
    npm install --save @elastic/react-search-ui@canary @elastic/search-ui-app-search-connector@canary @elastic/react-search-ui-views@canary search-ui-views@canary
    ```
 
-1. To Deploy, simply push your changes to the `canary` branch, then visit "https://search-ui-canary.netlify.com/"
+1. To check your changes, simply push them to the `canary` branch, then visit https://codesandbox.io/s/github/elastic/search-ui/tree/canary/examples/sandbox
 
 ## Release candidates
 
@@ -82,8 +90,6 @@ stacks:
 - https://codesandbox.io/s/search-ui-next-js-example-tb05u
 - https://codesandbox.io/s/search-ui-national-parks-example-kdyms
 
-## Stable demos
+## Stable demo
 
-- Elastic App Search: https://search-ui-stable.netlify.com/
-- Elastic Site Search: https://search-ui-stable-site-search.netlify.com/
-- Elasticsearch: https://search-ui-stable-elasticsearch.netlify.com/
+- https://codesandbox.io/s/github/elastic/search-ui/tree/stable/examples/sandbox

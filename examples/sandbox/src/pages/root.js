@@ -19,6 +19,21 @@ export default function Root() {
           <Link to="/workplace-search">Elastic Workplace Search</Link>
         </li>
       </ul>
+
+      <p>Or check out our examples:</p>
+      <ul>
+        <li>
+          <Link to="/search-as-you-type">Search-as-you-type</Link>
+        </li>
+        <li>
+          <Link to="/customizing-styles-and-html">
+            Customizing styles and HTML
+          </Link>
+        </li>
+        <li>
+          <Link to="/search-bar-in-header">Search bar in header</Link>
+        </li>
+      </ul>
     </>
   );
 }

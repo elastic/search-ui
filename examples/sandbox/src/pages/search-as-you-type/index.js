@@ -1,7 +1,8 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
 
-import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
+import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+
 import moment from "moment";
 
 import {
@@ -24,14 +25,13 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
-const connector = new ElasticSearchAPIConnector({
-  host:
-    process.env.REACT_ELASTICSEARCH_HOST ||
-    "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
-  index: process.env.REACT_ELASTICSEARCH_INDEX || "national-parks",
-  apiKey:
-    process.env.REACT_ELASTICSEARCH_API_KEY ||
-    "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
+const connector = new AppSearchAPIConnector({
+  searchKey:
+    process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
+  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
+  endpointBase:
+    process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
 });
 
 const config = {
@@ -40,13 +40,6 @@ const config = {
   apiConnector: connector,
   hasA11yNotifications: true,
   searchQuery: {
-    search_fields: {
-      title: {
-        weight: 3
-      },
-      description: {},
-      states: {}
-    },
     result_fields: {
       visitors: { raw: {} },
       world_heritage_site: { raw: {} },
@@ -70,15 +63,10 @@ const config = {
         }
       }
     },
-    disjunctiveFacets: [
-      "acres",
-      "states.keyword",
-      "date_established",
-      "location"
-    ],
+    disjunctiveFacets: ["acres", "states", "date_established", "location"],
     facets: {
-      "world_heritage_site.keyword": { type: "value" },
-      "states.keyword": { type: "value", size: 30, sort: "count" },
+      world_heritage_site: { type: "value" },
+      states: { type: "value", size: 30 },
       acres: {
         type: "range",
         ranges: [
@@ -133,9 +121,6 @@ const config = {
   },
   autocompleteQuery: {
     results: {
-      search_fields: {
-        parks_search_as_you_type: {}
-      },
       resultsPerPage: 5,
       result_fields: {
         title: {
@@ -152,7 +137,7 @@ const config = {
     suggestions: {
       types: {
         documents: {
-          fields: ["parks_completion"]
+          fields: ["title"]
         }
       },
       size: 4
@@ -169,7 +154,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: "title.keyword",
+        field: "title",
         direction: "asc"
       }
     ]
@@ -178,7 +163,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: "states.keyword",
+        field: "states",
         direction: "asc"
       }
     ]
@@ -187,11 +172,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: "states.keyword",
+        field: "states",
         direction: "asc"
       },
       {
-        field: "title.keyword",
+        field: "title",
         direction: "asc"
       }
     ]
@@ -200,15 +185,15 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: "world_heritage_site.keyword",
+        field: "world_heritage_site",
         direction: "asc"
       },
       {
-        field: "states.keyword",
+        field: "states",
         direction: "asc"
       },
       {
-        field: "title.keyword",
+        field: "title",
         direction: "asc"
       }
     ]
@@ -230,17 +215,9 @@ export default function App() {
                 <Layout
                   header={
                     <SearchBox
-                      autocompleteMinimumCharacters={3}
-                      autocompleteResults={{
-                        linkTarget: "_blank",
-                        sectionTitle: "Results",
-                        titleField: "title",
-                        urlField: "nps_link",
-                        shouldTrackClickThrough: true,
-                        clickThroughTags: ["test"]
-                      }}
-                      autocompleteSuggestions={true}
-                      debounceLength={0}
+                      // Set debounceLength and searchAsYouType props
+                      debounceLength={300}
+                      searchAsYouType={true}
                     />
                   }
                   sideContent={
@@ -249,13 +226,13 @@ export default function App() {
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
-                        field="states.keyword"
+                        field={"states"}
                         label="States"
                         filterType="any"
                         isFilterable={true}
                       />
                       <Facet
-                        field="world_heritage_site.keyword"
+                        field={"world_heritage_site"}
                         label="World Heritage Site"
                         view={BooleanFacet}
                       />
