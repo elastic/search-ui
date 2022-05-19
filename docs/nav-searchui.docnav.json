@@ -26,15 +26,15 @@
       "label": "Basic usage",
       "items": [
         { "id": "guides-customizing-styles-and-html" },
-        { "id": "guides-search-as-you-type" },
-        { "id": "guides-search-bar-in-header" },
+        { "id": "guides-using-search-as-you-type" },
+        { "id": "guides-adding-search-bar-to-header" },
         { "id": "guides-debugging" }
       ]
     },
     {
       "label": "Advanced usage",
       "items": [
-        { "id": "guides-extending-view-components" },
+        { "id": "guides-changing-component-behavior" },
         { "id": "guides-creating-your-own-components" },
         { "id": "guides-building-a-custom-connector" }
       ]
