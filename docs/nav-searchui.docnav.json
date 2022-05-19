@@ -48,8 +48,7 @@
           "items": [
             { "id": "api-core-configuration" },
             { "id": "api-core-state" },
-            { "id": "api-core-actions" },
-            { "id": "api-core-event-hooks" }
+            { "id": "api-core-actions" }
           ]
         },
         {
