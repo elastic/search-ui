@@ -54,7 +54,10 @@
         },
         {
           "label": "React API",
-          "items": [{ "id": "api-react-core" }, { "id": "api-react-hocs" }]
+          "items": [
+            { "id": "api-react-search-provider" },
+            { "id": "api-react-with-search" }
+          ]
         },
         {
           "label": "React components",
