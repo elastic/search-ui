@@ -26,8 +26,8 @@
       "label": "Basic usage",
       "items": [
         { "id": "guides-customizing-styles-and-html" },
-        { "id": "examples-search-as-you-type" },
-        { "id": "examples-search-bar-in-header" },
+        { "id": "guides-search-as-you-type" },
+        { "id": "guides-search-bar-in-header" },
         { "id": "guides-debugging" }
       ]
     },
@@ -36,20 +36,20 @@
       "items": [
         { "id": "guides-extending-view-components" },
         { "id": "guides-creating-your-own-components" },
-        { "id": "connectors-api-custom-connector" }
+        { "id": "guides-building-a-custom-connector" }
       ]
     },
     {
       "label": "API reference",
       "items": [
-        { "id": "guides-architecture" },
+        { "id": "api-architecture" },
         {
           "label": "Core API",
           "items": [
-            { "id": "api-configuration" },
-            { "id": "api-state" },
-            { "id": "api-actions" },
-            { "id": "api-event-hooks" }
+            { "id": "api-core-configuration" },
+            { "id": "api-core-state" },
+            { "id": "api-core-actions" },
+            { "id": "api-core-event-hooks" }
           ]
         },
         {
@@ -73,10 +73,10 @@
         {
           "label": "Connectors API",
           "items": [
-            { "id": "connectors-api-app-search" },
-            { "id": "connectors-api-site-search" },
-            { "id": "connectors-api-workplace-search" },
-            { "id": "connectors-api-elasticsearch" }
+            { "id": "api-connectors-app-search" },
+            { "id": "api-connectors-site-search" },
+            { "id": "api-connectors-workplace-search" },
+            { "id": "api-connectors-elasticsearch" }
           ]
         }
       ]
