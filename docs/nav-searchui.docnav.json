@@ -32,8 +32,9 @@
       ]
     },
     {
-      "label": "Examples",
+      "label": "Basic usage",
       "items": [
+        { "id": "guides-customizing-styles-and-html" },
         {
           "id": "examples-search-as-you-type",
           "label": "Search-as-you-type"
@@ -41,25 +42,37 @@
         {
           "id": "examples-search-bar-in-header",
           "label": "Search bar in header"
-        }
+        },
+        { "id": "guides-debugging" }
       ]
     },
     {
-      "label": "API",
+      "label": "Advanced usage",
       "items": [
-        { "id": "api-configuration" },
-        { "id": "api-state" },
-        { "id": "api-actions" },
-        { "id": "api-event-hooks" }
+        { "id": "guides-extending-view-components" },
+        { "id": "guides-creating-your-own-components" },
+        { "id": "connectors-api-custom-connector" }
       ]
     },
     {
-      "label": "React API",
+      "label": "API reference",
       "items": [
-        { "id": "api-react-core" },
-        { "id": "api-react-hocs" },
+        { "id": "guides-philosophy" },
         {
-          "label": "Search Components",
+          "label": "Core API",
+          "items": [
+            { "id": "api-configuration" },
+            { "id": "api-state" },
+            { "id": "api-actions" },
+            { "id": "api-event-hooks" }
+          ]
+        },
+        {
+          "label": "React API",
+          "items": [{ "id": "api-react-core" }, { "id": "api-react-hocs" }]
+        },
+        {
+          "label": "React components",
           "items": [
             { "id": "api-react-components-search-box" },
             { "id": "api-react-components-results" },
@@ -71,27 +84,16 @@
             { "id": "api-react-components-paging-info" },
             { "id": "api-react-components-error-boundary" }
           ]
+        },
+        {
+          "label": "Connectors API",
+          "items": [
+            { "id": "connectors-api-app-search" },
+            { "id": "connectors-api-site-search" },
+            { "id": "connectors-api-workplace-search" },
+            { "id": "connectors-api-elasticsearch" }
+          ]
         }
-      ]
-    },
-    {
-      "label": "Connectors API",
-      "items": [
-        { "id": "connectors-api-app-search" },
-        { "id": "connectors-api-site-search" },
-        { "id": "connectors-api-workplace-search" },
-        { "id": "connectors-api-elasticsearch" },
-        { "id": "connectors-api-custom-connector" }
-      ]
-    },
-    {
-      "label": "Guides",
-      "items": [
-        { "id": "guides-philosophy" },
-        { "id": "guides-extending-view-components" },
-        { "id": "guides-customizing-styles-and-html" },
-        { "id": "guides-creating-your-own-components" },
-        { "id": "guides-debugging" }
       ]
     }
   ]
