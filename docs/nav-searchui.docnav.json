@@ -10,39 +10,24 @@
       "items": [
         {
           "id": "overview",
-          "label": "Overview"
+          "label": "What is Search UI?"
         }
       ]
     },
     {
       "label": "Tutorials",
       "items": [
-        {
-          "id": "tutorials-app-search",
-          "label": "App Search"
-        },
-        {
-          "id": "tutorials-elasticsearch",
-          "label": "Elasticsearch"
-        },
-        {
-          "id": "tutorials-workplace-search",
-          "label": "Workplace Search"
-        }
+        { "id": "tutorials-app-search" },
+        { "id": "tutorials-elasticsearch" },
+        { "id": "tutorials-workplace-search" }
       ]
     },
     {
       "label": "Basic usage",
       "items": [
         { "id": "guides-customizing-styles-and-html" },
-        {
-          "id": "examples-search-as-you-type",
-          "label": "Search-as-you-type"
-        },
-        {
-          "id": "examples-search-bar-in-header",
-          "label": "Search bar in header"
-        },
+        { "id": "examples-search-as-you-type" },
+        { "id": "examples-search-bar-in-header" },
         { "id": "guides-debugging" }
       ]
     },
