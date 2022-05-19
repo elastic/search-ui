@@ -42,7 +42,7 @@
     {
       "label": "API reference",
       "items": [
-        { "id": "guides-philosophy" },
+        { "id": "guides-architecture" },
         {
           "label": "Core API",
           "items": [
