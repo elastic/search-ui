@@ -20,12 +20,14 @@ interface AutocompleteHandlerConfiguration {
   connectionOptions?: {
     apiKey: string;
   };
+  transport?: any;
 }
 
 export default async function handleRequest(
   configuration: AutocompleteHandlerConfiguration
 ): Promise<AutocompleteResponseState> {
-  const { state, queryConfig, host, index, connectionOptions } = configuration;
+  const { state, queryConfig, host, index, connectionOptions, transport } =
+    configuration;
   const { apiKey } = connectionOptions || {};
 
   const suggestionConfigurations = [];
@@ -70,9 +72,10 @@ export default async function handleRequest(
     suggestions: suggestionConfigurations
   };
 
-  const response = await Searchkit(searchkitConfig).executeSuggestions(
-    state.searchTerm
-  );
+  const response = await Searchkit(
+    searchkitConfig,
+    transport ? new transport(searchkitConfig, state.searchTerm) : null
+  ).executeSuggestions(state.searchTerm);
 
   const results: AutocompleteResponseState = response.reduce(
     (sum, suggestion) => {

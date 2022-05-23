@@ -12,6 +12,7 @@ interface SearchHandlerConfiguration {
   connectionOptions?: {
     apiKey: string;
   };
+  transport?: any;
 }
 
 export default async function handleRequest(
@@ -26,7 +27,14 @@ export default async function handleRequest(
     index,
     apiKey
   );
-  const request = Searchkit(searchkitConfig);
+  const request = Searchkit(
+    searchkitConfig,
+    configuration.transport
+      ? new configuration.transport(searchkitConfig, {
+          query: state.searchTerm
+        })
+      : null
+  );
 
   const searchkitVariables = buildRequest(state);
 

@@ -101,7 +101,8 @@ describe("Search results", () => {
       index: "test",
       connectionOptions: {
         apiKey: "test"
-      }
+      },
+      transport: null
     });
 
     expect(results).toMatchInlineSnapshot(`

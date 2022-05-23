@@ -10,6 +10,8 @@ import type {
 import handleSearchRequest from "./handlers/search";
 import handleAutocompleteRequest from "./handlers/autocomplete";
 
+export { default as AppSearchElasticsearchAPIConnector } from "./AppSearchElasticsearchAPIConnector";
+
 type ConnectionOptions = {
   host: string;
   index: string;
