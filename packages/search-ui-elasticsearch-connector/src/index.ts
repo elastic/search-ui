@@ -9,7 +9,7 @@ import type {
 
 import handleSearchRequest from "./handlers/search";
 import handleAutocompleteRequest from "./handlers/autocomplete";
-import { PostProcessQueryFn } from "./types";
+import { PostProcessRequestBodyFn } from "./types";
 
 type ConnectionOptions = {
   host: string;
@@ -22,7 +22,7 @@ export * from "./types";
 class ElasticsearchAPIConnector implements APIConnector {
   constructor(
     private config: ConnectionOptions,
-    private postProcessQuery?: PostProcessQueryFn
+    private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -43,7 +43,7 @@ class ElasticsearchAPIConnector implements APIConnector {
       connectionOptions: {
         apiKey: this.config.apiKey
       },
-      postProcessQuery: this.postProcessQuery
+      postProcessRequestBodyFn: this.postProcessRequestBodyFn
     });
   }
 

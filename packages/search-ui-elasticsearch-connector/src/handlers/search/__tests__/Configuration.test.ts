@@ -186,8 +186,8 @@ describe("Search - Configuration", () => {
         searchTerm: "test"
       };
 
-      const postProcessQuery = (esQuery) => {
-        return esQuery;
+      const mutateRequestBodyFn = (requestBody) => {
+        return requestBody;
       };
 
       expect(
@@ -197,11 +197,11 @@ describe("Search - Configuration", () => {
           host,
           index,
           apiKey,
-          postProcessQuery
+          mutateRequestBodyFn
         )
       ).toEqual(
         expect.objectContaining({
-          postProcessRequest: postProcessQuery
+          postProcessRequest: mutateRequestBodyFn
         })
       );
     });

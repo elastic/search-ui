@@ -224,19 +224,19 @@ const connector = new ElasticSearchAPIConnector(
     index: "national-parks",
     apiKey: "exampleApiKey"
   },
-  (esQuery) => {
-    console.log("postProcess Query Call", esQuery); // logging out the esQuery before sending to Elasticsearch
-    if (!esQuery.query) return esQuery;
+  (requestBody) => {
+    console.log("postProcess Query Call", requestBody); // logging out the esQuery before sending to Elasticsearch
+    if (!requestBody.query) return requestBody;
 
-    const bestMatchQuery = esQuery.query.bool.should[0].multi_match;
-    esQuery.query = {
+    const bestMatchQuery = requestBody.query.bool.should[0].multi_match;
+    requestBody.query = {
       multi_match: {
         query: bestMatchQuery.query,
         fields: bestMatchQuery.fields
       }
     };
 
-    return esQuery;
+    return requestBody;
   }
 );
 ```

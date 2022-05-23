@@ -1,6 +1,6 @@
 import { QueryConfig, RequestState, ResponseState } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
-import { PostProcessQueryFn } from "../../types";
+import { PostProcessRequestBodyFn } from "../../types";
 import buildConfiguration from "./Configuration";
 import buildRequest from "./Request";
 import buildResponse from "./Response";
@@ -13,7 +13,7 @@ interface SearchHandlerConfiguration {
   connectionOptions?: {
     apiKey: string;
   };
-  postProcessQuery?: PostProcessQueryFn;
+  postProcessRequestBodyFn?: PostProcessRequestBodyFn;
 }
 
 export default async function handleRequest(
@@ -25,7 +25,7 @@ export default async function handleRequest(
     host,
     index,
     connectionOptions,
-    postProcessQuery
+    postProcessRequestBodyFn
   } = configuration;
   const { apiKey } = connectionOptions || {};
   const searchkitConfig = buildConfiguration(
@@ -34,7 +34,7 @@ export default async function handleRequest(
     host,
     index,
     apiKey,
-    postProcessQuery
+    postProcessRequestBodyFn
   );
 
   const request = Searchkit(searchkitConfig);

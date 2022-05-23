@@ -1,2 +1,4 @@
 export type ESRequestBody = any;
-export type PostProcessQueryFn = (esQuery: ESRequestBody) => ESRequestBody;
+export type PostProcessRequestBodyFn = (
+  requestBody: ESRequestBody
+) => ESRequestBody;
