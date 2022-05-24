@@ -29,6 +29,7 @@ searchQuery: {
   }
   disjunctiveFacets: ["states"], // Array of field names to use for disjunctive searches
   disjunctiveFacetsAnalyticsTags: ["Ignore"],
+  conditionalFacets: {},
   search_fields: {
     title: {},
     description: {}
@@ -133,6 +134,10 @@ Example, use ignore as a tag on all disjunctive API calls:
 ```js
 disjunctiveFacetsAnalyticsTags: ["ignore"];
 ```
+
+#### Conditional Faceting
+
+See <DocLink id="guides-conditional-facets" text="Conditional Faceting" /> for more information.
 
 ### search_fields
 
