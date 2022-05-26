@@ -3,7 +3,7 @@ import { SearchkitResponse } from "@searchkit/sdk";
 import { fieldResponseMapper } from "../common";
 
 function SearchResponse(results: SearchkitResponse): ResponseState {
-  const facets = results.facets.reduce((acc, facet) => {
+  const facets = (results.facets || []).reduce((acc, facet) => {
     return {
       ...acc,
       [facet.identifier]: [
