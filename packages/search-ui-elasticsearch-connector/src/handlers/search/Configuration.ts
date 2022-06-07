@@ -11,6 +11,7 @@ import {
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
+import { PostProcessRequestBodyFn } from "../../types";
 import { LIB_VERSION } from "../../version";
 
 export function getResultFields(
@@ -51,7 +52,8 @@ function buildConfiguration(
   queryConfig: QueryConfig,
   host: string,
   index: string,
-  apiKey: string
+  apiKey: string,
+  postProcessRequestBodyFn?: PostProcessRequestBodyFn
 ): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
     queryConfig.result_fields
@@ -161,7 +163,8 @@ function buildConfiguration(
       fields: queryFields
     }),
     sortOptions: [sortOption],
-    facets
+    facets,
+    postProcessRequest: postProcessRequestBodyFn
   };
 
   return configuration;

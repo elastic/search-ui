@@ -12,6 +12,7 @@ import {
   GeoDistanceOptionsFacet
 } from "@searchkit/sdk";
 import { LIB_VERSION } from "../../../version";
+import type { SearchRequest } from "../../../types";
 
 describe("Search - Configuration", () => {
   describe("getResultFields", () => {
@@ -179,6 +180,31 @@ describe("Search - Configuration", () => {
         multipleSelect: false,
         order: "value"
       });
+    });
+
+    it("works with postProcessQuery Function", () => {
+      const state: RequestState = {
+        searchTerm: "test"
+      };
+
+      const mutateRequestBodyFn = (requestBody: SearchRequest) => {
+        return requestBody;
+      };
+
+      expect(
+        buildConfiguration(
+          state,
+          { ...queryConfig, facets: null },
+          host,
+          index,
+          apiKey,
+          mutateRequestBodyFn
+        )
+      ).toEqual(
+        expect.objectContaining({
+          postProcessRequest: mutateRequestBodyFn
+        })
+      );
     });
 
     it("Range facets Configuration", () => {
