@@ -12,6 +12,7 @@ import {
   GeoDistanceOptionsFacet
 } from "@searchkit/sdk";
 import { LIB_VERSION } from "../../../version";
+import type { RequestBody } from "../../../types";
 
 describe("Search - Configuration", () => {
   describe("getResultFields", () => {
@@ -186,7 +187,7 @@ describe("Search - Configuration", () => {
         searchTerm: "test"
       };
 
-      const mutateRequestBodyFn = (requestBody) => {
+      const mutateRequestBodyFn = (requestBody: RequestBody) => {
         return requestBody;
       };
 

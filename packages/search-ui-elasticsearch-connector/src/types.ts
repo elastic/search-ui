@@ -1,4 +1,6 @@
-export type ESRequestBody = any;
+import type { estypes } from "@elastic/elasticsearch";
+
+export type RequestBody = estypes.SearchRequest;
 export type PostProcessRequestBodyFn = (
-  requestBody: ESRequestBody
-) => ESRequestBody;
+  requestBody: RequestBody
+) => RequestBody;
