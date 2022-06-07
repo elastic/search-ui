@@ -225,7 +225,7 @@ const connector = new ElasticSearchAPIConnector(
     apiKey: "exampleApiKey"
   },
   (requestBody) => {
-    console.log("postProcess Query Call", requestBody); // logging out the esQuery before sending to Elasticsearch
+    console.log("postProcess requestBody Call", requestBody); // logging out the requestBody before sending to Elasticsearch
     if (!requestBody.query) return requestBody;
 
     const bestMatchQuery = requestBody.query.bool.should[0].multi_match;
