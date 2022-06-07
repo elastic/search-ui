@@ -208,3 +208,35 @@ const config = {
 ```
 
 Thats it!. You should see the `CustomConnector` executing requests to the server, providing the search state and configuration in the body. The node.js server will use the Elasticsearch connector to perform a search to Elasticsearch and return the results back to the client.
+
+## Customise the Elasticsearch Request Body
+
+Elasticsearch connector allows you to customise the Elasticsearch request body before its performed on Elasticsearch. This is useful if you want to customise the query or options before the request is sent to Elasticsearch.
+
+This is an advanced option, the underlying query may change between versions and reading from / mutating the query is brittle, so please be aware to use this sparingly and let us know what you want to achieve through github issues.
+
+Example below is overriding the `query` section of the Elasticsearch request body.
+
+```js
+const connector = new ElasticsearchAPIConnector(
+  {
+    host: "https://example-host.es.us-central1.gcp.cloud.es.io:9243",
+    index: "national-parks",
+    apiKey: "exampleApiKey"
+  },
+  (requestBody) => {
+    console.log("postProcess requestBody Call", requestBody); // logging out the requestBody before sending to Elasticsearch
+    if (!requestBody.query) return requestBody;
+
+    const bestMatchQuery = requestBody.query.bool.should[0].multi_match;
+    requestBody.query = {
+      multi_match: {
+        query: bestMatchQuery.query,
+        fields: bestMatchQuery.fields
+      }
+    };
+
+    return requestBody;
+  }
+);
+```

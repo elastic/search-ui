@@ -9,6 +9,7 @@ import type {
 
 import handleSearchRequest from "./handlers/search";
 import handleAutocompleteRequest from "./handlers/autocomplete";
+import { PostProcessRequestBodyFn } from "./types";
 
 export { default as AppSearchElasticsearchAPIConnector } from "./AppSearchElasticsearchAPIConnector";
 
@@ -18,8 +19,13 @@ type ConnectionOptions = {
   apiKey?: string;
 };
 
+export * from "./types";
+
 class ElasticsearchAPIConnector implements APIConnector {
-  constructor(private config: ConnectionOptions) {}
+  constructor(
+    private config: ConnectionOptions,
+    private postProcessRequestBodyFn?: PostProcessRequestBodyFn
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onResultClick(): void {}
@@ -38,7 +44,8 @@ class ElasticsearchAPIConnector implements APIConnector {
       index: this.config.index,
       connectionOptions: {
         apiKey: this.config.apiKey
-      }
+      },
+      postProcessRequestBodyFn: this.postProcessRequestBodyFn
     });
   }
 
