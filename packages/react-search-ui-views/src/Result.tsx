@@ -1,7 +1,7 @@
 import React from "react";
 
 import { appendClassName, getUrlSanitizer } from "./view-helpers";
-import { SearchContextState, SearchResult } from "@elastic/search-ui";
+import type { SearchContextState, SearchResult } from "@elastic/search-ui";
 import { BaseContainerProps } from "./types";
 
 export type ResultContainerContext = Pick<

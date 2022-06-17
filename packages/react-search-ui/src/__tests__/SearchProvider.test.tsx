@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
 import { APIConnector, SearchDriver } from "@elastic/search-ui";
-import { AutocompleteQueryConfig } from "@elastic/search-ui";
+import type { AutocompleteQueryConfig } from "@elastic/search-ui";
 
 function getMocks() {
   const mockApiConnector: APIConnector = {

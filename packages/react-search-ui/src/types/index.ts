@@ -1,4 +1,4 @@
-import { Facet, Filter } from "@elastic/search-ui";
+import type { Facet, Filter } from "@elastic/search-ui";
 
 export type BaseContainerProps = {
   children?: React.ReactNode;

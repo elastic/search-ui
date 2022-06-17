@@ -5,7 +5,10 @@ import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
-import { AutocompleteResult, SearchContextState } from "@elastic/search-ui";
+import type {
+  AutocompleteResult,
+  SearchContextState
+} from "@elastic/search-ui";
 import {
   BaseContainerProps,
   SearchBoxAutocompleteViewProps,
