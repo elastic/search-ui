@@ -4,8 +4,9 @@
   "description": "A collection of React UI components for building search experiences",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
+  "main": "lib/cjs/index.js",
+  "types": "lib/esm/index.d.ts",
+  "module": "lib/esm/index.js",
   "sideEffects": [
     "*.css"
   ],

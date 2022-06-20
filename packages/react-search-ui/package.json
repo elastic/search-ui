@@ -4,8 +4,9 @@
   "homepage": "https://docs.elastic.co/search-ui",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/esm/index.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
