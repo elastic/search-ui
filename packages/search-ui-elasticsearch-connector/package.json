@@ -23,7 +23,7 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "clean": "rimraf es lib",
+    "clean": "rimraf lib",
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
