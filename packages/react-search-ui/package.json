@@ -27,7 +27,7 @@
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "build": "npm run clean && npm run build-js",
-    "watch": "npm run clean && npm run watch-js",
+    "watch": "npm run build && npm run watch-js",
     "prepare": "npm run build"
   },
   "bugs": {
