@@ -3,7 +3,10 @@ import {
   QueryConfig,
   RequestState
 } from "@elastic/search-ui";
-import buildConfiguration, { getResultFields } from "../Configuration";
+import buildConfiguration, {
+  buildBaseFilters,
+  getResultFields
+} from "../Configuration";
 jest.mock("@searchkit/sdk");
 import {
   MultiMatchQuery,
@@ -46,6 +49,86 @@ describe("Search - Configuration", () => {
     });
   });
 
+  it("buildBaseFilters", () => {
+    const queryConfig: QueryConfig = {
+      filters: [
+        {
+          field: "provider.id.keyword",
+          type: "any",
+          values: [
+            "00000174-b680-e5d9-b8fb-15ae80000000",
+            "0000014d-91eb-0b07-8ac7-287f80000000"
+          ]
+        },
+        {
+          field: "kind.keyword",
+          type: "none",
+          values: ["Instrument", "Watercraft"]
+        },
+        {
+          field: "attribute_facets.keyword",
+          type: "all",
+          values: ["Part of Collection", "Access Restriction(s)"]
+        }
+      ]
+    };
+
+    expect(buildBaseFilters(queryConfig.filters)).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "bool": Object {
+            "should": Array [
+              Object {
+                "term": Object {
+                  "provider.id.keyword": "00000174-b680-e5d9-b8fb-15ae80000000",
+                },
+              },
+              Object {
+                "term": Object {
+                  "provider.id.keyword": "0000014d-91eb-0b07-8ac7-287f80000000",
+                },
+              },
+            ],
+          },
+        },
+        Object {
+          "bool": Object {
+            "must_not": Array [
+              Object {
+                "term": Object {
+                  "kind.keyword": "Instrument",
+                },
+              },
+              Object {
+                "term": Object {
+                  "kind.keyword": "Watercraft",
+                },
+              },
+            ],
+          },
+        },
+        Object {
+          "bool": Object {
+            "filter": Array [
+              Object {
+                "term": Object {
+                  "attribute_facets.keyword": "Part of Collection",
+                },
+              },
+              Object {
+                "term": Object {
+                  "attribute_facets.keyword": "Access Restriction(s)",
+                },
+              },
+            ],
+          },
+        },
+      ]
+    `);
+
+    expect(buildBaseFilters(undefined)).toEqual([]);
+  });
+
   describe("buildConfiguration", () => {
     const queryConfig: QueryConfig = {
       search_fields: {
@@ -76,7 +159,27 @@ describe("Search - Configuration", () => {
           sort: "value"
         }
       },
-      disjunctiveFacets: ["category"]
+      disjunctiveFacets: ["category"],
+      filters: [
+        {
+          field: "provider.id.keyword",
+          type: "any",
+          values: [
+            "00000174-b680-e5d9-b8fb-15ae80000000",
+            "0000014d-91eb-0b07-8ac7-287f80000000"
+          ]
+        },
+        {
+          field: "kind.keyword",
+          type: "none",
+          values: ["Instrument", "Watercraft"]
+        },
+        {
+          field: "attribute_facets.keyword",
+          type: "all",
+          values: ["Part of Collection", "Access Restriction(s)"]
+        }
+      ]
     };
     const host = "http://localhost:9200";
     const index = "test_index";

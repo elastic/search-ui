@@ -1,7 +1,7 @@
 import { QueryConfig, RequestState, ResponseState } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
 import { PostProcessRequestBodyFn } from "../../types";
-import buildConfiguration from "./Configuration";
+import buildConfiguration, { buildBaseFilters } from "./Configuration";
 import buildRequest from "./Request";
 import buildResponse from "./Response";
 
@@ -41,18 +41,24 @@ export default async function handleRequest(
 
   const searchkitVariables = buildRequest(state);
 
+  const baseFilters = buildBaseFilters(queryConfig.filters);
+
   const results = await request
     .query(searchkitVariables.query)
     .setFilters(searchkitVariables.filters)
     .setSortBy(searchkitVariables.sort)
-    .execute({
-      facets: queryConfig.facets && Object.keys(queryConfig.facets).length > 0,
-      hits: {
-        from: searchkitVariables.from,
-        size: searchkitVariables.size,
-        includeRawHit: true
-      }
-    });
+    .execute(
+      {
+        facets:
+          queryConfig.facets && Object.keys(queryConfig.facets).length > 0,
+        hits: {
+          from: searchkitVariables.from,
+          size: searchkitVariables.size,
+          includeRawHit: true
+        }
+      },
+      baseFilters
+    );
 
   return buildResponse(results);
 }

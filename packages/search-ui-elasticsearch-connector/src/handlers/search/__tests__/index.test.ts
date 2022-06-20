@@ -1,5 +1,5 @@
 import { RequestState, SearchQuery } from "@elastic/search-ui";
-import { SearchkitResponse } from "@searchkit/sdk";
+import Searchkit, { SearchkitRequest, SearchkitResponse } from "@searchkit/sdk";
 import handleRequest from "../index";
 
 const mockSearchkitResponse: SearchkitResponse = {
@@ -63,18 +63,20 @@ jest.mock("@searchkit/sdk", () => {
   return {
     __esModule: true, // Use it when dealing with esModules
     ...originalModule,
-    default: (config) => {
+    default: jest.fn((config) => {
       const sk = originalModule.default(config);
       sk.execute = jest.fn(() => mockSearchkitResponse);
       return sk;
-    }
+    })
   };
 });
 
 describe("Search results", () => {
   it("success", async () => {
     const state: RequestState = {
-      searchTerm: "test"
+      searchTerm: "test",
+      resultsPerPage: 10,
+      current: 1
     };
     const queryConfig: SearchQuery = {
       result_fields: {
@@ -92,7 +94,14 @@ describe("Search results", () => {
         "world_heritage_site.keyword": { type: "value" },
         "another_field.keyword": { type: "value" }
       },
-      disjunctiveFacets: ["another_field.keyword"]
+      disjunctiveFacets: ["another_field.keyword"],
+      filters: [
+        {
+          type: "none",
+          field: "world_heritage_site.keyword",
+          values: ["label3"]
+        }
+      ]
     };
     const results = await handleRequest({
       state,
@@ -103,6 +112,19 @@ describe("Search results", () => {
         apiKey: "test"
       }
     });
+
+    const instance: SearchkitRequest = (Searchkit as jest.Mock).mock.results[0]
+      .value;
+    expect(instance.execute).toBeCalledWith(
+      { facets: true, hits: { from: 0, includeRawHit: true, size: 10 } },
+      [
+        {
+          bool: {
+            must_not: [{ term: { "world_heritage_site.keyword": "label3" } }]
+          }
+        }
+      ]
+    );
 
     expect(results).toMatchInlineSnapshot(`
       Object {

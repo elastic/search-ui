@@ -1,10 +1,12 @@
 import {
   FieldConfiguration,
+  Filter,
   QueryConfig,
   RequestState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
 import {
+  BaseFilters,
   GeoDistanceOptionsFacet,
   MultiMatchQuery,
   MultiQueryOptionsFacet,
@@ -45,6 +47,30 @@ export function getQueryFields(
 
 function isValidDateString(dateString: unknown): boolean {
   return typeof dateString === "string" && !isNaN(Date.parse(dateString));
+}
+
+export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
+  const filters = (baseFilters || []).reduce((sum, filter) => {
+    const boolType = {
+      all: "filter",
+      any: "should",
+      none: "must_not"
+    }[filter.type];
+    return [
+      ...sum,
+      {
+        bool: {
+          [boolType]: filter.values.map((value) => ({
+            term: {
+              [filter.field]: value
+            }
+          }))
+        }
+      }
+    ];
+  }, []);
+
+  return filters;
 }
 
 function buildConfiguration(

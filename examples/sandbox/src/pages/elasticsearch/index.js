@@ -40,6 +40,13 @@ const config = {
   apiConnector: connector,
   hasA11yNotifications: true,
   searchQuery: {
+    filters: [
+      {
+        type: "all",
+        values: ["California"],
+        field: "states.keyword"
+      }
+    ],
     search_fields: {
       title: {
         weight: 3
