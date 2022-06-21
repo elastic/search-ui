@@ -2,7 +2,7 @@ import React from "react";
 
 import { appendClassName, getFilterValueDisplay } from "./view-helpers";
 import { FacetViewProps } from "./types";
-import { FieldValue } from "@elastic/search-ui";
+import type { FieldValue } from "@elastic/search-ui";
 
 function MultiCheckboxFacet({
   className,

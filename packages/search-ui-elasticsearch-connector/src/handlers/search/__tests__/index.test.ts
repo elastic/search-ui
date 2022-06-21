@@ -1,4 +1,4 @@
-import { RequestState, SearchQuery } from "@elastic/search-ui";
+import type { RequestState, SearchQuery } from "@elastic/search-ui";
 import { SearchkitResponse } from "@searchkit/sdk";
 import handleRequest from "../index";
 
