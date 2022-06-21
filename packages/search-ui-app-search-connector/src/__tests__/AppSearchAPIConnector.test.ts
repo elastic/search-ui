@@ -386,7 +386,17 @@ describe("AppSearchAPIConnector", () => {
             {
               all: [
                 {
-                  date_made: "yesterday"
+                  title: "Acadia"
+                },
+                {
+                  title: "Grand Canyon"
+                }
+              ]
+            },
+            {
+              all: [
+                {
+                  world_heritage_site: "true"
                 }
               ]
             }
