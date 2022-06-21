@@ -39,7 +39,7 @@ export default async function handleRequest(
 
   const request = Searchkit(searchkitConfig);
 
-  const searchkitVariables = buildRequest(state);
+  const searchkitVariables = buildRequest(state, queryConfig);
 
   const baseFilters = buildBaseFilters(queryConfig.filters);
 
