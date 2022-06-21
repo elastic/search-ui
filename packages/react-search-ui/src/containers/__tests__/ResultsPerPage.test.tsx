@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { ResultsPerPageContainer } from "../ResultsPerPage";
-import { ResultsPerPageViewProps } from "@elastic/react-search-ui-views";
+import type { ResultsPerPageViewProps } from "@elastic/react-search-ui-views";
 
 const params = {
   results: [{}, {}],

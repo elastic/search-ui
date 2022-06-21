@@ -1,4 +1,8 @@
-import { QueryConfig, RequestState, ResponseState } from "@elastic/search-ui";
+import type {
+  QueryConfig,
+  RequestState,
+  ResponseState
+} from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
 import { PostProcessRequestBodyFn } from "../../types";
 import buildConfiguration, { buildBaseFilters } from "./Configuration";

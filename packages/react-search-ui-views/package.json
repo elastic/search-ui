@@ -4,8 +4,9 @@
   "description": "A collection of React UI components for building search experiences",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
+  "main": "lib/cjs/index.js",
+  "types": "lib/esm/index.d.ts",
+  "module": "lib/esm/index.js",
   "sideEffects": [
     "*.css"
   ],
@@ -30,7 +31,7 @@
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "build": "run-s clean build-css build-js",
-    "watch": "npm run clean && run-p watch-css watch-js",
+    "watch": "npm run build && run-p watch-css watch-js",
     "prepare": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

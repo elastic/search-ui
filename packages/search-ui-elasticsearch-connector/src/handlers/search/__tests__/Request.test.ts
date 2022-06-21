@@ -1,4 +1,4 @@
-import { QueryConfig, RequestState } from "@elastic/search-ui";
+import type { QueryConfig, RequestState } from "@elastic/search-ui";
 import SearchRequest, { getFilters } from "../Request";
 import { helpers } from "@elastic/search-ui";
 

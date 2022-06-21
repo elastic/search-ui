@@ -1,7 +1,7 @@
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
-import {
+import type {
   AutocompletedResult,
   AutocompletedSuggestion,
   AutocompleteResult,

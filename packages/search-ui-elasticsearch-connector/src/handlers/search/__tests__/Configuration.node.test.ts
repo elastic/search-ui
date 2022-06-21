@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { QueryConfig, RequestState } from "@elastic/search-ui";
+import type { QueryConfig, RequestState } from "@elastic/search-ui";
 import buildConfiguration from "../Configuration";
 jest.mock("@searchkit/sdk");
 

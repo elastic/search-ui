@@ -1,4 +1,4 @@
-import { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
+import type { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
 import handleRequest from "../index";
 

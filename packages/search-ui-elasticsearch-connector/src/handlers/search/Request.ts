@@ -1,4 +1,4 @@
-import { Filter, QueryConfig, RequestState } from "@elastic/search-ui";
+import type { Filter, QueryConfig, RequestState } from "@elastic/search-ui";
 import { MixedFilter } from "@searchkit/sdk";
 
 export interface SearchkitVariables {

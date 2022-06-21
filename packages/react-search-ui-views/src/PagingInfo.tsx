@@ -1,4 +1,4 @@
-import { SearchContextState } from "@elastic/search-ui";
+import type { SearchContextState } from "@elastic/search-ui";
 import React from "react";
 import { Rename, BaseContainerProps } from "./types";
 
