@@ -4,9 +4,9 @@
   "description": "A Search UI connector for Elastic's Site Search Service",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
-  "types": "./lib/esm/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/esm/index.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
@@ -23,11 +23,11 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "clean": "rimraf es lib",
+    "clean": "rimraf lib",
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "build": "npm run clean && npm run build-js",
-    "watch": "npm run clean && npm run watch-js",
+    "watch": "npm run build && npm run watch-js",
     "prepare": "npm run build"
   },
   "bugs": {

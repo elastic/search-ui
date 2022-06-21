@@ -1,4 +1,4 @@
-import { RequestState } from "@elastic/search-ui";
+import type { RequestState } from "@elastic/search-ui";
 import SearchRequest, { getFilters } from "../Request";
 
 describe("Search - Request", () => {

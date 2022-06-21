@@ -4,7 +4,7 @@ import { SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
 
 import defaultA11yMessages from "./A11yNotifications";
-import { SearchDriverOptions } from "@elastic/search-ui";
+import type { SearchDriverOptions } from "@elastic/search-ui";
 
 export interface SearchProviderContextInterface {
   driver: SearchDriver;

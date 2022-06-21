@@ -1,7 +1,7 @@
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
-import { SearchContextState } from "@elastic/search-ui";
+import type { SearchContextState } from "@elastic/search-ui";
 import { BaseContainerProps } from "./types";
 
 export type ErrorBoundaryContainerContext = Pick<SearchContextState, "error">;

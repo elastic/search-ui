@@ -1,8 +1,8 @@
 import React from "react";
 
 import SearchContext from "./SearchContext";
-import { SearchDriver } from "@elastic/search-ui";
-import { SearchState, SearchDriverActions } from "@elastic/search-ui";
+import type { SearchDriver } from "@elastic/search-ui";
+import type { SearchState, SearchDriverActions } from "@elastic/search-ui";
 
 export type SearchContextState = SearchState & SearchDriverActions;
 
