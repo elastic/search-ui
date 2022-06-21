@@ -420,8 +420,7 @@ class SearchDriver {
 
       const requestId = this.searchRequestSequencer.next();
 
-      const { conditionalFacets: conditionalFacets, ...restOfSearchQuery } =
-        this.searchQuery;
+      const { conditionalFacets, ...restOfSearchQuery } = this.searchQuery;
 
       const queryConfig = {
         ...restOfSearchQuery,
