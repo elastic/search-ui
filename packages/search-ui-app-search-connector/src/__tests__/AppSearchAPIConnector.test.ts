@@ -359,6 +359,11 @@ describe("AppSearchAPIConnector", () => {
             field: "world_heritage_site",
             values: ["true"],
             type: "all" as const
+          },
+          {
+            field: "date_made",
+            values: ["yesterday"],
+            type: "all" as const
           }
         ]
       };
@@ -399,6 +404,9 @@ describe("AppSearchAPIConnector", () => {
                   world_heritage_site: "true"
                 }
               ]
+            },
+            {
+              all: [{ date_made: "yesterday" }]
             }
           ]
         },
