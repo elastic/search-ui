@@ -104,7 +104,7 @@ describe("Search - Request", () => {
       expect(getFilters([filter1], [filter1])).toEqual([]);
     });
 
-    it("bla", () => {
+    it("should exclude the baseFilters and return the only UI filter", () => {
       const baseFilters = [
         {
           field: "test",
