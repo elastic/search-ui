@@ -1,6 +1,8 @@
 import type {
   FieldConfiguration,
   Filter,
+  FilterValue,
+  FilterValueRange,
   QueryConfig,
   RequestState,
   SearchFieldConfiguration
@@ -49,6 +51,15 @@ function isValidDateString(dateString: unknown): boolean {
   return typeof dateString === "string" && !isNaN(Date.parse(dateString));
 }
 
+export function isRangeFilter(
+  filterValue: FilterValue
+): filterValue is FilterValueRange {
+  return (
+    typeof filterValue === "object" &&
+    ("from" in filterValue || "to" in filterValue)
+  );
+}
+
 export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
   const filters = (baseFilters || []).reduce((sum, filter) => {
     const boolType = {
@@ -60,11 +71,23 @@ export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
       ...sum,
       {
         bool: {
-          [boolType]: filter.values.map((value) => ({
-            term: {
-              [filter.field]: value
+          [boolType]: filter.values.map((value: FilterValue) => {
+            if (isRangeFilter(value)) {
+              return {
+                range: {
+                  [filter.field]: {
+                    ...("from" in value ? { from: Number(value.from) } : {}),
+                    ...("to" in value ? { to: Number(value.to) } : {})
+                  }
+                }
+              };
             }
-          }))
+            return {
+              term: {
+                [filter.field]: value
+              }
+            };
+          })
         }
       }
     ];

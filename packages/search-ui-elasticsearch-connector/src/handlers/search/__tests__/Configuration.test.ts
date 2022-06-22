@@ -69,6 +69,17 @@ describe("Search - Configuration", () => {
           field: "attribute_facets.keyword",
           type: "all",
           values: ["Part of Collection", "Access Restriction(s)"]
+        },
+        {
+          field: "rangeFilterExample",
+          type: "all",
+          values: [
+            {
+              from: 0,
+              to: 1000,
+              name: "Small"
+            }
+          ]
         }
       ]
     };
@@ -118,6 +129,20 @@ describe("Search - Configuration", () => {
               Object {
                 "term": Object {
                   "attribute_facets.keyword": "Access Restriction(s)",
+                },
+              },
+            ],
+          },
+        },
+        Object {
+          "bool": Object {
+            "filter": Array [
+              Object {
+                "range": Object {
+                  "rangeFilterExample": Object {
+                    "from": 0,
+                    "to": 1000,
+                  },
                 },
               },
             ],
