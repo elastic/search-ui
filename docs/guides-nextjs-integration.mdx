@@ -1,0 +1,125 @@
+---
+id: guides-nextjs-integration
+slug: /search-ui/guides/nextjs-integration
+title: Elasticsearch Connector with NextJS
+date: 2022-06-22
+tags: ["nextjs", "vercel"]
+---
+
+## Moving the Elasticsearch Search call to the server
+
+We do not advise exposing your Elasticsearch instance to the public. Fortunately with NextJS, we do not need to do this. NextJS makes it very simple to build an API route so we can move the connector to the server side.
+
+To start, we create a connector that will send the `requestState` and `queryConfig` over to the client side.
+
+```js
+// place within <root>/services/APIConnector.js
+
+class APIConnector {
+  constructor() {}
+
+  onResultClick() {
+    // optional. Called when a result has been clicked
+  }
+  onAutocompleteResultClick() {
+    // optional. Called when an autocomplete result has been clicked
+  }
+
+  async onSearch(requestState, queryConfig) {
+    const response = await fetch("/api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        requestState,
+        queryConfig
+      })
+    });
+    return response.json();
+  }
+
+  async onAutocomplete(requestState, queryConfig) {
+    const response = await fetch("api/autocomplete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        requestState,
+        queryConfig
+      })
+    });
+    return response.json();
+  }
+}
+
+export default APIConnector;
+```
+
+then add an `api` folder within `<root>/pages` folder. Add two files, `autocomplete.js` and `search.js`
+
+```js
+// <root>/pages/api/search.js
+import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
+
+const connector = new ElasticsearchAPIConnector({
+  host: "<elasticsearch host>",
+  index: "<elasticsearch index>",
+  apiKey: "<api key>" // optional
+});
+
+export default async function handler(req, res) {
+  const { requestState, queryConfig } = req.body;
+  const response = await connector.onSearch(requestState, queryConfig);
+  res.json(response);
+}
+```
+
+```js
+// <root>/pages/api/autocomplete.js
+import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
+
+const connector = new ElasticsearchAPIConnector({
+  host: "<elasticsearch host>",
+  index: "<elasticsearch index>",
+  apiKey: "<api key>" // optional
+});
+
+export default async function handler(req, res) {
+  const { requestState, queryConfig } = req.body;
+  const response = await connector.onAutocomplete(requestState, queryConfig);
+  res.json(response);
+}
+```
+
+<insert pic here>
+
+then lastly use the connector on the client side to use the APIConnector.
+
+```js
+import Connector from "../services/APIConnector";
+
+const apiConnector = new Connector();
+
+const searchConfig = {
+  apiConnector: apiConnector
+  // ...truncated search configuration
+};
+```
+
+and then restart your nextjs app. What you should see is Search UI will post the `requestState` and `queryConfig` to the `/api/search` & `/api/autocomplete` routes and the Elasticsearch connector on the API route will perform the Elasticsearch query.
+
+Below is an example of this running within codesandbox.
+
+<iframe
+  src="https://codesandbox.io/embed/cool-blackwell-69qutv?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "800px",
+    overflow: "hidden"
+  }}
+  title="nextjs-server-connector-example"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
