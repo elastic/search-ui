@@ -96,6 +96,7 @@ function Autocomplete({
                               index: index - 1,
                               item: suggestion
                             })}
+                            data-transaction-name="query suggestion"
                           >
                             {suggestion.highlight ? (
                               <span

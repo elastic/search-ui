@@ -43,6 +43,7 @@ function SingleLinksFacet({
                 key={getFilterValueDisplay(option.value)}
               >
                 <a
+                  data-transaction-name={`facet - ${label}`}
                   className="sui-single-option-facet__link"
                   href="/"
                   onClick={(e) => {
