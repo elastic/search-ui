@@ -1,5 +1,7 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
-import Searchkit, { SearchkitRequest, SearchkitResponse } from "@searchkit/sdk";
+import Searchkit, { SearchkitConfig, SearchkitResponse } from "@searchkit/sdk";
+import type { SearchkitRequest } from "@searchkit/sdk";
+import type { SearchRequest } from "../../../types";
 import handleRequest from "../index";
 
 const mockSearchkitResponse: SearchkitResponse = {
@@ -63,9 +65,11 @@ jest.mock("@searchkit/sdk", () => {
   return {
     __esModule: true, // Use it when dealing with esModules
     ...originalModule,
-    default: jest.fn((config) => {
+    default: jest.fn((config: SearchkitConfig) => {
       const sk = originalModule.default(config);
-      sk.execute = jest.fn(() => mockSearchkitResponse);
+      sk.execute = jest.fn(() =>
+        config.postProcessRequest(mockSearchkitResponse as SearchRequest)
+      );
       return sk;
     })
   };
@@ -103,16 +107,25 @@ describe("Search results", () => {
         }
       ]
     };
+    const postProcessRequestBodyFn = jest.fn(
+      (body, requestState, queryConfig) => {
+        expect(body).toBeDefined();
+        expect(requestState.searchTerm).toBe("test");
+        return body;
+      }
+    );
     const results = await handleRequest({
       state,
       queryConfig,
       host: "http://localhost:9200",
       index: "test",
+      postProcessRequestBodyFn,
       connectionOptions: {
         apiKey: "test"
       }
     });
 
+    expect(postProcessRequestBodyFn).toHaveBeenCalled();
     const instance: SearchkitRequest = (Searchkit as jest.Mock).mock.results[0]
       .value;
     expect(instance.execute).toBeCalledWith(
@@ -125,6 +138,7 @@ describe("Search results", () => {
         }
       ]
     );
+    expect(postProcessRequestBodyFn).toHaveBeenCalled();
 
     expect(results).toMatchInlineSnapshot(`
       Object {

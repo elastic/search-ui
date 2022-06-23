@@ -15,7 +15,7 @@ import {
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
-import { PostProcessRequestBodyFn } from "../../types";
+import type { PostProcessRequestBodyFn, SearchRequest } from "../../types";
 import { LIB_VERSION } from "../../version";
 
 export function getResultFields(
@@ -195,6 +195,12 @@ function buildConfiguration(
   const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
   const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
 
+  const wrappedPostProcessRequestFn = postProcessRequestBodyFn
+    ? (body: SearchRequest) => {
+        return postProcessRequestBodyFn(body, state, queryConfig);
+      }
+    : null;
+
   const configuration: SearchkitConfig = {
     host: host,
     index: index,
@@ -213,7 +219,7 @@ function buildConfiguration(
     }),
     sortOptions: [sortOption],
     facets,
-    postProcessRequest: postProcessRequestBodyFn
+    postProcessRequest: wrappedPostProcessRequestFn
   };
 
   return configuration;
