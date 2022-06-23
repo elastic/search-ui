@@ -19,6 +19,11 @@ exports[`renders the component with custom page options 1`] = `
   <StateManager
     className="sui-select sui-select--inline"
     classNamePrefix="sui-select"
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     defaultInputValue=""
     defaultMenuIsOpen={false}
     defaultValue={null}
@@ -74,6 +79,11 @@ exports[`renders when it doesn't have any results or a search term 1`] = `
   <StateManager
     className="sui-select sui-select--inline"
     classNamePrefix="sui-select"
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     defaultInputValue=""
     defaultMenuIsOpen={false}
     defaultValue={null}
