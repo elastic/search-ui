@@ -24,6 +24,7 @@ exports[`renders 1`] = `
           <input
             checked={false}
             className="sui-boolean-facet__checkbox"
+            data-transaction-name="facet - A Facet"
             onChange={[Function]}
             type="checkbox"
           />
