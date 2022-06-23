@@ -1,10 +1,14 @@
 import type {
   FieldConfiguration,
+  Filter,
+  FilterValue,
+  FilterValueRange,
   QueryConfig,
   RequestState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
 import {
+  BaseFilters,
   GeoDistanceOptionsFacet,
   MultiMatchQuery,
   MultiQueryOptionsFacet,
@@ -45,6 +49,51 @@ export function getQueryFields(
 
 function isValidDateString(dateString: unknown): boolean {
   return typeof dateString === "string" && !isNaN(Date.parse(dateString));
+}
+
+export function isRangeFilter(
+  filterValue: FilterValue
+): filterValue is FilterValueRange {
+  return (
+    typeof filterValue === "object" &&
+    ("from" in filterValue || "to" in filterValue)
+  );
+}
+
+export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
+  const filters = (baseFilters || []).reduce((sum, filter) => {
+    const boolType = {
+      all: "filter",
+      any: "should",
+      none: "must_not"
+    }[filter.type];
+    return [
+      ...sum,
+      {
+        bool: {
+          [boolType]: filter.values.map((value: FilterValue) => {
+            if (isRangeFilter(value)) {
+              return {
+                range: {
+                  [filter.field]: {
+                    ...("from" in value ? { from: Number(value.from) } : {}),
+                    ...("to" in value ? { to: Number(value.to) } : {})
+                  }
+                }
+              };
+            }
+            return {
+              term: {
+                [filter.field]: value
+              }
+            };
+          })
+        }
+      }
+    ];
+  }, []);
+
+  return filters;
 }
 
 function buildConfiguration(
