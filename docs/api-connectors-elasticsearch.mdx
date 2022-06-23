@@ -224,15 +224,20 @@ const connector = new ElasticsearchAPIConnector(
     index: "national-parks",
     apiKey: "exampleApiKey"
   },
-  (requestBody) => {
+  (requestBody, requestState, queryConfig) => {
     console.log("postProcess requestBody Call", requestBody); // logging out the requestBody before sending to Elasticsearch
-    if (!requestBody.query) return requestBody;
+    if (!requestState.searchTerm) return requestBody;
 
-    const bestMatchQuery = requestBody.query.bool.should[0].multi_match;
+    // transforming the query before sending to Elasticsearch using the requestState and queryConfig
+    const searchFields = queryConfig.searchQuery.search_fields
+
     requestBody.query = {
       multi_match: {
-        query: bestMatchQuery.query,
-        fields: bestMatchQuery.fields
+        query: requestState.query,
+        fields: Object.keys(searchFields).map((fieldName) => {
+          const weight = searchFields[fieldName].weight || 1;
+          return `${fieldName}^${weight}`;
+        }
       }
     };
 

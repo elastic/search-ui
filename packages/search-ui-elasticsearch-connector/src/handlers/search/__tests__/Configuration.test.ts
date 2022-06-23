@@ -187,23 +187,31 @@ describe("Search - Configuration", () => {
         searchTerm: "test"
       };
 
-      const mutateRequestBodyFn = (requestBody: SearchRequest) => {
+      const mutateRequestBodyFn = jest.fn((requestBody: SearchRequest) => {
         return requestBody;
-      };
+      });
 
-      expect(
-        buildConfiguration(
-          state,
-          { ...queryConfig, facets: null },
-          host,
-          index,
-          apiKey,
-          mutateRequestBodyFn
-        )
-      ).toEqual(
-        expect.objectContaining({
-          postProcessRequest: mutateRequestBodyFn
-        })
+      const queryConfigNoFacets = { ...queryConfig, facets: null };
+
+      const postProcessRequestBodyFn = buildConfiguration(
+        state,
+        queryConfigNoFacets,
+        host,
+        index,
+        apiKey,
+        mutateRequestBodyFn
+      ).postProcessRequest;
+
+      expect(postProcessRequestBodyFn).toBeDefined();
+
+      const requestBody: SearchRequest = {
+        query: { match: { title: "test" } }
+      };
+      postProcessRequestBodyFn(requestBody);
+      expect(mutateRequestBodyFn).toHaveBeenCalledWith(
+        requestBody,
+        state,
+        queryConfigNoFacets
       );
     });
 

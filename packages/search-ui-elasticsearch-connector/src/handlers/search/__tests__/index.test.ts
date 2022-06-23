@@ -1,5 +1,6 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
-import { SearchkitResponse } from "@searchkit/sdk";
+import { SearchkitConfig, SearchkitResponse } from "@searchkit/sdk";
+import { SearchRequest } from "../../../types";
 import handleRequest from "../index";
 
 const mockSearchkitResponse: SearchkitResponse = {
@@ -63,9 +64,11 @@ jest.mock("@searchkit/sdk", () => {
   return {
     __esModule: true, // Use it when dealing with esModules
     ...originalModule,
-    default: (config) => {
+    default: (config: SearchkitConfig) => {
       const sk = originalModule.default(config);
-      sk.execute = jest.fn(() => mockSearchkitResponse);
+      sk.execute = jest.fn(() =>
+        config.postProcessRequest(mockSearchkitResponse as SearchRequest)
+      );
       return sk;
     }
   };
@@ -94,15 +97,25 @@ describe("Search results", () => {
       },
       disjunctiveFacets: ["another_field.keyword"]
     };
+    const postProcessRequestBodyFn = jest.fn(
+      (body, requestState, queryConfig) => {
+        expect(body).toBeDefined();
+        expect(requestState.searchTerm).toBe("test");
+        return body;
+      }
+    );
     const results = await handleRequest({
       state,
       queryConfig,
       host: "http://localhost:9200",
       index: "test",
+      postProcessRequestBodyFn,
       connectionOptions: {
         apiKey: "test"
       }
     });
+
+    expect(postProcessRequestBodyFn).toHaveBeenCalled();
 
     expect(results).toMatchInlineSnapshot(`
       Object {
