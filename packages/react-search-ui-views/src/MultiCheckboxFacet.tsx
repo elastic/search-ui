@@ -48,6 +48,7 @@ function MultiCheckboxFacet({
             >
               <div className="sui-multi-checkbox-facet__option-input-wrapper">
                 <input
+                  data-transaction-name={`facet - ${label}`}
                   id={`example_facet_${label}${getFilterValueDisplay(
                     option.value
                   )}`}
