@@ -420,12 +420,7 @@ class SearchDriver {
 
       const requestId = this.searchRequestSequencer.next();
 
-      const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        filters: searchQueryFilters,
-        conditionalFacets: conditionalFacets,
-        ...restOfSearchQuery
-      } = this.searchQuery;
+      const { conditionalFacets, ...restOfSearchQuery } = this.searchQuery;
 
       const queryConfig = {
         ...restOfSearchQuery,
@@ -435,6 +430,7 @@ class SearchDriver {
           filters
         )
       };
+
       const requestState: RequestState = {
         ...filterSearchParameters(this.state),
         filters: mergeFilters(filters, this.searchQuery.filters)
