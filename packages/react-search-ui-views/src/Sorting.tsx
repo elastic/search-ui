@@ -1,6 +1,6 @@
 import type { SearchContextState } from "@elastic/search-ui";
 import React from "react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { BaseContainerProps } from "./types";
 
 import { appendClassName } from "./view-helpers";
@@ -34,6 +34,10 @@ export type SortingContainerProps = BaseContainerProps &
     sortOptions: any;
   };
 
+function Option(props) {
+  return <components.Option {...props}>{props.data.label}</components.Option>;
+}
+
 function Sorting({
   className,
   label,
@@ -59,6 +63,12 @@ function Sorting({
         options={options}
         isSearchable={false}
         styles={setDefaultStyle}
+        components={{
+          Option: (props) => {
+            props.innerProps["data-transaction-name"] = `sorting`;
+            return Option(props);
+          }
+        }}
       />
     </div>
   );

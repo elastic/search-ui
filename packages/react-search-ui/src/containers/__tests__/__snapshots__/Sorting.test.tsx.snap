@@ -9,6 +9,11 @@ exports[`renders when it doesn't have results or a search term 1`] = `
   <StateManager
     className="sui-select"
     classNamePrefix="sui-select"
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     defaultInputValue=""
     defaultMenuIsOpen={false}
     defaultValue={null}
