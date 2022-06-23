@@ -6,8 +6,6 @@ date: 2022-06-22
 tags: ["nextjs", "vercel"]
 ---
 
-## Moving the Elasticsearch Search call to the server
-
 We do not advise exposing your Elasticsearch instance to the public. Fortunately with NextJS, we do not need to do this. NextJS makes it very simple to build an API route so we can move the connector to the server side.
 
 To start, we create a connector that will send the `requestState` and `queryConfig` over to the client side.
@@ -93,9 +91,7 @@ export default async function handler(req, res) {
 }
 ```
 
-then lastly swap the elasticsearch connector to use the APIConnector. With this change, when a user searches for something, the search will be sent to the server and the API routes will fetch the results from Elasticsearch and will be sent back to the client.
-
-````js
+then lastly swap the elasticsearch connector to use the APIConnector. With this change, when a user searches, the search will be sent to the server and the API routes will fetch the results from Elasticsearch and will be sent back to the client.
 
 ```js
 import Connector from "../services/APIConnector";
@@ -106,7 +102,7 @@ const searchConfig = {
   apiConnector: apiConnector
   // ...truncated search configuration
 };
-````
+```
 
 and then restart your nextjs app. To confirm that this is working, you should see network requests within chrome developer tools performing requests with `requestState` and `queryConfig` to the `/api/search` & `/api/autocomplete` API routes and results being returned back to the client.
 
