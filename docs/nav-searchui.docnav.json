@@ -38,7 +38,8 @@
         { "id": "guides-changing-component-behavior" },
         { "id": "guides-analyzing-performance" },
         { "id": "guides-creating-your-own-components" },
-        { "id": "guides-building-a-custom-connector" }
+        { "id": "guides-building-a-custom-connector" },
+        { "id": "guides-nextjs-integration" }
       ]
     },
     {
