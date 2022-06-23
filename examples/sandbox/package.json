@@ -1,5 +1,14 @@
 {
-  "name": "sandbox",
+  "name": "search-ui-examples",
+  "description": "All Elastic Search UI examples in one place",
+  "keywords": [
+    "search",
+    "interface",
+    "ui",
+    "examples",
+    "elastic",
+    "elasticsearch"
+  ],
   "version": "1.12.1",
   "private": true,
   "dependencies": {

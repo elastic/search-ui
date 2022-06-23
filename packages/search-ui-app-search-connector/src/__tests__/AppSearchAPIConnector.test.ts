@@ -359,6 +359,11 @@ describe("AppSearchAPIConnector", () => {
             field: "world_heritage_site",
             values: ["true"],
             type: "all" as const
+          },
+          {
+            field: "date_made",
+            values: ["yesterday"],
+            type: "all" as const
           }
         ]
       };
@@ -386,9 +391,22 @@ describe("AppSearchAPIConnector", () => {
             {
               all: [
                 {
-                  date_made: "yesterday"
+                  title: "Acadia"
+                },
+                {
+                  title: "Grand Canyon"
                 }
               ]
+            },
+            {
+              all: [
+                {
+                  world_heritage_site: "true"
+                }
+              ]
+            },
+            {
+              all: [{ date_made: "yesterday" }]
             }
           ]
         },

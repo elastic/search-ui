@@ -334,9 +334,9 @@ describe("searchQuery config", () => {
       ]);
     });
 
-    it("will remove filters parameter from queryConfig since its merged into state", () => {
+    it("will not remove filters parameter from queryConfig", () => {
       subject();
-      expect(getSearchCalls()[0][1].filters).not.toBeDefined();
+      expect(getSearchCalls()[0][1].filters).toBeDefined();
     });
   });
 });

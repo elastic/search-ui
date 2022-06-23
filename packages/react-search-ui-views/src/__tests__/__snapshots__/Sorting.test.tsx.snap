@@ -7,6 +7,11 @@ exports[`renders correctly when there is a value 1`] = `
   <StateManager
     className="sui-select"
     classNamePrefix="sui-select"
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     defaultInputValue=""
     defaultMenuIsOpen={false}
     defaultValue={null}
@@ -49,6 +54,11 @@ exports[`renders correctly when there is not a value 1`] = `
   <StateManager
     className="sui-select"
     classNamePrefix="sui-select"
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     defaultInputValue=""
     defaultMenuIsOpen={false}
     defaultValue={null}
