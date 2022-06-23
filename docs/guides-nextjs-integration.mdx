@@ -13,7 +13,7 @@ We do not advise exposing your Elasticsearch instance to the public. Fortunately
 To start, we create a connector that will send the `requestState` and `queryConfig` over to the client side.
 
 ```js
-// place within <root>/services/APIConnector.js
+// located in <root>/services/APIConnector.js
 
 class APIConnector {
   constructor() {}
@@ -60,7 +60,7 @@ export default APIConnector;
 then add an `api` folder within `<root>/pages` folder. Add two files, `autocomplete.js` and `search.js`
 
 ```js
-// <root>/pages/api/search.js
+// located in <root>/pages/api/search.js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ElasticsearchAPIConnector({
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
 ```
 
 ```js
-// <root>/pages/api/autocomplete.js
+// located in <root>/pages/api/autocomplete.js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ElasticsearchAPIConnector({
@@ -93,7 +93,9 @@ export default async function handler(req, res) {
 }
 ```
 
-then lastly use the connector on the client side to use the APIConnector.
+then lastly swap the elasticsearch connector to use the APIConnector. With this change, when a user searches for something, the search will be sent to the server and the API routes will fetch the results from Elasticsearch and will be sent back to the client.
+
+````js
 
 ```js
 import Connector from "../services/APIConnector";
@@ -104,9 +106,9 @@ const searchConfig = {
   apiConnector: apiConnector
   // ...truncated search configuration
 };
-```
+````
 
-and then restart your nextjs app. What you should see is Search UI will post the `requestState` and `queryConfig` to the `/api/search` & `/api/autocomplete` routes and the Elasticsearch connector on the API route will perform the Elasticsearch query.
+and then restart your nextjs app. To confirm that this is working, you should see network requests within chrome developer tools performing requests with `requestState` and `queryConfig` to the `/api/search` & `/api/autocomplete` API routes and results being returned back to the client.
 
 Below is an example of this running within codesandbox.
 
