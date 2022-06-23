@@ -62,7 +62,12 @@ function SingleSelectFacet({
       <Select
         className="sui-select"
         classNamePrefix="sui-select"
-        components={{ Option }}
+        components={{
+          Option: (props) => {
+            props.innerProps["data-transaction-name"] = `facet - ${label}`;
+            return Option(props);
+          }
+        }}
         value={selectedSelectBoxOption}
         onChange={(o) => onChange(o.value)}
         options={selectBoxOptions}

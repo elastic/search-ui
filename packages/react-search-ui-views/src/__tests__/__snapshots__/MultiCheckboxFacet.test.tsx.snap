@@ -23,6 +23,7 @@ exports[`renders 1`] = `
         <input
           checked={false}
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A FacetfieldValue1"
           onChange={[Function]}
           type="checkbox"
@@ -50,6 +51,7 @@ exports[`renders 1`] = `
         <input
           checked={true}
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A FacetfieldValue2"
           onChange={[Function]}
           type="checkbox"
@@ -101,6 +103,7 @@ exports[`renders falsey values correctly 1`] = `
         <input
           checked={false}
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A Facet0"
           onChange={[Function]}
           type="checkbox"
@@ -128,6 +131,7 @@ exports[`renders falsey values correctly 1`] = `
         <input
           checked={false}
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A Facetfalse"
           onChange={[Function]}
           type="checkbox"
@@ -155,6 +159,7 @@ exports[`renders falsey values correctly 1`] = `
         <input
           checked={false}
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A Facet"
           onChange={[Function]}
           type="checkbox"
@@ -203,6 +208,7 @@ exports[`renders range filters 1`] = `
       >
         <input
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A FacetThe first option"
           onChange={[Function]}
           type="checkbox"
@@ -229,6 +235,7 @@ exports[`renders range filters 1`] = `
       >
         <input
           className="sui-multi-checkbox-facet__checkbox"
+          data-transaction-name="facet - A Facet"
           id="example_facet_A FacetThe second option"
           onChange={[Function]}
           type="checkbox"
