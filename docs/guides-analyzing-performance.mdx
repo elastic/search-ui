@@ -71,7 +71,7 @@ The setup process consists of three steps:
 ### Adding APM RUM to your application
 
 1. On the same page scroll down and find "RUM (JS)" tab and click it.
-1. Copy the code snippet and paste it into your application. Put it before the `ReactDOM.render()` call, so APM RUM would already be initialized when React starts rendering the application.
+1. Copy the code snippet and paste it into your application. Put it before the react `.render()` call, so APM RUM would already be initialized when React starts rendering the application.
 1. Update the `serviceName` to the name of your application.
 1. Replace the value of `environment` field to `process.env.NODE_ENV` to separate analytics from development and production environments.
 1. Add the APM RUM dependency to your application: `npm install @elastic/apm-rum`.
@@ -79,7 +79,7 @@ The setup process consists of three steps:
 
 ![Server status](images/guides-analyzing-performance/events-request.png)
 
-If you're using Search UI in React application, it's recommended to also use the React integraton of APM RUM. Follow this guide for setting it up: https://www.elastic.co/guide/en/apm/agent/rum-js/current/react-integration.html
+If you're using Search UI in a React application, it's recommended to also use the React integraton of APM RUM for more detailed analysis. Follow this guide for setting it up: https://www.elastic.co/guide/en/apm/agent/rum-js/current/react-integration.html
 
 If you feel stuck, check out this PR as an example of adding APM RUM to a React application: https://github.com/elastic/search-ui/pull/764/files
 
