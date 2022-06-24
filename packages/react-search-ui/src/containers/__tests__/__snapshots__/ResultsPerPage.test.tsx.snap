@@ -16,7 +16,7 @@ exports[`renders the component with custom page options 1`] = `
   >
     Show
   </div>
-  <StateManager
+  <ForwardRef
     className="sui-select sui-select--inline"
     classNamePrefix="sui-select"
     components={
@@ -24,9 +24,6 @@ exports[`renders the component with custom page options 1`] = `
         "Option": [Function],
       }
     }
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
     isSearchable={false}
     onChange={[Function]}
     options={
@@ -76,7 +73,7 @@ exports[`renders when it doesn't have any results or a search term 1`] = `
   >
     Show
   </div>
-  <StateManager
+  <ForwardRef
     className="sui-select sui-select--inline"
     classNamePrefix="sui-select"
     components={
@@ -84,9 +81,6 @@ exports[`renders when it doesn't have any results or a search term 1`] = `
         "Option": [Function],
       }
     }
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
     isSearchable={false}
     onChange={[Function]}
     options={

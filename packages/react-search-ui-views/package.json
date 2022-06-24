@@ -65,6 +65,6 @@
     "@elastic/search-ui": "1.13.0",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
-    "react-select": "^2.4.4"
+    "react-select": "^5.0.0"
   }
 }
