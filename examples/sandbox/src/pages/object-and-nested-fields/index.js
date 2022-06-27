@@ -42,6 +42,7 @@ const config = {
       name: { raw: {} },
       text: { raw: {} },
       subtypes: { raw: {} },
+      manaValue: { raw: {} },
       "purchaseUrls.cardKingdom": { raw: {} }
     }
   }
