@@ -33,6 +33,9 @@ export default function Root() {
         <li>
           <Link to="/search-bar-in-header">Search bar in header</Link>
         </li>
+        <li>
+          <Link to="/object-and-nested-fields">Object and nested fields</Link>
+        </li>
       </ul>
     </>
   );

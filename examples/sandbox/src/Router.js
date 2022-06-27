@@ -9,6 +9,7 @@ import SearchAsYouType from "./pages/search-as-you-type";
 import CustomizingStylesAndHtml from "./pages/customizing-styles-and-html";
 import SearchBarInHeaderIndex from "./pages/search-bar-in-header/index";
 import SearchBarInHeaderSearch from "./pages/search-bar-in-header/search";
+import ObjectAndNestedFields from "./pages/object-and-nested-fields";
 import { ApmRoute } from "@elastic/apm-rum-react";
 
 export default function Router() {
@@ -39,6 +40,11 @@ export default function Router() {
           exact
           path="/search-bar-in-header/search"
           component={SearchBarInHeaderSearch}
+        />
+        <ApmRoute
+          exact
+          path="/object-and-nested-fields"
+          component={ObjectAndNestedFields}
         />
       </Switch>
     </div>
