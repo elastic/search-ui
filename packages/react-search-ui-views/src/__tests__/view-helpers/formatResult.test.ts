@@ -91,4 +91,20 @@ describe("formatResult", () => {
       arrayField: "one,two,three"
     });
   });
+
+  it("formats objects, preferring snippets over raw, and handling arrays", () => {
+    expect(
+      formatResult({
+        objectField: {
+          objectSubField1: { raw: "one" },
+          objectSubField2: { snippet: "two", raw: "two_raw" },
+          objectSubField3: { raw: ["three1", "three2"] }
+        }
+      })
+    ).toEqual({
+      "objectField.objectSubField1": "one",
+      "objectField.objectSubField2": "two",
+      "objectField.objectSubField3": "three1,three2"
+    });
+  });
 });
