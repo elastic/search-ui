@@ -36,21 +36,21 @@ function flattenObjectField(result, field) {
   const object = result[field];
   const flattenedObject = {};
   Object.keys(object).forEach((key) => {
-    flattenedObject[`${field}.${key}`] = getSnippetOrRaw(object[key]);
+    flattenedObject[`${field}.${key}`] = getEscapedField(object[key]);
   });
   return flattenedObject;
 }
 
-function getFieldType(result, field, type) {
-  if (result[field]) return result[field][type];
+function getFieldType(object, type) {
+  if (object) return object[type];
 }
 
-export function getRaw(result, field) {
-  return getFieldType(result, field, "raw");
+export function getRaw(object) {
+  return getFieldType(object, "raw");
 }
 
-function getSnippet(result, field) {
-  return getFieldType(result, field, "snippet");
+function getSnippet(object) {
+  return getFieldType(object, "snippet");
 }
 
 function htmlEscape(str) {
@@ -64,15 +64,10 @@ function htmlEscape(str) {
     .replace(/>/g, "&gt;");
 }
 
-function getSnippetOrRaw(maybeObject) {
-  return maybeObject.snippet || htmlEscape(maybeObject.raw) || maybeObject;
-}
-
-export function getEscapedField(result, field) {
+export function getEscapedField(maybeObject) {
   // Fallback to raw values here, because non-string fields
   // will not have a snippet fallback. Raw values MUST be html escaped.
-  const safeField =
-    getSnippet(result, field) || htmlEscape(getRaw(result, field));
+  const safeField = getSnippet(maybeObject) || htmlEscape(getRaw(maybeObject));
   return Array.isArray(safeField) ? safeField.join(", ") : safeField;
 }
 
@@ -91,7 +86,7 @@ export function getEscapedFields(result) {
     // FieldValueWrapper: "_metaField: {raw: '1939191'}"
     if (!isFieldValueWrapper(result[field])) return acc;
 
-    return { ...acc, [field]: getEscapedField(result, field) };
+    return { ...acc, [field]: getEscapedField(result[field]) };
   }, {});
 }
 

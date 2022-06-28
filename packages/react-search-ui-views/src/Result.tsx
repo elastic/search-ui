@@ -45,12 +45,12 @@ function Result({
   ...rest
 }: ResultViewProps) {
   const fields = getEscapedFields(result);
-  const title = getEscapedField(result, titleField);
-  const url = getUrlSanitizer(URL, location.href)(getRaw(result, urlField));
+  const title = getEscapedField(result[titleField]);
+  const url = getUrlSanitizer(URL, location.href)(getRaw(result[urlField]));
   const thumbnail = getUrlSanitizer(
     URL,
     location.href
-  )(getRaw(result, thumbnailField));
+  )(getRaw(result[thumbnailField]));
 
   return (
     <li className={appendClassName("sui-result", className)} {...rest}>
