@@ -16,7 +16,9 @@ npm install --save @elastic/search-ui-elasticsearch-connector
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ElasticsearchAPIConnector({
-  host: "http://localhost:9200", // host url for the elasticsearch instance
+  cloud: {
+    id: "<elastic-cloud-id>"
+  },
   index: "search-ui-examples", // index name where the search documents are contained
   apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
   // This key will be visible to everyone so ensure its setup with restricted privileges.
@@ -38,11 +40,12 @@ const connector = new ElasticsearchAPIConnector({
 
 **Kind**: global typedef
 
-| Param  | Type                | Default | Description                                                                                                                                    |
-| ------ | ------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| host   | <code>string</code> |         | Url for elasticsearch instance. Can also be found in your cloud dashboard.                                                                     |
-| index  | <code>string</code> |         | Index name for where the search documents are contained in                                                                                     |
-| apiKey | <code>string</code> |         | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
+| Param  | Type                | Default        | Description                                                                                                                                    |
+| ------ | ------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| cloud  | <code>Object</code> | { id: string } | Elastic cloud configuration. Can be found in your cloud deployment dashboard.                                                                  |
+| host   | <code>string</code> |                | Elasticsearch host.                                                                                                                            |
+| index  | <code>string</code> |                | Index name for where the search documents are contained in                                                                                     |
+| apiKey | <code>string</code> |                | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
 
 ## Query Configuration Requirements
 

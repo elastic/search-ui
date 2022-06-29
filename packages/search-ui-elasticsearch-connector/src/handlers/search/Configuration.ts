@@ -15,7 +15,11 @@ import {
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
-import type { PostProcessRequestBodyFn, SearchRequest } from "../../types";
+import type {
+  CloudHost,
+  PostProcessRequestBodyFn,
+  SearchRequest
+} from "../../types";
 import { LIB_VERSION } from "../../version";
 
 export function getResultFields(
@@ -96,14 +100,25 @@ export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
   return filters;
 }
 
-function buildConfiguration(
-  state: RequestState,
-  queryConfig: QueryConfig,
-  host: string,
-  index: string,
-  apiKey: string,
-  postProcessRequestBodyFn?: PostProcessRequestBodyFn
-): SearchkitConfig {
+interface BuildConfigurationOptions {
+  state: RequestState;
+  queryConfig: QueryConfig;
+  cloud?: CloudHost;
+  host?: string;
+  index: string;
+  apiKey: string;
+  postProcessRequestBodyFn?: PostProcessRequestBodyFn;
+}
+
+function buildConfiguration({
+  state,
+  queryConfig,
+  cloud,
+  host,
+  index,
+  apiKey,
+  postProcessRequestBodyFn
+}: BuildConfigurationOptions): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
     queryConfig.result_fields
   );
@@ -203,6 +218,7 @@ function buildConfiguration(
 
   const configuration: SearchkitConfig = {
     host: host,
+    cloud: cloud,
     index: index,
     connectionOptions: {
       apiKey: apiKey,
