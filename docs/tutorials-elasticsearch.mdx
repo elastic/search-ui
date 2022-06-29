@@ -278,15 +278,26 @@ and then update the options to the connector
 
 ```js
 const connector = new ElasticsearchAPIConnector({
-  host: "<my-elasticsearch-host>",
+  cloud: {
+    id: "<my-elastic-cloud-id>"
+  },
   apiKey: "<api-key>",
   index: "my-example-movies"
 });
 ```
 
-If you're using Elastic Cloud, you can find your Elasticsearch host within your deployment's details.
+If you're using Elastic Cloud, you can find your cloud id within your deployment's details.
 
-![copy es endpoint](images/elasticsearch-tutorial/copy-es-endpoint.jpeg)
+![copy es endpoint](images/elasticsearch-tutorial/copy-cloud-id.jpg)
+
+alternatively, if you're using an on-premise Elasticsearch instance, you can connect via specifying the host.
+
+```js
+const connector = new ElasticsearchAPIConnector({
+  host: "http://localhost:9200",
+  index: "my-example-movies"
+});
+```
 
 ## Step 5: Configure Search UI
 

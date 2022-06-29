@@ -7,3 +7,7 @@ export type PostProcessRequestBodyFn = (
   requestState: RequestState,
   queryConfig: QueryConfig
 ) => SearchRequest;
+
+export interface CloudHost {
+  id: string;
+}

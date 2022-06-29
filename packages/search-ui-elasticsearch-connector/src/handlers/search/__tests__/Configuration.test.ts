@@ -216,7 +216,7 @@ describe("Search - Configuration", () => {
       };
 
       expect(
-        buildConfiguration(state, queryConfig, host, index, apiKey)
+        buildConfiguration({ state, queryConfig, host, index, apiKey })
       ).toEqual(
         expect.objectContaining({
           host: "http://localhost:9200",
@@ -263,13 +263,13 @@ describe("Search - Configuration", () => {
       };
 
       expect(
-        buildConfiguration(
+        buildConfiguration({
           state,
-          { ...queryConfig, facets: null },
+          queryConfig: { ...queryConfig, facets: null },
           host,
           index,
           apiKey
-        )
+        })
       ).toEqual(
         expect.objectContaining({
           host: "http://localhost:9200",
@@ -321,14 +321,14 @@ describe("Search - Configuration", () => {
 
       const queryConfigNoFacets = { ...queryConfig, facets: null };
 
-      const postProcessRequestBodyFn = buildConfiguration(
+      const postProcessRequestBodyFn = buildConfiguration({
         state,
-        queryConfigNoFacets,
+        queryConfig: queryConfigNoFacets,
         host,
         index,
         apiKey,
-        mutateRequestBodyFn
-      ).postProcessRequest;
+        postProcessRequestBodyFn: mutateRequestBodyFn
+      }).postProcessRequest;
 
       expect(postProcessRequestBodyFn).toBeDefined();
 
@@ -348,9 +348,9 @@ describe("Search - Configuration", () => {
         searchTerm: "test"
       };
 
-      const configuration = buildConfiguration(
+      const configuration = buildConfiguration({
         state,
-        {
+        queryConfig: {
           ...queryConfig,
           disjunctiveFacets: [
             ...queryConfig.disjunctiveFacets,
@@ -399,7 +399,7 @@ describe("Search - Configuration", () => {
         host,
         index,
         apiKey
-      );
+      });
 
       expect(configuration).toEqual(
         expect.objectContaining({
