@@ -22,7 +22,8 @@ export function fieldResponseMapper(
     {
       id: { raw: item.id },
       _meta: {
-        id: item.rawHit._id
+        id: item.rawHit._id,
+        raw: item.rawHit
       }
     }
   );
