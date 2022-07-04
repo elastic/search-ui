@@ -1,6 +1,17 @@
 {
-  "name": "vue",
-  "version": "0.0.0",
+  "name": "search-ui-vue-example",
+  "description": "Elastic Search UI Vue.js example",
+  "keywords": [
+    "search",
+    "interface",
+    "ui",
+    "example",
+    "elastic",
+    "elasticsearch",
+    "vue"
+  ],
+  "version": "1.14.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
