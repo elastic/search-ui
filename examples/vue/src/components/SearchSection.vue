@@ -122,27 +122,22 @@ export default {
     }
   },
   mounted() {
-    const {
-      searchTerm,
-      sortField,
-      resultsPerPage,
-      filters,
-      facets
-    } = driver.getState();
+    const { searchTerm, sortField, resultsPerPage, filters, facets } =
+      driver.getState();
 
     // restoring UI from url query
     this.searchInputValue = searchTerm;
     this.sortBy = sortField;
     this.resultsPerPage = resultsPerPage;
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       if (facets[filter.field][0].type === "range") {
-        this[filter.field] = filter.values.map(value => value.name);
+        this[filter.field] = filter.values.map((value) => value.name);
       } else {
         this[filter.field] = filter.values;
       }
     });
 
-    driver.subscribeToStateChanges(state => {
+    driver.subscribeToStateChanges((state) => {
       this.searchState = state;
     });
   },
@@ -155,7 +150,7 @@ export default {
       const facetFromDriver = driver.getState().facets[facet][0];
       const valueforApi =
         facetFromDriver.type === "range"
-          ? facetFromDriver.data.find(item => item.value.name === value).value
+          ? facetFromDriver.data.find((item) => item.value.name === value).value
           : value;
 
       if (checked) {
