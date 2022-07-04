@@ -58,13 +58,14 @@
               :results="searchState.results"
             />
           </div>
-          <div class="sui-layout-main-footer">
+          <!-- Disabled since the library doesn't support Vue3 https://github.com/lokyoung/vuejs-paginate/issues/128 -->
+          <!-- <div class="sui-layout-main-footer">
             <SearchPagination
               v-show="thereAreResults"
               :total-pages="Math.min(searchState.totalPages, 100)"
               :click-handler="setCurrentPage"
             />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
