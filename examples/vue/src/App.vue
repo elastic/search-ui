@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style>
-@import "../node_modules/@elastic/react-search-ui-views/lib/styles/styles.css";
+@import "../../../node_modules/@elastic/react-search-ui-views/lib/styles/styles.css";
 
 body {
   margin: 0;
