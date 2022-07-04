@@ -8,24 +8,25 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "vue": "^3.1.0-0",
+    "@vue/compat": "^3.1.0-0",
     "@elastic/react-search-ui-views": "^1.7.0",
     "@elastic/search-ui": "^1.7.0",
     "@elastic/search-ui-app-search-connector": "^1.7.0",
-    "core-js": "^2.6.5",
+    "core-js": "^3.0.0",
     "snakecase-keys": "^3.1.0",
-    "vue": "^2.6.10",
     "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-plugin-eslint": "^3.8.0",
-    "@vue/cli-service": "^3.8.0",
+    "@vue/cli-plugin-babel": "^5.0.0",
+    "@vue/cli-plugin-eslint": "^5.0.0",
+    "@vue/cli-service": "^5.0.0",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.0.0",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.5",
-    "vue-template-compiler": "^2.6.10"
+    "@vue/compiler-sfc": "^3.1.0-0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
