@@ -13,7 +13,7 @@ function isFieldValueWrapper(object) {
 // }
 // And false for objects like this:
 // objectField: { raw: "one" }
-function isObjectField(result, field) {
+function isNestedField(result, field) {
   return (
     result &&
     result[field] &&
@@ -22,23 +22,29 @@ function isObjectField(result, field) {
   );
 }
 
-// Flattens object field like this:
-// objectField: {
-//     objectSubField1: { raw: "one" },
-//     objectSubField2: { raw: "two" }
-// }
-// =>
-// {
-//     "objectField.objectSubField1": "one",
-//     "objectField.objectSubField2": "two"
-// }
-function flattenObjectField(result, field) {
-  const object = result[field];
-  const flattenedObject = {};
-  Object.keys(object).forEach((key) => {
-    flattenedObject[`${field}.${key}`] = getEscapedField(object[key]);
-  });
-  return flattenedObject;
+// Takes any value and if it is nested, removes the
+// wrapper around deepest values (Object with "raw" and/or "snippet" fields)
+// See tests for examples
+export function cleanValueWrappers(value) {
+  if (isFieldValueWrapper(value)) {
+    return getEscapedField(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(cleanValueWrappers);
+  }
+
+  if (typeof value === "object") {
+    return Object.entries(value).reduce(
+      (acc: { [key: string]: any }, [key, value]) => {
+        acc[key] = cleanValueWrappers(value);
+        return acc;
+      },
+      {}
+    );
+  }
+
+  return value;
 }
 
 function getFieldType(object, type) {
@@ -71,10 +77,10 @@ export function getEscapedField(maybeObject) {
   return Array.isArray(safeField) ? safeField.join(", ") : safeField;
 }
 
-export function getEscapedFields(result) {
+export function formatResult(result) {
   return Object.keys(result).reduce((acc, field) => {
-    if (isObjectField(result, field)) {
-      return { ...acc, ...flattenObjectField(result, field) };
+    if (isNestedField(result, field)) {
+      return { ...acc, ...cleanValueWrappers(result[field]) };
     }
 
     // If we receive an arbitrary value from the response, we may not properly
@@ -88,8 +94,4 @@ export function getEscapedFields(result) {
 
     return { ...acc, [field]: getEscapedField(result[field]) };
   }, {});
-}
-
-export function formatResult(result) {
-  return getEscapedFields(result);
 }

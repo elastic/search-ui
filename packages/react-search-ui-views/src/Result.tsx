@@ -3,7 +3,7 @@ import React from "react";
 import {
   appendClassName,
   getUrlSanitizer,
-  getEscapedFields,
+  formatResult,
   getEscapedField,
   getRaw
 } from "./view-helpers";
@@ -44,7 +44,7 @@ function Result({
   thumbnailField,
   ...rest
 }: ResultViewProps) {
-  const fields = getEscapedFields(result);
+  const fields = formatResult(result);
   const title = getEscapedField(result[titleField]);
   const url = getUrlSanitizer(URL, location.href)(getRaw(result[urlField]));
   const thumbnail = getUrlSanitizer(

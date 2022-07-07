@@ -1,9 +1,4 @@
 export { default as getFilterValueDisplay } from "./getFilterValueDisplay";
 export { default as appendClassName } from "./appendClassName";
 export { default as getUrlSanitizer } from "./getUrlSanitizer";
-export {
-  formatResult,
-  getEscapedFields,
-  getEscapedField,
-  getRaw
-} from "./formatResult";
+export { formatResult, getEscapedField, getRaw } from "./formatResult";

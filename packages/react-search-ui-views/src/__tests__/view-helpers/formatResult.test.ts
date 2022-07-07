@@ -1,4 +1,53 @@
 import { formatResult } from "../../view-helpers";
+import { cleanValueWrappers } from "../../view-helpers/formatResult";
+
+it("cleanValueWrappers", () => {
+  // simple values
+  expect(cleanValueWrappers(1)).toEqual(1);
+  expect(cleanValueWrappers("one")).toEqual("one");
+  expect(cleanValueWrappers([1, 2])).toEqual([1, 2]);
+  expect(cleanValueWrappers(["one", "two"])).toEqual(["one", "two"]);
+  expect(cleanValueWrappers({ one: "one", two: "two" })).toEqual({
+    one: "one",
+    two: "two"
+  });
+
+  // values wrapped in raw or snippet
+  expect(cleanValueWrappers({ raw: 1 })).toEqual("1");
+  expect(cleanValueWrappers({ raw: "one" })).toEqual("one");
+  expect(cleanValueWrappers({ raw: "one", snippet: "<em>one</em>" })).toEqual(
+    "<em>one</em>"
+  );
+  expect(cleanValueWrappers({ raw: ["one", "two"] })).toEqual("one,two");
+
+  // objects
+  expect(cleanValueWrappers({ one: { raw: "one" } })).toEqual({ one: "one" });
+  expect(
+    cleanValueWrappers({ one: { raw: "one", snippet: "<em>one</em>" } })
+  ).toEqual({ one: "<em>one</em>" });
+  expect(cleanValueWrappers({ one: { raw: ["one", "two"] } })).toEqual({
+    one: "one,two"
+  });
+
+  // deep objects
+  expect(
+    cleanValueWrappers({ one: { two: { three: { raw: "three" } } } })
+  ).toEqual({ one: { two: { three: "three" } } });
+  expect(
+    cleanValueWrappers({
+      one: { two: { three: { raw: ["three", "four"] } } }
+    })
+  ).toEqual({ one: { two: { three: "three,four" } } });
+
+  // arrays of deep objects
+  expect(
+    cleanValueWrappers({
+      one: [{ two: { raw: "two" } }, { three: { raw: "three" } }]
+    })
+  ).toEqual({
+    one: [{ two: "two" }, { three: "three" }]
+  });
+});
 
 describe("formatResult", () => {
   it("formats strings correctly", () => {
@@ -89,22 +138,6 @@ describe("formatResult", () => {
       })
     ).toEqual({
       arrayField: "one,two,three"
-    });
-  });
-
-  it("formats objects, preferring snippets over raw, and handling arrays", () => {
-    expect(
-      formatResult({
-        objectField: {
-          objectSubField1: { raw: "one" },
-          objectSubField2: { snippet: "two", raw: "two_raw" },
-          objectSubField3: { raw: ["three1", "three2"] }
-        }
-      })
-    ).toEqual({
-      "objectField.objectSubField1": "one",
-      "objectField.objectSubField2": "two",
-      "objectField.objectSubField3": "three1,three2"
     });
   });
 });
