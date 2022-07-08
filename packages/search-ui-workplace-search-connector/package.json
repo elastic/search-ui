@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-workplace-search-connector",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "A Search UI connector for Elastic's Workplace Search Service",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -39,7 +39,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.14.0",
+    "@elastic/search-ui": "1.15.0",
     "query-string": "^7.1.1"
   }
 }
