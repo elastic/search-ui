@@ -9,10 +9,11 @@ import type {
 
 import handleSearchRequest from "./handlers/search";
 import handleAutocompleteRequest from "./handlers/autocomplete";
-import { PostProcessRequestBodyFn } from "./types";
+import { CloudHost, PostProcessRequestBodyFn } from "./types";
 
 type ConnectionOptions = {
-  host: string;
+  host?: string;
+  cloud?: CloudHost;
   index: string;
   apiKey?: string;
 };
@@ -23,7 +24,11 @@ class ElasticsearchAPIConnector implements APIConnector {
   constructor(
     private config: ConnectionOptions,
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
-  ) {}
+  ) {
+    if (!config.host && !config.cloud) {
+      throw new Error("Either host or cloud configuration must be provided");
+    }
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onResultClick(): void {}
@@ -38,6 +43,7 @@ class ElasticsearchAPIConnector implements APIConnector {
     return handleSearchRequest({
       state,
       queryConfig,
+      cloud: this.config.cloud,
       host: this.config.host,
       index: this.config.index,
       connectionOptions: {
@@ -54,6 +60,7 @@ class ElasticsearchAPIConnector implements APIConnector {
     return handleAutocompleteRequest({
       state,
       queryConfig,
+      cloud: this.config.cloud,
       host: this.config.host,
       index: this.config.index,
       connectionOptions: {
