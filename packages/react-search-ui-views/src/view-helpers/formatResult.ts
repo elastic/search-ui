@@ -17,6 +17,7 @@ function isNestedField(result, field) {
   return (
     result &&
     result[field] &&
+    field !== "_meta" &&
     typeof result[field] === "object" &&
     !isFieldValueWrapper(result[field])
   );

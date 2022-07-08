@@ -26,7 +26,7 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 // Local credentials
 const connector = new AppSearchAPIConnector({
   searchKey:
-    process.env.REACT_APP_SEARCH_KEY || "search-cjx6bu2t7dkdeb8sdiht17yx",
+    process.env.REACT_APP_SEARCH_KEY || "search-fatytxewexg3to1yq8m157xw",
   engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "search-magic-cards",
   endpointBase:
     process.env.REACT_APP_SEARCH_ENDPOINT_BASE || "http://localhost:3002"

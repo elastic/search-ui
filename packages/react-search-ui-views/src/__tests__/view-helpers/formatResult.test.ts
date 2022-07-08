@@ -62,6 +62,21 @@ describe("formatResult", () => {
     });
   });
 
+  it("filters out _meta field", () => {
+    expect(
+      formatResult({
+        stringField: { raw: "stringValue" },
+        _meta: {
+          id: "123",
+          engine: "national-parks",
+          score: 1
+        }
+      })
+    ).toEqual({
+      stringField: "stringValue"
+    });
+  });
+
   it("html escapes raw values", () => {
     expect(
       formatResult({
