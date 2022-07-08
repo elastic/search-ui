@@ -85,6 +85,36 @@ describe("formatResult", () => {
     ).toEqual({
       stringField: `&amp; &quot; &#39; &lt; &gt;`
     });
+
+    expect(
+      formatResult({
+        nestedField: {
+          one: {
+            two: {
+              three: { raw: `<em>three - "quotes" - 'quotes'</em>` }
+            }
+          }
+        }
+      })
+    ).toEqual({
+      nestedField:
+        '{"one":{"two":{"three":"&lt;em&gt;three - &quot;quotes&quot; - &#39;quotes&#39;&lt;/em&gt;"}}}'
+    });
+
+    expect(
+      formatResult({
+        nestedField: {
+          one: {
+            two: {
+              three: { raw: [`three`, `<em>"quotes" - 'quotes'</em>`] }
+            }
+          }
+        }
+      })
+    ).toEqual({
+      nestedField:
+        '{"one":{"two":{"three":"three,&lt;em&gt;&quot;quotes&quot; - &#39;quotes&#39;&lt;/em&gt;"}}}'
+    });
   });
 
   it("doesnt html escape snippet values", () => {
