@@ -22,10 +22,10 @@ function isNestedField(result, field) {
   );
 }
 
-// Takes any value and if it is nested, removes the
-// wrapper around deepest values (Object with "raw" and/or "snippet" fields)
+// Takes any value and removes the wrapper around deepest values
+// (removes the wrapper Object with "raw" and/or "snippet" fields)
 // See tests for examples
-export function cleanValueWrappers(value) {
+function cleanValueWrappers(value) {
   if (isFieldValueWrapper(value)) {
     return getEscapedField(value);
   }
@@ -35,13 +35,10 @@ export function cleanValueWrappers(value) {
   }
 
   if (typeof value === "object") {
-    return Object.entries(value).reduce(
-      (acc: { [key: string]: any }, [key, value]) => {
-        acc[key] = cleanValueWrappers(value);
-        return acc;
-      },
-      {}
-    );
+    return Object.entries(value).reduce((acc, [key, value]) => {
+      acc[key] = cleanValueWrappers(value);
+      return acc;
+    }, {});
   }
 
   return value;
@@ -80,7 +77,7 @@ export function getEscapedField(maybeObject) {
 export function formatResult(result) {
   return Object.keys(result).reduce((acc, field) => {
     if (isNestedField(result, field)) {
-      return { ...acc, ...cleanValueWrappers(result[field]) };
+      return { ...acc, [field]: cleanValueWrappers(result[field]) };
     }
 
     // If we receive an arbitrary value from the response, we may not properly
