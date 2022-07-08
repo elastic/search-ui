@@ -27,7 +27,8 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 const connector = new AppSearchAPIConnector({
   searchKey:
     process.env.REACT_APP_SEARCH_KEY || "search-fatytxewexg3to1yq8m157xw",
-  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "search-magic-cards",
+  engineName:
+    process.env.REACT_APP_SEARCH_ENGINE_NAME || "search-nested-fields",
   endpointBase:
     process.env.REACT_APP_SEARCH_ENDPOINT_BASE || "http://localhost:3002"
 });
@@ -37,17 +38,7 @@ const config = {
   alwaysSearchOnInitialLoad: true,
   apiConnector: connector,
   hasA11yNotifications: true,
-  searchQuery: {
-    result_fields: {
-      name: { raw: {} },
-      text: { raw: {} },
-      subtypes: { raw: {} },
-      manaValue: { raw: {} },
-      "rulings.date": { raw: {} },
-      "rulings.text": { raw: {} },
-      "purchaseUrls.cardKingdom": { raw: {} }
-    }
-  }
+  searchQuery: {}
 };
 
 export default function App() {

@@ -108,35 +108,25 @@ describe("formatResult", () => {
   });
 
   it("formats nested fields correctly", () => {
-    // objects
-    expect(formatResult({ one: { raw: "one" } })).toEqual({ one: "one" });
-    expect(
-      formatResult({ one: { raw: "one", snippet: "<em>one</em>" } })
-    ).toEqual({ one: "<em>one</em>" });
-    expect(formatResult({ one: { raw: ["one", "two"] } })).toEqual({
-      one: "one,two"
-    });
-
-    // deep objects
     expect(formatResult({ one: { two: { raw: "two" } } })).toEqual({
-      one: { two: "two" }
+      one: '{"two":"two"}'
     });
     expect(formatResult({ one: { two: { three: { raw: "three" } } } })).toEqual(
-      { one: { two: { three: "three" } } }
+      {
+        one: '{"two":{"three":"three"}}'
+      }
     );
     expect(
       formatResult({
         one: { two: { three: { raw: ["three", "four"] } } }
       })
-    ).toEqual({ one: { two: { three: "three,four" } } });
-
-    // // arrays of deep objects
+    ).toEqual({ one: '{"two":{"three":"three,four"}}' });
     expect(
       formatResult({
         one: [{ two: { raw: "two" } }, { three: { raw: "three" } }]
       })
     ).toEqual({
-      one: [{ two: "two" }, { three: "three" }]
+      one: '[{"two":"two"},{"three":"three"}]'
     });
   });
 });

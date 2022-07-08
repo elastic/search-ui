@@ -78,7 +78,10 @@ export function getEscapedField(maybeObject) {
 export function formatResult(result) {
   return Object.keys(result).reduce((acc, field) => {
     if (isNestedField(result, field)) {
-      return { ...acc, [field]: cleanValueWrappers(result[field]) };
+      return {
+        ...acc,
+        [field]: JSON.stringify(cleanValueWrappers(result[field]))
+      };
     }
 
     // If we receive an arbitrary value from the response, we may not properly
