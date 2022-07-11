@@ -14,8 +14,7 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch,
-  withSearch
+  WithSearch
 } from "@elastic/react-search-ui";
 import {
   BooleanFacet,
@@ -260,6 +259,11 @@ export default function App() {
                         field="world_heritage_site.keyword"
                         label="World Heritage Site"
                         view={BooleanFacet}
+                      />
+                      <Facet
+                        field="visitors"
+                        label="Visitors"
+                        view={SingleLinksFacet}
                       />
                       <Facet
                         field="date_established"
