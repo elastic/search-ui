@@ -1,4 +1,4 @@
-import type {
+import {
   FieldConfiguration,
   Filter,
   FilterValue,
@@ -8,7 +8,9 @@ import type {
   SearchFieldConfiguration
 } from "@elastic/search-ui";
 import {
+  BaseFilter,
   BaseFilters,
+  Filter as SKFilter,
   GeoDistanceOptionsFacet,
   MultiMatchQuery,
   MultiQueryOptionsFacet,
@@ -51,7 +53,7 @@ export function getQueryFields(
   });
 }
 
-function isValidDateString(dateString: unknown): boolean {
+export function isValidDateString(dateString: unknown): boolean {
   return typeof dateString === "string" && !isNaN(Date.parse(dateString));
 }
 
@@ -80,8 +82,20 @@ export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
               return {
                 range: {
                   [filter.field]: {
-                    ...("from" in value ? { from: Number(value.from) } : {}),
-                    ...("to" in value ? { to: Number(value.to) } : {})
+                    ...("from" in value
+                      ? {
+                          from: isValidDateString(value.from)
+                            ? value.from
+                            : Number(value.from)
+                        }
+                      : {}),
+                    ...("to" in value
+                      ? {
+                          to: isValidDateString(value.to)
+                            ? value.to
+                            : Number(value.to)
+                        }
+                      : {})
                   }
                 }
               };
@@ -124,6 +138,21 @@ function buildConfiguration({
   );
 
   const queryFields = getQueryFields(queryConfig.search_fields);
+
+  const filtersConfig: BaseFilter[] = Object.values(
+    (state.filters || [])
+      .filter((f) => !queryConfig.facets[f.field]) //exclude all filters that are defined as facets
+      .reduce((sum, f) => {
+        return {
+          ...sum,
+          [f.field]: new SKFilter({
+            field: f.field,
+            identifier: f.field,
+            label: f.field
+          })
+        };
+      }, {})
+  );
 
   const facets = Object.keys(queryConfig.facets || {}).reduce(
     (sum, facetKey) => {
@@ -235,6 +264,7 @@ function buildConfiguration({
     }),
     sortOptions: [sortOption],
     facets,
+    filters: filtersConfig,
     postProcessRequest: wrappedPostProcessRequestFn
   };
 
