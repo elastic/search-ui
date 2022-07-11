@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-app-search-connector",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "A Search UI connector for Elastic's App Search Service",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -39,6 +39,6 @@
   },
   "dependencies": {
     "@elastic/app-search-javascript": "^8.1.2",
-    "@elastic/search-ui": "1.14.0"
+    "@elastic/search-ui": "1.15.0"
   }
 }
