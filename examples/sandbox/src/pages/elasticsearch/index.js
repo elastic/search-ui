@@ -100,37 +100,37 @@ const config = {
           { from: 100, to: 500, name: "A longer drive" },
           { from: 500, name: "Perhaps fly?" }
         ]
+      },
+      date_established: {
+        type: "range",
+        ranges: [
+          {
+            from: moment().subtract(50, "years").toISOString(),
+            name: "Within the last 50 years"
+          },
+          {
+            from: moment().subtract(100, "years").toISOString(),
+            to: moment().subtract(50, "years").toISOString(),
+            name: "50 - 100 years ago"
+          },
+          {
+            to: moment().subtract(100, "years").toISOString(),
+            name: "More than 100 years ago"
+          }
+        ]
+      },
+      visitors: {
+        type: "range",
+        ranges: [
+          { from: 0, to: 10000, name: "0 - 10000" },
+          { from: 10001, to: 100000, name: "10001 - 100000" },
+          { from: 100001, to: 500000, name: "100001 - 500000" },
+          { from: 500001, to: 1000000, name: "500001 - 1000000" },
+          { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
+          { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
+          { from: 10000001, name: "10000001+" }
+        ]
       }
-      // date_established: {
-      //   type: "range",
-      //   ranges: [
-      //     {
-      //       from: moment().subtract(50, "years").toISOString(),
-      //       name: "Within the last 50 years"
-      //     },
-      //     {
-      //       from: moment().subtract(100, "years").toISOString(),
-      //       to: moment().subtract(50, "years").toISOString(),
-      //       name: "50 - 100 years ago"
-      //     },
-      //     {
-      //       to: moment().subtract(100, "years").toISOString(),
-      //       name: "More than 100 years ago"
-      //     }
-      //   ]
-      // }
-      // visitors: {
-      //   type: "range",
-      //   ranges: [
-      //     { from: 0, to: 10000, name: "0 - 10000" },
-      //     { from: 10001, to: 100000, name: "10001 - 100000" },
-      //     { from: 100001, to: 500000, name: "100001 - 500000" },
-      //     { from: 500001, to: 1000000, name: "500001 - 1000000" },
-      //     { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
-      //     { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
-      //     { from: 10000001, name: "10000001+" }
-      //   ]
-      // }
     }
   },
   autocompleteQuery: {
@@ -217,28 +217,6 @@ const SORT_OPTIONS = [
   }
 ];
 
-function Inner({ filters, setFilter }) {
-  return (
-    <div>
-      <button
-        onClick={() =>
-          setFilter("date_established", {
-            from: moment().subtract(50, "years").toISOString(),
-            name: "x"
-          })
-        }
-      >
-        Clear {filters.length} Filters
-      </button>
-    </div>
-  );
-}
-
-const CustomFilter = withSearch(({ filters, setFilter }) => ({
-  filters,
-  setFilter
-}))(Inner);
-
 export default function App() {
   return (
     <SearchProvider config={config}>
@@ -293,7 +271,6 @@ export default function App() {
                         label="Distance"
                         filterType="any"
                       />
-                      <CustomFilter />
                       <Facet field="visitors" label="visitors" />
                       <Facet
                         field="acres"
