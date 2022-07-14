@@ -2,7 +2,7 @@ import React from "react";
 
 import { appendClassName, getFilterValueDisplay } from "./view-helpers";
 import { FacetViewProps } from "./types";
-import { FieldValue } from "@elastic/search-ui";
+import type { FieldValue } from "@elastic/search-ui";
 
 function MultiCheckboxFacet({
   className,
@@ -48,6 +48,7 @@ function MultiCheckboxFacet({
             >
               <div className="sui-multi-checkbox-facet__option-input-wrapper">
                 <input
+                  data-transaction-name={`facet - ${label}`}
                   id={`example_facet_${label}${getFilterValueDisplay(
                     option.value
                   )}`}

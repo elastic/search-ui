@@ -1,17 +1,25 @@
-import {
+import type {
   FieldConfiguration,
+  Filter,
+  FilterValue,
+  FilterValueRange,
   QueryConfig,
   RequestState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
 import {
+  BaseFilters,
   GeoDistanceOptionsFacet,
   MultiMatchQuery,
   MultiQueryOptionsFacet,
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
-import { PostProcessRequestBodyFn } from "../../types";
+import type {
+  CloudHost,
+  PostProcessRequestBodyFn,
+  SearchRequest
+} from "../../types";
 import { LIB_VERSION } from "../../version";
 
 export function getResultFields(
@@ -47,14 +55,70 @@ function isValidDateString(dateString: unknown): boolean {
   return typeof dateString === "string" && !isNaN(Date.parse(dateString));
 }
 
-function buildConfiguration(
-  state: RequestState,
-  queryConfig: QueryConfig,
-  host: string,
-  index: string,
-  apiKey: string,
-  postProcessRequestBodyFn?: PostProcessRequestBodyFn
-): SearchkitConfig {
+export function isRangeFilter(
+  filterValue: FilterValue
+): filterValue is FilterValueRange {
+  return (
+    typeof filterValue === "object" &&
+    ("from" in filterValue || "to" in filterValue)
+  );
+}
+
+export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
+  const filters = (baseFilters || []).reduce((sum, filter) => {
+    const boolType = {
+      all: "filter",
+      any: "should",
+      none: "must_not"
+    }[filter.type];
+    return [
+      ...sum,
+      {
+        bool: {
+          [boolType]: filter.values.map((value: FilterValue) => {
+            if (isRangeFilter(value)) {
+              return {
+                range: {
+                  [filter.field]: {
+                    ...("from" in value ? { from: Number(value.from) } : {}),
+                    ...("to" in value ? { to: Number(value.to) } : {})
+                  }
+                }
+              };
+            }
+            return {
+              term: {
+                [filter.field]: value
+              }
+            };
+          })
+        }
+      }
+    ];
+  }, []);
+
+  return filters;
+}
+
+interface BuildConfigurationOptions {
+  state: RequestState;
+  queryConfig: QueryConfig;
+  cloud?: CloudHost;
+  host?: string;
+  index: string;
+  apiKey: string;
+  postProcessRequestBodyFn?: PostProcessRequestBodyFn;
+}
+
+function buildConfiguration({
+  state,
+  queryConfig,
+  cloud,
+  host,
+  index,
+  apiKey,
+  postProcessRequestBodyFn
+}: BuildConfigurationOptions): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
     queryConfig.result_fields
   );
@@ -146,8 +210,15 @@ function buildConfiguration(
   const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
   const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
 
+  const wrappedPostProcessRequestFn = postProcessRequestBodyFn
+    ? (body: SearchRequest) => {
+        return postProcessRequestBodyFn(body, state, queryConfig);
+      }
+    : null;
+
   const configuration: SearchkitConfig = {
     host: host,
+    cloud: cloud,
     index: index,
     connectionOptions: {
       apiKey: apiKey,
@@ -164,7 +235,7 @@ function buildConfiguration(
     }),
     sortOptions: [sortOption],
     facets,
-    postProcessRequest: postProcessRequestBodyFn
+    postProcessRequest: wrappedPostProcessRequestFn
   };
 
   return configuration;

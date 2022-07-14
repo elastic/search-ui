@@ -3,7 +3,7 @@ import { FacetViewProps } from "./types";
 
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
-import { FieldValue } from "@elastic/search-ui";
+import type { FieldValue } from "@elastic/search-ui";
 
 function SingleLinksFacet({
   className,
@@ -43,6 +43,7 @@ function SingleLinksFacet({
                 key={getFilterValueDisplay(option.value)}
               >
                 <a
+                  data-transaction-name={`facet - ${label}`}
                   className="sui-single-option-facet__link"
                   href="/"
                   onClick={(e) => {

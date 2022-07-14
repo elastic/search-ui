@@ -1,11 +1,11 @@
 {
   "name": "@elastic/search-ui",
-  "version": "1.12.1",
+  "version": "1.15.0",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
-  "types": "./lib/esm/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/esm/index.d.ts",
   "sideEffects": false,
   "homepage": "https://docs.elastic.co/search-ui",
   "directories": {
@@ -27,7 +27,7 @@
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "build": "npm run clean && npm run build-js",
-    "watch": "npm run clean && npm run watch-js",
+    "watch": "npm run build && npm run watch-js",
     "prepare": "npm run build"
   },
   "bugs": {

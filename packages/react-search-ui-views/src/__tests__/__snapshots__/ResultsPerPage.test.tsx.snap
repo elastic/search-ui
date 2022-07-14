@@ -9,12 +9,14 @@ exports[`renders correctly when there is a selected value 1`] = `
   >
     Show
   </div>
-  <StateManager
+  <ForwardRef
     className="sui-select sui-select--inline"
     classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     isSearchable={false}
     onChange={[Function]}
     options={
@@ -58,12 +60,14 @@ exports[`renders correctly when there is not a selected value 1`] = `
   >
     Show
   </div>
-  <StateManager
+  <ForwardRef
     className="sui-select sui-select--inline"
     classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     isSearchable={false}
     onChange={[Function]}
     options={

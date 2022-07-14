@@ -15,10 +15,16 @@ Search UI provides a way to connect to Elasticsearch directly without needing En
 
 The connector uses the same Search UI configuration that other connectors use.
 
+You must specify either the cloud id or on-premise host url for the Elasticsearch connector.
+
 ```js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ElasticsearchAPIConnector({
+  // Either specify the cloud id or host to connect to elasticsearch
+  cloud: {
+    id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
+  },
   host: "http://localhost:9200", // host url for the Elasticsearch instance
   index: "<index-name>", // index name where the search documents are contained
   apiKey: "<api-key>" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
@@ -29,7 +35,8 @@ const connector = new ElasticsearchAPIConnector({
 
 | Param  | Description                                                                                                                       |
 | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| host   | Required. String type. The host url to the Elasticsearch instance                                                                 |
+| cloud  | Required if `host` not provided. Object type. The cloud id for the deployment within elastic cloud.                               |
+| host   | Required if `cloud` not provided. String type. The host url to the Elasticsearch instance                                         |
 | index  | Required. String type. The search index name                                                                                      |
 | apiKey | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#connection-&-authentication) |
 
@@ -224,15 +231,20 @@ const connector = new ElasticsearchAPIConnector(
     index: "national-parks",
     apiKey: "exampleApiKey"
   },
-  (requestBody) => {
+  (requestBody, requestState, queryConfig) => {
     console.log("postProcess requestBody Call", requestBody); // logging out the requestBody before sending to Elasticsearch
-    if (!requestBody.query) return requestBody;
+    if (!requestState.searchTerm) return requestBody;
 
-    const bestMatchQuery = requestBody.query.bool.should[0].multi_match;
+    // transforming the query before sending to Elasticsearch using the requestState and queryConfig
+    const searchFields = queryConfig.searchQuery.search_fields
+
     requestBody.query = {
       multi_match: {
-        query: bestMatchQuery.query,
-        fields: bestMatchQuery.fields
+        query: requestState.searchTerm,
+        fields: Object.keys(searchFields).map((fieldName) => {
+          const weight = searchFields[fieldName].weight || 1;
+          return `${fieldName}^${weight}`;
+        }
       }
     };
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { appendClassName } from "./view-helpers";
-import {
+import type {
   AutocompletedResult,
   AutocompletedSuggestion,
   AutocompleteResult,
@@ -96,6 +96,7 @@ function Autocomplete({
                               index: index - 1,
                               item: suggestion
                             })}
+                            data-transaction-name="query suggestion"
                           >
                             {suggestion.highlight ? (
                               <span

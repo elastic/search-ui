@@ -1,4 +1,4 @@
-import { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
+import type { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
 import handleRequest from "../index";
 
@@ -40,39 +40,40 @@ jest.mock("@searchkit/sdk", () => {
   };
 });
 
-describe("Autocomplete results", () => {
-  it("success", async () => {
-    const state: RequestState = {
-      searchTerm: "test"
-    };
-    const queryConfig: AutocompleteQueryConfig = {
-      results: {
-        resultsPerPage: 5,
-        search_fields: {
-          title: {
-            weight: 2
-          }
-        },
-        result_fields: {
-          title: {
-            snippet: {
-              size: 100,
-              fallback: true
-            }
-          },
-          nps_link: {
-            raw: {}
-          }
+const state: RequestState = {
+  searchTerm: "test"
+};
+const queryConfig: AutocompleteQueryConfig = {
+  results: {
+    resultsPerPage: 5,
+    search_fields: {
+      title: {
+        weight: 2
+      }
+    },
+    result_fields: {
+      title: {
+        snippet: {
+          size: 100,
+          fallback: true
         }
       },
-      suggestions: {
-        types: {
-          results: {
-            fields: ["title"]
-          }
-        }
+      nps_link: {
+        raw: {}
       }
-    };
+    }
+  },
+  suggestions: {
+    types: {
+      results: {
+        fields: ["title"]
+      }
+    }
+  }
+};
+
+describe("Autocomplete results", () => {
+  it("success", async () => {
     const results = await handleRequest({
       state,
       queryConfig,
@@ -118,5 +119,29 @@ describe("Autocomplete results", () => {
         },
       }
     `);
+  });
+
+  it("should pass cloud configuration to searchkit", async () => {
+    (Searchkit as jest.Mock).mockClear();
+    const results = await handleRequest({
+      state,
+      queryConfig,
+      cloud: {
+        id: "cloudId"
+      },
+      index: "test",
+      connectionOptions: {
+        apiKey: "test"
+      }
+    });
+
+    const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
+      .value;
+
+    expect(searchkitRequestInstance.config.cloud).toEqual({
+      id: "cloudId"
+    });
+
+    expect(searchkitRequestInstance.config.host).toBeUndefined();
   });
 });

@@ -6,12 +6,14 @@ exports[`renders when it doesn't have results or a search term 1`] = `
   results={Array []}
   searchTerm=""
 >
-  <StateManager
+  <ForwardRef
     className="sui-select"
     classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     isSearchable={false}
     onChange={[Function]}
     options={
