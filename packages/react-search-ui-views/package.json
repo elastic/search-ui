@@ -1,11 +1,12 @@
 {
   "name": "@elastic/react-search-ui-views",
-  "version": "1.12.0",
+  "version": "1.15.0",
   "description": "A collection of React UI components for building search experiences",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs",
-  "module": "lib/esm",
+  "main": "lib/cjs/index.js",
+  "types": "lib/esm/index.d.ts",
+  "module": "lib/esm/index.js",
   "sideEffects": [
     "*.css"
   ],
@@ -30,7 +31,7 @@
     "watch-js": "./bin/watch-js",
     "build-js": "./bin/build-js",
     "build": "run-s clean build-css build-js",
-    "watch": "npm run clean && run-p watch-css watch-js",
+    "watch": "npm run build && run-p watch-css watch-js",
     "prepare": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -61,9 +62,9 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.12.0",
+    "@elastic/search-ui": "1.15.0",
     "downshift": "^3.2.10",
     "rc-pagination": "^1.20.1",
-    "react-select": "^2.4.4"
+    "react-select": "^5.0.0"
   }
 }

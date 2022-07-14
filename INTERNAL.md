@@ -35,8 +35,7 @@ We will create branches for all minor releases.
 1. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
-1. If this is the latest release, update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
-1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/stable/examples/sandbox
+1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox
 
 ## Publish a patch
 
@@ -52,8 +51,7 @@ We will create branches for all minor releases.
 1. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
-1. If this is the latest release, update the `stable` branch to this version `git checkout stable && git merge --ff-only master && git push origin`.
-1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/stable/examples/sandbox
+1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox
 
 ## Canary releases for testing
 
@@ -90,6 +88,6 @@ stacks:
 - https://codesandbox.io/s/search-ui-next-js-example-tb05u
 - https://codesandbox.io/s/search-ui-national-parks-example-kdyms
 
-## Stable demo
+## Demo (uses code from master branch)
 
-- https://codesandbox.io/s/github/elastic/search-ui/tree/stable/examples/sandbox
+- https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox

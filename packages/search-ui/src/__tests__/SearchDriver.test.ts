@@ -170,12 +170,31 @@ it("will not sync initial state to the URL if trackURLState is set to false", ()
 });
 
 describe("searchQuery config", () => {
+  function FilterIsSelected(fieldName: string, value?: string) {
+    return ({ filters }) => {
+      return filters.some(
+        (f) => f.field === fieldName && (!value || f.values.includes(value))
+      );
+    };
+  }
+
+  function FilterNotSelected(fieldName: string, value?: string) {
+    return ({ filters }) => {
+      return !filters.some(
+        (f) => f.field === fieldName && (!value || f.values.includes(value))
+      );
+    };
+  }
+
   describe("conditional facets", () => {
     function subject(conditional) {
       const driver = new SearchDriver({
         ...params,
         initialState: {
-          filters: [{ field: "initial", values: ["value"], type: "all" }],
+          filters: [
+            { field: "initial", values: ["value"], type: "all" },
+            { field: "conditional", values: ["value"], type: "all" }
+          ],
           searchTerm: "test"
         },
         searchQuery: {
@@ -196,7 +215,9 @@ describe("searchQuery config", () => {
     }
 
     it("will fetch a conditional facet that passes its check", () => {
-      subject((filters) => !!filters);
+      subject(FilterNotSelected("initial"));
+
+      expect(getSearchCalls()[0][1].facets).toEqual({});
 
       // 'initial' WAS included in request to server
       expect(getSearchCalls()[1][1].facets).toEqual({
@@ -207,7 +228,7 @@ describe("searchQuery config", () => {
     });
 
     it("will not pass through `conditionalFacets` prop to connector", () => {
-      subject((filters) => !!filters);
+      subject(FilterNotSelected("initial"));
 
       expect(Object.keys(getSearchCalls()[1][1])).not.toContain(
         "conditionalFacets"
@@ -215,7 +236,7 @@ describe("searchQuery config", () => {
     });
 
     it("will not fetch a conditional facet that fails its check", () => {
-      subject((filters) => !filters);
+      subject(FilterIsSelected("initial"));
 
       // 'initial' was NOT included in request to server
       expect(getSearchCalls()[1][1].facets).toEqual({});
@@ -313,9 +334,9 @@ describe("searchQuery config", () => {
       ]);
     });
 
-    it("will remove filters parameter from queryConfig since its merged into state", () => {
+    it("will not remove filters parameter from queryConfig", () => {
       subject();
-      expect(getSearchCalls()[0][1].filters).not.toBeDefined();
+      expect(getSearchCalls()[0][1].filters).toBeDefined();
     });
   });
 });

@@ -4,12 +4,14 @@ exports[`renders correctly when there is a value 1`] = `
 <div
   className="sui-sorting"
 >
-  <StateManager
+  <ForwardRef
     className="sui-select"
     classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     isSearchable={false}
     onChange={[Function]}
     options={
@@ -46,12 +48,14 @@ exports[`renders correctly when there is not a value 1`] = `
 <div
   className="sui-sorting"
 >
-  <StateManager
+  <ForwardRef
     className="sui-select"
     classNamePrefix="sui-select"
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
-    defaultValue={null}
+    components={
+      Object {
+        "Option": [Function],
+      }
+    }
     isSearchable={false}
     onChange={[Function]}
     options={

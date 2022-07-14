@@ -1,5 +1,6 @@
-import { RequestState } from "@elastic/search-ui";
+import type { QueryConfig, RequestState } from "@elastic/search-ui";
 import SearchRequest, { getFilters } from "../Request";
+import { helpers } from "@elastic/search-ui";
 
 describe("Search - Request", () => {
   const requestState: RequestState = {
@@ -16,8 +17,10 @@ describe("Search - Request", () => {
     ]
   };
 
+  const queryConfig: QueryConfig = {};
+
   it("should transform SearchUI RequestState into Searchkit State", () => {
-    expect(SearchRequest(requestState)).toEqual({
+    expect(SearchRequest(requestState, queryConfig)).toEqual({
       query: "test",
       filters: [
         {
@@ -37,20 +40,26 @@ describe("Search - Request", () => {
 
   it("sort should be null when no sort option selected", () => {
     expect(
-      SearchRequest({
-        ...requestState,
-        sortList: []
-      }).sort
+      SearchRequest(
+        {
+          ...requestState,
+          sortList: []
+        },
+        queryConfig
+      ).sort
     ).toBeNull();
   });
 
   it("page from should be adjusted on second page", () => {
     expect(
-      SearchRequest({
-        ...requestState,
-        resultsPerPage: 100,
-        current: 2 // second page
-      })
+      SearchRequest(
+        {
+          ...requestState,
+          resultsPerPage: 100,
+          current: 2 // second page
+        },
+        queryConfig
+      )
     ).toEqual(
       expect.objectContaining({
         from: 100,
@@ -82,6 +91,43 @@ describe("Search - Request", () => {
           identifier: "test",
           value: "test2"
         }
+      ]);
+    });
+
+    it("should return no searchkit filters when filter is part of basefilter", () => {
+      const filter1 = {
+        field: "test",
+        values: ["test", "test2"],
+        type: "any" as const
+      };
+
+      expect(getFilters([filter1], [filter1])).toEqual([]);
+    });
+
+    it("should exclude the baseFilters and return the only UI filter", () => {
+      const baseFilters = [
+        {
+          field: "test",
+          values: ["test", "test2"],
+          type: "any" as const
+        }
+      ];
+
+      const uiFilters = [
+        {
+          field: "test2",
+          values: ["test2", "test3"],
+          type: "any" as const
+        }
+      ];
+
+      // done at searchdriver level
+      const stateFilters = helpers.mergeFilters(uiFilters, baseFilters);
+
+      // verify getFilters exclude base filters
+      expect(getFilters(stateFilters, baseFilters)).toEqual([
+        { identifier: "test2", value: "test2" },
+        { identifier: "test2", value: "test3" }
       ]);
     });
   });

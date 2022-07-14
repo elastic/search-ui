@@ -3,7 +3,7 @@ import RCPagination from "rc-pagination";
 import enUsLocale from "rc-pagination/lib/locale/en_US";
 
 import { appendClassName } from "./view-helpers";
-import { SearchContextState } from "@elastic/search-ui";
+import type { SearchContextState } from "@elastic/search-ui";
 import { Rename, BaseContainerProps } from "./types";
 
 export type PagingContainerContext = Pick<

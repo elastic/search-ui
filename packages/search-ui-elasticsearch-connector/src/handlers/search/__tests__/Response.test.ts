@@ -1,4 +1,4 @@
-import { ResponseState } from "@elastic/search-ui";
+import type { ResponseState } from "@elastic/search-ui";
 import { SearchkitResponse } from "@searchkit/sdk";
 import SearchResponse from "../Response";
 
@@ -142,5 +142,14 @@ describe("Search - Response", () => {
 
     expect(response.pagingStart).toBe(11);
     expect(response.pagingEnd).toBe(9);
+  });
+
+  it("should transform Searchkit ResponseState when no facets are configured", () => {
+    const response: ResponseState = SearchResponse({
+      ...searchkitResponse,
+      facets: null
+    });
+
+    expect(response.facets).toEqual({});
   });
 });

@@ -19,6 +19,7 @@ exports[`renders correctly 1`] = `
       >
         <a
           className="sui-single-option-facet__link"
+          data-transaction-name="facet - Facet"
           href="/"
           onClick={[Function]}
         >
@@ -37,6 +38,7 @@ exports[`renders correctly 1`] = `
       >
         <a
           className="sui-single-option-facet__link"
+          data-transaction-name="facet - Facet"
           href="/"
           onClick={[Function]}
         >
@@ -73,6 +75,7 @@ exports[`renders falsey values correctly 1`] = `
       >
         <a
           className="sui-single-option-facet__link"
+          data-transaction-name="facet - Facet"
           href="/"
           onClick={[Function]}
         >
@@ -91,6 +94,7 @@ exports[`renders falsey values correctly 1`] = `
       >
         <a
           className="sui-single-option-facet__link"
+          data-transaction-name="facet - Facet"
           href="/"
           onClick={[Function]}
         >
@@ -109,6 +113,7 @@ exports[`renders falsey values correctly 1`] = `
       >
         <a
           className="sui-single-option-facet__link"
+          data-transaction-name="facet - Facet"
           href="/"
           onClick={[Function]}
         />
