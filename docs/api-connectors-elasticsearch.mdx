@@ -27,18 +27,25 @@ const connector = new ElasticsearchAPIConnector({
   },
   host: "http://localhost:9200", // host url for the Elasticsearch instance
   index: "<index-name>", // index name where the search documents are contained
-  apiKey: "<api-key>" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+  apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
   // This key will be visible to everyone so ensure its setup with restricted privileges.
   // See Authentication section for more details.
+  connectionOptions: {
+    // Optional connection options.
+    headers: {
+      "x-custom-header": "value" // Optional. Specify custom headers to send with the request
+    }
+  }
 });
 ```
 
-| Param  | Description                                                                                                                       |
-| ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| cloud  | Required if `host` not provided. Object type. The cloud id for the deployment within elastic cloud.                               |
-| host   | Required if `cloud` not provided. String type. The host url to the Elasticsearch instance                                         |
-| index  | Required. String type. The search index name                                                                                      |
-| apiKey | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#connection-&-authentication) |
+| Param             | Description                                                                                                                       |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| cloud             | Required if `host` not provided. Object type. The cloud id for the deployment within elastic cloud.                               |
+| host              | Required if `cloud` not provided. String type. The host url to the Elasticsearch instance                                         |
+| index             | Required. String type. The search index name                                                                                      |
+| apiKey            | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#connection-&-authentication) |
+| connectionOptions | Optional. Object containing `headers` dictionary of header name to header value.                                                  |
 
 ## Connection & Authentication
 

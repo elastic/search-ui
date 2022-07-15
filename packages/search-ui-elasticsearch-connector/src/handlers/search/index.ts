@@ -16,7 +16,8 @@ interface SearchHandlerConfiguration {
   host?: string;
   index: string;
   connectionOptions?: {
-    apiKey: string;
+    apiKey?: string;
+    headers?: Record<string, string>;
   };
   postProcessRequestBodyFn?: PostProcessRequestBodyFn;
 }
@@ -33,7 +34,7 @@ export default async function handleRequest(
     connectionOptions,
     postProcessRequestBodyFn
   } = configuration;
-  const { apiKey } = connectionOptions || {};
+  const { apiKey, headers } = connectionOptions || {};
   const searchkitConfig = buildConfiguration({
     state,
     queryConfig,
@@ -41,6 +42,7 @@ export default async function handleRequest(
     host,
     index,
     apiKey,
+    headers,
     postProcessRequestBodyFn
   });
 

@@ -310,6 +310,36 @@ describe("Search - Configuration", () => {
       });
     });
 
+    it("should return the additional headers in the connection options", () => {
+      const state: RequestState = {
+        searchTerm: "test"
+      };
+
+      expect(
+        buildConfiguration({
+          state,
+          queryConfig: { ...queryConfig, facets: null },
+          host,
+          index,
+          apiKey,
+          headers: {
+            Authorization: "Bearer 123",
+            "x-elastic-client-meta": "overridden by build configuration"
+          }
+        })
+      ).toEqual(
+        expect.objectContaining({
+          connectionOptions: {
+            apiKey: "apiKey",
+            headers: {
+              Authorization: "Bearer 123",
+              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
+            }
+          }
+        })
+      );
+    });
+
     it("works with postProcessQuery Function", () => {
       const state: RequestState = {
         searchTerm: "test"
