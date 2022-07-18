@@ -19,7 +19,10 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "@elastic/search-ui": "^1.15.0",
+    "@elastic/search-ui-app-search-connector": "^1.15.0",
+    "@elastic/react-search-ui-views": "^1.15.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",

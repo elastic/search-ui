@@ -1681,6 +1681,34 @@
     uuid "^8.3.0"
     vfile "^4.2.0"
 
+"@elastic/react-search-ui-views@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@elastic/react-search-ui-views/-/react-search-ui-views-1.15.0.tgz#2bb27f44b84bf61c8c31fc2086c296f87c4505ab"
+  integrity sha512-BrvbB7hiadvUk9aGYgdjbvQPKI6rInYpQIS48MFa7LfkhdcQd0wNARRg5o7+PVHYUhHmF4F9nLRaPpk46WuuUA==
+  dependencies:
+    "@elastic/search-ui" "1.15.0"
+    downshift "^3.2.10"
+    rc-pagination "^1.20.1"
+    react-select "^5.0.0"
+
+"@elastic/search-ui-app-search-connector@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@elastic/search-ui-app-search-connector/-/search-ui-app-search-connector-1.15.0.tgz#f39f227edb3ff904b1d36013d89991af56808e07"
+  integrity sha512-GfZToGhuLI+ZAkIoElTUIwQeNVTk48vfK4Iu0qS9UXoLTmzFKUHFPAqd/OaOFLKioeRU2HhIQlttKaU/KAOFEQ==
+  dependencies:
+    "@elastic/app-search-javascript" "^8.1.2"
+    "@elastic/search-ui" "1.15.0"
+
+"@elastic/search-ui@1.15.0", "@elastic/search-ui@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@elastic/search-ui/-/search-ui-1.15.0.tgz#70403fd3d6ca79426373041a4b8218f6f339465a"
+  integrity sha512-JUE5MGMCP05GX7UtEtemkG3Dow9mIQ0MGO/SSxUWtt1I7O635O9oDkkpfdHTyUUcjuQEjtjSSyFiF6MNmoLBBQ==
+  dependencies:
+    date-fns "^1.30.1"
+    deep-equal "^1.0.1"
+    history "^4.9.0"
+    qs "^6.7.0"
+
 "@elastic/transport@^8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@elastic/transport/-/transport-8.2.0.tgz#f292cb79c918a36268dd853431e41f13544814ad"
