@@ -8,8 +8,8 @@
               type="text"
               placeholder="Try searching for 'water', 'dragon' or 'ragnaros'"
               class="sui-search-box__text-input"
-              :value="value"
-              @input="$emit('input', $event.target.value)"
+              :value="modelValue"
+              @input="$emit('update:modelValue', $event.target.value)"
             />
           </div>
           <input
@@ -25,11 +25,7 @@
 
 <script>
 export default {
-  props: {
-    value: {
-      required: true,
-      type: String
-    }
-  }
+  props: ["modelValue"],
+  emits: ["update:modelValue"]
 };
 </script>

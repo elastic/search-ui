@@ -3,8 +3,8 @@
     <div class="sui-results-per-page__label">Show</div>
     <select
       name="resultsPerPage"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     >
       <option :value="20">20</option>
       <option :value="40">40</option>
@@ -15,11 +15,7 @@
 
 <script>
 export default {
-  props: {
-    value: {
-      type: Number,
-      required: true
-    }
-  }
+  props: ["modelValue"],
+  emits: ["update:modelValue"]
 };
 </script>

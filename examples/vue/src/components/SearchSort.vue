@@ -3,8 +3,8 @@
     <div class="sui-sorting__label">Sort by</div>
     <select
       name="sortBy"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     >
       <option value="">Relevance</option>
       <option value="name">Name</option>
@@ -14,11 +14,7 @@
 
 <script>
 export default {
-  props: {
-    value: {
-      type: String,
-      required: true
-    }
-  }
+  props: ["modelValue"],
+  emits: ["update:modelValue"]
 };
 </script>
