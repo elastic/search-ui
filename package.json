@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "start": "yarn --cwd examples/sandbox start",
+    "start-vue": "yarn --cwd examples/vue dev",
     "start-docs": "cd ../docs.elastic.co/ && yarn init-docs && yarn dev",
     "test": "lerna run test --stream --no-private",
     "test-ci": "lerna run test-ci --stream --no-private",
