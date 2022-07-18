@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import Paginate from "vuejs-paginate";
+// import Paginate from "vuejs-paginate";
 
 export default {
   components: {
-    Paginate
+    // Paginate
   },
   props: {
     clickHandler: {

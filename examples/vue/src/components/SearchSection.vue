@@ -79,7 +79,7 @@ import SearchResults from "./SearchResults.vue";
 import SearchFacet from "./SearchFacet.vue";
 import SearchHeader from "./SearchHeader.vue";
 import SearchPagingInfo from "./SearchPagingInfo.vue";
-import SearchPagination from "./SearchPagination.vue";
+// import SearchPagination from "./SearchPagination.vue";
 import SearchSort from "./SearchSort.vue";
 import SearchResultsPerPage from "./SearchResultsPerPage.vue";
 
@@ -91,7 +91,7 @@ export default {
     SearchFacet,
     SearchHeader,
     SearchPagingInfo,
-    SearchPagination,
+    // SearchPagination,
     SearchSort,
     SearchResultsPerPage
   },
