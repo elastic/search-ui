@@ -120,9 +120,11 @@ export type FacetConfiguration = {
   sort?: "count" | "value";
 };
 
+export type ConditionalRule = (state: { filters: Filter[] }) => boolean;
+
 // todo: types
 export type SearchQuery = {
-  conditionalFacets?: any;
+  conditionalFacets?: Record<string, ConditionalRule>;
   filters?: Filter[];
   facets?: Record<string, FacetConfiguration>;
   disjunctiveFacets?: string[];

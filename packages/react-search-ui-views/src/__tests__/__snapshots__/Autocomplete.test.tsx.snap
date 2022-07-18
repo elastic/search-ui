@@ -14,6 +14,7 @@ exports[`renders correctly 1`] = `
       className="sui-search-box__suggestion-list"
     >
       <li
+        data-transaction-name="query suggestion"
         index={0}
         item={
           Object {
@@ -28,6 +29,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
+        data-transaction-name="query suggestion"
         index={1}
         item={
           Object {
@@ -42,6 +44,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
+        data-transaction-name="query suggestion"
         index={2}
         item={
           Object {
@@ -65,6 +68,7 @@ exports[`renders correctly 1`] = `
       className="sui-search-box__suggestion-list"
     >
       <li
+        data-transaction-name="query suggestion"
         index={3}
         item={
           Object {
@@ -79,6 +83,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
+        data-transaction-name="query suggestion"
         index={4}
         item={
           Object {
@@ -93,6 +98,7 @@ exports[`renders correctly 1`] = `
         </span>
       </li>
       <li
+        data-transaction-name="query suggestion"
         index={5}
         item={
           Object {

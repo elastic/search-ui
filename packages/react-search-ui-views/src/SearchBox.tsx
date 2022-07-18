@@ -5,7 +5,10 @@ import { appendClassName } from "./view-helpers";
 
 import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
-import { AutocompleteResult, SearchContextState } from "@elastic/search-ui";
+import type {
+  AutocompleteResult,
+  SearchContextState
+} from "@elastic/search-ui";
 import {
   BaseContainerProps,
   SearchBoxAutocompleteViewProps,
@@ -129,6 +132,7 @@ function SearchBox(props: SearchBoxViewProps) {
                 getInputProps={(additionalProps) => {
                   const { className, ...rest } = additionalProps || {};
                   return getInputProps({
+                    "data-transaction-name": "search input",
                     placeholder: "Search",
                     ...inputProps,
                     className: appendClassName("sui-search-box__text-input", [
@@ -142,6 +146,7 @@ function SearchBox(props: SearchBoxViewProps) {
                 getButtonProps={(additionalProps) => {
                   const { className, ...rest } = additionalProps || {};
                   return {
+                    "data-transaction-name": "search submit",
                     type: "submit",
                     value: "Search",
                     className: appendClassName(

@@ -1,4 +1,4 @@
-import { SearchContextState, SearchResult } from "@elastic/search-ui";
+import type { SearchContextState, SearchResult } from "@elastic/search-ui";
 import React from "react";
 import { BaseContainerProps } from "./types";
 import { ResultViewProps } from "./Result";

@@ -148,7 +148,6 @@ class AppSearchAPIConnector implements APIConnector {
   ): Promise<SearchState> {
     const {
       current,
-      filters,
       resultsPerPage,
       sortDirection,
       sortField,
@@ -159,7 +158,6 @@ class AppSearchAPIConnector implements APIConnector {
     const { query, ...optionsFromState } = adaptRequest({
       ...state,
       ...(current !== undefined && { current }),
-      ...(filters !== undefined && { filters }),
       ...(resultsPerPage !== undefined && { resultsPerPage }),
       ...(sortDirection !== undefined && { sortDirection }),
       ...(sortField !== undefined && { sortField }),
