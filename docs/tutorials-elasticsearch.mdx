@@ -162,7 +162,7 @@ PUT /my-example-movies/_mapping
 {
   "properties": {
     "title": {
-      "type": "text"
+      "type": "text",
       "fields": {
         "suggest": {
           "type": "search_as_you_type"
