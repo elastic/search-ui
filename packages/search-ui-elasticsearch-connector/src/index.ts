@@ -16,6 +16,9 @@ type ConnectionOptions = {
   cloud?: CloudHost;
   index: string;
   apiKey?: string;
+  connectionOptions?: {
+    headers?: Record<string, string>;
+  };
 };
 
 export * from "./types";
@@ -47,7 +50,8 @@ class ElasticsearchAPIConnector implements APIConnector {
       host: this.config.host,
       index: this.config.index,
       connectionOptions: {
-        apiKey: this.config.apiKey
+        apiKey: this.config.apiKey,
+        headers: this.config.connectionOptions?.headers
       },
       postProcessRequestBodyFn: this.postProcessRequestBodyFn
     });
@@ -64,7 +68,8 @@ class ElasticsearchAPIConnector implements APIConnector {
       host: this.config.host,
       index: this.config.index,
       connectionOptions: {
-        apiKey: this.config.apiKey
+        apiKey: this.config.apiKey,
+        headers: this.config.connectionOptions?.headers
       }
     });
   }
