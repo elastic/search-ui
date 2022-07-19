@@ -68,7 +68,9 @@ jest.mock("@searchkit/sdk", () => {
     default: jest.fn((config: SearchkitConfig) => {
       const sk = originalModule.default(config);
       sk.execute = jest.fn(() =>
-        config.postProcessRequest(mockSearchkitResponse as SearchRequest)
+        config.postProcessRequest
+          ? config.postProcessRequest(mockSearchkitResponse as SearchRequest)
+          : mockSearchkitResponse
       );
       return sk;
     })
@@ -76,41 +78,49 @@ jest.mock("@searchkit/sdk", () => {
 });
 
 describe("Search results", () => {
+  const searchkitMock = Searchkit as jest.Mock;
+
+  beforeEach(() => {
+    searchkitMock.mockClear();
+  });
+
+  const state: RequestState = {
+    searchTerm: "test",
+    resultsPerPage: 10,
+    current: 1
+  };
+  const queryConfig: SearchQuery = {
+    result_fields: {
+      title: {
+        snippet: {
+          size: 100,
+          fallback: true
+        }
+      },
+      nps_link: {
+        raw: {}
+      }
+    },
+    facets: {
+      "world_heritage_site.keyword": { type: "value" },
+      "another_field.keyword": { type: "value" }
+    },
+    disjunctiveFacets: ["another_field.keyword"],
+    filters: [
+      {
+        type: "none",
+        field: "world_heritage_site.keyword",
+        values: ["label3"]
+      }
+    ]
+  };
+
   it("success", async () => {
-    const state: RequestState = {
-      searchTerm: "test",
-      resultsPerPage: 10,
-      current: 1
-    };
-    const queryConfig: SearchQuery = {
-      result_fields: {
-        title: {
-          snippet: {
-            size: 100,
-            fallback: true
-          }
-        },
-        nps_link: {
-          raw: {}
-        }
-      },
-      facets: {
-        "world_heritage_site.keyword": { type: "value" },
-        "another_field.keyword": { type: "value" }
-      },
-      disjunctiveFacets: ["another_field.keyword"],
-      filters: [
-        {
-          type: "none",
-          field: "world_heritage_site.keyword",
-          values: ["label3"]
-        }
-      ]
-    };
     const postProcessRequestBodyFn = jest.fn(
       (body, requestState, queryConfig) => {
         expect(body).toBeDefined();
         expect(requestState.searchTerm).toBe("test");
+        expect(queryConfig).toBeDefined();
         return body;
       }
     );
@@ -126,8 +136,7 @@ describe("Search results", () => {
     });
 
     expect(postProcessRequestBodyFn).toHaveBeenCalled();
-    const instance: SearchkitRequest = (Searchkit as jest.Mock).mock.results[0]
-      .value;
+    const instance: SearchkitRequest = searchkitMock.mock.results[0].value;
     expect(instance.execute).toBeCalledWith(
       { facets: true, hits: { from: 0, includeRawHit: true, size: 10 } },
       [
@@ -201,5 +210,27 @@ describe("Search results", () => {
         "wasSearched": false,
       }
     `);
+  });
+
+  it("should pass the cloud id to searchkit", async () => {
+    await handleRequest({
+      state,
+      queryConfig,
+      cloud: {
+        id: "cloudId"
+      },
+      index: "test",
+      connectionOptions: {
+        apiKey: "test"
+      }
+    });
+
+    const searchkitRequestInstance = searchkitMock.mock.results[0].value;
+
+    expect(searchkitRequestInstance.config.cloud).toEqual({
+      id: "cloudId"
+    });
+
+    expect(searchkitRequestInstance.config.host).toBeUndefined();
   });
 });

@@ -1,6 +1,7 @@
 import type { QueryConfig, RequestState } from "@elastic/search-ui";
 import SearchRequest, { getFilters } from "../Request";
 import { helpers } from "@elastic/search-ui";
+import type { MixedFilter } from "@searchkit/sdk";
 
 describe("Search - Request", () => {
   const requestState: RequestState = {
@@ -92,6 +93,52 @@ describe("Search - Request", () => {
           value: "test2"
         }
       ]);
+    });
+
+    it("should handle range filters", () => {
+      expect(
+        getFilters([
+          {
+            field: "test",
+            values: [
+              {
+                name: "precio",
+                from: 10,
+                to: 100
+              }
+            ],
+            type: "any"
+          }
+        ])
+      ).toEqual([
+        {
+          identifier: "test",
+          min: 10,
+          max: 100
+        }
+      ] as MixedFilter[]);
+    });
+
+    it("should handle date range filters", () => {
+      expect(
+        getFilters([
+          {
+            field: "test",
+            values: [
+              {
+                name: "precio",
+                from: "2020-01-01"
+              }
+            ],
+            type: "any"
+          }
+        ])
+      ).toEqual([
+        {
+          identifier: "test",
+          dateMin: "2020-01-01"
+        }
+      ] as MixedFilter[]);
     });
 
     it("should return no searchkit filters when filter is part of basefilter", () => {

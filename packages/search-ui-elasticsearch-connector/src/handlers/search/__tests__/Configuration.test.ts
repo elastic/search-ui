@@ -12,7 +12,8 @@ import {
   MultiMatchQuery,
   RefinementSelectFacet,
   MultiQueryOptionsFacet,
-  GeoDistanceOptionsFacet
+  GeoDistanceOptionsFacet,
+  Filter
 } from "@searchkit/sdk";
 import { LIB_VERSION } from "../../../version";
 import type { SearchRequest } from "../../../types";
@@ -212,11 +213,96 @@ describe("Search - Configuration", () => {
 
     it("builds configuration", () => {
       const state: RequestState = {
+        searchTerm: "test",
+        filters: [
+          {
+            field: "providerid.keyword",
+            values: [
+              {
+                name: "precio",
+                from: 10,
+                to: 100
+              }
+            ],
+            type: "all"
+          },
+          {
+            field: "date.keyword",
+            values: [
+              {
+                name: "date",
+                from: "2021-01-01"
+              }
+            ],
+            type: "all"
+          }
+        ]
+      };
+      const x = buildConfiguration({ state, queryConfig, host, index, apiKey });
+      expect(x).toEqual(
+        expect.objectContaining({
+          host: "http://localhost:9200",
+          index: "test_index",
+          connectionOptions: {
+            apiKey: "apiKey",
+            headers: {
+              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
+            }
+          },
+          hits: {
+            fields: ["title", "description", "url"],
+            highlightedFields: ["title", "description"]
+          }
+        })
+      );
+
+      expect(MultiMatchQuery).toHaveBeenCalledWith({
+        fields: ["title^2", "description^1"]
+      });
+
+      expect(RefinementSelectFacet).toHaveBeenCalledTimes(2);
+      expect(RefinementSelectFacet).toHaveBeenCalledWith({
+        identifier: "category",
+        field: "category",
+        label: "category",
+        size: 20,
+        multipleSelect: true,
+        order: "count"
+      });
+      expect(RefinementSelectFacet).toHaveBeenCalledWith({
+        identifier: "type",
+        field: "type",
+        label: "type",
+        size: 20,
+        multipleSelect: false,
+        order: "value"
+      });
+      expect(Filter).toHaveBeenCalledWith({
+        field: "providerid.keyword",
+        identifier: "providerid.keyword",
+        label: "providerid.keyword"
+      });
+      expect(Filter).toHaveBeenCalledWith({
+        field: "date.keyword",
+        identifier: "date.keyword",
+        label: "date.keyword"
+      });
+      expect(Filter).toBeCalledTimes(2);
+    });
+
+    it("works without facet configuration", () => {
+      const state: RequestState = {
         searchTerm: "test"
       };
 
       expect(
-        buildConfiguration(state, queryConfig, host, index, apiKey)
+        buildConfiguration({
+          state,
+          queryConfig: { ...queryConfig, facets: null },
+          host,
+          index,
+          apiKey
+        })
       ).toEqual(
         expect.objectContaining({
           host: "http://localhost:9200",
@@ -257,57 +343,34 @@ describe("Search - Configuration", () => {
       });
     });
 
-    it("works without facet configuration", () => {
+    it("should return the additional headers in the connection options", () => {
       const state: RequestState = {
         searchTerm: "test"
       };
 
       expect(
-        buildConfiguration(
+        buildConfiguration({
           state,
-          { ...queryConfig, facets: null },
+          queryConfig: { ...queryConfig, facets: null },
           host,
           index,
-          apiKey
-        )
+          apiKey,
+          headers: {
+            Authorization: "Bearer 123",
+            "x-elastic-client-meta": "overridden by build configuration"
+          }
+        })
       ).toEqual(
         expect.objectContaining({
-          host: "http://localhost:9200",
-          index: "test_index",
           connectionOptions: {
             apiKey: "apiKey",
             headers: {
+              Authorization: "Bearer 123",
               "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
             }
-          },
-          hits: {
-            fields: ["title", "description", "url"],
-            highlightedFields: ["title", "description"]
           }
         })
       );
-
-      expect(MultiMatchQuery).toHaveBeenCalledWith({
-        fields: ["title^2", "description^1"]
-      });
-
-      expect(RefinementSelectFacet).toHaveBeenCalledTimes(2);
-      expect(RefinementSelectFacet).toHaveBeenCalledWith({
-        identifier: "category",
-        field: "category",
-        label: "category",
-        size: 20,
-        multipleSelect: true,
-        order: "count"
-      });
-      expect(RefinementSelectFacet).toHaveBeenCalledWith({
-        identifier: "type",
-        field: "type",
-        label: "type",
-        size: 20,
-        multipleSelect: false,
-        order: "value"
-      });
     });
 
     it("works with postProcessQuery Function", () => {
@@ -321,14 +384,14 @@ describe("Search - Configuration", () => {
 
       const queryConfigNoFacets = { ...queryConfig, facets: null };
 
-      const postProcessRequestBodyFn = buildConfiguration(
+      const postProcessRequestBodyFn = buildConfiguration({
         state,
-        queryConfigNoFacets,
+        queryConfig: queryConfigNoFacets,
         host,
         index,
         apiKey,
-        mutateRequestBodyFn
-      ).postProcessRequest;
+        postProcessRequestBodyFn: mutateRequestBodyFn
+      }).postProcessRequest;
 
       expect(postProcessRequestBodyFn).toBeDefined();
 
@@ -348,9 +411,9 @@ describe("Search - Configuration", () => {
         searchTerm: "test"
       };
 
-      const configuration = buildConfiguration(
+      const configuration = buildConfiguration({
         state,
-        {
+        queryConfig: {
           ...queryConfig,
           disjunctiveFacets: [
             ...queryConfig.disjunctiveFacets,
@@ -399,7 +462,7 @@ describe("Search - Configuration", () => {
         host,
         index,
         apiKey
-      );
+      });
 
       expect(configuration).toEqual(
         expect.objectContaining({

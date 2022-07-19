@@ -51,13 +51,13 @@ describe("Search - Configuration within node context", () => {
       };
 
       const nodeVersion = process.version;
-      const configuration = buildConfiguration(
+      const configuration = buildConfiguration({
         state,
         queryConfig,
         host,
         index,
         apiKey
-      );
+      });
 
       const validHeaderRegex =
         // eslint-disable-next-line no-useless-escape

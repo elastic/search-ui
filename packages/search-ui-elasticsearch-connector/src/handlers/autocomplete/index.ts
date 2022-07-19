@@ -9,24 +9,28 @@ import Searchkit, {
   PrefixQuery,
   SearchkitConfig
 } from "@searchkit/sdk";
+import { CloudHost } from "../../types";
 import { fieldResponseMapper } from "../common";
 import { getQueryFields, getResultFields } from "../search/Configuration";
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
   queryConfig: AutocompleteQueryConfig;
-  host: string;
+  cloud?: CloudHost;
+  host?: string;
   index: string;
   connectionOptions?: {
-    apiKey: string;
+    apiKey?: string;
+    headers?: Record<string, string>;
   };
 }
 
 export default async function handleRequest(
   configuration: AutocompleteHandlerConfiguration
 ): Promise<AutocompleteResponseState> {
-  const { state, queryConfig, host, index, connectionOptions } = configuration;
-  const { apiKey } = connectionOptions || {};
+  const { state, queryConfig, host, cloud, index, connectionOptions } =
+    configuration;
+  const { apiKey, headers } = connectionOptions || {};
 
   const suggestionConfigurations = [];
 
@@ -63,9 +67,11 @@ export default async function handleRequest(
 
   const searchkitConfig: SearchkitConfig = {
     host,
+    cloud,
     index,
     connectionOptions: {
-      apiKey
+      apiKey,
+      headers
     },
     suggestions: suggestionConfigurations
   };
