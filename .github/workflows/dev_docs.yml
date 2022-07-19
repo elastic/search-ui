@@ -11,11 +11,11 @@ on:
       - "docs/**.svg"
       - "docs/**.png"
       - "docs/**.gif"
-    types: [closed, opened, synchronize]
+    types: [closed, opened, synchronize, labeled]
 
 jobs:
   publish:
-    if: ${{ github.event.label.name == 'ci:doc-build' }}
+    if: contains(github.event.pull_request.labels.*.name, 'ci:doc-build')
     uses: elastic/workflows/.github/workflows/docs-elastic-co-publish.yml@main
     with:
       # Refers to Vercel project
