@@ -120,7 +120,8 @@ interface BuildConfigurationOptions {
   cloud?: CloudHost;
   host?: string;
   index: string;
-  apiKey: string;
+  apiKey?: string;
+  headers?: Record<string, string>;
   postProcessRequestBodyFn?: PostProcessRequestBodyFn;
 }
 
@@ -131,6 +132,7 @@ function buildConfiguration({
   host,
   index,
   apiKey,
+  headers,
   postProcessRequestBodyFn
 }: BuildConfigurationOptions): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
@@ -245,6 +247,7 @@ function buildConfiguration({
       }
     : null;
 
+  const additionalHeaders = headers || {};
   const configuration: SearchkitConfig = {
     host: host,
     cloud: cloud,
@@ -252,6 +255,7 @@ function buildConfiguration({
     connectionOptions: {
       apiKey: apiKey,
       headers: {
+        ...additionalHeaders,
         "x-elastic-client-meta": metaHeader
       }
     },
