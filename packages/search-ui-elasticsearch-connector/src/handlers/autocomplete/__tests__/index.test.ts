@@ -147,4 +147,30 @@ describe("Autocomplete results", () => {
 
     expect(searchkitRequestInstance.config.host).toBeUndefined();
   });
+
+  it("should pass additional headers to searchkit", async () => {
+    (Searchkit as jest.Mock).mockClear();
+    const results = await handleRequest({
+      state,
+      queryConfig,
+      host: "http://localhost:9200",
+      index: "test",
+      connectionOptions: {
+        apiKey: "test",
+        headers: {
+          Authorization: "Bearer 123"
+        }
+      }
+    });
+
+    const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
+      .value;
+
+    expect(searchkitRequestInstance.config.connectionOptions).toEqual({
+      apiKey: "test",
+      headers: {
+        Authorization: "Bearer 123"
+      }
+    });
+  });
 });

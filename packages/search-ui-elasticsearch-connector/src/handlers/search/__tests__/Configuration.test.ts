@@ -12,7 +12,8 @@ import {
   MultiMatchQuery,
   RefinementSelectFacet,
   MultiQueryOptionsFacet,
-  GeoDistanceOptionsFacet
+  GeoDistanceOptionsFacet,
+  Filter
 } from "@searchkit/sdk";
 import { LIB_VERSION } from "../../../version";
 import type { SearchRequest } from "../../../types";
@@ -212,12 +213,33 @@ describe("Search - Configuration", () => {
 
     it("builds configuration", () => {
       const state: RequestState = {
-        searchTerm: "test"
+        searchTerm: "test",
+        filters: [
+          {
+            field: "providerid.keyword",
+            values: [
+              {
+                name: "precio",
+                from: 10,
+                to: 100
+              }
+            ],
+            type: "all"
+          },
+          {
+            field: "date.keyword",
+            values: [
+              {
+                name: "date",
+                from: "2021-01-01"
+              }
+            ],
+            type: "all"
+          }
+        ]
       };
-
-      expect(
-        buildConfiguration({ state, queryConfig, host, index, apiKey })
-      ).toEqual(
+      const x = buildConfiguration({ state, queryConfig, host, index, apiKey });
+      expect(x).toEqual(
         expect.objectContaining({
           host: "http://localhost:9200",
           index: "test_index",
@@ -255,6 +277,17 @@ describe("Search - Configuration", () => {
         multipleSelect: false,
         order: "value"
       });
+      expect(Filter).toHaveBeenCalledWith({
+        field: "providerid.keyword",
+        identifier: "providerid.keyword",
+        label: "providerid.keyword"
+      });
+      expect(Filter).toHaveBeenCalledWith({
+        field: "date.keyword",
+        identifier: "date.keyword",
+        label: "date.keyword"
+      });
+      expect(Filter).toBeCalledTimes(2);
     });
 
     it("works without facet configuration", () => {
@@ -308,6 +341,36 @@ describe("Search - Configuration", () => {
         multipleSelect: false,
         order: "value"
       });
+    });
+
+    it("should return the additional headers in the connection options", () => {
+      const state: RequestState = {
+        searchTerm: "test"
+      };
+
+      expect(
+        buildConfiguration({
+          state,
+          queryConfig: { ...queryConfig, facets: null },
+          host,
+          index,
+          apiKey,
+          headers: {
+            Authorization: "Bearer 123",
+            "x-elastic-client-meta": "overridden by build configuration"
+          }
+        })
+      ).toEqual(
+        expect.objectContaining({
+          connectionOptions: {
+            apiKey: "apiKey",
+            headers: {
+              Authorization: "Bearer 123",
+              "x-elastic-client-meta": `ent=${LIB_VERSION}-es-connector,js=browser,t=${LIB_VERSION}-es-connector,ft=universal`
+            }
+          }
+        })
+      );
     });
 
     it("works with postProcessQuery Function", () => {

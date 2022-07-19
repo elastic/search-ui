@@ -1,5 +1,7 @@
 import type { Filter, QueryConfig, RequestState } from "@elastic/search-ui";
 import { MixedFilter } from "@searchkit/sdk";
+import { helpers } from "@elastic/search-ui";
+import { isValidDateString } from "./Configuration";
 
 export interface SearchkitVariables {
   query: string;
@@ -17,10 +19,22 @@ export function getFilters(
     const isBaseFilter = baseFilters.find((bf) => bf === f);
     if (isBaseFilter) return acc;
 
-    const subFilters = f.values.map((v) => ({
-      identifier: f.field,
-      value: v
-    }));
+    const subFilters = f.values.map((v) => {
+      if (helpers.isFilterValueRange(v)) {
+        return {
+          identifier: f.field,
+          ...(isValidDateString(v.from)
+            ? { dateMin: v.from }
+            : { min: v.from }),
+          ...(isValidDateString(v.to) ? { dateMax: v.to } : { max: v.to })
+        };
+      }
+
+      return {
+        identifier: f.field,
+        value: v
+      };
+    });
 
     return [...acc, ...subFilters];
   }, []);
