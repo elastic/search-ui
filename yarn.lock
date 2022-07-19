@@ -1681,34 +1681,6 @@
     uuid "^8.3.0"
     vfile "^4.2.0"
 
-"@elastic/react-search-ui-views@^1.15.0":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@elastic/react-search-ui-views/-/react-search-ui-views-1.15.0.tgz#2bb27f44b84bf61c8c31fc2086c296f87c4505ab"
-  integrity sha512-BrvbB7hiadvUk9aGYgdjbvQPKI6rInYpQIS48MFa7LfkhdcQd0wNARRg5o7+PVHYUhHmF4F9nLRaPpk46WuuUA==
-  dependencies:
-    "@elastic/search-ui" "1.15.0"
-    downshift "^3.2.10"
-    rc-pagination "^1.20.1"
-    react-select "^5.0.0"
-
-"@elastic/search-ui-app-search-connector@^1.15.0":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@elastic/search-ui-app-search-connector/-/search-ui-app-search-connector-1.15.0.tgz#f39f227edb3ff904b1d36013d89991af56808e07"
-  integrity sha512-GfZToGhuLI+ZAkIoElTUIwQeNVTk48vfK4Iu0qS9UXoLTmzFKUHFPAqd/OaOFLKioeRU2HhIQlttKaU/KAOFEQ==
-  dependencies:
-    "@elastic/app-search-javascript" "^8.1.2"
-    "@elastic/search-ui" "1.15.0"
-
-"@elastic/search-ui@1.15.0", "@elastic/search-ui@^1.15.0":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@elastic/search-ui/-/search-ui-1.15.0.tgz#70403fd3d6ca79426373041a4b8218f6f339465a"
-  integrity sha512-JUE5MGMCP05GX7UtEtemkG3Dow9mIQ0MGO/SSxUWtt1I7O635O9oDkkpfdHTyUUcjuQEjtjSSyFiF6MNmoLBBQ==
-  dependencies:
-    date-fns "^1.30.1"
-    deep-equal "^1.0.1"
-    history "^4.9.0"
-    qs "^6.7.0"
-
 "@elastic/transport@^8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@elastic/transport/-/transport-8.2.0.tgz#f292cb79c918a36268dd853431e41f13544814ad"
@@ -3160,10 +3132,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.0.tgz#7f698254aadf921e48dda8c0a6b304026b8a9323"
   integrity sha512-JLo+Y592QzIE+q7Dl2pMUtt4q8SKYI5jDrZxrozEQxnGVOyYE+GWK9eLkwTaeN9DDctlaRAQ3TBmzZ1qdLE30A==
 
-"@searchkit/sdk@^3.0.0-canary.57":
-  version "3.0.0-canary.57"
-  resolved "https://registry.yarnpkg.com/@searchkit/sdk/-/sdk-3.0.0-canary.57.tgz#57dfaee9c68c349b8c84a7298911953bd8e7a41a"
-  integrity sha512-kK5Soa2UhVX/97O5VPQwOmBTBmaqUljdYAO4gDAvpXQQ9QgzZAeMhyMgsSf6EV/WwSYm08iUr7DfdtW4fdfUZw==
+"@searchkit/sdk@^3.0.0-canary.58":
+  version "3.0.0-canary.58"
+  resolved "https://registry.yarnpkg.com/@searchkit/sdk/-/sdk-3.0.0-canary.58.tgz#97ca65adad87dff3f3040155c366a7595f76fbe6"
+  integrity sha512-VY1fBn1Dg0o3KP8tY/xHvX9racEWD987XTsGiMzgu6HrbSPVOhjReSs770jHD1bE4N8Q6dSSW3HlPFgj2Fs9NA==
   dependencies:
     "@elastic/elasticsearch-types" "npm:@elastic/elasticsearch@^8.2.1"
     agentkeepalive "^4.1.3"
