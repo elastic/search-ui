@@ -40,6 +40,57 @@ const connector = new ElasticsearchAPIConnector({
 | index  | Required. String type. The search index name                                                                                      |
 | apiKey | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#connection-&-authentication) |
 
+## Differences between App Search and Elasticsearch connector
+
+### Applying Filters to Range Facets
+
+Elasticsearch connector differs in the way filters can be applied to facets. Currently its not possible to apply an explicit range filter to range facets. Elasticsearch connector uses the name thats been given to the option to apply the filter. It uses this name to match the option and creates a the range filter query for the option.
+
+#### Example Facet Configuration
+
+```
+{
+      visitors: {
+        type: "range",
+        ranges: [
+          { from: 0, to: 10000, name: "0 - 10000" },
+          { from: 10001, to: 100000, name: "10001 - 100000" },
+          { from: 100001, to: 500000, name: "100001 - 500000" },
+          { from: 500001, to: 1000000, name: "500001 - 1000000" },
+          { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
+          { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
+          { from: 10000001, name: "10000001+" }
+        ]
+      }
+}
+```
+
+#### How to apply the filter
+
+```
+    setFilter("visitors", {
+      name: "10001 - 100000", // name of the option
+      from: 10001, // both from and to will be ignored
+      to: 100000
+    });
+```
+
+#### Applying a range to a field that isn't a facet
+
+If the field isn't a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
+
+```
+    setFilter("precio", {
+      name: "precio",
+      from: rangePrices[0],
+      to: rangePrices[1],
+    });
+```
+
+### 'None' Filter Type
+
+Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
+
 ## Connection & Authentication
 
 <DocCallOut color="warning" title="A note about security">
