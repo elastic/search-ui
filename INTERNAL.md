@@ -12,7 +12,8 @@
    ]
    }
    ```
-3. Run `yarn`, then `yarn init-docs`, then `yarn dev`
+3. Run `yarn`, then `yarn init-docs`, then `yarn dev`.
+4. After the initial setup is done, simply use `yarn docs-start` from the search-ui root.
 
 # Publishing
 
