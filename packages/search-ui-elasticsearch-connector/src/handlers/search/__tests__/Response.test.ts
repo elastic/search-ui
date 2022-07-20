@@ -81,7 +81,7 @@ describe("Search - Response", () => {
           Object {
             "_meta": Object {
               "id": "test",
-              "raw": Object {
+              "rawHit": Object {
                 "_id": "test",
               },
             },
