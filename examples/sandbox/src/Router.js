@@ -9,6 +9,8 @@ import SearchAsYouType from "./pages/search-as-you-type";
 import CustomizingStylesAndHtml from "./pages/customizing-styles-and-html";
 import SearchBarInHeaderIndex from "./pages/search-bar-in-header/index";
 import SearchBarInHeaderSearch from "./pages/search-bar-in-header/search";
+import ProductListingPage from "./pages/product-listing-page";
+import ProductListingPageTvs from "./pages/product-listing-page/tvs";
 import { ApmRoute } from "@elastic/apm-rum-react";
 
 export default function Router() {
@@ -39,6 +41,17 @@ export default function Router() {
           exact
           path="/search-bar-in-header/search"
           component={SearchBarInHeaderSearch}
+        />
+
+        <ApmRoute
+          exact
+          path="/product-listing-page/"
+          component={ProductListingPage}
+        />
+        <ApmRoute
+          exact
+          path="/product-listing-page/tvs"
+          component={ProductListingPageTvs}
         />
       </Switch>
     </div>

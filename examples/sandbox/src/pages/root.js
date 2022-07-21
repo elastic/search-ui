@@ -33,6 +33,9 @@ export default function Root() {
         <li>
           <Link to="/search-bar-in-header">Search bar in header</Link>
         </li>
+        <li>
+          <Link to="/product-listing-page">Product listing page</Link>
+        </li>
       </ul>
     </>
   );
