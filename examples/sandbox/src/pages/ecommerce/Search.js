@@ -37,9 +37,12 @@ const CustomResultView = ({ result, onClickLink }) => (
         <div>
           ${result.price.raw}
           <br />
-          {result.shipping.raw === 0
-            ? "Free shipping"
-            : `+$${result.shipping.raw} shipping`}
+          {result.shipping && result.shipping.raw !== undefined
+            ? result.shipping.raw === 0
+              ? "Free shipping"
+              : `+$${result.shipping.raw} shipping`
+            : ""}
+          {}
         </div>
         <br />
         <div>
