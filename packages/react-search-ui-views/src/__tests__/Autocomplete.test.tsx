@@ -1,7 +1,7 @@
 import React from "react";
 import { Autocomplete } from "..";
 import { shallow } from "enzyme";
-import { AutocompletedSuggestions } from "@elastic/search-ui";
+import type { AutocompletedSuggestions } from "@elastic/search-ui";
 
 const props = {
   autocompleteResults: {
