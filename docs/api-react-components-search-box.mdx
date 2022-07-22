@@ -148,6 +148,64 @@ sections. Section titles can be added to help distinguish between the two.
 />
 ```
 
+### Example retrieving suggestions from another index
+
+<DocCallOut
+  color="warning"
+  title="Supported only by the Elasticsearch-connector"
+/>
+
+A different index can be used for the suggestions. Some examples:
+
+- Popular queries index from analytics
+- Brands index from product data
+- Categories index from product data
+
+Below we are using the `popular_queries` index and performing a prefix match search on the `query.suggest` field. One thing to note, make sure the api-key has access to the index.
+
+````jsx
+
+#### Autocomplete Configuration
+
+```js
+autocompleteQuery: {
+  suggestions: {
+    types: {
+      popularQueries: {
+        search_fields: {
+          "query.suggest": {} // fields used to query
+        },
+        result_fields: {
+          query: { // fields used for display
+            raw: {}
+          }
+        },
+        index: "popular_queries",
+        queryType: "results"
+      }
+    },
+    size: 4
+  }
+}
+
+````
+
+#### Component Configuration
+
+```jsx
+<SearchBox
+  autocompleteSuggestions={{
+    popularQueries: {
+      queryType: "results",
+      displayField: "query" // specify which field used to display the suggestion
+    },
+    }
+  }}
+/>
+```
+
+You also have the option to customise the `view` of the autocomplete to show more fields.
+
 ### Configuring autocomplete queries
 
 Autocomplete queries can be customized in the `SearchProvider` configuration, using the `autocompleteQuery` property.
