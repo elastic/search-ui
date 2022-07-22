@@ -141,7 +141,8 @@ describe("Autocomplete results", () => {
         "autocompletedSuggestions": Object {
           "popularQueries": Array [
             Object {
-              "hit": Object {
+              "queryType": "results",
+              "result": Object {
                 "_meta": Object {
                   "id": "test",
                 },
@@ -153,7 +154,6 @@ describe("Autocomplete results", () => {
                   "snippet": "hello",
                 },
               },
-              "queryType": "results",
             },
           ],
           "results": Array [
