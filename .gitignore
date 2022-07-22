@@ -6,4 +6,3 @@ storybook-static
 package-lock.json
 packages/**/src/version.ts
 packages/**/lib/*
-data
