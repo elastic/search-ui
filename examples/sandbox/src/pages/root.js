@@ -20,7 +20,7 @@ export default function Root() {
         </li>
       </ul>
 
-      <p>Or check out our examples:</p>
+      <p>Check out our examples:</p>
       <ul>
         <li>
           <Link to="/search-as-you-type">Search-as-you-type</Link>
@@ -33,8 +33,12 @@ export default function Root() {
         <li>
           <Link to="/search-bar-in-header">Search bar in header</Link>
         </li>
+      </ul>
+
+      <p>Explore use cases:</p>
+      <ul>
         <li>
-          <Link to="/category">Product category page</Link>
+          <Link to="/ecommerce">Ecommerce</Link>
         </li>
       </ul>
     </>

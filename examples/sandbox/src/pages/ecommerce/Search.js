@@ -25,6 +25,7 @@ const CustomResultView = ({ result, onClickLink }) => (
           onClick={onClickLink}
           href={result.url.raw}
           dangerouslySetInnerHTML={{ __html: result.name.snippet }}
+          target="_blank"
         />
       </h3>
     </div>
