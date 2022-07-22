@@ -145,6 +145,9 @@ describe("Autocomplete results", () => {
               "result": Object {
                 "_meta": Object {
                   "id": "test",
+                  "rawHit": Object {
+                    "_id": "test",
+                  },
                 },
                 "id": Object {
                   "raw": "acadia",
