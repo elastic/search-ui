@@ -1,6 +1,5 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
-import { config, SORT_OPTIONS } from "./config";
 
 import {
   ErrorBoundary,
@@ -14,24 +13,50 @@ import {
   Sorting,
   WithSearch
 } from "@elastic/react-search-ui";
-import {
-  Layout,
-  SingleLinksFacet,
-  SingleSelectFacet
-} from "@elastic/react-search-ui-views";
+import { Layout, SingleLinksFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { config, SORT_OPTIONS } from "./config";
 
-const productListingPageconfig = {
-  ...config,
-  searchQuery: {
-    ...config.searchQuery,
-    filters: [{ field: "parent_category", values: ["TVs"] }]
-  }
-};
+const CustomResultView = ({ result, onClickLink }) => (
+  <li className="sui-result">
+    <div className="sui-result__header">
+      <h3>
+        <a
+          onClick={onClickLink}
+          href={result.url.raw}
+          dangerouslySetInnerHTML={{ __html: result.name.snippet }}
+        />
+      </h3>
+    </div>
+    <div className="sui-result__body">
+      <div className="sui-result__image">
+        <img src={result.image.raw} />
+      </div>
+      <div className="sui-result__details">
+        <div>
+          ${result.price.raw}
+          <br />
+          {result.shipping.raw === 0
+            ? "Free shipping"
+            : `+$${result.shipping.raw} shipping`}
+        </div>
+        <br />
+        <div>
+          {[...Array(result.rating.raw)]
+            .fill("★")
+            .concat([...Array(5 - result.rating.raw)].fill("☆"))}{" "}
+          {result.votes.raw}
+        </div>
+        <br />
+        <div dangerouslySetInnerHTML={{ __html: result.description.snippet }} />
+      </div>
+    </div>
+  </li>
+);
 
-export default function ProductListingPageTv() {
+export default function App() {
   return (
-    <SearchProvider config={productListingPageconfig}>
+    <SearchProvider config={config}>
       <WithSearch
         mapContextToProps={({ wasSearched }) => ({
           wasSearched
@@ -48,10 +73,8 @@ export default function ProductListingPageTv() {
                       autocompleteResults={{
                         linkTarget: "_blank",
                         sectionTitle: "Results",
-                        titleField: "title",
-                        urlField: "nps_link",
-                        shouldTrackClickThrough: true,
-                        clickThroughTags: ["test"]
+                        titleField: "name",
+                        urlField: "url"
                       }}
                       autocompleteSuggestions={true}
                       debounceLength={0}
@@ -63,34 +86,23 @@ export default function ProductListingPageTv() {
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
-                        field={"child_category"}
-                        label="Child category"
+                        field={"categories"}
+                        label="Category"
                         filterType="any"
                       />
                       <Facet
-                        field="manufacturer"
-                        label="Manufacturer"
+                        field="rating"
+                        label="Rating"
                         view={SingleLinksFacet}
                       />
-                      <Facet
-                        field="date_established"
-                        label="Date Established"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="location"
-                        label="Distance"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="acres"
-                        label="Acres"
-                        view={SingleSelectFacet}
-                      />
+                      <Facet field="manufacturer" label="Manufacturer" />
+                      <Facet field="price" label="Price" filterType="any" />
+                      <Facet field="shipping" label="Shipping" />
                     </div>
                   }
                   bodyContent={
                     <Results
+                      resultView={CustomResultView}
                       titleField="name"
                       urlField="url"
                       thumbnailField="image"

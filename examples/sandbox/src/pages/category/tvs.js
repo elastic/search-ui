@@ -1,5 +1,6 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
+import { config, SORT_OPTIONS } from "./config";
 
 import {
   ErrorBoundary,
@@ -14,17 +15,23 @@ import {
   WithSearch
 } from "@elastic/react-search-ui";
 import {
-  BooleanFacet,
   Layout,
   SingleLinksFacet,
   SingleSelectFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
-import { config, SORT_OPTIONS } from "./config";
 
-export default function App() {
+const categoryPageconfig = {
+  ...config,
+  searchQuery: {
+    ...config.searchQuery,
+    filters: [{ field: "parent_category", values: ["TVs"] }]
+  }
+};
+
+export default function CategoryPageTv() {
   return (
-    <SearchProvider config={config}>
+    <SearchProvider config={categoryPageconfig}>
       <WithSearch
         mapContextToProps={({ wasSearched }) => ({
           wasSearched
@@ -56,25 +63,29 @@ export default function App() {
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
-                        field={"categories"}
-                        label="Category"
+                        field={"child_category"}
+                        label="Child category"
                         filterType="any"
                       />
-                      <Facet field="manufacturer" label="Manufacturer" />
                       <Facet
-                        field="rating"
-                        label="Rating"
+                        field="manufacturer"
+                        label="Manufacturer"
                         view={SingleLinksFacet}
+                      />
+                      <Facet
+                        field="date_established"
+                        label="Date Established"
+                        filterType="any"
+                      />
+                      <Facet
+                        field="location"
+                        label="Distance"
+                        filterType="any"
                       />
                       <Facet
                         field="acres"
                         label="Acres"
                         view={SingleSelectFacet}
-                      />
-                      <Facet
-                        field={"discount"}
-                        label="Discount"
-                        view={BooleanFacet}
                       />
                     </div>
                   }
