@@ -3,7 +3,6 @@ import "@elastic/eui/dist/eui_theme_light.css";
 import { config, SORT_OPTIONS } from "./config";
 
 import {
-  ErrorBoundary,
   Facet,
   SearchProvider,
   Results,
@@ -21,7 +20,7 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { CustomResultView } from "./CustomResultView";
 
-const categoryPageconfig = {
+const categoryTvsConfig = {
   ...config,
   searchQuery: {
     ...config.searchQuery,
@@ -42,60 +41,50 @@ const categoryPageconfig = {
   }
 };
 
-export default function CategoryPageTv() {
+export default function CategoryPageTvs() {
   return (
-    <SearchProvider config={categoryPageconfig}>
-      <WithSearch
-        mapContextToProps={({ wasSearched }) => ({
-          wasSearched
-        })}
-      >
-        {({ wasSearched }) => {
+    <SearchProvider config={categoryTvsConfig}>
+      <WithSearch mapContextToProps={() => ({})}>
+        {() => {
           return (
-            <div className="App">
-              <ErrorBoundary>
-                <Layout
-                  sideContent={
-                    <div>
-                      {wasSearched && (
-                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                      )}
-                      <Facet
-                        field="tv_smart_tv"
-                        label="Smart TV"
-                        view={BooleanFacet}
-                      />
-                      <Facet field="tv_resolution" label="Resolution" />
-                      <Facet field="tv_size" label="Diagonal size" />
-                      <Facet
-                        field="rating"
-                        label="Rating"
-                        view={SingleLinksFacet}
-                      />
-                      <Facet field="manufacturer" label="Manufacturer" />
-                      <Facet field="price" label="Price" filterType="any" />
-                      <Facet field="shipping" label="Shipping" />
-                    </div>
-                  }
-                  bodyContent={
-                    <Results
-                      titleField="name"
-                      urlField="url"
-                      thumbnailField="image"
-                      shouldTrackClickThrough={true}
-                      resultView={CustomResultView}
-                    />
-                  }
-                  bodyHeader={
-                    <React.Fragment>
-                      {wasSearched && <PagingInfo />}
-                      {wasSearched && <ResultsPerPage />}
-                    </React.Fragment>
-                  }
-                  bodyFooter={<Paging />}
+            <Layout
+              sideContent={
+                <>
+                  <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
+                  <Facet
+                    field="tv_smart_tv"
+                    label="Smart TV"
+                    view={BooleanFacet}
+                  />
+                  <Facet field="tv_resolution" label="Resolution" />
+                  <Facet field="tv_size" label="Diagonal size" />
+                  <Facet
+                    field="rating"
+                    label="Rating"
+                    view={SingleLinksFacet}
+                  />
+                  <Facet field="manufacturer" label="Manufacturer" />
+                  <Facet field="price" label="Price" filterType="any" />
+                  <Facet field="shipping" label="Shipping" />
+                </>
+              }
+              bodyContent={
+                <Results
+                  titleField="name"
+                  urlField="url"
+                  thumbnailField="image"
+                  shouldTrackClickThrough={true}
+                  resultView={CustomResultView}
                 />
-              </ErrorBoundary>
-            </div>
+              }
+              bodyHeader={
+                <>
+                  <PagingInfo />
+                  <ResultsPerPage />
+                </>
+              }
+              bodyFooter={<Paging />}
+            />
           );
         }}
       </WithSearch>
