@@ -16,47 +16,7 @@ import {
 import { Layout, SingleLinksFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { config, SORT_OPTIONS } from "./config";
-
-const CustomResultView = ({ result, onClickLink }) => (
-  <li className="sui-result">
-    <div className="sui-result__header">
-      <h3>
-        <a
-          onClick={onClickLink}
-          href={result.url.raw}
-          dangerouslySetInnerHTML={{ __html: result.name.snippet }}
-          target="_blank"
-        />
-      </h3>
-    </div>
-    <div className="sui-result__body">
-      <div className="sui-result__image">
-        <img src={result.image.raw} />
-      </div>
-      <div className="sui-result__details">
-        <div>
-          ${result.price.raw}
-          <br />
-          {result.shipping && result.shipping.raw !== undefined
-            ? result.shipping.raw === 0
-              ? "Free shipping"
-              : `+$${result.shipping.raw} shipping`
-            : ""}
-          {}
-        </div>
-        <br />
-        <div>
-          {[...Array(result.rating.raw)]
-            .fill("★")
-            .concat([...Array(5 - result.rating.raw)].fill("☆"))}{" "}
-          {result.votes.raw}
-        </div>
-        <br />
-        <div dangerouslySetInnerHTML={{ __html: result.description.snippet }} />
-      </div>
-    </div>
-  </li>
-);
+import { CustomResultView } from "./CustomResultView";
 
 export default function App() {
   return (
@@ -93,13 +53,18 @@ export default function App() {
                         field={"categories"}
                         label="Category"
                         filterType="any"
+                        isFilterable={true}
                       />
                       <Facet
                         field="rating"
                         label="Rating"
                         view={SingleLinksFacet}
                       />
-                      <Facet field="manufacturer" label="Manufacturer" />
+                      <Facet
+                        field="manufacturer"
+                        label="Manufacturer"
+                        isFilterable={true}
+                      />
                       <Facet field="price" label="Price" filterType="any" />
                       <Facet field="shipping" label="Shipping" />
                     </div>
