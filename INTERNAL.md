@@ -1,4 +1,10 @@
+The content in this file links to Elastic internal resources and is mainly meant for core maintainers within Elastic. For a more general guide for developing, please consult CONTRIBUTING.md.
+
 # Running docs locally
+
+The Search UI docs are built using an internal library (which hopefully moves into the open soon!).
+
+An overview of the syntax used can be found here: https://github.com/elastic/docsmobile/blob/main/doc-site/docs/docs_syntax.mdx.
 
 1. Clone https://github.com/elastic/docs.elastic.co next to search-ui repo
 2. Edit your source.json file so that:
