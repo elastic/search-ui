@@ -192,6 +192,9 @@ describe("Search results", () => {
           Object {
             "_meta": Object {
               "id": "test",
+              "rawHit": Object {
+                "_id": "test",
+              },
             },
             "description": Object {
               "raw": "test",

@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-elasticsearch-connector",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "A Search UI connector for Elasticsearch",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.2.1",
-    "@elastic/search-ui": "1.15.0",
-    "@searchkit/sdk": "^3.0.0-canary.57"
+    "@elastic/search-ui": "1.16.0",
+    "@searchkit/sdk": "^3.0.0-canary.58"
   }
 }

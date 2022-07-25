@@ -20,7 +20,8 @@ interface AutocompleteHandlerConfiguration {
   host?: string;
   index: string;
   connectionOptions?: {
-    apiKey: string;
+    apiKey?: string;
+    headers?: Record<string, string>;
   };
 }
 
@@ -29,7 +30,7 @@ export default async function handleRequest(
 ): Promise<AutocompleteResponseState> {
   const { state, queryConfig, host, cloud, index, connectionOptions } =
     configuration;
-  const { apiKey } = connectionOptions || {};
+  const { apiKey, headers } = connectionOptions || {};
 
   const suggestionConfigurations = [];
 
@@ -69,7 +70,8 @@ export default async function handleRequest(
     cloud,
     index,
     connectionOptions: {
-      apiKey
+      apiKey,
+      headers
     },
     suggestions: suggestionConfigurations
   };

@@ -275,6 +275,7 @@ export default function App() {
                         label="Distance"
                         filterType="any"
                       />
+                      <Facet field="visitors" label="visitors" />
                       <Facet
                         field="acres"
                         label="Acres"
