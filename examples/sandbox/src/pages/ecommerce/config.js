@@ -90,7 +90,13 @@ export const config = {
         sort: { value: "asc" }
       }
     },
-    disjunctiveFacets: ["categories", "manufacturer", "price"]
+    disjunctiveFacets: [
+      "categories",
+      "manufacturer",
+      "price",
+      "tv_size",
+      "tv_resolution"
+    ]
   },
   autocompleteQuery: {
     results: {
