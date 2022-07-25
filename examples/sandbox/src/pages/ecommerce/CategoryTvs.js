@@ -6,7 +6,6 @@ import {
   ErrorBoundary,
   Facet,
   SearchProvider,
-  SearchBox,
   Results,
   PagingInfo,
   ResultsPerPage,
@@ -17,15 +16,29 @@ import {
 import {
   Layout,
   SingleLinksFacet,
-  SingleSelectFacet
+  BooleanFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { CustomResultView } from "./CustomResultView";
 
 const categoryPageconfig = {
   ...config,
   searchQuery: {
     ...config.searchQuery,
-    filters: [{ field: "parent_category", values: ["TVs"] }]
+    filters: [{ field: "parent_category", values: ["TVs"] }],
+    facets: {
+      ...config.searchQuery.facets,
+      price: {
+        type: "range",
+        ranges: [
+          { from: 0, to: 200, name: "Under $200" },
+          { from: 200, to: 500, name: "$200 to $500" },
+          { from: 500, to: 1000, name: "$500 to $1000" },
+          { from: 1000, to: 2000, name: "$1000 to $2000" },
+          { from: 2000, name: "$2000 & Above" }
+        ]
+      }
+    }
   }
 };
 
@@ -42,51 +55,26 @@ export default function CategoryPageTv() {
             <div className="App">
               <ErrorBoundary>
                 <Layout
-                  header={
-                    <SearchBox
-                      autocompleteMinimumCharacters={3}
-                      autocompleteResults={{
-                        linkTarget: "_blank",
-                        sectionTitle: "Results",
-                        titleField: "title",
-                        urlField: "nps_link",
-                        shouldTrackClickThrough: true,
-                        clickThroughTags: ["test"]
-                      }}
-                      autocompleteSuggestions={true}
-                      debounceLength={0}
-                    />
-                  }
                   sideContent={
                     <div>
                       {wasSearched && (
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
-                        field={"child_category"}
-                        label="Child category"
-                        filterType="any"
+                        field="tv_smart_tv"
+                        label="Smart TV"
+                        view={BooleanFacet}
                       />
+                      <Facet field="tv_resolution" label="Resolution" />
+                      <Facet field="tv_size" label="Diagonal size" />
                       <Facet
-                        field="manufacturer"
-                        label="Manufacturer"
+                        field="rating"
+                        label="Rating"
                         view={SingleLinksFacet}
                       />
-                      <Facet
-                        field="date_established"
-                        label="Date Established"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="location"
-                        label="Distance"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="acres"
-                        label="Acres"
-                        view={SingleSelectFacet}
-                      />
+                      <Facet field="manufacturer" label="Manufacturer" />
+                      <Facet field="price" label="Price" filterType="any" />
+                      <Facet field="shipping" label="Shipping" />
                     </div>
                   }
                   bodyContent={
@@ -95,6 +83,7 @@ export default function CategoryPageTv() {
                       urlField="url"
                       thumbnailField="image"
                       shouldTrackClickThrough={true}
+                      resultView={CustomResultView}
                     />
                   }
                   bodyHeader={
