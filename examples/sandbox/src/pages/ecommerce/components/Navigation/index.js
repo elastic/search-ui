@@ -22,8 +22,8 @@ function InputView({ getAutocomplete, getInputProps, getButtonProps }) {
             viewBox="0 0 20 20"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
             ></path>
           </svg>
@@ -56,6 +56,19 @@ function getSuggestionTitle(suggestionType, autocompleteSuggestions) {
   }
 }
 
+function getSuggestionDisplayField(suggestionType, autocompleteSuggestions) {
+  if (autocompleteSuggestions.queryType === "results") {
+    return autocompleteSuggestions.displayField;
+  }
+
+  if (
+    autocompleteSuggestions[suggestionType] &&
+    autocompleteSuggestions[suggestionType].queryType === "results"
+  ) {
+    return autocompleteSuggestions[suggestionType].displayField;
+  }
+}
+
 function AutocompleteView({
   autocompleteResults,
   autocompletedResults,
@@ -80,22 +93,37 @@ function AutocompleteView({
             ([suggestionType, suggestions]) => {
               return (
                 <React.Fragment key={suggestionType}>
-                  {getSuggestionTitle(
-                    suggestionType,
-                    autocompleteSuggestions
-                  ) &&
-                    suggestions.length > 0 && (
-                      <div className="sui-search-box__section-title">
-                        {getSuggestionTitle(
-                          suggestionType,
-                          autocompleteSuggestions
-                        )}
-                      </div>
-                    )}
                   {suggestions.length > 0 && (
                     <ul className="sui-search-box__suggestion-list">
                       {suggestions.map((suggestion) => {
                         index++;
+                        if (suggestion.queryType === "results") {
+                          let displayField = null;
+                          if (autocompleteSuggestions === true) {
+                            displayField = Object.keys(suggestion.result)[0];
+                          } else {
+                            displayField = getSuggestionDisplayField(
+                              suggestionType,
+                              autocompleteSuggestions
+                            );
+                          }
+                          const suggestionValue =
+                            suggestion.result[displayField]?.raw;
+
+                          return (
+                            <li
+                              {...getItemProps({
+                                key: suggestionValue,
+                                index: index - 1,
+                                item: { suggestion: suggestionValue }
+                              })}
+                              data-transaction-name="query suggestion"
+                            >
+                              <span>{suggestionValue}</span>
+                            </li>
+                          );
+                        }
+
                         return (
                           <li
                             {...getItemProps({
@@ -123,15 +151,6 @@ function AutocompleteView({
                 </React.Fragment>
               );
             }
-          )}
-        {!!autocompleteResults &&
-          !!autocompletedResults &&
-          typeof autocompleteResults !== "boolean" &&
-          autocompletedResults.length > 0 &&
-          autocompleteResults.sectionTitle && (
-            <div className="sui-search-box__section-title">
-              {autocompleteResults.sectionTitle}
-            </div>
           )}
         {!!autocompleteResults &&
           !!autocompletedResults &&
@@ -195,10 +214,20 @@ function Navigation(props) {
         >
           <div className="nav-search">
             <SearchBox
+              onSubmit={(searchTerm) => {
+                window.location.href = "/ecommerce/search?q=" + searchTerm;
+              }}
               autocompleteResults={{
                 sectionTitle: "Products",
                 titleField: "name",
                 urlField: "url"
+              }}
+              autocompleteSuggestions={{
+                popularQueries: {
+                  sectionTitle: "Popular queries",
+                  queryType: "results",
+                  displayField: "name"
+                }
               }}
               inputView={InputView}
               autocompleteView={AutocompleteView}

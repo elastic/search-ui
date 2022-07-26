@@ -34,7 +34,7 @@
 
 .nav-search-searchbar {
   @apply border-gray-600 border bg-black py-2 px-4 pr-8 relative my-2;
-  width: 300px;
+  width: 500px;
 }
 
 .nav-search-searchbar input {
@@ -55,10 +55,26 @@
 }
 
 .autocomplete-result-item {
-  @apply mb-3 flex;
+  @apply mb-2 flex space-x-5;
+}
+
+.autocomplete-result-item h5 {
+  @apply flex-1 text-sm;
 }
 
 .autocomplete-result-item--img {
-  width: 60px;
-  @apply mr-3;
+  max-width: 30px;
+  @apply m-auto flex-shrink-0;
+}
+
+.sui-search-box__autocomplete-container div {
+  @apply flex;
+}
+
+.sui-search-box__suggestion-list {
+  width: 200px;
+}
+
+.autocomplete-results {
+  width: 300px;
 }

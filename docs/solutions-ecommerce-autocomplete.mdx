@@ -182,7 +182,7 @@ To this, we start by specify the autocompleteQuery `results` configuration
                 )
               })}
             >
-              <div>
+              <>
                 {!!autocompleteSuggestions &&
                   Object.entries(autocompletedSuggestions).map(
                     ([suggestionType, suggestions]) => {
@@ -271,7 +271,7 @@ To this, we start by specify the autocompleteQuery `results` configuration
                       })}
                     </ul>
                   )}
-              </div>
+              </>
             </div>
           );
         }
@@ -294,19 +294,6 @@ In this example, we will populate an index with popular queries. The mapping and
   "popular_queries" : {
     "mappings" : {
       "properties" : {
-        "category" : {
-          "properties" : {
-            "name" : {
-              "type" : "text",
-              "fields" : {
-                "keyword" : {
-                  "type" : "keyword",
-                  "ignore_above" : 256
-                }
-              }
-            }
-          }
-        },
         "name" : {
           "type" : "text",
           "fields" : {
@@ -326,56 +313,113 @@ In this example, we will populate an index with popular queries. The mapping and
       <DocTab name="Example Document">
 ```json
 {
-  "name" : "Iphone 4s",
-  "category" : {
-    "name" : "All Cell Phones with Plans"
-  }
+  "name" : "Iphone 4s"
 }
 ```
       </DocTab>
 </DocTabs>
 
-Next we setup Search UI `Searchbox` and `configuration` to display suggestions from the `popular_queries` index.
+Next setup Search UI `Searchbox` and `configuration` to display suggestions from the `popular_queries` index.
 
 <DocTabs>
-  <DocTab name="Configuration">
+  <DocTab name="Search Configuration">
       ```jsx
         const config = {
           alwaysSearchOnInitialLoad: false,
           autocompleteQuery: {
             suggestions: {
-              popularQueries: {
-                search_fields: {
-                  "name.suggest": {} // fields used to query
-                },
-                result_fields: {
-                  name: { // fields used for display
-                    raw: {}
+              types: {
+                popularQueries: {
+                  search_fields: {
+                    "name.suggest": {} // fields used to query
                   },
-                  category: {
-                    raw: {}
-                  }
-                },
-                index: "popular_queries",
-                queryType: "results"
-              }
-            }
+                  result_fields: {
+                    name: {
+                      raw: {}
+                    }
+                  },
+                  index: "popular_queries",
+                  queryType: "results"
+                }
+              },
+              size: 4
+            },
           },
           apiConnector: connector
         };
       ```
   </DocTab>
-  <DocTab name="Searchbox Component">
+  <DocTab name="Searchbox Component Configuration">
       ```jsx
       <SearchBox autocompleteSuggestions={{
-          popularQueries: {
-            queryType: "results",
-            displayField: "name" // specify which field used to display the suggestion
-          }}} autocompleteView={AutocompleteView} />;
+        popularQueries: {
+          sectionTitle: "Popular queries",
+          queryType: "results",
+          displayField: "name"
+        }
+      }} />;
       ```
   </DocTab>
-  <DocTab name="Autocomplete View Component">
+</DocTabs>
+
+Now when you type `Iphone 4s` in the searchbox, the autocomplete view will display the popular queries.
+
+![Suggestions from another index](images/ecommerce/autocomplete/query-suggestions-popular-queries.png)
+
+If you want to display more fields from the index, you can use the `result_fields` configuration and implement a custom autocompleteView to display these fields.
+
+### Suggestions from multiple sources
+
+With a combination of the suggestion configurations above, you can display suggestions from multiple sources at the same time.
+
+![Suggestions from multiple sources](images/ecommerce/autocomplete/query-suggestions-multiple-sources.png)
+
+To do this, extend the `autocompleteQuery` configuration to specify multiple sources. For the above screenshot, we customised the `autocompleteView` css to display the popular queries and the results from the `autocompleteSuggestions` configuration side by side and hide the section titles.
+
+<DocTabs>
+  <DocTab name="Search Configuration">
       ```jsx
-       
+        const config = {
+          alwaysSearchOnInitialLoad: false,
+          autocompleteQuery: {
+            suggestions: {
+              types: {
+                popularQueries: {
+                  search_fields: {
+                    "name.suggest": {} // fields used to query
+                  },
+                  result_fields: {
+                    name: {
+                      raw: {}
+                    }
+                  },
+                  index: "popular_queries",
+                  queryType: "results"
+                }
+              },
+              size: 4
+            },
+          },
+          apiConnector: connector
+        };
       ```
   </DocTab>
+  <DocTab name="Searchbox Component Configuration">
+      ```jsx
+      <SearchBox
+        autocompleteResults={{
+          sectionTitle: "Products",
+          titleField: "name",
+          urlField: "url"
+        }}
+        autocompleteSuggestions={{
+          popularQueries: {
+            sectionTitle: "Popular queries",
+            queryType: "results",
+            displayField: "name"
+          }
+        }}
+      />
+      ```
+  </DocTab>
+</DocTabs>
