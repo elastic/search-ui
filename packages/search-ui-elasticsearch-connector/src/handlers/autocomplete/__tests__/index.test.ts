@@ -4,8 +4,25 @@ import handleRequest from "../index";
 
 const mockSearchkitResponse = [
   {
-    identifier: "results",
+    identifier: "suggestions-completion-results",
     suggestions: ["sweaters", "sweatpants"]
+  },
+  {
+    identifier: "suggestions-hits-popularQueries",
+    hits: [
+      {
+        id: "acadia",
+        fields: {
+          query: "hello"
+        },
+        highlight: {
+          query: "hello"
+        },
+        rawHit: {
+          _id: "test"
+        }
+      }
+    ]
   },
   {
     identifier: "hits-suggestions",
@@ -67,6 +84,17 @@ const queryConfig: AutocompleteQueryConfig = {
     types: {
       results: {
         fields: ["title"]
+      },
+      popularQueries: {
+        queryType: "results",
+        search_fields: {
+          title: {}
+        },
+        result_fields: {
+          title: {
+            raw: {}
+          }
+        }
       }
     }
   }
@@ -111,6 +139,26 @@ describe("Autocomplete results", () => {
           },
         ],
         "autocompletedSuggestions": Object {
+          "popularQueries": Array [
+            Object {
+              "queryType": "results",
+              "result": Object {
+                "_meta": Object {
+                  "id": "test",
+                  "rawHit": Object {
+                    "_id": "test",
+                  },
+                },
+                "id": Object {
+                  "raw": "acadia",
+                },
+                "query": Object {
+                  "raw": "hello",
+                  "snippet": "hello",
+                },
+              },
+            },
+          ],
           "results": Array [
             Object {
               "suggestion": "sweaters",

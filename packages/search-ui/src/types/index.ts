@@ -70,9 +70,26 @@ export type SearchState = RequestState &
 export type AutocompleteResponseState = {
   autocompletedResults: AutocompletedResult[];
   autocompletedResultsRequestId: string;
-  autocompletedSuggestions: any;
+  autocompletedSuggestions: AutocompletedSuggestions;
   autocompletedSuggestionsRequestId: string;
 };
+
+export type AutocompletedSuggestions = Record<
+  string,
+  AutocompletedSuggestion[] | AutocompletedResultSuggestion[]
+>;
+
+export interface AutocompletedSuggestion {
+  highlight?: string;
+  suggestion?: string;
+  data?: any;
+  queryType?: "suggestion";
+}
+
+export interface AutocompletedResultSuggestion {
+  result: Record<string, FieldResult>;
+  queryType: "results";
+}
 
 export type ResponseState = {
   requestId: string;
@@ -92,8 +109,19 @@ export type FieldConfiguration = {
     size?: number;
     fallback?: boolean;
   };
-  fields?: string[];
   raw?: any;
+};
+
+export type SuggestionConfiguration = {
+  fields: string[];
+  queryType?: "suggestions";
+};
+
+export type ResultSuggestionConfiguration = {
+  result_fields?: Record<string, FieldConfiguration>;
+  search_fields?: Record<string, SearchFieldConfiguration>;
+  index?: string;
+  queryType: "results";
 };
 
 export type SearchFieldConfiguration = {
@@ -107,7 +135,10 @@ export type AutocompleteQueryConfig = {
 };
 
 export type SuggestionsQueryConfig = {
-  types?: Record<string, FieldConfiguration>;
+  types?: Record<
+    string,
+    SuggestionConfiguration | ResultSuggestionConfiguration
+  >;
   size?: number;
 };
 
@@ -174,12 +205,23 @@ export type AutocompleteResult = {
 };
 
 export type AutocompleteSuggestionFragment = {
-  sectionTitle: string;
+  sectionTitle?: string;
+  queryType?: "suggestion";
+};
+
+export type AutocompleteResultSuggestionFragment = {
+  sectionTitle?: string;
+  queryType: "results";
+  displayField: string;
 };
 
 export type AutocompleteSuggestion =
-  | Record<string, AutocompleteSuggestionFragment>
-  | AutocompleteSuggestionFragment;
+  | Record<
+      string,
+      AutocompleteSuggestionFragment | AutocompleteResultSuggestionFragment
+    >
+  | AutocompleteSuggestionFragment
+  | AutocompleteResultSuggestionFragment;
 
 export type FieldResult = {
   raw?: string | number | boolean;
@@ -187,14 +229,5 @@ export type FieldResult = {
 };
 
 export type AutocompletedResult = any | Record<string, FieldResult>;
-
-export type AutocompletedSuggestion = Record<
-  string,
-  {
-    highlight?: string;
-    suggestion?: string;
-    data?: any;
-  }[]
->;
 
 export type SearchContextState = SearchState & SearchDriverActions;
