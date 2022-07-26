@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Navigation from "./components/Navigation";
+import "./styles.css";
 
 export default function Ecommerce() {
   return (

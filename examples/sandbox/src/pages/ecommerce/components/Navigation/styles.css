@@ -10,6 +10,7 @@
 
 .nav-wrapper {
   @apply mx-auto px-6 flex justify-between;
+  max-width: 1300px;
 }
 
 .nav-elements {
