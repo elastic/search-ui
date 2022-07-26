@@ -1,6 +1,7 @@
 import React from "react";
 import { Autocomplete } from "..";
 import { shallow } from "enzyme";
+import type { AutocompletedSuggestions } from "@elastic/search-ui";
 
 const props = {
   autocompleteResults: {
@@ -28,7 +29,9 @@ const props = {
       sectionTitle: "Suggested"
     },
     popular_queries: {
-      sectionTitle: "Popular"
+      sectionTitle: "Popular",
+      queryType: "results" as const,
+      displayField: "query"
     }
   },
   allAutocompletedItemsCount: 5,
@@ -41,13 +44,15 @@ const props = {
     ],
     popular_queries: [
       {
-        highlight: "",
-        suggestion: "how do i know when my bike needs new tires?"
-      },
-      { highlight: "", suggestion: "what is a banana bike?" },
-      { highlight: "", suggestion: "is it cool to ride a bike?" }
+        result: {
+          query: {
+            raw: "bike police"
+          }
+        },
+        queryType: "results" as const
+      }
     ]
-  },
+  } as AutocompletedSuggestions,
   getItemProps: (props) => props,
   getMenuProps: (props) => props
 };
@@ -155,7 +160,7 @@ describe("When there are suggestions", () => {
       />
     );
     expect(wrapper.find(".sui-search-box__suggestion-list li").length).toEqual(
-      6
+      4
     );
   });
 
@@ -178,6 +183,10 @@ describe("When there are suggestions", () => {
         autocompleteSuggestions={{
           documents: {
             sectionTitle: "Suggested"
+          },
+          popular_queries: {
+            queryType: "results",
+            displayField: "query"
           }
         }}
       />

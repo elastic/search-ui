@@ -1,7 +1,8 @@
 import type {
   AutocompleteQueryConfig,
   AutocompleteResponseState,
-  RequestState
+  RequestState,
+  ResultSuggestionConfiguration
 } from "@elastic/search-ui";
 import Searchkit, {
   CompletionSuggester,
@@ -55,12 +56,37 @@ export default async function handleRequest(
 
   if (queryConfig.suggestions && queryConfig.suggestions.types) {
     const configs = Object.keys(queryConfig.suggestions.types).map((type) => {
-      const { fields } = queryConfig.suggestions.types[type];
-      return new CompletionSuggester({
-        identifier: type,
-        field: fields[0],
-        size: queryConfig.suggestions.size || 5
-      });
+      const configuration = queryConfig.suggestions.types[type];
+      const suggestionsSize = queryConfig.suggestions.size || 5;
+
+      if (configuration.queryType === "results") {
+        const { hitFields, highlightFields } = getResultFields(
+          configuration.result_fields
+        );
+        const queryFields = getQueryFields(configuration.search_fields);
+
+        return new HitsSuggestor({
+          identifier: `suggestions-hits-${type}`,
+          index: configuration.index,
+          hits: {
+            fields: hitFields,
+            highlightedFields: highlightFields
+          },
+          query: new PrefixQuery({ fields: queryFields }),
+          size: suggestionsSize
+        });
+      } else if (
+        !configuration.queryType ||
+        configuration.queryType === "suggestions"
+      ) {
+        const { fields } = configuration;
+
+        return new CompletionSuggester({
+          identifier: `suggestions-completion-${type}`,
+          field: fields[0],
+          size: suggestionsSize
+        });
+      }
     });
     suggestionConfigurations.push(...configs);
   }
@@ -82,23 +108,40 @@ export default async function handleRequest(
 
   const results: AutocompleteResponseState = response.reduce(
     (sum, suggestion) => {
-      if (suggestion.identifier === "hits-suggestions") {
+      const { identifier } = suggestion;
+
+      if (identifier === "hits-suggestions") {
         return {
           ...sum,
           autocompletedResults: suggestion.hits.map(fieldResponseMapper)
         };
-      } else {
+      } else if (identifier.startsWith("suggestions-completion-")) {
+        const name = identifier.replace("suggestions-completion-", "");
+
         return {
           ...sum,
           autocompletedSuggestions: {
             ...sum.autocompletedSuggestions,
-            [suggestion.identifier]: suggestion.suggestions.map(
-              (suggestion) => {
-                return {
-                  suggestion: suggestion
-                };
-              }
-            )
+            [name]: suggestion.suggestions.map((suggestion) => {
+              return {
+                suggestion: suggestion
+              };
+            })
+          }
+        };
+      } else if (identifier.startsWith("suggestions-hits-")) {
+        const name = identifier.replace("suggestions-hits-", "");
+        const config = queryConfig.suggestions.types[
+          name
+        ] as ResultSuggestionConfiguration;
+        return {
+          ...sum,
+          autocompletedSuggestions: {
+            ...sum.autocompletedSuggestions,
+            [name]: suggestion.hits.map((hit) => ({
+              queryType: config.queryType,
+              result: fieldResponseMapper(hit)
+            }))
           }
         };
       }
