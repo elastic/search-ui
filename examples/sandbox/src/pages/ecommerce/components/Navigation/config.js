@@ -1,7 +1,7 @@
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ElasticsearchAPIConnector({
-  apiKey: "MzlMME5JSUJjc1JKQVo5RzBxNzU6c1htam8zWDFUc1NSRTJyQ2ZMN05lQQ==",
+  apiKey: "cDk4clBJSUJjc1JKQVo5R2RlMmk6ODNzbWlMbzJSdG05OEFlRVg3cWZUUQ==",
   cloud: {
     id: "Search_UI_sandbox:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJGEwN2I0NTJlNGRjOTQ0NzBiNjQyNDc3NTI2Njk2NjAzJDNkYWJjZmM3YzQ2MTRiNGM5NzI3OWI1YzYzZTY1YmFj"
   },
