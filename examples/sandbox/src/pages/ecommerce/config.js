@@ -37,11 +37,7 @@ export const config = {
       rating: { raw: {} },
       shipping: { raw: {} },
       votes: { raw: {} },
-      model: { raw: {} },
-      // TV-specific fields
-      tv_size: { raw: {} },
-      tv_smart_tv: { raw: {} },
-      tv_resolution: { raw: {} }
+      model: { raw: {} }
     },
     facets: {
       categories: {
@@ -76,18 +72,6 @@ export const config = {
       shipping: {
         type: "range",
         ranges: [{ to: 0.01, name: "Free shipping" }]
-      },
-      // TV-specific facets
-      tv_size: {
-        type: "value",
-        sort: { value: "asc" }
-      },
-      tv_smart_tv: {
-        type: "value"
-      },
-      tv_resolution: {
-        type: "value",
-        sort: { value: "asc" }
       }
     },
     disjunctiveFacets: [

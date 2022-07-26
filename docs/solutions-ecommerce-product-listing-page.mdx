@@ -74,16 +74,141 @@ export default function CategoryPageTvs() {
 
 That's it! Now the new category page will have a good URL and will only show the results that match the filter.
 
-### facets
+### Facets
 
-Examples for ecommerce product listing page
+<DocImage url="images/solutions-ecommerce/facets.png" size="l" alt="Facets" />
 
-- Brand facet (with search)
-- Size Facet
-- Colour Facet (Custom view)
-- On sale Facet (Out the box toggle)
-- Conditional Facet
-- Rating facet
+Facets is the most important part of the category page. Since category pages typically don't have their own search box, facets become the main tool to help users find the products they are looking for.
+
+_Facets let users **explore** what's available in your store, rather then **search** for a specific product._
+
+To help users find what they're looking for, it's best to provide a list of facets that are unique to the presented category.
+
+In our example of TVs category page, in addition to common facets, like:
+
+- Price
+- Brand
+- Rating
+
+we also have TV-specific facets:
+
+- Smart TV _(boolean)_
+- TV resolution _(string: "Full HD", "4k", etc.)_
+- TV diagonal _(number)_
+
+These TV-specific facets are not useful on the search page, since they are not relevant to most of the results.
+
+---
+
+To implement this in Search UI, you'll need to make a copy of Search UI config and make several modifications:
+
+1. Add new result fields to `searchQuery.resultFields`;
+1. Add new facets to `searchQuery.facets`;
+1. (optional) Add new disjunctiveFacets `searchQuery.disjunctiveFacets`.
+
+Then, you'll need to add the `Facet` components to UI.
+
+Here's how to do it all at once:
+
+```jsx
+// import your Search UI config
+import { config } from "./config";
+import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
+
+const categoryTvsConfig = {
+  ...config,
+  searchQuery: {
+    ...config.searchQuery,
+    filters: [{ field: "parent_category", values: ["TVs"] }],
+    // 1. Adding new resilt fields, these will be used for the facets
+    result_fields: {
+      ...config.searchQuery.result_fields,
+      tv_size: { raw: {} },
+      tv_smart_tv: { raw: {} },
+      tv_resolution: { raw: {} }
+    },
+    // 2. Adding the new facets
+    facets: {
+      ...config.searchQuery.facets,
+      tv_size: {
+        type: "value",
+        sort: { value: "asc" }
+      },
+      tv_smart_tv: {
+        type: "value"
+      },
+      tv_resolution: {
+        type: "value",
+        sort: { value: "asc" }
+      }
+    },
+    // 3. Making some of newly added facets disjunctive
+    disjunctiveFacets: [
+      ...config.searchQuery.disjunctiveFacets,
+      "tv_size",
+      "tv_resolution"
+    ]
+  }
+};
+
+export default function CategoryPageTvs() {
+  return (
+    // Pass the new config to SearchProvider
+    <SearchProvider config={categoryTvsConfig}>
+      <WithSearch mapContextToProps={() => ({})}>
+        {() => {
+          return (
+            // The components you want to render go here
+            // For the sake of brevity, we're only showing the new facets
+            <>
+              <Facet field="tv_smart_tv" label="Smart TV" view={BooleanFacet} />
+              <Facet field="tv_resolution" label="Resolution" />
+              <Facet field="tv_size" label="Diagonal size" />
+            </>
+          );
+        }}
+      </WithSearch>
+    </SearchProvider>
+  );
+}
+```
+
+---
+
+Search UI offers several kinds of facets out-of-the-box:
+
+- MultiCheckboxFacet
+- BooleanFacet
+- SingleLinksFacet
+
+Here's an example of how to use them and the resulting UI:
+
+```jsx
+import { BooleanFacet, SingleLinksFacet } from "@elastic/react-search-ui-views";
+
+<Facet
+  field="tv_smart_tv"
+  label="Smart TV"
+  view={BooleanFacet}
+/>
+<Facet
+  field="tv_resolution"
+  label="Resolution"
+  view={SingleLinksFacet}
+/>
+<Facet
+  field="tv_size"
+  label="Diagonal size"
+  filterType="any" // accepts "all", "any" and "none"
+  // Using the default view={MultiCheckboxFacet}
+/>
+```
+
+<DocImage
+  url="images/solutions-ecommerce/facet-views.png"
+  size="l"
+  alt="Facet views"
+/>
 
 ### Filters
 
@@ -100,8 +225,6 @@ https://baymard.com/blog/combine-variations-one-list-item
 - pros vs cons of variants within app-search
 
 ### Sorting
-
-![sorting](images/solutions-ecommerce/sorting.png)
 
 <DocImage
   url="images/solutions-ecommerce/sorting.png"
@@ -139,7 +262,7 @@ A good starting point for sorting options is to have these three:
 - Price: Low to High
 - Price: High to Low
 
-Also consider adding some of these, although they might not be applicable to your data:
+Also consider adding some of these if they are applicable to your data:
 
 - Popularity
 - User rating

@@ -25,6 +25,12 @@ const categoryTvsConfig = {
   searchQuery: {
     ...config.searchQuery,
     filters: [{ field: "parent_category", values: ["TVs"] }],
+    result_fields: {
+      ...config.searchQuery.result_fields,
+      tv_size: { raw: {} },
+      tv_smart_tv: { raw: {} },
+      tv_resolution: { raw: {} }
+    },
     facets: {
       ...config.searchQuery.facets,
       price: {
@@ -36,8 +42,24 @@ const categoryTvsConfig = {
           { from: 1000, to: 2000, name: "$1000 to $2000" },
           { from: 2000, name: "$2000 & Above" }
         ]
+      },
+      tv_size: {
+        type: "value",
+        sort: { value: "asc" }
+      },
+      tv_smart_tv: {
+        type: "value"
+      },
+      tv_resolution: {
+        type: "value",
+        sort: { value: "asc" }
       }
-    }
+    },
+    disjunctiveFacets: [
+      ...config.searchQuery.disjunctiveFacets,
+      "tv_size",
+      "tv_resolution"
+    ]
   }
 };
 
@@ -56,8 +78,16 @@ export default function CategoryPageTvs() {
                     label="Smart TV"
                     view={BooleanFacet}
                   />
-                  <Facet field="tv_resolution" label="Resolution" />
-                  <Facet field="tv_size" label="Diagonal size" />
+                  <Facet
+                    field="tv_resolution"
+                    label="Resolution"
+                    view={SingleLinksFacet}
+                  />
+                  <Facet
+                    field="tv_size"
+                    label="Diagonal size"
+                    filterType="any"
+                  />
                   <Facet
                     field="rating"
                     label="Rating"
