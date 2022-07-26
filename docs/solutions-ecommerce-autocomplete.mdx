@@ -289,26 +289,26 @@ In this example, we will populate an index with popular queries. The mapping and
 
 <DocTabs>
   <DocTab name="Mapping">
-      ```json
-        {
+```json
+{
   "popular_queries" : {
-    "mappings" : {
-      "properties" : {
-        "name" : {
-          "type" : "text",
-          "fields" : {
-            "suggest" : {
+      "mappings" : {
+        "properties" : {
+          "name" : {
+            "type" : "text",
+            "fields" : {
+              "suggest" : {
               "type" : "search_as_you_type",
               "doc_values" : false,
               "max_shingle_size" : 3
+              }
             }
           }
         }
       }
     }
-  }
 }
-      ```
+```
       </DocTab>
       <DocTab name="Example Document">
 ```json
