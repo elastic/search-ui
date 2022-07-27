@@ -72,44 +72,13 @@ exports[`renders correctly 1`] = `
         index={3}
         item={
           Object {
-            "highlight": "",
-            "suggestion": "how do i know when my bike needs new tires?",
+            "suggestion": "bike police",
           }
         }
-        key="how do i know when my bike needs new tires?"
+        key="bike police"
       >
         <span>
-          how do i know when my bike needs new tires?
-        </span>
-      </li>
-      <li
-        data-transaction-name="query suggestion"
-        index={4}
-        item={
-          Object {
-            "highlight": "",
-            "suggestion": "what is a banana bike?",
-          }
-        }
-        key="what is a banana bike?"
-      >
-        <span>
-          what is a banana bike?
-        </span>
-      </li>
-      <li
-        data-transaction-name="query suggestion"
-        index={5}
-        item={
-          Object {
-            "highlight": "",
-            "suggestion": "is it cool to ride a bike?",
-          }
-        }
-        key="is it cool to ride a bike?"
-      >
-        <span>
-          is it cool to ride a bike?
+          bike police
         </span>
       </li>
     </ul>
@@ -122,7 +91,7 @@ exports[`renders correctly 1`] = `
       className="sui-search-box__results-list"
     >
       <li
-        index={6}
+        index={4}
         item={
           Object {
             "id": Object {
@@ -144,7 +113,7 @@ exports[`renders correctly 1`] = `
         />
       </li>
       <li
-        index={7}
+        index={5}
         item={
           Object {
             "id": Object {
@@ -166,7 +135,7 @@ exports[`renders correctly 1`] = `
         />
       </li>
       <li
-        index={8}
+        index={6}
         item={
           Object {
             "id": Object {
