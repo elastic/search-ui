@@ -34,6 +34,22 @@ import { Results } from "@elastic/react-search-ui";
 />
 ```
 
+### Example overriding results and wrapper
+
+```jsx
+<Results
+  view={({ children }) => <ul>{children}</ul>}
+  resultView={({ result, onClickLink }) => {
+    return (
+      <li onClick={onClickLink}>
+        <h4>{result.title.snippet}</h4>
+        <a href={result.nps_link.raw}>Link</a>
+      </li>
+    );
+  }}
+/>
+```
+
 for more examples on how to override the view, see <DocLink id="guides-customizing-styles-and-html" section="results-component" text="Customizing styles and HTML" />.
 
 ### Configuring search queries
