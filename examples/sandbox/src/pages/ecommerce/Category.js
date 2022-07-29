@@ -22,11 +22,11 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { CustomResultView } from "./CustomResultView";
 import Navigation from "./components/Navigation";
 
-const categoryPageconfig = {
+const categoryPageconfig = (category) => ({
   ...config,
   searchQuery: {
     ...config.searchQuery,
-    filters: [{ field: "parent_category", values: ["TVs"] }],
+    filters: [{ field: "parent_category", values: [category] }],
     facets: {
       ...config.searchQuery.facets,
       price: {
@@ -41,13 +41,27 @@ const categoryPageconfig = {
       }
     }
   }
+});
+
+const BrowseHeader = ({ category }) => {
+  return (
+    <div className=" mx-6 max-w-2xl bg-slate-50 py-5">
+      <h2 className="text-2xl font-bold">{category}</h2>
+      <p>
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy.
+      </p>
+    </div>
+  );
 };
 
-export default function CategoryPageTv() {
+export default function CategoryPage(props) {
+  const category = props?.match?.params.category;
   return (
     <>
       <Navigation />
-      <SearchProvider config={categoryPageconfig}>
+      <BrowseHeader category={category} />
+      <SearchProvider config={categoryPageconfig(category)}>
         <WithSearch
           mapContextToProps={({ wasSearched }) => ({
             wasSearched
