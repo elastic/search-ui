@@ -11,7 +11,7 @@ import SearchBarInHeaderIndex from "./pages/search-bar-in-header/index";
 import SearchBarInHeaderSearch from "./pages/search-bar-in-header/search";
 import EcommerceHome from "./pages/ecommerce";
 import EcommerceSearch from "./pages/ecommerce/Search";
-import EcommerceCategory from "./pages/ecommerce/Category";
+import EcommerceCategoryTvs from "./pages/ecommerce/CategoryTvs";
 import { ApmRoute } from "@elastic/apm-rum-react";
 
 export default function Router() {
@@ -53,8 +53,8 @@ export default function Router() {
         <ApmRoute exact path="/ecommerce/search" component={EcommerceSearch} />
         <ApmRoute
           exact
-          path="/ecommerce/category/:category"
-          component={EcommerceCategory}
+          path="/ecommerce/category/tvs"
+          component={EcommerceCategoryTvs}
         />
       </Switch>
     </div>

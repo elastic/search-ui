@@ -22,11 +22,11 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { CustomResultView } from "./CustomResultView";
 import Navigation from "./components/Navigation";
 
-const categoryPageconfig = (category) => ({
+const categoryPageconfig = {
   ...config,
   searchQuery: {
     ...config.searchQuery,
-    filters: [{ field: "parent_category", values: [category] }],
+    filters: [{ field: "parent_category", values: ["TVs"] }],
     facets: {
       ...config.searchQuery.facets,
       price: {
@@ -41,14 +41,13 @@ const categoryPageconfig = (category) => ({
       }
     }
   }
-});
+};
 
-export default function CategoryPage(props) {
-  const category = props?.match?.params.category;
+export default function CategoryPageTv() {
   return (
     <>
       <Navigation />
-      <SearchProvider config={categoryPageconfig(category)}>
+      <SearchProvider config={categoryPageconfig}>
         <WithSearch
           mapContextToProps={({ wasSearched }) => ({
             wasSearched

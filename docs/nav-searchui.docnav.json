@@ -92,7 +92,6 @@
       "items": [
         { "id": "solutions-ecommerce" },
         { "id": "solutions-ecommerce-autocomplete" },
-        { "id": "solutions-ecommerce-carousel" },
         { "id": "solutions-ecommerce-product-listing-page" },
         { "id": "solutions-ecommerce-product-detail-page" },
         { "id": "solutions-ecommerce-search-page" }
