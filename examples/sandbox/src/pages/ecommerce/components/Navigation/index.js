@@ -115,10 +115,7 @@ function AutocompleteView({
                               {...getItemProps({
                                 key: suggestionValue,
                                 index: index - 1,
-                                item: {
-                                  suggestion: suggestionValue,
-                                  ...suggestion.result
-                                }
+                                item: { suggestion: suggestionValue }
                               })}
                               data-transaction-name="query suggestion"
                             >
@@ -217,16 +214,7 @@ function Navigation(props) {
         >
           <div className="nav-search">
             <SearchBox
-              onSelectAutocomplete={(suggestion, config, defaultHandler) => {
-                // eslint-disable-next-line
-                if (!suggestion.name && suggestion.category) {
-                  window.location.href =
-                    "/ecommerce/category/" + suggestion.suggestion;
-                }
-                defaultHandler(suggestion);
-              }}
               onSubmit={(searchTerm) => {
-                // eslint-disable-next-line no-debugger
                 window.location.href = "/ecommerce/search?q=" + searchTerm;
               }}
               autocompleteResults={{
@@ -239,11 +227,6 @@ function Navigation(props) {
                   sectionTitle: "Popular queries",
                   queryType: "results",
                   displayField: "name"
-                },
-                categories: {
-                  sectionTitle: "Categories",
-                  queryType: "results",
-                  displayField: "category"
                 }
               }}
               inputView={InputView}
