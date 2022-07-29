@@ -62,31 +62,30 @@ export default function CategoryPage(props) {
       <Navigation />
       <BrowseHeader category={category} />
       <SearchProvider config={categoryPageconfig(category)}>
-        <WithSearch
-          mapContextToProps={({ wasSearched }) => ({
-            wasSearched
-          })}
-        >
-          {({ wasSearched }) => {
+        <WithSearch mapContextToProps={() => ({})}>
+          {() => {
             return (
               <div className="App">
                 <ErrorBoundary>
                   <Layout
                     sideContent={
-                      <div>
-                        {wasSearched && (
-                          <Sorting
-                            label={"Sort by"}
-                            sortOptions={SORT_OPTIONS}
-                          />
-                        )}
+                      <>
+                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                         <Facet
                           field="tv_smart_tv"
                           label="Smart TV"
                           view={BooleanFacet}
                         />
-                        <Facet field="tv_resolution" label="Resolution" />
-                        <Facet field="tv_size" label="Diagonal size" />
+                        <Facet
+                          field="tv_resolution"
+                          label="Resolution"
+                          view={SingleLinksFacet}
+                        />
+                        <Facet
+                          field="tv_size"
+                          label="Diagonal size"
+                          filterType="any"
+                        />
                         <Facet
                           field="rating"
                           label="Rating"
@@ -95,7 +94,7 @@ export default function CategoryPage(props) {
                         <Facet field="manufacturer" label="Manufacturer" />
                         <Facet field="price" label="Price" filterType="any" />
                         <Facet field="shipping" label="Shipping" />
-                      </div>
+                      </>
                     }
                     bodyContent={
                       <Results
@@ -107,10 +106,10 @@ export default function CategoryPage(props) {
                       />
                     }
                     bodyHeader={
-                      <React.Fragment>
-                        {wasSearched && <PagingInfo />}
-                        {wasSearched && <ResultsPerPage />}
-                      </React.Fragment>
+                      <>
+                        <PagingInfo />
+                        <ResultsPerPage />
+                      </>
                     }
                     bodyFooter={<Paging />}
                   />
