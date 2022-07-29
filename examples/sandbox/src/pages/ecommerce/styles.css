@@ -5,3 +5,7 @@
 .sui-layout-main-header {
   @apply mb-4;
 }
+
+.sui-layout-header {
+  @apply border-none;
+}

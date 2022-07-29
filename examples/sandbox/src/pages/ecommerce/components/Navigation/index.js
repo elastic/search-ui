@@ -204,8 +204,8 @@ function Navigation(props) {
             <a className="nav-link" href="/ecommerce">
               Home
             </a>
-            <a className="nav-link" href="/ecommerce/category/tvs">
-              Electronics
+            <a className="nav-link" href="/ecommerce/all">
+              Browse
             </a>
           </nav>
         </div>

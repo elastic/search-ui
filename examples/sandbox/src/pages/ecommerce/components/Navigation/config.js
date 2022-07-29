@@ -10,6 +10,7 @@ const connector = new ElasticsearchAPIConnector({
 
 export const config = {
   alwaysSearchOnInitialLoad: false,
+  trackUrlState: false,
   autocompleteQuery: {
     results: {
       resultsPerPage: 5,

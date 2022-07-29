@@ -13,6 +13,7 @@ import EcommerceHome from "./pages/ecommerce";
 import EcommerceSearch from "./pages/ecommerce/Search";
 import EcommerceCategory from "./pages/ecommerce/Category";
 import { ApmRoute } from "@elastic/apm-rum-react";
+import ListingPage from "./pages/ecommerce/ListingPage";
 
 export default function Router() {
   return (
@@ -51,6 +52,7 @@ export default function Router() {
         {/* Use cases */}
         <ApmRoute exact path="/ecommerce/" component={EcommerceHome} />
         <ApmRoute exact path="/ecommerce/search" component={EcommerceSearch} />
+        <ApmRoute exact path="/ecommerce/all" component={ListingPage} />
         <ApmRoute
           exact
           path="/ecommerce/category/:category"
