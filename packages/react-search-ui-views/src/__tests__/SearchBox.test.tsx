@@ -30,6 +30,16 @@ it("renders correctly", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it("renders correctly with single autocompleteSuggestion configuration", () => {
+  const wrapper = shallow(
+    <SearchBox
+      {...requiredProps}
+      autocompleteSuggestions={{ sectionTitle: "test" }}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
 it("applies 'focused' class when `isFocused` is true", () => {
   const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
   const downshift = wrapper
