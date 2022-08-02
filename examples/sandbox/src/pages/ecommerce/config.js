@@ -6,7 +6,12 @@ const connector = new AppSearchAPIConnector({
   engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "best-buy",
   endpointBase:
     process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
-    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
+    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",
+  beforeSearchCall: (existingSearchOptions, next) =>
+    next({
+      ...existingSearchOptions,
+      group: { field: "product_group", collapse: true }
+    })
 });
 
 export const config = {
@@ -41,7 +46,8 @@ export const config = {
       // TV-specific fields
       tv_size: { raw: {} },
       tv_smart_tv: { raw: {} },
-      tv_resolution: { raw: {} }
+      tv_resolution: { raw: {} },
+      product_group: { raw: {} }
     },
     facets: {
       categories: {
@@ -80,7 +86,8 @@ export const config = {
       // TV-specific facets
       tv_size: {
         type: "value",
-        sort: { value: "asc" }
+        sort: { value: "asc" },
+        size: 250
       },
       tv_smart_tv: {
         type: "value"
