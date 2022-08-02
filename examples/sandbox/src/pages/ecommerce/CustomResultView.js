@@ -34,6 +34,33 @@ export const CustomResultView = ({ result, onClickLink }) => (
         </div>
         <br />
         <div dangerouslySetInnerHTML={{ __html: result.description.snippet }} />
+        <br />
+
+        {result._group && result._group.length > 0 && (
+          <>
+            <div>Variants:</div>
+            <ul>
+              {result._group.map((variant) => (
+                <li>
+                  <a
+                    href={variant.url.raw}
+                    target="_blank"
+                    class="flex items-center"
+                  >
+                    <div
+                      style={{ backgroundImage: `url(${variant.image.raw})` }}
+                      class="inline-block w-[25px] h-[25px] bg-contain bg-no-repeat bg-center"
+                    ></div>
+                    <span
+                      dangerouslySetInnerHTML={{ __html: variant.name.snippet }}
+                      class="text-xs ml-2"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   </li>
