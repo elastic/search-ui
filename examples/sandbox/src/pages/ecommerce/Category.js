@@ -45,12 +45,14 @@ const categoryPageconfig = (category) => ({
 
 const BrowseHeader = ({ category }) => {
   return (
-    <div className=" mx-6 max-w-2xl bg-slate-50 py-5">
-      <h2 className="text-2xl font-bold">{category}</h2>
-      <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy.
-      </p>
+    <div className="bg-slate-50 flex justify-center">
+      <div className="max-w-[1300px] py-5 px-5 w-full">
+        <h2 className="text-2xl font-bold">{category}</h2>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy.
+        </p>
+      </div>
     </div>
   );
 };

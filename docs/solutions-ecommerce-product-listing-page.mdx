@@ -7,13 +7,19 @@ date: 2022-07-16
 tags: ["Product Listing page", "PLP"]
 ---
 
-Some good example content: https://baymard.com/blog/collections/product-list
+This is a category page:
 
-Example image of a product listing page showing:
+<DocImage
+  url="images/ecommerce/product-listing-page/category-page.png"
+  alt="Category page"
+/>
 
-- shows meganav
-- shows facets on side
-- shows products, with variants
+At the first glance, category page looks very similar to search page — they both display a list of products and have facets to help users refine the results.
+But while search page is made for "searching" the entire catalog by typing a query, category page is mostly made for "exploring" a small subset of products with the help of filters.
+
+In this example, we are only exploring the "Women's Athletic Shoes" section of the catalog.
+
+In this article we will discuss how to implement a product category page.
 
 ### Applying Filters to the Product Listing Page
 
@@ -76,7 +82,11 @@ That's it! Now the new category page will have a good URL and will only show the
 
 ### Facets
 
-<DocImage url="images/solutions-ecommerce/facets.png" size="l" alt="Facets" />
+<DocImage
+  url="images/ecommerce/product-listing-page/facets.png"
+  size="l"
+  alt="Facets"
+/>
 
 Facets is the most important part of the category page. Since category pages typically don't have their own search box, facets become the main tool to help users find the products they are looking for.
 
@@ -100,13 +110,96 @@ These TV-specific facets are not useful on the search page, since they are not r
 
 ---
 
-To implement this in Search UI, you'll need to make a copy of Search UI config and make several modifications:
+There are several ways to implement this in Search UI. They offer different levels of control and flexibility.
 
-1. Add new result fields to `searchQuery.resultFields`;
-1. Add new facets to `searchQuery.facets`;
-1. (optional) Add new disjunctiveFacets `searchQuery.disjunctiveFacets`.
+1. All category pages share a single config. This is the simplest option to implement but it's also least flexible and least performant.
+1. All category pages share a single config, but the facets are shown conditionally. This is a middle ground in terms of simplicity and flexibility and as performant as the next option.
+1. Each category page uses it's own config. This is the most flexible and most performant option but it requires more work to implement.
 
-Then, you'll need to add the `Facet` components to UI.
+#### Single config
+
+It is possible to use a single Search UI config on the search page and all category pages. This comes with a performance drawback: the facets data will be requested on every page even if it's not going to be used. The decision is up to you: single config will work as well as separate configs if most of your documents share the same properties.
+
+To implement this, you'll need to:
+
+1. Add new result fields to `searchQuery.resultFields`
+1. Add new facets to `searchQuery.facets`
+1. (optional) Add new disjunctiveFacets `searchQuery.disjunctiveFacets`
+
+Then, add the `Facet` components to UI.
+
+The result code will look something like this:
+
+```jsx
+// import your Search UI config
+import { SearchProvider, WithSearch } from "@elastic/react-search-ui";
+
+const config = {
+  searchQuery: {
+    // 1. Adding new resilt fields, these will be used for the facets
+    result_fields: {
+      tv_size: { raw: {} },
+      tv_smart_tv: { raw: {} },
+      tv_resolution: { raw: {} }
+      // some other fields
+    },
+    // 2. Adding the new facets
+    facets: {
+      tv_size: {
+        type: "value",
+        sort: { value: "asc" }
+      },
+      tv_smart_tv: {
+        type: "value"
+      },
+      tv_resolution: {
+        type: "value",
+        sort: { value: "asc" }
+      }
+      // some other facets
+    },
+    // 3. Making some of newly added facets disjunctive
+    disjunctiveFacets: ["tv_size", "tv_resolution"]
+  }
+};
+
+export default function CategoryPage() {
+  return (
+    // Pass the config to SearchProvider
+    <SearchProvider config={config}>
+      <WithSearch mapContextToProps={() => ({})}>
+        {() => {
+          return (
+            // The components you want to render go here
+            // For the sake of brevity, we're only showing the new facets
+            <>
+              <Facet field="tv_smart_tv" label="Smart TV" view={BooleanFacet} />
+              <Facet field="tv_resolution" label="Resolution" />
+              <Facet field="tv_size" label="Diagonal size" />
+            </>
+          );
+        }}
+      </WithSearch>
+    </SearchProvider>
+  );
+}
+```
+
+#### Conditional facets
+
+Search UI allows you to show facets conditionally based on the applied filters.
+Follow the main guide for more info and code examples: <DocLink id="guides-conditional-facets" text="Conditional facets" />.
+
+#### Each category page uses it's own config
+
+This option closely follows the single config option, but requires you to make a copy of the main Search UI config (that you use on the search page) first.
+
+1. Import and make a copy of the main Search UI config
+1. Add new result fields to `searchQuery.resultFields`
+1. Add new facets to `searchQuery.facets`
+1. (optional) Add new disjunctiveFacets `searchQuery.disjunctiveFacets`
+
+Then, add the `Facet` components to UI.
 
 Here's how to do it all at once:
 
@@ -205,7 +298,7 @@ import { BooleanFacet, SingleLinksFacet } from "@elastic/react-search-ui-views";
 ```
 
 <DocImage
-  url="images/solutions-ecommerce/facet-views.png"
+  url="images/ecommerce/product-listing-page/facet-views.png"
   size="l"
   alt="Facet views"
 />
@@ -301,7 +394,7 @@ Here's a simplified example of how to use it:
 ### Sorting
 
 <DocImage
-  url="images/solutions-ecommerce/sorting.png"
+  url="images/ecommerce/product-listing-page/sorting.png"
   size="l"
   alt="Sorting component"
 />
@@ -342,10 +435,3 @@ Also consider adding some of these if they are applicable to your data:
 - User rating
 - Distance (to user)
 - Newest first
-
-### Handling no results
-
-Talk about when theres no results for the category listing. For example:
-
-- the brand category is empty, recommend other brands to the user that is linked to the brand
-- The sale has closed, recommend the category to the user that isn't on sale
