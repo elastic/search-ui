@@ -5,7 +5,7 @@ Part of the [Search UI](https://github.com/elastic/search-ui) project.
 The "Headless Search UI" that serves as a foundation for the [react-search-ui](../react-search-ui/README.md) library.
 
 If you are not using React, this library can be used in conjunction with
-any other framework. Instead of working with components as you do in React, you simply work directly with state and actions. These are documented in the [State](https://docs.elastic.co/search-ui/api/state) and [Actions](https://docs.elastic.co/search-ui/api/actions) sections of the documentation.
+any other framework. Instead of working with components as you do in React, you simply work directly with state and actions. These are documented in the [State](https://docs.elastic.co/search-ui/api/core/state) and [Actions](https://docs.elastic.co/search-ui/api/core/actions) sections of the documentation.
 
 You'll get all of the benefit of Search UI, just with no view. The view is up to you.
 
@@ -42,7 +42,7 @@ driver.getActions().setSearchTerm("canyon");
 
 ## Configuration
 
-All configuration is documented in the [Configuration](https://docs.elastic.co/search-ui/api/configuration) section
+All configuration is documented in the [Configuration](https://docs.elastic.co/search-ui/api/core/configuration) section
 of the Advanced README.
 
 ## SearchDriver Usage
@@ -52,5 +52,5 @@ of the Advanced README.
 | method                    | params   | return                                                   | description                                                          |
 | ------------------------- | -------- | -------------------------------------------------------- | -------------------------------------------------------------------- |
 | `subscribeToStateChanges` | function |                                                          | Function to execute when state changes. ex.<br/><br/>`(state) => {}` |
-| `getActions`              |          | [Actions](https://docs.elastic.co/search-ui/api/actions) | All available actions.                                               |
-| `getState`                |          | [State](https://docs.elastic.co/search-ui/api/state)     | Current state.                                                       |
+| `getActions`              |          | [Actions](https://docs.elastic.co/search-ui/api/core/actions) | All available actions.                                               |
+| `getState`                |          | [State](https://docs.elastic.co/search-ui/api/core/state)     | Current state.                                                       |
