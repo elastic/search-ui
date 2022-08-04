@@ -17,6 +17,7 @@
     {
       "label": "Tutorials",
       "items": [
+        { "id": "tutorials-connectors" },
         { "id": "tutorials-app-search" },
         { "id": "tutorials-elasticsearch" },
         { "id": "tutorials-workplace-search" }
