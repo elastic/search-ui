@@ -7,20 +7,23 @@ date: 2022-07-16
 tags: ["Search Page", "Search relevance"]
 ---
 
-## App Search
+## Choosing backend
 
-<!-- Search Relevance
-With App Search talking about how we can you the relevance UI to tweak recall vs precision.
-How we can:
+First thing you want to consider before implementing your search is the backend you're going to use for your data. In the E-commerce use-case Search UI works best with **Elastic App Search** and **Elasticsearch**.
 
-- boost certain products based on searches
-- adjust importance of certain fields
-- synonyms
-- how to adjust relevance of fields -->
+If you're relatively new to the search problem or Elastic ecosystem, we recommend choosing App Search. It solves many search problems out-of-box and is generally simpler to start with, althought it's not as flexible as Elasticsearch.
 
-App Search offers several tools to improve the relevance of your search results.
+On the other hand, if you prefer flexibility over simplicity and already familiar with Elasticsearch, go with it! Just note that our Elasticsearch connector is still in technical preview and its API might change in the future.
 
-### Start with a language optimization
+If you're still not sure, go with App Search. It'll help you start quickly, and you can switch to Elasticsearch later if you need to.
+
+## Improving relevance
+
+### App Search
+
+App Search offers many tools to improve the relevance of your search results.
+
+#### Start with a language optimization
 
 Choosing the right language during the engine creation is the easiest way to improve the relevance.
 
@@ -28,11 +31,11 @@ Language optimization will fine-tune features like **stemming**, **bigram matchi
 
 Follow this guide for the exact steps: [Language optimization guide](https://www.elastic.co/guide/en/app-search/current/language-optimization-guide.html).
 
-### Set up relevance tuning
+#### Set up relevance tuning
 
 App Search's relevance tuning is build exactly for that. Follow the [Relevance tuning guide](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html) for more details.
 
-### Add synonyms
+#### Add synonyms
 
 This step is optional can also improve the relevance.
 
@@ -42,7 +45,7 @@ To solve this problem, App Search offers a Synonyms feature. It lets you create 
 
 Our [Synonyms guide](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html) goes into more details about the feature.
 
-### Create curations
+#### Create curations
 
 Curations allow you to
 
@@ -51,13 +54,135 @@ Curations allow you to
 
 Learn more about curations in our [Curations guide](https://www.elastic.co/guide/en/app-search/current/curations-guide.html)
 
-## Elasticsearch
+### Elasticsearch
 
-<!--
-With Elasticsearch connector
+Elasticsearch connector gives you full control over the request body, so you can use any features Elasticsearch has to offer.
 
-- full control over the query clauses -->
-<!--
-With App-search connector
+Read our <DocLink id="api-connectors-elasticsearch" text="Elasticsearch connector guide" /> and the section about <DocLink id="api-connectors-elasticsearch" section="customise-the-elasticsearch-request-body" text="request body customization" />.
 
-- using the admin tool to adjust relevance and promotion of products based on certain queries -->
+## Variant Examples
+
+You might have several products that are essentially the same, but have one different attribute. The most popular example of it is color of a shirt or a smartphone. In our example, it's the same TV models but with different diagonals.
+
+If you have such products in your store, it could be better to combine them into a single result. That will prevents users from being overwhelmed by the number of options.
+
+To implement this in Search UI, you'll need to do the following:
+
+1. Enrich your dataset.
+2. Enable grouping in Search UI config.
+3. Add varians rendering into your Result component.
+
+#### Enriching dataset
+
+For each document in your dataset, add a new field that will later be used for grouping search results. Here's the example:
+
+```json
+[
+  {
+    "name": "Samsung TV 55 inch",
+    "product_group": "[GROUP_ID_1]"
+  },
+  {
+    "name": "Samsung TV 45 inch",
+    "product_group": "[GROUP_ID_1]"
+  },
+  {
+    "name": "LG TV 55 inch",
+    "product_group": "[GROUP_ID_2]"
+  }
+]
+```
+
+Make sure to add that new field to all the documents in a dataset! Otherwise, the documents that are missing this field will be combined into a single group.
+
+#### Enabling grouping in Search UI config
+
+The grouping is not directly supported by Search UI, but it is supported by the underlying [App Search API](https://www.elastic.co/guide/en/app-search/current/grouping.html).
+So instead of enabling it in Search UI config, we'll enable it in App Search connector config.
+Here's an example:
+
+```js
+const connector = new AppSearchAPIConnector({
+  searchKey: "search-key",
+  engineName: "engine-name",
+  endpointBase: "endpointBase",
+  // enabling grouping in App Search connector config
+  beforeSearchCall: (existingSearchOptions, next) =>
+    next({
+      ...existingSearchOptions,
+      group: { field: "product_group", collapse: true }
+    })
+});
+
+export const config = {
+  alwaysSearchOnInitialLoad: true,
+  apiConnector: connector
+  // other config properties
+};
+```
+
+#### Adding varians rendering into your Result component
+
+Once you have the grouping enabled, the variants will be available via the `_group` field in your result document.
+Here's a simplified example of how to use it:
+
+```jsx
+{
+  result._group && result._group.length > 0 && (
+    <ul>
+      {result._group.map((variant) => (
+        <li>
+          <a href={variant.url.raw} target="_blank">
+            <span dangerouslySetInnerHTML={{ __html: variant.name.snippet }} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Sorting
+
+<DocImage
+  url="images/ecommerce/product-listing-page/sorting.png"
+  size="l"
+  alt="Sorting component"
+/>
+
+Adding sorting is simple — just use our `<Sorting/>` component, like so:
+
+```js
+import { Sorting } from "@elastic/react-search-ui";
+
+<Sorting
+  label={"Sort by"}
+  sortOptions={[
+    {
+      name: "Relevance",
+      value: []
+    },
+    {
+      name: "Price: Low to High",
+      value: [{ field: "price", direction: "asc" }]
+    },
+    {
+      name: "Price: High to Low",
+      value: [{ field: "price", direction: "desc" }]
+    }
+  ]}
+/>;
+```
+
+A good starting point for sorting options is to have these three:
+
+- Relevance / Featured / Best Match (usually the default option)
+- Price: Low to High
+- Price: High to Low
+
+Also consider adding some of these if they are applicable to your data:
+
+- Popularity
+- User rating
+- Distance (to user)
+- Newest first
