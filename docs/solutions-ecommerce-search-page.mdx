@@ -7,15 +7,9 @@ date: 2022-07-16
 tags: ["Search Page", "Search relevance"]
 ---
 
-## Choosing backend
+The most important part of the search page is the relevance of the displayed results.
 
-First thing you want to consider before implementing your search is the backend you're going to use for your data. In the E-commerce use-case Search UI works best with **Elastic App Search** and **Elasticsearch**.
-
-If you're relatively new to the search problem or Elastic ecosystem, we recommend choosing App Search. It solves many search problems out-of-box and is generally simpler to start with, althought it's not as flexible as Elasticsearch.
-
-On the other hand, if you prefer flexibility over simplicity and already familiar with Elasticsearch, go with it! Just note that our Elasticsearch connector is still in technical preview and its API might change in the future.
-
-If you're still not sure, go with App Search. It'll help you start quickly, and you can switch to Elasticsearch later if you need to.
+There are many ways to improve the relevance. In this doc we'll cover: tools available in the admin interface, combining of the similar results with variants, and sorting — improved relevance achieved by user.
 
 ## Improving relevance
 
@@ -56,7 +50,9 @@ Learn more about curations in our [Curations guide](https://www.elastic.co/guide
 
 ### Elasticsearch
 
-Elasticsearch connector gives you full control over the request body, so you can use any features Elasticsearch has to offer.
+Elasticsearch doesn't have administrative dashboards where you can tweak relevance. If that is important to you - consider using the App Search connector.
+
+On the other hand, Elasticsearch connector gives you full control over the request body, so you can use any features Elasticsearch has to offer, if you know the API.
 
 Read our <DocLink id="api-connectors-elasticsearch" text="Elasticsearch connector guide" /> and the section about <DocLink id="api-connectors-elasticsearch" section="customise-the-elasticsearch-request-body" text="request body customization" />.
 
