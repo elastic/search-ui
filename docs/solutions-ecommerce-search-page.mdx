@@ -13,11 +13,9 @@ There are many ways to improve the relevance. In this doc we'll cover: tools ava
 
 ## Improving relevance
 
-### App Search
-
 App Search offers many tools to improve the relevance of your search results.
 
-#### Start with a language optimization
+### Start with a language optimization
 
 Choosing the right language during the engine creation is the easiest way to improve the relevance.
 
@@ -25,11 +23,13 @@ Language optimization will fine-tune features like **stemming**, **bigram matchi
 
 Follow this guide for the exact steps: [Language optimization guide](https://www.elastic.co/guide/en/app-search/current/language-optimization-guide.html).
 
-#### Set up relevance tuning
+### Set up relevance tuning
 
-App Search's relevance tuning is build exactly for that. Follow the [Relevance tuning guide](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html) for more details.
+App Search's relevance tuning feature allows you to fine-tune the order of results for any given query.
 
-#### Add synonyms
+Follow the [Relevance tuning guide](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html) for the full description of the feature.
+
+### Add synonyms
 
 This step is optional can also improve the relevance.
 
@@ -39,7 +39,7 @@ To solve this problem, App Search offers a Synonyms feature. It lets you create 
 
 Our [Synonyms guide](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html) goes into more details about the feature.
 
-#### Create curations
+### Create curations
 
 Curations allow you to
 
@@ -48,17 +48,9 @@ Curations allow you to
 
 Learn more about curations in our [Curations guide](https://www.elastic.co/guide/en/app-search/current/curations-guide.html)
 
-### Elasticsearch
+## Variants
 
-Elasticsearch doesn't have administrative dashboards where you can tweak relevance. If that is important to you - consider using the App Search connector.
-
-On the other hand, Elasticsearch connector gives you full control over the request body, so you can use any features Elasticsearch has to offer, if you know the API.
-
-Read our <DocLink id="api-connectors-elasticsearch" text="Elasticsearch connector guide" /> and the section about <DocLink id="api-connectors-elasticsearch" section="customise-the-elasticsearch-request-body" text="request body customization" />.
-
-## Variant Examples
-
-You might have several products that are essentially the same, but have one different attribute. The most popular example of it is color of a shirt or a smartphone. In our example, it's the same TV models but with different diagonals.
+You might have several products that are essentially the same, but have one different attribute. The most popular example of it is color of a shirt. In our example, it's the same TV models but with different diagonals.
 
 If you have such products in your store, it could be better to combine them into a single result. That will prevents users from being overwhelmed by the number of options.
 
@@ -68,7 +60,7 @@ To implement this in Search UI, you'll need to do the following:
 2. Enable grouping in Search UI config.
 3. Add varians rendering into your Result component.
 
-#### Enriching dataset
+### Enriching dataset
 
 For each document in your dataset, add a new field that will later be used for grouping search results. Here's the example:
 
@@ -91,7 +83,7 @@ For each document in your dataset, add a new field that will later be used for g
 
 Make sure to add that new field to all the documents in a dataset! Otherwise, the documents that are missing this field will be combined into a single group.
 
-#### Enabling grouping in Search UI config
+### Enabling grouping in Search UI config
 
 The grouping is not directly supported by Search UI, but it is supported by the underlying [App Search API](https://www.elastic.co/guide/en/app-search/current/grouping.html).
 So instead of enabling it in Search UI config, we'll enable it in App Search connector config.
@@ -117,7 +109,7 @@ export const config = {
 };
 ```
 
-#### Adding varians rendering into your Result component
+### Adding varians rendering into your Result component
 
 Once you have the grouping enabled, the variants will be available via the `_group` field in your result document.
 Here's a simplified example of how to use it:

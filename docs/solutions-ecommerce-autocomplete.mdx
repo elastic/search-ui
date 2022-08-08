@@ -19,11 +19,11 @@ In this article we will discuss how to implement an autocomplete search box that
 
 Search UI can be used to provide different types of suggestions from multiple sources. Depending on your specific use-case, you can display query suggestions, products from the product catalog, or a list of popular queries to your customer at the same time.
 
-### Before you begin
+## Before you begin
 
 This tutorial builds on the <DocLink id="api-react-components-search-box" text="searchbox autocomplete documentation" />.
 
-### Integrating the Searchbox
+## Integrating the Searchbox
 
 Typically ecommerce sites have a search bar that is present within the site's header and accessible everywhere.
 
@@ -83,7 +83,7 @@ Should you find the search bar markup too limiting to your needs, you can overri
 
 For more information of whats possible to customise, see <DocLink id="api-react-components-search-box" text="searchbox autocomplete documentation" />.
 
-### Term Suggestions
+## Term Suggestions
 
 Term Suggestions help the customer quickly type in the search term. The suggestions are based on keywords that are already present in the index. To do this you need:
 
@@ -122,7 +122,7 @@ Example Code
   </DocTab>
 </DocTabs>
 
-### Product Suggestions
+## Product Suggestions
 
 With this feature, products will be presented as suggestions to the customer. When the customer clicks on the product suggestion. they will be navigated straight to the product's detail page. This helps your customer quickly find the product they are looking for and be quickly redirected to the product detail page.
 
@@ -279,7 +279,7 @@ To this, we start by specify the autocompleteQuery `results` configuration
   </DocTab>
 </DocTabs>
 
-### Suggestions from another source index
+## Suggestions from another source index
 
 <DocCallOut color="warning" title="Requires Elasticsearch Connector" />
 
@@ -368,7 +368,7 @@ Now when you type `Iphone 4s` in the searchbox, the autocomplete view will displ
 
 If you want to display more fields from the index, you can use the `result_fields` configuration and implement a custom autocompleteView to display these fields.
 
-### Suggestions from multiple sources
+## Suggestions from multiple sources
 
 With a combination of the suggestion configurations above, you can display suggestions from multiple sources at the same time.
 
