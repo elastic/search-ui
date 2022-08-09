@@ -199,11 +199,17 @@ function Navigation(props) {
           <a className="nav-element-logo" href="/ecommerce">
             ES
           </a>
-          <nav className="nav-links">
-            <a className="nav-link" href="/ecommerce">
+          <nav className="ml-4 py-4">
+            <a
+              className="inline-flex cursor-pointer px-2 text-white"
+              href="/ecommerce"
+            >
               Home
             </a>
-            <a className="nav-link" href="/ecommerce/all">
+            <a
+              className="inline-flex cursor-pointer px-2 text-white"
+              href="/ecommerce/all"
+            >
               Browse
             </a>
           </nav>

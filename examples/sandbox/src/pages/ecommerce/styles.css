@@ -37,14 +37,6 @@
   @apply bg-white px-2 font-semibold border rounded-sm;
 }
 
-.nav-links {
-  @apply ml-4 py-4;
-}
-
-.nav-link {
-  @apply inline-flex cursor-pointer px-2 text-white;
-}
-
 .nav-search {
   @apply flex-auto hidden lg:flex py-2 flex justify-self-start;
 }
