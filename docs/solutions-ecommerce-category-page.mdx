@@ -14,18 +14,18 @@ This is a category page:
   alt="Category page"
 />
 
-At the first glance, category page looks very similar to search page — they both display a list of products and have facets to help users refine the results.
-But while search page is made for "searching" the entire catalog by typing a query, category page is mostly made for "exploring" a small subset of products with the help of filters.
+At first glance, the category page looks very similar to a search page — they display a list of products and have facets to help users refine the results.
+But while the search page is made for "searching" the entire catalog by typing a query, the category page is made for "exploring" a small subset of products with the help of filters.
 
 In this example, we are only exploring the "Women's Athletic Shoes" section of the catalog.
 
-In this article we will discuss how to implement a product category page.
+In this article, we will talk about how to implement a product category page with Search UI.
 
 ## Applying Filters to the Category Page
 
-It's important to consider SEO of a category page. Some of your customers will come from search engines and having a good-looking URL will help you rank higher.
+It's important to consider the SEO of a category page. Some of your customers will come from search engines, and having a good-looking URL will help you rank higher.
 
-Let's say we want to have a category page for TVs. It can be done by taking a general search page and applying a filter to only show TVs.
+Let's say we want to have a category page for TVs. You can do it by taking a search page and applying a filter to only show TVs.
 
 Now, if we do so on a search page, we'll have a URL like this:
 
@@ -48,7 +48,7 @@ To achieve that, we'll need to:
 
 The first part is highly dependent on your application's framework. Refer to its documentation for creating a new page.
 
-For the second part, take the Search UI config you're using on the search page and add the `searchQuery.filters` value. Then pass the new config to your `SearchProvider`:
+For the second part, copy the Search UI config from the search page and add the `searchQuery.filters` value. Then pass the new config to your `SearchProvider`:
 
 ```jsx
 // import your Search UI config
@@ -78,7 +78,7 @@ export default function CategoryPageTvs() {
 }
 ```
 
-That's it! Now the new category page will have a good URL and will only show the results that match the filter.
+That's it! The new category page has a good URL and only shows results that match the filter.
 
 ## Facets
 
@@ -88,13 +88,13 @@ That's it! Now the new category page will have a good URL and will only show the
   alt="Facets"
 />
 
-Facets is the most important part of the category page. Since category pages typically don't have their own search box, facets become the main tool to help users find the products they are looking for.
+Facets are the essential part of the category page. Since category pages typically don't have a search box, facets become the primary tool for finding the products.
 
-_Facets let users **explore** what's available in your store, rather then **search** for a specific product._
+_Facets let users **explore** what's available in your store rather than **search** for a specific product._
 
-To help users find what they're looking for, it's best to provide a list of facets that are unique to the presented category.
+It's best to provide facets that are unique to the presented category.
 
-In our example of TVs category page, in addition to common facets, like:
+In our example of the TVs category page, in addition to common facets, like:
 
 - Price
 - Brand
@@ -106,19 +106,19 @@ we also have TV-specific facets:
 - TV resolution _(string: "Full HD", "4k", etc.)_
 - TV diagonal _(number)_
 
-These TV-specific facets are not useful on the search page, since they are not relevant to most of the results.
+These TV-specific facets are not useful on the search page since they are not relevant to most of the results.
 
 ---
 
 There are several ways to implement this in Search UI. They offer different levels of control and flexibility.
 
-1. All category pages share a single config. This is the simplest option to implement but it's also least flexible and least performant.
-1. All category pages share a single config, but the facets are shown conditionally. This is a middle ground in terms of simplicity and flexibility and as performant as the next option.
-1. Each category page uses it's own config. This is the most flexible and most performant option but it requires more work to implement.
+1. All category pages share a single config. It is the simplest option to implement but is also the least flexible and performant.
+1. All category pages share a single config, but the facets are shown conditionally. It is a middle ground in simplicity and flexibility and is as performant as the next option.
+1. Each category page uses a separate config. It is the most flexible and most performant option, but it requires more work to implement.
 
 ### Single config
 
-It is possible to use a single Search UI config on the search page and all category pages. This comes with a performance drawback: the facets data will be requested on every page even if it's not going to be used. The decision is up to you: single config will work as well as separate configs if most of your documents share the same properties.
+You can use a single Search UI config on the search page and all category pages. However, it comes with a performance drawback: the facets data will be requested on every page even if it's not used. The decision is up to you: a single config will work as well as separate configs if most of your documents share the same properties.
 
 To implement this, you'll need to:
 
@@ -128,7 +128,7 @@ To implement this, you'll need to:
 
 Then, add the `Facet` components to UI.
 
-The result code will look something like this:
+The resulting code will look something like this:
 
 ```jsx
 // import your Search UI config
@@ -190,9 +190,9 @@ export default function CategoryPage() {
 Search UI allows you to show facets conditionally based on the applied filters.
 Follow the main guide for more info and code examples: <DocLink id="guides-conditional-facets" text="Conditional facets" />.
 
-### Each category page uses it's own config
+### Separate configs
 
-This option closely follows the single config option, but requires you to make a copy of the main Search UI config (that you use on the search page) first.
+This option closely follows the single config option but requires you to make a copy of the main Search UI config (that you use on the search page) first.
 
 1. Import and make a copy of the main Search UI config
 1. Add new result fields to `searchQuery.resultFields`
@@ -305,7 +305,7 @@ And the resulting UI:
   alt="Facet views"
 />
 
-You might need a facet that Search UI doesn't offer, for example a dedicated color-picker. With Search UI you can build your own custom facet that will work just like a native one. Refer to the <DocLink id="guides-creating-your-own-components" text="Creating custom components guide" /> to learn how.
+You might need a facet that Search UI doesn't offer, for example, a dedicated color-picker. With Search UI, you can build a custom facet that will work like a native one. Refer to the <DocLink id="guides-creating-your-own-components" text="Creating custom components guide" /> to learn how.
 
 ## Variants
 
