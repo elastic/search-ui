@@ -7,6 +7,7 @@ import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
 import type {
   AutocompleteResult,
+  AutocompleteSuggestion,
   SearchContextState
 } from "@elastic/search-ui";
 import {
@@ -31,9 +32,7 @@ export type SearchBoxContainerProps = BaseContainerProps &
     inputView?: React.ComponentType<InputViewProps>;
     autocompleteMinimumCharacters?: number;
     autocompleteResults?: AutocompleteResult | boolean;
-    autocompleteSuggestions?:
-      | boolean
-      | Record<string, { sectionTitle: string }>;
+    autocompleteSuggestions?: boolean | AutocompleteSuggestion;
     shouldClearFilters?: boolean;
     debounceLength?: number;
     inputProps?: any;
