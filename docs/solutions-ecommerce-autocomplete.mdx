@@ -7,17 +7,17 @@ date: 2022-07-16
 tags: ["autocomplete"]
 ---
 
-When you start typing in a search box on ecommerce sites like Amazon or Best Buy, you might have seen a drop-down showing you suggestions to try next. This is called autocomplete.
+When you start typing in a search box on ecommerce sites like Amazon or Best Buy, you might have seen a dropdown showing suggestions to try next. This is called autocomplete.
 
 ![Search suggestions on Amazon](images/ecommerce/autocomplete/query-suggestions-amazon.png)
 
-On some of the more popular ecommerce sites, you may see suggestions in the form of search suggestions, product categories and products.
+On some of the more popular ecommerce sites, you may see suggestions in the form of search suggestions, product categories, and products.
 
 ![Multiple Search Suggestions](images/ecommerce/autocomplete/federated-search-products.png)
 
-In this article we will discuss how to implement an autocomplete search box that provides multiple options on your ecommerce site.
+This article will discuss how to implement an autocomplete search box that provides multiple options on your ecommerce site.
 
-Search UI can be used to provide different types of suggestions from multiple sources. Depending on your specific use-case, you can display query suggestions, products from the product catalog, or a list of popular queries to your customer at the same time.
+Search UI can be used to provide different types of suggestions from multiple sources. For example, depending on your use case, you can display query suggestions, products from the product catalog, and a list of popular queries at the same time.
 
 ## Before you begin
 
@@ -25,9 +25,9 @@ This tutorial builds on the <DocLink id="api-react-components-search-box" text="
 
 ## Integrating the Searchbox
 
-Typically ecommerce sites have a search bar that is present within the site's header and accessible everywhere.
+Typically ecommerce sites have a search bar within the site's header, which is accessible on every page.
 
-For the purposes of this tutorial, we will assume that the search bar is located in the header of the site.
+For this tutorial, we will assume that the search bar is located in the site's header.
 
 Within the header, we need to use the `SearchProvider` and `Searchbox` components to integrate the autocomplete search box.
 
@@ -85,11 +85,11 @@ For more information of whats possible to customise, see <DocLink id="api-react-
 
 ## Term Suggestions
 
-Term Suggestions help the customer quickly type in the search term. The suggestions are based on keywords that are already present in the index. To do this you need:
+Term Suggestions help the customer quickly type in the search term. The suggestions are based on keywords that are already present in the index. To do this, you need:
 
 - An engine or index populated with products
 
-To configure the searchbox to provide suggestions based on keywords, you need to pass a `config` object to the `SearchProvider` component and configure the `Searchbox autocompleteSuggestions` to be true.
+To configure the SearchBox to provide suggestions based on keywords, you need to pass a `config` object to the `SearchProvider` component and configure the `Searchbox autocompleteSuggestions` to be true.
 
 ![Search suggestions with Search UI](images/ecommerce/autocomplete/query-suggestions-es-shop.png)
 
@@ -124,11 +124,11 @@ Example Code
 
 ## Product Suggestions
 
-With this feature, products will be presented as suggestions to the customer. When the customer clicks on the product suggestion. they will be navigated straight to the product's detail page. This helps your customer quickly find the product they are looking for and be quickly redirected to the product detail page.
+With this feature, products will be presented as suggestions to the customer. When the customer clicks on the product suggestion, they will be navigated straight to the product's detail page.
 
 ![Search suggestions with Search UI](images/ecommerce/autocomplete/query-results-es-shop.png)
 
-To this, we start by specify the autocompleteQuery `results` configuration
+First, we specify the `autocompleteQuery.results` configuration:
 
 <DocTabs>
   <DocTab name="Configuration">
@@ -283,7 +283,7 @@ To this, we start by specify the autocompleteQuery `results` configuration
 
 <DocCallOut color="warning" title="Requires Elasticsearch Connector" />
 
-Sometimes you want to display suggestions from a different index than the one you are searching. For example, you might want to display suggestions from a `popular_queries` or a `designers` index. Search UI supports this within the `autocompleteSuggestions` configuration.
+Sometimes you want to display suggestions from a different index than the one you use for search. For example, you might want to show suggestions from a `popular_queries` or a `designers` index. Search UI supports this within the `autocompleteSuggestions` configuration.
 
 In this example, we will populate an index with popular queries. The mapping and example documents for the index will be as follows:
 
@@ -319,7 +319,7 @@ In this example, we will populate an index with popular queries. The mapping and
       </DocTab>
 </DocTabs>
 
-Next setup Search UI `Searchbox` and `configuration` to display suggestions from the `popular_queries` index.
+Next, setup Search UI `Searchbox` and `configuration` to display suggestions from the `popular_queries` index.
 
 <DocTabs>
   <DocTab name="Search Configuration">
@@ -362,19 +362,19 @@ Next setup Search UI `Searchbox` and `configuration` to display suggestions from
   </DocTab>
 </DocTabs>
 
-Now when you type `Iphone 4s` in the searchbox, the autocomplete view will display the popular queries.
+Now, when you type `was` in the SearchBox, the autocomplete view will display the popular queries:
 
 ![Suggestions from another index](images/ecommerce/autocomplete/query-suggestions-popular-queries.png)
 
-If you want to display more fields from the index, you can use the `result_fields` configuration and implement a custom autocompleteView to display these fields.
+If you want to display more fields from the index, you can use the `result_fields` configuration and implement a custom `autocompleteView` to display these fields.
 
 ## Suggestions from multiple sources
 
-With a combination of the suggestion configurations above, you can display suggestions from multiple sources at the same time.
+Combining the suggestion configurations above allows you to display suggestions from multiple sources simultaneously.
 
 ![Suggestions from multiple sources](images/ecommerce/autocomplete/query-suggestions-multiple-sources.png)
 
-To do this, extend the `autocompleteQuery` configuration to specify multiple sources. For the above screenshot, we customised the `autocompleteView` css to display the popular queries and the results from the `autocompleteSuggestions` configuration side by side and hide the section titles.
+To do this, extend the `autocompleteQuery` configuration to specify multiple sources. For example, in the screenshot above, we customized the `autocompleteView` CSS to display the popular queries and the results from the `autocompleteSuggestions` configuration side by side and hide the section titles.
 
 <DocTabs>
   <DocTab name="Search Configuration">
