@@ -17,6 +17,7 @@
     {
       "label": "Tutorials",
       "items": [
+        { "id": "tutorials-connectors" },
         { "id": "tutorials-app-search" },
         { "id": "tutorials-elasticsearch" },
         { "id": "tutorials-workplace-search" }
@@ -85,6 +86,17 @@
             { "id": "api-connectors-elasticsearch" }
           ]
         }
+      ]
+    },
+    {
+      "label": "Ecommerce",
+      "items": [
+        { "id": "solutions-ecommerce" },
+        { "id": "solutions-ecommerce-autocomplete" },
+        { "id": "solutions-ecommerce-carousel" },
+        { "id": "solutions-ecommerce-category-page" },
+        { "id": "solutions-ecommerce-product-detail-page" },
+        { "id": "solutions-ecommerce-search-page" }
       ]
     }
   ]

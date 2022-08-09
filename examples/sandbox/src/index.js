@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router";
 import { init as initApm } from "@elastic/apm-rum";
+import "./styles.css";
 
 initApm({
   serviceName: "Search UI Sandbox",
