@@ -72,6 +72,7 @@ Should you find the search bar markup too limiting to your needs, you can overri
             key: result.id.raw,
             item: result
           })}
+          className="flex"
         >
           Result {i}: {result.title.snippet}
         </div>
@@ -244,7 +245,7 @@ First, we specify the `autocompleteQuery.results` configuration:
                 {!!autocompleteResults &&
                   !!autocompletedResults &&
                   autocompletedResults.length > 0 && (
-                    <ul className="autocomplete-results">
+                    <ul className="flex flex-col w-[300px]">
                       {autocompletedResults.map((result) => {
                         index++;
                         const titleField =
@@ -259,13 +260,13 @@ First, we specify the `autocompleteQuery.results` configuration:
                               index: index - 1,
                               item: result
                             })}
-                            className="autocomplete-result-item"
+                            className="mb-2 flex space-x-5"
                           >
                             <img
-                              className="autocomplete-result-item--img"
+                              className="m-auto flex-shrink-0 max-w-[30px]"
                               src={result.image.raw}
                             />
-                            <h5>{titleRaw}</h5>
+                            <h5 className="flex-1 text-sm">{titleRaw}</h5>
                           </li>
                         );
                       })}
