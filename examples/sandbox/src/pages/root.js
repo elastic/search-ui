@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 
 export default function Root() {
   return (
-    <>
-      <p>See how Search UI works with different search APIs:</p>
-      <ul>
+    <div className="px-4 py-4">
+      <p className="font-semibold">
+        See how Search UI works with different search APIs:
+      </p>
+      <ul className="list-disc list-inside text-blue-600 mb-4">
         <li>
           <Link to="/elasticsearch">Elasticsearch</Link>
         </li>
@@ -20,8 +22,8 @@ export default function Root() {
         </li>
       </ul>
 
-      <p>Or check out our examples:</p>
-      <ul>
+      <p className="font-semibold">Check out our examples:</p>
+      <ul className="list-disc list-inside text-blue-600 mb-4">
         <li>
           <Link to="/search-as-you-type">Search-as-you-type</Link>
         </li>
@@ -34,6 +36,13 @@ export default function Root() {
           <Link to="/search-bar-in-header">Search bar in header</Link>
         </li>
       </ul>
-    </>
+
+      <p className="font-semibold">Explore use cases:</p>
+      <ul className="list-disc list-inside text-blue-600 mb-4">
+        <li>
+          <Link to="/ecommerce">Ecommerce</Link>
+        </li>
+      </ul>
+    </div>
   );
 }

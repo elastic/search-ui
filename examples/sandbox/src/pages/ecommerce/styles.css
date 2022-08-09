@@ -1,0 +1,11 @@
+.sui-layout-header.sui-layout-header {
+  padding: 0;
+}
+
+.sui-layout-main-header {
+  @apply mb-4;
+}
+
+.sui-layout-header {
+  @apply border-none;
+}

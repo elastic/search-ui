@@ -9,17 +9,25 @@ import SearchAsYouType from "./pages/search-as-you-type";
 import CustomizingStylesAndHtml from "./pages/customizing-styles-and-html";
 import SearchBarInHeaderIndex from "./pages/search-bar-in-header/index";
 import SearchBarInHeaderSearch from "./pages/search-bar-in-header/search";
+import EcommerceHome from "./pages/ecommerce";
+import EcommerceSearch from "./pages/ecommerce/Search";
+import EcommerceCategory from "./pages/ecommerce/Category";
 import { ApmRoute } from "@elastic/apm-rum-react";
+import ListingPage from "./pages/ecommerce/ListingPage";
 
 export default function Router() {
   return (
     <div className="App">
       <Switch>
         <ApmRoute exact path="/" component={Root} />
+
+        {/* Connectors */}
         <ApmRoute exact path="/elasticsearch" component={Elasticsearch} />
         <ApmRoute exact path="/app-search" component={AppSearch} />
         <ApmRoute exact path="/site-search" component={SiteSearch} />
         <ApmRoute exact path="/workplace-search" component={WorkplaceSearch} />
+
+        {/* Examples */}
         <ApmRoute
           exact
           path="/search-as-you-type"
@@ -39,6 +47,16 @@ export default function Router() {
           exact
           path="/search-bar-in-header/search"
           component={SearchBarInHeaderSearch}
+        />
+
+        {/* Use cases */}
+        <ApmRoute exact path="/ecommerce/" component={EcommerceHome} />
+        <ApmRoute exact path="/ecommerce/search" component={EcommerceSearch} />
+        <ApmRoute exact path="/ecommerce/all" component={ListingPage} />
+        <ApmRoute
+          exact
+          path="/ecommerce/category/:category"
+          component={EcommerceCategory}
         />
       </Switch>
     </div>
