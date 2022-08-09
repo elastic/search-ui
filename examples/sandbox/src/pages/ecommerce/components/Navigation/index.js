@@ -1,4 +1,3 @@
-import "./styles.css";
 import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
 import { config } from "./config";
 import React from "react";
