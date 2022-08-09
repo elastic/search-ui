@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .sui-layout-header.sui-layout-header {
   padding: 0;
 }
