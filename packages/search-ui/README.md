@@ -49,8 +49,8 @@ of the Advanced README.
 
 ### Methods
 
-| method                    | params   | return                                                   | description                                                          |
-| ------------------------- | -------- | -------------------------------------------------------- | -------------------------------------------------------------------- |
-| `subscribeToStateChanges` | function |                                                          | Function to execute when state changes. ex.<br/><br/>`(state) => {}` |
+| method                    | params   | return                                                        | description                                                          |
+| ------------------------- | -------- | ------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `subscribeToStateChanges` | function |                                                               | Function to execute when state changes. ex.<br/><br/>`(state) => {}` |
 | `getActions`              |          | [Actions](https://docs.elastic.co/search-ui/api/core/actions) | All available actions.                                               |
 | `getState`                |          | [State](https://docs.elastic.co/search-ui/api/core/state)     | Current state.                                                       |

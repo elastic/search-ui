@@ -1,23 +1,22 @@
-import "./styles.css";
 import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
 import { config } from "./config";
 import React from "react";
 
 function InputView({ getAutocomplete, getInputProps, getButtonProps }) {
   return (
-    <div className="nav-search">
-      <div className="nav-search-searchbar">
+    <div className="flex-auto hidden lg:flex py-2 flex justify-self-start">
+      <div className="border-gray-600 border bg-black py-2 px-4 pr-8 relative my-2 w-[500px]">
         <input
           id="search"
           {...getInputProps({
             placeholder: "Search for products..."
           })}
-          className="searchbar-input"
+          className="bg-black min-w-full text-white border-none outline-none bg-black min-w-full"
         />
         {getAutocomplete()}
         <div className="searchbar-iconContainer">
           <svg
-            className="searchbar-icon"
+            className="absolute text-white right-3 top-3 w-[16px]"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -87,7 +86,7 @@ function AutocompleteView({
         )
       })}
     >
-      <div>
+      <div className="flex">
         {!!autocompleteSuggestions &&
           Object.entries(autocompletedSuggestions).map(
             ([suggestionType, suggestions]) => {
@@ -158,7 +157,7 @@ function AutocompleteView({
         {!!autocompleteResults &&
           !!autocompletedResults &&
           autocompletedResults.length > 0 && (
-            <ul className="autocomplete-results">
+            <ul className="flex flex-col w-[300px]">
               {autocompletedResults.map((result) => {
                 index++;
                 const titleField =
@@ -175,13 +174,13 @@ function AutocompleteView({
                       index: index - 1,
                       item: result
                     })}
-                    className="autocomplete-result-item"
+                    className="mb-2 flex space-x-5"
                   >
                     <img
-                      className="autocomplete-result-item--img"
+                      className="m-auto flex-shrink-0 max-w-[30px]"
                       src={result.image.raw}
                     />
-                    <h5>{titleRaw}</h5>
+                    <h5 className="flex-1 text-sm">{titleRaw}</h5>
                   </li>
                 );
               })}
@@ -195,16 +194,25 @@ function AutocompleteView({
 function Navigation(props) {
   return (
     <div className="navigation">
-      <div className="nav-wrapper">
-        <div className="nav-elements">
-          <a className="nav-element-logo" href="/ecommerce">
+      <div className="mx-auto px-6 flex justify-between max-w-[1300px]">
+        <div className="flex items-center mr-10">
+          <a
+            className="bg-white px-2 font-semibold border rounded-sm"
+            href="/ecommerce"
+          >
             ES
           </a>
-          <nav className="nav-links">
-            <a className="nav-link" href="/ecommerce">
+          <nav className="ml-4 py-4">
+            <a
+              className="inline-flex cursor-pointer px-2 text-white"
+              href="/ecommerce"
+            >
               Home
             </a>
-            <a className="nav-link" href="/ecommerce/all">
+            <a
+              className="inline-flex cursor-pointer px-2 text-white"
+              href="/ecommerce/all"
+            >
               Browse
             </a>
           </nav>
@@ -215,7 +223,7 @@ function Navigation(props) {
             trackUrlState: false
           }}
         >
-          <div className="nav-search">
+          <div className="flex-auto hidden lg:flex py-2 flex justify-self-start">
             <SearchBox
               onSelectAutocomplete={(suggestion, config, defaultHandler) => {
                 // eslint-disable-next-line

@@ -1,11 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .sui-layout-header.sui-layout-header {
   padding: 0;
 }
 
 .sui-layout-main-header {
-  @apply mb-4;
+  margin-bottom: 1rem;
 }
 
 .sui-layout-header {
-  @apply border-none;
+  border: none;
+}
+
+.navigation {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: #000;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+}
+
+.sui-search-box__suggestion-list {
+  width: 200px;
 }
