@@ -4,7 +4,7 @@ import React from "react";
 
 function InputView({ getAutocomplete, getInputProps, getButtonProps }) {
   return (
-    <div className="flex-auto hidden lg:flex py-2 flex justify-self-start">
+    <div className="flex-auto flex py-2 flex justify-self-start">
       <div className="border-gray-600 border bg-black py-2 px-4 pr-8 relative my-2 w-[500px]">
         <input
           id="search"
@@ -223,7 +223,7 @@ function Navigation(props) {
             trackUrlState: false
           }}
         >
-          <div className="flex-auto hidden lg:flex py-2 flex justify-self-start">
+          <div className="flex-auto py-2 flex justify-self-start">
             <SearchBox
               onSelectAutocomplete={(suggestion, config, defaultHandler) => {
                 // eslint-disable-next-line
