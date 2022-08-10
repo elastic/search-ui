@@ -10,7 +10,10 @@ const connector = new AppSearchAPIConnector({
   beforeSearchCall: (existingSearchOptions, next) =>
     next({
       ...existingSearchOptions,
-      group: { field: "product_group", collapse: true }
+      // For the purpose of the demo, we're only using grouping on the "/categories/TVs" page
+      ...(window.location.pathname.match(/TVs/) && {
+        group: { field: "product_group", collapse: true }
+      })
     })
 });
 
