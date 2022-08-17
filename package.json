@@ -21,6 +21,7 @@
     "validate": "yarn prettier-check && yarn lint && yarn test && yarn build",
     "validate-fix": "yarn prettier-format && yarn lint-fix && yarn test && yarn build",
     "changed": "lerna changed",
+    "publish": "",
     "prepare": "husky install"
   },
   "devDependencies": {
