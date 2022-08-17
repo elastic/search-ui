@@ -1,6 +1,6 @@
 {
   "name": "@metasearch-io/search-ui",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
   "main": "lib/cjs/index.js",
