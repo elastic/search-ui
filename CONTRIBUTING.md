@@ -81,6 +81,8 @@ To run it locally:
 
 ```shell
 # From the repository root
+# The project needs to be built before it is run
+# `yarn build` would also work in place of `yarn watch`
 yarn watch
 
 # In a separate terminal
