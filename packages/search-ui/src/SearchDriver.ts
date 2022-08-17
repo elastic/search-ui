@@ -31,8 +31,9 @@ function filterSearchParameters({
   searchTerm,
   sortDirection,
   sortField,
-  sortList
-}: RequestState) {
+  sortList,
+  custom
+}: SearchState) {
   return {
     current,
     filters,
@@ -40,7 +41,8 @@ function filterSearchParameters({
     searchTerm,
     sortDirection,
     sortField,
-    sortList
+    sortList,
+    custom
   };
 }
 
@@ -235,7 +237,6 @@ class SearchDriver {
     } else {
       urlState = {};
     }
-
     // Manage screen reader accessible notifications
     this.hasA11yNotifications = hasA11yNotifications;
     if (this.hasA11yNotifications) a11y.getLiveRegion();
@@ -411,7 +412,8 @@ class SearchDriver {
         searchTerm,
         sortDirection,
         sortField,
-        sortList
+        sortList,
+        custom
       } = this.state;
 
       this._setState({
@@ -479,7 +481,8 @@ class SearchDriver {
                 searchTerm,
                 sortDirection,
                 sortField,
-                sortList
+                sortList,
+                custom
               },
               { replaceUrl }
             );

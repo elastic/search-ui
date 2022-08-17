@@ -4,7 +4,7 @@ import {
   History
 } from "history";
 import queryString from "./queryString";
-import { Filter, RequestState, SortOption } from "./types";
+import { Custom, Filter, RequestState, SortOption } from "./types";
 
 type QueryParams = {
   filters?: Filter[];
@@ -71,7 +71,8 @@ function paramsToState(queryParams: QueryParams): RequestState {
     resultsPerPage: parseSizeFromQueryParams(queryParams),
     sortField: parseOldSortFromQueryParams(queryParams)[0],
     sortDirection: parseOldSortFromQueryParams(queryParams)[1],
-    sortList: parseSortFromQueryParams(queryParams)
+    sortList: parseSortFromQueryParams(queryParams),
+    custom: (queryParams as any).custom
   };
 
   return Object.keys(state).reduce((acc, key) => {
@@ -88,8 +89,9 @@ function stateToParams({
   resultsPerPage,
   sortDirection,
   sortField,
-  sortList
-}: RequestState): QueryParams {
+  sortList,
+  custom
+}: RequestState & { custom: Custom }): QueryParams {
   const params: QueryParams = {};
   if (current > 1) params.current = current;
   if (searchTerm) params.q = searchTerm;
@@ -103,10 +105,13 @@ function stateToParams({
     params["sort-field"] = sortField;
     params["sort-direction"] = sortDirection;
   }
+  if (custom) {
+    params["custom"] = custom;
+  }
   return params;
 }
 
-function stateToQueryString(state: RequestState): string {
+function stateToQueryString(state: RequestState & { custom: Custom }): string {
   return queryString.stringify(stateToParams(state));
 }
 
@@ -161,7 +166,7 @@ export default class URLManager {
     state: RequestState,
     { replaceUrl = false }: { replaceUrl?: boolean } = {}
   ): void {
-    const searchString = stateToQueryString(state);
+    const searchString = stateToQueryString(state as any);
     this.lastPushSearchString = searchString;
     const navigationFunction = replaceUrl
       ? this.history.replace
