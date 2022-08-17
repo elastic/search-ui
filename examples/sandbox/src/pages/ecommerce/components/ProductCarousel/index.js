@@ -1,4 +1,4 @@
-import { Results, SearchProvider } from "@elastic/react-search-ui";
+import { Results, SearchProvider } from "@metasearch-io/react-search-ui";
 import { config } from "./config";
 
 const CustomResultsView = ({ children }) => {

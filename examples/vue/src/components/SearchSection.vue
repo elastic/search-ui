@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { SearchDriver } from "@elastic/search-ui";
+import { SearchDriver } from "@metasearch-io/search-ui";
 import config from "../searchConfig";
 import SearchResults from "./SearchResults.vue";
 import SearchFacet from "./SearchFacet.vue";

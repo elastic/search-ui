@@ -11,7 +11,7 @@ import {
   Paging,
   Sorting,
   WithSearch
-} from "@elastic/react-search-ui";
+} from "@metasearch-io/react-search-ui";
 import { Layout, SingleLinksFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { config, SORT_OPTIONS } from "./config";

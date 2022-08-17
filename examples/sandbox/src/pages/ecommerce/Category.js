@@ -12,7 +12,7 @@ import {
   Paging,
   Sorting,
   WithSearch
-} from "@elastic/react-search-ui";
+} from "@metasearch-io/react-search-ui";
 import {
   Layout,
   SingleLinksFacet,

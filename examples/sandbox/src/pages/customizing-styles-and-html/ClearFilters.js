@@ -1,4 +1,4 @@
-import { withSearch } from "@elastic/react-search-ui";
+import { withSearch } from "@metasearch-io/react-search-ui";
 
 function ClearFilters({ filters, clearFilters }) {
   return (

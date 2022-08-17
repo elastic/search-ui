@@ -2,7 +2,7 @@ import React from "react";
 
 import { config } from "./config";
 
-import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
+import { SearchProvider, SearchBox } from "@metasearch-io/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 export default function Header() {

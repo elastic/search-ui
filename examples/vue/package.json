@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@elastic/react-search-ui-views": "1.17.1",
-    "@elastic/search-ui": "1.17.1",
+    "@metasearch-io/search-ui": "1.17.1",
     "@elastic/search-ui-app-search-connector": "1.17.1",
     "vue": "^3.2.37"
   },
