@@ -1,6 +1,6 @@
 {
   "name": "@metasearch-io/react-search-ui",
-  "version": "1.17.1",
+  "version": "1.18.0",
   "homepage": "https://docs.elastic.co/search-ui",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
@@ -34,7 +34,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
-    "@metasearch-io/search-ui": "1.17.1"
+    "@metasearch-io/search-ui": "^1.18.0"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 <= 18",
