@@ -1,5 +1,5 @@
 {
-  "packages": ["examples/*", "packages/*"],
+  "packages": ["packages/*"],
   "version": "1.17.1",
   "useWorkspaces": true,
   "npmClient": "yarn",
@@ -7,7 +7,7 @@
     "publish": {
       "npmClient": "npm",
       "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/src/test/**"],
-      "registry": "https://registry.npmjs.org/",
+      "registry": "https://npm.pkg.github.com",
       "message": "Release: %s"
     }
   }

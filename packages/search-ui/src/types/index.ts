@@ -10,7 +10,7 @@ export type SortOption = {
 export type SortDirection = "asc" | "desc" | "";
 
 export type FilterType = "any" | "all" | "none";
-
+export type Custom = Record<string, string | string[]>;
 export type FieldValue =
   | string
   | number
@@ -65,6 +65,8 @@ export type SearchState = RequestState &
     // as the result of changing input state.
     error: string;
     isLoading: boolean;
+  } & {
+    custom?: Custom;
   };
 
 export type AutocompleteResponseState = {
