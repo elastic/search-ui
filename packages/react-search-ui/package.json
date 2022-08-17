@@ -34,8 +34,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "dependencies": {
-    "@elastic/react-search-ui-views": "1.17.1",
-    "@elastic/search-ui": "1.17.1"
+    "@metasearch-io/search-ui": "1.17.1"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 <= 18",

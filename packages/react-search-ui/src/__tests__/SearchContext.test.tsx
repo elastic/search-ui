@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 
 import { SearchContext } from "..";
-import { SearchDriver } from "@elastic/search-ui";
+import { SearchDriver } from "@metasearch-io/search-ui";
 
 it("Should be a context", () => {
   const searchDriver = new SearchDriver({

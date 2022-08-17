@@ -4,7 +4,7 @@ import { mount } from "enzyme";
 
 import { SearchContext } from "..";
 import { withSearch } from "..";
-import { SearchDriver } from "@elastic/search-ui";
+import { SearchDriver } from "@metasearch-io/search-ui";
 import { SearchContextState } from "../withSearch";
 
 describe("withSearch", () => {

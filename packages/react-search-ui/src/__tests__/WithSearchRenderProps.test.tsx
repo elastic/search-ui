@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
-import type { APIConnector } from "@elastic/search-ui";
+import type { APIConnector } from "@metasearch-io/search-ui";
 
 describe("WithSearch", () => {
   const mockResponse = {

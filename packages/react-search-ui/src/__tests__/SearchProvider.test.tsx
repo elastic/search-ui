@@ -2,8 +2,8 @@ import React from "react";
 import { mount } from "enzyme";
 
 import { SearchProvider, WithSearch } from "../";
-import { APIConnector, SearchDriver } from "@elastic/search-ui";
-import type { AutocompleteQueryConfig } from "@elastic/search-ui";
+import { APIConnector, SearchDriver } from "@metasearch-io/search-ui";
+import type { AutocompleteQueryConfig } from "@metasearch-io/search-ui";
 
 function getMocks() {
   const mockApiConnector: APIConnector = {

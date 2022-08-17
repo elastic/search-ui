@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { SearchDriver } from "@elastic/search-ui";
+import { SearchDriver } from "@metasearch-io/search-ui";
 import SearchContext from "./SearchContext";
 
 import defaultA11yMessages from "./A11yNotifications";
-import type { SearchDriverOptions } from "@elastic/search-ui";
+import type { SearchDriverOptions } from "@metasearch-io/search-ui";
 
 export interface SearchProviderContextInterface {
   driver: SearchDriver;
