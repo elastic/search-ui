@@ -1,5 +1,5 @@
 {
-  "name": "@elastic/search-ui",
+  "name": "@metasearch-io/search-ui",
   "version": "1.17.1",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
