@@ -15,11 +15,7 @@
   "files": [
     "lib"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/elastic/search-ui.git",
-    "directory": "packages/react-search-ui"
-  },
+  "repository": "https://github.com/metasearch-io/search-ui",
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
