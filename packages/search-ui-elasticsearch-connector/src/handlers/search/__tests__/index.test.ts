@@ -42,8 +42,8 @@ const mockSearchkitResponse: SearchkitResponse = {
       display: "RefinementList",
       label: "another_field",
       entries: [
-        { label: "label1", count: "10" },
-        { label: "label2", count: "20" }
+        { label: "label1", count: 10 },
+        { label: "label2", count: 20 }
       ],
       type: "RefinmentList"
     },
@@ -52,8 +52,8 @@ const mockSearchkitResponse: SearchkitResponse = {
       display: "RefinementList",
       label: "world heritage site",
       entries: [
-        { label: "label3", count: "10" },
-        { label: "label4", count: "20" }
+        { label: "label3", count: 10 },
+        { label: "label4", count: 20 }
       ],
       type: "RefinmentList"
     }

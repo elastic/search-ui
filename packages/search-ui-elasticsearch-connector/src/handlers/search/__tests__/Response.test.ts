@@ -43,8 +43,8 @@ describe("Search - Response", () => {
         label: "test",
         type: "value",
         entries: [
-          { label: "labeltest", count: "10" },
-          { label: "label2", count: "20" }
+          { label: "labeltest", count: 10 },
+          { label: "label2", count: 20 }
         ]
       }
     ]
