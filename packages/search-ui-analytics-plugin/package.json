@@ -1,0 +1,41 @@
+{
+  "name": "@elastic/search-ui-analytics-plugin",
+  "version": "1.17.1",
+  "description": "Behavorial Analytics middleware plugin",
+  "license": "Apache-2.0",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/esm/index.d.ts",
+  "sideEffects": false,
+  "homepage": "https://docs.elastic.co/search-ui",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elastic/search-ui.git",
+    "directory": "packages/search-ui-analytics-plugin"
+  },
+  "scripts": {
+    "test-ci": "jest --runInBand",
+    "test": "jest",
+    "clean": "rimraf lib",
+    "watch-js": "./bin/watch-js",
+    "build-js": "./bin/build-js",
+    "build": "npm run clean && npm run build-js",
+    "watch": "npm run build && npm run watch-js",
+    "prepare": "npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/elastic/search-ui/issues"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "@elastic/search-ui": "^1.17.1"
+  },
+  "dependencies": {}
+}

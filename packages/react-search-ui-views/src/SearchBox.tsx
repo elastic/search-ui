@@ -23,6 +23,7 @@ export type SearchBoxContainerContext = Pick<
   | "searchTerm"
   | "setSearchTerm"
   | "trackAutocompleteClickThrough"
+  | "trackAutocompleteSuggestionClickThrough"
 >;
 
 export type SearchBoxContainerProps = BaseContainerProps &

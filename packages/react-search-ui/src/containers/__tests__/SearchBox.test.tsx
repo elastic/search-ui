@@ -8,12 +8,14 @@ const params = {
   autocompletedSuggestions: {},
   searchTerm: "test",
   setSearchTerm: jest.fn(),
-  trackAutocompleteClickThrough: jest.fn()
+  trackAutocompleteClickThrough: jest.fn(),
+  trackAutocompleteSuggestionClickThrough: jest.fn()
 };
 
 beforeEach(() => {
   params.setSearchTerm = jest.fn();
   params.trackAutocompleteClickThrough = jest.fn();
+  params.trackAutocompleteSuggestionClickThrough = jest.fn();
 });
 
 it("supports a render prop", () => {

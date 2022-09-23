@@ -73,8 +73,12 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
   };
 
   handleNotifyAutocompleteSelected = (selection) => {
-    const { autocompleteResults, trackAutocompleteClickThrough } = this.props;
-    // Because suggestions don't count as clickthroughs, only
+    const {
+      autocompleteResults,
+      trackAutocompleteClickThrough,
+      trackAutocompleteSuggestionClickThrough
+    } = this.props;
+
     // results
     if (autocompleteResults) {
       const autocompleteResultsConfig =
@@ -89,6 +93,14 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
         const { clickThroughTags = [] } = autocompleteResultsConfig;
         const id = selection.id?.raw;
         trackAutocompleteClickThrough(id, clickThroughTags);
+      }
+
+      if (selection.suggestion) {
+        trackAutocompleteSuggestionClickThrough(
+          selection.suggestion,
+          selection.index,
+          []
+        );
       }
     }
   };
@@ -202,12 +214,14 @@ export default withSearch<SearchBoxContainerProps, SearchBoxContainerContext>(
     autocompletedSuggestions,
     searchTerm,
     setSearchTerm,
-    trackAutocompleteClickThrough
+    trackAutocompleteClickThrough,
+    trackAutocompleteSuggestionClickThrough
   }) => ({
     autocompletedResults,
     autocompletedSuggestions,
     searchTerm,
     setSearchTerm,
-    trackAutocompleteClickThrough
+    trackAutocompleteClickThrough,
+    trackAutocompleteSuggestionClickThrough
   })
 )(SearchBoxContainer);

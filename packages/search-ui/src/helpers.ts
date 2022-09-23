@@ -134,3 +134,16 @@ export function isFilterValueRange(
 ): filterValue is FilterValueRange {
   return (filterValue as FilterValueRange).name !== undefined;
 }
+
+export const serialiseFilter = (filterValues: FilterValue[]) => {
+  return filterValues
+    .reduce<string[]>((acc, filterValue) => {
+      if (isFilterValueRange(filterValue)) {
+        acc.push(filterValue.name);
+      } else {
+        acc.push(filterValue.toString());
+      }
+      return acc;
+    }, [])
+    .join(",");
+};

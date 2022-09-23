@@ -11,7 +11,9 @@ import {
   SearchQuery,
   AutocompleteSearchQuery,
   ResponseState,
-  AutocompleteResponseState
+  AutocompleteResponseState,
+  Event,
+  Plugin
 } from "./types";
 
 function wireUpEventHandler(
@@ -54,6 +56,7 @@ type EventOptions = {
   onAutocomplete?: onAutocompleteHook;
   onResultClick?: onResultClickHook;
   onAutocompleteResultClick?: onAutocompleteResultClickHook;
+  plugins?: Plugin[];
 };
 
 class Events {
@@ -69,13 +72,15 @@ class Events {
   ) => Promise<AutocompleteResponseState>;
   public resultClick: (resultParams: any) => void;
   public autocompleteResultClick: (resultParams: any) => void;
+  private plugins: Plugin[];
 
   constructor({
     apiConnector,
     onSearch,
     onAutocomplete,
     onResultClick,
-    onAutocompleteResultClick
+    onAutocompleteResultClick,
+    plugins = []
   }: EventOptions = {}) {
     this.search = wireUpEventHandler("onSearch", apiConnector, onSearch);
     this.autocomplete = wireUpEventHandler(
@@ -93,6 +98,13 @@ class Events {
       apiConnector,
       onAutocompleteResultClick
     );
+    this.plugins = plugins;
+  }
+
+  public emit(event: Event) {
+    this.plugins.forEach((middleware) => {
+      middleware.subscribe(event);
+    });
   }
 }
 

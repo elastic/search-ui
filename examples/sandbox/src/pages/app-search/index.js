@@ -2,6 +2,7 @@ import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
 
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
 
 import moment from "moment";
 
@@ -35,10 +36,11 @@ const connector = new AppSearchAPIConnector({
 });
 
 const config = {
-  debug: true,
+  debug: false,
   alwaysSearchOnInitialLoad: true,
   apiConnector: connector,
   hasA11yNotifications: true,
+  plugins: [AnalyticsPlugin()],
   searchQuery: {
     result_fields: {
       visitors: { raw: {} },
