@@ -10,7 +10,7 @@ export interface AnalyticsPluginOptions {
   client?: AnalyticsClient;
 }
 
-export default function analyticsPlugin(options = { client: undefined }) {
+export default function AnalyticsPlugin(options = { client: undefined }) {
   const client: AnalyticsClient =
     options.client ||
     (typeof window !== "undefined" && window["elasticAnalytics"]);
