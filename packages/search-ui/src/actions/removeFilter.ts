@@ -44,7 +44,7 @@ export default function removeFilter(
   events.emit({
     type: "FacetFilterRemoved",
     field: name,
-    value: serialiseFilter([value]),
+    value: value && serialiseFilter([value]),
     query: this.state.searchTerm
   });
 }

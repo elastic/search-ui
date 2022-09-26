@@ -132,7 +132,10 @@ export function mergeFilters(filters1, filters2) {
 export function isFilterValueRange(
   filterValue: FilterValue
 ): filterValue is FilterValueRange {
-  return (filterValue as FilterValueRange).name !== undefined;
+  return (
+    typeof filterValue === "object" &&
+    (filterValue as FilterValueRange).name !== undefined
+  );
 }
 
 export const serialiseFilter = (filterValues: FilterValue[]) => {

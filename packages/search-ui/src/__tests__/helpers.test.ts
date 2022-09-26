@@ -1,4 +1,5 @@
 import { helpers } from "..";
+import { isFilterValueRange } from "../helpers";
 import { Filter } from "../types";
 const doFilterValuesMatch = helpers.doFilterValuesMatch;
 const markSelectedFacetValuesFromFilters =
@@ -226,5 +227,17 @@ describe("mergeFilters", () => {
   it("will keep values defined in one array or the other", () => {
     expect(subject()).toContainEqual(filters1[2]);
     expect(subject()).toContainEqual(filters2[2]);
+  });
+
+  describe("isFilterValueRange", () => {
+    it("will return true if the filter value is a range", () => {
+      const filterValue = { from: 1, to: 10, name: "The first option" };
+      expect(isFilterValueRange(filterValue)).toBe(true);
+    });
+
+    it("will return false if the filter value is not a range", () => {
+      expect(isFilterValueRange(1)).toBe(false);
+      expect(isFilterValueRange("1")).toBe(false);
+    });
   });
 });

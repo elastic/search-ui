@@ -1,4 +1,4 @@
-import { setupDriver, SubjectArguments } from "../../test/helpers";
+import { setupDriver, SubjectArguments, mockPlugin } from "../../test/helpers";
 import {
   itResetsCurrent,
   itFetchesResults,
@@ -16,6 +16,10 @@ beforeEach(() => {
 });
 
 describe("#removeFilter", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   function subject(
     name?,
     value?,
@@ -88,6 +92,12 @@ describe("#removeFilter", () => {
         type: "all"
       }
     ]);
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterRemoved",
+      value: "value"
+    });
   });
 
   it("Removes all filters", () => {
@@ -103,6 +113,13 @@ describe("#removeFilter", () => {
         ]
       }).filters
     ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
+
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterRemoved",
+      value: undefined
+    });
   });
 
   it("Removes all filters when last value", () => {
@@ -157,6 +174,13 @@ describe("#removeFilter", () => {
         type: "all"
       }
     ]);
+
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterRemoved",
+      value: "test"
+    });
   });
 
   it("Removes a range filter value even if only the name matches", () => {
@@ -196,6 +220,13 @@ describe("#removeFilter", () => {
         ]
       }
     ]);
+
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterRemoved",
+      value: "A really long time ago"
+    });
   });
 
   it("Removes all filters, if no filter value or filter type is specified", () => {

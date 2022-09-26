@@ -1,4 +1,5 @@
 import SearchDriver, { DEFAULT_STATE } from "../SearchDriver";
+
 import {
   Filter,
   SearchQuery,
@@ -12,7 +13,8 @@ import {
   getMockApiConnector,
   searchResponse,
   getMockApiConnectorWithStateAndActions,
-  waitATick
+  waitATick,
+  mockPlugin
 } from "../test/helpers";
 
 // We mock this so no state is actually written to the URL
@@ -44,6 +46,7 @@ beforeEach(() => {
   (mockApiConnector.onSearch as jest.Mock).mockClear();
   (mockApiConnector.onResultClick as jest.Mock).mockClear();
   (mockApiConnector.onAutocompleteResultClick as jest.Mock).mockClear();
+  jest.clearAllMocks();
 });
 
 it("can be initialized", () => {
@@ -467,7 +470,7 @@ describe("#getActions", () => {
   it("returns the current actions", () => {
     const driver = new SearchDriver(params);
     const actions = driver.getActions();
-    expect(Object.keys(actions).length).toBe(12);
+    expect(Object.keys(actions).length).toBe(13);
     expect(actions.addFilter).toBeInstanceOf(Function);
     expect(actions.clearFilters).toBeInstanceOf(Function);
     expect(actions.removeFilter).toBeInstanceOf(Function);
@@ -480,6 +483,9 @@ describe("#getActions", () => {
     expect(actions.trackClickThrough).toBeInstanceOf(Function);
     expect(actions.trackAutocompleteClickThrough).toBeInstanceOf(Function);
     expect(actions.a11yNotify).toBeInstanceOf(Function);
+    expect(actions.trackAutocompleteSuggestionClickThrough).toBeInstanceOf(
+      Function
+    );
   });
 
   it("includes connector actions if they're available", () => {
@@ -489,7 +495,7 @@ describe("#getActions", () => {
     });
 
     const actions = driver.getActions();
-    expect(Object.keys(actions).length).toBe(13);
+    expect(Object.keys(actions).length).toBe(14);
   });
 });
 
@@ -506,6 +512,11 @@ describe("_updateSearchResults", () => {
     expect(stateAfterCreation.totalResults).toEqual(1000);
     expect(stateAfterCreation.pagingStart).toEqual(21);
     expect(stateAfterCreation.pagingEnd).toEqual(40);
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      query: "test",
+      totalResults: 1000,
+      type: "SearchQuery"
+    });
   });
 
   it("does not set pagingEnd to more than the total # of results", () => {

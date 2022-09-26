@@ -41,7 +41,7 @@ export default function setFilter(
   events.emit({
     type: "FacetFilterSelected",
     field: name,
-    value: serialiseFilter([value]),
+    value: value && serialiseFilter([value]),
     query: this.state.searchTerm
   });
 }
