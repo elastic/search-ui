@@ -1,5 +1,6 @@
-import { removeSingleFilterValue } from "../helpers";
-import { FilterType, FilterValue } from "../types";
+import Events from "../Events";
+import { removeSingleFilterValue, serialiseFilter } from "../helpers";
+import { FilterType, FilterValue, RequestState } from "../types";
 
 /**
  * Remove filter from results
@@ -19,7 +20,7 @@ export default function removeFilter(
     // eslint-disable-next-line no-console
     console.log("Search UI: Action", "removeFilter", ...arguments);
 
-  const { filters } = this.state;
+  const { filters } = this.state as RequestState;
 
   let updatedFilters = filters;
 
@@ -36,5 +37,14 @@ export default function removeFilter(
   this._updateSearchResults({
     current: 1,
     filters: updatedFilters
+  });
+
+  const events: Events = this.events;
+
+  events.emit({
+    type: "FacetFilterRemoved",
+    field: name,
+    value: value && serialiseFilter([value]),
+    query: this.state.searchTerm
   });
 }

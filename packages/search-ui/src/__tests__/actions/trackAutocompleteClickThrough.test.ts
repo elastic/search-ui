@@ -1,6 +1,14 @@
-import { getAutocompleteClickCalls, setupDriver } from "../../test/helpers";
+import {
+  getAutocompleteClickCalls,
+  setupDriver,
+  mockPlugin
+} from "../../test/helpers";
 
 describe("#trackAutocompleteClickThrough", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   function subject(
     { initialState }: { initialState? } = {},
     documentId?,
@@ -46,5 +54,13 @@ describe("#trackAutocompleteClickThrough", () => {
     expect(tags).toEqual(["test"]);
     expect(requestId).toEqual("6789");
     expect(result._meta.content_source_id).toEqual("621581b6174a804659f9dc16");
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      documentId: "park_great-smoky-mountains",
+      origin: "autocomplete",
+      position: 0,
+      query: "search terms",
+      tags: ["test"],
+      type: "ResultSelected"
+    });
   });
 });

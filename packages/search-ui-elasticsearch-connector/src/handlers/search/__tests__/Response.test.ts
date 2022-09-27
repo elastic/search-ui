@@ -43,8 +43,8 @@ describe("Search - Response", () => {
         label: "test",
         type: "value",
         entries: [
-          { label: "labeltest", count: "10" },
-          { label: "label2", count: "20" }
+          { label: "labeltest", count: 10 },
+          { label: "label2", count: 20 }
         ]
       }
     ]
@@ -60,11 +60,11 @@ describe("Search - Response", () => {
             Object {
               "data": Array [
                 Object {
-                  "count": "10",
+                  "count": 10,
                   "value": "labeltest",
                 },
                 Object {
-                  "count": "20",
+                  "count": 20,
                   "value": "label2",
                 },
               ],

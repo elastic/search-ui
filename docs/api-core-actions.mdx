@@ -3,7 +3,7 @@ id: api-core-actions
 slug: /search-ui/api/core/actions
 title: Actions
 date: 2022-02-27
-tags: ["demo"]
+tags: [""]
 ---
 
 To update the state, you can use actions below. Actions are functions that update the Request State and performs an API request.
@@ -326,6 +326,28 @@ Report a clickthrough event, which is when a user clicks on an autocomplete sugg
 | Parameters   | description                                                                            |
 | ------------ | -------------------------------------------------------------------------------------- |
 | `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
+
+### trackAutocompleteSuggestionClickThrough
+
+<DocCallOut title="This action requires the use of the analytics plugin" />
+
+```js
+trackAutocompleteSuggestionClickThrough(
+  suggestion: string,
+  postion: number
+  tags: string[] = []
+)
+```
+
+Report a suggestion clickthrough event, which is when a user clicks on an autocomplete suggestion.
+
+#### Parameters
+
+| Parameters   | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `suggestion` | String - The suggestion that was clicked                                               |
+| `position`   | Number - The position of the suggestion that was clicked                               |
 | `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
 
 ### a11yNotify

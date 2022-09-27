@@ -10,6 +10,7 @@ import {
   AutocompleteResponseState,
   AutocompleteSearchQuery,
   INVALID_CREDENTIALS,
+  Plugin,
   QueryConfig,
   ResponseState
 } from ".";
@@ -115,6 +116,7 @@ export type onAutocompleteResultClickHook = (resultParams: any) => void;
 
 export type SearchDriverOptions = {
   apiConnector: APIConnector;
+  plugins?: Plugin[];
   autocompleteQuery?: AutocompleteQueryConfig;
   debug?: boolean;
   initialState?: Partial<RequestState>;
@@ -145,6 +147,7 @@ class SearchDriver {
 
   debug: boolean;
   events: Events;
+  plugins: Plugin[];
   autocompleteRequestSequencer: RequestSequencer;
   searchRequestSequencer: RequestSequencer;
   debounceManager: DebounceManager;
@@ -166,6 +169,7 @@ class SearchDriver {
   constructor({
     apiConnector,
     autocompleteQuery = {},
+    plugins = [],
     debug,
     initialState,
     onSearch,
@@ -201,7 +205,8 @@ class SearchDriver {
       onSearch,
       onAutocomplete,
       onResultClick,
-      onAutocompleteResultClick
+      onAutocompleteResultClick,
+      plugins: plugins
     });
 
     this.debug = debug;
@@ -440,9 +445,15 @@ class SearchDriver {
         (resultState) => {
           if (this.searchRequestSequencer.isOldRequest(requestId)) return;
           this.searchRequestSequencer.completed(requestId);
+          const { totalResults } = resultState;
+
+          this.events.emit({
+            type: "SearchQuery",
+            query: this.state.searchTerm,
+            totalResults: totalResults
+          });
 
           // Results paging start & end
-          const { totalResults } = resultState;
           const start =
             totalResults === 0 ? 0 : (current - 1) * resultsPerPage + 1;
           const end =

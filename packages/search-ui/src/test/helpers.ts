@@ -73,6 +73,10 @@ type SetupDriverOptions = {
   mockApiConnector?: APIConnector;
 } & Partial<SearchDriverOptions>;
 
+export const mockPlugin = {
+  subscribe: jest.fn()
+};
+
 export function setupDriver(
   { mockSearchResponse, mockApiConnector, ...rest }: SetupDriverOptions = {
     mockSearchResponse: null,
@@ -99,7 +103,8 @@ export function setupDriver(
     ...rest,
     // We don't want to deal with async in our tests, so pass 0 so URL state
     // pushes happen synchronously
-    urlPushDebounceLength: 0
+    urlPushDebounceLength: 0,
+    plugins: [mockPlugin]
   });
 
   const updatedStateAfterAction = { state: null };

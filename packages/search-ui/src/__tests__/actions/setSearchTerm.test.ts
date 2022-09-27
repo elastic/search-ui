@@ -18,6 +18,7 @@ const MockedURLManager = jest.mocked(URLManager, true);
 
 beforeEach(() => {
   MockedURLManager.mockClear();
+  jest.clearAllMocks();
 });
 
 describe("#setSearchTerm", () => {

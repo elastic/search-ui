@@ -40,7 +40,6 @@ function getSuggestionDisplayField(
   if (autocompleteSuggestions.queryType === "results") {
     return autocompleteSuggestions.displayField as string;
   }
-
   if (
     autocompleteSuggestions[suggestionType] &&
     autocompleteSuggestions[suggestionType].queryType === "results"
@@ -129,7 +128,9 @@ function Autocomplete({
                                 {...getItemProps({
                                   key: suggestionValue,
                                   index: index - 1,
-                                  item: { suggestion: suggestionValue }
+                                  item: {
+                                    suggestion: suggestionValue
+                                  }
                                 })}
                                 data-transaction-name="query suggestion"
                               >
@@ -144,7 +145,10 @@ function Autocomplete({
                                 key:
                                   suggestion.suggestion || suggestion.highlight,
                                 index: index - 1,
-                                item: suggestion
+                                item: {
+                                  ...suggestion,
+                                  index: index - 1
+                                }
                               })}
                               data-transaction-name="query suggestion"
                             >

@@ -1,4 +1,4 @@
-import { setupDriver, SubjectArguments } from "../../test/helpers";
+import { setupDriver, SubjectArguments, mockPlugin } from "../../test/helpers";
 import {
   itResetsCurrent,
   itFetchesResults,
@@ -16,6 +16,10 @@ beforeEach(() => {
 });
 
 describe("#addFilter", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   function subject(
     name,
     value,
@@ -80,6 +84,12 @@ describe("#addFilter", () => {
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "all" }
     ]);
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterSelected",
+      value: "value"
+    });
   });
 
   it("Adds an additional filter", () => {
@@ -94,6 +104,13 @@ describe("#addFilter", () => {
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value", "value2"], type: "all" }
     ]);
+
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterSelected",
+      value: "value,value2"
+    });
   });
 
   it("Won't add a duplicate filter", () => {
@@ -165,6 +182,12 @@ describe("#addFilter", () => {
         type: "all"
       }
     ]);
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      field: "test",
+      query: "",
+      type: "FacetFilterSelected",
+      value: "test,test2"
+    });
   });
 
   it("Won't add a duplicate range filter", () => {
