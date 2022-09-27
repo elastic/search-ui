@@ -1,4 +1,5 @@
 import { SearchState } from "..";
+import Events from "../Events";
 
 /**
  * Report a click through event. A click through event is when a user
@@ -29,6 +30,7 @@ export default function trackClickThrough(
     (result) => result._meta.id === documentId
   );
   const result = results[resultIndexOnPage];
+  const events: Events = this.events;
 
   this.events.resultClick({
     query: searchTerm,
@@ -39,5 +41,14 @@ export default function trackClickThrough(
     page: current,
     resultsPerPage,
     resultIndexOnPage
+  });
+
+  events.emit({
+    type: "ResultSelected",
+    documentId,
+    query: searchTerm,
+    position: resultIndexOnPage,
+    origin: "results",
+    tags
   });
 }

@@ -132,5 +132,21 @@ export function mergeFilters(filters1, filters2) {
 export function isFilterValueRange(
   filterValue: FilterValue
 ): filterValue is FilterValueRange {
-  return (filterValue as FilterValueRange).name !== undefined;
+  return (
+    typeof filterValue === "object" &&
+    (filterValue as FilterValueRange).name !== undefined
+  );
 }
+
+export const serialiseFilter = (filterValues: FilterValue[]) => {
+  return filterValues
+    .reduce<string[]>((acc, filterValue) => {
+      if (isFilterValueRange(filterValue)) {
+        acc.push(filterValue.name);
+      } else {
+        acc.push(filterValue.toString());
+      }
+      return acc;
+    }, [])
+    .join(",");
+};

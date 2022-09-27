@@ -3132,10 +3132,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.0.tgz#7f698254aadf921e48dda8c0a6b304026b8a9323"
   integrity sha512-JLo+Y592QzIE+q7Dl2pMUtt4q8SKYI5jDrZxrozEQxnGVOyYE+GWK9eLkwTaeN9DDctlaRAQ3TBmzZ1qdLE30A==
 
-"@searchkit/sdk@^3.0.0-canary.58":
-  version "3.0.0-canary.58"
-  resolved "https://registry.yarnpkg.com/@searchkit/sdk/-/sdk-3.0.0-canary.58.tgz#97ca65adad87dff3f3040155c366a7595f76fbe6"
-  integrity sha512-VY1fBn1Dg0o3KP8tY/xHvX9racEWD987XTsGiMzgu6HrbSPVOhjReSs770jHD1bE4N8Q6dSSW3HlPFgj2Fs9NA==
+"@searchkit/sdk@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@searchkit/sdk/-/sdk-3.0.0.tgz#63fcec0edcba05d241042b8476be1b86d77142e4"
+  integrity sha512-cWtP5T2+xonPhnwDmda6+RQWvGBg0bigCmZLm+fPPJOymEIug5LQF1s0abcWlwDuXhNnMqiCdk/x2ZUJpt2xTA==
   dependencies:
     "@elastic/elasticsearch-types" "npm:@elastic/elasticsearch@^8.2.1"
     agentkeepalive "^4.1.3"

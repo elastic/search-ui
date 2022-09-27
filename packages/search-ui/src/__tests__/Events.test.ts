@@ -1,3 +1,4 @@
+import { Event } from "..";
 import Events from "../Events";
 import { getMockApiConnector } from "../test/helpers";
 
@@ -118,6 +119,32 @@ describe("when an API connector and handler are both provided", () => {
         const response = await events[eventName]("bogus1", "bogus2");
         expect(response).toBe(connectorResponse);
       });
+    });
+  });
+
+  describe("plugins", () => {
+    it("will call the plugin's subscribe method", async () => {
+      const apiConnector = setupMockConnector({});
+      const plugin = {
+        subscribe: jest.fn()
+      };
+      const events = new Events({
+        apiConnector: apiConnector,
+        plugins: [plugin]
+      });
+
+      const event: Event = {
+        type: "ResultSelected",
+        documentId: "123",
+        origin: "autocomplete",
+        position: 1,
+        query: "test",
+        tags: []
+      };
+
+      events.emit(event);
+
+      expect(plugin.subscribe).toHaveBeenCalledWith(event);
     });
   });
 });

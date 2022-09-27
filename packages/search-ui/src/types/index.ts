@@ -231,3 +231,54 @@ export type FieldResult = {
 export type AutocompletedResult = any | Record<string, FieldResult>;
 
 export type SearchContextState = SearchState & SearchDriverActions;
+
+export interface BaseEvent {
+  type: string;
+  tags?: string[];
+}
+
+interface SearchQueryEvent extends BaseEvent {
+  type: "SearchQuery";
+  query: string;
+  totalResults: number;
+}
+
+interface AutocompleteSuggestionSelectedEvent extends BaseEvent {
+  type: "AutocompleteSuggestionSelected";
+  query: string;
+  suggestion: string;
+  position: number;
+}
+
+interface ResultSelectedEvent extends BaseEvent {
+  type: "ResultSelected";
+  query: string;
+  documentId: string;
+  position: number;
+  origin: "autocomplete" | "results";
+}
+
+interface FacetFilterSelectedEvent extends BaseEvent {
+  type: "FacetFilterSelected";
+  query: string;
+  field: string;
+  value: string;
+}
+
+interface FacetFilterRemovedEvent extends BaseEvent {
+  type: "FacetFilterRemoved";
+  query: string;
+  field: string;
+  value: string;
+}
+
+export type Plugin = {
+  subscribe: (event: Event) => void;
+};
+
+export type Event =
+  | SearchQueryEvent
+  | AutocompleteSuggestionSelectedEvent
+  | ResultSelectedEvent
+  | FacetFilterSelectedEvent
+  | FacetFilterRemovedEvent;

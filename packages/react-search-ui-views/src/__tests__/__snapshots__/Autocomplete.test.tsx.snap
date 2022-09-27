@@ -19,6 +19,7 @@ exports[`renders correctly 1`] = `
         item={
           Object {
             "highlight": "",
+            "index": 0,
             "suggestion": "bike",
           }
         }
@@ -34,6 +35,7 @@ exports[`renders correctly 1`] = `
         item={
           Object {
             "highlight": "",
+            "index": 1,
             "suggestion": "bike police",
           }
         }
@@ -49,6 +51,7 @@ exports[`renders correctly 1`] = `
         item={
           Object {
             "highlight": "",
+            "index": 2,
             "suggestion": "bike police go",
           }
         }

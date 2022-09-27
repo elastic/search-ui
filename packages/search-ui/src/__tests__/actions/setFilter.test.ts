@@ -1,4 +1,4 @@
-import { setupDriver, SubjectArguments } from "../../test/helpers";
+import { setupDriver, mockPlugin, SubjectArguments } from "../../test/helpers";
 import {
   itResetsCurrent,
   itFetchesResults,
@@ -11,11 +11,12 @@ jest.mock("../../URLManager");
 import URLManager from "../../URLManager";
 const MockedURLManager = jest.mocked(URLManager, true);
 
-beforeEach(() => {
-  MockedURLManager.mockClear();
-});
-
 describe("#setFilter", () => {
+  beforeEach(() => {
+    MockedURLManager.mockClear();
+    jest.clearAllMocks();
+  });
+
   function subject(
     name?,
     value?,
@@ -66,6 +67,13 @@ describe("#setFilter", () => {
       sortList,
       searchTerm
     }).toEqual(initialState);
+
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
+      field: "field",
+      value: "value",
+      query: "test",
+      type: "FacetFilterSelected"
+    });
   });
 
   it("Adds a new filter and removes old filters", () => {
@@ -80,18 +88,36 @@ describe("#setFilter", () => {
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value2"], type: "all" }
     ]);
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
+      field: "test",
+      value: "value2",
+      query: "",
+      type: "FacetFilterSelected"
+    });
   });
 
   it("Adds an 'any' type filter", () => {
     expect(subject("test", "value", "any").filters).toEqual([
       { field: "test", values: ["value"], type: "any" }
     ]);
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
+      field: "test",
+      value: "value",
+      query: "",
+      type: "FacetFilterSelected"
+    });
   });
 
   it("Adds a 'none' type filter", () => {
     expect(subject("test", "value", "none").filters).toEqual([
       { field: "test", values: ["value"], type: "none" }
     ]);
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
+      field: "test",
+      value: "value",
+      query: "",
+      type: "FacetFilterSelected"
+    });
   });
 
   it("Will maintain separate Filter structures for different filter types", () => {

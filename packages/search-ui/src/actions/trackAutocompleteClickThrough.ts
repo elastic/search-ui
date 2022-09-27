@@ -1,3 +1,5 @@
+import Events from "../Events";
+
 /**
  * Report a click through event. A click through event is when a user
  * clicks on a result within an autocomplete Dropdown.
@@ -27,12 +29,23 @@ export default function trackAutocompleteClickThrough(
   );
   const result = autocompletedResults[resultIndex];
 
-  this.events.autocompleteResultClick({
+  const events: Events = this.events;
+
+  events.autocompleteResultClick({
     query: searchTerm,
     documentId,
     requestId: autocompletedResultsRequestId,
     tags,
     result,
     resultIndex
+  });
+
+  events.emit({
+    type: "ResultSelected",
+    documentId,
+    query: searchTerm,
+    position: resultIndex,
+    origin: "autocomplete",
+    tags
   });
 }

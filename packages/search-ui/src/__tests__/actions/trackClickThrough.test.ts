@@ -1,4 +1,4 @@
-import { getClickCalls, setupDriver } from "../../test/helpers";
+import { getClickCalls, setupDriver, mockPlugin } from "../../test/helpers";
 
 describe("#trackClickThrough", () => {
   function subject(
@@ -46,5 +46,14 @@ describe("#trackClickThrough", () => {
     expect(requestId).toEqual("12345");
     expect(result._meta.content_source_id).toEqual("621581b6174a804659f9dc16");
     expect(page).toBe(1);
+
+    expect(mockPlugin.subscribe).toBeCalledWith({
+      documentId: "park_great-smoky-mountains",
+      origin: "results",
+      position: 0,
+      query: "search terms",
+      tags: ["test"],
+      type: "ResultSelected"
+    });
   });
 });

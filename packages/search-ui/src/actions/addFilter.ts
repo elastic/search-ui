@@ -1,5 +1,6 @@
-import { doFilterValuesMatch } from "../helpers";
-import { FilterType, FilterValue } from "../types";
+import Events from "../Events";
+import { doFilterValuesMatch, serialiseFilter } from "../helpers";
+import { FilterType, FilterValue, RequestState } from "../types";
 
 /**
  * Filter results - Adds to current filter value
@@ -18,13 +19,13 @@ export default function addFilter(
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "addFilter", ...arguments);
 
-  const { filters } = this.state;
+  const { filters } = this.state as RequestState;
 
   const existingFilter =
-    filters.find((f) => f.field === name && f.type === type) || {};
+    filters.find((f) => f.field === name && f.type === type) || null;
   const allOtherFilters =
     filters.filter((f) => f.field !== name || f.type !== type) || [];
-  const existingFilterValues = existingFilter.values || [];
+  const existingFilterValues = existingFilter?.values || [];
 
   const newFilterValues = existingFilterValues.find((existing) =>
     doFilterValuesMatch(existing, value)
@@ -38,5 +39,14 @@ export default function addFilter(
       ...allOtherFilters,
       { field: name, values: newFilterValues, type }
     ]
+  });
+
+  const events: Events = this.events;
+
+  events.emit({
+    type: "FacetFilterSelected",
+    field: name,
+    value: serialiseFilter(newFilterValues),
+    query: this.state.searchTerm
   });
 }
