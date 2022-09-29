@@ -20,10 +20,20 @@ function removeName(v: FilterValue) {
 }
 
 function rollup(f: Filter) {
-  const values = f.values.map(removeName).map((v) => ({
-    [f.field]: v
-  }));
+  const hasRangeInValues = f.values.some(helpers.isFilterValueRange);
+  let values;
 
+  if (hasRangeInValues || f.values.length === 1) {
+    values = f.values.map(removeName).map((v) => ({
+      [f.field]: v
+    }));
+  } else {
+    values = [
+      {
+        [f.field]: f.values.map(removeName).map((v) => v)
+      }
+    ];
+  }
   return {
     [f.type || "any"]: values
   };

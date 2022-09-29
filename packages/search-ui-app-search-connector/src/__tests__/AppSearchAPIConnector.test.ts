@@ -391,10 +391,7 @@ describe("AppSearchAPIConnector", () => {
             {
               all: [
                 {
-                  title: "Acadia"
-                },
-                {
-                  title: "Grand Canyon"
+                  title: ["Acadia", "Grand Canyon"]
                 }
               ]
             },

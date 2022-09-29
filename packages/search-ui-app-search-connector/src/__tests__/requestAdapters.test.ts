@@ -1,21 +1,5 @@
 import { adaptRequest } from "../requestAdapters";
 
-describe("adaptRequest", () => {
-  it("adapts request", () => {
-    expect(adaptRequest(request as any)).toEqual(adaptedRequest);
-  });
-
-  it("adapts sortList request", () => {
-    expect(adaptRequest(sortListRequest as any)).toEqual(
-      adaptedSortListRequest
-    );
-  });
-
-  it("adapts empty request", () => {
-    expect(adaptRequest(emptyRequest)).toEqual(adaptedEmptyRequest);
-  });
-});
-
 const emptyRequest = {
   searchTerm: ""
 };
@@ -95,16 +79,16 @@ const adaptedRequest = {
       },
       {
         all: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
+          {
+            initial: ["additional values", "and values", "and even more values"]
+          }
         ]
       },
       {
         any: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
+          {
+            initial: ["additional values", "and values", "and even more values"]
+          }
         ]
       },
       {
@@ -140,3 +124,19 @@ const adaptedSortListRequest = {
   ...adaptedRequest,
   sort: [{ states: "asc" }, { title: "desc" }]
 };
+
+describe("adaptRequest", () => {
+  it("adapts request", () => {
+    expect(adaptRequest(request as any)).toEqual(adaptedRequest);
+  });
+
+  it("adapts sortList request", () => {
+    expect(adaptRequest(sortListRequest as any)).toEqual(
+      adaptedSortListRequest
+    );
+  });
+
+  it("adapts empty request", () => {
+    expect(adaptRequest(emptyRequest)).toEqual(adaptedEmptyRequest);
+  });
+});
