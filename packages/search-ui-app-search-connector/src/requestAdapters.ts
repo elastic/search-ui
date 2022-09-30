@@ -21,13 +21,15 @@ function removeName(v: FilterValue) {
 
 function rollup(f: Filter) {
   const hasRangeInValues = f.values.some(helpers.isFilterValueRange);
+  const isAllType = f.type === "all";
   let values;
 
-  if (hasRangeInValues || f.values.length === 1) {
+  if (isAllType || hasRangeInValues || f.values.length === 1) {
     values = f.values.map(removeName).map((v) => ({
       [f.field]: v
     }));
   } else {
+    // Used for "any" and "none" types that have multiple values and are not ranges
     values = [
       {
         [f.field]: f.values.map(removeName).map((v) => v)

@@ -46,6 +46,11 @@ const request = {
       field: "whatever",
       values: ["value"]
       // TODO: is it possible to not have type here?
+    },
+    {
+      field: "whatevernone",
+      values: ["value", "value2"],
+      type: "none" as const
     }
   ]
 };
@@ -80,7 +85,13 @@ const adaptedRequest = {
       {
         all: [
           {
-            initial: ["additional values", "and values", "and even more values"]
+            initial: "additional values"
+          },
+          {
+            initial: "and values"
+          },
+          {
+            initial: "and even more values"
           }
         ]
       },
@@ -93,6 +104,13 @@ const adaptedRequest = {
       },
       {
         any: [{ whatever: "value" }]
+      },
+      {
+        none: [
+          {
+            whatevernone: ["value", "value2"]
+          }
+        ]
       }
     ]
   }
