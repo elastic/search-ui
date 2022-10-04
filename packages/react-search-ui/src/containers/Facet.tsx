@@ -93,9 +93,11 @@ export class FacetContainer extends Component<
 
     if (searchTerm.trim()) {
       facetValues = facetValues.filter((option) =>
-        accentFold(option.value)
-          .toLowerCase()
-          .includes(accentFold(searchTerm).toLowerCase())
+        typeof option.value === "string"
+          ? accentFold(option.value)
+              .toLowerCase()
+              .includes(accentFold(searchTerm).toLowerCase())
+          : false
       );
     }
 
