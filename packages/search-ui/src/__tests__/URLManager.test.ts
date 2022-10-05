@@ -1,8 +1,8 @@
 import { RequestState } from "../types";
-import URLManager from "../URLManager";
+import URLManager, { RoutingHandlerOptions } from "../URLManager";
 
-function createManager() {
-  const manager = new URLManager();
+function createManager(options?) {
+  const manager = new URLManager(options);
   return manager;
 }
 
@@ -112,7 +112,7 @@ describe("#pushStateToURL", () => {
     const manager = createManager();
     const spy = jest.spyOn(manager.history, "push");
     manager.pushStateToURL(basicParameterState);
-    const queryString = spy.mock.calls[0][0].search;
+    const queryString = spy.mock.calls[0][0];
     expect(queryString).toEqual(
       "?q=node&size=n_20_n&filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D=value&filters%5B0%5D%5Btype%5D=all&filters%5B1%5D%5Bfield%5D=node&filters%5B1%5D%5Bvalues%5D%5B0%5D=value&filters%5B1%5D%5Btype%5D=all&sort-field=name&sort-direction=asc"
     );
@@ -123,7 +123,7 @@ describe("#pushStateToURL", () => {
       const manager = createManager();
       const spy = jest.spyOn(manager.history, "push");
       manager.pushStateToURL(parameterStateWithRangeFilters);
-      const queryString = spy.mock.calls[0][0].search;
+      const queryString = spy.mock.calls[0][0];
       expect(queryString).toEqual(
         "?filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D%5Bfrom%5D=n_12_n&filters%5B0%5D%5Bvalues%5D%5B0%5D%5Bname%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D%5Bto%5D=n_4000_n&filters%5B0%5D%5Btype%5D=all"
       );
@@ -135,7 +135,7 @@ describe("#pushStateToURL", () => {
       const manager = createManager();
       const spy = jest.spyOn(manager.history, "push");
       manager.pushStateToURL(parameterStateWithSortList);
-      const queryString = spy.mock.calls[0][0].search;
+      const queryString = spy.mock.calls[0][0];
       expect(queryString).toEqual(
         "?size=n_20_n&sort%5B0%5D%5Bdirection%5D=asc&sort%5B0%5D%5Bfield%5D=name&sort%5B1%5D%5Bdirection%5D=desc&sort%5B1%5D%5Bfield%5D=title"
       );
@@ -147,7 +147,7 @@ describe("#pushStateToURL", () => {
       const manager = createManager();
       const spy = jest.spyOn(manager.history, "replace");
       manager.pushStateToURL(basicParameterState, { replaceUrl: true });
-      const queryString = spy.mock.calls[0][0].search;
+      const queryString = spy.mock.calls[0][0];
       expect(queryString).toEqual(
         "?q=node&size=n_20_n&filters%5B0%5D%5Bfield%5D=test&filters%5B0%5D%5Bvalues%5D%5B0%5D=value&filters%5B0%5D%5Btype%5D=all&filters%5B1%5D%5Bfield%5D=node&filters%5B1%5D%5Bvalues%5D%5B0%5D=value&filters%5B1%5D%5Btype%5D=all&sort-field=name&sort-direction=asc"
       );
@@ -169,7 +169,7 @@ describe("#onURLStateChange", () => {
   function pushStateToURL(state) {
     manager.pushStateToURL(state);
 
-    return pushSpy.mock.calls[0][0].search;
+    return pushSpy.mock.calls[0][0];
   }
 
   function simulateBrowserHistoryEvent(newUrl) {
@@ -261,5 +261,49 @@ describe("#onURLStateChange", () => {
     // Forward button to double back to the original "newUrl"
     simulateBrowserHistoryEvent(newUrl);
     expect(newState).toEqual(basicParameterState);
+  });
+});
+
+describe("routing options overrides", () => {
+  const routingOptions: RoutingHandlerOptions = {
+    readUrl: jest.fn(() => {
+      return "/search/tvs?query=samsung";
+    }),
+    writeUrl: jest.fn(),
+    stateToUrl: jest.fn((state: RequestState) => {
+      const categoryFilter = state.filters.find(
+        (filter) => filter.field === "category"
+      );
+      const category = categoryFilter ? categoryFilter.values[0] : "all";
+      return `/search/${category}?query=${state.searchTerm}`;
+    }),
+    urlToState: jest.fn((url: string): RequestState => {
+      const match = url.match(/\/search\/(\w+)\?query=(\w+)/);
+      if (!match) return {};
+      return {
+        searchTerm: match[2],
+        filters: [{ field: "category", values: [match[1]], type: "all" }]
+      };
+    })
+  };
+
+  it("should write correct url", () => {
+    const manager = createManager(routingOptions);
+    manager.pushStateToURL({
+      searchTerm: "samsung",
+      filters: [{ field: "category", values: ["gaming"], type: "all" }]
+    });
+    expect(routingOptions.writeUrl).toHaveBeenCalledWith(
+      "/search/gaming?query=samsung",
+      { replaceUrl: false }
+    );
+  });
+
+  it("should read correct url", () => {
+    const manager = createManager(routingOptions);
+    expect(manager.getStateFromURL()).toEqual({
+      searchTerm: "samsung",
+      filters: [{ field: "category", values: ["tvs"], type: "all" }]
+    });
   });
 });
