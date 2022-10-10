@@ -128,15 +128,68 @@ function stateToQueryString(state: RequestState): string {
  * is used for this case.
  */
 
+interface RoutingHandler {
+  readUrl: () => string;
+  writeUrl: (url: string, { replaceUrl }: { replaceUrl: boolean }) => void;
+  urlToState: (url: string) => RequestState;
+  stateToUrl: (state: RequestState) => string;
+  routeChangeHandler: (handler: (url?: string) => void) => () => void;
+}
+
+export type RoutingHandlerOptions = Partial<RoutingHandler>;
+type RoutingChangeCallback = (state: RequestState) => void;
+
 export default class URLManager {
   history: History;
   lastPushSearchString: string;
   unlisten?: () => void;
+  overrides: any;
+  routingOptions: RoutingHandler;
 
-  constructor() {
+  constructor(routingOptions: RoutingHandlerOptions = {}) {
+    this.routingOptions = {
+      readUrl: routingOptions.readUrl || this.readUrl.bind(this),
+      writeUrl: routingOptions.writeUrl || this.writeUrl.bind(this),
+      urlToState: routingOptions.urlToState || this.urlToState.bind(this),
+      stateToUrl: routingOptions.stateToUrl || this.stateToUrl.bind(this),
+      routeChangeHandler:
+        routingOptions.routeChangeHandler || this.routeChangeHandler.bind(this)
+    };
+
     this.history =
       typeof window !== "undefined" ? createHistory() : createMemoryHistory();
     this.lastPushSearchString = "";
+  }
+
+  /*
+   * These functions are used to read and write the URL
+   * Its designed to be overriden by the developer for their own 3rd party routing needs.
+   * For example developers override this function to use next.js
+   *
+   **/
+  readUrl() {
+    return this.history ? this.history.location.search : "";
+  }
+
+  writeUrl(url: string, { replaceUrl = false }: { replaceUrl?: boolean } = {}) {
+    const navigationFunction = replaceUrl
+      ? this.history.replace
+      : this.history.push;
+    navigationFunction(`?${url}`);
+  }
+
+  /*
+   * This function is used to convert a URL into a state object and vice versa
+   * the state is stored as a search string in the URL.
+   * Developers own implementations of this function should be able to handle full urls
+   * and not just the search string.
+   **/
+  urlToState(url: string): RequestState {
+    return paramsToState(queryString.parse(url));
+  }
+
+  stateToUrl(state: RequestState): string {
+    return `${stateToQueryString(state)}`;
   }
 
   /**
@@ -145,8 +198,7 @@ export default class URLManager {
    * @return {Object} - The parsed state object
    */
   getStateFromURL(): RequestState {
-    const searchString = this.history ? this.history.location.search : "";
-    return paramsToState(queryString.parse(searchString));
+    return this.routingOptions.urlToState(this.routingOptions.readUrl());
   }
 
   /**
@@ -161,14 +213,9 @@ export default class URLManager {
     state: RequestState,
     { replaceUrl = false }: { replaceUrl?: boolean } = {}
   ): void {
-    const searchString = stateToQueryString(state);
-    this.lastPushSearchString = searchString;
-    const navigationFunction = replaceUrl
-      ? this.history.replace
-      : this.history.push;
-    navigationFunction({
-      search: `?${searchString}`
-    });
+    const url = this.routingOptions.stateToUrl(state);
+    this.lastPushSearchString = url;
+    this.routingOptions.writeUrl(url, { replaceUrl });
   }
 
   /**
@@ -179,18 +226,25 @@ export default class URLManager {
    *
    * @param {requestCallback} callback
    */
-  onURLStateChange(callback: (state: RequestState) => void): void {
-    this.unlisten = this.history.listen((location) => {
-      // If this URL is updated as a result of a pushState request, we don't
-      // want to notify that the URL changed.
-      if (`?${this.lastPushSearchString}` === location.search) return;
+  onURLStateChange(callback: RoutingChangeCallback): void {
+    const handler = (url) => {
+      if (`?${this.lastPushSearchString}` === url) return;
 
       // Once we've decided to return based on lastPushSearchString, reset
       // it so that we don't break back / forward button.
       this.lastPushSearchString = "";
 
-      callback(paramsToState(queryString.parse(location.search)));
-    });
+      callback(this.routingOptions.urlToState(url));
+    };
+
+    this.unlisten = this.routingOptions.routeChangeHandler(handler.bind(this));
+  }
+
+  routeChangeHandler(callback) {
+    const handler = (location) => {
+      callback(location.search);
+    };
+    return this.history.listen(handler);
   }
 
   tearDown(): void {
