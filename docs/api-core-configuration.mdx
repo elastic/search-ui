@@ -323,8 +323,6 @@ Below we are using the `popular_queries` index and performing a prefix match sea
 
 See <DocLink id="api-react-components-search-box" text="Example retrieving suggestions from another index" /> for more information.
 
-````js
-
 ```js
 autocompleteQuery: {
   suggestions: {
@@ -342,7 +340,7 @@ autocompleteQuery: {
     }
   }
 }
-````
+```
 
 ## Event Hooks
 
@@ -412,4 +410,44 @@ the `next` function.
     }
   }}
 />
+```
+
+### Routing Options
+
+Search UI provides a number of options for how to customise how state is serialised onto the URL. Within the config there is a `routingOptions` object which can be used to override the serialisation and parsing of the url to state.
+
+Below is an example of how to use the `routingOptions` object to customise the url to be more SEO friendly.
+
+This will result in the url pattern being like `https://example.com/search/california,alaska?query=shoes`
+
+```js
+const routingOptions = {
+  readUrl: () => {
+    return asPath;
+  },
+  writeUrl: (url, { replaceUrl }) => {
+    const method = router[replaceUrl ? "replace" : "push"];
+    method(url);
+  },
+  stateToUrl: (state) => {
+    const statesFilter = state.filters.find(
+      (filter) => filter.field === "states"
+    );
+    const states = statesFilter ? statesFilter.values.join(",") : "all";
+    return `/search/${states}?query=${state.searchTerm}`;
+  },
+  urlToState: (url) => {
+    const match = url.match(/\/search\/(\w+)\?query=(\w+)/);
+    if (!match) return {};
+    return {
+      searchTerm: match[2],
+      filters: [{ field: "states", values: [match[1].split(",")], type: "any" }]
+    };
+  }
+};
+
+const config = {
+  // search UI config
+  routingOptions: routingOptions
+};
 ```
