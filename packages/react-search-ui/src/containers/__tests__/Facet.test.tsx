@@ -302,7 +302,11 @@ describe("search facets", () => {
   const fieldData = [
     { count: 20, value: "Virat" },
     { count: 9, value: "LÒpez" },
-    { count: 8, value: "bumŗÄh" }
+    { count: 8, value: "bumŗÄh" },
+    { count: 7, value: { a: 1, b: 1 } },
+    { count: 6, value: [1, 2] },
+    { count: 5, value: 123 },
+    { count: 4, value: null }
   ];
 
   function subject(additionalProps = {}, data = fieldData) {
@@ -395,6 +399,21 @@ describe("search facets", () => {
         0
       );
     });
+  });
+
+  it("should not render Facet options if data value is not string", () => {
+    const data = [
+      { count: 20, value: { a: 1, b: 1 } },
+      { count: 10, value: [1, 2] },
+      { count: 9, value: 123 },
+      { count: 8, value: null }
+    ];
+    const wrapper = subject({}, data);
+
+    wrapper.find<FacetViewProps>(View).prop("onSearch")("app");
+    const options = wrapper.find<FacetViewProps>(View).prop("options");
+
+    expect(options.length).toEqual(0);
   });
 
   it("should hide the search input", () => {
