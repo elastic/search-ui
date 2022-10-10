@@ -1,21 +1,5 @@
 import { adaptRequest } from "../requestAdapters";
 
-describe("adaptRequest", () => {
-  it("adapts request", () => {
-    expect(adaptRequest(request as any)).toEqual(adaptedRequest);
-  });
-
-  it("adapts sortList request", () => {
-    expect(adaptRequest(sortListRequest as any)).toEqual(
-      adaptedSortListRequest
-    );
-  });
-
-  it("adapts empty request", () => {
-    expect(adaptRequest(emptyRequest)).toEqual(adaptedEmptyRequest);
-  });
-});
-
 const emptyRequest = {
   searchTerm: ""
 };
@@ -62,6 +46,11 @@ const request = {
       field: "whatever",
       values: ["value"]
       // TODO: is it possible to not have type here?
+    },
+    {
+      field: "whatevernone",
+      values: ["value", "value2"],
+      type: "none" as const
     }
   ]
 };
@@ -95,20 +84,33 @@ const adaptedRequest = {
       },
       {
         all: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
+          {
+            initial: "additional values"
+          },
+          {
+            initial: "and values"
+          },
+          {
+            initial: "and even more values"
+          }
         ]
       },
       {
         any: [
-          { initial: "additional values" },
-          { initial: "and values" },
-          { initial: "and even more values" }
+          {
+            initial: ["additional values", "and values", "and even more values"]
+          }
         ]
       },
       {
         any: [{ whatever: "value" }]
+      },
+      {
+        none: [
+          {
+            whatevernone: ["value", "value2"]
+          }
+        ]
       }
     ]
   }
@@ -140,3 +142,19 @@ const adaptedSortListRequest = {
   ...adaptedRequest,
   sort: [{ states: "asc" }, { title: "desc" }]
 };
+
+describe("adaptRequest", () => {
+  it("adapts request", () => {
+    expect(adaptRequest(request as any)).toEqual(adaptedRequest);
+  });
+
+  it("adapts sortList request", () => {
+    expect(adaptRequest(sortListRequest as any)).toEqual(
+      adaptedSortListRequest
+    );
+  });
+
+  it("adapts empty request", () => {
+    expect(adaptRequest(emptyRequest)).toEqual(adaptedEmptyRequest);
+  });
+});
