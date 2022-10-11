@@ -19,7 +19,7 @@ An overview of the syntax used can be found here: https://github.com/elastic/doc
    }
    ```
 3. Run `yarn`, then `yarn init-docs`, then `yarn dev`.
-4. After the initial setup is done, simply use `yarn docs-start` from the search-ui root.
+4. After the initial setup is done, simply use `yarn start-docs` from the search-ui root.
 
 # Publishing
 
