@@ -47,12 +47,40 @@ for more information.
 
 ### Properties
 
-| Name                    | Description                                                                                                                                                                                                   |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| className               |                                                                                                                                                                                                               |
-| titleField              | Name of field to use as the title from each result.                                                                                                                                                           |
-| shouldTrackClickThrough | Whether or not to track a clickthrough event when clicked.                                                                                                                                                    |
-| clickThroughTags        | Tags to send to analytics API when tracking clickthrough.                                                                                                                                                     |
-| urlField                | Name of field to use as the href from each result.                                                                                                                                                            |
-| view                    | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |
-| result                  | Used to override the default view for this Component. See <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> for more information. |
+| Name                    | Description                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| className               |                                                                                        |
+| titleField              | Name of field to use as the title from each result.                                    |
+| shouldTrackClickThrough | Whether or not to track a clickthrough event when clicked.                             |
+| clickThroughTags        | Tags to send to analytics API when tracking clickthrough.                              |
+| urlField                | Name of field to use as the href from each result.                                     |
+| result                  | Type: `SearchResult`. An object representing the search result to render.              |
+| view                    | Used to override the default view for this Component. See "View customization" below.  |
+| \*                      | Any other property passed will be passed through and available to use in a Custom View |
+
+### View customization
+
+A complete guide to view customization can be found in the <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> section.
+
+A separate guide specifically for customizing the Result component can be found <DocLink id="guides-customizing-styles-and-html" section="results-component" text="here." />.
+
+The following properties are available in the view:
+
+| Name           | Description                                                                                                                                                |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className      | Passed through from main component                                                                                                                         |
+| result         | Type: `SearchResult`. An object representing the search result to render.                                                                                  |
+| onClickLink    | function() - Call this when a link is clicked to trigger click tracking. Only triggered if `shouldTrackClickThrough` was set to true on the main component |
+| titleField     | Passed through from main component. Not usually needed for custom views.                                                                                   |
+| urlField       | Passed through from main component. Not usually needed for custom views.                                                                                   |
+| thumbnailField | Passed through from main component. Not usually needed for custom views.                                                                                   |
+
+Example: See packages/react-search-ui-views/src/Result.tsx for an example.
+
+#### Other guidance
+
+The `SearchResult` type will contain both `raw` and `snippet` values.
+
+`snippet` values will contain html snippets and are sanitized for XSS, and hence are considered safe for use with `dangerouslySetInnerHTML`.
+
+`raw` values are _not_ processed are are hence considered _not_ safe for use with `dangerouslySetInnerHTML` unless sanitized properly first.

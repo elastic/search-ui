@@ -323,14 +323,15 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 | inputProps                    | Props for underlying 'input' element. I.e., `{ placeholder: "Enter Text"}`.                                                                                                                                                                                                                                                                                  |
 | searchAsYouType               | Executes a new search query with every key stroke. You can fine tune the number of queries made by adjusting the `debounceLength` parameter.                                                                                                                                                                                                                 |
 | debounceLength                | When using `searchAsYouType`, it can be useful to "debounce" search requests to avoid creating an excessive number of requests. This controls the length to debounce / wait.                                                                                                                                                                                 |
-| view                          | Used to override the default view for this Component. See the <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> section for more information.                                                                                                                                    |
 | autocompleteResults           | Configure and autocomplete search results. Boolean option is primarily available for implementing custom views.                                                                                                                                                                                                                                              |
 | autocompleteSuggestions       | Configure and autocomplete query suggestions. Boolean option is primarily available for implementing custom views. Configuration may or may not be keyed by "Suggestion Type", as APIs for suggestions may support may than 1 type of suggestion. If it is not keyed by Suggestion Type, then the configuration will be applied to the first type available. |
 | autocompleteMinimumCharacters | Minimum number of characters before autocompleting.                                                                                                                                                                                                                                                                                                          |
-| autocompleteView              | Provide a different view just for the autocomplete dropdown.                                                                                                                                                                                                                                                                                                 |
-| inputView                     | Provide a different view just for the input section.                                                                                                                                                                                                                                                                                                         |
 | onSelectAutocomplete          | Allows overriding behavior when selected, to avoid creating an entirely new view. In addition to the current `selection`, various helpers are passed as `options` to the second parameter. This third parameter is the default `onSelectAutocomplete`, which allows you to defer to the original behavior.                                                   |
 | onSubmit                      | Allows overriding behavior when submitted. Receives the search term from the search box.                                                                                                                                                                                                                                                                     |
+| autocompleteView              | Used to override only the autocomplete dropdown. See "Autocomplete view customization" below.                                                                                                                                                                                                                                                                |
+| inputView                     | Used to override only the input box. See "Input view customization" below.                                                                                                                                                                                                                                                                                   |
+| view                          | Used to override the default view for this Component. See "View customization" below.                                                                                                                                                                                                                                                                        |
+| \*                            | Any other property passed will be passed through and available to use in a Custom View                                                                                                                                                                                                                                                                       |
 
 #### AutocompleteResultsOptions
 
@@ -348,3 +349,93 @@ page for suggestions, and maintaining the default behavior when selecting a resu
 | Name         | Description                              |
 | ------------ | ---------------------------------------- |
 | sectionTitle | Title to show in section within dropdown |
+
+### View customization
+
+A complete guide to view customization can be found in the <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> section.
+
+If you plan to use this component with only slight customization for style, we recommend that you _only_ attempt to use the `inputView` and `autocompleteView` props for customization. Replicating the entire SearchBox
+view via the `view` prop is extremely difficult.
+
+Note that while our SearchBox view component is quite complicated, a search box can be very basic. The following is a custom view that simply accepts user input and executes a new search query:
+
+```jsx
+<SearchBox
+  view={({ value, onChange, onSubmit }) => (
+    <form onSubmit={onSubmit}>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      <input type="submit" value="Search" />
+    </form>
+  )}
+/>
+```
+
+The following properties are available to the `view` prop:
+
+| Name       | Description                                                                                                                                      |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| className  | Passed through from main component.                                                                                                              |
+| inputView  | Component to use for text input. When rendering, pass all props documented below in the "Input view customization" section.                      |
+| isFocused  | Type: `boolean`. Whether or not the input currently has focus.                                                                                   |
+| onChange   | Type: `(value: string) => void`. When a user changes the input of the search input box, call this with the new value.                            |
+| onSubmit   | Type: `(e: FormEvent) => void`. Handle a "submission" of the search box. Typically used directly on a `form` element surrounding your input box. |
+| value      | Type: `string`. The current user input to show in the input box.                                                                                 |
+| inputProps | An object containing props that should be spread over the input box element.                                                                     |
+
+**Autcomplete related properties**
+
+These are mainly used to create an autocomplete. Typically only passed through to the Autocomplete view, or used to determine when to render the Autocomplete or not.
+
+| Name                          | Description                                                                                                                                                                         |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| autocompleteView              | Component to use for Autocomplete. When rendering, pass all props documented below in the "Autocomplete view customization" section.                                                |
+| completeSuggestion            | Type: `(searchQuery: string) => void`.                                                                                                                                              |
+| notifyAutocompleteSelected    | Type: `(selection: any) => void`.                                                                                                                                                   |
+| autocompletedSuggestionsCount | Type: `number`.                                                                                                                                                                     |
+| autocompleteSuggestions       | Type: `boolean \| AutocompleteSuggestion`.                                                                                                                                          |
+| autocompletedSuggestions      | Type: `AutocompletedSuggestions`.                                                                                                                                                   |
+| autocompletedResults          | Type: `AutocompletedResult[]`.                                                                                                                                                      |
+| autocompleteResults           | Type: `AutocompleteResult \| boolean`.                                                                                                                                              |
+| onSelectAutocomplete          | Type: `(selectedItem: any) => void`. Call this with the selected item (whether it is a result or a suggestion) when an autocomplete selection is made in the autocomplete dropdown. |
+| allAutocompletedItemsCount    | Type: `number`. The number of items that would be shown in an autocomplete. If 0, no need to show the autocomplete.                                                                 |
+| useAutocomplete               | Type: `boolean`. Whether or not to show an autocomplete dropdown.                                                                                                                   |
+
+Example: See packages/react-search-ui-views/src/SearchBox.tsx for an example
+
+### Input view customization
+
+If you just care to customize the look and feel of the input box, you can use the `inputView` prop. The following properties will be passed to the view your provide.
+
+Note that the underlying SearchBox view uses the [Downshift](https://www.downshift-js.com/downshift#props-used-in-examples) library. Many of the props that are passed to this view are common to, and actually generated from, the Downshift library.
+
+| Name            | Description                                                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| getAutocomplete | Type: `() => JSX.Element`. Call this method wherever you would like your autocomplete to appear. Typically, directly below your input box. |
+| getButtonProps  | Type: `() => Object`. Spread the return value of this function over your "Search" button, which submit your search.                        |
+| getInputProps   | Type: `() => JSX`. Spread the return value of this function over the `input` element you are using for your search box.                    |
+
+Example: See packages/react-search-ui-views/src/SearchInput.tsx for an example
+
+### Autocomplete view customization
+
+If you just care to customize the look and feel of the autocomplete box, you can use the `autocompleteView` prop. The following properties will be passed to the view your provide.
+
+Note that the underlying SearchBox view uses the [Downshift](https://www.downshift-js.com/downshift#props-used-in-examples) library. Many of the props that are passed to this view are common to, and actually generated from, the Downshift library.
+
+| Name                          | Description                                                                                                                                                                         |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| allAutocompletedItemsCount    | Type: `number`. The number of items that would be shown in an autocomplete. If 0, no need to show the autocomplete.                                                                 |
+| autocompleteResults           | Type: `boolean \| AutocompleteResult`. Configuration object passed through from main component.                                                                                     |
+| autocompletedResults          | Type: `AutocompletedResult[]`. The search results generated by an autocomplete query.                                                                                               |
+| autocompletedSuggestions      | Type: `AutocompletedSuggestions`. The suggestions generated by an autocomplete suggestions query.                                                                                   |
+| autocompletedSuggestionsCount | Type: `number`. The total number of suggestions generated by an autocomplete suggestions query.                                                                                     |
+| autocompleteSuggestions       | Type: `boolean \| AutocompleteSuggestion`. Configuration object passed through from main component.                                                                                 |
+| onSelectAutocomplete          | Type: `(selectedItem: any) => void`. Call this with the selected item (whether it is a result or a suggestion) when an autocomplete selection is made in the autocomplete dropdown. |
+| getItemProps                  | Type: `{ key: string, index: number, item: AutocompletedSuggestion }) => any`. A function that will generate props to spread over an individual item in the autocomplete list.      |
+| getMenuProps                  | Type: `({ className: string }) => any`. A function that will generate props to spread over the main autocomplete dropdown element.                                                  |
+
+Example: See packages/react-search-ui-views/src/Autocomplete.tsx for an example
