@@ -1,10 +1,100 @@
 ---
 id: guides-nextjs-integration
 slug: /search-ui/guides/nextjs-integration
-title: NextJS with Elasticsearch Connector
-date: 2022-06-22
+title: NextJS Integration
+date: 2022-10-05
 tags: ["nextjs", "vercel"]
 ---
+
+### Integrating Search UI with NextJS Router
+
+Next JS is a popular React framework that provides a number of features out of the box, including server-side rendering, routing, and more.
+
+To take advantage of being able to save the search criteria in the URL, you need to override the existing routing options and use Next Router.
+
+Below is an example of how to do achieve this.
+
+To highlight, we're using React memo to prevent the component from re-rendering the Search UI chrome when the URL changes.
+
+<DocTabs>
+  <DocTab name="Next Page Component">
+    ```jsx
+    import { memo } from 'react'
+
+    export default function App() {
+      // useNextRouting is a custom hook that will integrate with Next Router with Search UI config
+      // config is search-ui configuration.
+      // baseUrl is the path to the search page
+      const combinedConfig = useNextRouting(config, "<baseUrl>");
+      return <MemoSearch config={combinedConfig} />;
+    }
+
+    const MemoSearch = memo(({ config }) => {
+      return (
+        <SearchProvider config={config}>
+          <>
+            <ResultsPerPage />
+            <Results config={config} />
+            <Paging />
+          </>
+        </SearchProvider>
+        )
+    })
+
+    ```
+
+</DocTab>
+<DocTab name="useNextRouting hook">
+```jsx
+import { useMemo } from 'react'
+import { useRouter } from "next/router"
+
+const useNextRouting = (config, basePathUrl) => {
+const router = useRouter()
+const { asPath } = router
+
+const getSearchParamsFromUrl = (url) => {
+return url.match(/\?(.+)/)?.[1] || ""
+}
+
+const routingOptions = {
+// read and write only the query string to search UI
+// as we are leveraging existing stateToUrl and urlToState functions
+// which are based on the query string
+readUrl: () => {
+return getSearchParamsFromUrl(asPath)
+},
+writeUrl: (url, { replaceUrl }) => {
+const method = router[replaceUrl ? "replace" : "push"]
+method(`?${url}`)
+},
+routeChangeHandler: (callback) => {
+const handler = (fullUrl) => {
+if (fullUrl.includes(basePathUrl)) {
+callback(getSearchParamsFromUrl(fullUrl))
+}
+}
+router.events.on("routeChangeComplete", handler)
+return () => {
+router.events.off("routeChangeComplete", handler)
+}
+}
+}
+
+return useMemo(() => {
+return {
+...config,
+routingOptions
+}
+}, [])
+}
+
+````
+
+  </DocTab>
+</DocTabs>
+
+### Integration with Elasticsearch Connector
 
 We do not advise exposing your Elasticsearch instance to the public. Fortunately with NextJS, we do not need to do this. NextJS makes it very simple to build an API route so we can move the connector to the server side.
 
@@ -119,3 +209,4 @@ Below is an example of this running within codesandbox.
   allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
   sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
 ></iframe>
+````

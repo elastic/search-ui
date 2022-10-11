@@ -820,6 +820,26 @@ describe("Request sequencing", () => {
     expect(latestRequestId).toBe(FIRST_SEARCH_REQUEST_ID);
   });
 
+  describe("SearchDriver Routing Options", () => {
+    it("should allow overrides to urlManager", () => {
+      const initialState = {};
+
+      const routingOptions = {
+        readUrl: jest.fn(() => {
+          return "?q=override";
+        }),
+        writeUrl: jest.fn()
+      };
+
+      setupDriver({
+        initialState,
+        routingOptions: routingOptions
+      });
+
+      expect(MockedURLManager).toBeCalledWith(routingOptions);
+    });
+  });
+
   describe("SearchDriver hooks", () => {
     it("onSearch Hook", () => {
       const onSearchMock = jest

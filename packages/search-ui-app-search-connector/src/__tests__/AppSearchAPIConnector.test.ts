@@ -78,7 +78,8 @@ const resultState = {
 const params: AppSearchAPIConnectorParams = {
   engineName: "some-engine",
   hostIdentifier: "host-XXXX",
-  searchKey: "search-XXXXX"
+  searchKey: "search-XXXXX",
+  cacheResponses: true
 };
 
 beforeEach(() => {
@@ -122,6 +123,12 @@ describe("AppSearchAPIConnector", () => {
 
     const connector = new AppSearchAPIConnector(params);
     expect(connector).toBeInstanceOf(AppSearchAPIConnector);
+    expect(ElasticAppSearch.createClient).toHaveBeenCalledWith({
+      apiKey: "search-XXXXX",
+      cacheResponses: true,
+      endpointBase: "http://localhost:3001",
+      engineName: "some-engine"
+    });
   });
 
   // The use case for this is mostly internal to Elastic, where we rely on the logged in user session (via cookies) to authenticate
