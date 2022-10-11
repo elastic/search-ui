@@ -47,11 +47,9 @@ function Sorting({
   ...rest
 }: SortingViewProps) {
   const selectedValue = value;
-
   const selectedOption = selectedValue
     ? options.find((option) => option.value === selectedValue)
     : null;
-
   return (
     <div className={appendClassName("sui-sorting", className)} {...rest}>
       {label && <div className="sui-sorting__label">{label}</div>}
