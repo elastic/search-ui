@@ -1,4 +1,4 @@
-import URLManager from "./URLManager";
+import URLManager, { RoutingHandlerOptions } from "./URLManager";
 
 import RequestSequencer from "./RequestSequencer";
 import DebounceManager from "./DebounceManager";
@@ -126,6 +126,7 @@ export type SearchDriverOptions = {
   onAutocompleteResultClick?: onAutocompleteResultClickHook;
   searchQuery?: SearchQuery;
   trackUrlState?: boolean;
+  routingOptions?: RoutingHandlerOptions;
   urlPushDebounceLength?: number;
   hasA11yNotifications?: boolean;
   a11yNotificationMessages?: Record<string, unknown>;
@@ -178,6 +179,7 @@ class SearchDriver {
     onAutocompleteResultClick,
     searchQuery = {},
     trackUrlState = true,
+    routingOptions = {},
     urlPushDebounceLength = 500,
     hasA11yNotifications = false,
     a11yNotificationMessages = {},
@@ -229,7 +231,7 @@ class SearchDriver {
 
     let urlState;
     if (trackUrlState) {
-      this.URLManager = new URLManager();
+      this.URLManager = new URLManager(routingOptions);
       urlState = this.URLManager.getStateFromURL();
       this.URLManager.onURLStateChange((urlState) => {
         this._updateSearchResults(

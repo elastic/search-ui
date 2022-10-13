@@ -18,6 +18,7 @@ interface AppSearchAPIConnectorParamsBase {
   beforeSearchCall?: SearchQueryHook;
   beforeAutocompleteResultsCall?: SearchQueryHook;
   beforeAutocompleteSuggestionsCall?: SuggestionsQueryHook;
+  cacheResponses?: boolean;
 }
 
 interface AppSearchAPIConnectorParamsForSwiftType
@@ -102,6 +103,7 @@ class AppSearchAPIConnector implements APIConnector {
     beforeAutocompleteResultsCall = (queryOptions, next) => next(queryOptions),
     beforeAutocompleteSuggestionsCall = (queryOptions, next) =>
       next(queryOptions),
+    cacheResponses = true,
     ...rest
   }: AppSearchAPIConnectorParams) {
     if (!engineName || !("hostIdentifier" in rest || "endpointBase" in rest)) {
@@ -115,6 +117,7 @@ class AppSearchAPIConnector implements APIConnector {
       ...("hostIdentifier" in rest && { hostIdentifier: rest.hostIdentifier }),
       apiKey: searchKey,
       engineName: engineName,
+      cacheResponses: cacheResponses,
       ...rest
     });
     this.beforeSearchCall = beforeSearchCall;

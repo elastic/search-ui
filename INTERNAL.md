@@ -7,15 +7,15 @@ The Search UI docs are built using an internal library (which hopefully moves in
 An overview of the syntax used can be found here: https://github.com/elastic/docsmobile/blob/main/doc-site/docs/docs_syntax.mdx.
 
 1. Clone https://github.com/elastic/docs.elastic.co next to search-ui repo
-2. Edit your source.json file so that:
+2. Edit your content.js file so that:
    ```
    {
-   "sources": [
-      {
-         "type": "file",
-         "location": "../../search-ui"
-      }
-   ]
+      "sources": [
+         {
+            "type": "file",
+            "location": "../../search-ui"
+         }
+      ]
    }
    ```
 3. Run `yarn`, then `yarn init-docs`, then `yarn dev`.
