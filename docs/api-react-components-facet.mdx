@@ -69,7 +69,7 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 | label        | A static label to show in the facet filter.                                                                                                                                                                                                                |
 | show         | The number of facet filter options to show before concatenating with a "Show more" link.                                                                                                                                                                   |
 | isFilterable | Whether or not to show Facet quick filter.                                                                                                                                                                                                                 |
-| view         | Used to override the default view for this Component. See "View customization" below.                                                                                                                                                                      |
+| view         | Used to override the default view for this Component. See <DocLink id="api-react-components-facet" section="view-customization" text="View customization" /> below.                                                                                        |
 | \*           | Any other property passed will be passed through and available to use in a Custom View                                                                                                                                                                     |
 
 ### View customization
@@ -93,4 +93,27 @@ The following properties are available in the view:
 | onSearch          | Type: `(value: string) => void`. Call this to filter down the facet options shown. Used if there is a search box shown in relation to `showSearch`.            |
 | searchPlaceholder | Type: `string`. The placeholder fo show in the filter search box when `showSearch` is true.                                                                    |
 
-Example: See packages/react-search-ui-views/src/MultiCheckboxFacet.tsx for an example
+See [MultiCheckboxFacet.tsx](https://github.com/elastic/search-ui/blob/main/packages/react-search-ui-views/src/MultiCheckboxFacet.tsx) for an example.
+
+When overriding Facet views, note that there are pre-built options that you can choose from, in addition to providing your own:
+
+```jsx
+import {
+  BooleanFacet,
+  SingleSelectFacet,
+  SingleLinksFacet
+} from "@elastic/react-search-ui-views";
+
+// Default out-of-the-box view
+<Facet
+  field="acres"
+  label="Acres"
+/>
+
+// Choose an alternate out-of-the-box view
+<Facet
+  field="acres"
+  label="Acres"
+  view={SingleSelectFacet}
+/>
+```

@@ -22,12 +22,12 @@ import { ErrorBoundary } from "@elastic/react-search-ui";
 
 ### Properties
 
-| Name      | Description                                                                                            |
-| --------- | ------------------------------------------------------------------------------------------------------ |
-| className |                                                                                                        |
-| children  | Content to show if no error has occurred, will be replaced with error messaging if there was an error. |
-| view      | Used to override the default view for this Component. See "View customization" below.                  |
-| \*        | Any other property passed will be passed through and available to use in a Custom View                 |
+| Name      | Description                                                                                                                                                                  |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className |                                                                                                                                                                              |
+| children  | Content to show if no error has occurred, will be replaced with error messaging if there was an error.                                                                       |
+| view      | Used to override the default view for this Component. See <DocLink id="api-react-components-error-boundary" section="view-customization" text="View customization" /> below. |
+| \*        | Any other property passed will be passed through and available to use in a Custom View                                                                                       |
 
 ### View customization
 
@@ -41,4 +41,4 @@ The following properties are available in the view:
 | children  | Content to show if no error has occurred, will be replaced with error messaging if there was an error. |
 | error     | Type: `string`. The error message to show if an error occurred.                                        |
 
-Example: See packages/react-search-ui-views/src/ErrorBoundary.tsx for an example
+See [ErrorBoundary.tsx](https://github.com/elastic/search-ui/blob/main/packages/react-search-ui-views/src/ErrorBoundary.tsx) for an example.
