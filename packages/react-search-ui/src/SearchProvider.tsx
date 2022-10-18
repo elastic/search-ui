@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
@@ -23,9 +23,10 @@ type SearchProviderProps = {
 const SearchProvider = ({
   children,
   config,
-  driver
+  driver = null
 }: SearchProviderProps): JSX.Element => {
-  const [driverInstance, setDriverInstance] = useState<SearchDriver>(null);
+  const [driverInstance, setDriverInstance] = useState<SearchDriver>(driver);
+  const [initialised, setInitialised] = useState<boolean>(false);
 
   useEffect(() => {
     // This initialization is done inside of useEffect, because initializing the SearchDriver server side
@@ -41,6 +42,7 @@ const SearchProvider = ({
         }
       });
     setDriverInstance(currentDriver);
+    setInitialised(true);
 
     return () => {
       currentDriver.tearDown();
@@ -50,20 +52,20 @@ const SearchProvider = ({
   // This effect allows users to dynamically update their searchQuery without re-mounting a SearchProvider,
   // which would be destructive. An example of why this is useful is dynamically updating facets.
   useEffect(() => {
-    if (driverInstance) {
+    if (driverInstance && initialised) {
       driverInstance.setSearchQuery(config.searchQuery);
     }
   }, [config.searchQuery]);
 
   useEffect(() => {
-    if (driverInstance) {
+    if (driverInstance && initialised) {
       driverInstance.setAutocompleteQuery(config.autocompleteQuery);
     }
   }, [config.autocompleteQuery]);
 
   // Since driver is initialized in useEffect above, we are waiting
   // to render until the driver is available.
-  if (!driverInstance) return null;
+  if (!driverInstance || !initialised) return null;
 
   // Passing the entire "this.state" to the Context is significant. Because
   // Context determines when to re-render based on referential identity
