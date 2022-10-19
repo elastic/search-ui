@@ -306,7 +306,15 @@ describe("search facets", () => {
     { count: 7, value: { a: 1, b: 1 } },
     { count: 6, value: [1, 2] },
     { count: 5, value: 123 },
-    { count: 4, value: null }
+    { count: 4, value: null },
+    {
+      count: 4,
+      value: {
+        from: 0,
+        to: 9,
+        name: "0 to 9"
+      }
+    }
   ];
 
   function subject(additionalProps = {}, data = fieldData) {
@@ -347,6 +355,23 @@ describe("search facets", () => {
   });
 
   describe("after a search is performed", () => {
+    it("should match Facet options that have an object value with name property", () => {
+      wrapper.find<FacetViewProps>(View).prop("onSearch")("0 to");
+
+      const filteredOptions = wrapper
+        .find<FacetViewProps>(View)
+        .prop("options");
+
+      expect(filteredOptions.length).toEqual(1);
+      expect(filteredOptions.map((opt) => opt.value)).toEqual([
+        {
+          from: 0,
+          to: 9,
+          name: "0 to 9"
+        }
+      ]);
+    });
+
     it("should match Facet options with/without accented characters", () => {
       wrapper.find<FacetViewProps>(View).prop("onSearch")("ra");
 

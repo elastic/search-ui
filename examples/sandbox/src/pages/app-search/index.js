@@ -252,6 +252,7 @@ export default function App() {
                       <Facet
                         field="date_established"
                         label="Date Established"
+                        isFilterable={true}
                         filterType="any"
                       />
                       <Facet
