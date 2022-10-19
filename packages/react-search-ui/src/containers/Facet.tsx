@@ -103,9 +103,7 @@ export class FacetContainer extends Component<
             break;
           case "object":
             valueToSearch =
-              option.value &&
-              option.value.name &&
-              typeof option.value.name === "string"
+              typeof option?.value?.name === "string"
                 ? accentFold(option.value.name).toLowerCase()
                 : "";
             break;
