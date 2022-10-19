@@ -7,11 +7,9 @@ date: 2022-02-27
 tags: ["demo"]
 ---
 
-A [React](https://reactjs.org) library that allows you to quickly implement search experiences without re-inventing the wheel.
+A JavaScript library for the fast development of modern, engaging search experiences with [Elastic](https://www.elastic.co/). Get up and running quickly without re-inventing the wheel.
 
-Use it with [Elastic](https://www.elastic.co/) to have a search experience up and running in minutes.
-
-### Features 👍
+## Features 👍
 
 - **You know, for search** - Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
 - **Speedy Implementation** - Build a complete search experience with a few lines of code.
@@ -20,23 +18,40 @@ Use it with [Elastic](https://www.elastic.co/) to have a search experience up an
 - **Flexible front-end** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
 - **Flexible back-end** - Use it with Elasticsearch, Elastic Enterprise Search, or any other search API.
 
-![Screenshot of Search UI](images/screenshot.png)
+## Live demos 👀
 
-### Live Demo
+### Connectors
 
-<iframe
-  src="https://codesandbox.io/embed/github/elastic/search-ui/tree/master/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Felasticsearch&module=%2Fsrc%2Fpages%2Felasticsearch%2Findex.js&theme=light&view=preview&hidedevtools=1"
-  style={{
-    width: "100%",
-    height: "800px",
-    overflow: "hidden"
-  }}
-  title="Search UI"
-  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-></iframe>
+- [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/elasticsearch&file=/src/pages/elasticsearch/index.js)
+- [Elastic App Search](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/app-search&file=/src/pages/app-search/index.js)
+- [Elastic Workplace Search](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/workplace-search&file=/src/pages/workplace-search/index.js)
+- [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/site-search&file=/src/pages/site-search/index.js)
 
-## Solutions
+### Examples
+
+- [Search as you type](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/search-as-you-type&file=/src/pages/search-as-you-type/index.js)
+- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/search-bar-in-header&file=/src/pages/search-bar-in-header/index.js)
+- [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox?from-embed=&initialpath=/customizing-styles-and-html&file=/src/pages/customizing-styles-and-html/index.js)
+
+## Get Started 🌟
+
+### Installation
+
+```
+npm install @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui-views
+# or
+yarn add @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui-views
+```
+
+### Tutorials
+
+Get started quickly with Search UI and your favorite Elastic product by following one of the tutorials below:
+
+- <DocLink id="tutorials-elasticsearch" text="Elasticsearch" />
+- <DocLink id="tutorials-app-search" text="Elastic App Search" />
+- <DocLink id="tutorials-workplace-search" text="Elastic Workplace Search" />
+
+## Use Cases 🛠️
 
 ### Ecommerce
 
@@ -46,9 +61,7 @@ Search UI works great in the ecommerce use-case. Check out our <DocLink id="solu
 
 ### Is Search UI only for React?
 
-Nope. Search UI is "headless".
-
-You can write support for it into any JavaScript framework. You can even use vanilla JavaScript.
+Search UI is "headless". You can use vanilla JavaScript or write support for it into any JavaScript framework.
 
 [Read about the search-ui package](https://github.com/elastic/search-ui/tree/master/packages/search-ui) for more information, or check out the [Vue.js Example](https://github.com/elastic/vue-search-ui-demo).
 
