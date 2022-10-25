@@ -7,19 +7,22 @@ The Search UI docs are built using an internal library (which hopefully moves in
 An overview of the syntax used can be found here: https://github.com/elastic/docsmobile/blob/main/doc-site/docs/docs_syntax.mdx.
 
 1. Clone https://github.com/elastic/docs.elastic.co next to search-ui repo
-2. Edit your content.js file so that:
+2. Create **content-dev.js** by moving into the `docs.elastic.co` folder and copying **content.js**: `cp config/content.js config/content-dev.js`
+3. Edit your **content-dev.js** file so that:
    ```
-   {
-      "sources": [
-         {
-            "type": "file",
-            "location": "../../search-ui"
-         }
-      ]
-   }
+   sources: [
+     {
+       type: 'github',
+       location: 'elastic/wordlake',
+     },
+     {
+       type: 'file',
+       location: '../../search-ui'
+     }
+   ],
    ```
-3. Run `yarn`, then `yarn init-docs`, then `yarn dev`.
-4. After the initial setup is done, simply use `yarn start-docs` from the search-ui root.
+4. Run `yarn`, then `yarn init-docs`, then `yarn dev`.
+5. After the initial setup is done, simply use `yarn docs-start` from the search-ui root.
 
 # Publishing
 

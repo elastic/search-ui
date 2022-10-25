@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-analytics-plugin",
-  "version": "1.18.1",
+  "version": "1.18.2",
   "description": "Behavorial Analytics middleware plugin",
   "license": "Apache-2.0",
   "main": "lib/cjs/index.js",
@@ -34,7 +34,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "devDependencies": {
-    "@elastic/search-ui": "1.18.1",
+    "@elastic/search-ui": "1.18.2",
     "typescript": "^4.5.4"
   },
   "publishConfig": {

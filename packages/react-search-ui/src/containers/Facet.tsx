@@ -92,13 +92,28 @@ export class FacetContainer extends Component<
     if (!facetValues.length && !selectedValues.length) return null;
 
     if (searchTerm.trim()) {
-      facetValues = facetValues.filter((option) =>
-        typeof option.value === "string"
-          ? accentFold(option.value)
-              .toLowerCase()
-              .includes(accentFold(searchTerm).toLowerCase())
-          : false
-      );
+      facetValues = facetValues.filter((option) => {
+        let valueToSearch;
+        switch (typeof option.value) {
+          case "string":
+            valueToSearch = accentFold(option.value).toLowerCase();
+            break;
+          case "number":
+            valueToSearch = option.value.toString();
+            break;
+          case "object":
+            valueToSearch =
+              typeof option?.value?.name === "string"
+                ? accentFold(option.value.name).toLowerCase()
+                : "";
+            break;
+
+          default:
+            valueToSearch = "";
+            break;
+        }
+        return valueToSearch.includes(accentFold(searchTerm).toLowerCase());
+      });
     }
 
     const View: React.ComponentType<FacetViewProps> =

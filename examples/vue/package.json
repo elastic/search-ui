@@ -10,7 +10,7 @@
     "elasticsearch",
     "vue"
   ],
-  "version": "1.18.1",
+  "version": "1.18.2",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -19,9 +19,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@elastic/react-search-ui-views": "1.18.1",
-    "@elastic/search-ui": "1.18.1",
-    "@elastic/search-ui-app-search-connector": "1.18.1",
+    "@elastic/react-search-ui-views": "1.18.2",
+    "@elastic/search-ui": "1.18.2",
+    "@elastic/search-ui-app-search-connector": "1.18.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
