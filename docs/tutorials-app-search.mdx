@@ -62,7 +62,7 @@ Also above is the host url. Copy this as we will use it later on as well.
 For this tutorial, we are going to be using the popular [Create React App (CRA) framework](https://reactjs.org/docs/create-a-new-react-app.html). To get started, we run the following command
 
 ```shell
-npx create-react-app us-parks-demo
+ npx create-react-app us-parks-demo --template typescript
 ```
 
 Once this has been completed, we can navigate to the directory of the project.
@@ -79,9 +79,9 @@ This will download the latest version of the packages and install them into our 
 
 ### Add Search UI React Components
 
-We can now add the Search UI React components to our project. First we need to open `src/App.js` and replace it's contents with the following:
+We can now add the Search UI React components to our project. First we need to open `src/App.tsx` and replace it's contents with the following:
 
-```js
+```jsx
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 import React from "react";
 import {
@@ -93,7 +93,6 @@ import {
   PagingInfo,
   ResultsPerPage,
   Paging,
-  Sorting,
   WithSearch
 } from "@elastic/react-search-ui";
 import {
@@ -103,6 +102,7 @@ import {
   SingleSelectFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { SearchDriverOptions } from "@elastic/search-ui";
 
 const connector = new AppSearchAPIConnector({
   searchKey: "<your-search-key>",
@@ -110,7 +110,7 @@ const connector = new AppSearchAPIConnector({
   endpointBase: "<your-endpoint-url>"
 });
 
-const config = {
+const config: SearchDriverOptions = {
   alwaysSearchOnInitialLoad: true,
   apiConnector: connector,
   hasA11yNotifications: true,
@@ -345,7 +345,6 @@ sideContent={
     <Facet
       field="states"
       label="States"
-      filterType="any"
       isFilterable={true}
     />
     <Facet
@@ -361,12 +360,10 @@ sideContent={
     <Facet
       field="date_established"
       label="Date Established"
-      filterType="any"
     />
     <Facet
       field="location"
       label="Distance"
-      filterType="any"
     />
     <Facet
       field="acres"
@@ -375,6 +372,23 @@ sideContent={
     />
   </div>
 }
+```
+
+### Disjunctive facets
+
+Last but not least, we want some of our facets to be "OR" facets rather than "AND". Making that change is a two step process:
+
+1. Make the facet "disjunctive" by adding it to the `disjunctiveFacets` list config. This will ensure that the facet displays all
+   available options for selection, so that users can make multiple selections.
+
+```jsx
+disjunctiveFacets: ["states"],
+```
+
+2. Make the `Facet` component user the `filterType` of `any`.
+
+```jsx
+<Facet field="states" label="States" filterType="any" isFilterable={true} />
 ```
 
 ## Test Drive!
