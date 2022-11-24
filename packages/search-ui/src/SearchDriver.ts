@@ -569,6 +569,7 @@ class SearchDriver {
   tearDown() {
     this.subscriptions = [];
     this.URLManager && this.URLManager.tearDown();
+    this.debounceManager.cancelByName("pushStateToURL");
   }
 
   /**
