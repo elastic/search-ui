@@ -20,10 +20,17 @@ import {
 // We mock this so no state is actually written to the URL
 jest.mock("../URLManager");
 import URLManager from "../URLManager";
+import DebounceManager from "../DebounceManager";
+
 const MockedURLManager = jest.mocked(URLManager, true);
+const MockedCancelByName = jest.spyOn(
+  DebounceManager.prototype,
+  "cancelByName"
+);
 
 beforeEach(() => {
   MockedURLManager.mockClear();
+  MockedCancelByName.mockClear();
 });
 
 const mockApiConnector = getMockApiConnector();
@@ -438,7 +445,7 @@ describe("unsubscribeToStateChanges", () => {
 });
 
 describe("tearDown", () => {
-  it("will remove subscriptions and stop listening for URL changes", () => {
+  it("will remove subscriptions, stop listening for URL changes, and cancel any outstanding pushStateToURL invocations", () => {
     const { driver } = setupDriver();
     let called1 = false;
     let called2 = false;
@@ -463,6 +470,7 @@ describe("tearDown", () => {
       (MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls
         .length
     ).toBe(1);
+    expect(MockedCancelByName).toBeCalledWith("pushStateToURL");
   });
 });
 
