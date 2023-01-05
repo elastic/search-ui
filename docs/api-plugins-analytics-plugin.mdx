@@ -42,7 +42,10 @@ If you integrated Behavioral Analytics using `@elastic/behavioral-analytics-java
 import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
 import { createTracker, getTracker } from "@elastic/behavioral-analytics-javascript-tracker";
 
-createTracker()
+createTracker({
+  // the DSN can be found in the Behavioral Analytics Collections view page
+    dsn: "https://my-analytics-dsn.elastic.co"
+})
 
 // search ui configuration
 const config = {
