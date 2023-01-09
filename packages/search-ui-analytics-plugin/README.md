@@ -14,8 +14,6 @@ npm install @elastic/search-ui-analytics-plugin
 
 Within your Search UI configuration, you can add the Analytics Plugin like so:
 
-By default, the Analytics Plugin will use the Behavioral Analytics client thats provided when the integrated via script tag.
-
 ```js
 import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
 
@@ -27,9 +25,11 @@ const config = {
 }
 ```
 
+By default, the Analytics Plugin will use the Behavioral Analytics client thats provided when the integrated via script tag.
+
 ### Passing in a custom analytics client
 
-If you integrated Behavioral Analytics using `@elastic/behavioral-analytics-javascript-tracker` NPM package, you can pass in a custom analytics client to the Analytics Plugin.
+If you're integrated Behavioral Analytics using `@elastic/behavioral-analytics-javascript-tracker` NPM package, you can pass in a custom analytics client to the Analytics Plugin.
 
 ```js
 
