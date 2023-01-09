@@ -1,6 +1,6 @@
 # Search UI Analytics Plugin
 
-The Analytics Plugin is a plugin that provides a way to send analytics events to the Behavioral Analytics Product. To use it, you must follow the instructions on how to set up the Analytics Product.
+Use the Analytics Plugin to send analytics events to the Behavioral Analytics Product. Follow the instructions to set up the plugin.
 
 ## Installation
 
@@ -12,7 +12,7 @@ npm install @elastic/search-ui-analytics-plugin
 
 ## Basic Usage
 
-Within your Search UI configuration, you can add the Analytics Plugin like so:
+Add the Analytics Plugin to your Search UI configuration like so:
 
 ```js
 import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
@@ -25,11 +25,11 @@ const config = {
 }
 ```
 
-By default, the Analytics Plugin will use the Behavioral Analytics client thats provided when the integrated via script tag.
+By default, the Analytics Plugin will use the Behavioral Analytics client provided when using script tag integration.
 
 ### Passing in a custom analytics client
 
-If you're integrated Behavioral Analytics using `@elastic/behavioral-analytics-javascript-tracker` NPM package, you can pass in a custom analytics client to the Analytics Plugin.
+If you integrated Behavioral Analytics using the `@elastic/behavioral-analytics-javascript-tracker` NPM package, you can pass in a custom analytics client to the Analytics Plugin.
 
 ```js
 
