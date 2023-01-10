@@ -96,6 +96,10 @@
             { "id": "api-connectors-workplace-search" },
             { "id": "api-connectors-elasticsearch" }
           ]
+        },
+        {
+          "label": "Plugins",
+          "items": [{ "id": "api-plugins-analytics-plugin" }]
         }
       ]
     }
