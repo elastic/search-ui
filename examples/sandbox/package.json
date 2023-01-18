@@ -23,6 +23,7 @@
     "@elastic/search-ui-elasticsearch-connector": "1.18.3",
     "@elastic/search-ui-site-search-connector": "1.18.3",
     "@elastic/search-ui-workplace-search-connector": "1.18.3",
+    "@elastic/search-ui-engines-connector": "1.18.3",
     "@emotion/react": "^11.8.1",
     "autoprefixer": "^10.4.7",
     "moment": "^2.24.0",
