@@ -16,7 +16,7 @@ export function getFilters(
   baseFilters: Filter[] = []
 ): MixedFilter[] {
   return filters.reduce((acc, f) => {
-    const isBaseFilter = baseFilters.includes(f);
+    const isBaseFilter = baseFilters.find((bf) => bf === f);
     if (isBaseFilter) return acc;
 
     const subFilters = f.values.map((v) => {
