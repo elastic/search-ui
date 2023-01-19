@@ -102,21 +102,21 @@ export default async function handleRequest(
   ).executeSuggestions(state.searchTerm);
 
   const results: AutocompleteResponseState = response.reduce(
-    (sum, suggestion) => {
+    (acc, suggestion) => {
       const { identifier } = suggestion;
 
       if (identifier === "hits-suggestions") {
         return {
-          ...sum,
+          ...acc,
           autocompletedResults: suggestion.hits.map(fieldResponseMapper)
         };
       } else if (identifier.startsWith("suggestions-completion-")) {
         const name = identifier.replace("suggestions-completion-", "");
 
         return {
-          ...sum,
+          ...acc,
           autocompletedSuggestions: {
-            ...sum.autocompletedSuggestions,
+            ...acc.autocompletedSuggestions,
             [name]: suggestion.suggestions.map((suggestion) => {
               return {
                 suggestion: suggestion
@@ -130,9 +130,9 @@ export default async function handleRequest(
           name
         ] as ResultSuggestionConfiguration;
         return {
-          ...sum,
+          ...acc,
           autocompletedSuggestions: {
-            ...sum.autocompletedSuggestions,
+            ...acc.autocompletedSuggestions,
             [name]: suggestion.hits.map((hit) => ({
               queryType: config.queryType,
               result: fieldResponseMapper(hit)

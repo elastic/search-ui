@@ -32,12 +32,12 @@ export function getResultFields(
 } {
   const hitFields = Object.keys(resultFields);
 
-  const highlightFields = Object.keys(resultFields).reduce((sum, fieldKey) => {
+  const highlightFields = Object.keys(resultFields).reduce((acc, fieldKey) => {
     const fieldConfiguration = resultFields[fieldKey];
     if (fieldConfiguration.snippet) {
-      sum.push(fieldKey);
+      acc.push(fieldKey);
     }
-    return sum;
+    return acc;
   }, []);
 
   return { hitFields, highlightFields };
@@ -67,14 +67,14 @@ export function isRangeFilter(
 }
 
 export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
-  const filters = (baseFilters || []).reduce((sum, filter) => {
+  const filters = (baseFilters || []).reduce((acc, filter) => {
     const boolType = {
       all: "filter",
       any: "should",
       none: "must_not"
     }[filter.type];
     return [
-      ...sum,
+      ...acc,
       {
         bool: {
           [boolType]: filter.values.map((value: FilterValue) => {
@@ -144,9 +144,9 @@ function buildConfiguration({
   const filtersConfig: BaseFilter[] = Object.values(
     (state.filters || [])
       .filter((f) => !queryConfig.facets[f.field]) //exclude all filters that are defined as facets
-      .reduce((sum, f) => {
+      .reduce((acc, f) => {
         return {
-          ...sum,
+          ...acc,
           [f.field]: new SKFilter({
             field: f.field,
             identifier: f.field,
@@ -157,11 +157,11 @@ function buildConfiguration({
   );
 
   const facets = Object.keys(queryConfig.facets || {}).reduce(
-    (sum, facetKey) => {
+    (acc, facetKey) => {
       const facetConfiguration = queryConfig.facets[facetKey];
       const isDisJunctive = queryConfig.disjunctiveFacets?.includes(facetKey);
       if (facetConfiguration.type === "value") {
-        sum.push(
+        acc.push(
           new RefinementSelectFacet({
             identifier: facetKey,
             field: facetKey,
@@ -175,7 +175,7 @@ function buildConfiguration({
         facetConfiguration.type === "range" &&
         !facetConfiguration.center
       ) {
-        sum.push(
+        acc.push(
           new MultiQueryOptionsFacet({
             identifier: facetKey,
             field: facetKey,
@@ -200,7 +200,7 @@ function buildConfiguration({
         facetConfiguration.type === "range" &&
         facetConfiguration.center
       ) {
-        sum.push(
+        acc.push(
           new GeoDistanceOptionsFacet({
             identifier: facetKey,
             field: facetKey,
@@ -219,7 +219,7 @@ function buildConfiguration({
         );
       }
 
-      return sum;
+      return acc;
     },
     []
   );
