@@ -4,4 +4,4 @@ This sandbox app is a simple example of how to use the Search UI library and als
 
 See the [Contributing guide](../../CONTRIBUTING.md#sandbox) for the instructions on running the sandbox.
 
-A live version can be found [here](https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox).
+A live version can be found [here](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox).

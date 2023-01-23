@@ -3,7 +3,7 @@
     name: search-ui/search-ui
     description: "Builds and run tests against the elastic/search-ui repo"
     project-type: multibranch
-    node: master
+    node: main
     concurrent: true
     script-path: .ci/pipelines/search-ui.groovy
     prune-dead-branches: true
