@@ -65,7 +65,7 @@ We will create branches for all minor releases.
 
 ## Canary releases for testing
 
-It can often be useful to publish a change and test it before doing a real live publish. For instance, it can be useful to publish something from a PR branch and test it with an actual install. Use lerna's [canary](https://github.com/lerna/lerna/tree/main/commands/publish#--canary)
+It can often be useful to publish a change and test it before doing a real live publish. For instance, it can be useful to publish something from a PR branch and test it with an actual install. Use lerna's [canary](https://github.com/lerna/lerna/tree/master/commands/publish#--canary)
 option for this.
 
 1. Check out pr branch
