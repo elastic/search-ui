@@ -128,7 +128,7 @@ export type SearchFieldConfiguration = {
   weight?: number;
 };
 
-// https://github.com/elastic/search-ui/blob/master/ADVANCED.md#configuring-autocomplete-queries
+// https://github.com/elastic/search-ui/blob/main/ADVANCED.md#configuring-autocomplete-queries
 export type AutocompleteQueryConfig = {
   results?: QueryConfig;
   suggestions?: SuggestionsQueryConfig;
