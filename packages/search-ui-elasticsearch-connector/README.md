@@ -40,12 +40,12 @@ const connector = new ElasticsearchAPIConnector({
 
 **Kind**: global typedef
 
-| Param  | Type                | Default        | Description                                                                                                                                    |
-| ------ | ------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| cloud  | <code>Object</code> | { id: string } | Elastic cloud configuration. Can be found in your cloud deployment dashboard.                                                                  |
-| host   | <code>string</code> |                | Elasticsearch host.                                                                                                                            |
-| index  | <code>string</code> |                | Index name for where the search documents are contained in                                                                                     |
-| apiKey | <code>string</code> |                | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html). |
+| Param  | Type                | Default        | Description                                                                                                                                  |
+| ------ | ------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| cloud  | <code>Object</code> | { id: string } | Elastic cloud configuration. Can be found in your cloud deployment dashboard.                                                                |
+| host   | <code>string</code> |                | Elasticsearch host.                                                                                                                          |
+| index  | <code>string</code> |                | Index name for where the search documents are contained in                                                                                   |
+| apiKey | <code>string</code> |                | Optional. Credential thats setup within Kibana's UI. see [kibana API keys guide](https://www.elastic.co/guide/en/kibana/main/api-keys.html). |
 
 ## Query Configuration Requirements
 
@@ -69,4 +69,4 @@ To do this, provide the host to be the location of the API. Example `host: "http
 
 ### Use an Elasticsearch api-key
 
-You can restrict access to indices via an api-key. See [kibana API keys guide](https://www.elastic.co/guide/en/kibana/master/api-keys.html)
+You can restrict access to indices via an api-key. See [kibana API keys guide](https://www.elastic.co/guide/en/kibana/main/api-keys.html)

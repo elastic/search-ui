@@ -26,13 +26,13 @@ An overview of the syntax used can be found here: https://github.com/elastic/doc
 
 # Publishing
 
-Releases should be performed directly in master (or a minor branch for patches), following the [Publishing guide](./PUBLISHING.md).
+Releases should be performed directly in main (or a minor branch for patches), following the [Publishing guide](./PUBLISHING.md).
 
 We will create branches for all minor releases.
 
 > Because all examples are declared as "private", when running lerna commands other than bootstrap, (like `publish` and `test`), the `--no-private` flag should be appended.
 
-## Publish a new major or minor from master
+## Publish a new major or minor from main
 
 (Example, publishing 0.6.0)
 
@@ -41,11 +41,11 @@ We will create branches for all minor releases.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 1. Run `npx lerna publish from-package`.
 1. Verify the `0.6.0` has been published to npm.
-1. Verify that the `v0.6.0` tag and commit has been pushed to `master` on `origin`.
+1. Verify that the `v0.6.0` tag and commit has been pushed to `main` on `origin`.
 1. Create new version branch, `0.6` from the `0.6.0` tag and push to `origin`.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
-1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox
+1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox
 
 ## Publish a patch
 
@@ -57,11 +57,11 @@ We will create branches for all minor releases.
 1. Run `nvm use` to make sure you are running the correct version of node, and verify that `npm run build` runs without error before publishing.
 1. Run `npx lerna publish from-package`.
 1. Verify the `0.6.1` has been published to npm.
-1. Verify that the `0.6.1` tag and commit has been pushed to `master` on `origin`.
-1. Cherry-pick the changes forward to subsequent minor releases and master, and repeat the process.
+1. Verify that the `0.6.1` tag and commit has been pushed to `main` on `origin`.
+1. Cherry-pick the changes forward to subsequent minor releases and main, and repeat the process.
 1. Create a release in Github.
 1. Close the release Milestone in Github.
-1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox
+1. Verify the demo on Codesandbox is functioning: https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox
 
 ## Canary releases for testing
 
@@ -98,6 +98,6 @@ stacks:
 - https://codesandbox.io/s/search-ui-next-js-example-tb05u
 - https://codesandbox.io/s/search-ui-national-parks-example-kdyms
 
-## Demo (uses code from master branch)
+## Demo (uses code from main branch)
 
-- https://codesandbox.io/s/github/elastic/search-ui/tree/master/examples/sandbox
+- https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox
