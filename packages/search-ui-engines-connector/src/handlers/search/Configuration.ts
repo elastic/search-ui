@@ -17,12 +17,8 @@ import {
   RefinementSelectFacet,
   SearchkitConfig
 } from "@searchkit/sdk";
-import type {
-  CloudHost,
-  PostProcessRequestBodyFn,
-  SearchRequest
-} from "../../types";
 import { LIB_VERSION } from "../../version";
+import { EngineQuery } from "./Query";
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>
@@ -117,23 +113,17 @@ export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
 interface BuildConfigurationOptions {
   state: RequestState;
   queryConfig: QueryConfig;
-  cloud?: CloudHost;
   host?: string;
-  index: string;
+  engineName: string;
   apiKey?: string;
-  headers?: Record<string, string>;
-  postProcessRequestBodyFn?: PostProcessRequestBodyFn;
 }
 
 function buildConfiguration({
   state,
   queryConfig,
-  cloud,
   host,
-  index,
-  apiKey,
-  headers,
-  postProcessRequestBodyFn
+  engineName,
+  apiKey
 }: BuildConfigurationOptions): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
     queryConfig.result_fields
@@ -239,23 +229,14 @@ function buildConfiguration({
       : { id: "selectedOption", label: "selectedOption", field: "_score" };
 
   const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
-  const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
+  const metaHeader = `ent=${LIB_VERSION}-engines-connector,js=${jsVersion},t=${LIB_VERSION}-engines-connector,ft=universal`;
 
-  const wrappedPostProcessRequestFn = postProcessRequestBodyFn
-    ? (body: SearchRequest) => {
-        return postProcessRequestBodyFn(body, state, queryConfig);
-      }
-    : null;
-
-  const additionalHeaders = headers || {};
   const configuration: SearchkitConfig = {
     host: host,
-    cloud: cloud,
-    index: index,
+    index: engineName,
     connectionOptions: {
       apiKey: apiKey,
       headers: {
-        ...additionalHeaders,
         "x-elastic-client-meta": metaHeader
       }
     },
@@ -263,13 +244,10 @@ function buildConfiguration({
       fields: hitFields,
       highlightedFields: highlightFields
     },
-    query: new MultiMatchQuery({
-      fields: queryFields
-    }),
+    query: EngineQuery(queryFields),
     sortOptions: [sortOption],
     facets,
-    filters: filtersConfig,
-    postProcessRequest: wrappedPostProcessRequestFn
+    filters: filtersConfig
   };
 
   return configuration;

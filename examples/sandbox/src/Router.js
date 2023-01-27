@@ -2,6 +2,7 @@ import * as React from "react";
 import { Switch } from "react-router-dom";
 import Root from "./pages/root";
 import Elasticsearch from "./pages/elasticsearch";
+import Engines from "./pages/engines";
 import AppSearch from "./pages/app-search";
 import SiteSearch from "./pages/site-search";
 import WorkplaceSearch from "./pages/workplace-search";
@@ -26,6 +27,7 @@ export default function Router() {
         <ApmRoute exact path="/app-search" component={AppSearch} />
         <ApmRoute exact path="/site-search" component={SiteSearch} />
         <ApmRoute exact path="/workplace-search" component={WorkplaceSearch} />
+        <ApmRoute exact path="/engines" component={Engines} />
 
         {/* Examples */}
         <ApmRoute

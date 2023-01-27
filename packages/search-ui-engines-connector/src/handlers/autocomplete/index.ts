@@ -10,28 +10,22 @@ import Searchkit, {
   PrefixQuery,
   SearchkitConfig
 } from "@searchkit/sdk";
-import { CloudHost } from "../../types";
 import { fieldResponseMapper } from "../common";
 import { getQueryFields, getResultFields } from "../search/Configuration";
+import { EngineTransporter } from "../transporter";
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
   queryConfig: AutocompleteQueryConfig;
-  cloud?: CloudHost;
-  host?: string;
-  index: string;
-  connectionOptions?: {
-    apiKey?: string;
-    headers?: Record<string, string>;
-  };
+  host: string;
+  engineName: string;
+  apiKey: string;
 }
 
 export default async function handleRequest(
   configuration: AutocompleteHandlerConfiguration
 ): Promise<AutocompleteResponseState> {
-  const { state, queryConfig, host, cloud, index, connectionOptions } =
-    configuration;
-  const { apiKey, headers } = connectionOptions || {};
+  const { state, queryConfig, host, engineName, apiKey } = configuration;
 
   const suggestionConfigurations = [];
 
@@ -93,18 +87,19 @@ export default async function handleRequest(
 
   const searchkitConfig: SearchkitConfig = {
     host,
-    cloud,
-    index,
+    index: engineName,
     connectionOptions: {
-      apiKey,
-      headers
+      apiKey
     },
     suggestions: suggestionConfigurations
   };
 
-  const response = await Searchkit(searchkitConfig).executeSuggestions(
-    state.searchTerm
-  );
+  const transporter = new EngineTransporter(host, engineName, apiKey);
+
+  const response = await Searchkit(
+    searchkitConfig,
+    transporter
+  ).executeSuggestions(state.searchTerm);
 
   const results: AutocompleteResponseState = response.reduce(
     (acc, suggestion) => {

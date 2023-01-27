@@ -1,0 +1,2 @@
+./node_modules/.bin/tsc  --watch &
+./node_modules/.bin/tsc  -p tsconfig-cjs.json --watch &

@@ -1,0 +1,48 @@
+{
+  "name": "@elastic/search-ui-engines-connector",
+  "version": "1.18.3",
+  "description": "A Search UI connector for Engines",
+  "homepage": "https://docs.elastic.co/search-ui",
+  "license": "Apache-2.0",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/esm/index.d.ts",
+  "sideEffects": false,
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elastic/search-ui.git",
+    "directory": "packages/search-ui-engine-connector"
+  },
+  "scripts": {
+    "test-ci": "jest --runInBand",
+    "test": "jest",
+    "clean": "rimraf lib",
+    "watch-js": "./bin/watch-js",
+    "build-js": "./bin/build-js",
+    "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
+    "build": "npm run clean && npm run build-js",
+    "watch": "npm run build && npm run watch-js",
+    "prepare": "npm run build"
+  },
+  "bugs": {
+    "url": "https://github.com/elastic/search-ui/issues"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.3",
+    "typescript": "^4.5.4",
+    "nock": "^13.3.0",
+    "cross-fetch": "^3.1.4",
+    "@elastic/elasticsearch": "^8.6.0"
+  },
+  "dependencies": {
+    "@elastic/search-ui": "1.18.3",
+    "@searchkit/sdk": "^3.0.0"
+  }
+}
