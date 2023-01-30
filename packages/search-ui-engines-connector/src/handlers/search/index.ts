@@ -4,6 +4,7 @@ import type {
   ResponseState
 } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
+import { EngineRouteFn } from "../../types";
 import { EngineTransporter } from "../transporter";
 import buildConfiguration, { buildBaseFilters } from "./Configuration";
 import buildRequest from "./Request";
@@ -15,6 +16,7 @@ interface SearchHandlerConfiguration {
   host: string;
   engineName: string;
   apiKey: string;
+  engineRouteFn?: EngineRouteFn;
 }
 
 export default async function handleRequest(
@@ -32,7 +34,8 @@ export default async function handleRequest(
   const transporter = new EngineTransporter(
     host,
     engineName,
-    configuration.apiKey
+    configuration.apiKey,
+    configuration.engineRouteFn
   );
 
   const request = Searchkit(searchkitConfig, transporter);

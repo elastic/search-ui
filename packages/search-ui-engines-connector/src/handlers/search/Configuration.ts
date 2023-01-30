@@ -12,7 +12,6 @@ import {
   BaseFilters,
   Filter as SKFilter,
   GeoDistanceOptionsFacet,
-  MultiMatchQuery,
   MultiQueryOptionsFacet,
   RefinementSelectFacet,
   SearchkitConfig
