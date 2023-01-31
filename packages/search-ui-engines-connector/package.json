@@ -44,5 +44,9 @@
   "dependencies": {
     "@elastic/search-ui": "1.19.0",
     "@searchkit/sdk": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
