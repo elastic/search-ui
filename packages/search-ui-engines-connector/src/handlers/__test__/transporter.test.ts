@@ -50,46 +50,4 @@ describe("EngineTransporter", () => {
         expect(response.hits.hits[0]._source.title).toEqual("My title");
       });
   });
-
-  it("perform a request overriding getRoute", () => {
-    const transporter = new EngineTransporter(
-      "http://localhost:9200",
-      "my_engine",
-      "apikey",
-      (host, engineName) => `${host}/internal/${engineName}/search`
-    );
-
-    const body = {
-      query: {
-        match_all: {}
-      }
-    };
-
-    nock("http://localhost:9200", {
-      reqheaders: {
-        authorization: "ApiKey apikey"
-      }
-    })
-      .post("/internal/my_engine/search")
-      .reply(200, () => ({
-        hits: {
-          hits: [
-            {
-              _id: "1",
-              _source: {
-                title: "My title"
-              }
-            }
-          ]
-        }
-      }));
-
-    return transporter
-      .performRequest({
-        body
-      } as SearchRequest)
-      .then((response: SearchResponse) => {
-        expect(response.hits.hits).toHaveLength(1);
-      });
-  });
 });

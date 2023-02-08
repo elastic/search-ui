@@ -9,25 +9,33 @@ import type {
 
 import handleSearchRequest from "./handlers/search";
 import handleAutocompleteRequest from "./handlers/autocomplete";
-
-type ConnectionOptions = {
-  host: string;
-  engineName: string;
-  apiKey: string;
-};
-
+import { ConnectionOptions, Transporter } from "./types";
+import { EngineTransporter } from "./handlers/transporter";
 export * from "./types";
 
+function isTransporter(
+  config: ConnectionOptions | Transporter
+): config is Transporter {
+  return (config as Transporter).performRequest !== undefined;
+}
+
 class EngineConnector implements APIConnector {
-  constructor(private config: ConnectionOptions) {
-    if (!config.host) {
-      throw new Error("Engine Host must be provided.");
-    }
-    if (!config.engineName) {
-      throw new Error("Engine Name must be provided.");
-    }
-    if (!config.apiKey) {
-      throw new Error("API Key must be provided.");
+  private transporter: Transporter;
+  constructor(private config: ConnectionOptions | Transporter) {
+    if (isTransporter(config)) {
+      this.transporter = config;
+    } else {
+      if (!config.host) {
+        throw new Error("Engine Host must be provided.");
+      }
+      if (!config.engineName) {
+        throw new Error("Engine Name must be provided.");
+      }
+      if (!config.apiKey) {
+        throw new Error("API Key must be provided.");
+      }
+      const { host, engineName, apiKey } = config;
+      this.transporter = new EngineTransporter(host, engineName, apiKey);
     }
   }
 
@@ -44,9 +52,7 @@ class EngineConnector implements APIConnector {
     return handleSearchRequest({
       state,
       queryConfig,
-      host: this.config.host,
-      engineName: this.config.engineName,
-      apiKey: this.config.apiKey
+      transporter: this.transporter
     });
   }
 
@@ -57,9 +63,7 @@ class EngineConnector implements APIConnector {
     return handleAutocompleteRequest({
       state,
       queryConfig,
-      host: this.config.host,
-      engineName: this.config.engineName,
-      apiKey: this.config.apiKey
+      transporter: this.transporter
     });
   }
 }
