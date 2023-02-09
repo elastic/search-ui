@@ -1,5 +1,6 @@
 import type { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
+import { EngineTransporter } from "../../transporter";
 import handleRequest from "../index";
 
 const mockSearchkitResponse = [
@@ -105,9 +106,11 @@ describe("Autocomplete results", () => {
     const results = await handleRequest({
       state,
       queryConfig,
-      host: "http://localhost:9200",
-      engineName: "test",
-      apiKey: "test"
+      transporter: new EngineTransporter(
+        "http://localhost:9200",
+        "engineName",
+        "test"
+      )
     });
 
     const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]

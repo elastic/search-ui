@@ -214,9 +214,6 @@ describe("Search - Configuration", () => {
         }
       ]
     };
-    const host = "http://localhost:9200";
-    const index = "test_index";
-    const apiKey = "apiKey";
 
     it("builds configuration", () => {
       const state: RequestState = {
@@ -247,17 +244,13 @@ describe("Search - Configuration", () => {
       };
       const x = buildConfiguration({
         state,
-        queryConfig,
-        host,
-        engineName: index,
-        apiKey
+        queryConfig
       });
       expect(x).toEqual(
         expect.objectContaining({
-          host: "http://localhost:9200",
-          index: "test_index",
+          host: "host",
+          index: "engineName",
           connectionOptions: {
-            apiKey: "apiKey",
             headers: {
               "x-elastic-client-meta": `ent=${LIB_VERSION}-engines-connector,js=browser,t=${LIB_VERSION}-engines-connector,ft=universal`
             }
@@ -309,17 +302,13 @@ describe("Search - Configuration", () => {
       expect(
         buildConfiguration({
           state,
-          queryConfig: { ...queryConfig, facets: null },
-          host,
-          engineName: index,
-          apiKey
+          queryConfig: { ...queryConfig, facets: null }
         })
       ).toEqual(
         expect.objectContaining({
-          host: "http://localhost:9200",
-          index: "test_index",
+          host: "host",
+          index: "engineName",
           connectionOptions: {
-            apiKey: "apiKey",
             headers: {
               "x-elastic-client-meta": `ent=${LIB_VERSION}-engines-connector,js=browser,t=${LIB_VERSION}-engines-connector,ft=universal`
             }
@@ -404,18 +393,14 @@ describe("Search - Configuration", () => {
               ]
             }
           }
-        },
-        host,
-        engineName: index,
-        apiKey
+        }
       });
 
       expect(configuration).toEqual(
         expect.objectContaining({
-          host: "http://localhost:9200",
-          index: "test_index",
+          host: "host",
+          index: "engineName",
           connectionOptions: {
-            apiKey: "apiKey",
             headers: {
               "x-elastic-client-meta": `ent=${LIB_VERSION}-engines-connector,js=browser,t=${LIB_VERSION}-engines-connector,ft=universal`
             }

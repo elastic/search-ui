@@ -41,9 +41,6 @@ describe("Search - Configuration within node context", () => {
       },
       disjunctiveFacets: ["category"]
     };
-    const host = "http://localhost:9200";
-    const index = "test_index";
-    const apiKey = "apiKey";
 
     it("builds configuration", () => {
       const state: RequestState = {
@@ -53,10 +50,7 @@ describe("Search - Configuration within node context", () => {
       const nodeVersion = process.version;
       const configuration = buildConfiguration({
         state,
-        queryConfig,
-        host,
-        engineName: index,
-        apiKey
+        queryConfig
       });
 
       const validHeaderRegex =

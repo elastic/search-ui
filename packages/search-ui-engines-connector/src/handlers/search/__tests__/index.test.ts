@@ -1,8 +1,8 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
 import Searchkit, { SearchkitConfig, SearchkitResponse } from "@searchkit/sdk";
 import type { SearchkitRequest } from "@searchkit/sdk";
-import type { SearchRequest } from "../../../types";
 import handleRequest from "../index";
+import { EngineTransporter } from "../../transporter";
 
 const mockSearchkitResponse: SearchkitResponse = {
   summary: {
@@ -115,9 +115,11 @@ describe("Search results", () => {
     const results = await handleRequest({
       state,
       queryConfig,
-      host: "http://localhost:9200",
-      engineName: "test",
-      apiKey: "test"
+      transporter: new EngineTransporter(
+        "http://localhost:9200",
+        "engineName",
+        "test"
+      )
     });
 
     const instance: SearchkitRequest = searchkitMock.mock.results[0].value;

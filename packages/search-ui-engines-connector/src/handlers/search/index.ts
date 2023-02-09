@@ -4,8 +4,7 @@ import type {
   ResponseState
 } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
-import { EngineRouteFn } from "../../types";
-import { EngineTransporter } from "../transporter";
+import { Transporter } from "../../types";
 import buildConfiguration, { buildBaseFilters } from "./Configuration";
 import buildRequest from "./Request";
 import buildResponse from "./Response";
@@ -13,32 +12,19 @@ import buildResponse from "./Response";
 interface SearchHandlerConfiguration {
   state: RequestState;
   queryConfig: QueryConfig;
-  host: string;
-  engineName: string;
-  apiKey: string;
-  engineRouteFn?: EngineRouteFn;
+  transporter: Transporter;
 }
 
 export default async function handleRequest(
   configuration: SearchHandlerConfiguration
 ): Promise<ResponseState> {
-  const { state, queryConfig, host, engineName, apiKey } = configuration;
+  const { state, queryConfig } = configuration;
   const searchkitConfig = buildConfiguration({
     state,
-    queryConfig,
-    host,
-    engineName,
-    apiKey
+    queryConfig
   });
 
-  const transporter = new EngineTransporter(
-    host,
-    engineName,
-    configuration.apiKey,
-    configuration.engineRouteFn
-  );
-
-  const request = Searchkit(searchkitConfig, transporter);
+  const request = Searchkit(searchkitConfig, configuration.transporter);
 
   const searchkitVariables = buildRequest(state, queryConfig);
 

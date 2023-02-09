@@ -112,17 +112,11 @@ export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
 interface BuildConfigurationOptions {
   state: RequestState;
   queryConfig: QueryConfig;
-  host?: string;
-  engineName: string;
-  apiKey?: string;
 }
 
 function buildConfiguration({
   state,
-  queryConfig,
-  host,
-  engineName,
-  apiKey
+  queryConfig
 }: BuildConfigurationOptions): SearchkitConfig {
   const { hitFields, highlightFields } = getResultFields(
     queryConfig.result_fields
@@ -231,10 +225,10 @@ function buildConfiguration({
   const metaHeader = `ent=${LIB_VERSION}-engines-connector,js=${jsVersion},t=${LIB_VERSION}-engines-connector,ft=universal`;
 
   const configuration: SearchkitConfig = {
-    host: host,
-    index: engineName,
+    // overriding the transport and providing the host, index and apiKey to the transport
+    host: "host",
+    index: "engineName",
     connectionOptions: {
-      apiKey: apiKey,
       headers: {
         "x-elastic-client-meta": metaHeader
       }
