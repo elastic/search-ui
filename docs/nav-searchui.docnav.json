@@ -102,6 +102,15 @@
           "items": [{ "id": "api-plugins-analytics-plugin" }]
         }
       ]
+    },
+    {
+      "label": "Troubleshooting",
+      "items": [
+        {
+          "id": "known-issues",
+          "label": "Known issues"
+        }
+      ]
     }
   ]
 }
