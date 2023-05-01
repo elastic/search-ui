@@ -53,7 +53,8 @@ describe("#trackClickThrough", () => {
       position: 0,
       query: "search terms",
       tags: ["test"],
-      type: "ResultSelected"
+      type: "ResultSelected",
+      totalResults: 1000
     });
   });
 });

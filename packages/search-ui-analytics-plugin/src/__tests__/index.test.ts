@@ -39,9 +39,20 @@ describe("analytics plugin", () => {
       totalResults: 0
     });
     expect(window["elasticAnalytics"].trackEvent).toBeCalledWith("search", {
-      type: "SearchQuery",
-      query: "test",
-      totalResults: 0
+      search: {
+        page: {
+          current: undefined,
+          size: undefined
+        },
+        results: {
+          items: [],
+          total_results: 0
+        },
+        sort: undefined,
+        search_application: "search-ui",
+        query: "test",
+      },
     });
   });
-});
+})
+;
