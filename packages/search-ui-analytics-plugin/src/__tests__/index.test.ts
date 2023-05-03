@@ -49,10 +49,8 @@ describe("analytics plugin", () => {
           total_results: 0
         },
         sort: undefined,
-        search_application: "search-ui",
-        query: "test",
-      },
+        query: "test"
+      }
     });
   });
-})
-;
+});

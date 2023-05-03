@@ -239,6 +239,7 @@ export interface BaseEvent {
 
 export interface SearchQueryEvent extends BaseEvent {
   type: "SearchQuery";
+  filters: Filter[];
   query: string;
   totalResults: number;
   sort?: SortOption[];

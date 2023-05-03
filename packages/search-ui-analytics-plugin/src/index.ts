@@ -2,7 +2,9 @@ import {
   Event,
   BaseEvent,
   ResultSelectedEvent,
-  SearchQueryEvent
+  SearchQueryEvent,
+  FilterValueRange,
+  FilterValue
 } from "@elastic/search-ui";
 
 export type EventType = "search" | "search_click" | "page_view";
@@ -48,7 +50,10 @@ interface SearchEventAttribute {
 }
 
 type SearchClickEventAttribute = SearchEventAttribute &
-  ({ page: PageEventAttribute } | { document: DocumentAttribute });
+  (
+    | { document?: DocumentAttribute; page: PageEventAttribute }
+    | { document: DocumentAttribute; page?: PageEventAttribute }
+  );
 
 export type AnalyticsClient = {
   trackEvent: (
@@ -60,6 +65,26 @@ export type AnalyticsClient = {
 export interface AnalyticsPluginOptions {
   client?: AnalyticsClient;
 }
+
+const transformFilterValues = (values: FilterValue[]): string[] => {
+  const transformBasicValue = (value: string | boolean | number) =>
+    value.toString();
+  const transformRangeValue = (value: FilterValueRange) =>
+    `${value.from || "*"}-${value.to || "*"}`;
+
+  return values.reduce<string[]>((res, value) => {
+    if (Array.isArray(value)) {
+      return [...res, ...value.map(transformBasicValue)];
+    }
+
+    return [
+      ...res,
+      typeof value === "object"
+        ? transformRangeValue(value)
+        : transformBasicValue(value)
+    ];
+  }, []);
+};
 
 const mapEventToTrackerParams: Record<
   ResultSelectedEvent["type"] | SearchQueryEvent["type"],
@@ -88,6 +113,13 @@ const mapEventToTrackerParams: Record<
     {
       search: {
         query: event.query,
+        filters: event.filters.reduce(
+          (res, filter) => ({
+            ...res,
+            [filter.field]: transformFilterValues(filter.values)
+          }),
+          {}
+        ),
         page: {
           current: event.currentPage,
           size: event.resultsPerPage
@@ -96,7 +128,6 @@ const mapEventToTrackerParams: Record<
           items: [],
           total_results: event.totalResults
         },
-        search_application: "search-ui",
         sort: event.sort
           ?.filter(
             (sort) => sort.direction === "desc" || sort.direction === "asc"

@@ -526,7 +526,7 @@ describe("_updateSearchResults", () => {
       resultsPerPage: 20,
       sort: undefined,
       totalResults: 1000,
-      type: "SearchQuery",
+      type: "SearchQuery"
     });
   });
 

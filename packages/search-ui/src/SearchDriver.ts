@@ -451,6 +451,7 @@ class SearchDriver {
 
           this.events.emit({
             type: "SearchQuery",
+            filters: this.state.filters,
             query: this.state.searchTerm,
             sort: requestState.sort,
             currentPage: requestState.current,
