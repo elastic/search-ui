@@ -24,7 +24,8 @@ describe("analytics plugin", () => {
     eaPlugin.subscribe({
       type: "SearchQuery",
       query: "test",
-      totalResults: 0
+      totalResults: 0,
+      filters: []
     });
     expect(window["elasticAnalytics"].trackEvent).not.toBeCalled();
     expect(internalClient.trackEvent).toBeCalled();
@@ -36,10 +37,12 @@ describe("analytics plugin", () => {
     eaPlugin.subscribe({
       type: "SearchQuery",
       query: "test",
-      totalResults: 0
+      totalResults: 0,
+      filters: []
     });
     expect(window["elasticAnalytics"].trackEvent).toBeCalledWith("search", {
       search: {
+        filters: {},
         page: {
           current: undefined,
           size: undefined
