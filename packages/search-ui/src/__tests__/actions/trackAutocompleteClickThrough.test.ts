@@ -55,11 +55,16 @@ describe("#trackAutocompleteClickThrough", () => {
     expect(requestId).toEqual("6789");
     expect(result._meta.content_source_id).toEqual("621581b6174a804659f9dc16");
     expect(mockPlugin.subscribe).toBeCalledWith({
+      currentPage: 1,
       documentId: "park_great-smoky-mountains",
+      filters: [],
       origin: "autocomplete",
       position: 0,
       query: "search terms",
+      resultsPerPage: 20,
+      sort: undefined,
       tags: ["test"],
+      totalResults: 0,
       type: "ResultSelected"
     });
   });

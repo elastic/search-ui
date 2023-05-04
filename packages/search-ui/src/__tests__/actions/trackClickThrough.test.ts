@@ -48,10 +48,14 @@ describe("#trackClickThrough", () => {
     expect(page).toBe(1);
 
     expect(mockPlugin.subscribe).toBeCalledWith({
+      currentPage: 1,
       documentId: "park_great-smoky-mountains",
+      filters: [],
       origin: "results",
       position: 0,
       query: "search terms",
+      resultsPerPage: 20,
+      sort: undefined,
       tags: ["test"],
       type: "ResultSelected",
       totalResults: 1000
