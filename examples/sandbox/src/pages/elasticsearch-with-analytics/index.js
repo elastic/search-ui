@@ -1,8 +1,12 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
+import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
+import {
+  createTracker,
+  getTracker
+} from "@elastic/behavioral-analytics-javascript-tracker";
 
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
-
+import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import moment from "moment";
 
 import {
@@ -25,13 +29,18 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
-const connector = new AppSearchAPIConnector({
-  searchKey:
-    process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
-  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
-  endpointBase:
-    process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
-    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
+createTracker({
+  collectionName: "search-ui",
+  endpoint: "http://localhost:9200"
+});
+const connector = new ElasticSearchAPIConnector({
+  host:
+    process.env.REACT_ELASTICSEARCH_HOST ||
+    "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
+  index: process.env.REACT_ELASTICSEARCH_INDEX || "national-parks",
+  apiKey:
+    process.env.REACT_ELASTICSEARCH_API_KEY ||
+    "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
 });
 
 const config = {
@@ -39,7 +48,16 @@ const config = {
   alwaysSearchOnInitialLoad: true,
   apiConnector: connector,
   hasA11yNotifications: true,
+  plugins: [AnalyticsPlugin({ client: getTracker() })],
   searchQuery: {
+    filters: [],
+    search_fields: {
+      title: {
+        weight: 3
+      },
+      description: {},
+      states: {}
+    },
     result_fields: {
       visitors: { raw: {} },
       world_heritage_site: { raw: {} },
@@ -63,10 +81,15 @@ const config = {
         }
       }
     },
-    disjunctiveFacets: ["acres", "states", "date_established", "location"],
+    disjunctiveFacets: [
+      "acres",
+      "states.keyword",
+      "date_established",
+      "location"
+    ],
     facets: {
-      world_heritage_site: { type: "value" },
-      states: { type: "value", size: 30 },
+      "world_heritage_site.keyword": { type: "value" },
+      "states.keyword": { type: "value", size: 30, sort: "count" },
       acres: {
         type: "range",
         ranges: [
@@ -121,6 +144,9 @@ const config = {
   },
   autocompleteQuery: {
     results: {
+      search_fields: {
+        parks_search_as_you_type: {}
+      },
       resultsPerPage: 5,
       result_fields: {
         title: {
@@ -137,7 +163,7 @@ const config = {
     suggestions: {
       types: {
         documents: {
-          fields: ["title"]
+          fields: ["parks_completion"]
         }
       },
       size: 4
@@ -154,7 +180,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -163,7 +189,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       }
     ]
@@ -172,11 +198,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -185,15 +211,15 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: "world_heritage_site",
+        field: "world_heritage_site.keyword",
         direction: "asc"
       },
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -234,13 +260,13 @@ export default function App() {
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
-                        field={"states"}
+                        field="states.keyword"
                         label="States"
                         filterType="any"
                         isFilterable={true}
                       />
                       <Facet
-                        field={"world_heritage_site"}
+                        field="world_heritage_site.keyword"
                         label="World Heritage Site"
                         view={BooleanFacet}
                       />
@@ -260,6 +286,7 @@ export default function App() {
                         label="Distance"
                         filterType="any"
                       />
+                      <Facet field="visitors" label="visitors" />
                       <Facet
                         field="acres"
                         label="Acres"
