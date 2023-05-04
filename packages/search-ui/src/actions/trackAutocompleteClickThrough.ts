@@ -22,8 +22,16 @@ export default function trackAutocompleteClickThrough(
     );
   }
 
-  const { autocompletedResultsRequestId, searchTerm, autocompletedResults } =
-    this.state;
+  const {
+    autocompletedResultsRequestId,
+    searchTerm,
+    autocompletedResults,
+    current,
+    resultsPerPage,
+    totalResults,
+    filters,
+    sort
+  } = this.state;
   const resultIndex = autocompletedResults.findIndex(
     (result) => result._meta.id === documentId
   );
@@ -46,6 +54,11 @@ export default function trackAutocompleteClickThrough(
     query: searchTerm,
     position: resultIndex,
     origin: "autocomplete",
-    tags
+    tags,
+    totalResults,
+    filters,
+    sort,
+    currentPage: current,
+    resultsPerPage: resultsPerPage
   });
 }

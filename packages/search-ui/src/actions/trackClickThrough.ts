@@ -1,4 +1,4 @@
-import { SearchState } from "..";
+import { Event, SearchResult, SearchState } from "..";
 import Events from "../Events";
 
 /**
@@ -23,7 +23,10 @@ export default function trackClickThrough(
     searchTerm,
     results,
     current,
-    resultsPerPage
+    resultsPerPage,
+    totalResults,
+    filters,
+    sort
   }: SearchState = this.state;
 
   const resultIndexOnPage = results.findIndex(
@@ -47,8 +50,13 @@ export default function trackClickThrough(
     type: "ResultSelected",
     documentId,
     query: searchTerm,
-    position: resultIndexOnPage,
     origin: "results",
-    tags
+    position: resultIndexOnPage,
+    tags,
+    totalResults,
+    filters,
+    sort,
+    currentPage: current,
+    resultsPerPage: resultsPerPage
   });
 }

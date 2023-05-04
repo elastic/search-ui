@@ -35,6 +35,11 @@ export default function Root() {
         <li>
           <Link to="/search-bar-in-header">Search bar in header</Link>
         </li>
+        <li>
+          <Link to="/elasticsearch-with-analytics">
+            Elasticsearch with analytics plugin
+          </Link>
+        </li>
       </ul>
 
       <p className="font-semibold">Explore use cases:</p>

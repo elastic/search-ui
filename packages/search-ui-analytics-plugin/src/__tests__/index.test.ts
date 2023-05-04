@@ -24,7 +24,8 @@ describe("analytics plugin", () => {
     eaPlugin.subscribe({
       type: "SearchQuery",
       query: "test",
-      totalResults: 0
+      totalResults: 0,
+      filters: []
     });
     expect(window["elasticAnalytics"].trackEvent).not.toBeCalled();
     expect(internalClient.trackEvent).toBeCalled();
@@ -36,12 +37,23 @@ describe("analytics plugin", () => {
     eaPlugin.subscribe({
       type: "SearchQuery",
       query: "test",
-      totalResults: 0
+      totalResults: 0,
+      filters: []
     });
     expect(window["elasticAnalytics"].trackEvent).toBeCalledWith("search", {
-      type: "SearchQuery",
-      query: "test",
-      totalResults: 0
+      search: {
+        filters: {},
+        page: {
+          current: undefined,
+          size: undefined
+        },
+        results: {
+          items: [],
+          total_results: 0
+        },
+        sort: undefined,
+        query: "test"
+      }
     });
   });
 });

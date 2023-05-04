@@ -521,8 +521,12 @@ describe("_updateSearchResults", () => {
     expect(stateAfterCreation.pagingStart).toEqual(21);
     expect(stateAfterCreation.pagingEnd).toEqual(40);
     expect(mockPlugin.subscribe).toBeCalledWith({
+      currentPage: 1,
       query: "test",
+      resultsPerPage: 20,
+      sort: undefined,
       totalResults: 1000,
+      filters: [],
       type: "SearchQuery"
     });
   });

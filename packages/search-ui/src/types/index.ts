@@ -237,10 +237,14 @@ export interface BaseEvent {
   tags?: string[];
 }
 
-interface SearchQueryEvent extends BaseEvent {
+export interface SearchQueryEvent extends BaseEvent {
   type: "SearchQuery";
+  filters: Filter[];
   query: string;
   totalResults: number;
+  sort?: SortOption[];
+  currentPage?: number;
+  resultsPerPage?: number;
 }
 
 interface AutocompleteSuggestionSelectedEvent extends BaseEvent {
@@ -250,9 +254,8 @@ interface AutocompleteSuggestionSelectedEvent extends BaseEvent {
   position: number;
 }
 
-interface ResultSelectedEvent extends BaseEvent {
+export interface ResultSelectedEvent extends Omit<SearchQueryEvent, "type"> {
   type: "ResultSelected";
-  query: string;
   documentId: string;
   position: number;
   origin: "autocomplete" | "results";
