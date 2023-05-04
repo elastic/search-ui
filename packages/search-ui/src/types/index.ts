@@ -254,13 +254,11 @@ interface AutocompleteSuggestionSelectedEvent extends BaseEvent {
   position: number;
 }
 
-export interface ResultSelectedEvent extends BaseEvent {
+export interface ResultSelectedEvent extends Omit<SearchQueryEvent, "type"> {
   type: "ResultSelected";
-  query: string;
   documentId: string;
   position: number;
   origin: "autocomplete" | "results";
-  totalResults?: number;
 }
 
 interface FacetFilterSelectedEvent extends BaseEvent {

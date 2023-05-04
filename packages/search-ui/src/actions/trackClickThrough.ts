@@ -24,7 +24,9 @@ export default function trackClickThrough(
     results,
     current,
     resultsPerPage,
-    totalResults
+    totalResults,
+    filters,
+    sort
   }: SearchState = this.state;
 
   const resultIndexOnPage = results.findIndex(
@@ -51,6 +53,10 @@ export default function trackClickThrough(
     origin: "results",
     position: resultIndexOnPage,
     tags,
-    totalResults
+    totalResults,
+    filters,
+    sort,
+    currentPage: current,
+    resultsPerPage: resultsPerPage
   });
 }

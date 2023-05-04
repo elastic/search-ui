@@ -139,7 +139,9 @@ describe("when an API connector and handler are both provided", () => {
         origin: "autocomplete",
         position: 1,
         query: "test",
-        tags: []
+        tags: [],
+        filters: [],
+        totalResults: 0
       };
 
       events.emit(event);

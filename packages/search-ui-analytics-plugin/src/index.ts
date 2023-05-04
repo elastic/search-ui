@@ -18,24 +18,55 @@ export interface AnalyticsPluginOptions {
   client?: Pick<Tracker, "trackEvent">;
 }
 
-const transformFilterValues = (values: FilterValue[]): string[] => {
-  const transformBasicValue = (value: string | boolean | number) =>
-    value.toString();
-  const transformRangeValue = (value: FilterValueRange) =>
-    `${value.from || "*"}-${value.to || "*"}`;
+const transformSearchQueryEvent = (event: Omit<SearchQueryEvent, "type">) => {
+  const transformFilterValues = (values: FilterValue[]): string[] => {
+    const transformBasicValue = (value: string | boolean | number) =>
+      value.toString();
+    const transformRangeValue = (value: FilterValueRange) =>
+      `${value.from || "*"}-${value.to || "*"}`;
 
-  return values.reduce<string[]>((res, value) => {
-    if (Array.isArray(value)) {
-      return [...res, ...value.map(transformBasicValue)];
+    return values.reduce<string[]>((res, value) => {
+      if (Array.isArray(value)) {
+        return [...res, ...value.map(transformBasicValue)];
+      }
+
+      return [
+        ...res,
+        typeof value === "object"
+          ? transformRangeValue(value)
+          : transformBasicValue(value)
+      ];
+    }, []);
+  };
+
+  return {
+    search: {
+      query: event.query,
+      filters: event.filters.reduce(
+        (res, filter) => ({
+          ...res,
+          [filter.field]: transformFilterValues(filter.values)
+        }),
+        {}
+      ),
+      page: {
+        current: event.currentPage,
+        size: event.resultsPerPage
+      },
+      results: {
+        items: [],
+        total_results: event.totalResults
+      },
+      sort: event.sort
+        ?.filter(
+          (sort) => sort.direction === "desc" || sort.direction === "asc"
+        )
+        .map((sort) => ({
+          name: sort.field,
+          direction: sort.direction as "asc" | "desc"
+        }))
     }
-
-    return [
-      ...res,
-      typeof value === "object"
-        ? transformRangeValue(value)
-        : transformBasicValue(value)
-    ];
-  }, []);
+  };
 };
 
 type TrackerParams<
@@ -54,47 +85,13 @@ const mapEventToTrackerParams: Record<
   ResultSelected: (event: ResultSelectedEvent) => [
     "search_click",
     {
-      document: { id: event.documentId, index: event.origin },
-      search: {
-        query: event.query,
-        results: {
-          items: [],
-          total_results: event.totalResults
-        },
-        search_application: "search-ui"
-      }
+      ...transformSearchQueryEvent(event),
+      document: { id: event.documentId, index: event.origin }
     }
   ],
   SearchQuery: (event: SearchQueryEvent) => [
     "search",
-    {
-      search: {
-        query: event.query,
-        filters: event.filters.reduce(
-          (res, filter) => ({
-            ...res,
-            [filter.field]: transformFilterValues(filter.values)
-          }),
-          {}
-        ),
-        page: {
-          current: event.currentPage,
-          size: event.resultsPerPage
-        },
-        results: {
-          items: [],
-          total_results: event.totalResults
-        },
-        sort: event.sort
-          ?.filter(
-            (sort) => sort.direction === "desc" || sort.direction === "asc"
-          )
-          .map((sort) => ({
-            name: sort.field,
-            direction: sort.direction as "asc" | "desc"
-          }))
-      }
-    }
+    transformSearchQueryEvent(event)
   ]
 };
 
