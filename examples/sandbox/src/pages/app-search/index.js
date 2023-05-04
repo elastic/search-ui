@@ -24,6 +24,11 @@ import {
   SingleSelectFacet
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
+import {
+  createTracker,
+  getTracker
+} from "@elastic/behavioral-analytics-javascript-tracker";
 
 const connector = new AppSearchAPIConnector({
   searchKey:
@@ -33,12 +38,17 @@ const connector = new AppSearchAPIConnector({
     process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
     "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
 });
+createTracker({
+  collectionName: "search-ui",
+  endpoint: "http://localhost:9200"
+});
 
 const config = {
   debug: true,
   alwaysSearchOnInitialLoad: true,
   apiConnector: connector,
   hasA11yNotifications: true,
+  plugins: [AnalyticsPlugin({ client: getTracker() })],
   searchQuery: {
     result_fields: {
       visitors: { raw: {} },

@@ -15,7 +15,7 @@ import type {
 } from "@elastic/behavioral-analytics-tracker-core";
 
 export interface AnalyticsPluginOptions {
-  client?: Tracker;
+  client?: Pick<Tracker, "trackEvent">;
 }
 
 const transformFilterValues = (values: FilterValue[]): string[] => {
