@@ -6,64 +6,16 @@ import {
   FilterValueRange,
   FilterValue
 } from "@elastic/search-ui";
-
-export type EventType = "search" | "search_click" | "page_view";
-
-export type DocumentAttribute = {
-  index: string;
-  id: string;
-};
-
-export type PageEventAttribute = {
-  referrer?: string;
-  url: string;
-  title?: string;
-};
-
-type SortAttribute = {
-  name: string;
-  direction?: "asc" | "desc";
-};
-
-export type ResultItemAttribute = {
-  document: DocumentAttribute;
-  page: {
-    url: string;
-  };
-};
-
-interface SearchEventAttribute {
-  search: {
-    query: string;
-    filters?: Record<string, string | string[]>;
-    search_application?: string;
-    page?: {
-      current: number;
-      size: number;
-    };
-    sort?: SortAttribute | SortAttribute[];
-    results?: {
-      items: ResultItemAttribute[];
-      total_results: number;
-    };
-  };
-}
-
-type SearchClickEventAttribute = SearchEventAttribute &
-  (
-    | { document?: DocumentAttribute; page: PageEventAttribute }
-    | { document: DocumentAttribute; page?: PageEventAttribute }
-  );
-
-export type AnalyticsClient = {
-  trackEvent: (
-    eventType: EventType,
-    payload: SearchEventAttribute | SearchClickEventAttribute
-  ) => void;
-};
+import type {
+  Tracker,
+  TrackerEventType,
+  EventInputProperties,
+  SearchEventInputProperties,
+  SearchClickEventInputProperties
+} from "@elastic/behavioral-analytics-tracker-core";
 
 export interface AnalyticsPluginOptions {
-  client?: AnalyticsClient;
+  client?: Tracker;
 }
 
 const transformFilterValues = (values: FilterValue[]): string[] => {
@@ -86,13 +38,18 @@ const transformFilterValues = (values: FilterValue[]): string[] => {
   }, []);
 };
 
+type TrackerParams<
+  T extends TrackerEventType,
+  K extends EventInputProperties
+> = [T, K];
+
 const mapEventToTrackerParams: Record<
   ResultSelectedEvent["type"] | SearchQueryEvent["type"],
   (
     event: BaseEvent
   ) =>
-    | ["search_click", SearchClickEventAttribute]
-    | ["search", SearchEventAttribute]
+    | TrackerParams<"search_click", SearchClickEventInputProperties>
+    | TrackerParams<"search", SearchEventInputProperties>
 > = {
   ResultSelected: (event: ResultSelectedEvent) => [
     "search_click",
@@ -144,7 +101,7 @@ const mapEventToTrackerParams: Record<
 export default function AnalyticsPlugin(
   options: AnalyticsPluginOptions = { client: undefined }
 ) {
-  const client: AnalyticsClient =
+  const client: Tracker =
     options.client ||
     (typeof window !== "undefined" && window["elasticAnalytics"]);
   if (!client) {

@@ -40,5 +40,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@elastic/behavioral-analytics-tracker-core": "^2.0.5"
   }
 }
