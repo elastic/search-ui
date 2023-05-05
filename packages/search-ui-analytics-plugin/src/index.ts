@@ -110,7 +110,7 @@ export default function AnalyticsPlugin(
   return {
     subscribe: (event: Event) => {
       const [eventType, payload] =
-        mapEventToTrackerParams[event.type](event) || [];
+        mapEventToTrackerParams[event.type]?.(event) || [];
 
       if (!eventType || !payload) {
         return;
