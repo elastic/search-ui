@@ -237,7 +237,7 @@ function buildConfiguration({
       fields: hitFields,
       highlightedFields: highlightFields
     },
-    query: EngineQuery(queryFields),
+    query: EngineQuery(),
     sortOptions: [sortOption],
     facets,
     filters: filtersConfig

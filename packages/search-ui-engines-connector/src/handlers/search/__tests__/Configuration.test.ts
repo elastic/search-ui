@@ -262,7 +262,7 @@ describe("Search - Configuration", () => {
         })
       );
 
-      expect(EngineQuery).toHaveBeenCalledWith(["title^2", "description^1"]);
+      expect(EngineQuery).toHaveBeenCalled();
 
       expect(RefinementSelectFacet).toHaveBeenCalledTimes(2);
       expect(RefinementSelectFacet).toHaveBeenCalledWith({
@@ -320,7 +320,7 @@ describe("Search - Configuration", () => {
         })
       );
 
-      expect(EngineQuery).toHaveBeenCalledWith(["title^2", "description^1"]);
+      expect(EngineQuery).toHaveBeenCalled();
 
       expect(RefinementSelectFacet).toHaveBeenCalledTimes(2);
       expect(RefinementSelectFacet).toHaveBeenCalledWith({
