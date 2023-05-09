@@ -524,7 +524,7 @@ describe("_updateSearchResults", () => {
       currentPage: 1,
       query: "test",
       resultsPerPage: 20,
-      sort: undefined,
+      sort: [],
       totalResults: 1000,
       filters: [],
       type: "SearchQuery"

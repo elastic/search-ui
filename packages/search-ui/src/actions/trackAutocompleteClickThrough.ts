@@ -30,7 +30,8 @@ export default function trackAutocompleteClickThrough(
     resultsPerPage,
     totalResults,
     filters,
-    sort
+    sort,
+    sortList
   } = this.state;
   const resultIndex = autocompletedResults.findIndex(
     (result) => result._meta.id === documentId
@@ -57,7 +58,7 @@ export default function trackAutocompleteClickThrough(
     tags,
     totalResults,
     filters,
-    sort,
+    sort: sort || sortList,
     currentPage: current,
     resultsPerPage: resultsPerPage
   });

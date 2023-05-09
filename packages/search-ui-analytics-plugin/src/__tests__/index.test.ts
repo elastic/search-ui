@@ -51,7 +51,7 @@ describe("analytics plugin", () => {
           items: [],
           total_results: 0
         },
-        sort: undefined,
+        sort: [],
         query: "test"
       }
     });

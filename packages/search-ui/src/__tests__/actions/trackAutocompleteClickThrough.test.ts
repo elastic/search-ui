@@ -62,7 +62,7 @@ describe("#trackAutocompleteClickThrough", () => {
       position: 0,
       query: "search terms",
       resultsPerPage: 20,
-      sort: undefined,
+      sort: [],
       tags: ["test"],
       totalResults: 0,
       type: "ResultSelected"

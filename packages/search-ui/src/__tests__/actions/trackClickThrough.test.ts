@@ -55,7 +55,7 @@ describe("#trackClickThrough", () => {
       position: 0,
       query: "search terms",
       resultsPerPage: 20,
-      sort: undefined,
+      sort: [],
       tags: ["test"],
       type: "ResultSelected",
       totalResults: 1000
