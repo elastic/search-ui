@@ -20,6 +20,7 @@
     "@elastic/react-search-ui": "1.20.0",
     "@elastic/react-search-ui-views": "1.20.0",
     "@elastic/search-ui": "1.20.0",
+    "@elastic/search-ui-analytics-plugin": "1.20.0",
     "@elastic/search-ui-app-search-connector": "1.20.0",
     "@elastic/search-ui-elasticsearch-connector": "1.20.0",
     "@elastic/search-ui-engines-connector": "1.20.0",
