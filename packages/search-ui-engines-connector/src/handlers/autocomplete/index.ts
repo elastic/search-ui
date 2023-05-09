@@ -12,7 +12,7 @@ import Searchkit, {
 } from "@searchkit/sdk";
 import { Transporter } from "../../types";
 import { fieldResponseMapper } from "../common";
-import { getQueryFields, getResultFields } from "../search/Configuration";
+import { getResultFields } from "../search/Configuration";
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
@@ -31,7 +31,6 @@ export default async function handleRequest(
     const { hitFields, highlightFields } = getResultFields(
       queryConfig.results.result_fields
     );
-    const queryFields = getQueryFields(queryConfig.results.search_fields);
 
     suggestionConfigurations.push(
       new HitsSuggestor({
@@ -40,7 +39,7 @@ export default async function handleRequest(
           fields: hitFields,
           highlightedFields: highlightFields
         },
-        query: new PrefixQuery({ fields: queryFields }),
+        query: new PrefixQuery({ fields: ["*"] }),
         size: queryConfig.results.resultsPerPage || 5
       })
     );
@@ -55,7 +54,6 @@ export default async function handleRequest(
         const { hitFields, highlightFields } = getResultFields(
           configuration.result_fields
         );
-        const queryFields = getQueryFields(configuration.search_fields);
 
         return new HitsSuggestor({
           identifier: `suggestions-hits-${type}`,
@@ -64,7 +62,7 @@ export default async function handleRequest(
             fields: hitFields,
             highlightedFields: highlightFields
           },
-          query: new PrefixQuery({ fields: queryFields }),
+          query: new PrefixQuery({ fields: ["*"] }),
           size: suggestionsSize
         });
       } else if (

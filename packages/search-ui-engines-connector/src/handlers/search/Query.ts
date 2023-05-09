@@ -1,15 +1,14 @@
 import { CustomQuery } from "@searchkit/sdk";
 
-export const EngineQuery = (fields) =>
+export const EngineQuery = () =>
   new CustomQuery({
     queryFn: (query) => {
       return {
         bool: {
           must: [
             {
-              combined_fields: {
-                query: query,
-                fields: fields
+              query_string: {
+                query: query
               }
             }
           ]
