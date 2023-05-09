@@ -38,16 +38,6 @@ export function getResultFields(
   return { hitFields, highlightFields };
 }
 
-export function getQueryFields(
-  searchFields: Record<string, SearchFieldConfiguration> = {}
-): string[] {
-  return Object.keys(searchFields).map((fieldKey) => {
-    const fieldConfiguration = searchFields[fieldKey];
-    const weight = `^${fieldConfiguration.weight || 1}`;
-    return fieldKey + weight;
-  });
-}
-
 export function isValidDateString(dateString: unknown): boolean {
   return typeof dateString === "string" && !isNaN(Date.parse(dateString));
 }
@@ -121,8 +111,6 @@ function buildConfiguration({
   const { hitFields, highlightFields } = getResultFields(
     queryConfig.result_fields
   );
-
-  const queryFields = getQueryFields(queryConfig.search_fields);
 
   const filtersConfig: BaseFilter[] = Object.values(
     (state.filters || [])
