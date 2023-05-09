@@ -453,7 +453,6 @@ class SearchDriver {
             type: "SearchQuery",
             filters: this.state.filters,
             query: this.state.searchTerm,
-            sort: this.state.sortList,
             currentPage: requestState.current,
             resultsPerPage: requestState.resultsPerPage,
             totalResults: totalResults

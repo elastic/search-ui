@@ -64,7 +64,7 @@ const transformSearchQueryEvent = (event: Omit<SearchQueryEvent, "type">) => {
         .map((sort) => ({
           name: sort.field,
           direction: sort.direction as "asc" | "desc"
-        }))?.[0]
+        }))
     }
   };
 };

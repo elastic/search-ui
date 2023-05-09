@@ -25,9 +25,7 @@ export default function trackClickThrough(
     current,
     resultsPerPage,
     totalResults,
-    filters,
-    sort,
-    sortList
+    filters
   }: SearchState = this.state;
 
   const resultIndexOnPage = results.findIndex(
@@ -56,7 +54,6 @@ export default function trackClickThrough(
     tags,
     totalResults,
     filters,
-    sort: sort || sortList,
     currentPage: current,
     resultsPerPage: resultsPerPage
   });
