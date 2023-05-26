@@ -23,7 +23,9 @@ function SearchResponse(results: SearchkitResponse): ResponseState {
   const response: ResponseState = {
     resultSearchTerm: results.summary.query,
     totalPages: results.hits.page.totalPages,
-    pagingStart: results.hits.page.pageNumber * results.hits.page.size + 1,
+    pagingStart:
+      results.summary.total &&
+      results.hits.page.pageNumber * results.hits.page.size + 1,
     pagingEnd:
       pageEnd > results.summary.total ? results.summary.total : pageEnd,
     wasSearched: false,
