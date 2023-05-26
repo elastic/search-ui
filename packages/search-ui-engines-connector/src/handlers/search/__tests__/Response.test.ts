@@ -155,4 +155,34 @@ describe("Search - Response", () => {
 
     expect(response.facets).toEqual({});
   });
+
+  describe("paginStart", () => {
+    it("should set 0 when total results are 0", () => {
+      const response: ResponseState = SearchResponse({
+        ...searchkitResponse,
+        summary: {
+          ...searchkitResponse.summary,
+          total: 0
+        }
+      } as SearchkitResponse);
+
+      expect(response.pagingStart).toEqual(0);
+    });
+
+    it("should calculate values when total results gt 0", () => {
+      const response: ResponseState = SearchResponse({
+        ...searchkitResponse,
+        hits: {
+          ...searchkitResponse.hits,
+          page: {
+            ...searchkitResponse.hits.page,
+            pageNumber: 4,
+            size: 10
+          }
+        }
+      });
+
+      expect(response.pagingStart).toEqual(41);
+    });
+  });
 });
