@@ -548,6 +548,13 @@ class SearchDriver {
   }
 
   /**
+   * @param bool trackUrlState
+   */
+  setTrackUrlState(trackUrlState: boolean): void {
+    this.trackUrlState = trackUrlState;
+  }
+
+  /**
    * Any time state is updated in this Driver, the provided callback
    * will be executed with the updated state.
    *
