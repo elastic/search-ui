@@ -1,3 +1,4 @@
+export { default as BeaconFacet } from "./BeaconFacet";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Facet } from "./Facet";
 export { default as Paging } from "./Paging";

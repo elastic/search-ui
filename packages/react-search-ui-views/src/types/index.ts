@@ -95,6 +95,53 @@ export type FacetContainerProps = BaseContainerProps & {
   label: string;
 } & FacetContainerContext;
 
+export type FacetDefaultOptionProps =
+  | string
+  | {
+      label: string;
+      value: string;
+    };
+
+export type FacetDefaultOptionsProps = {
+  sectionName?: string;
+  options: FacetDefaultOptionProps[];
+};
+
+export type BeaconFacetViewProps = FacetViewProps & {
+  showDefaultOptionsOnly?: boolean;
+  defaultOptions?: FacetDefaultOptionsProps[];
+  searchTerm: string;
+  addFilter: (
+    filterType: FilterType,
+    field: string,
+    fieldValue: FieldValue
+  ) => void;
+  removeFilter: (
+    filterType: FilterType,
+    field: string,
+    fieldValue: FieldValue
+  ) => void;
+  setFilter: (
+    filterType: FilterType,
+    field: string,
+    fieldValue: FieldValue
+  ) => void;
+};
+
+export type BeaconFacetContainerProps = Omit<FacetContainerProps, "view"> & {
+  view?: React.ComponentType<BeaconFacetViewProps>;
+  showDefaultOptionsOnly?: boolean;
+  defaultOptions?: FacetDefaultOptionsProps[];
+  otherOptionsSectionName?: string;
+};
+
+// BeaconFacetValuesMapProps is a nested hashmap of filterType -> field (string) -> stringified FacetValue (string) -> FacetValue.
+// This is used to store the facet values in the BeaconFacetContainer.
+export type BeaconFacetValuesMapProps = Record<
+  FilterType,
+  Record<string, Record<string, FacetValue>>
+>;
+
 // From SO https://stackoverflow.com/a/59071783
 // TS Utility to rename keys in a type
 // Usage type x = Rename<{ renameMe: string }, { "renameMe": "newName" }>
