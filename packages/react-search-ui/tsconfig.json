@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "target": "es2015",
+    "target": "es2020",
     "declaration": true,
     "outDir": "lib/esm",
     "allowJs": true,
