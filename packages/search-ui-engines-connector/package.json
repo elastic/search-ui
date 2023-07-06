@@ -42,7 +42,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.20.2",
+    "@elastic/search-ui": "file:../search-ui",
     "@searchkit/sdk": "^3.0.0"
   },
   "publishConfig": {

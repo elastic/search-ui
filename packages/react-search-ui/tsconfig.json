@@ -2,6 +2,7 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es2015",
+    "lib": ["es2020", "dom"],
     "declaration": true,
     "outDir": "lib/esm",
     "allowJs": true,
@@ -14,6 +15,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "src/**/*.test.@(ts|tsx)", "**/__test*__/"],
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js"]
 }

@@ -16,7 +16,7 @@
     "build": "lerna run build --no-private",
     "prettier-check": "prettier --check --ignore-unknown '!**/build/**' --ignore-path .gitignore .",
     "prettier-format": "prettier --write --ignore-unknown '!**/build/**' --ignore-path .gitignore .",
-    "lint": "eslint --ignore-path .gitignore . --ignore-pattern '**/node_modules/**' --ignore-pattern '**/build/**'",
+    "lint": "eslint --ignore-path .gitignore . --ignore-pattern '**/node_modules/**' --ignore-pattern '**/build/**' --ignore-pattern '**/dist/**'",
     "lint-fix": "yarn lint --fix",
     "validate": "yarn prettier-check && yarn lint && yarn test && yarn build",
     "validate-fix": "yarn prettier-format && yarn lint-fix && yarn test && yarn build",

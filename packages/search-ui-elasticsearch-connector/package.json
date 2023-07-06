@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.2.1",
-    "@elastic/search-ui": "1.20.2",
+    "@elastic/search-ui": "file:../search-ui",
     "@searchkit/sdk": "^3.0.0"
   }
 }

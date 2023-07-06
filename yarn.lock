@@ -1701,6 +1701,22 @@
     uuid "^8.3.0"
     vfile "^4.2.0"
 
+"@elastic/react-search-ui-views@file:packages/react-search-ui-views":
+  version "1.20.2"
+  dependencies:
+    "@elastic/search-ui" "1.20.2"
+    downshift "^3.2.10"
+    rc-pagination "^1.20.1"
+    react-select "^5.0.0"
+
+"@elastic/search-ui@file:packages/search-ui":
+  version "1.20.2"
+  dependencies:
+    date-fns "^1.30.1"
+    deep-equal "^1.0.1"
+    history "^4.9.0"
+    qs "^6.7.0"
+
 "@elastic/transport@^8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@elastic/transport/-/transport-8.2.0.tgz#f292cb79c918a36268dd853431e41f13544814ad"

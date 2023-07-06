@@ -39,6 +39,6 @@
   },
   "dependencies": {
     "@elastic/app-search-javascript": "^8.1.2",
-    "@elastic/search-ui": "1.20.2"
+    "@elastic/search-ui": "file:../search-ui"
   }
 }

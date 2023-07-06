@@ -1,4 +1,12 @@
-@import "../../../../../../../node_modules/rc-pagination/dist/rc-pagination.min";
+/* Use the first import path instead when you are building this package from lerna's root workspace.
+  The import path for the rc-pagination stylesheet could different depending on whether you are building
+  from Lerna's root workspace or from the package directory.
+
+  See this filed issue to track this discussion:
+  https://github.com/elastic/search-ui/issues/978
+*/
+// @import "../../../../../../../node_modules/rc-pagination/dist/rc-pagination.min";
+@import "../../../../../node_modules/rc-pagination/dist/rc-pagination.min";
 @include block("paging") {
   > li {
     border: none;

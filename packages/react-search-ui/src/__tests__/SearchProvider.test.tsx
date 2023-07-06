@@ -20,7 +20,8 @@ function getMocks() {
   const mockedDriver = Object.assign(driver, {
     tearDown: jest.fn(),
     setSearchQuery: jest.fn(),
-    setAutocompleteQuery: jest.fn()
+    setAutocompleteQuery: jest.fn(),
+    setTrackUrlState: jest.fn()
   });
 
   return {
@@ -72,6 +73,7 @@ describe("SearchProvider", () => {
       updatedSearchQueryConfig
     );
     expect(driver.setAutocompleteQuery).not.toHaveBeenCalled();
+    expect(driver.setTrackUrlState).not.toHaveBeenCalled();
   });
 
   it("will update searchDriver when autocompleteQuery config changes", () => {
@@ -103,6 +105,38 @@ describe("SearchProvider", () => {
       updatedAutocompleteQueryConfig
     );
     expect(driver.setSearchQuery).not.toHaveBeenCalled();
+    expect(driver.setTrackUrlState).not.toHaveBeenCalled();
+  });
+
+  it("will update searchDriver when trackUrlState config changes", () => {
+    const trackUrlStateConfig = true;
+    const updatedTrackUrlStateConfig = false;
+
+    const { driver, apiConnector } = getMocks();
+
+    const wrapper = mount(
+      <SearchProvider
+        driver={driver}
+        config={{
+          apiConnector: apiConnector,
+          trackUrlState: trackUrlStateConfig
+        }}
+      >
+        <div>test</div>
+      </SearchProvider>
+    );
+    expect(driver.setTrackUrlState).not.toHaveBeenCalled();
+
+    wrapper.setProps({
+      driver,
+      config: { trackUrlState: updatedTrackUrlStateConfig }
+    });
+
+    expect(driver.setTrackUrlState).toHaveBeenCalledWith(
+      updatedTrackUrlStateConfig
+    );
+    expect(driver.setSearchQuery).not.toHaveBeenCalled();
+    expect(driver.setAutocompleteQuery).not.toHaveBeenCalled();
   });
 
   it("exposes state and actions to components", () => {

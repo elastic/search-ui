@@ -34,7 +34,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "devDependencies": {
-    "@elastic/search-ui": "1.20.2",
+    "@elastic/search-ui": "file:../search-ui",
     "typescript": "^4.5.4"
   },
   "publishConfig": {

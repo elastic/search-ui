@@ -4,3 +4,4 @@ export { default as WithSearch } from "./WithSearchRenderProps";
 export { default as SearchProvider } from "./SearchProvider";
 
 export * from "./containers";
+export * from "./helpers";

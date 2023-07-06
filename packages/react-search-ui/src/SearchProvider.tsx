@@ -61,6 +61,18 @@ const SearchProvider = ({
     }
   }, [config.autocompleteQuery]);
 
+  // Added by Wentao Xu from SignalFire to enable custom behavior in the fork.
+  // This allows us to dynamically configure URL tracking based on the search state
+  // URL state during the same page session.
+  //
+  // See the filed issue for more details:
+  // https://github.com/elastic/search-ui/issues/606
+  useEffect(() => {
+    if (driverInstance) {
+      driverInstance.setTrackUrlState(config.trackUrlState);
+    }
+  }, [config.trackUrlState]);
+
   // Since driver is initialized in useEffect above, we are waiting
   // to render until the driver is available.
   if (!driverInstance) return null;

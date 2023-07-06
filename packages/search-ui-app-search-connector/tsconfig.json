@@ -13,6 +13,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "src/**/*.test.@(ts|tsx)", "**/__test*__/"],
   "include": ["src/**/*.ts", "src/**/*.js"]
 }

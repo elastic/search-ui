@@ -1,6 +1,7 @@
 import type {
   FacetValue,
   FieldValue,
+  FilterValue,
   FilterType,
   SearchContextState
 } from "@elastic/search-ui";
@@ -61,6 +62,9 @@ export type {
   SortingViewProps
 } from "../Sorting";
 
+// The type of the `value` parameter for `onRemove`, `onChange`, and `onSelect` should be FilterValue instead of FieldValue.
+// But we will keep it as-is for now until the filed issue gets resolved
+// https://github.com/elastic/search-ui/issues/979
 export type FacetViewProps = {
   className?: string;
   label: string;
@@ -94,6 +98,57 @@ export type FacetContainerProps = BaseContainerProps & {
   field: string;
   label: string;
 } & FacetContainerContext;
+
+export type FacetDefaultOptionProps =
+  | string
+  | {
+      label: string;
+      value: string;
+    };
+
+export type FacetDefaultOptionsProps = {
+  sectionName?: string;
+  options: FacetDefaultOptionProps[];
+};
+
+export type BeaconFacetViewProps = FacetViewProps & {
+  field: string;
+  filterType: FilterType;
+  showDefaultOptionsOnly?: boolean;
+  defaultOptions?: FacetDefaultOptionsProps[];
+  searchTerm: string;
+  facetValuesMap: BeaconFacetValuesMapProps;
+  otherOptionsSectionName?: string | undefined;
+  addFilter: (
+    field: string,
+    value: FilterValue,
+    filterType: FilterType
+  ) => void;
+  removeFilter: (
+    field: string,
+    value: FilterValue,
+    filterType: FilterType
+  ) => void;
+  setFilter: (
+    field: string,
+    value: FilterValue,
+    filterType: FilterType
+  ) => void;
+};
+
+export type BeaconFacetContainerProps = Omit<FacetContainerProps, "view"> & {
+  view?: React.ComponentType<BeaconFacetViewProps>;
+  showDefaultOptionsOnly?: boolean;
+  defaultOptions?: FacetDefaultOptionsProps[];
+  otherOptionsSectionName?: string;
+};
+
+// BeaconFacetValuesMapProps is a nested hashmap of filterType -> field (string) -> stringified FacetValue (string) -> FacetValue.
+// This is used to store the facet values in the BeaconFacetContainer.
+export type BeaconFacetValuesMapProps = Record<
+  FilterType,
+  Record<string, Record<string, FacetValue>>
+>;
 
 // From SO https://stackoverflow.com/a/59071783
 // TS Utility to rename keys in a type
