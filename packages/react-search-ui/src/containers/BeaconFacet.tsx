@@ -164,7 +164,7 @@ export class BeaconFacetContainer extends Component<
     if (
       !facetValues.length &&
       !selectedValues.length &&
-      !defaultOptions.length
+      !defaultOptions?.length
     ) {
       return null;
     }
