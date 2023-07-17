@@ -44,5 +44,11 @@
     "deep-equal": "^1.0.1",
     "history": "^4.9.0",
     "qs": "^6.7.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
   }
 }
