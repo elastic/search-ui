@@ -247,7 +247,7 @@ export default class URLManager {
     return this.history.listen(handler);
   }
 
-  tearDown(): void {
-    this.unlisten();
+  tearDown = () => {
+    this.unlisten?.();
   }
 }
