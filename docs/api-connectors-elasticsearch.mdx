@@ -345,7 +345,7 @@ const connector = new ElasticsearchAPIConnector(
     if (!requestState.searchTerm) return requestBody;
 
     // transforming the query before sending to Elasticsearch using the requestState and queryConfig
-    const searchFields = queryConfig.searchQuery.search_fields
+    const searchFields = queryConfig.search_fields
 
     requestBody.query = {
       multi_match: {
@@ -353,7 +353,7 @@ const connector = new ElasticsearchAPIConnector(
         fields: Object.keys(searchFields).map((fieldName) => {
           const weight = searchFields[fieldName].weight || 1;
           return `${fieldName}^${weight}`;
-        }
+        })
       }
     };
 
