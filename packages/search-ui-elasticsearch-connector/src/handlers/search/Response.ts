@@ -20,22 +20,34 @@ function SearchResponse(results: SearchkitResponse): ResponseState {
 
   const pageEnd = (results.hits.page.pageNumber + 1) * results.hits.page.size;
 
-  const response: ResponseState = {
-    resultSearchTerm: results.summary.query,
-    totalPages: results.hits.page.totalPages,
-    pagingStart:
-      results.summary.total &&
-      results.hits.page.pageNumber * results.hits.page.size + 1,
-    pagingEnd:
-      pageEnd > results.summary.total ? results.summary.total : pageEnd,
-    wasSearched: false,
-    totalResults: results.summary.total,
-    facets,
-    results: results.hits.items.map(fieldResponseMapper),
-    requestId: null,
-    rawResponse: null
-  };
-  return response;
+  if (results.summary) {
+    const response: ResponseState = {
+      resultSearchTerm: results.summary.query,
+      totalPages: results.hits.page.totalPages,
+      pagingStart:
+        results.summary.total &&
+        results.hits.page.pageNumber * results.hits.page.size + 1,
+      pagingEnd:
+        pageEnd > results.summary.total ? results.summary.total : pageEnd,
+      wasSearched: false,
+      totalResults: results.summary.total,
+      facets,
+      results: results.hits.items.map(fieldResponseMapper),
+      requestId: null,
+      rawResponse: null
+    };
+    return response;
+  } else {
+    const response: ResponseState = {
+      wasSearched: false,
+      totalResults: results.hits.total,
+      facets,
+      results: results.hits.items.map(fieldResponseMapper),
+      requestId: null,
+      rawResponse: null
+    };
+    return response;
+  }
 }
 
 export default SearchResponse;
