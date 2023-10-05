@@ -14,8 +14,8 @@ export function fieldResponseMapper(
       return {
         ...acc,
         [key]: {
-          ...(fields[key] ? { raw: fields[key] } : {}),
-          ...(highlights[key] ? { snippet: highlights[key] } : {})
+          ...(key in fields ? { raw: fields[key] } : {}),
+          ...(key in highlights ? { snippet: highlights[key] } : {})
         }
       };
     },
