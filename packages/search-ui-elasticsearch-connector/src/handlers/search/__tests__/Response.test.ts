@@ -24,7 +24,13 @@ describe("Search - Response", () => {
           id: "test",
           fields: {
             title: "hello",
-            description: "test"
+            description: "test",
+            boolean_f: false,
+            boolean_t: true,
+            number_f: 0,
+            number_t: 1,
+            string_f: "",
+            string_t: "badger"
           },
           highlight: {
             title: "hello",
@@ -85,6 +91,12 @@ describe("Search - Response", () => {
                 "_id": "test",
               },
             },
+            "boolean_f": Object {
+              "raw": false,
+            },
+            "boolean_t": Object {
+              "raw": true,
+            },
             "description": Object {
               "raw": "test",
             },
@@ -93,6 +105,18 @@ describe("Search - Response", () => {
             },
             "id": Object {
               "raw": "test",
+            },
+            "number_f": Object {
+              "raw": 0,
+            },
+            "number_t": Object {
+              "raw": 1,
+            },
+            "string_f": Object {
+              "raw": "",
+            },
+            "string_t": Object {
+              "raw": "badger",
             },
             "title": Object {
               "raw": "hello",
