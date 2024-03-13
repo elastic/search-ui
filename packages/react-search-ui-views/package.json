@@ -64,7 +64,7 @@
   "dependencies": {
     "@elastic/search-ui": "1.20.2",
     "downshift": "^3.2.10",
-    "rc-pagination": "^1.20.1",
+    "rc-pagination": "^4.0.4",
     "react-select": "^5.0.0"
   }
 }
