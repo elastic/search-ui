@@ -69,8 +69,8 @@ const CustomResultView = ({
   result,
   onClickLink
 }: {
-  result: SearchResult;
-  onClickLink: () => void;
+  result: SearchResult,
+  onClickLink: () => void
 }) => (
   <li className="sui-result">
     <div className="sui-result__header">
@@ -95,7 +95,7 @@ const CustomResultView = ({
   </li>
 );
 
-<Results resultView={CustomResultView}/>
+<Results resultView={CustomResultView} />;
 ```
 
 The following properties are available in the view:
