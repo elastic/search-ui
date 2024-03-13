@@ -30,11 +30,7 @@ export default function Router() {
         <Route exact path="/engines" component={Engines} />
 
         {/* Examples */}
-        <Route
-          exact
-          path="/search-as-you-type"
-          component={SearchAsYouType}
-        />
+        <Route exact path="/search-as-you-type" component={SearchAsYouType} />
         <Route
           exact
           path="/customizing-styles-and-html"
