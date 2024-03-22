@@ -31,7 +31,8 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 createTracker({
   collectionName: "search-ui",
-  endpoint: "http://localhost:9200"
+  endpoint: "http://localhost:9200",
+  apiKey: "YOUR_API_KEY"
 });
 const connector = new ElasticSearchAPIConnector({
   host:
