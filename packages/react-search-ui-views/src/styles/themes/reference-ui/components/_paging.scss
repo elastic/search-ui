@@ -2,14 +2,27 @@
 @include block("paging") {
   > li {
     border: none;
-    background: transparent;
-    outline: none;
+
+    .rc-pagination-item-link {
+      border: none;
+      font-size: 16px;
+      color: $facetLinkColor;
+
+      &:hover {
+        color: $facetLinkColor;
+        background: $pagingHoverBackground;
+      }
+    }
   }
 
   .rc-pagination-disabled {
-    a {
+    .rc-pagination-item-link {
       color: #ccc;
-      opacity: 0.5;
+      opacity: 0.8;
+
+      &:hover {
+        color: #ccc;
+      }
     }
   }
 
@@ -17,14 +30,6 @@
     a {
       color: $linkColor;
       text-decoration: none;
-    }
-
-    &:hover {
-      background: $pagingHoverBackground;
-      a {
-        color: $linkColor;
-        text-decoration: none;
-      }
     }
   }
 
@@ -43,42 +48,16 @@
         cursor: not-allowed;
       }
     }
-  }
 
-  .rc-pagination-next {
-    &:hover {
-      background: $pagingHoverBackground;
-      a {
-        color: $linkColor;
+    .rc-pagination-jump-prev,
+    .rc-pagination-jump-next {
+      .rc-pagination-item-link {
+        color: $facetLinkColor;
+
+        &:hover {
+          color: $facetLinkColor;
+        }
       }
     }
-  }
-
-  .rc-pagination-jump-next:hover {
-    background: $pagingHoverBackground;
-    a {
-      color: $linkColor;
-    }
-  }
-
-  .rc-pagination-jump-next:hover:after {
-    color: $linkColor;
-    content: "\BB";
-    font-size: 16px;
-    line-height: $lineHeight;
-  }
-
-  .rc-pagination-jump-prev:hover {
-    background: $pagingHoverBackground;
-    a {
-      color: $linkColor;
-    }
-  }
-
-  .rc-pagination-jump-prev:hover:after {
-    color: $linkColor;
-    content: "\AB";
-    font-size: 16px;
-    line-height: $lineHeight;
   }
 }
