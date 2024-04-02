@@ -2,9 +2,11 @@
 @include block("paging") {
   > li {
     border: none;
+    background: transparent;
 
     .rc-pagination-item-link {
       border: none;
+      background: transparent;
       font-size: 16px;
       color: $facetLinkColor;
 
