@@ -1,13 +1,21 @@
 @import "../../../../../../../node_modules/rc-pagination/assets/index";
 @include block("paging") {
-  > li {
+  font-size: 12px;
+
+  .rc-pagination-prev,
+  .rc-pagination-next,
+  .rc-pagination-item {
     border: none;
     background: transparent;
 
     .rc-pagination-item-link {
+      font-size: 18px;
+    }
+
+    > a,
+    > button {
       border: none;
       background: transparent;
-      font-size: 16px;
       color: $facetLinkColor;
 
       &:hover {
@@ -48,17 +56,6 @@
       a {
         color: $facetLinkColor;
         cursor: not-allowed;
-      }
-    }
-
-    .rc-pagination-jump-prev,
-    .rc-pagination-jump-next {
-      .rc-pagination-item-link {
-        color: $facetLinkColor;
-
-        &:hover {
-          color: $facetLinkColor;
-        }
       }
     }
   }
