@@ -1,15 +1,38 @@
 @import "../../../../../../../node_modules/rc-pagination/assets/index";
 @include block("paging") {
-  > li {
+  font-size: 12px;
+
+  .rc-pagination-prev,
+  .rc-pagination-next,
+  .rc-pagination-item {
     border: none;
     background: transparent;
-    outline: none;
+
+    .rc-pagination-item-link {
+      font-size: 18px;
+    }
+
+    > a,
+    > button {
+      border: none;
+      background: transparent;
+      color: $facetLinkColor;
+
+      &:hover {
+        color: $facetLinkColor;
+        background: $pagingHoverBackground;
+      }
+    }
   }
 
   .rc-pagination-disabled {
-    a {
+    .rc-pagination-item-link {
       color: #ccc;
-      opacity: 0.5;
+      opacity: 0.8;
+
+      &:hover {
+        color: #ccc;
+      }
     }
   }
 
@@ -17,14 +40,6 @@
     a {
       color: $linkColor;
       text-decoration: none;
-    }
-
-    &:hover {
-      background: $pagingHoverBackground;
-      a {
-        color: $linkColor;
-        text-decoration: none;
-      }
     }
   }
 
@@ -43,42 +58,5 @@
         cursor: not-allowed;
       }
     }
-  }
-
-  .rc-pagination-next {
-    &:hover {
-      background: $pagingHoverBackground;
-      a {
-        color: $linkColor;
-      }
-    }
-  }
-
-  .rc-pagination-jump-next:hover {
-    background: $pagingHoverBackground;
-    a {
-      color: $linkColor;
-    }
-  }
-
-  .rc-pagination-jump-next:hover:after {
-    color: $linkColor;
-    content: "\BB";
-    font-size: 16px;
-    line-height: $lineHeight;
-  }
-
-  .rc-pagination-jump-prev:hover {
-    background: $pagingHoverBackground;
-    a {
-      color: $linkColor;
-    }
-  }
-
-  .rc-pagination-jump-prev:hover:after {
-    color: $linkColor;
-    content: "\AB";
-    font-size: 16px;
-    line-height: $lineHeight;
   }
 }
