@@ -91,6 +91,7 @@
         {
           "label": "Connectors API",
           "items": [
+            { "id": "tutorials-connectors" },
             { "id": "api-connectors-app-search" },
             { "id": "api-connectors-site-search" },
             { "id": "api-connectors-workplace-search" },
