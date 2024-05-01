@@ -6,112 +6,101 @@
   "description": "Docs for Elastic's Search UI project",
   "items": [
     {
-      "label": "Overview",
-      "items": [
-        {
-          "id": "overview",
-          "label": "What is Search UI?"
-        }
-      ]
+      "label": "What is Search UI?",
+      "pageId": "overview"
     },
     {
       "label": "Ecommerce",
+      "pageId": "solutions-ecommerce",
       "items": [
-        { "id": "solutions-ecommerce" },
-        { "id": "solutions-ecommerce-autocomplete" },
-        { "id": "solutions-ecommerce-carousel" },
-        { "id": "solutions-ecommerce-category-page" },
-        { "id": "solutions-ecommerce-product-detail-page" },
-        { "id": "solutions-ecommerce-search-page" }
+        { "pageId": "solutions-ecommerce-autocomplete" },
+        { "pageId": "solutions-ecommerce-carousel" },
+        { "pageId": "solutions-ecommerce-category-page" },
+        { "pageId": "solutions-ecommerce-product-detail-page" },
+        { "pageId": "solutions-ecommerce-search-page" }
       ]
     },
     {
       "label": "Tutorials",
+      "pageId": "tutorials-connectors",
       "items": [
-        { "id": "tutorials-connectors" },
-        { "id": "tutorials-app-search" },
-        { "id": "tutorials-elasticsearch" },
-        { "id": "tutorials-workplace-search" }
+        { "pageId": "tutorials-app-search" },
+        { "pageId": "tutorials-elasticsearch" },
+        { "pageId": "tutorials-workplace-search" }
       ]
     },
     {
       "label": "Basic usage",
+      "pageId": "guides-customizing-styles-and-html",
       "items": [
-        { "id": "guides-customizing-styles-and-html" },
-        { "id": "guides-using-search-as-you-type" },
-        { "id": "guides-adding-search-bar-to-header" },
-        { "id": "guides-debugging" }
+        { "pageId": "guides-using-search-as-you-type" },
+        { "pageId": "guides-adding-search-bar-to-header" },
+        { "pageId": "guides-debugging" }
       ]
     },
     {
       "label": "Advanced usage",
+      "pageId": "guides-using-with-vue-js",
       "items": [
-        { "id": "guides-using-with-vue-js" },
-        { "id": "guides-conditional-facets" },
-        { "id": "guides-changing-component-behavior" },
-        { "id": "guides-analyzing-performance" },
-        { "id": "guides-creating-your-own-components" },
-        { "id": "guides-building-a-custom-connector" },
-        { "id": "guides-nextjs-integration" }
+        { "pageId": "guides-conditional-facets" },
+        { "pageId": "guides-changing-component-behavior" },
+        { "pageId": "guides-analyzing-performance" },
+        { "pageId": "guides-creating-your-own-components" },
+        { "pageId": "guides-building-a-custom-connector" },
+        { "pageId": "guides-nextjs-integration" }
       ]
     },
     {
       "label": "API reference",
+      "pageId": "api-architecture",
       "items": [
-        { "id": "api-architecture" },
         {
           "label": "Core API",
+          "pageId": "api-core-configuration",
           "items": [
-            { "id": "api-core-configuration" },
-            { "id": "api-core-state" },
-            { "id": "api-core-actions" }
+            { "pageId": "api-core-state" },
+            { "pageId": "api-core-actions" }
           ]
         },
         {
           "label": "React API",
+          "pageId": "api-react-search-provider",
           "items": [
-            { "id": "api-react-search-provider" },
-            { "id": "api-react-with-search" }
+            { "pageId": "api-react-with-search" }
           ]
         },
         {
           "label": "React components",
+          "pageId": "api-react-components-search-box",
           "items": [
-            { "id": "api-react-components-search-box" },
-            { "id": "api-react-components-results" },
-            { "id": "api-react-components-result" },
-            { "id": "api-react-components-results-per-page" },
-            { "id": "api-react-components-facet" },
-            { "id": "api-react-components-sorting" },
-            { "id": "api-react-components-paging" },
-            { "id": "api-react-components-paging-info" },
-            { "id": "api-react-components-error-boundary" }
+            { "pageId": "api-react-components-results" },
+            { "pageId": "api-react-components-result" },
+            { "pageId": "api-react-components-results-per-page" },
+            { "pageId": "api-react-components-facet" },
+            { "pageId": "api-react-components-sorting" },
+            { "pageId": "api-react-components-paging" },
+            { "pageId": "api-react-components-paging-info" },
+            { "pageId": "api-react-components-error-boundary" }
           ]
         },
         {
           "label": "Connectors API",
+          "pageId": "api-connectors-app-search",
           "items": [
-            { "id": "tutorials-connectors" },
-            { "id": "api-connectors-app-search" },
-            { "id": "api-connectors-site-search" },
-            { "id": "api-connectors-workplace-search" },
-            { "id": "api-connectors-elasticsearch" }
+            { "pageId": "api-connectors-site-search" },
+            { "pageId": "api-connectors-workplace-search" },
+            { "pageId": "api-connectors-elasticsearch" }
           ]
         },
         {
           "label": "Plugins",
-          "items": [{ "id": "api-plugins-analytics-plugin" }]
+          "pageId": "api-plugins-analytics-plugin"
         }
       ]
     },
     {
       "label": "Troubleshooting",
-      "items": [
-        {
-          "id": "known-issues",
-          "label": "Known issues"
-        }
-      ]
+      "pageId": "known-issues"
     }
   ]
 }
