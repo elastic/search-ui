@@ -71,6 +71,7 @@
     ".": {
       "import": "./lib/esm/index.js",
       "require": "./lib/cjs/index.js"
-    }
+    },
+    "./lib/styles/styles.css": "./lib/styles/styles.css"
   }
 }
