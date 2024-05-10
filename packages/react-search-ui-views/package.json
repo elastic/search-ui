@@ -66,5 +66,11 @@
     "downshift": "^3.2.10",
     "rc-pagination": "^4.0.4",
     "react-select": "^5.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
   }
 }

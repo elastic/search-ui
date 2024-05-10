@@ -43,5 +43,11 @@
   },
   "dependencies": {
     "@elastic/behavioral-analytics-tracker-core": "^2.0.5"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
   }
 }

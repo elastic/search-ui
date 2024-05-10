@@ -42,5 +42,11 @@
     "@elastic/elasticsearch": "^8.2.1",
     "@elastic/search-ui": "1.21.2",
     "@searchkit/sdk": "^3.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
   }
 }

@@ -41,5 +41,11 @@
   "dependencies": {
     "@elastic/search-ui": "1.21.2",
     "query-string": "^7.1.1"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
   }
 }
