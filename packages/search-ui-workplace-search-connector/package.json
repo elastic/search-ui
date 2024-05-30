@@ -45,7 +45,10 @@
   "exports": {
     ".": {
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
-    }
+      "require": "./lib/cjs/index.js",
+      "types": "./lib/esm/index.d.ts"
+    },
+    "./package": "./package.json",
+    "./package.json": "./package.json"
   }
 }
