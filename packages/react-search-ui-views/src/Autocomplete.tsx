@@ -55,12 +55,12 @@ export type SearchBoxAutocompleteViewProps = {
   autocompletedSuggestions: AutocompletedSuggestions;
   autocompletedSuggestionsCount: number;
   autocompleteSuggestions?: boolean | AutocompleteSuggestion;
-  getItemProps: ({
-    key: string,
-    index: number,
-    item: AutocompletedSuggestion
+  getItemProps: (value: {
+    key: string;
+    index: number;
+    item: AutocompletedSuggestion;
   }) => any;
-  getMenuProps: ({ className: string }) => any;
+  getMenuProps: (value: { className: string }) => any;
   className?: string;
 };
 
@@ -121,7 +121,7 @@ function Autocomplete({
                               );
                             }
                             const suggestionValue =
-                              suggestion.result[displayField]?.raw;
+                              suggestion.result[displayField]?.raw?.toString();
 
                             return (
                               <li
