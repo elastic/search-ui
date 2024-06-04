@@ -1,4 +1,5 @@
 ---
+id: api-core-state
 slug: /search-ui/api/core/state
 title: State
 date: 2022-02-27
@@ -49,7 +50,7 @@ It is updated indirectly by invoking an action which results in a new API reques
 | `autocompletedResultsRequestId`     | A unique ID for the current autocompleted search results.                                                                                                                                                                                                                 |
 | `autocompletedSuggestions`          | A keyed object of query suggestions. It's keyed by type since multiple types of query suggestions can be set here.                                                                                                                                                        |
 | `autocompletedSuggestionsRequestId` | A unique ID for the current autocompleted suggestion results.                                                                                                                                                                                                             |
-| `facets`                            | Will be populated if `facets` configured in <DocLink slug="/search-ui/api/core/configuration" section="facets" text="Search Query Facets Configuration" />.                                                                                                                            |
+| `facets`                            | Will be populated if `facets` configured in <DocLink id="api-core-configuration" section="facets" text="Search Query Facets Configuration" />.                                                                                                                            |
 | `rawResponse`                       | The response object received from the API                                                                                                                                                                                                                                 |
 | `requestId`                         | A unique ID for the current search results.                                                                                                                                                                                                                               |
 | `results`                           | An array of result items.                                                                                                                                                                                                                                                 |

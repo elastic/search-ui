@@ -1,4 +1,5 @@
 ---
+id: api-core-configuration
 slug: /search-ui/api/core/configuration
 title: Configuration
 description: Search UI Configuration API
@@ -14,7 +15,7 @@ Search UI uses a configuration object to tailor search to your needs. It consist
 
 See below for details on each part.
 
-See <DocLink slug="/search-ui/api/react/search-provider" /> page for more information on how to use the configuration with the SearchProvider.
+See <DocLink id="api-react-search-provider" /> page for more information on how to use the configuration with the SearchProvider.
 
 ## Search Query (QueryConfig)
 
@@ -140,7 +141,7 @@ disjunctiveFacetsAnalyticsTags: ["ignore"];
 
 #### Conditional Faceting
 
-See <DocLink slug="/search-ui/guides/conditional-facets" text="Conditional Faceting" /> for more information.
+See <DocLink id="guides-conditional-facets" text="Conditional Faceting" /> for more information.
 
 ### search_fields
 
@@ -283,7 +284,7 @@ results: {
 | field           | description                                                                                                                                                         |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `resultPerPage` | Optional. Number type. Number of results suggested                                                                                                                  |
-| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as <DocLink slug="/search-ui/api/core/configuration" section="result_fields" text="result fields" /> |
+| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as <DocLink id="api-core-configuration" section="result_fields" text="result fields" /> |
 
 ### Suggestions
 
@@ -320,7 +321,7 @@ A different index can be used for the suggestions. Some examples:
 
 Below we are using the `popular_queries` index and performing a prefix match search on the `query.suggest` field. One thing to note, make sure the api-key has access to the index.
 
-See <DocLink slug="/search-ui/api/react/components/search-box" text="Example retrieving suggestions from another index" /> for more information.
+See <DocLink id="api-react-components-search-box" text="Example retrieving suggestions from another index" /> for more information.
 
 ```js
 autocompleteQuery: {

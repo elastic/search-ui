@@ -1,4 +1,5 @@
 ---
+id: api-react-components-facet
 slug: /search-ui/api/react/components/facet
 title: Facet
 date: 2022-02-27
@@ -7,7 +8,7 @@ tags: ["facet"]
 
 Show a Facet filter for a particular field.
 
-Must configure the corresponding field in the `SearchProvider` <DocLink slug="/search-ui/api/core/configuration" section="facets" text="facets" /> object.
+Must configure the corresponding field in the `SearchProvider` <DocLink id="api-core-configuration" section="facets" text="facets" /> object.
 
 ### Example
 
@@ -68,12 +69,12 @@ import { MultiCheckboxFacet } from "@elastic/react-search-ui-views";
 | label        | A static label to show in the facet filter.                                                                                                                                                                                                                |
 | show         | The number of facet filter options to show before concatenating with a "Show more" link.                                                                                                                                                                   |
 | isFilterable | Whether or not to show Facet quick filter.                                                                                                                                                                                                                 |
-| view         | Used to override the default view for this Component. See <DocLink slug="/search-ui/api/react/components/facet" section="view-customization" text="View customization" /> below.                                                                                        |
+| view         | Used to override the default view for this Component. See <DocLink id="api-react-components-facet" section="view-customization" text="View customization" /> below.                                                                                        |
 | \*           | Any other property passed will be passed through and available to use in a Custom View                                                                                                                                                                     |
 
 ### View customization
 
-A complete guide to view customization can be found in the <DocLink slug="/search-ui/guides/customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> section.
+A complete guide to view customization can be found in the <DocLink id="guides-customizing-styles-and-html" section="customizing-html" text="Customization: Component views and HTML" /> section.
 
 The following properties are available in the view:
 

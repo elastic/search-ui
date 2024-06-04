@@ -1,4 +1,5 @@
 ---
+id: api-react-search-provider
 slug: /search-ui/api/react/search-provider
 title: SearchProvider
 date: 2022-03-31
@@ -49,10 +50,10 @@ const App = () => (
 | `onAutocomplete`            | function                                                                                              | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
 | `onResultClick`             | function                                                                                              | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
 | `onAutocompleteResultClick` | function                                                                                              | You may provide individual handlers instead of a Connector, override individual Connector handlers, or act as middleware to Connector methods. See [Handlers](#handlers) for more information.                              |
-| `autocompleteQuery`         | <DocLink slug="/search-ui/api/core/configuration" section="autocomplete-query" text="Autocomplete Query Config" /> | Configuration options for the autocomplete query.                                                                                                                                                                           |
+| `autocompleteQuery`         | <DocLink id="api-core-configuration" section="autocomplete-query" text="Autocomplete Query Config" /> | Configuration options for the autocomplete query.                                                                                                                                                                           |
 | `debug`                     | Boolean                                                                                               | Trace log actions and state changes. Default is false.                                                                                                                                                                      |
 | `initialState`              | Object                                                                                                | Set inital state of Search UI. See [Initial State](#initial-state) for more information.                                                                                                                                    |
-| `searchQuery`               | <DocLink slug="/search-ui/api/core/configuration" section="autocomplete-query" text="Search Query Config" />       | Configuration options for the main search query.                                                                                                                                                                            |
+| `searchQuery`               | <DocLink id="api-core-configuration" section="autocomplete-query" text="Search Query Config" />       | Configuration options for the main search query.                                                                                                                                                                            |
 | `trackUrlState`             | Boolean                                                                                               | By default, [Request State](#request-state) will be synced with the browser url. To turn this off, pass `false`.                                                                                                            |
 | `urlPushDebounceLength`     | Integer                                                                                               | The amount of time in milliseconds to debounce/delay updating the browser url after the UI update. This, for example, prevents excessive history entries while a user is still typing in a live search box. Default is 500. |
 | `hasA11yNotifications`      | Boolean                                                                                               | Search UI will create a visually hidden live region to announce search results & other actions to screen reader users. This accessibility feature will be turned on by default in our 2.0 release. Default is false.        |
@@ -61,7 +62,7 @@ const App = () => (
 
 ### Context
 
-The "Context" is a flattened object containing, as keys, all <DocLink slug="/search-ui/api/core/state" text="State" /> and <DocLink slug="/search-ui/api/core/actions" text="Actions" />.
+The "Context" is a flattened object containing, as keys, all <DocLink id="api-core-state" text="State" /> and <DocLink id="api-core-actions" text="Actions" />.
 
 We refer to it as "Context" because it is implemented with a [React Context](https://reactjs.org/docs/context.html).
 
@@ -90,4 +91,4 @@ Example
   initialState: { searchTerm: "test", resultsPerPage: 40 }
 ```
 
-See <DocLink slug="/search-ui/api/core/state" section="RequestState" text="Request State" /> for more properties that can be set in initial state.
+See <DocLink id="api-core-state" section="RequestState" text="Request State" /> for more properties that can be set in initial state.
