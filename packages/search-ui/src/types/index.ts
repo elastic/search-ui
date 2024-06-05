@@ -84,6 +84,7 @@ export interface AutocompletedSuggestion {
   suggestion?: string;
   data?: any;
   queryType?: "suggestion";
+  index?: number;
 }
 
 export interface AutocompletedResultSuggestion {
