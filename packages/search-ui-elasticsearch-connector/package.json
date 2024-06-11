@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-elasticsearch-connector",
-  "version": "1.21.4",
+  "version": "1.21.5",
   "description": "A Search UI connector for Elasticsearch",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -36,17 +36,20 @@
   },
   "devDependencies": {
     "rimraf": "^2.6.3",
-    "typescript": "^4.5.4"
+    "typescript": "^4.9.3"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.2.1",
-    "@elastic/search-ui": "1.21.4",
+    "@elastic/search-ui": "1.21.5",
     "@searchkit/sdk": "^3.0.0"
   },
   "exports": {
     ".": {
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
-    }
+      "require": "./lib/cjs/index.js",
+      "types": "./lib/esm/index.d.ts"
+    },
+    "./package": "./package.json",
+    "./package.json": "./package.json"
   }
 }

@@ -14,3 +14,4 @@ export { default as SingleLinksFacet } from "./SingleLinksFacet";
 export { default as Sorting } from "./Sorting";
 export { Layout } from "./layouts";
 export * from "./types";
+export * as ViewHelpers from "./view-helpers";

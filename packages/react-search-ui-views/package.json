@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui-views",
-  "version": "1.21.4",
+  "version": "1.21.5",
   "description": "A collection of React UI components for building search experiences",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -59,10 +59,10 @@
     "react-dom": "^17.0.2",
     "rimraf": "^2.6.3",
     "sass": "^1.49.9",
-    "typescript": "^4.5.4"
+    "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.21.4",
+    "@elastic/search-ui": "1.21.5",
     "downshift": "^3.2.10",
     "rc-pagination": "^4.0.4",
     "react-select": "^5.0.0"
@@ -70,8 +70,11 @@
   "exports": {
     ".": {
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "require": "./lib/cjs/index.js",
+      "types": "./lib/esm/index.d.ts"
     },
-    "./lib/styles/styles.css": "./lib/styles/styles.css"
+    "./lib/styles/styles.css": "./lib/styles/styles.css",
+    "./package": "./package.json",
+    "./package.json": "./package.json"
   }
 }
