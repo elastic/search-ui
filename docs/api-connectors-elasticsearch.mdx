@@ -1,5 +1,4 @@
 ---
-id: api-connectors-elasticsearch
 slug: /search-ui/api/connectors/elasticsearch
 title: Elasticsearch Connector
 date: 2022-04-13
@@ -179,7 +178,7 @@ You can restrict access to indices by using an API key. We recommend you create 
 
 Search UI supports autocomplete functionality to suggest search terms that provide results. The autocomplete functionality is built on top of the Elasticsearch `suggest` and `bool prefix query` API.
 
-To take advantage of the feature, first update the <DocLink id="api-core-configuration" section="autocomplete-query" text="autocomplete query" /> configuration.
+To take advantage of the feature, first update the <DocLink slug="/search-ui/api/core/configuration" section="autocomplete-query" text="autocomplete query" /> configuration.
 
 Below is an example of what the `autocompleteQuery` may look like.
 
@@ -233,7 +232,7 @@ Below is an example of the mappings for the above example. `title_suggest` is a 
 }
 ```
 
-With a combination of this configuration + the <DocLink id="api-react-components-search-box" text="Searchbox" /> component with autocomplete configuration, your users will be able to see suggestions as they type within the search box.
+With a combination of this configuration + the <DocLink slug="/search-ui/api/react/components/search-box" text="Searchbox" /> component with autocomplete configuration, your users will be able to see suggestions as they type within the search box.
 
 ## Node.js Integration
 
