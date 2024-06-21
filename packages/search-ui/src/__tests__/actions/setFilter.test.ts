@@ -120,6 +120,18 @@ describe("#setFilter", () => {
     });
   });
 
+  it("Adds an 'array' type filter properly", () => {
+    expect(subject("test", ["value", "value2"], "none").filters).toEqual([
+      { field: "test", values: ["value", "value2"], type: "none" }
+    ]);
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
+      field: "test",
+      value: "value,value2",
+      query: "",
+      type: "FacetFilterSelected"
+    });
+  });
+
   it("Will maintain separate Filter structures for different filter types", () => {
     expect(
       subject("test", "value", "any", {

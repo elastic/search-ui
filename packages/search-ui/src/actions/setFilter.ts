@@ -23,6 +23,7 @@ export default function setFilter(
   filters = filters.filter(
     (filter) => filter.field !== name || filter.type !== type
   );
+  const filterValue = Array.isArray(value) ? value : [value];
 
   this._updateSearchResults({
     current: 1,
@@ -30,7 +31,7 @@ export default function setFilter(
       ...filters,
       {
         field: name,
-        values: [value],
+        values: filterValue,
         type
       }
     ]
@@ -41,7 +42,7 @@ export default function setFilter(
   events.emit({
     type: "FacetFilterSelected",
     field: name,
-    value: value && serialiseFilter([value]),
+    value: value && serialiseFilter(filterValue),
     query: this.state.searchTerm
   });
 }
