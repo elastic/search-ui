@@ -148,7 +148,13 @@ describe("Search - Request", () => {
         type: "any" as const
       };
 
-      expect(getFilters([filter1], [filter1])).toEqual([]);
+      const baseFilter1 = {
+        field: "test",
+        values: ["test", "test2"],
+        type: "any" as const
+      };
+
+      expect(getFilters([filter1], [baseFilter1])).toEqual([]);
     });
 
     it("should exclude the baseFilters and return the only UI filter", () => {
