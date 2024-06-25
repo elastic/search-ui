@@ -5,7 +5,8 @@ import type {
 } from "@elastic/search-ui";
 import buildConfiguration, {
   buildBaseFilters,
-  getResultFields
+  getResultFields,
+  isValidDateString
 } from "../Configuration";
 jest.mock("@searchkit/sdk");
 import {
@@ -560,6 +561,38 @@ describe("Search - Configuration", () => {
           }
         ]
       });
+    });
+  });
+
+  describe("Relative dates", () => {
+    const checks = [
+      ["now+1d/d", true],
+      ["now/d", true],
+      ["now-1y/d", true],
+      ["now+1y/y", true],
+      ["now+1y", true],
+      ["2021-01-01||+1y/d", true],
+      ["2021-01-01T00:00:00Z||+1d/d", true],
+      ["not a date||-1y", false]
+    ];
+
+    test.each(checks)("given %p, returns %p", (dt, expected) => {
+      const result = isValidDateString(dt);
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe("Absolute dates", () => {
+    const checks = [
+      ["2021-01-01", true],
+      ["2024-01-01T00:00:00Z", true],
+      ["2021-01-01 00:00", true],
+      ["Not a date", false]
+    ];
+
+    test.each(checks)("given %p, returns %p", (dt, expected) => {
+      const result = isValidDateString(dt);
+      expect(result).toEqual(expected);
     });
   });
 });
