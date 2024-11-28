@@ -1,6 +1,6 @@
 {
   "name": "@elastic/react-search-ui-views",
-  "version": "1.21.5",
+  "version": "1.22.0",
   "description": "A collection of React UI components for building search experiences",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -62,7 +62,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.21.5",
+    "@elastic/search-ui": "1.22.0",
     "downshift": "^3.2.10",
     "rc-pagination": "^4.0.4",
     "react-select": "^5.0.0"
