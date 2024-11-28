@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-analytics-plugin",
-  "version": "1.21.5",
+  "version": "1.21.6",
   "description": "Behavorial Analytics middleware plugin",
   "license": "Apache-2.0",
   "main": "lib/cjs/index.js",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@elastic/behavioral-analytics-tracker-core": "^2.0.5",
-    "@elastic/search-ui": "1.21.5"
+    "@elastic/search-ui": "^1.21.6"
   },
   "exports": {
     ".": {
