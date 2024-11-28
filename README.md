@@ -18,8 +18,8 @@ A JavaScript library for the fast development of modern, engaging search experie
 ### Connectors
 
 - [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/elasticsearch&file=/src/pages/elasticsearch/index.js)
-- [Elastic App Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/app-search&file=/src/pages/app-search/index.js)
-- [Elastic Workplace Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/workplace-search&file=/src/pages/workplace-search/index.js)
+- ⚠️ DEPRECATED. [Elastic App Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/app-search&file=/src/pages/app-search/index.js)
+- ⚠️ DEPRECATED. [Elastic Workplace Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/workplace-search&file=/src/pages/workplace-search/index.js)
 - [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/site-search&file=/src/pages/site-search/index.js)
 
 ### Examples
@@ -43,8 +43,8 @@ yarn add @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui-vi
 To quickly get started with Search UI, follow one of our tutorials:
 
 - [Search UI with Elasticsearch](https://docs.elastic.co/search-ui/tutorials/elasticsearch)
-- [Search UI with Elastic App Search](https://docs.elastic.co/search-ui/tutorials/app-search)
-- [Search UI with Elastic Workplace Search](https://docs.elastic.co/search-ui/tutorials/workplace-search)
+- ⚠️ DEPRECATED. [Search UI with Elastic App Search](https://docs.elastic.co/search-ui/tutorials/app-search)
+- ⚠️ DEPRECATED. [Search UI with Elastic Workplace Search](https://docs.elastic.co/search-ui/tutorials/workplace-search)
 
 ## Contributing
 

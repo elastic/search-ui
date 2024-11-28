@@ -1,7 +1,7 @@
 {
   "name": "@elastic/search-ui-workplace-search-connector",
   "version": "1.21.5",
-  "description": "A Search UI connector for Elastic's Workplace Search Service",
+  "description": "⚠️ DEPRECATED. Please use '@elastic/search-ui-elasticsearch-connector'.",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
   "main": "lib/cjs/index.js",

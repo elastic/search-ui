@@ -4,7 +4,9 @@ Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
 This Connector is used to connect Search UI to Elastic's [Workplace Search](https://www.elastic.co/workplace-search/) API.
 
-> ⚠️ Workplace Search connector for Search UI is currently in technical preview status. It is not ready for production use. ⚠️
+## Deprecation Notice
+
+**Note:** The `WorkplaceSearchConnector` package is deprecated and will no longer be supported. Please migrate to [Elasticsearch Connector](https://www.npmjs.com/package/@elastic/search-ui-elasticsearch-connector) for continued support.
 
 ## Usage
 
