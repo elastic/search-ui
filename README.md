@@ -18,8 +18,8 @@ A JavaScript library for the fast development of modern, engaging search experie
 ### Connectors
 
 - [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/elasticsearch&file=/src/pages/elasticsearch/index.js)
-- [Elastic App Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/app-search&file=/src/pages/app-search/index.js)
-- [Elastic Workplace Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/workplace-search&file=/src/pages/workplace-search/index.js)
+- ⚠️ DEPRECATED. [Elastic App Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/app-search&file=/src/pages/app-search/index.js)
+- ⚠️ DEPRECATED. [Elastic Workplace Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/workplace-search&file=/src/pages/workplace-search/index.js)
 - [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/site-search&file=/src/pages/site-search/index.js)
 
 ### Examples

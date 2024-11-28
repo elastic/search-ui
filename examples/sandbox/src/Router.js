@@ -4,9 +4,7 @@ import Root from "./pages/root";
 import Elasticsearch from "./pages/elasticsearch";
 import ElasticsearchWithAnalytics from "./pages/elasticsearch-with-analytics";
 import Engines from "./pages/engines";
-import AppSearch from "./pages/app-search";
 import SiteSearch from "./pages/site-search";
-import WorkplaceSearch from "./pages/workplace-search";
 import SearchAsYouType from "./pages/search-as-you-type";
 import CustomizingStylesAndHtml from "./pages/customizing-styles-and-html";
 import SearchBarInHeaderIndex from "./pages/search-bar-in-header/index";
@@ -24,9 +22,7 @@ export default function Router() {
 
         {/* Connectors */}
         <Route exact path="/elasticsearch" component={Elasticsearch} />
-        <Route exact path="/app-search" component={AppSearch} />
         <Route exact path="/site-search" component={SiteSearch} />
-        <Route exact path="/workplace-search" component={WorkplaceSearch} />
         <Route exact path="/engines" component={Engines} />
 
         {/* Examples */}
