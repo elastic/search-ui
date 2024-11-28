@@ -43,8 +43,8 @@ yarn add @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui-vi
 To quickly get started with Search UI, follow one of our tutorials:
 
 - [Search UI with Elasticsearch](https://docs.elastic.co/search-ui/tutorials/elasticsearch)
-- [Search UI with Elastic App Search](https://docs.elastic.co/search-ui/tutorials/app-search)
-- [Search UI with Elastic Workplace Search](https://docs.elastic.co/search-ui/tutorials/workplace-search)
+- ⚠️ DEPRECATED. [Search UI with Elastic App Search](https://docs.elastic.co/search-ui/tutorials/app-search)
+- ⚠️ DEPRECATED. [Search UI with Elastic Workplace Search](https://docs.elastic.co/search-ui/tutorials/workplace-search)
 
 ## Contributing
 

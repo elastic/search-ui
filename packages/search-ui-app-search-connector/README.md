@@ -4,6 +4,10 @@ Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
 This Connector is used to connect Search UI to Elastic's [App Search](https://www.elastic.co/cloud/app-search-service) API.
 
+## ⚠️ Deprecation Notice
+
+**Note:** The `AppSearchConnector` package is deprecated and will no longer be supported. Please migrate to [Elasticsearch Connector](https://www.npmjs.com/package/@elastic/search-ui-elasticsearch-connector) for continued support.
+
 ## Usage
 
 ```shell

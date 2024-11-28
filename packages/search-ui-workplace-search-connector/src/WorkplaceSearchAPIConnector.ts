@@ -83,6 +83,10 @@ function removeInvalidFields(options) {
   };
 }
 
+/**
+ * @deprecated The WorkplaceSearchApiConnector is deprecated and will be removed in future versions.
+ * Please use the [ElasticSearchConnector]{@link https://www.npmjs.com/package/@elastic/search-ui-elasticsearch-connector} instead.
+ */
 class WorkplaceSearchAPIConnector implements APIConnector {
   /**
    * @callback next
@@ -131,6 +135,10 @@ class WorkplaceSearchAPIConnector implements APIConnector {
     beforeAutocompleteSuggestionsCall = (queryOptions, next) =>
       next(queryOptions)
   }: WorkplaceSearchAPIConnectorParams) {
+    console.warn(
+      "WARNING: The WorkplaceSearchAPIConnector is deprecated and will be removed in future versions."
+    );
+
     if (!kibanaBase || !enterpriseSearchBase || !redirectUri || !clientId) {
       throw Error(
         "Missing a required parameter. Please provide kibanaBase, enterpriseSearchBase, redirectUri, and clientId."

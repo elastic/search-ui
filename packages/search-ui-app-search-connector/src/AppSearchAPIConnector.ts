@@ -61,6 +61,11 @@ function removeEmptyFacetsAndFilters(options) {
     ...rest
   };
 }
+
+/**
+ * @deprecated The AppSearchAPIConnector is deprecated and will be removed in future versions.
+ * Please use the [ElasticSearchConnector]{@link https://www.npmjs.com/package/@elastic/search-ui-elasticsearch-connector} instead.
+ */
 class AppSearchAPIConnector implements APIConnector {
   /**
    * @callback next
@@ -106,6 +111,10 @@ class AppSearchAPIConnector implements APIConnector {
     cacheResponses = true,
     ...rest
   }: AppSearchAPIConnectorParams) {
+    console.warn(
+      "WARNING: The AppSearchAPIConnector is deprecated and will be removed in future versions."
+    );
+
     if (!engineName || !("hostIdentifier" in rest || "endpointBase" in rest)) {
       throw Error(
         "hostIdentifier or endpointBase, and engineName are required"
