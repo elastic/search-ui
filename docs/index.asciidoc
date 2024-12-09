@@ -1,0 +1,7 @@
+:doctype: book
+
+= Search UI
+
+⚠️ This is a work in progress. ⚠️
+
+For the current Search UI documentation, refer to https://www.elastic.co/docs/current/search-ui/overview[elastic.co/docs/current/search-ui].
