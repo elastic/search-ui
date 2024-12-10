@@ -1,0 +1,564 @@
+[[api-core-actions]]
+= Actions
+
+// :keywords:
+
+To update the state, you can use actions below. Actions are functions that update the Request State and performs an API request.
+
+[source,js]
+----
+setSearchTerm("search term");
+----
+
+To get access to the actions within your component, you must wrap your component with our context HOCs.
+
+[source,jsx]
+----
+// Selects `searchTerm` and `setSearchTerm` for use in Component
+withSearch(({ searchTerm, setSearchTerm }) => ({
+  searchTerm,
+  setSearchTerm
+}))(Component);
+----
+
+See <<api-react-with-search>> for more information.
+
+There are certain cases where you may need to apply one or more actions at a time. Search UI intelligently
+batches actions into a single API call.
+
+For example, if you need to apply two filters at once, it is perfectly acceptable to write the following code:
+
+[source,js]
+----
+addFilter("states", "Alaska", "any");
+addFilter("world_heritage_site", "true");
+----
+
+This will only result in a single API call.
+
+[discrete]
+[[api-core-actions-addfilter]]
+== addFilter
+
+[source,ts]
+----
+addFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+)
+----
+
+Add a filter in addition to current filters values.
+
+[discrete]
+[[api-core-actions-examples]]
+=== Examples
+
+[source,js]
+----
+addFilter("states", "Alaska");
+addFilter("isPublished", true);
+addFilter("rating", 1);
+
+addFilter("states", ["Alaska", "California"], "all");
+addFilter("states", ["Alaska", "California"], "any");
+
+addFilter("published",{
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+addFilter("rating",{
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+
+----
+
+[discrete]
+[[api-core-actions-parameters-1]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `name`
+| Required. Name of the field
+
+| `value`
+| Required. Filter Value. See `FilterValue` type.
+
+| `type`
+| Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none`
+|===
+
+[discrete]
+[[api-core-actions-setfilter]]
+== setFilter
+
+[source,js]
+----
+setFilter(
+  name: string,
+  value: FilterValue,
+  type: FilterType = "all"
+)
+----
+
+Set a filter value, replacing current filter values.
+
+[discrete]
+[[api-core-actions-examples-2]]
+=== Examples
+
+[source,js]
+----
+setFilter("states", "Alaska");
+setFilter("isPublished", true);
+setFilter("rating", 1);
+
+setFilter("states", ["Alaska", "California"], "all");
+setFilter("states", ["Alaska", "California"], "any");
+
+setFilter("published",{
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+setFilter("rating",{
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+
+----
+
+[discrete]
+[[api-core-actions-parameters-3]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `name`
+| Required. Name of the field
+
+| `value`
+| Required. Filter Value. See `FilterValue` type.
+
+| `type`
+| Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none`
+|===
+
+[discrete]
+[[api-core-actions-removefilter]]
+== removeFilter
+
+Removes filters or filter values.
+
+[source,js]
+----
+removeFilter(
+  name: string,
+  value?: FilterValue,
+  type?: FilterType
+)
+----
+
+[discrete]
+[[api-core-actions-examples-4]]
+=== Examples
+
+[source,js]
+----
+removeFilter("states");
+removeFilter("states", ["Alaska", "California"]);
+
+removeFilter("published", {
+  name: "published",
+  from: "2020-01-01",
+  to: "2020-12-31"
+});
+
+removeFilter("rating", {
+  name: "badRating",
+  from: 1,
+  to: 6
+});
+----
+
+[discrete]
+[[api-core-actions-parameters-5]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `name`
+| Required. Name of the field
+
+| `value`
+| Optional. Filter Value. Will remove all filters under field if value not specified. See `FilterValue` type.
+
+| `type`
+| Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none`
+|===
+
+[discrete]
+[[api-core-actions-reset]]
+== reset
+
+Reset state to initial search state.
+
+[source,js]
+----
+reset();
+----
+
+[discrete]
+[[api-core-actions-clearfilters]]
+== clearFilters
+
+Clear all filters.
+
+[source,js,subs="attributes"]
+----
+clearFilters((except: string[] = []));
+----
+
+[discrete]
+[[api-core-actions-examples-6]]
+=== Examples
+
+[source,js]
+----
+clearFilters();
+clearFilters(["states"]); // field name
+----
+
+[discrete]
+[[api-core-actions-parameters-7]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `except`
+| Optional. String array. Field names which you want to ignore being cleared.
+|===
+
+[discrete]
+[[api-core-actions-setcurrent]]
+== setCurrent
+
+Update the current page number. Used for paging.
+
+[source,js]
+----
+setCurrent(current: number)
+----
+
+[discrete]
+[[api-core-actions-examples-8]]
+=== Examples
+
+[source,js]
+----
+setCurrent(2);
+----
+
+[discrete]
+[[api-core-actions-parameters-9]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `current`
+| Required. Number type. The page number.
+|===
+
+[discrete]
+[[api-core-actions-setresultsperpage]]
+== setResultsPerPage
+
+Update the number of results per page. Used for paging.
+
+[source,js]
+----
+setResultsPerPage(resultsPerPage: number)
+----
+
+[discrete]
+[[api-core-actions-examples-10]]
+=== Examples
+
+[source,js]
+----
+setResultsPerPage(20);
+----
+
+[discrete]
+[[api-core-actions-parameters-11]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `resultsPerPage`
+| Required. Number type. Sets number of results per page.
+|===
+
+[discrete]
+[[api-core-actions-setsearchterm]]
+== setSearchTerm
+
+[source,js]
+----
+setSearchTerm(
+  searchTerm: string,
+  {
+    autocompleteMinimumCharacters = 0,
+    autocompleteResults = false,
+    autocompleteSuggestions = false,
+    shouldClearFilters = true,
+    refresh = true,
+    debounce = 0
+  }: SetSearchTermOptions = {}
+)
+----
+
+Update the search term. Also gives you the ability to control autocomplete options.
+
+[discrete]
+[[api-core-actions-examples-12]]
+=== Examples
+
+[source,js]
+----
+setSearchTerm("train");
+----
+
+[discrete]
+[[api-core-actions-parameters-13]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `searchTerm`
+| Required. String type. the new search term to query by
+
+| `options`
+| Optional. Object type. See `SetSearchTermOptions` type.
+|===
+
+[discrete]
+[[api-core-actions-setsearchtermoptions-parameters]]
+=== SetSearchTermOptions Parameters
+
+|===
+| Parameters| description
+
+| `autocompleteMinimumCharacters`
+| Optional. miniumum terms to start performing autocomplete suggestions
+
+| `autocompleteResults`
+| Optional. To perform autocomplete Results
+
+| `autocompleteSuggestions`
+| Optional. To perform autocomplete Suggestions
+
+| `shouldClearFilters`
+| Optional. To clear filters
+
+| `refresh`
+| Optional. To refresh results
+
+| `debounce`
+| Optional.
+|===
+
+[discrete]
+[[api-core-actions-setsort]]
+== setSort
+
+[source,js]
+----
+setSort(
+  sort: SortOption[] | string,
+  sortDirection: SortDirection
+)
+----
+
+Update the sort option.
+
+[discrete]
+[[api-core-actions-parameters-14]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `sort`
+| `SortOption` or String - field to sort on
+
+| `sortDirection`
+| String - "asc" or "desc"
+|===
+
+[discrete]
+[[api-core-actions-trackclickthrough]]
+== trackClickThrough
+
+[source,js]
+----
+trackClickThrough(
+  documentId: string,
+  tags: string[] = []
+)
+----
+
+Report a clickthrough event, which is when a user clicks on a result link.
+
+[discrete]
+[[api-core-actions-parameters-15]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `documentId`
+| String - The document ID associated with the result that was clicked
+
+| `tags`
+| Optional. Array[String] Optional tags which can be used to categorize this click event
+|===
+
+[discrete]
+[[api-core-actions-trackautocompleteclickthrough]]
+== trackAutocompleteClickThrough
+
+[source,js]
+----
+trackAutocompleteClickThrough(
+  documentId: string,
+  tags: string[] = []
+)
+----
+
+Report a clickthrough event, which is when a user clicks on an autocomplete suggestion.
+
+[discrete]
+[[api-core-actions-parameters-16]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `documentId`
+| String - The document ID associated with the result that was clicked
+
+| `tags`
+| Optional. Array[String] Optional tags which can be used to categorize this click event
+|===
+
+[discrete]
+[[api-core-actions-trackautocompletesuggestionclickthrough]]
+== trackAutocompleteSuggestionClickThrough
+
+[NOTE]
+====
+*This action requires the use of the analytics plugin.*
+====
+
+[source,js]
+----
+trackAutocompleteSuggestionClickThrough(
+  suggestion: string,
+  postion: number
+  tags: string[] = []
+)
+----
+
+Report a suggestion clickthrough event, which is when a user clicks on an autocomplete suggestion.
+
+[discrete]
+[[api-core-actions-parameters-17]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `suggestion`
+| String - The suggestion that was clicked
+
+| `position`
+| Number - The position of the suggestion that was clicked
+
+| `tags`
+| Optional. Array[String] Optional tags which can be used to categorize this click event
+|===
+
+[discrete]
+[[api-core-actions-a11ynotify]]
+== a11yNotify
+
+[source,js]
+----
+a11yNotify(
+  messageFunc: string,
+  messageArgs?: unknown
+)
+----
+
+Reads out a screen reader accessible notification. See `a11yNotificationMessages` under TODO LINK
+
+[discrete]
+[[api-core-actions-parameters-18]]
+=== Parameters
+
+|===
+| Parameters| description
+
+| `messageFunc`
+| String - object key to run as function
+
+| `messageArgs`
+| Object - Arguments to pass to form your screen reader message string
+|===
+
+[discrete]
+[[api-core-actions-types-19]]
+== Types
+
+[discrete]
+[[api-core-actions-filtervalue-and-filtertype-types]]
+=== FilterValue & FilterType Types
+
+`FilterValue` can be either a value type or a range type.
+
+[discrete]
+[[api-core-actions-types-20]]
+==== Types
+
+[source,ts]
+----
+type FilterValue = FilterValueValue | FilterValueRange;
+
+type FieldValue = string | number | boolean | Array<string | number | boolean>;
+
+type FilterValueValue = FieldValue;
+
+type FilterValueRange = {
+  from?: FieldValue;
+  name: string;
+  to?: FieldValue;
+};
+
+type FilterType = "any" | "all" | "none";
+----

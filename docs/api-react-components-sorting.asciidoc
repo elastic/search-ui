@@ -1,0 +1,85 @@
+[[api-react-components-sorting]]
+= Sorting
+
+// :keywords: demo
+
+Shows a dropdown for selecting the current Sort.
+
+[discrete]
+[[api-react-components-sorting-example]]
+== Example
+
+[source,jsx]
+----
+
+import { Sorting } from "@elastic/react-search-ui";
+
+...
+
+<Sorting
+  sortOptions={[
+    {
+      name: "Relevance",
+      value: "",
+      direction: ""
+    },
+    {
+      name: "Title",
+      value: "title",
+      direction: "asc"
+    }
+  ]}
+/>
+----
+
+[discrete]
+[[api-react-components-sorting-properties]]
+== Properties
+
+|===
+| Name| Description
+
+| className
+|
+
+| label
+| A static label to show in the Sorting Component.
+
+| sortOptions
+|
+
+| view
+| Used to override the default view for this Component. See <<api-react-components-sorting-view-customization,View customization>> below.
+
+| *
+| Any other property passed will be passed through and available to use in a Custom View
+|===
+
+[discrete]
+[[api-react-components-sorting-view-customization]]
+== View customization
+
+A complete guide to view customization can be found in the <<guides-customizing-styles-and-html-customizing-html,Customization: Component views and HTML>> section.
+
+The following properties are available in the view:
+
+|===
+| Name| Description
+
+| className
+| Passed through from main component.
+
+| label
+| The label to display for this component. For example: "Sort by".
+
+| onChange
+| function(value: string) - Pass the value to this callback from the selected sort option
+
+| options
+| `{ value: string; label: string;}[]` - Options to display
+
+| value
+| string - The currently selected value
+|===
+
+See https://github.com/elastic/search-ui/blob/main/packages/react-search-ui-views/src/Sorting.tsx[Sorting.tsx] for an example.
