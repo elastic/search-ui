@@ -1,0 +1,66 @@
+[[api-react-components-paging-info]]
+= PagingInfo
+
+// :keywords: demo
+
+Paging details, like "1 - 20 of 100 results".
+
+[discrete]
+[[api-react-components-paging-info-example]]
+== Example
+
+[source,jsx]
+----
+
+import { PagingInfo } from "@elastic/react-search-ui";
+
+...
+
+<PagingInfo />
+----
+
+[discrete]
+[[api-react-components-paging-info-properties]]
+== Properties
+
+|===
+| Name| Description
+
+| className
+|
+
+| view
+| Used to override the default view for this Component. See <<api-react-components-paging-info-view-customization,View customization>> below.
+
+| *
+| Any other property passed will be passed through and available to use in a Custom View
+|===
+
+[discrete]
+[[api-react-components-paging-info-view-customization]]
+== View customization
+
+A complete guide to view customization can be found in the <<guides-customizing-styles-and-html-customizing-html,Customization: Component views and HTML>> section.
+
+The following properties are available in the view:
+
+|===
+| Name| Description
+
+| className
+| Passed through from main component.
+
+| end
+| Type: `number`. The position of the last result shown on this page of reuslts.
+
+| searchTerm
+| Type: `string`. The current search term.
+
+| start
+| Type: `number`. The position of the first result shown on this page of reuslts.
+
+| totalResults
+| Type: `number`. The total number of results.
+|===
+
+See https://github.com/elastic/search-ui/blob/main/packages/react-search-ui-views/src/PagingInfo.tsx[PagingInfo.tsx] for an example.

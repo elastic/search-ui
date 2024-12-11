@@ -1,0 +1,85 @@
+[[api-core-plugins-analytics-plugin]]
+= Analytics Plugin
+
+++++
+<titleabbrev>Plugins</titleabbrev>
+++++
+
+// :keywords:
+
+Use the Analytics Plugin to send analytics events to the Behavioral Analytics Product. Follow the instructions to set up the plugin.
+
+[discrete]
+[[api-core-plugins-analytics-plugin-installation]]
+== Installation
+
+[source,bash]
+----
+yarn add @elastic/search-ui-analytics-plugin
+## OR
+npm install @elastic/search-ui-analytics-plugin
+----
+
+[discrete]
+[[api-core-plugins-analytics-plugin-basic-usage]]
+== Basic Usage
+
+Add the Analytics Plugin to your Search UI configuration like so:
+
+[source,js]
+----
+import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
+
+// search ui configuration
+const config = {
+  apiConnector: connector,
+  searchQuery: { ... },
+  plugins: [ AnalyticsPlugin() ]
+}
+----
+
+By default, the Analytics Plugin will use the Behavioral Analytics client provided when using script tag integration.
+
+[discrete]
+[[api-core-plugins-analytics-plugin-passing-in-a-custom-analytics-client]]
+=== Passing in a custom analytics client
+
+If you integrated Behavioral Analytics using the `@elastic/behavioral-analytics-javascript-tracker` NPM package, you can pass in a custom analytics client to the Analytics Plugin.
+
+[source,js]
+----
+
+import AnalyticsPlugin from "@elastic/search-ui-analytics-plugin";
+import { createTracker, getTracker } from "@elastic/behavioral-analytics-javascript-tracker";
+
+createTracker({
+  // the DSN can be found in the Behavioral Analytics Collections view page
+    dsn: "https://my-analytics-dsn.elastic.co"
+})
+
+// search ui configuration
+const config = {
+  apiConnector: connector,
+  searchQuery: { ... },
+  plugins: [
+    AnalyticsPlugin({
+      client: getTracker()
+    })
+  ]
+}
+----
+
+[discrete]
+[[api-core-plugins-analytics-plugin-options]]
+== Options
+
+The Analytics Plugin accepts the following parameters:
+
+|===
+| Option| Type| Description| Default
+
+| `client`
+| `AnalyticsTracker`
+| The Behavioral Analytics client to use. Read more on https://github.com/elastic/behavioral-analytics-tracker[Behavioral Analytics Tracker repo]
+| `window.elasticAnalytics`
+|===

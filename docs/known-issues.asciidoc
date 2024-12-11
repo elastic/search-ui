@@ -1,0 +1,11 @@
+[[known-issues]]
+= Known issues
+
+++++
+<titleabbrev>Troubleshooting</titleabbrev>
+++++
+
+// :description: Known issues with Search UI
+// :keywords:
+
+* When using the **Elasticsearch connector** Search UI does not render nested objects.
