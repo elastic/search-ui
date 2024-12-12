@@ -1,0 +1,128 @@
+[[solutions-ecommerce-carousel]]
+= Product Carousels
+
+// :description: Build a product carousel with Search UI
+// :keywords: ecommerce solution, ecommerce search ui, product carousel
+
+Carousels can be used to show groups of products into a row and are typically used to show products within a specific category or tag, like "most popular", "best rated" and "on sale".
+
+In this example, we show a carousel of products within the "TVs" category using the `Results` component and overriding the `view`.
+
+You can adjust the number of results returned via the `resultsPerPage` configuration.
+
+[role="screenshot"]
+image::images/ecommerce/carousel/carousel.png[]
+
+++++
+<div class="tabs" data-tab-group="solutions-ecommerce-carousel">
+  <div role="tablist" aria-label="solutions-ecommerce-carousel">
+    <button role="tab" aria-selected="true" aria-controls="solutions-ecommerce-carousel-component-panel" id="solutions-ecommerce-carousel-component-button">
+      Component
+    </button>
+    <button role="tab" aria-selected="false" aria-controls="solutions-ecommerce-carousel-search-ui-config-panel" id="solutions-ecommerce-carousel-search-ui-config-button" tabindex="-1">
+      Search UI Config
+    </button>
+  </div>
+  <div tabindex="0" role="tabpanel" id="solutions-ecommerce-carousel-component-panel" aria-labelledby="solutions-ecommerce-carousel-component-button">
+++++
+[source,jsx]
+----
+  import { Results, SearchProvider } from "@elastic/react-search-ui";
+  import { config } from "./config";
+
+  const CustomResultsView = ({ children }) => {
+    return (
+      <div className="relative overflow-x-auto">
+        <ul className="flex snap-x">{children}</ul>
+      </div>
+    );
+  };
+
+  const CustomResultView = ({ result }) => {
+    return (
+      <li
+        className="py-3 px-3 snap-start hover:text-blue-600"
+        style={{ width: "200px" }}
+      >
+        <a href={result.url.raw}>
+          <img
+            src={result.image.raw}
+            alt={result.name.raw}
+            className="object-contain h-48 w-48"
+          />
+          <h4 className="text-sm truncate">{result.name.raw}</h4>
+        </a>
+      </li>
+    );
+  };
+
+  export default function ProductCarousel(props) {
+    return (
+      <SearchProvider config={config}>
+        <div className="product-carousel mb-10">
+          <h3 className="text-xl leading-8 font-semibold text-slate-700">
+            {props.title}
+          </h3>
+          <Results view={CustomResultsView} resultView={CustomResultView} />
+        </div>
+      </SearchProvider>
+    );
+  }
+
+----
+
+++++
+  </div>
+  <div tabindex="0" role="tabpanel" id="solutions-ecommerce-carousel-search-ui-config-panel" aria-labelledby="solutions-ecommerce-carousel-search-ui-config-button" hidden="">
+++++
+[source,js]
+----
+import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+
+const connector = new AppSearchAPIConnector({
+searchKey: "<search-key>",
+engineName: "<engine-name>",
+endpointBase: "<endpoint-base>",
+});
+
+export const config = () => ({
+  alwaysSearchOnInitialLoad: true,
+  trackUrlState: false,
+  initialState: {
+    resultsPerPage: 8
+  },
+  searchQuery: {
+    filters: [{ field: "parent_category", values: ["TVs"] }],
+    result_fields: {
+      name: {
+        raw: {}
+      },
+      image: { raw: {} },
+      url: { raw: {} }
+    }
+  },
+  apiConnector: connector
+});
+----
+
+++++
+  </div>
+</div>
+++++
+
+++++
+<iframe
+  src="https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js&theme=light&view=preview&hidedevtools=1"
+  style="width:100%;height:800px;overflow:hidden;"
+  title="Search UI"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+++++
+
+[discrete]
+[[solutions-ecommerce-carousel-related-articles]]
+
+* <<guides-creating-your-own-components>>: Build your own components for Search UI.
+* <<api-react-components-results>>: Search UI React Results Component.
+* <<api-core-configuration>>: Search UI Configuration API.

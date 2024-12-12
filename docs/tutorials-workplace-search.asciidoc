@@ -1,0 +1,193 @@
+[[tutorials-workplace-search]]
+= Search UI with Workplace Search
+
+// :keywords: demo
+
+.Deprecation Notice
+[IMPORTANT]
+====
+Workplace Search connector for Search UI is deprecated and will no longer be
+supported. Please migrate to <<tutorials-elasticsearch,Elasticsearch Connector>>
+for continued support.
+====
+
+This guide will walk you through getting up and running with a Search UI using https://www.elastic.co/workplace-search/[Elastic Workplace Search] as a backend.
+
+Have problems with the setup? Let us know in the https://github.com/elastic/search-ui/issues/707[feedback issue], and we'll try to help.
+
+[discrete]
+[[tutorials-workplace-search-prerequisites]]
+== Prerequisites
+
+Before continuing with this guide, make sure you:
+
+. have a running Elastic deployment with Enterprise Search and
+. indexed some data in Workplace Search.
+
+The best way to get started with Elastic Workplace Search is to follow our https://www.elastic.co/guide/en/workplace-search/current/workplace-search-getting-started.html[Getting Started guide].
+
+To index data into Workplace Search, read the https://www.elastic.co/guide/en/workplace-search/current/workplace-search-content-sources.html[Content Sources Overview] and follow a guide for any content source available there.
+
+[discrete]
+[[tutorials-workplace-search-creating-a-search-page]]
+== Creating a search page
+
+Have you indexed data into Workplace Search? Great! Let's create a search page in your application.
+
+We'll use React components in this tutorial, but you can use Search UI with any UI framework and even vanilla JavaScript. Read about our <<api-architecture>> to learn more about using Search UI outside of React.
+
+First, let's install Search UI packages:
+
+[source,shell]
+----
+npm install @elastic/react-search-ui @elastic/search-ui-workplace-search-connector
+----
+
+Next, create a new page in your application and add the following code:
+
+[source,jsx]
+----
+import React from "react";
+import WorkplaceSearchAPIConnector from "@elastic/search-ui-workplace-search-connector";
+import {
+  SearchProvider,
+  SearchBox,
+  Results,
+  Paging,
+  WithSearch
+} from "@elastic/react-search-ui";
+import { Layout } from "@elastic/react-search-ui-views";
+import "@elastic/react-search-ui-views/lib/styles/styles.css";
+
+const connector = new WorkplaceSearchAPIConnector({
+  kibanaBase: "",
+  enterpriseSearchBase: "",
+  redirectUri: "",
+  clientId: ""
+});
+
+const config = {
+  apiConnector: connector,
+  alwaysSearchOnInitialLoad: true
+};
+
+export default function WorkplaceSearch() {
+  return (
+    <SearchProvider config={config}>
+      <WithSearch
+        mapContextToProps={({ authorizeUrl, isLoggedIn, logout }) => ({
+          authorizeUrl,
+          isLoggedIn,
+          logout
+        })}
+      >
+        {({ authorizeUrl, isLoggedIn, logout }) => {
+          return (
+            <div>
+              {isLoggedIn ? (
+                <button onClick={logout}>Log out</button>
+              ) : (
+                <a href={authorizeUrl}>Log in</a>
+              )}
+              <Layout
+                header={<SearchBox />}
+                bodyContent={<Results />}
+                bodyFooter={<Paging />}
+              />
+            </div>
+          );
+        }}
+      </WithSearch>
+    </SearchProvider>
+  );
+}
+----
+
+This page shouldn't work yet. To connect to the Workplace Search backend, you need to provide some details in the connector configuration.
+
+[discrete]
+[[tutorials-workplace-search-adding-connector-configuration]]
+== Adding connector configuration
+
+Here's where to get the required configuration parameters:
+
+[discrete]
+[[tutorials-workplace-search-kibanabase-and-enterprisesearchbase]]
+=== `kibanaBase` and `enterpriseSearchBase`
+
+You can get both values on the API Keys page in Workplace Search:
+
+* `kibanaBase` — from the url,
+* `enterpriseSearchBase` — from the Endpoint panel.
+
+[role="screenshot"]
+image::images/workplace-search-tutorial/endpoints.png[endpoints]
+
+[discrete]
+[[tutorials-workplace-search-redirecturi]]
+=== `redirectUri`
+
+Use the path to the page where Search UI is going to live.
+
+[discrete]
+[[tutorials-workplace-search-clientid]]
+=== `clientId`
+
+To get a clientId, you need to create a new OAuth application in Workplace Search.
+
+. In Workplace Search, go to Settings, then OAuth application.
+. In the Redirect URIs field, add the `redirectUri` value from the previous step.
+. Deselect Confidential toggle.
+. Save changes.
+. Copy the `Client id` from the Credentials section.
+
+[role="screenshot"]
+image::images/workplace-search-tutorial/oauth-application.png[oauth-application]
+
+After finishing these steps, you should have a configuration that looks something like this:
+
+[source,js]
+----
+const connector = new WorkplaceSearchAPIConnector({
+  kibanaBase:
+    "https://my-deployment-10151b.kb.us-central1.gcp.cloud.es.io:9243",
+  enterpriseSearchBase:
+    "https://my-deployment-10151b.ent.us-central1.gcp.cloud.es.io",
+  redirectUri: "http://localhost:3001",
+  clientId: "d06a6d2db34ac6f6315cb5e37f84186fa84279371b5fd44186ed84afba14c70e"
+});
+----
+
+[discrete]
+[[tutorials-workplace-search-authorizing-the-application]]
+== Authorizing the application
+
+You should now be able to authorize.
+
+Click on the "Log in" link in the Search UI and authorize the application to search your data.
+
+[role="screenshot"]
+image::images/workplace-search-tutorial/authorize.png[authorize]
+
+Once you click the Authorize button, you should be redirected back to your application and see the search results.
+
+[role="screenshot"]
+image::images/workplace-search-tutorial/search-ui-results.png[search-ui-results]
+
+Congratulations! You have successfully connected to Workplace Search.
+
+[discrete]
+[[tutorials-workplace-search-next-steps]]
+== Next steps
+
+The UI we have now is very minimal. That is intentional to get you started quickly.
+
+Some of the next steps you could take to improve your search experience are:
+
+* adding facets,
+* adding paging info,
+* adding sorting,
+* setting up autocomplete
+* improving the design of results.
+
+Check out our https://github.com/elastic/search-ui/blob/7cf8710a8037123ee42dc1616ec8f23b842a66f0/examples/sandbox/src/pages/workplace-search/index.js[example page] where we added some of these items, or follow other guides in this documentation.
