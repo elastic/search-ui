@@ -25,13 +25,9 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new ElasticSearchAPIConnector({
-  host:
-    process.env.REACT_ELASTICSEARCH_HOST ||
-    "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
-  index: process.env.REACT_ELASTICSEARCH_INDEX || "national-parks",
-  apiKey:
-    process.env.REACT_ELASTICSEARCH_API_KEY ||
-    "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
+  host: "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
+  index: "national-parks",
+  apiKey: "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
 });
 
 const config = {
