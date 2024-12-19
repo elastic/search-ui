@@ -6,9 +6,9 @@ The [Search UI docs](https://www.elastic.co/guide/en/search-ui/current/overview.
 
 Before building the docs locally make sure you have:
 
-* Docker
-* Python 3
-* [elastic/docs](https://github.com/elastic/docs) cloned locally
+- Docker
+- Python 3
+- [elastic/docs](https://github.com/elastic/docs) cloned locally
 
 Assuming your local copy of the elastic/docs repo is in the same repo as your local copy of this repo, run this command from inside your local copy of this repo:
 
