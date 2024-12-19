@@ -26,8 +26,8 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 const connector = new SiteSearchAPIConnector({
-  engineKey: process.env.REACT_SITE_SEARCH_ENGINE_KEY || "Z43R5U3HiDsDgpKawZkA",
-  documentType: process.env.REACT_SITE_SEARCH_ENGINE_NAME || "national-parks"
+  engineKey: "Z43R5U3HiDsDgpKawZkA",
+  documentType: "national-parks"
 });
 
 const config = {

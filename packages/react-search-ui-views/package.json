@@ -32,9 +32,7 @@
     "build-js": "./bin/build-js",
     "build": "run-s clean build-css build-js",
     "watch": "npm run build && run-p watch-css watch-js",
-    "prepare": "npm run build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "prepare": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
@@ -44,10 +42,6 @@
     "react-dom": ">= 16.8.0 < 19"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^4.1.18",
-    "@storybook/addon-links": "^4.1.18",
-    "@storybook/addons": "^4.1.18",
-    "@storybook/react": "^4.1.18",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
     "chokidar-cli": "^3.0.0",

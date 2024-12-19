@@ -41,7 +41,7 @@
     "eslint-plugin-react": "^7.28.0",
     "husky": ">=6",
     "jest": "^27.4.7",
-    "lerna": "^4.0.0",
+    "lerna": "^5.6.0",
     "lint-staged": ">=10",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.3",
