@@ -1,13 +1,22 @@
 {
-  "name": "sandbox",
-  "private": true,
-  "version": "0.0.0",
+  "name": "search-ui-examples",
+  "description": "All Elastic Search UI examples in one place",
+  "keywords": [
+    "search",
+    "interface",
+    "ui",
+    "examples",
+    "elastic",
+    "elasticsearch"
+  ],
+  "version": "1.22.0",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "vite preview"
   },
   "dependencies": {
     "moment": "^2.30.1",
