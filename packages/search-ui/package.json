@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui",
-  "version": "1.22.1",
+  "version": "1.22.2",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
   "main": "lib/cjs/index.js",
@@ -43,7 +43,7 @@
     "date-fns": "^1.30.1",
     "deep-equal": "^1.0.1",
     "history": "^4.9.0",
-    "qs": "^6.7.0"
+    "qs": "^6.9.7"
   },
   "exports": {
     ".": {
