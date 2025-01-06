@@ -1,7 +1,8 @@
-# Search UI sandbox
+# React + Vite
 
-This sandbox app is a simple example of how to use the Search UI library and also serves as a development aid.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-See the [Contributing guide](../../CONTRIBUTING.md#sandbox) for the instructions on running the sandbox.
+Currently, two official plugins are available:
 
-A live version can be found [here](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox).
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

@@ -2,12 +2,9 @@ import moment from "moment";
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
 const connector = new AppSearchAPIConnector({
-  searchKey:
-    process.env.REACT_APP_SEARCH_KEY || "search-nyxkw1fuqex9qjhfvatbqfmw",
-  engineName: process.env.REACT_APP_SEARCH_ENGINE_NAME || "national-parks",
-  endpointBase:
-    process.env.REACT_APP_SEARCH_ENDPOINT_BASE ||
-    "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
+  searchKey: "search-nyxkw1fuqex9qjhfvatbqfmw",
+  engineName: "national-parks",
+  endpointBase: "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
 });
 
 export const config = {

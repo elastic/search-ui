@@ -3,10 +3,10 @@ on:
   pull_request_target:
     types: [opened]
     paths:
-      - '**.asciidoc'
-      - '**.jpg'
-      - '**.png'
-      - '**.gif'
+      - "**.asciidoc"
+      - "**.jpg"
+      - "**.png"
+      - "**.gif"
 
 permissions:
   pull-requests: write
@@ -19,5 +19,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repo: ${{ github.event.repository.name }}
-          preview-path: 'guide/index.html'
+          preview-path: "guide/index.html"
           pr: ${{ github.event.pull_request.number }}
