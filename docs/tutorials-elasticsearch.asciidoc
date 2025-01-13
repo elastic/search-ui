@@ -480,7 +480,7 @@ We are going to do several steps here:
           <Facet key={"2"} field={"actors.keyword"} label={"actors"} />
           <Facet key={"3"} field={"directors.keyword"} label={"directors"} />
           <Facet key={"4"} field={"released"} label={"released"} />
-          <Facet key={"4"} field={"imdbRating"} label={"imdb rating"} />
+          <Facet key={"5"} field={"imdbRating"} label={"imdb rating"} />
         </div>
       }
       bodyContent={<Results shouldTrackClickThrough={true} />}
