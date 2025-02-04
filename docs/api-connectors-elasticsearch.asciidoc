@@ -156,7 +156,7 @@ The connector will perform a `_search` query and will derive the endpoint path w
 [[api-connectors-elasticsearch-use-an-elasticsearch-api-key]]
 === Use an Elasticsearch api-key
 
-You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has read-only authorization. See https://www.elastic.co/guide/en/kibana/master/api-keys.html[Kibana API keys guide]. To use the API key, place it within the Elasticsearch connection configuration.
+You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has read-only authorization. See {kibana-ref}/api-keys.html[Kibana API keys guide]. To use the API key, place it within the Elasticsearch connection configuration.
 
 [discrete]
 [[api-connectors-elasticsearch-autocomplete]]
