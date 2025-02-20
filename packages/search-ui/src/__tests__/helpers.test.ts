@@ -5,6 +5,7 @@ const doFilterValuesMatch = helpers.doFilterValuesMatch;
 const markSelectedFacetValuesFromFilters =
   helpers.markSelectedFacetValuesFromFilters;
 const mergeFilters = helpers.mergeFilters;
+const getFilterBooleanValue = helpers.getFilterBooleanValue;
 
 describe("doFilterValuesMatch", () => {
   describe("when matching simple values", () => {
@@ -107,6 +108,20 @@ describe("doFilterValuesMatch", () => {
       const filterValue2 = {};
       expect(doFilterValuesMatch(filterValue1, filterValue2)).toBe(true);
     });
+  });
+
+  describe("when matching boolean values", () => {
+    it("will match string 'true' with boolean true", () => {
+      expect(doFilterValuesMatch("true", true)).toBe(true);
+    });
+
+    it("will match numeric 1 with boolean true", () => {
+      expect(doFilterValuesMatch(1, "true")).toBe(true);
+    });
+
+    it('will not match string true with numeric 0', () => {
+      expect(doFilterValuesMatch('true', 0)).toBe(false);
+    })
   });
 });
 
@@ -239,5 +254,30 @@ describe("mergeFilters", () => {
       expect(isFilterValueRange(1)).toBe(false);
       expect(isFilterValueRange("1")).toBe(false);
     });
+  });
+});
+
+describe("getFilterBooleanValue", () => {
+  it("handles string values", () => {
+    expect(getFilterBooleanValue("true")).toBe(true);
+    expect(getFilterBooleanValue("false")).toBe(false);
+    expect(getFilterBooleanValue("1")).toBe(false);
+    expect(getFilterBooleanValue("0")).toBe(false);
+  });
+
+  it("handles numeric values", () => {
+    expect(getFilterBooleanValue(1)).toBe(true);
+    expect(getFilterBooleanValue(0)).toBe(false);
+  });
+
+  it("handles actual boolean values", () => {
+    expect(getFilterBooleanValue(true)).toBe(true);
+    expect(getFilterBooleanValue(false)).toBe(false);
+  });
+
+  it("handles edge cases", () => {
+    expect(getFilterBooleanValue("")).toBe(false);
+    expect(getFilterBooleanValue(null)).toBe(false);
+    expect(getFilterBooleanValue(undefined)).toBe(false);
   });
 });

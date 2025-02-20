@@ -16,6 +16,7 @@ const params: FacetViewProps = {
   options: [
     {
       value: "true",
+      selected: false,
       count: 10
     }
   ],
@@ -48,7 +49,21 @@ it("onRemove is called on click", () => {
     <BooleanFacet
       {...{
         ...params,
-        values: ["true"]
+        options: [{value: "true", count:10, selected: true}],
+      }}
+    />
+  );
+
+  wrapper.find("input").simulate("change");
+  expect(params.onRemove).toHaveBeenCalledTimes(1);
+});
+
+it("onRemove is called on click when value is number", () => {
+  const wrapper = mount(
+    <BooleanFacet
+      {...{
+        ...params,
+        options: [{value: 1, count:10, selected: true}],
       }}
     />
   );
