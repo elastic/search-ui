@@ -23,6 +23,10 @@ const params: FacetViewProps = {
   values: []
 };
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 it("renders", () => {
   const wrapper = shallow(<BooleanFacet {...params} />);
   expect(wrapper).toMatchSnapshot();
@@ -49,7 +53,7 @@ it("onRemove is called on click", () => {
     <BooleanFacet
       {...{
         ...params,
-        options: [{value: "true", count:10, selected: true}],
+        options: [{ value: "true", count: 10, selected: true }]
       }}
     />
   );
@@ -63,7 +67,7 @@ it("onRemove is called on click when value is number", () => {
     <BooleanFacet
       {...{
         ...params,
-        options: [{value: 1, count:10, selected: true}],
+        options: [{ value: 1, count: 10, selected: true }]
       }}
     />
   );
