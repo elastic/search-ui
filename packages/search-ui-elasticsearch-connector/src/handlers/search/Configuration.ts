@@ -82,6 +82,23 @@ export function isRangeFilter(
   );
 }
 
+export enum SortOptionsId {
+  SelectedOption = "selectedOption",
+  CustomOption = "customOption"
+}
+
+export function getSortOptionByState(
+  state: RequestState
+): SortOptionsId | null {
+  if (state.sortList?.length > 0) {
+    return SortOptionsId.SelectedOption;
+  } else if (state.sortField && state.sortDirection) {
+    return SortOptionsId.CustomOption;
+  } else {
+    return null;
+  }
+}
+
 export function buildBaseFilters(baseFilters: Filter[]): BaseFilters {
   const filters = (baseFilters || []).reduce((acc, filter) => {
     const boolType = {
@@ -240,19 +257,29 @@ function buildConfiguration({
     []
   );
 
-  const sortOption =
-    state.sortList?.length > 0
-      ? {
-          id: "selectedOption",
-          label: "selectedOption",
-          field: state.sortList.reduce((acc, s) => {
-            acc.push({
-              [s.field]: s.direction
-            });
-            return acc;
-          }, [])
-        }
-      : { id: "selectedOption", label: "selectedOption", field: "_score" };
+  const sortOptions = [
+    {
+      id: SortOptionsId.SelectedOption,
+      label: SortOptionsId.SelectedOption,
+      field:
+        state.sortList?.length > 0
+          ? state.sortList.reduce((acc, s) => {
+              acc.push({
+                [s.field]: s.direction
+              });
+              return acc;
+            }, [])
+          : "_score"
+    }
+  ];
+
+  if (state.sortField && state.sortDirection) {
+    sortOptions.push({
+      id: SortOptionsId.CustomOption,
+      label: SortOptionsId.CustomOption,
+      field: [{ [state.sortField]: state.sortDirection }]
+    });
+  }
 
   const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
   const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
@@ -282,7 +309,7 @@ function buildConfiguration({
     query: new MultiMatchQuery({
       fields: queryFields
     }),
-    sortOptions: [sortOption],
+    sortOptions,
     facets,
     filters: filtersConfig,
     postProcessRequest: wrappedPostProcessRequestFn

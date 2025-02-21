@@ -1,7 +1,7 @@
 import type { Filter, QueryConfig, RequestState } from "@elastic/search-ui";
 import { MixedFilter } from "@searchkit/sdk";
 import { helpers } from "@elastic/search-ui";
-import { isValidDateString } from "./Configuration";
+import { getSortOptionByState, isValidDateString } from "./Configuration";
 
 export interface SearchkitVariables {
   query: string;
@@ -51,7 +51,7 @@ function SearchRequest(
       : [],
     from: (state.current - 1) * state.resultsPerPage,
     size: state.resultsPerPage,
-    sort: state.sortList?.length > 0 ? "selectedOption" : null
+    sort: getSortOptionByState(state)
   };
 }
 
