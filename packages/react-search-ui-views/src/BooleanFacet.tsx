@@ -1,5 +1,6 @@
 import React from "react";
 import { FacetViewProps } from "./types";
+import { helpers } from "@elastic/search-ui";
 
 import { appendClassName } from "./view-helpers";
 
@@ -8,12 +9,13 @@ function BooleanFacet({
   label,
   options,
   onChange,
-  onRemove,
-  values
+  onRemove
 }: FacetViewProps) {
-  const trueOptions = options.find((option) => option.value === "true");
-  if (!trueOptions) return null;
-  const isSelected = values.includes("true");
+  const trueOption = options.find((option) =>
+    helpers.getFilterBooleanValue(option.value)
+  );
+  if (!trueOption) return null;
+  const isSelected = trueOption.selected;
 
   const apply = () => onChange("true");
   const remove = () => onRemove("true");
@@ -38,7 +40,7 @@ function BooleanFacet({
               <span className="sui-boolean-facet__input-text">{label}</span>
             </div>
             <span className="sui-boolean-facet__option-count">
-              {trueOptions.count}
+              {trueOption.count}
             </span>
           </label>
         </div>

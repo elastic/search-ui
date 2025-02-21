@@ -95,6 +95,12 @@ export function markSelectedFacetValuesFromFilters(
  * @param {FilterValue} filterValue2
  */
 export function doFilterValuesMatch(filterValue1, filterValue2) {
+  if (filterValue1 === "true" || filterValue2 === "true")
+    // Filter value has "true" value and facet may have 1 or "true"
+    return (
+      getFilterBooleanValue(filterValue1) ===
+      getFilterBooleanValue(filterValue2)
+    );
   if (
     filterValue1 &&
     filterValue1.name &&
@@ -150,3 +156,8 @@ export const serialiseFilter = (filterValues: FilterValue[]) => {
     }, [])
     .join(",");
 };
+
+export const getFilterBooleanValue = (filterValue: FilterValue) =>
+  typeof filterValue === "string"
+    ? filterValue === "true"
+    : Boolean(filterValue);
