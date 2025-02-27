@@ -4,6 +4,7 @@
   "homepage": "https://docs.elastic.co/search-ui",
   "description": "A React library for building search experiences",
   "license": "Apache-2.0",
+  "type": "module",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/esm/index.d.ts",
@@ -23,12 +24,9 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "clean": "rimraf lib",
-    "watch-js": "./bin/watch-js",
-    "build-js": "./bin/build-js",
-    "build": "npm run clean && npm run build-js",
-    "watch": "npm run build && npm run watch-js",
-    "prepare": "npm run build"
+    "build": "tsup --config tsup.config.ts -- --tsconfig tsconfig.json",
+    "watch": "yarn build --watch",
+    "prepare": "yarn build"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
@@ -44,14 +42,13 @@
   "devDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^2.6.3",
     "typescript": "^4.9.3"
   },
   "exports": {
     ".": {
+      "types": "./lib/esm/index.d.ts",
       "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "types": "./lib/esm/index.d.ts"
+      "require": "./lib/cjs/index.js"
     },
     "./package": "./package.json",
     "./package.json": "./package.json"

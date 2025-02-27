@@ -4,15 +4,17 @@ import type {
   RequestState,
   ResultSuggestionConfiguration
 } from "@elastic/search-ui";
-import Searchkit, {
-  CompletionSuggester,
-  HitsSuggestor,
-  PrefixQuery,
-  SearchkitConfig
-} from "@searchkit/sdk";
+import Searchkit, * as SearchkitTools from "@searchkit/sdk";
 import { CloudHost } from "../../types";
 import { fieldResponseMapper } from "../common";
 import { getQueryFields, getResultFields } from "../search/Configuration";
+import type { SearchkitConfig } from "@searchkit/sdk";
+
+const {
+  CompletionSuggester,
+  HitsSuggestor,
+  PrefixQuery,
+} = SearchkitTools;
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
