@@ -3,10 +3,9 @@
   "version": "1.22.2",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
-  "type": "module",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
-  "types": "lib/esm/index.d.ts",
+  "types": "lib/cjs/index.d.ms",
   "sideEffects": false,
   "homepage": "https://docs.elastic.co/search-ui",
   "directories": {
@@ -44,7 +43,7 @@
   },
   "exports": {
     ".": {
-      "types": "./lib/esm/index.d.ts",
+      "types": "./lib/cjs/index.d.ts",
       "import": "./lib/esm/index.js",
       "require": "./lib/cjs/index.js"
     },
