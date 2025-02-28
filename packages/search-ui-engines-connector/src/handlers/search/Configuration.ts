@@ -4,20 +4,19 @@ import type {
   FilterValue,
   FilterValueRange,
   QueryConfig,
-  RequestState,
-  SearchFieldConfiguration
+  RequestState
 } from "@elastic/search-ui";
-import {
-  BaseFilter,
-  BaseFilters,
-  Filter as SKFilter,
-  GeoDistanceOptionsFacet,
-  MultiQueryOptionsFacet,
-  RefinementSelectFacet,
-  SearchkitConfig
-} from "@searchkit/sdk";
+import * as Searchkit from "@searchkit/sdk"; // searchkit@3 sdk uses CommonJS modules by default
 import { LIB_VERSION } from "../../version";
 import { EngineQuery } from "./Query";
+import type { BaseFilter, BaseFilters, SearchkitConfig } from "@searchkit/sdk";
+
+const {
+  Filter: SKFilter,
+  GeoDistanceOptionsFacet,
+  MultiQueryOptionsFacet,
+  RefinementSelectFacet
+} = Searchkit;
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>

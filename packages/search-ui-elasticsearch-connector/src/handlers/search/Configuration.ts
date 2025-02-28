@@ -7,25 +7,21 @@ import type {
   RequestState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
-import * as Searchkit from "@searchkit/sdk";
+import * as Searchkit from "@searchkit/sdk"; // searchkit@3 sdk uses CommonJS modules by default
 import type {
   CloudHost,
   PostProcessRequestBodyFn,
   SearchRequest
 } from "../../types";
 import { LIB_VERSION } from "../../version";
-import type {
-  BaseFilter,
-  BaseFilters,
-  SearchkitConfig
-} from "@searchkit/sdk";
+import type { BaseFilter, BaseFilters, SearchkitConfig } from "@searchkit/sdk";
 
 const {
   Filter: SKFilter,
   GeoDistanceOptionsFacet,
   MultiMatchQuery,
   MultiQueryOptionsFacet,
-  RefinementSelectFacet,
+  RefinementSelectFacet
 } = Searchkit;
 
 export function getResultFields(

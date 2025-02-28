@@ -10,11 +10,7 @@ import { fieldResponseMapper } from "../common";
 import { getQueryFields, getResultFields } from "../search/Configuration";
 import type { SearchkitConfig } from "@searchkit/sdk";
 
-const {
-  CompletionSuggester,
-  HitsSuggestor,
-  PrefixQuery,
-} = SearchkitTools;
+const { CompletionSuggester, HitsSuggestor, PrefixQuery } = SearchkitTools;
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;

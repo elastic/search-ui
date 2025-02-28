@@ -11,6 +11,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   }
 }

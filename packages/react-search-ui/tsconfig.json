@@ -3,7 +3,7 @@
   "compilerOptions": {
     "jsx": "react",
     "lib": ["dom", "esnext"],
-    "outDir": "lib",
+    "outDir": "lib"
   },
   "exclude": ["node_modules", "lib"],
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js"]
