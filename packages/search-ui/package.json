@@ -3,9 +3,9 @@
   "version": "1.22.2",
   "description": "A Headless Search UI library",
   "license": "Apache-2.0",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/cjs/index.d.ms",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
   "sideEffects": false,
   "homepage": "https://docs.elastic.co/search-ui",
   "directories": {
@@ -23,7 +23,7 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "build": "tsup --config tsup.config.ts -- --tsconfig tsconfig.json",
+    "build": "tsup",
     "watch": "yarn run build --watch",
     "prepare": "yarn run build"
   },
@@ -43,9 +43,9 @@
   },
   "exports": {
     ".": {
-      "types": "./lib/cjs/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
     },
     "./package": "./package.json",
     "./package.json": "./package.json"

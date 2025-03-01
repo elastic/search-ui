@@ -4,9 +4,9 @@
   "description": "A collection of React UI components for building search experiences",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/cjs/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
   "sideEffects": [
     "*.css"
   ],
@@ -25,12 +25,9 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "build-css": "./bin/build-css",
-    "build-js": "tsup --config tsup.config.ts -- --tsconfig tsconfig.json -- --entry src/index.tsx",
-    "watch-js": "yarn build-js --watch",
-    "build": "run-s build-css build-js",
-    "watch": "run-p build-css watch-js",
-    "prepare": "yarn run build"
+    "build": "tsup src/index.tsx",
+    "watch": "yarn build --watch",
+    "prepare": "yarn build"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
@@ -45,7 +42,6 @@
     "chokidar-cli": "^3.0.0",
     "core-js": "^3.6.5",
     "core-js-pure": "^3.6.5",
-    "npm-run-all": "^4.1.5",
     "postcss-cli": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -60,9 +56,9 @@
   },
   "exports": {
     ".": {
-      "types": "./lib/cjs/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
     },
     "./lib/styles/styles.css": "./lib/styles/styles.css",
     "./package": "./package.json",

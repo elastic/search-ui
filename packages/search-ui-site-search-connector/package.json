@@ -4,9 +4,9 @@
   "description": "A Search UI connector for Elastic's Site Search Service",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/esm/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
@@ -23,7 +23,7 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "build": "tsup --config tsup.config.ts -- --tsconfig tsconfig.json",
+    "build": "tsup",
     "watch": "yarn build --watch",
     "prepare": "yarn build"
   },
@@ -38,9 +38,9 @@
   },
   "exports": {
     ".": {
-      "types": "./lib/esm/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
     },
     "./package": "./package.json",
     "./package.json": "./package.json"
