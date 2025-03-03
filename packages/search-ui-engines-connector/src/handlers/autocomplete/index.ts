@@ -4,13 +4,22 @@ import type {
   RequestState,
   ResultSuggestionConfiguration
 } from "@elastic/search-ui";
-import Searchkit, * as SearchkitTools from "@searchkit/sdk"; // searchkit@3 sdk uses CommonJS modules by default
+import * as SearchkitModule from "@searchkit/sdk";
 import { Transporter } from "../../types";
 import { fieldResponseMapper } from "../common";
 import { getResultFields } from "../search/Configuration";
 import type { SearchkitConfig } from "@searchkit/sdk";
 
-const { CompletionSuggester, HitsSuggestor, PrefixQuery } = SearchkitTools;
+
+const {
+  default: Searchkit,
+  CompletionSuggester,
+  HitsSuggestor,
+  PrefixQuery,
+} =
+  typeof SearchkitModule.default === "object"
+    ? (SearchkitModule.default as unknown as typeof SearchkitModule)
+    : SearchkitModule as typeof SearchkitModule;
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;

@@ -6,7 +6,7 @@ import type {
   QueryConfig,
   RequestState
 } from "@elastic/search-ui";
-import * as Searchkit from "@searchkit/sdk"; // searchkit@3 sdk uses CommonJS modules by default
+import * as SearchkitModule from "@searchkit/sdk";
 import { LIB_VERSION } from "../../version";
 import { EngineQuery } from "./Query";
 import type { BaseFilter, BaseFilters, SearchkitConfig } from "@searchkit/sdk";
@@ -16,7 +16,10 @@ const {
   GeoDistanceOptionsFacet,
   MultiQueryOptionsFacet,
   RefinementSelectFacet
-} = Searchkit;
+} =
+  typeof SearchkitModule.default === "object"
+    ? (SearchkitModule.default as unknown as typeof SearchkitModule)
+    : SearchkitModule as typeof SearchkitModule;
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>
