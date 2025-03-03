@@ -15,10 +15,9 @@ const {
   CompletionSuggester,
   HitsSuggestor,
   PrefixQuery
-} =
-  typeof SearchkitModule.default === "object"
-    ? (SearchkitModule.default as unknown as typeof SearchkitModule)
-    : SearchkitModule as typeof SearchkitModule;
+} = typeof SearchkitModule.default === "object"
+  ? (SearchkitModule.default as unknown as typeof SearchkitModule)
+  : (SearchkitModule as typeof SearchkitModule);
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;

@@ -16,10 +16,9 @@ const {
   GeoDistanceOptionsFacet,
   MultiQueryOptionsFacet,
   RefinementSelectFacet
-} =
-  typeof SearchkitModule.default === "object"
-    ? (SearchkitModule.default as unknown as typeof SearchkitModule)
-    : SearchkitModule as typeof SearchkitModule;
+} = typeof SearchkitModule.default === "object"
+  ? (SearchkitModule.default as unknown as typeof SearchkitModule)
+  : (SearchkitModule as typeof SearchkitModule);
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>
