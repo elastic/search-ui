@@ -1,0 +1,52 @@
+toc:
+  - file: index.md
+  - file: ecommerce.md
+    children:
+      - file: solutions-ecommerce-autocomplete.md
+      - file: solutions-ecommerce-carousel.md
+      - file: solutions-ecommerce-category-page.md
+      - file: solutions-ecommerce-product-detail-page.md
+      - file: solutions-ecommerce-search-page.md
+  - file: tutorials.md
+    children:
+      - file: tutorials-app-search.md
+      - file: tutorials-elasticsearch.md
+      - file: tutorials-workplace-search.md
+  - file: basic-usage.md
+    children:
+      - file: guides-using-search-as-you-type.md
+      - file: guides-adding-search-bar-to-header.md
+      - file: guides-debugging.md
+  - file: advanced-usage.md
+    children:
+      - file: guides-conditional-facets.md
+      - file: guides-changing-component-behavior.md
+      - file: guides-analyzing-performance.md
+      - file: guides-creating-own-components.md
+      - file: guides-building-custom-connector.md
+      - file: guides-nextjs-integration.md
+  - file: api-reference.md
+    children:
+      - file: api-core-configuration.md
+        children:
+          - file: api-core-state.md
+          - file: api-core-actions.md
+      - file: api-react-search-provider.md
+        children:
+          - file: api-react-with-search.md
+      - file: api-react-components-search-box.md
+        children:
+          - file: api-react-components-results.md
+          - file: api-react-components-result.md
+          - file: api-react-components-results-per-page.md
+          - file: api-react-components-facet.md
+          - file: api-react-components-sorting.md
+          - file: api-react-components-paging.md
+          - file: api-react-components-paging-info.md
+          - file: api-react-components-error-boundary.md
+      - file: api-connectors-app-search.md
+        children:
+          - file: api-connectors-site-search.md
+          - file: api-connectors-workplace-search.md
+          - file: api-connectors-elasticsearch.md
+      - file: api-core-plugins-analytics-plugin.md
