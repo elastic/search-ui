@@ -1,4 +1,4 @@
-import { Event, SearchResult, SearchState } from "..";
+import { SearchState } from "..";
 import Events from "../Events";
 
 /**

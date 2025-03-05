@@ -1,7 +1,0 @@
-# Compile Sass to a temporary location
-sass --no-source-map src/:lib/
-
-# Process compiled SASS to inline imported CSS files and add vendor prefixes
-# Move it to /lib
-postcss lib/styles/styles.css --use autoprefixer -o lib/styles/styles.css
-

@@ -1,4 +1,3 @@
-import { AutocompleteSuggestion } from "../..";
 import { setupDriver, mockPlugin } from "../../test/helpers";
 
 describe("#trackAutocompleteSuggestionClickThrough", () => {

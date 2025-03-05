@@ -1,1 +1,0 @@
-chokidar "**/*.scss" -c "npm run build-css"

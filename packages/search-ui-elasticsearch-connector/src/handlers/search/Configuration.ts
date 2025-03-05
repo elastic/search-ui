@@ -7,22 +7,24 @@ import type {
   RequestState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
-import {
-  BaseFilter,
-  BaseFilters,
-  Filter as SKFilter,
-  GeoDistanceOptionsFacet,
-  MultiMatchQuery,
-  MultiQueryOptionsFacet,
-  RefinementSelectFacet,
-  SearchkitConfig
-} from "@searchkit/sdk";
+import * as SearchkitModule from "@searchkit/sdk";
 import type {
   CloudHost,
   PostProcessRequestBodyFn,
   SearchRequest
 } from "../../types";
 import { LIB_VERSION } from "../../version";
+import type { BaseFilter, BaseFilters, SearchkitConfig } from "@searchkit/sdk";
+
+const {
+  Filter: SKFilter,
+  GeoDistanceOptionsFacet,
+  MultiMatchQuery,
+  MultiQueryOptionsFacet,
+  RefinementSelectFacet
+} = typeof SearchkitModule.default === "object"
+  ? (SearchkitModule.default as unknown as typeof SearchkitModule)
+  : (SearchkitModule as typeof SearchkitModule);
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>

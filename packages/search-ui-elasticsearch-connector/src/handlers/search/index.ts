@@ -3,11 +3,15 @@ import type {
   RequestState,
   ResponseState
 } from "@elastic/search-ui";
-import Searchkit from "@searchkit/sdk";
+import SearchkitModule from "@searchkit/sdk";
 import { CloudHost, PostProcessRequestBodyFn } from "../../types";
 import buildConfiguration, { buildBaseFilters } from "./Configuration";
 import buildRequest from "./Request";
 import buildResponse from "./Response";
+
+const Searchkit =
+  (SearchkitModule as unknown as { default: typeof SearchkitModule }).default ||
+  SearchkitModule;
 
 interface SearchHandlerConfiguration {
   state: RequestState;

@@ -4,9 +4,9 @@
   "description": "A Search UI connector for Engines",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/esm/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
   "sideEffects": false,
   "directories": {
     "lib": "lib",
@@ -23,13 +23,10 @@
   "scripts": {
     "test-ci": "jest --runInBand",
     "test": "jest",
-    "clean": "rimraf lib",
-    "watch-js": "./bin/watch-js",
-    "build-js": "./bin/build-js",
     "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
-    "build": "npm run clean && npm run build-js",
-    "watch": "npm run build && npm run watch-js",
-    "prepare": "npm run build"
+    "build": "tsup",
+    "watch": "yarn build --watch",
+    "prepare": "yarn build"
   },
   "bugs": {
     "url": "https://github.com/elastic/search-ui/issues"
@@ -38,7 +35,6 @@
     "@elastic/elasticsearch": "^8.6.0",
     "cross-fetch": "^3.1.4",
     "nock": "^13.3.0",
-    "rimraf": "^2.6.3",
     "typescript": "^4.9.3"
   },
   "dependencies": {
@@ -51,9 +47,9 @@
   },
   "exports": {
     ".": {
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "types": "./lib/esm/index.d.ts"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
     },
     "./package": "./package.json",
     "./package.json": "./package.json"
