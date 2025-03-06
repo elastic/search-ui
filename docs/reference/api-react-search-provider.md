@@ -7,7 +7,7 @@ mapped_pages:
 # SearchProvider [api-react-search-provider]
 
 
-The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI and in a React [Context](https://reactjs.org/docs/context.md), and also via a [Render Prop](https://reactjs.org/docs/render-props.md).
+The `SearchProvider` is a React wrapper around the Headless Core, and makes state and actions available to Search UI and in a React [Context](https://reactjs.org/docs/context.html), and also via a [Render Prop](https://reactjs.org/docs/render-props.html).
 
 It looks like this:
 
@@ -64,7 +64,7 @@ const App = () => (
 
 The "Context" is a flattened object containing, as keys, all [State](/reference/api-core-state.md) and [Actions](/reference/api-core-actions.md).
 
-We refer to it as "Context" because it is implemented with a [React Context](https://reactjs.org/docs/context.md).
+We refer to it as "Context" because it is implemented with a [React Context](https://reactjs.org/docs/context.html).
 
 ex.
 

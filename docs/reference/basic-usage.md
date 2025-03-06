@@ -66,7 +66,7 @@ All components in this library can be customized by providing a `view` prop.
 
 The view prop can be used to customize a component’s look and feel while still maintaining the component’s logic.
 
-This follows the [React Render Props](https://reactjs.org/docs/render-props.md) pattern. The `view` prop is a function. The various logic and values your view needs are passed through as parameters to the `view` function you provide.
+This follows the [React Render Props](https://reactjs.org/docs/render-props.html) pattern. The `view` prop is a function. The various logic and values your view needs are passed through as parameters to the `view` function you provide.
 
 Every component will have a different function signature for its view.
 

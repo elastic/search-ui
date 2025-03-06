@@ -86,7 +86,7 @@ Also above is the host url. Copy this as we will use it later on as well.
 
 ## Build a Search Experience with Search UI [tutorials-app-search-build-a-search-experience-with-search-ui]
 
-For this tutorial, we are going to be using the popular [Create React App (CRA) framework](https://reactjs.org/docs/create-a-new-react-app.md). To get started, we run the following command
+For this tutorial, we are going to be using the popular [Create React App (CRA) framework](https://reactjs.org/docs/create-a-new-react-app.html). To get started, we run the following command
 
 ```shell
  npx create-react-app us-parks-demo --template typescript
