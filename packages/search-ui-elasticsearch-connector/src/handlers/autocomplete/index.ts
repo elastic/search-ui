@@ -4,7 +4,7 @@ import type {
   RequestState,
   ResultSuggestionConfiguration
 } from "@elastic/search-ui";
-import * as SearchkitModule from "@searchkit/sdk";
+import SearchkitModule from "../SearchkitModule";
 import { CloudHost } from "../../types";
 import { fieldResponseMapper } from "../common";
 import { getQueryFields, getResultFields } from "../search/Configuration";
@@ -15,9 +15,7 @@ const {
   CompletionSuggester,
   HitsSuggestor,
   PrefixQuery
-} = typeof SearchkitModule.default === "object"
-  ? (SearchkitModule.default as unknown as typeof SearchkitModule)
-  : (SearchkitModule as typeof SearchkitModule);
+} = SearchkitModule;
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;

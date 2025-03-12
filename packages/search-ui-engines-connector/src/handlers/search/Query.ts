@@ -1,9 +1,6 @@
-import * as SearchkitModule from "@searchkit/sdk"; // searchkit@3 sdk uses CommonJS modules by default
+import SearchkitModule from "../SearchkitModule";
 
-const { CustomQuery } =
-  typeof SearchkitModule.default === "object"
-    ? (SearchkitModule.default as unknown as typeof SearchkitModule)
-    : (SearchkitModule as typeof SearchkitModule);
+const { CustomQuery } = SearchkitModule;
 
 export const EngineQuery = () =>
   new CustomQuery({

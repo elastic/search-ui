@@ -7,7 +7,7 @@ import type {
   RequestState,
   SearchFieldConfiguration
 } from "@elastic/search-ui";
-import * as SearchkitModule from "@searchkit/sdk";
+import SearchkitModule from "../SearchkitModule";
 import type {
   CloudHost,
   PostProcessRequestBodyFn,
@@ -22,9 +22,7 @@ const {
   MultiMatchQuery,
   MultiQueryOptionsFacet,
   RefinementSelectFacet
-} = typeof SearchkitModule.default === "object"
-  ? (SearchkitModule.default as unknown as typeof SearchkitModule)
-  : (SearchkitModule as typeof SearchkitModule);
+} = SearchkitModule;
 
 export function getResultFields(
   resultFields: Record<string, FieldConfiguration>
