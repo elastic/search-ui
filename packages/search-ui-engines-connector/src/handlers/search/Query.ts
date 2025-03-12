@@ -1,4 +1,6 @@
-import { CustomQuery } from "@searchkit/sdk";
+import SearchkitModule from "../SearchkitModule";
+
+const { CustomQuery } = SearchkitModule;
 
 export const EngineQuery = () =>
   new CustomQuery({

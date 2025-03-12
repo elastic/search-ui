@@ -119,9 +119,9 @@ describe("doFilterValuesMatch", () => {
       expect(doFilterValuesMatch(1, "true")).toBe(true);
     });
 
-    it('will not match string true with numeric 0', () => {
-      expect(doFilterValuesMatch('true', 0)).toBe(false);
-    })
+    it("will not match string true with numeric 0", () => {
+      expect(doFilterValuesMatch("true", 0)).toBe(false);
+    });
   });
 });
 

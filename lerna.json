@@ -9,6 +9,10 @@
       "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/src/test/**"],
       "registry": "https://registry.npmjs.org/",
       "message": "Release: %s"
+    },
+    "run": {
+      "sort": true,
+      "noPrivate": true
     }
   }
 }
