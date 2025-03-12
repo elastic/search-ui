@@ -12,13 +12,7 @@ export default function Root() {
           <Link to="/elasticsearch">Elasticsearch</Link>
         </li>
         <li>
-          <Link to="/app-search">Elastic App Search</Link>
-        </li>
-        <li>
           <Link to="/site-search">Elastic Site Search</Link>
-        </li>
-        <li>
-          <Link to="/workplace-search">Elastic Workplace Search</Link>
         </li>
       </ul>
 
@@ -34,11 +28,6 @@ export default function Root() {
         </li>
         <li>
           <Link to="/search-bar-in-header">Search bar in header</Link>
-        </li>
-        <li>
-          <Link to="/elasticsearch-with-analytics">
-            Elasticsearch with analytics plugin
-          </Link>
         </li>
       </ul>
 

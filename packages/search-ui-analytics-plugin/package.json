@@ -1,7 +1,7 @@
 {
   "name": "@elastic/search-ui-analytics-plugin",
   "version": "1.22.2",
-  "description": "Behavorial Analytics middleware plugin",
+  "description": "⚠️ DEPRECATED. Behavorial Analytics middleware plugin",
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
