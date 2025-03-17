@@ -1,7 +1,8 @@
 import type { Filter, QueryConfig, RequestState } from "@elastic/search-ui";
-import { MixedFilter } from "@searchkit/sdk";
 import { helpers } from "@elastic/search-ui";
 import { getSortOptionByState, isValidDateString } from "./Configuration";
+
+import type { MixedFilter } from "@searchkit/sdk";
 
 export interface SearchkitVariables {
   query: string;

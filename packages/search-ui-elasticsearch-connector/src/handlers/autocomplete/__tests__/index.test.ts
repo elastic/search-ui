@@ -174,7 +174,7 @@ describe("Autocomplete results", () => {
 
   it("should pass cloud configuration to searchkit", async () => {
     (Searchkit as jest.Mock).mockClear();
-    const results = await handleRequest({
+    await handleRequest({
       state,
       queryConfig,
       cloud: {
@@ -198,7 +198,7 @@ describe("Autocomplete results", () => {
 
   it("should pass additional headers to searchkit", async () => {
     (Searchkit as jest.Mock).mockClear();
-    const results = await handleRequest({
+    await handleRequest({
       state,
       queryConfig,
       host: "http://localhost:9200",

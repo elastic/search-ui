@@ -37,7 +37,6 @@
     "@elastic/search-ui-elasticsearch-connector": "1.22.2",
     "@elastic/search-ui-engines-connector": "1.22.2",
     "@elastic/search-ui-site-search-connector": "1.22.2",
-    "@elastic/search-ui-workplace-search-connector": "1.22.2",
     "@emotion/react": "^11.8.1",
     "@eslint/js": "^9.17.0",
     "@types/react": "^18.3.17",
