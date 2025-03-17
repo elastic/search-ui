@@ -3,12 +3,6 @@
 
 // :keywords: demo
 
-.Technical preview
-[IMPORTANT]
-====
-Elasticsearch connector for Search UI is currently in technical preview
-status. It is not ready for production use.
-====
 
 Search UI provides a way to connect to Elasticsearch directly without needing Enterprise Search. This is useful for when you dont need the features of Enterprise Search, such as relevance tuning.
 
