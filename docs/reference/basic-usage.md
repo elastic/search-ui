@@ -6,7 +6,6 @@ mapped_pages:
 
 # Customizing Styles and HTML [guides-customizing-styles-and-html]
 
-
 In this guide we’ll customize some styles of the Search UI, modify the default HTML of one of the Search UI components, and also create a completely new Result component.
 
 :::{tip}
@@ -59,7 +58,6 @@ Here is an example of a simple stylesheet that overrides much of the blue in the
 }
 ```
 
-
 ## Customizing html [guides-customizing-styles-and-html-customizing-html]
 
 All components in this library can be customized by providing a `view` prop.
@@ -94,7 +92,3 @@ You’ll note that the `view` function here has four parameters that are availab
 In this case, we’ve decided to create a simple view that shows the starting and ending result numbers on this page. We’ve chosen not to use the `totalResults` or `searchTerm` properties.
 
 Specific documentation for customizing the view of each component can be found in the documentation for each component. For example, [the Result component](/reference/api-react-components-result.md#api-react-components-result-view-customization).
-
-
-
-

@@ -6,17 +6,15 @@ mapped_pages:
 
 # Configuration [api-core-configuration]
 
-
 Search UI uses a configuration object to tailor search to your needs. It consists of three parts:
 
-* Search query
-* Autocomplete query
-* Event hooks
+- Search query
+- Autocomplete query
+- Event hooks
 
 See below for details on each part.
 
 See [React API](/reference/api-react-search-provider.md) page for more information on how to use the configuration with the SearchProvider.
-
 
 ## Search Query (QueryConfig) [api-core-configuration-search-query-queryconfig]
 
@@ -49,7 +47,6 @@ searchQuery: {
 }
 ```
 
-
 ### Filters (Global Filters) [api-core-configuration-filters-global-filters]
 
 Using Query Config, it is possible to create "Global" filters. "Global filters" are filters that are added to every query. The user has no control over whether or not this filter is added or removed, it doesn’t show up in the query string, and is completely transparent to the user. It is applied IN ADDITION to filters which the user applies.
@@ -61,13 +58,16 @@ filters: [
   // Range filter example
   {
     field: "acres",
-    values: [{
-      from: 0, to: 1000, name: "Small"
-    }]
+    values: [
+      {
+        from: 0,
+        to: 1000,
+        name: "Small"
+      }
+    ]
   }
-]
+];
 ```
-
 
 ### Facets [api-core-configuration-facets]
 
@@ -124,13 +124,11 @@ Tells Search UI to fetch facet data that can be used with Facet Components.
   }
 ```
 
-
 #### Disjunctive Faceting [api-core-configuration-disjunctive-faceting]
 
 "Disjunctive" facets are facets that do not change when a selection is made. Meaning, all available options will remain as selectable options even after a selection is made.
 
 Configured in the searchQuery.disjunctiveFacets array. An array of field names. Every field listed here must have been configured in the facets field first. It denotes that a facet should be considered disjunctive. When returning counts for disjunctive facets, the counts will be returned as if no filter is applied on this field, even if one is applied.
-
 
 ##### disjunctiveFacetsAnalyticsTags [api-core-configuration-disjunctivefacetsanalyticstags]
 
@@ -142,11 +140,9 @@ Example, use ignore as a tag on all disjunctive API calls:
 disjunctiveFacetsAnalyticsTags: ["ignore"];
 ```
 
-
 #### Conditional Faceting [api-core-configuration-conditional-faceting]
 
 See [Conditional Faceting](/reference/guides-conditional-facets.md) for more information.
-
 
 ### search_fields [api-core-configuration-search_fields]
 
@@ -172,20 +168,18 @@ Query time Weights take precedence over Engine level values.
 
 All fields specified within the search relevance section will be used for searching if not specified.
 
-
 ### result_fields [api-core-configuration-result_fields]
 
 Select from two ways to render text field values:
 
-* **Raw**: An exact representation of the value within a field. And it is exact! It is not HTML escaped.
-* **Snippet**: A snippet is an HTML escaped representation of the value within a field, where query matches are captured in `<em>` tags.
+- **Raw**: An exact representation of the value within a field. And it is exact! It is not HTML escaped.
+- **Snippet**: A snippet is an HTML escaped representation of the value within a field, where query matches are captured in `<em>` tags.
 
 A raw field defaults to the full field with no character limit outside of max document size. A custom range must be at least 20 characters.
 
 A snippet field defaults to 100 characters. A custom range must be between 20-1000 characters.
 
 Only text fields provide these two options, as they are functions of the deep full-text search capabilities of App Search.
-
 
 #### Raw [api-core-configuration-raw]
 
@@ -202,10 +196,9 @@ result_fields: {
 }
 ```
 
-| field | description |
-| --- | --- |
+| field  | description                                                                                                                                                                                                               |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `size` | Number - Optional. Length of the return value. Only can be used on text fields. Must be at least 20; defaults to the entire text field. If given for a different field type other than text, it will be silently ignored. |
-
 
 #### Snippet (Highlighting) [api-core-configuration-snippet-highlighting]
 
@@ -243,11 +236,10 @@ result_fields: {
 }
 ```
 
-| field | description |
-| --- | --- |
-| `size` | Character length of the snippet returned. Must be at least 20; defaults to 100. |
-| `fallback` | If true, fallback to the raw field if no match is found. |
-
+| field      | description                                                                     |
+| ---------- | ------------------------------------------------------------------------------- |
+| `size`     | Character length of the snippet returned. Must be at least 20; defaults to 100. |
+| `fallback` | If true, fallback to the raw field if no match is found.                        |
 
 ## Autocomplete Query [api-core-configuration-autocomplete-query]
 
@@ -276,7 +268,6 @@ autocompleteQuery: {
 }
 ```
 
-
 ### Results [api-core-configuration-results]
 
 `results` will perform autocomplete on the query being typed. This will give back results that are relevant to the query before the user has typed any additional characters.
@@ -291,11 +282,10 @@ results: {
 },
 ```
 
-| field | description |
-| --- | --- |
-| `resultPerPage` | Optional. Number type. Number of results suggested |
+| field           | description                                                                                                                           |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                    |
 | `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as [result fields](#api-core-configuration-result_fields) |
-
 
 ### Suggestions [api-core-configuration-suggestions]
 
@@ -312,11 +302,10 @@ Suggestions Query configuration for Search UI largely follows the same API as th
 }
 ```
 
-| option | type | required? | source |
-| --- | --- | --- | --- |
-| `types` | Object | required | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
-| `size` | Integer | optional | Number of suggestions to return. |
-
+| option  | type    | required? | source                                                                                       |
+| ------- | ------- | --------- | -------------------------------------------------------------------------------------------- |
+| `types` | Object  | required  | Object, keyed by "type" of query suggestion, with configuration for that type of suggestion. |
+| `size`  | Integer | optional  | Number of suggestions to return.                                                             |
 
 ### Result Suggestions [api-core-configuration-result-suggestions]
 
@@ -325,12 +314,11 @@ Suggestions Query configuration for Search UI largely follows the same API as th
 
 ::::
 
-
 A different index can be used for the suggestions. Some examples:
 
-* Popular queries index from analytics
-* Brands index from product data
-* Categories index from product data
+- Popular queries index from analytics
+- Brands index from product data
+- Categories index from product data
 
 Below we are using the `popular_queries` index and performing a prefix match search on the `query.suggest` field. One thing to note, make sure the api-key has access to the index.
 
@@ -355,7 +343,6 @@ autocompleteQuery: {
 }
 ```
 
-
 ## Event Hooks [api-core-configuration-event-hooks]
 
 Search UI exposes a number of event hooks which need handlers to be implemented in order for Search UI to function properly.
@@ -364,27 +351,26 @@ The easiest way to provide handlers for these events is via an out-of-the-box "C
 
 While we do provide out-of-the-box Connectors, it is also possible to implement these handlers directly, override Connector methods, or provide "middleware" to Connectors in order to further customize how Search UI interacts with your services.
 
-
 #### Event Handlers [api-core-configuration-event-handlers]
 
-| method | params | return | description |
-| --- | --- | --- | --- |
-| `onResultClick` | `props` - Object |  | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page. |
-|  | - `query` - String |  | The query used to generate the current results. |
-|  | - `documentId` - String |  | The id of the result that a user clicked. |
-|  | - `requestId` - String |  | A unique id that ties the click to a particular search request. |
-|  | - `tags` - Array[String] |  | Tags used for analytics. |
-| `onSearch` | `state` - [Request State](/reference/api-core-state.md#api-core-state-request-state) | [Response State](/reference/api-core-state.md#api-core-state-response-state) |  |
-|  | `queryConfig` - [Query Config](#api-core-configuration-search-query-queryconfig) |  |  |
-| `onAutocompleteResultClick` | `props` - Object |  | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
-|  | - `query` - String |  | The query used to generate the current results. |
-|  | - `documentId` - String |  | The id of the result that a user clicked. |
-|  | - `requestId` - String |  | A unique id that ties the click to a particular search request. |
-|  | - `tags` - Array[String] |  | Tags used for analytics. |
-| `onAutocomplete` | `state` - [Request State](/reference/api-core-state.md#api-core-state-request-state) | [Response State](/reference/api-core-state.md#api-core-state-response-state) |  |
-|  | `queryConfig` - Object |  |  |
-|  | - `results` - [Query Config](#api-core-configuration-search-query-queryconfig) |  | If this is set, results should be returned for autocomplete. |
-|  | - `suggestions` - [Suggestions Query Config](#api-core-configuration-suggestions) |  | If this is set, query suggestions should be returned for autocomplete. |
+| method                      | params                                                                               | return                                                                       | description                                                                                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onResultClick`             | `props` - Object                                                                     |                                                                              | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result on a result page.           |
+|                             | - `query` - String                                                                   |                                                                              | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                              |                                                                              | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                               |                                                                              | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                             |                                                                              | Tags used for analytics.                                                                                                                            |
+| `onSearch`                  | `state` - [Request State](/reference/api-core-state.md#api-core-state-request-state) | [Response State](/reference/api-core-state.md#api-core-state-response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - [Query Config](#api-core-configuration-search-query-queryconfig)     |                                                                              |                                                                                                                                                     |
+| `onAutocompleteResultClick` | `props` - Object                                                                     |                                                                              | This method logs a click-through event to your APIs analytics service. This is triggered when a user clicks on a result in an autocomplete dropdown |
+|                             | - `query` - String                                                                   |                                                                              | The query used to generate the current results.                                                                                                     |
+|                             | - `documentId` - String                                                              |                                                                              | The id of the result that a user clicked.                                                                                                           |
+|                             | - `requestId` - String                                                               |                                                                              | A unique id that ties the click to a particular search request.                                                                                     |
+|                             | - `tags` - Array[String]                                                             |                                                                              | Tags used for analytics.                                                                                                                            |
+| `onAutocomplete`            | `state` - [Request State](/reference/api-core-state.md#api-core-state-request-state) | [Response State](/reference/api-core-state.md#api-core-state-response-state) |                                                                                                                                                     |
+|                             | `queryConfig` - Object                                                               |                                                                              |                                                                                                                                                     |
+|                             | - `results` - [Query Config](#api-core-configuration-search-query-queryconfig)       |                                                                              | If this is set, results should be returned for autocomplete.                                                                                        |
+|                             | - `suggestions` - [Suggestions Query Config](#api-core-configuration-suggestions)    |                                                                              | If this is set, query suggestions should be returned for autocomplete.                                                                              |
 
 Explicitly providing a Handler will override the Handler provided by the Connector.
 
@@ -406,7 +392,6 @@ Explicitly providing a Handler will override the Handler provided by the Connect
 />
 ```
 
-
 ### Using middleware in Connector Handlers [api-core-configuration-using-middleware-in-connector-handlers]
 
 Handler implementations can also be used as middleware for Connectors by leveraging the `next` function.
@@ -422,7 +407,6 @@ Handler implementations can also be used as middleware for Connectors by leverag
   }}
 />
 ```
-
 
 ### Routing Options [api-core-configuration-routing-options]
 

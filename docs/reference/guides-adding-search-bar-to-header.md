@@ -25,5 +25,4 @@ View this implementation in our [CodeSandbox example](https://codesandbox.io/emb
 
 Related documentation:
 
-* [SearchBox component](/reference/api-react-components-search-box.md)
-
+- [SearchBox component](/reference/api-react-components-search-box.md)

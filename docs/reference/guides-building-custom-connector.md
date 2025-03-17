@@ -9,11 +9,10 @@ This guide helps you build a custom connector so you can use Search UI with your
 
 A connector is a class that implements the following methods:
 
-* `onSearch`
-* `onAutocomplete`
-* `onResultClick`
-* `onAutocompleteResultClick`
-
+- `onSearch`
+- `onAutocomplete`
+- `onResultClick`
+- `onAutocompleteResultClick`
 
 ## Connector Example [guides-building-a-custom-connector-connector-example]
 
@@ -79,7 +78,6 @@ class MyAPIConnector implements APIConnector {
 }
 ```
 
-
 ## Integration [guides-building-a-custom-connector-integration]
 
 Once you have built your connector, you can simply use it within Search UI.
@@ -101,4 +99,3 @@ Once you have built your connector, you can simply use it within Search UI.
     </SearchProvider>
   );
 ```
-

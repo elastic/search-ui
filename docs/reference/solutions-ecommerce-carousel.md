@@ -19,7 +19,8 @@ You can adjust the number of results returned via the `resultsPerPage` configura
 :::::::{tab-set}
 
 ::::::{tab-item} Component
-```jsx
+
+````jsx
   import { Results, SearchProvider } from "@elastic/react-search-ui";
   import { config } from "./config";
 
@@ -57,7 +58,8 @@ export const config = () => ({
   },
   apiConnector: connector
 });
-```
+````
+
 ::::::
 
 :::::::
@@ -66,7 +68,6 @@ export const config = () => ({
 [Try the demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js).
 :::
 
-* [Creating Components](/reference/guides-creating-own-components.md): Build your own components for Search UI.
-* [Results](/reference/api-react-components-results.md): Search UI React Results Component.
-* [Core API](/reference/api-core-configuration.md): Search UI Configuration API.
-
+- [Creating Components](/reference/guides-creating-own-components.md): Build your own components for Search UI.
+- [Results](/reference/api-react-components-results.md): Search UI React Results Component.
+- [Core API](/reference/api-core-configuration.md): Search UI Configuration API.
