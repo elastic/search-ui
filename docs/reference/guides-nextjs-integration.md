@@ -5,7 +5,6 @@ mapped_pages:
 
 # NextJS Integration [guides-nextjs-integration]
 
-
 ## Integrating Search UI with NextJS Router [guides-nextjs-integration-integrating-search-ui-with-nextjs-router]
 
 Next JS is a popular React framework that provides a number of features out of the box, including server-side rendering, routing, and more.
@@ -19,8 +18,9 @@ To highlight, we’re using React memo to prevent the component from re-renderin
 :::::::{tab-set}
 
 ::::::{tab-item} pages/search.jsx
+
 ```jsx
-import { memo } from 'react'
+import { memo } from "react";
 import { useNextRouting } from "../utils/useNextRouting";
 
 export default function App() {
@@ -40,12 +40,14 @@ const Search = memo(({ config }) => {
         <Paging />
       </>
     </SearchProvider>
-    )
-})
+  );
+});
 ```
+
 ::::::
 
 ::::::{tab-item} utils/useNextRouting.js
+
 ```jsx
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -93,6 +95,7 @@ export const useNextRouting = (config, basePathUrl) => {
   }, [router.isReady]);
 };
 ```
+
 ::::::
 
 :::::::

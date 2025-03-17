@@ -6,7 +6,6 @@ mapped_pages:
 
 # App Search Connector [api-connectors-app-search]
 
-
 ::::{admonition} Deprecation Notice
 :class: important
 
@@ -14,9 +13,7 @@ App Search connector for Search UI is deprecated and will no longer be supported
 
 ::::
 
-
 This Connector is used to connect Search UI to Elastic’s [App Search](https://www.elastic.co/cloud/app-search-service) API.
-
 
 ## Usage [api-connectors-app-search-usage]
 
@@ -34,7 +31,6 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-
 ### Additional options [api-connectors-app-search-additional-options]
 
 Additional options will be passed through to the underlying [APIclient](https://github.com/elastic/app-search-javascript). Any valid parameter of the client can be used.
@@ -48,20 +44,15 @@ const connector = new AppSearchAPIConnector({
 });
 ```
 
-
 ## Options [api-connectors-app-search-options]
 
-| Param | Description |
-| --- | --- |
-| searchKey | Required. String. Credential found in your App Search Dashboard |
-| engineName | Required. String. Engine to query, found in your App Search Dashboard |
-| endpointBase | Required. String. Endpoint path, found in your App Search Dashboard |
-| cacheResponses | Optional. Boolean. Default is true. By default, connector will keep an in browser memory result cache of previous requests. |
-| hostIdentifier | Optional. Useful when proxying the Swiftype API or developing against a local API server. |
-| beforeSearchCall | Optional. A hook to amend query options before the request is sent to the API in a query on an "onSearch" event. |
-| beforeAutocompleteResultsCall | Optional. A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event. |
+| Param                             | Description                                                                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| searchKey                         | Required. String. Credential found in your App Search Dashboard                                                                      |
+| engineName                        | Required. String. Engine to query, found in your App Search Dashboard                                                                |
+| endpointBase                      | Required. String. Endpoint path, found in your App Search Dashboard                                                                  |
+| cacheResponses                    | Optional. Boolean. Default is true. By default, connector will keep an in browser memory result cache of previous requests.          |
+| hostIdentifier                    | Optional. Useful when proxying the Swiftype API or developing against a local API server.                                            |
+| beforeSearchCall                  | Optional. A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                     |
+| beforeAutocompleteResultsCall     | Optional. A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event.     |
 | beforeAutocompleteSuggestionsCall | Optional. A hook to amend query options before the request is sent to the API in a "suggestions" query on an "onAutocomplete" event. |
-
-
-
-

@@ -10,7 +10,6 @@ We have two primary recommendations for customizing Component behavior:
 1. Override state and action props before they are passed to your Component, using the `mapContextToProps` param. This will override the default `mapContextToProps` for the component.
 2. Override props before they are passed to your Component’s view.
 
-
 ## Override mapContextToProps [guides-changing-component-behavior-override-mapcontexttoprops]
 
 Every Component supports a `mapContextToProps` prop, which allows you to modify state and actions before they are received by the Component.
@@ -18,7 +17,6 @@ Every Component supports a `mapContextToProps` prop, which allows you to modify 
 ::::{note}
 This MUST be an immutable function. If you directly update the props or context, you will have major issues in your application.
 ::::
-
 
 A practical example might be putting a custom sort on your facet data.
 
@@ -48,7 +46,6 @@ This example orders a list of states by name:
   show={10}
 />
 ```
-
 
 ## Overriding view props [guides-changing-component-behavior-overriding-view-props]
 
@@ -80,4 +77,3 @@ In this example, we did the following:
 1. Looked up what the default view is for our Component in the components guide.
 2. Imported that view as `PagingView`.
 3. Passed an explicit `view` to our `Paging` Component, overriding the `onChange` prop with our own implementation, and ultimately rendering `PagingView` with the updated props.
-

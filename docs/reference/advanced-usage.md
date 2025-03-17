@@ -6,17 +6,15 @@ mapped_pages:
 
 # Using with Vue.js [guides-using-with-vue-js]
 
-
 While Search UI doesn’t have a component library for Vue.js, you can still use them together, just with a little extra work.
 
 To achieve that you’ll need to import and work directly with Search UI Core API. Read a short [API reference](/reference/api-reference.md) guide for high-level overview on the approach.
 
 Once you’re familiar with the concept of Search UI core, the following docs will give you deeper dive into available APIs:
 
-* [Core API](/reference/api-core-configuration.md)
-* [State](/reference/api-core-state.md)
-* [Actions](/reference/api-core-actions.md)
-
+- [Core API](/reference/api-core-configuration.md)
+- [State](/reference/api-core-state.md)
+- [Actions](/reference/api-core-actions.md)
 
 ## Example [guides-using-with-vue-js-example]
 
@@ -27,10 +25,3 @@ Check out our Vue.js integration demo in [CodeSandbox](https://codesandbox.io/em
 
 The example demonstrates how to implement Search UI in a Vue.js application.
 :::
-
-
-
-
-
-
-

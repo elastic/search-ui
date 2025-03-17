@@ -11,16 +11,15 @@ While Site Search supports multiple document types, Search UI will only support 
 
 Note that Site Search does not support certain features of Search UI:
 
-* `disjunctiveFacets` or `disjunctiveFacetsAnalyticsTags` configuration options
-* Only `value` facets are allowed, no `range` facet support.
-* `sort` option is not supported on facets.
-* `size` option is not supported on facets.
-* Does not support multiple filters applied to a single field.
-* Cannot apply more than 1 range filter on a single field.
-* Analytics tags are not supported in `click`.
-* `suggestions` are not supported in autocomplete, only `results`
-* The `none` filter type is not supported.
-
+- `disjunctiveFacets` or `disjunctiveFacetsAnalyticsTags` configuration options
+- Only `value` facets are allowed, no `range` facet support.
+- `sort` option is not supported on facets.
+- `size` option is not supported on facets.
+- Does not support multiple filters applied to a single field.
+- Cannot apply more than 1 range filter on a single field.
+- Analytics tags are not supported in `click`.
+- `suggestions` are not supported in autocomplete, only `results`
+- The `none` filter type is not supported.
 
 ## Usage [api-connectors-site-search-usage]
 
@@ -37,10 +36,9 @@ const connector = new SiteSearchAPIConnector({
 });
 ```
 
-| Param | Description |
-| --- | --- |
-| documentType | Required. String type. Document Type found in your Site Search Dashboard |
-| engineKey | Required. String type. Credential found in your Site Search Dashboard |
-| beforeSearchCall | Optional. A hook to amend query options before the request is sent to the API in a query on an "onSearch" event. |
+| Param                         | Description                                                                                                                      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| documentType                  | Required. String type. Document Type found in your Site Search Dashboard                                                         |
+| engineKey                     | Required. String type. Credential found in your Site Search Dashboard                                                            |
+| beforeSearchCall              | Optional. A hook to amend query options before the request is sent to the API in a query on an "onSearch" event.                 |
 | beforeAutocompleteResultsCall | Optional. A hook to amend query options before the request is sent to the API in a "results" query on an "onAutocomplete" event. |
-

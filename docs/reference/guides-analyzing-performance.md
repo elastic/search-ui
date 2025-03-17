@@ -14,18 +14,17 @@ Search UI allows you to analyze the performance and track errors on your search 
 
 APM RUM captures the following information:
 
-* Page load metrics
-* Load time of Static Assets (JS, CSS, images, fonts, etc.)
-* API requests (XMLHttpRequest and Fetch)
-* Single page application navigations
-* User interactions (click events that trigger network activity)
-* User-centric metrics (Long tasks, FCP, LCP, FID, etc.)
-* Page information (URLs visited and referrer)
-* Network connection information
-* JavaScript errors
-* Distributed tracing
-* Breakdown metrics
-
+- Page load metrics
+- Load time of Static Assets (JS, CSS, images, fonts, etc.)
+- API requests (XMLHttpRequest and Fetch)
+- Single page application navigations
+- User interactions (click events that trigger network activity)
+- User-centric metrics (Long tasks, FCP, LCP, FID, etc.)
+- Page information (URLs visited and referrer)
+- Network connection information
+- JavaScript errors
+- Distributed tracing
+- Breakdown metrics
 
 ## Setup [guides-analyzing-performance-setup]
 
@@ -34,13 +33,11 @@ This guide assumes that you’re using Elastic Cloud and want to analyze a React
 
 ::::
 
-
 The setup process consists of three steps:
 
-* Enabling Integrations Server
-* Checking server status
-* Adding APM RUM to your application
-
+- Enabling Integrations Server
+- Checking server status
+- Adding APM RUM to your application
 
 ### Enabling Integrations Server [guides-analyzing-performance-enabling-integrations-server]
 
@@ -50,15 +47,13 @@ The setup process consists of three steps:
 4. On the deployment page click Edit in the left menu.
 5. Find the Integrations Server section.
 
-    * If you already have Integrations server enabled, go to the next step.
-    * If don’t — click "Add capacity" and choose the size of the server.
-
+   - If you already have Integrations server enabled, go to the next step.
+   - If don’t — click "Add capacity" and choose the size of the server.
 
 :::{image} images/integrations-server.png
 :alt: Integrations Server
 :class: screenshot
 :::
-
 
 ### Checking server status [guides-analyzing-performance-checking-server-status]
 
@@ -71,7 +66,6 @@ The setup process consists of three steps:
 :alt: Server status
 :class: screenshot
 :::
-
 
 ### Adding APM RUM to your application [guides-analyzing-performance-adding-apm-rum-to-your-application]
 
@@ -93,4 +87,3 @@ If you feel stuck, check out this PR as an example of adding APM RUM to a React 
 
 <hr>
 That’s it! Once the above steps are done, open the search page, do a couple searches to generate analytics events and head to Observability → Dashboard to see your analytics data.
-

@@ -19,5 +19,4 @@ See how search-as-you-type works in our [CodeSandbox demo](https://codesandbox.i
 
 Related documentation:
 
-* [SearchBox component](/reference/api-react-components-search-box.md)
-
+- [SearchBox component](/reference/api-react-components-search-box.md)

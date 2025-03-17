@@ -12,11 +12,9 @@ App Search connector for Search UI is deprecated and will no longer be supported
 
 ::::
 
-
 This tutorial will guide you through the process of creating a Search UI with [App Search](https://elastic.co/app-search), using the `search-ui-app-search-connector`. We will be using a sample engine in App Search, which comes pre-loaded with A US national parks dataset.
 
 Within this tutorial, we assume that you have Node.js installed on your machine.
-
 
 ## Setup App Search [tutorials-app-search-setup-app-search]
 
@@ -36,7 +34,6 @@ Once your deployment has been created, navigate to Enterprise Search in Kibana. 
 
 In the next step, we’ll navigate to App Search and create an engine that will hold our US national parks documents.
 
-
 ## Create an Engine with Sample Data [tutorials-app-search-create-an-engine-with-sample-data]
 
 Select "Try a sample engine", which creates a engine loaded with useful sample data. The sample engine will be pre-loaded with the US national parks dataset that we’ll need for our search experience. Easy!
@@ -45,7 +42,6 @@ Select "Try a sample engine", which creates a engine loaded with useful sample d
 :alt: search-ui
 :class: screenshot
 :::
-
 
 ### Configure Schema [tutorials-app-search-configure-schema]
 
@@ -58,21 +54,20 @@ Once our sample engine has been created, the next step is to inspect our engine�
 
 If you inspect the schema, you’ll notice that a number of fields have been changed from their default `text` field type:
 
-* `visitors` to be a **number**
-* `square_km` to be a **number**
-* `date_established` to be a **date**
-* `location` to be a **geolocation**
-* `acres` to be a **number**
+- `visitors` to be a **number**
+- `square_km` to be a **number**
+- `date_established` to be a **date**
+- `location` to be a **geolocation**
+- `acres` to be a **number**
 
 Adjusting the field type allows us to use different queries, facets, and filters only applicable to the field types we are using. [Learn more about App Search schemas](https://www.elastic.co/guide/en/app-search/current/indexing-documents-guide.html#indexing-documents-guide-schema)
-
 
 ### API Keys [tutorials-app-search-api-keys]
 
 API keys are used to access the engine. By default, there are two key types available:
 
-* private-key: This is the key that is used to read and write to the engine.
-* search-key: This is the key that has read only access to the engine.
+- private-key: This is the key that is used to read and write to the engine.
+- search-key: This is the key that has read only access to the engine.
 
 :::{image} images/credentials.png
 :alt: search-ui
@@ -82,7 +77,6 @@ API keys are used to access the engine. By default, there are two key types avai
 For this example, we are going to use the search-key. By default the search-key has been created. To use it, we must copy the key. Keep this key safe, we will be using it later on.
 
 Also above is the host url. Copy this as we will use it later on as well.
-
 
 ## Build a Search Experience with Search UI [tutorials-app-search-build-a-search-experience-with-search-ui]
 
@@ -94,7 +88,6 @@ For this tutorial, we are going to be using the popular [Create React App (CRA) 
 
 Once this has been completed, we can navigate to the directory of the project.
 
-
 ### Install Search UI dependencies [tutorials-app-search-install-search-ui-dependencies]
 
 Now we need to install the dependencies for the search UI into our project. We can do this by running the following command:
@@ -104,7 +97,6 @@ yarn add @elastic/search-ui @elastic/react-search-ui-views @elastic/search-ui-ap
 ```
 
 This will download the latest version of the packages and install them into our project.
-
 
 ### Add Search UI React Components [tutorials-app-search-add-search-ui-react-components]
 
@@ -225,7 +217,6 @@ You should now have a working, basic search experience that looks similar to the
 :class: screenshot
 :::
 
-
 ## Configure Search UI [tutorials-app-search-configure-search-ui]
 
 We now have a working search experience, but we need to configure it now to take advantage of the data we have. Lets start by identifying which fields we want to search, display, and make available as facets.
@@ -250,10 +241,9 @@ Here’s an example document from the data that we have indexed:
 
 Based on this document, we can determine the fields that we want to be:
 
-* **Searchable**: title, description, states
-* **Displayable**: title, description, states, visitors, acres, square_km, date_established, nps_link
-* **Facetable**: states, visitors, acres, square_km, date_established
-
+- **Searchable**: title, description, states
+- **Displayable**: title, description, states, visitors, acres, square_km, date_established, nps_link
+- **Facetable**: states, visitors, acres, square_km, date_established
 
 ### Searchable Configuration [tutorials-app-search-searchable-configuration]
 
@@ -270,7 +260,6 @@ search_fields: {
 ```
 
 The `weight` parameter that we added to `title` is the weight of the field. The higher the weight, the more important the field is when relevance is calculated. [Learn more about relevance tuning](https://www.elastic.co/guide/en/app-search/current/relevance-tuning-guide.html)
-
 
 ### Displayble Configuration [tutorials-app-search-displayble-configuration]
 
@@ -302,7 +291,6 @@ result_fields: {
 ```
 
 `snippet` is a configuration for the display of the field. Any value that matches a field will be displayed in the results as a highlight. The `fallback` will be used if a highlight is not found. [Learn more about result settings](https://www.elastic.co/guide/en/app-search/current/result-settings-guide.html)
-
 
 ### Facetable Configuration [tutorials-app-search-facetable-configuration]
 
@@ -367,9 +355,9 @@ facets: {
 
 The example above shows a variety of facet types, including:
 
-* value facet: displays a list of filters aggregated by their counts
-* range facet: displays a list of range filters (both numeric and date) aggregated by their counts
-* geo-location facet: geo distance filters based on a location
+- value facet: displays a list of filters aggregated by their counts
+- range facet: displays a list of range filters (both numeric and date) aggregated by their counts
+- geo-location facet: geo distance filters based on a location
 
 [Learn more about facets](https://www.elastic.co/guide/en/app-search/current/facets-guide.html)
 
@@ -410,7 +398,6 @@ sideContent={
 }
 ```
 
-
 ### Disjunctive facets [tutorials-app-search-disjunctive-facets]
 
 Last but not least, we want some of our facets to be "OR" facets rather than "AND". Making that change is a two step process:
@@ -427,7 +414,6 @@ disjunctiveFacets: ["states"],
 <Facet field="states" label="States" filterType="any" isFilterable={true} />
 ```
 
-
 ## Test Drive! [tutorials-app-search-test-drive]
 
 You should be able to see the results of your search like below:
@@ -437,14 +423,13 @@ You should be able to see the results of your search like below:
 :class: screenshot
 :::
 
-
 ## Next Steps [tutorials-app-search-next-steps]
 
 Lets recap of the steps we have covered:
 
-* We created an App Search Engine and indexed a sample data set of us-parks
-* We configured the engine’s schema and fields
-* We created a new React project and added the Search UI components
-* We configured the search UI to search the engine and display facets to help the user narrow down the results
+- We created an App Search Engine and indexed a sample data set of us-parks
+- We configured the engine’s schema and fields
+- We created a new React project and added the Search UI components
+- We configured the search UI to search the engine and display facets to help the user narrow down the results
 
 Next you can add more data into the index, [update the results view to display more fields](/reference/api-react-components-result.md#api-react-components-result-view-customization), and deploy the app.

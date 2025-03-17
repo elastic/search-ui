@@ -26,4 +26,3 @@ This will also log actions and state updates as they occur to the console in the
 Search UI: Action {Action Name} {Action Parameters}
 Search UI: State Update {State to update} {Full State after update}
 ```
-

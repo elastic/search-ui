@@ -12,7 +12,6 @@ The Behavioral Analytics feature was discontinued in Elastic 9.0.0.
 
 Use the Analytics Plugin to send analytics events to the Behavioral Analytics Product. Follow the instructions to set up the plugin.
 
-
 ## Installation [api-core-plugins-analytics-plugin-installation]
 
 ```bash
@@ -20,7 +19,6 @@ yarn add @elastic/search-ui-analytics-plugin
 ## OR
 npm install @elastic/search-ui-analytics-plugin
 ```
-
 
 ## Basic Usage [api-core-plugins-analytics-plugin-basic-usage]
 
@@ -38,7 +36,6 @@ const config = {
 ```
 
 By default, the Analytics Plugin will use the Behavioral Analytics client provided when using script tag integration.
-
 
 ### Passing in a custom analytics client [api-core-plugins-analytics-plugin-passing-in-a-custom-analytics-client]
 
@@ -65,12 +62,10 @@ const config = {
 }
 ```
 
-
 ## Options [api-core-plugins-analytics-plugin-options]
 
 The Analytics Plugin accepts the following parameters:
 
-| Option | Type | Description | Default |
-| --- | --- | --- | --- |
+| Option   | Type               | Description                                                                                                                                       | Default                   |
+| -------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | `client` | `AnalyticsTracker` | The Behavioral Analytics client to use. Read more on [Behavioral Analytics Tracker repo](https://github.com/elastic/behavioral-analytics-tracker) | `window.elasticAnalytics` |
-
