@@ -4,8 +4,6 @@ Part of the [Search UI](https://github.com/elastic/search-ui) project.
 
 This Connector is used to connect Search UI directly to Elasticsearch.
 
-> ⚠️ Elasticsearch connector for Search UI is currently in technical preview status. It is not ready for production use. ⚠️
-
 ## Usage
 
 ```shell
