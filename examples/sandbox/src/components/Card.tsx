@@ -41,7 +41,7 @@ export const Card = ({
                 <div className="flex justify-between items-start">
                   <h3 className="text-lg font-semibold">{title}</h3>
                   {recommended && (
-                    <span className="inline-flex items-center rounded-full bg-gray-900 dark:bg-blue-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                    <span className="ml-1 inline-flex items-center rounded-full bg-gray-900 dark:bg-blue-600 px-2.5 py-0.5 text-xs font-semibold text-white">
                       Recommended
                     </span>
                   )}
