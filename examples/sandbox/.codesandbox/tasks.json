@@ -23,7 +23,7 @@
     },
     "start-api-server": {
       "name": "Start API Server",
-      "command": "node server/index.js",
+      "command": "node src/pages/elasticsearch-production-ready/server/index.js",
       "preview": {
         "port": 3001
       }

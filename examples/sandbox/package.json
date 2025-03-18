@@ -14,7 +14,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "dev:server": "node  --watch server/index.js",
+    "dev:server": "node  --watch src/pages/elasticsearch-production-ready/server/index.js",
     "build": "vite build",
     "lint": "eslint .",
     "start": "vite preview"

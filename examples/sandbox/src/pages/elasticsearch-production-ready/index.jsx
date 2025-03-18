@@ -29,7 +29,6 @@ const connector = new ApiProxyConnector({
 });
 
 const config = {
-  debug: true,
   alwaysSearchOnInitialLoad: true,
   apiConnector: connector,
   hasA11yNotifications: true,
