@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Switch, Route } from "react-router-dom";
-import Root from "./pages/main";
+import Root from "./pages/home";
 import ElasticsearchBasic from "./pages/elasticsearch-basic";
 import ElasticsearchProductionReady from "./pages/elasticsearch-production-ready";
 import ElasticsearchWithAnalytics from "./pages/elasticsearch-with-analytics";

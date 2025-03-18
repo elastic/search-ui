@@ -29,5 +29,6 @@ app.post("/api/autocomplete", async (req, res) => {
 });
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running on port ${PORT}`);
 });
