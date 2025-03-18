@@ -46,25 +46,21 @@ export default class APIProxyConnector implements APIConnector {
 
   async onSearch(
     state: RequestState,
-    queryConfig: QueryConfig,
-    options: Record<string, unknown> = {}
+    queryConfig: QueryConfig
   ): Promise<ResponseState> {
     return this.request<ResponseState>("/search", {
       state,
-      queryConfig,
-      options
+      queryConfig
     });
   }
 
   async onAutocomplete(
     state: RequestState,
-    queryConfig: AutocompleteQueryConfig,
-    options: Record<string, unknown> = {}
+    queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
     return this.request<AutocompleteResponseState>("/autocomplete", {
       state,
-      queryConfig,
-      options
+      queryConfig
     });
   }
 

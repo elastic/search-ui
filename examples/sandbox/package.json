@@ -14,13 +14,15 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "dev:server": "node server/index.js",
+    "dev:server": "node  --watch server/index.js",
     "build": "vite build",
     "lint": "eslint .",
     "start": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
     "moment": "^2.30.1",
     "radix-ui": "^1.1.3",
     "react": "^17.0.2",
