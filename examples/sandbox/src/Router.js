@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Switch, Route } from "react-router-dom";
-import Root from "./pages/root";
-import Elasticsearch from "./pages/elasticsearch";
+import Root from "./pages/main";
+import ElasticsearchBasic from "./pages/elasticsearch-basic";
+import ElasticsearchProductionReady from "./pages/elasticsearch-production-ready";
 import ElasticsearchWithAnalytics from "./pages/elasticsearch-with-analytics";
 import Engines from "./pages/engines";
 import SiteSearch from "./pages/site-search";
@@ -21,7 +22,8 @@ export default function Router() {
         <Route exact path="/" component={Root} />
 
         {/* Connectors */}
-        <Route exact path="/elasticsearch" component={Elasticsearch} />
+        <Route exact path="/elasticsearch-basic" component={ElasticsearchBasic} />
+        <Route exact path="/elasticsearch-production-ready" component={ElasticsearchProductionReady} />
         <Route exact path="/site-search" component={SiteSearch} />
         <Route exact path="/engines" component={Engines} />
 

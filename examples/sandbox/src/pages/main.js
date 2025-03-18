@@ -9,7 +9,12 @@ export default function Root() {
       </p>
       <ul className="list-disc list-inside text-blue-600 mb-4">
         <li>
-          <Link to="/elasticsearch">Elasticsearch</Link>
+          <Link to="/elasticsearch-basic">Elasticsearch Connector(Basic, Browser-only)</Link>
+        </li>
+        <li>
+          <Link to="/elasticsearch-production-ready">
+            Elasticsearch Connector(<b>Production-ready</b>, Proxy connector) ✅
+          </Link>
         </li>
         <li>
           <Link to="/app-search">Elastic App Search</Link>

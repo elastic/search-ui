@@ -20,6 +20,13 @@
       "preview": {
         "port": 4173
       }
+    },
+    "start-api-server": {
+      "name": "Start API Server",
+      "command": "node server/index.js",
+      "preview": {
+        "port": 3001
+      }
     }
   }
 }
