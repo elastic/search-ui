@@ -7,7 +7,7 @@ import {
   DashboardIcon,
   Link2Icon
 } from "@radix-ui/react-icons";
-import * as Tabs from "@radix-ui/react-tabs";
+import { Tabs } from "radix-ui";
 import { ApiCard } from "@/components/ApiCard";
 import { ExampleCard } from "@/components/ExampleCard";
 import { UseCaseCard } from "@/components/UseCaseCard";
