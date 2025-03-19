@@ -13,8 +13,8 @@ interface APIProxyConnectorOptions {
 }
 
 export default class APIProxyConnector implements APIConnector {
-  private basePath: string;
-  private fetchOptions: RequestInit;
+  private readonly basePath: string;
+  private readonly fetchOptions: RequestInit;
 
   constructor({
     basePath = "/api",
