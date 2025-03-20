@@ -26,7 +26,7 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import "./custom.css";
 
 // This is a custom component we've created.
-import ClearFilters from "./ClearFilters";
+import { ClearFilters } from "./ClearFilters";
 
 const SORT_OPTIONS = [
   {
