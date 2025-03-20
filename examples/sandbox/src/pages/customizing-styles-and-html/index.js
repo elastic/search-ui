@@ -12,7 +12,8 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch
+  WithSearch,
+  SearchContextProvider
 } from "@elastic/react-search-ui";
 import {
   BooleanFacet,
@@ -234,9 +235,9 @@ const CustomResultView = ({ result, onClickLink }) => (
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
-        {({ wasSearched }) => {
-          return (
+      <WithSearch mapContextToProps={(context) => context}>
+        {(contextProps) => (
+          <SearchContextProvider.Provider value={contextProps}>
             <div className="App customization-example">
               <ErrorBoundary>
                 <Layout
@@ -260,7 +261,7 @@ export default function App() {
                       <ClearFilters />
                       <br />
                       <br />
-                      {wasSearched && (
+                      {config.wasSearched && (
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
@@ -307,18 +308,18 @@ export default function App() {
                   }
                   bodyHeader={
                     <>
-                      {wasSearched && (
+                      {config.wasSearched && (
                         <PagingInfo view={CustomPagingInfoView} />
                       )}
-                      {wasSearched && <ResultsPerPage />}
+                      {config.wasSearched && <ResultsPerPage />}
                     </>
                   }
                   bodyFooter={<Paging />}
                 />
               </ErrorBoundary>
             </div>
-          );
-        }}
+          </SearchContextProvider.Provider>
+        )}
       </WithSearch>
     </SearchProvider>
   );

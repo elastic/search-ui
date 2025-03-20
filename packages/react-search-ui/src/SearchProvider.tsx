@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { SearchContextState, SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
-import { UseSearchContext } from "./hooks/use_search";
 
 import defaultA11yMessages from "./A11yNotifications";
 import type { SearchDriverOptions } from "@elastic/search-ui";
@@ -78,15 +77,10 @@ const SearchProvider = ({
   const contextValue: SearchProviderContextInterface = {
     driver: driverInstance
   };
-  const SearchContextValue: SearchContextState = {
-    ...contextValue.driver.state,
-    ...contextValue.driver.actions
-  };
+
   return (
     <SearchContext.Provider value={contextValue}>
-      <UseSearchContext.Provider value={SearchContextValue}>
-        {children}
-      </UseSearchContext.Provider>
+      {children}
     </SearchContext.Provider>
   );
 };
