@@ -95,9 +95,16 @@ const mapEventToTrackerParams: Record<
   ]
 };
 
+/**
+ * @deprecated The AnalyticsPlugin is deprecated and will be removed in future versions.
+ */
 export default function AnalyticsPlugin(
   options: AnalyticsPluginOptions = { client: undefined }
 ) {
+  console.warn(
+    "WARNING: The AnalyticsPlugin is deprecated and will be removed in future versions."
+  );
+
   const client: Tracker =
     options.client ||
     (typeof window !== "undefined" && window["elasticAnalytics"]);
