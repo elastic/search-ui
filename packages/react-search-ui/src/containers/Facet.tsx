@@ -10,7 +10,7 @@ import { helpers } from "@elastic/search-ui";
 
 import { accentFold } from "../helpers";
 import { withSearch } from "..";
-import { useSearch } from "../hooks";
+
 const { markSelectedFacetValuesFromFilters } = helpers;
 
 type FacetContainerState = {
@@ -70,7 +70,6 @@ export class FacetContainer extends Component<
       a11yNotify,
       ...rest
     } = this.props;
-
     const facetsForField = facets[field];
 
     if (!facetsForField) return null;
