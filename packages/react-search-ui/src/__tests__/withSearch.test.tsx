@@ -1,5 +1,6 @@
 /* eslint-disable jest/no-focused-tests */
 import React from "react";
+import { act } from "react-dom/test-utils";
 import { mount } from "enzyme";
 
 import { SearchContext } from "..";
@@ -11,7 +12,26 @@ describe("withSearch", () => {
   let mockDriver: SearchDriver;
 
   beforeEach(() => {
-    mockDriver = new SearchDriver({ apiConnector: null });
+    mockDriver = new SearchDriver({
+      apiConnector: null,
+      onSearch: jest.fn(() =>
+        Promise.resolve({
+          requestId: "mock-request-id",
+          facets: {},
+          resultSearchTerm: "mock-search-term",
+          totalPages: 1,
+          totalResults: 10,
+          pagingStart: 1,
+          pagingEnd: 10,
+          wasSearched: true,
+          results: [
+            { id: "1", title: { raw: "Result 1" } },
+            { id: "2", title: { raw: "Result 2" } }
+          ],
+          rawResponse: {}
+        })
+      )
+    });
 
     mockDriver.state = {
       ...mockDriver.state,
@@ -44,18 +64,28 @@ describe("withSearch", () => {
       };
     }
 
-    it("will subscribe to state updates", () => {
+    it("will subscribe to state updates", async () => {
       const { wrapper } = setup((c) => c);
-      mockDriver.getActions().setSearchTerm("New Term");
+
+      await act(() => {
+        mockDriver.getActions().setSearchTerm("New Term");
+      });
+      wrapper.update();
+
       expect(wrapper.text()).toEqual("New Term");
     });
 
-    it("will maintain action properties on state updates when mapContextToProps parameter is passed", () => {
+    it("will maintain action properties on state updates when mapContextToProps parameter is passed", async () => {
       const { wrapper } = setup(({ searchTerm, setSearchTerm }) => ({
         searchTerm,
         setSearchTerm
       }));
-      mockDriver.getActions().setSearchTerm("New Term");
+
+      await act(() => {
+        mockDriver.getActions().setSearchTerm("New Term");
+      });
+      wrapper.update();
+
       expect(wrapper.text()).toEqual("New Term");
     });
 
@@ -149,11 +179,15 @@ describe("withSearch", () => {
       expect(element.text()).toEqual("prop 1 value");
     });
 
-    it("will use mapContextToProps on state update", () => {
+    it("will use mapContextToProps on state update", async () => {
       const element = setup(({ searchTerm }) => ({
         searchTerm: searchTerm + " (updated)"
       }));
-      mockDriver.getActions().setSearchTerm("a new search term");
+
+      await act(async () => {
+        mockDriver.getActions().setSearchTerm("a new search term");
+      });
+
       expect(element.text()).toEqual("a new search term (updated)");
     });
   });
@@ -194,14 +228,18 @@ describe("withSearch", () => {
       expect(element.text()).toEqual("a search term is now modified");
     });
 
-    it("will use the mapContextToProps override on state update", () => {
+    it("will use the mapContextToProps override on state update", async () => {
       const element = setup(
         () => ({}),
         ({ searchTerm }) => ({
           searchTerm: searchTerm + " (updated)"
         })
       );
-      mockDriver.getActions().setSearchTerm("a new search term");
+
+      await act(async () => {
+        mockDriver.getActions().setSearchTerm("a new search term");
+      });
+
       expect(element.text()).toEqual("a new search term (updated)");
     });
   });

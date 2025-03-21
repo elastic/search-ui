@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Base variables */
+  --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Light theme variables */
+  --background: #ffffff;
+  --foreground: #213547;
+}
+
+/* Dark theme variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #242424;
+    --foreground: rgba(255, 255, 255, 0.87);
+  }
+}
+
+body {
+  place-items: center;
+  font-family: var(--font-family);
+  background-color: var(--background);
+  color: var(--foreground);
+}
