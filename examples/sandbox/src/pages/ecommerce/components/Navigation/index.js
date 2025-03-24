@@ -2,7 +2,7 @@ import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
 import { config } from "./config";
 import React from "react";
 
-function InputView({ getAutocomplete, getInputProps, getButtonProps }) {
+function InputView({ getAutocomplete, getInputProps }) {
   return (
     <div className="flex-auto flex py-2 flex justify-self-start">
       <div className="border-gray-600 border bg-black py-2 px-4 pr-8 relative my-2 w-[500px]">

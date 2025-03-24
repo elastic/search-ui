@@ -5,14 +5,6 @@ mapped_pages:
 
 # Elasticsearch Connector [api-connectors-elasticsearch]
 
-::::{admonition} Technical preview
-:class: important
-
-Elasticsearch connector for Search UI is currently in technical preview status. It is not ready for production use.
-
-::::
-
-
 Search UI provides a way to connect to Elasticsearch directly without needing Enterprise Search. This is useful for when you dont need the features of Enterprise Search, such as relevance tuning.
 
 The connector uses the same Search UI configuration that other connectors use.
@@ -41,22 +33,19 @@ const connector = new ElasticsearchAPIConnector({
 });
 ```
 
-| Param | Description |
-| --- | --- |
-| cloud | Required if `host` not provided. Object type. The cloud id for the deployment within elastic cloud. |
-| host | Required if `cloud` not provided. String type. The host url to the Elasticsearch instance |
-| index | Required. String type. The search index name |
-| apiKey | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#api-connectors-elasticsearch-connection-and-authentication) |
-| connectionOptions | Optional. Object containing `headers` dictionary of header name to header value. |
-
+| Param             | Description                                                                                                                                                      |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cloud             | Required if `host` not provided. Object type. The cloud id for the deployment within elastic cloud.                                                              |
+| host              | Required if `cloud` not provided. String type. The host url to the Elasticsearch instance                                                                        |
+| index             | Required. String type. The search index name                                                                                                                     |
+| apiKey            | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#api-connectors-elasticsearch-connection-and-authentication) |
+| connectionOptions | Optional. Object containing `headers` dictionary of header name to header value.                                                                                 |
 
 ## Differences between App Search and Elasticsearch connector [api-connectors-elasticsearch-differences-between-app-search-and-elasticsearch-connector]
-
 
 ### Applying Filters to Range Facets [api-connectors-elasticsearch-applying-filters-to-range-facets]
 
 Elasticsearch connector differs in the way filters can be applied to facets. Currently its not possible to apply an explicit range filter to range facets. Elasticsearch connector uses the name thats been given to the option to apply the filter. It uses this name to match the option and creates a the range filter query for the option.
-
 
 #### Example Facet Configuration [api-connectors-elasticsearch-example-facet-configuration]
 
@@ -77,35 +66,31 @@ Elasticsearch connector differs in the way filters can be applied to facets. Cur
 }
 ```
 
-
 #### How to apply the filter [api-connectors-elasticsearch-how-to-apply-the-filter]
 
 ```js
-    setFilter("visitors", {
-      name: "10001 - 100000", // name of the option
-      from: 10001, // both from and to will be ignored
-      to: 100000
-    });
+setFilter("visitors", {
+  name: "10001 - 100000", // name of the option
+  from: 10001, // both from and to will be ignored
+  to: 100000
+});
 ```
-
 
 #### Applying a range to a field that isn’t a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
 
 If the field isn’t a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
 
 ```js
-    setFilter("precio", {
-      name: "precio",
-      from: rangePrices[0],
-      to: rangePrices[1],
-    });
+setFilter("precio", {
+  name: "precio",
+  from: rangePrices[0],
+  to: rangePrices[1]
+});
 ```
 
-
-### *None* Filter Type [api-connectors-elasticsearch-none-filter-type]
+### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
 
 Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
-
 
 ## Connection & Authentication [api-connectors-elasticsearch-connection-and-authentication]
 
@@ -116,27 +101,23 @@ This connector will talk to the Elasticsearch instance directly from the browser
 
 ::::
 
-
 You have the following options available to you for securely exposing your Elasticsearch instance to the internet:
 
-
-### Proxy the _search API call through your API [api-connectors-elasticsearch-proxy-the-_search-api-call-through-your-api]
+### Proxy the \_search API call through your API [api-connectors-elasticsearch-proxy-the-_search-api-call-through-your-api]
 
 This envolves building an API route that will proxy the Elasticsearch call through your API. During the proxy, you are able to:
 
-* Ability to add any additional authentication headers / keys as you proxy the request through the API and to Elasticsearch.
-* Update the Elasticsearch query request to add any filters to filter restricted documents
-* Application performance monitoring of functionality
-* Your own user based authentication for your API
-* Add a caching layer between the API and Elasticsearch
+- Ability to add any additional authentication headers / keys as you proxy the request through the API and to Elasticsearch.
+- Update the Elasticsearch query request to add any filters to filter restricted documents
+- Application performance monitoring of functionality
+- Your own user based authentication for your API
+- Add a caching layer between the API and Elasticsearch
 
 The connector will perform a `_search` query and will derive the endpoint path with the host and index. With `http://localhost:9200` host and `search-ui-example` index, the endpoint path will be `http://localhost:9200/search-ui-example/_search`. The connector will make a POST call with the elasticsearch query in the body of the request. To proxy the request through your API, you need to implement a route and update the connector’s settings to use the proxy route.
-
 
 ### Use an Elasticsearch api-key [api-connectors-elasticsearch-use-an-elasticsearch-api-key]
 
 You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has read-only authorization. See [Kibana API keys guide](docs-content://deploy-manage/api-keys/elasticsearch-api-keys.md). To use the API key, place it within the Elasticsearch connection configuration.
-
 
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
@@ -195,7 +176,6 @@ Below is an example of the mappings for the above example. `title_suggest` is a 
 ```
 
 With a combination of this configuration + the [Searchbox](/reference/api-react-components-search-box.md) component with autocomplete configuration, your users will be able to see suggestions as they type within the search box.
-
 
 ## Node.js Integration [api-connectors-elasticsearch-nodejs-integration]
 
@@ -286,7 +266,6 @@ const config = {
 ```
 
 Thats it!. You should see the `CustomConnector` executing requests to the server, providing the search state and configuration in the body. The node.js server will use the Elasticsearch connector to perform a search to Elasticsearch and return the results back to the client.
-
 
 ## Customise the Elasticsearch Request Body [api-connectors-elasticsearch-customise-the-elasticsearch-request-body]
 

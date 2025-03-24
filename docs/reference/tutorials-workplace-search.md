@@ -12,11 +12,9 @@ Workplace Search connector for Search UI is deprecated and will no longer be sup
 
 ::::
 
-
 This guide will walk you through getting up and running with a Search UI using [Elastic Workplace Search](https://www.elastic.co/workplace-search/) as a backend.
 
 Have problems with the setup? Let us know in the [feedback issue](https://github.com/elastic/search-ui/issues/707), and we’ll try to help.
-
 
 ## Prerequisites [tutorials-workplace-search-prerequisites]
 
@@ -28,7 +26,6 @@ Before continuing with this guide, make sure you:
 The best way to get started with Elastic Workplace Search is to follow our [Getting Started guide](https://www.elastic.co/guide/en/workplace-search/current/workplace-search-getting-started.html).
 
 To index data into Workplace Search, read the [Content Sources Overview](https://www.elastic.co/guide/en/workplace-search/current/workplace-search-content-sources.html) and follow a guide for any content source available there.
-
 
 ## Creating a search page [tutorials-workplace-search-creating-a-search-page]
 
@@ -103,29 +100,25 @@ export default function WorkplaceSearch() {
 
 This page shouldn’t work yet. To connect to the Workplace Search backend, you need to provide some details in the connector configuration.
 
-
 ## Adding connector configuration [tutorials-workplace-search-adding-connector-configuration]
 
 Here’s where to get the required configuration parameters:
-
 
 ### `kibanaBase` and `enterpriseSearchBase` [tutorials-workplace-search-kibanabase-and-enterprisesearchbase]
 
 You can get both values on the API Keys page in Workplace Search:
 
-* `kibanaBase` — from the url,
-* `enterpriseSearchBase` — from the Endpoint panel.
+- `kibanaBase` — from the url,
+- `enterpriseSearchBase` — from the Endpoint panel.
 
 :::{image} images/endpoints.png
 :alt: endpoints
 :class: screenshot
 :::
 
-
 ### `redirectUri` [tutorials-workplace-search-redirecturi]
 
 Use the path to the page where Search UI is going to live.
-
 
 ### `clientId` [tutorials-workplace-search-clientid]
 
@@ -155,7 +148,6 @@ const connector = new WorkplaceSearchAPIConnector({
 });
 ```
 
-
 ## Authorizing the application [tutorials-workplace-search-authorizing-the-application]
 
 You should now be able to authorize.
@@ -176,18 +168,16 @@ Once you click the Authorize button, you should be redirected back to your appli
 
 Congratulations! You have successfully connected to Workplace Search.
 
-
 ## Next steps [tutorials-workplace-search-next-steps]
 
 The UI we have now is very minimal. That is intentional to get you started quickly.
 
 Some of the next steps you could take to improve your search experience are:
 
-* adding facets,
-* adding paging info,
-* adding sorting,
-* setting up autocomplete
-* improving the design of results.
+- adding facets,
+- adding paging info,
+- adding sorting,
+- setting up autocomplete
+- improving the design of results.
 
 Check out our [example page](https://github.com/elastic/search-ui/blob/7cf8710a8037123ee42dc1616ec8f23b842a66f0/examples/sandbox/src/pages/workplace-search/index.js) where we added some of these items, or follow other guides in this documentation.
-

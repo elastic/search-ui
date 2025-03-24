@@ -12,7 +12,7 @@
     "start-docs": "cd ../docs.elastic.co/ && yarn init-docs && yarn dev",
     "test": "lerna run test --stream --no-private",
     "test-ci": "lerna run test-ci --stream --no-private",
-    "watch": "lerna exec --no-private -- yarn run watch",
+    "watch": "lerna run watch --parallel --no-private --sort",
     "build": "lerna run build --no-private",
     "prettier-check": "prettier --check --ignore-unknown '!**/build/**' --ignore-path .gitignore .",
     "prettier-format": "prettier --write --ignore-unknown '!**/build/**' --ignore-path .gitignore .",
@@ -45,7 +45,8 @@
     "lint-staged": ">=10",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.3",
-    "typescript": "^4.5.5"
+    "tsup": "^8.4.0",
+    "typescript": "^4.9.3"
   },
   "engines": {
     "node": ">=18",

@@ -19,9 +19,7 @@ To use, add a `conditionalFacets` property to the configuration object. This pro
 }
 ```
 
-
 ## Examples [guides-conditional-facets-examples]
-
 
 ### Filter Not Selected Example [guides-conditional-facets-filter-not-selected-example]
 
@@ -53,7 +51,6 @@ Can also be scoped to a particular value of a filter.
   }
 ```
 
-
 ### Filter Is Selected [guides-conditional-facets-filter-is-selected]
 
 Returns true if the filter is selected.
@@ -73,4 +70,3 @@ function FilterIsSelected(fieldName: string, value?: string) {
     'shoe_size': FilterIsSelected('category', 'Shoes')
   }
 ```
-

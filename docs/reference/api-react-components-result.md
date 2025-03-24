@@ -5,11 +5,9 @@ mapped_pages:
 
 # Result [api-react-components-result]
 
-
 ## Result [api-react-components-result-result]
 
 Displays a search result.
-
 
 ### Example [api-react-components-result-example]
 
@@ -35,25 +33,22 @@ import { Result } from "@elastic/react-search-ui";
 </SearchProvider>
 ```
 
-
 ### Configuring search queries [api-react-components-result-configuring-search-queries]
 
 Certain aspects of search results can be configured in `SearchProvider`, using the `searchQuery` configuration, such as term highlighting and search fields. See the [Search Query Configuration](/reference/api-core-configuration.md#api-core-configuration-search-query-queryconfig) guide for more information.
 
-
 ### Properties [api-react-components-result-properties]
 
-| Name | Description |
-| --- | --- |
-| className |  |
-| titleField | Name of field to use as the title from each result. |
-| shouldTrackClickThrough | Whether or not to track a clickthrough event when clicked. |
-| clickThroughTags | Tags to send to analytics API when tracking clickthrough. |
-| urlField | Name of field to use as the href from each result. |
-| result | Type: `SearchResult`. An object representing the search result to render. |
-| view | Used to override the default view for this Component. See [View customization](#api-react-components-result-view-customization) below. |
-| * | Any other property passed will be passed through and available to use in a Custom View |
-
+| Name                    | Description                                                                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| className               |                                                                                                                                        |
+| titleField              | Name of field to use as the title from each result.                                                                                    |
+| shouldTrackClickThrough | Whether or not to track a clickthrough event when clicked.                                                                             |
+| clickThroughTags        | Tags to send to analytics API when tracking clickthrough.                                                                              |
+| urlField                | Name of field to use as the href from each result.                                                                                     |
+| result                  | Type: `SearchResult`. An object representing the search result to render.                                                              |
+| view                    | Used to override the default view for this Component. See [View customization](#api-react-components-result-view-customization) below. |
+| \*                      | Any other property passed will be passed through and available to use in a Custom View                                                 |
 
 ### View customization [api-react-components-result-view-customization]
 
@@ -97,14 +92,13 @@ const CustomResultView = ({
 
 The following properties are available in the view:
 
-| Name | Description |
-| --- | --- |
-| className | Passed through from main component. |
-| result | Type: `SearchResult`. An object representing the search result to render. |
-| onClickLink | function() - Call this when a link is clicked to trigger click tracking. Only triggered if `shouldTrackClickThrough` was set to true on the main component. |
-| titleField | Passed through from main component. Not usually needed for custom views. |
-| urlField | Passed through from main component. Not usually needed for custom views. |
-| thumbnailField | Passed through from main component. Not usually needed for custom views. |
+| Name           | Description                                                                                                                                                 |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className      | Passed through from main component.                                                                                                                         |
+| result         | Type: `SearchResult`. An object representing the search result to render.                                                                                   |
+| onClickLink    | function() - Call this when a link is clicked to trigger click tracking. Only triggered if `shouldTrackClickThrough` was set to true on the main component. |
+| titleField     | Passed through from main component. Not usually needed for custom views.                                                                                    |
+| urlField       | Passed through from main component. Not usually needed for custom views.                                                                                    |
+| thumbnailField | Passed through from main component. Not usually needed for custom views.                                                                                    |
 
 See [Result.tsx](https://github.com/elastic/search-ui/blob/main/packages/react-search-ui-views/src/Result.tsx) for an example.
-

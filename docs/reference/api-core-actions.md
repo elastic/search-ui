@@ -34,7 +34,6 @@ addFilter("world_heritage_site", "true");
 
 This will only result in a single API call.
 
-
 ## addFilter [api-core-actions-addfilter]
 
 ```ts
@@ -47,7 +46,6 @@ addFilter(
 
 Add a filter in addition to current filters values.
 
-
 ### Examples [api-core-actions-examples]
 
 ```js
@@ -58,28 +56,26 @@ addFilter("rating", 1);
 addFilter("states", ["Alaska", "California"], "all");
 addFilter("states", ["Alaska", "California"], "any");
 
-addFilter("published",{
+addFilter("published", {
   name: "published",
   from: "2020-01-01",
   to: "2020-12-31"
 });
 
-addFilter("rating",{
+addFilter("rating", {
   name: "badRating",
   from: 1,
   to: 6
 });
 ```
 
-
 ### Parameters [api-core-actions-parameters-1]
 
-| Parameters | description |
-| --- | --- |
-| `name` | Required. Name of the field |
-| `value` | Required. Filter Value. See `FilterValue` type. |
-| `type` | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
-
+| Parameters | description                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| `name`     | Required. Name of the field                                                                |
+| `value`    | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
 
 ## setFilter [api-core-actions-setfilter]
 
@@ -93,7 +89,6 @@ setFilter(
 
 Set a filter value, replacing current filter values.
 
-
 ### Examples [api-core-actions-examples-2]
 
 ```js
@@ -104,28 +99,26 @@ setFilter("rating", 1);
 setFilter("states", ["Alaska", "California"], "all");
 setFilter("states", ["Alaska", "California"], "any");
 
-setFilter("published",{
+setFilter("published", {
   name: "published",
   from: "2020-01-01",
   to: "2020-12-31"
 });
 
-setFilter("rating",{
+setFilter("rating", {
   name: "badRating",
   from: 1,
   to: 6
 });
 ```
 
-
 ### Parameters [api-core-actions-parameters-3]
 
-| Parameters | description |
-| --- | --- |
-| `name` | Required. Name of the field |
-| `value` | Required. Filter Value. See `FilterValue` type. |
-| `type` | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
-
+| Parameters | description                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| `name`     | Required. Name of the field                                                                |
+| `value`    | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
 
 ## removeFilter [api-core-actions-removefilter]
 
@@ -138,7 +131,6 @@ removeFilter(
   type?: FilterType
 )
 ```
-
 
 ### Examples [api-core-actions-examples-4]
 
@@ -159,15 +151,13 @@ removeFilter("rating", {
 });
 ```
 
-
 ### Parameters [api-core-actions-parameters-5]
 
-| Parameters | description |
-| --- | --- |
-| `name` | Required. Name of the field |
-| `value` | Optional. Filter Value. Will remove all filters under field if value not specified. See `FilterValue` type. |
-| `type` | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
-
+| Parameters | description                                                                                                 |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| `name`     | Required. Name of the field                                                                                 |
+| `value`    | Optional. Filter Value. Will remove all filters under field if value not specified. See `FilterValue` type. |
+| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none`                  |
 
 ## reset [api-core-actions-reset]
 
@@ -177,7 +167,6 @@ Reset state to initial search state.
 reset();
 ```
 
-
 ## clearFilters [api-core-actions-clearfilters]
 
 Clear all filters.
@@ -186,7 +175,6 @@ Clear all filters.
 clearFilters((except: string[] = []));
 ```
 
-
 ### Examples [api-core-actions-examples-6]
 
 ```js
@@ -194,13 +182,11 @@ clearFilters();
 clearFilters(["states"]); // field name
 ```
 
-
 ### Parameters [api-core-actions-parameters-7]
 
-| Parameters | description |
-| --- | --- |
-| `except` | Optional. String array. Field names which you want to ignore being cleared. |
-
+| Parameters | description                                                                 |
+| ---------- | --------------------------------------------------------------------------- |
+| `except`   | Optional. String array. Field names which you want to ignore being cleared. |
 
 ## setCurrent [api-core-actions-setcurrent]
 
@@ -210,20 +196,17 @@ Update the current page number. Used for paging.
 setCurrent(current: number)
 ```
 
-
 ### Examples [api-core-actions-examples-8]
 
 ```js
 setCurrent(2);
 ```
 
-
 ### Parameters [api-core-actions-parameters-9]
 
-| Parameters | description |
-| --- | --- |
-| `current` | Required. Number type. The page number. |
-
+| Parameters | description                             |
+| ---------- | --------------------------------------- |
+| `current`  | Required. Number type. The page number. |
 
 ## setResultsPerPage [api-core-actions-setresultsperpage]
 
@@ -233,20 +216,17 @@ Update the number of results per page. Used for paging.
 setResultsPerPage(resultsPerPage: number)
 ```
 
-
 ### Examples [api-core-actions-examples-10]
 
 ```js
 setResultsPerPage(20);
 ```
 
-
 ### Parameters [api-core-actions-parameters-11]
 
-| Parameters | description |
-| --- | --- |
+| Parameters       | description                                             |
+| ---------------- | ------------------------------------------------------- |
 | `resultsPerPage` | Required. Number type. Sets number of results per page. |
-
 
 ## setSearchTerm [api-core-actions-setsearchterm]
 
@@ -266,33 +246,29 @@ setSearchTerm(
 
 Update the search term. Also gives you the ability to control autocomplete options.
 
-
 ### Examples [api-core-actions-examples-12]
 
 ```js
 setSearchTerm("train");
 ```
 
-
 ### Parameters [api-core-actions-parameters-13]
 
-| Parameters | description |
-| --- | --- |
-| `searchTerm` | Required. String type. the new search term to query by |
-| `options` | Optional. Object type. See `SetSearchTermOptions` type. |
-
+| Parameters   | description                                             |
+| ------------ | ------------------------------------------------------- |
+| `searchTerm` | Required. String type. the new search term to query by  |
+| `options`    | Optional. Object type. See `SetSearchTermOptions` type. |
 
 ### SetSearchTermOptions Parameters [api-core-actions-setsearchtermoptions-parameters]
 
-| Parameters | description |
-| --- | --- |
+| Parameters                      | description                                                           |
+| ------------------------------- | --------------------------------------------------------------------- |
 | `autocompleteMinimumCharacters` | Optional. miniumum terms to start performing autocomplete suggestions |
-| `autocompleteResults` | Optional. To perform autocomplete Results |
-| `autocompleteSuggestions` | Optional. To perform autocomplete Suggestions |
-| `shouldClearFilters` | Optional. To clear filters |
-| `refresh` | Optional. To refresh results |
-| `debounce` | Optional. |
-
+| `autocompleteResults`           | Optional. To perform autocomplete Results                             |
+| `autocompleteSuggestions`       | Optional. To perform autocomplete Suggestions                         |
+| `shouldClearFilters`            | Optional. To clear filters                                            |
+| `refresh`                       | Optional. To refresh results                                          |
+| `debounce`                      | Optional.                                                             |
 
 ## setSort [api-core-actions-setsort]
 
@@ -305,14 +281,12 @@ setSort(
 
 Update the sort option.
 
-
 ### Parameters [api-core-actions-parameters-14]
 
-| Parameters | description |
-| --- | --- |
-| `sort` | `SortOption` or String - field to sort on |
-| `sortDirection` | String - "asc" or "desc" |
-
+| Parameters      | description                               |
+| --------------- | ----------------------------------------- |
+| `sort`          | `SortOption` or String - field to sort on |
+| `sortDirection` | String - "asc" or "desc"                  |
 
 ## trackClickThrough [api-core-actions-trackclickthrough]
 
@@ -325,14 +299,12 @@ trackClickThrough(
 
 Report a clickthrough event, which is when a user clicks on a result link.
 
-
 ### Parameters [api-core-actions-parameters-15]
 
-| Parameters | description |
-| --- | --- |
-| `documentId` | String - The document ID associated with the result that was clicked |
-| `tags` | Optional. Array[String] Optional tags which can be used to categorize this click event |
-
+| Parameters   | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
 
 ## trackAutocompleteClickThrough [api-core-actions-trackautocompleteclickthrough]
 
@@ -345,14 +317,12 @@ trackAutocompleteClickThrough(
 
 Report a clickthrough event, which is when a user clicks on an autocomplete suggestion.
 
-
 ### Parameters [api-core-actions-parameters-16]
 
-| Parameters | description |
-| --- | --- |
-| `documentId` | String - The document ID associated with the result that was clicked |
-| `tags` | Optional. Array[String] Optional tags which can be used to categorize this click event |
-
+| Parameters   | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `documentId` | String - The document ID associated with the result that was clicked                   |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
 
 ## trackAutocompleteSuggestionClickThrough [api-core-actions-trackautocompletesuggestionclickthrough]
 
@@ -360,7 +330,6 @@ Report a clickthrough event, which is when a user clicks on an autocomplete sugg
 **This action requires the use of the analytics plugin.**
 
 ::::
-
 
 ```js
 trackAutocompleteSuggestionClickThrough(
@@ -372,15 +341,13 @@ trackAutocompleteSuggestionClickThrough(
 
 Report a suggestion clickthrough event, which is when a user clicks on an autocomplete suggestion.
 
-
 ### Parameters [api-core-actions-parameters-17]
 
-| Parameters | description |
-| --- | --- |
-| `suggestion` | String - The suggestion that was clicked |
-| `position` | Number - The position of the suggestion that was clicked |
-| `tags` | Optional. Array[String] Optional tags which can be used to categorize this click event |
-
+| Parameters   | description                                                                            |
+| ------------ | -------------------------------------------------------------------------------------- |
+| `suggestion` | String - The suggestion that was clicked                                               |
+| `position`   | Number - The position of the suggestion that was clicked                               |
+| `tags`       | Optional. Array[String] Optional tags which can be used to categorize this click event |
 
 ## a11yNotify [api-core-actions-a11ynotify]
 
@@ -393,22 +360,18 @@ a11yNotify(
 
 Reads out a screen reader accessible notification. See `a11yNotificationMessages` under TODO LINK
 
-
 ### Parameters [api-core-actions-parameters-18]
 
-| Parameters | description |
-| --- | --- |
-| `messageFunc` | String - object key to run as function |
+| Parameters    | description                                                          |
+| ------------- | -------------------------------------------------------------------- |
+| `messageFunc` | String - object key to run as function                               |
 | `messageArgs` | Object - Arguments to pass to form your screen reader message string |
 
-
 ## Types [api-core-actions-types-19]
-
 
 ### FilterValue & FilterType Types [api-core-actions-filtervalue-and-filtertype-types]
 
 `FilterValue` can be either a value type or a range type.
-
 
 #### Types [api-core-actions-types-20]
 
@@ -427,4 +390,3 @@ type FilterValueRange = {
 
 type FilterType = "any" | "all" | "none";
 ```
-

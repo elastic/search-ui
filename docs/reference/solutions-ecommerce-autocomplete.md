@@ -31,7 +31,6 @@ Test out the examples from this article in our [interactive CodeSandbox demo](ht
 
 This tutorial builds on the [searchbox autocomplete documentation](/reference/api-react-components-search-box.md).
 
-
 ## Integrating the Searchbox [solutions-ecommerce-autocomplete-integrating-the-searchbox]
 
 Typically ecommerce sites have a search bar within the site’s header, which is accessible on every page.
@@ -43,7 +42,7 @@ Within the header, we need to use the `SearchProvider` and `Searchbox` component
 ```jsx
 const config = {
   // search provider configuration for autocomplete
-}
+};
 
 function NavigationHeader() {
   return (
@@ -55,13 +54,12 @@ function NavigationHeader() {
           ...config,
           trackUrlState: false
         }}
-        >
-          <SearchBox
-            onSubmit={(searchTerm) => {
-              window.location.href = `${PATH_TO_YOUR_SEARCH_PAGE}?q=${searchTerm}`;
-            }}
-
-          />
+      >
+        <SearchBox
+          onSubmit={(searchTerm) => {
+            window.location.href = `${PATH_TO_YOUR_SEARCH_PAGE}?q=${searchTerm}`;
+          }}
+        />
       </SearchProvider>
       <UserProfile />
     </div>
@@ -93,12 +91,11 @@ Should you find the search bar markup too limiting to your needs, you can overri
 
 For more information of whats possible to customise, see [searchbox autocomplete documentation](/reference/api-react-components-search-box.md).
 
-
 ## Term Suggestions [solutions-ecommerce-autocomplete-term-suggestions]
 
 Term Suggestions help the customer quickly type in the search term. The suggestions are based on keywords that are already present in the index. To do this, you need:
 
-* An engine or index populated with products
+- An engine or index populated with products
 
 To configure the SearchBox to provide suggestions based on keywords, you need to pass a `config` object to the `SearchProvider` component and configure the `Searchbox autocompleteSuggestions` to be true.
 
@@ -112,29 +109,35 @@ Example Code
 :::::::{tab-set}
 
 ::::::{tab-item} Configuration
+
 ```jsx
 const config = {
   autocompleteQuery: {
     resultsPerPage: 5,
     result_fields: {
-      name: { snippet: { size: 100, fallback: true }},
+      name: { snippet: { size: 100, fallback: true } },
       url: { raw: {} }
     },
     search_fields: {
-      "name_product_autocomplete": {}
+      name_product_autocomplete: {}
     }
-  },
+  }
 };
 ```
+
 ::::::
 
 ::::::{tab-item} Searchbox Component
+
 ```jsx
-<SearchBox autocompleteResults={{
-  titleField: "name",
-  urlField: "url"
-}} />;
+<SearchBox
+  autocompleteResults={{
+    titleField: "name",
+    urlField: "url"
+  }}
+/>
 ```
+
 ::::::
 
 :::::::
@@ -153,40 +156,48 @@ First, we specify the `autocompleteQuery.results` configuration:
 :::::::{tab-set}
 
 ::::::{tab-item} Configuration
+
 ```jsx
-  const config = {
-    alwaysSearchOnInitialLoad: false,
-    autocompleteQuery: {
-      results: {
-        resultsPerPage: 5,
-        result_fields: {
-          // specify the fields you want from the index to display the results
-          image: { raw: {} },
-          name: { snippet: { size: 100, fallback: true } },
-          url: { raw: {} }
-        },
-        search_fields: {
-          // specify the fields you want to search on
-          name: {}
-        }
+const config = {
+  alwaysSearchOnInitialLoad: false,
+  autocompleteQuery: {
+    results: {
+      resultsPerPage: 5,
+      result_fields: {
+        // specify the fields you want from the index to display the results
+        image: { raw: {} },
+        name: { snippet: { size: 100, fallback: true } },
+        url: { raw: {} }
+      },
+      search_fields: {
+        // specify the fields you want to search on
+        name: {}
       }
-    },
-    apiConnector: connector
-  };
+    }
+  },
+  apiConnector: connector
+};
 ```
+
 ::::::
 
 ::::::{tab-item} Searchbox Component
+
 ```jsx
-<SearchBox autocompleteResults={{
-  titleField: "name",
-  urlField: "url"
-}} autocompleteView={AutocompleteView} />;
+<SearchBox
+  autocompleteResults={{
+    titleField: "name",
+    urlField: "url"
+  }}
+  autocompleteView={AutocompleteView}
+/>
 ```
+
 ::::::
 
 ::::::{tab-item} Autocomplete View Component
-```jsx
+
+````jsx
   function AutocompleteView({
     autocompleteResults,
     autocompletedResults,
@@ -259,15 +270,18 @@ In this example, we will populate an index with popular queries. The mapping and
       }
     }
 }
-```
+````
+
 ::::::
 
 ::::::{tab-item} Example Document
+
 ```json
 {
-  "name" : "Iphone 4s"
+  "name": "Iphone 4s"
 }
 ```
+
 ::::::
 
 :::::::
@@ -276,43 +290,49 @@ Next, setup Search UI `Searchbox` and `configuration` to display suggestions fro
 :::::::{tab-set}
 
 ::::::{tab-item} Search Configuration
+
 ```jsx
-  const config = {
-    alwaysSearchOnInitialLoad: false,
-    autocompleteQuery: {
-      suggestions: {
-        types: {
-          popularQueries: {
-            search_fields: {
-              "name.suggest": {} // fields used to query
-            },
-            result_fields: {
-              name: {
-                raw: {}
-              }
-            },
-            index: "popular_queries",
-            queryType: "results"
-          }
-        },
-        size: 4
+const config = {
+  alwaysSearchOnInitialLoad: false,
+  autocompleteQuery: {
+    suggestions: {
+      types: {
+        popularQueries: {
+          search_fields: {
+            "name.suggest": {} // fields used to query
+          },
+          result_fields: {
+            name: {
+              raw: {}
+            }
+          },
+          index: "popular_queries",
+          queryType: "results"
+        }
       },
-    },
-    apiConnector: connector
-  };
+      size: 4
+    }
+  },
+  apiConnector: connector
+};
 ```
+
 ::::::
 
 ::::::{tab-item} Searchbox Component Configuration
+
 ```jsx
-<SearchBox autocompleteSuggestions={{
-  popularQueries: {
-    sectionTitle: "Popular queries",
-    queryType: "results",
-    displayField: "name"
-  }
-}} />;
+<SearchBox
+  autocompleteSuggestions={{
+    popularQueries: {
+      sectionTitle: "Popular queries",
+      queryType: "results",
+      displayField: "name"
+    }
+  }}
+/>
 ```
+
 ::::::
 
 :::::::
@@ -324,7 +344,6 @@ Now, when you type `was` in the SearchBox, the autocomplete view will display th
 :::
 
 If you want to display more fields from the index, you can use the `result_fields` configuration and implement a custom `autocompleteView` to display these fields.
-
 
 ## Suggestions from multiple sources [solutions-ecommerce-autocomplete-suggestions-from-multiple-sources]
 
@@ -340,34 +359,37 @@ To do this, extend the `autocompleteQuery` configuration to specify multiple sou
 :::::::{tab-set}
 
 ::::::{tab-item} Search Configuration
+
 ```jsx
-  const config = {
-    alwaysSearchOnInitialLoad: false,
-    autocompleteQuery: {
-      suggestions: {
-        types: {
-          popularQueries: {
-            search_fields: {
-              "name.suggest": {} // fields used to query
-            },
-            result_fields: {
-              name: {
-                raw: {}
-              }
-            },
-            index: "popular_queries",
-            queryType: "results"
-          }
-        },
-        size: 4
+const config = {
+  alwaysSearchOnInitialLoad: false,
+  autocompleteQuery: {
+    suggestions: {
+      types: {
+        popularQueries: {
+          search_fields: {
+            "name.suggest": {} // fields used to query
+          },
+          result_fields: {
+            name: {
+              raw: {}
+            }
+          },
+          index: "popular_queries",
+          queryType: "results"
+        }
       },
-    },
-    apiConnector: connector
-  };
+      size: 4
+    }
+  },
+  apiConnector: connector
+};
 ```
+
 ::::::
 
 ::::::{tab-item} Searchbox Component Configuration
+
 ```jsx
 <SearchBox
   autocompleteResults={{
@@ -384,13 +406,13 @@ To do this, extend the `autocompleteQuery` configuration to specify multiple sou
   }}
 />
 ```
+
 ::::::
 
 :::::::
 
 ## Related Articles [solutions-ecommerce-autocomplete-related-articles]
 
-* [Adding search bar to header](/reference/guides-adding-search-bar-to-header.md)
-* [React components](/reference/api-react-components-search-box.md)
-* [Changing component behavior](/reference/guides-changing-component-behavior.md)
-
+- [Adding search bar to header](/reference/guides-adding-search-bar-to-header.md)
+- [React components](/reference/api-react-components-search-box.md)
+- [Changing component behavior](/reference/guides-changing-component-behavior.md)

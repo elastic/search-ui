@@ -9,7 +9,6 @@ We provide a variety of Components out of the box. However, there might be cases
 
 In these cases, we recommend you use the low-level Search UI API to create these components yourself.
 
-
 ## Example: Creating a component for clearing all filters [guides-creating-your-own-components-example-creating-a-component-for-clearing-all-filters]
 
 For a live example of this, [check out this project on CodeSandbox](https://codesandbox.io/s/search-ui-customize-html-and-styles-demo-30v93e).
@@ -40,4 +39,3 @@ export default withSearch(({ filters, clearFilters }) => ({
   clearFilters
 }))(ClearFilters);
 ```
-

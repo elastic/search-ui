@@ -5,23 +5,13 @@ mapped_pages:
 
 # Search UI with Elasticsearch [tutorials-elasticsearch]
 
-::::{admonition} Technical preview
-:class: important
-
-Elasticsearch connector for Search UI is currently in technical preview status. It is not ready for production use.
-
-::::
-
-
 This tutorial will guide you through the process of creating a Search UI with Elasticsearch directly, using the `elasticsearch-connector`. We will be using a sample movie data-set of around 1000 movies.
 
 Within this tutorial, we assume that you have Node.js installed on your machine.
 
-
 ## Step 1: Setup Elasticsearch [tutorials-elasticsearch-step-1-setup-elasticsearch]
 
 First we need to setup Elasticsearch. The easiest way to do this is to create an Elasticsearch instance via [Elastic Cloud](https://cloud.elastic.co/registration).
-
 
 ### Setting up an Index [tutorials-elasticsearch-setting-up-an-index]
 
@@ -39,7 +29,6 @@ PUT /my-example-movies
 :::
 
 Elasticsearch will acknowledge our request in the response.
-
 
 ### Setting up a read-only API Key [tutorials-elasticsearch-setting-up-a-read-only-api-key]
 
@@ -74,7 +63,6 @@ Once saved, you are presented with the api-key. Copy this and keep it safe. We w
 :class: screenshot
 :::
 
-
 ### Enabling CORS [tutorials-elasticsearch-enabling-cors]
 
 If you’re going to be accessing Elasticsearch directly from a browser and the Elasticsearch host domain doesn’t match your site’s domain, you will need to enable CORS.
@@ -103,13 +91,11 @@ http.cors.allow-headers: X-Requested-With, X-Auth-Token, Content-Type, Content-L
 
 then save. Your Elasticsearch instance will be restarted and the CORS configuration will be active.
 
-
 ## Step 2: Setup Movies Index [tutorials-elasticsearch-step-2-setup-movies-index]
 
 Next we need to setup the index fields, ready for us to ingest data.
 
 The mapping for an index depends on the data you want to index and the features you want.
-
 
 ### Examples [tutorials-elasticsearch-examples]
 
@@ -168,14 +154,14 @@ We want to be able to filter on a numeric field. We only need one numeric field.
 
 For our movie data-set, we will be using the following fields:
 
-* title (searchable)
-* plot (searchable)
-* genre (searchable, facetable)
-* actors (searchable, facetable)
-* directors (searchable, facetable)
-* released (filterable)
-* imdbRating (filterable)
-* url
+- title (searchable)
+- plot (searchable)
+- genre (searchable, facetable)
+- actors (searchable, facetable)
+- directors (searchable, facetable)
+- released (filterable)
+- imdbRating (filterable)
+- url
 
 The mapping file will be as follows, and we’ll once again use Kibana’s dev tools console to update the mapping file for our index.
 
@@ -247,9 +233,8 @@ For suggestions, we want to suggest terms that appear within the actors, directo
 
 In the above example:
 
-* we have included `movie_completion` field, which is used to provide suggestion completion functionality. This field is not searchable, but is used to provide autocomplete functionality.
-* we have included a `suggest` field for the title field. This field is searchable, but is used to provide "quick hits" functionality.
-
+- we have included `movie_completion` field, which is used to provide suggestion completion functionality. This field is not searchable, but is used to provide autocomplete functionality.
+- we have included a `suggest` field for the title field. This field is searchable, but is used to provide "quick hits" functionality.
 
 ## Step 3: Index Movies Data [tutorials-elasticsearch-step-3-index-movies-data]
 
@@ -262,7 +247,6 @@ PUT /my-example-movies/_bulk
 { "index": {}}
 {"title": "The Godfather", "released": "1972-03-23T23:00:00.000Z","genre": ["Crime", "Drama"],"directors": ["Francis Ford Coppola"],"actors": ["Marlon Brando", "Al Pacino", "James Caan", "Richard S. Castellano"],"plot": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.","imdbRating": "9.2", "movie_completion": ["Crime", "Drama", "Marlon Brando", "Al Pacino", "James Caan", "Richard S. Castellano"], "url": "https://www.imdb.com/title/tt0068646/"}
 ```
-
 
 ## Step 4: Setup CRA for Search UI [tutorials-elasticsearch-step-4-setup-cra-for-search-ui]
 
@@ -280,7 +264,6 @@ Navigate to the root to the folder and install the dependencies using the follow
 yarn
 ```
 
-
 ### Installing connector [tutorials-elasticsearch-installing-connector]
 
 Within the folder, we can now install the `@elastic/search-ui-elasticsearch-connector` library with Yarn.
@@ -290,7 +273,6 @@ yarn add @elastic/search-ui-elasticsearch-connector
 ```
 
 Make sure to check and update Search UI dependencies to the latest version. You can find the latest version by going to [NPM’s page for @elastic/search-ui](https://www.npmjs.com/package/@elastic/search-ui).
-
 
 ### Setting up the connector [tutorials-elasticsearch-setting-up-the-connector]
 
@@ -329,7 +311,6 @@ const connector = new ElasticsearchAPIConnector({
   index: "my-example-movies"
 });
 ```
-
 
 ## Step 5: Configure Search UI [tutorials-elasticsearch-step-5-configure-search-ui]
 
@@ -423,23 +404,22 @@ const config = {
 
 In the above example, we configured the:
 
-* query fields to search on title, plot, genre, actors and directors using the text fields
-* result fields to display title, plot, genre, actors and directors using the text fields
-* facets to display genre, actors and directors using the keyword fields
-* we made the facets disjunctive for better user experience. The user can select more than one facet to expand their search.
-* autocomplete results to suggest results with the same query fields as main search + returning some fields for display.
+- query fields to search on title, plot, genre, actors and directors using the text fields
+- result fields to display title, plot, genre, actors and directors using the text fields
+- facets to display genre, actors and directors using the keyword fields
+- we made the facets disjunctive for better user experience. The user can select more than one facet to expand their search.
+- autocomplete results to suggest results with the same query fields as main search + returning some fields for display.
 
 For more information on configuration, visit the [API configuration docs](/reference/api-core-configuration.md).
-
 
 ### Updating Components [tutorials-elasticsearch-updating-components]
 
 We are going to do several steps here:
 
-* update the `<Searchbox />` component to configure autocomplete
-* remove sorting options
-* add a `<Facet />` component for each facet field
-* update the `<Results />` component to display all the fields
+- update the `<Searchbox />` component to configure autocomplete
+- remove sorting options
+- add a `<Facet />` component for each facet field
+- update the `<Results />` component to display all the fields
 
 ```jsx
 <div className="App">
@@ -482,7 +462,6 @@ We are going to do several steps here:
 </div>
 ```
 
-
 ## Step 6: Test Drive! [tutorials-elasticsearch-step-6-test-drive]
 
 Lets run the project with the command:
@@ -498,17 +477,15 @@ and then view the results in the browser at [http://localhost:3000/](http://loca
 :class: screenshot
 :::
 
-
 ## Next Steps [tutorials-elasticsearch-next-steps]
 
 Lets recap of the steps we have covered:
 
-* we setup and configured the Elasticsearch index for our data
-* we indexed an example movie
-* we checked out the starter app and added the Elasticsearch connector
-* we configured the Elasticsearch connector to connect to our Elasticsearch index
-* we updated the Search UI configuration to specify the fields to be searchable, facetable
-* we updated the components to use these fields
+- we setup and configured the Elasticsearch index for our data
+- we indexed an example movie
+- we checked out the starter app and added the Elasticsearch connector
+- we configured the Elasticsearch connector to connect to our Elasticsearch index
+- we updated the Search UI configuration to specify the fields to be searchable, facetable
+- we updated the components to use these fields
 
 Next you can add more data into the index, [update the results view to display more fields](/reference/api-react-components-result.md#api-react-components-result-view-customization), and deploy the app.
-

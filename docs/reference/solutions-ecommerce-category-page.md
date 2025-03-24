@@ -81,7 +81,6 @@ export default function CategoryPageTvs() {
 
 That’s it! The new category page has a good URL and only shows results that match the filter.
 
-
 ## Facets [solutions-ecommerce-category-page-facets]
 
 :::{image} images/facets.png
@@ -91,21 +90,21 @@ That’s it! The new category page has a good URL and only shows results that ma
 
 Facets are the essential part of the category page. Since category pages typically don’t have a search box, facets become the primary tool for finding the products.
 
-*Facets let users **explore** what’s available in your store rather than **search** for a specific product.*
+_Facets let users **explore** what’s available in your store rather than **search** for a specific product._
 
 It’s best to provide facets that are unique to the presented category.
 
 In our example of the TVs category page, in addition to common facets, like:
 
-* Price
-* Brand
-* Rating
+- Price
+- Brand
+- Rating
 
 we also have TV-specific facets:
 
-* Smart TV *(boolean)*
-* TV resolution *(string: "Full HD", "4k", etc.)*
-* TV diagonal *(number)*
+- Smart TV _(boolean)_
+- TV resolution _(string: "Full HD", "4k", etc.)_
+- TV diagonal _(number)_
 
 These TV-specific facets are not useful on the search page since they are not relevant to most of the results.
 
@@ -115,7 +114,6 @@ There are several ways to implement this in Search UI. They offer different leve
 1. All category pages share a single config. It is the simplest option to implement but is also the least flexible and performant.
 2. All category pages share a single config, but the facets are shown conditionally. It is a middle ground in simplicity and flexibility and is as performant as the next option.
 3. Each category page uses a separate config. It is the most flexible and most performant option, but it requires more work to implement.
-
 
 ### Single config [solutions-ecommerce-category-page-single-config]
 
@@ -186,11 +184,9 @@ export default function CategoryPage() {
 }
 ```
 
-
 ### Conditional facets [solutions-ecommerce-category-page-conditional-facets]
 
 Search UI allows you to show facets conditionally based on the applied filters. Follow the main guide for more info and code examples: [Conditional facets](/reference/guides-conditional-facets.md).
-
 
 ### Separate configs [solutions-ecommerce-category-page-separate-configs]
 
@@ -268,14 +264,13 @@ export default function CategoryPageTvs() {
 }
 ```
 
-
 ### Example [solutions-ecommerce-category-page-example]
 
 Search UI offers several kinds of facets out-of-the-box:
 
-* MultiCheckboxFacet
-* BooleanFacet
-* SingleLinksFacet
+- MultiCheckboxFacet
+- BooleanFacet
+- SingleLinksFacet
 
 Here’s an example of how to use them:
 
@@ -309,19 +304,16 @@ And the resulting UI:
 
 You might need a facet that Search UI doesn’t offer, for example, a dedicated color-picker. With Search UI, you can build a custom facet that will work like a native one. Refer to the [Creating custom components guide](/reference/guides-creating-own-components.md) to learn how.
 
-
 ## Variants [solutions-ecommerce-category-page-variants]
 
 See the main guide for more info about variants: [Variants guide](/reference/solutions-ecommerce-search-page.md#solutions-ecommerce-search-page-variants).
-
 
 ## Sorting [solutions-ecommerce-category-page-sorting]
 
 See the main guide for more info about sorting: [Sorting guide](/reference/solutions-ecommerce-search-page.md#solutions-ecommerce-search-page-sorting).
 
-
 ## Related Articles [solutions-ecommerce-category-page-related-articles]
 
-* [Core API](/reference/api-core-configuration.md): Search UI Configuration API.
-* [Facet](/reference/api-react-components-facet.md)
-* [Creating Components](/reference/guides-creating-own-components.md): Build your own components for Search UI.
+- [Core API](/reference/api-core-configuration.md): Search UI Configuration API.
+- [Facet](/reference/api-react-components-facet.md)
+- [Creating Components](/reference/guides-creating-own-components.md): Build your own components for Search UI.

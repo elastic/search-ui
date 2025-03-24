@@ -11,15 +11,14 @@ There are two HOCs for accessing Search UI’s state & actions, `withSearch` and
 
 Both methods expose a `mapContextToProps` function which allows you to pick which state and actions from context you need to work with.
 
-
 ## mapContextToProps [api-react-with-search-mapcontexttoprops]
 
 `mapContextToProps` allows you to pick which state and actions from Context you need to work with. `withSearch` and `WithSearch` both use [React.PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent), and will only re-render when the picked state has changed.
 
-| name | type | description |
-| --- | --- | --- |
+| name    | type   | description         |
+| ------- | ------ | ------------------- |
 | context | Object | The current Context |
-| props | Object | The current props |
+| props   | Object | The current props   |
 
 ex.:
 
@@ -47,7 +46,6 @@ withSearch(({ searchTerm }, { someProp }) => ({
 }))(Component);
 ```
 
-
 ## withSearch [api-react-with-search-withsearch]
 
 This is the [HOC](https://reactjs.org/docs/higher-order-components.html) approach to working with the core.
@@ -55,7 +53,6 @@ This is the [HOC](https://reactjs.org/docs/higher-order-components.html) approac
 This is typically used for creating your own Components.
 
 See [Build Your Own Component](/reference/guides-creating-own-components.md).
-
 
 ## WithSearch [api-react-with-search-withsearch-1]
 
@@ -84,4 +81,3 @@ import { WithSearch } from "@elastic/react-search-ui";
   </WithSearch>
 </SearchProvider>;
 ```
-
