@@ -1,4 +1,4 @@
-project: 'Search UI docs'
+project: "Search UI docs"
 exclude:
   - README.md
 cross_links:

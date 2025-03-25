@@ -5,7 +5,31 @@ mapped_pages:
 
 # Using in Production [tutorials-elasticsearch-production-usage]
 
-In production, it's strongly recommended **not** to expose your Elasticsearch instance directly to the browser. Instead, proxy all requests through your own backend server.
+In production, it's **strongly recommended** not to expose your Elasticsearch instance directly to the browser. Instead, proxy all requests through your own backend server.
+
+## Connection & Authentication [tutorials-elasticsearch-connection-and-authentication]
+
+You have the following options available to you for securely exposing your Elasticsearch instance to the internet:
+
+### Proxying Elasticsearch Requests [tutorials-elasticsearch-proxying-elasticsearch]
+
+:::{tip}
+This is the **recommended** approach and will be used in the examples below.
+:::
+
+This involves creating an API route that proxies search requests to Elasticsearch. Proxying enables you to:
+
+- Add custom headers or API keys on the server.
+- Apply filters to restrict access to specific documents
+- Your own user based authentication for your API
+- Monitor and log search activity
+- Add a caching layer between the API and Elasticsearch
+
+Use `ApiProxyConnector` in the frontend to send requests to your backend, and `ElasticsearchAPIConnector` in the backend to forward them to Elasticsearch.
+
+### API Key Restrictions [tutorials-elasticsearch-production-usage-api-keys]
+
+You can restrict access to indices by using an API key. We **recommend** you create an apiKey that is restricted to the particular index and has **read-only** authorization. See [Kibana API keys guide](docs-content://deploy-manage/api-keys/elasticsearch-api-keys.md). To use the API key, place it within the Elasticsearch connection configuration.
 
 ## Frontend Update [tutorials-elasticsearch-production-usage-client]
 
@@ -59,17 +83,13 @@ app.listen(3001);
 
 For other authentication methods, check the [Elasticsearch API connector reference](/reference/api-connectors-elasticsearch.md#api-connectors-elasticsearch).
 
-## API Key Restrictions [tutorials-elasticsearch-production-usage-api-keys]
-
-You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has **read-only** authorization. See [Kibana API keys guide](docs-content://deploy-manage/api-keys/elasticsearch-api-keys.md). To use the API key, place it within the Elasticsearch connection configuration.
-
 ## Summary [tutorials-elasticsearch-production-usage-summary]
 
 For a secure and scalable production setup:
 
 - Use `ApiProxyConnector` on the frontend.
 - Use `ElasticsearchAPIConnector` on the server.
-- **Never** expose your Elasticsearch API key to the browser.
+- **Avoid to** expose your Elasticsearch API key to the browser.
 - Monitor and log if needed.
 
 :::{tip}

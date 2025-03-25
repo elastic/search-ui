@@ -29,10 +29,10 @@ The application runs by default on `http://localhost:5173`, and the server (if a
 ## Project Structure
 
 - `src/pages`: Contains multiple examples showcasing different connectors and use cases.
-    - `elasticsearch-basic`: Simple example using Elasticsearch Connector directly from the browser (basic usage).
-    - `elasticsearch-production-ready`: Recommended production-ready setup with Node.js proxy for secure usage.
-        - Includes a Node.js server example (`server/index.js`).
-    - Other examples covering features like autocomplete, custom styling, analytics, etc.
+  - `elasticsearch-basic`: Simple example using Elasticsearch Connector directly from the browser (basic usage).
+  - `elasticsearch-production-ready`: Recommended production-ready setup with Node.js proxy for secure usage.
+    - Includes a Node.js server example (`server/index.js`).
+  - Other examples covering features like autocomplete, custom styling, analytics, etc.
 
 ## Available Examples
 

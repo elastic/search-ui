@@ -22,8 +22,16 @@ export default function Router() {
         <Route exact path="/" component={Root} />
 
         {/* Connectors */}
-        <Route exact path="/elasticsearch-basic" component={ElasticsearchBasic} />
-        <Route exact path="/elasticsearch-production-ready" component={ElasticsearchProductionReady} />
+        <Route
+          exact
+          path="/elasticsearch-basic"
+          component={ElasticsearchBasic}
+        />
+        <Route
+          exact
+          path="/elasticsearch-production-ready"
+          component={ElasticsearchProductionReady}
+        />
         <Route exact path="/site-search" component={SiteSearch} />
         <Route exact path="/engines" component={Engines} />
 

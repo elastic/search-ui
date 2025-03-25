@@ -5,6 +5,17 @@ mapped_pages:
 
 # Elasticsearch Connector [api-connectors-elasticsearch]
 
+## ElasticsearchAPIConnector [api-connectors-elasticsearch-doc-reference]
+
+::::{admonition} Security note
+:class: important
+
+This connector will talk to the **Elasticsearch** instance directly from the browser.  
+We **strongly recommend** proxying requests through your backend using `ApiProxyConnector` to avoid exposing API credentials or allowing unrestricted access.
+
+See [Using in Production](/reference/tutorials-elasticsearch-production-usage.md) for best practices.
+::::
+
 Search UI provides a way to connect to Elasticsearch directly without needing Enterprise Search. This is useful for when you dont need the features of Enterprise Search, such as relevance tuning.
 
 The connector uses the same Search UI configuration that other connectors use.
@@ -14,32 +25,103 @@ You must specify either the cloud id or on-premise host url for the Elasticsearc
 ```js
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-const connector = new ElasticsearchAPIConnector({
-  // Either specify the cloud id or host to connect to elasticsearch
-  cloud: {
-    id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
+const connector = new ElasticsearchAPIConnector(
+  {
+    // Either specify the cloud id or host to connect to elasticsearch
+    cloud: {
+      id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
+    },
+    host: "http://localhost:9200", // host url for the Elasticsearch instance
+    index: "<index-name>", // index name where the search documents are contained
+    apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+    // This key will be visible to everyone so ensure its setup with restricted privileges.
+    // See Authentication section for more details.
+    connectionOptions: {
+      // Optional connection options.
+      headers: {
+        "x-custom-header": "value" // Optional. Specify custom headers to send with the request
+      }
+    }
   },
-  host: "http://localhost:9200", // host url for the Elasticsearch instance
-  index: "<index-name>", // index name where the search documents are contained
-  apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-  // This key will be visible to everyone so ensure its setup with restricted privileges.
-  // See Authentication section for more details.
-  connectionOptions: {
-    // Optional connection options.
+  (requestBody, requestState, queryConfig) => {
+    // Optional: modify the query before sending to Elasticsearch
+    return {
+      ...requestBody,
+      custom_field: "value"
+    };
+  }
+);
+```
+
+**Constructor Parameters**
+
+| Argument                  | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config                    | object   | Elasticsearch connection options (see table below).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| postProcessRequestBodyFn? | function | **Optional** function to customize the Elasticsearch request body.<br>**Params:**<br>`requestBody` - [Search API Request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)<br>`requestState` - [RequestState](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L50)<br>`queryConfig` - [QueryConfig](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L188)<br>**Return:**<br>`requestBody` - [Search API Request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html) |
+
+**Config**
+
+| Param             | Type   | Description                                                                                                                                                          |
+| ----------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cloud             | object | **Required if `host` not provided.** Object type. The cloud id for the deployment within elastic cloud.                                                              |
+| host              | string | **Required if `cloud` not provided.** String type. The host url to the Elasticsearch instance                                                                        |
+| index             | string | **Required.** String type. The search index name                                                                                                                     |
+| apiKey            | string | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](#api-connectors-elasticsearch-connection-and-authentication) |
+| connectionOptions | object | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                 |
+
+## ApiProxyConnector [api-connectors-elasticsearch-api-proxy-doc-reference]
+
+The `ApiProxyConnector` is used when you want to proxy search requests through your own backend rather than exposing your Elasticsearch cluster directly to the browser.
+
+It sends `onSearch` and `onAutocomplete` requests to your API, which is expected to forward them to Elasticsearch using `ElasticsearchAPIConnector`.
+
+```js
+import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
+
+const connector = new ApiProxyConnector({
+  basePath: "/api", // Base path for your proxy server
+  fetchOptions: {
     headers: {
-      "x-custom-header": "value" // Optional. Specify custom headers to send with the request
+      Authorization: "Bearer your-auth-token" // Optional fetch params
     }
   }
 });
 ```
 
-| Param             | Description                                                                                                                                                      |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| cloud             | Required if `host` not provided. Object type. The cloud id for the deployment within elastic cloud.                                                              |
-| host              | Required if `cloud` not provided. String type. The host url to the Elasticsearch instance                                                                        |
-| index             | Required. String type. The search index name                                                                                                                     |
-| apiKey            | Optional. a credential used to access the Elasticsearch instance. See [Connection & Authentication](#api-connectors-elasticsearch-connection-and-authentication) |
-| connectionOptions | Optional. Object containing `headers` dictionary of header name to header value.                                                                                 |
+**Constructor Parameters**
+
+| Argument     | Type   | Description                                                                                                                                      |
+| ------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| basePath     | string | **Optional.** The base URL path for your proxy server. _Default is "/api"._                                                                      |
+| fetchOptions | object | **Optional.** Custom [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit) options passed to fetch, e.g., headers or mode. |
+
+**Expected Server API**
+
+The server is expected to expose two endpoints:
+
+- `POST /search` — handles search requests
+- `POST /autocomplete` — handles autocomplete requests
+
+Both endpoints should accept a body with the following format:
+
+```json
+{
+  "state": {
+    /* RequestState */
+  },
+  "queryConfig": {
+    /* QueryConfig */
+  }
+}
+```
+
+And respond with the standard Search UI response types:
+
+- `ResponseState` for `/search`
+- `AutocompleteResponseState` for `/autocomplete`
+
+For a full working example with server setup, see the Using in [Production guide](/reference/tutorials-elasticsearch-production-usage.md) or jump to the [CodeSandbox](https://codesandbox.io/p/sandbox/github/elastic/search-ui/tree/main/examples/sandbox?file=/src/pages/elasticsearch-production-ready/index.jsx).
 
 ## Differences between App Search and Elasticsearch connector [api-connectors-elasticsearch-differences-between-app-search-and-elasticsearch-connector]
 
@@ -91,33 +173,6 @@ setFilter("precio", {
 ### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
 
 Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
-
-## Connection & Authentication [api-connectors-elasticsearch-connection-and-authentication]
-
-::::{admonition} A note about security
-:class: important
-
-This connector will talk to the Elasticsearch instance directly from the browser. We **strongly** suggest you take additional steps to keep your Elasticsearch instance as secure as possible.
-
-::::
-
-You have the following options available to you for securely exposing your Elasticsearch instance to the internet:
-
-### Proxy the \_search API call through your API [api-connectors-elasticsearch-proxy-the-_search-api-call-through-your-api]
-
-This envolves building an API route that will proxy the Elasticsearch call through your API. During the proxy, you are able to:
-
-- Ability to add any additional authentication headers / keys as you proxy the request through the API and to Elasticsearch.
-- Update the Elasticsearch query request to add any filters to filter restricted documents
-- Application performance monitoring of functionality
-- Your own user based authentication for your API
-- Add a caching layer between the API and Elasticsearch
-
-The connector will perform a `_search` query and will derive the endpoint path with the host and index. With `http://localhost:9200` host and `search-ui-example` index, the endpoint path will be `http://localhost:9200/search-ui-example/_search`. The connector will make a POST call with the elasticsearch query in the body of the request. To proxy the request through your API, you need to implement a route and update the connector’s settings to use the proxy route.
-
-### Use an Elasticsearch api-key [api-connectors-elasticsearch-use-an-elasticsearch-api-key]
-
-You can restrict access to indices by using an API key. We recommend you create an apiKey that is restricted to the particular index and has read-only authorization. See [Kibana API keys guide](docs-content://deploy-manage/api-keys/elasticsearch-api-keys.md). To use the API key, place it within the Elasticsearch connection configuration.
 
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
@@ -176,130 +231,3 @@ Below is an example of the mappings for the above example. `title_suggest` is a 
 ```
 
 With a combination of this configuration + the [Searchbox](/reference/api-react-components-search-box.md) component with autocomplete configuration, your users will be able to see suggestions as they type within the search box.
-
-## Node.js Integration [api-connectors-elasticsearch-nodejs-integration]
-
-The Elasticsearch API Connector builds the Elasticsearch query and performs the request directly to Elasticsearch from the browser. Depending on what you’re building, you may want this logic to be done on the server and provide your clients a simplified API.
-
-First step is to implement two routes to handle `search` and `autocomplete` requests. In example below, we are using express.js framework to implement these http routes within node.js.
-
-```js
-// index.js
-
-var express = require("express");
-var APIConnector =
-  require("@elastic/search-ui-elasticsearch-connector").default;
-require("cross-fetch/polyfill");
-
-var app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-const connector = new APIConnector({
-  host: "http://localhost:9200", // host url for the Elasticsearch instance
-  index: "search-ui-examples", // index name where the search documents are contained
-  apiKey: "apiKeyExample" // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-});
-
-app.post("/search", async (req, res) => {
-  const { query, options } = req.body;
-  const response = await connector.onSearch(query, options);
-  res.json(response);
-});
-
-app.post("/autocomplete", async (req, res) => {
-  const { query, options } = req.body;
-  const response = await connector.onAutocomplete(query, options);
-  res.json(response);
-});
-
-var listener = app.listen(8080, function () {
-  console.log("Listening on port " + listener.address().port);
-});
-```
-
-Next, you can add a simple connector which passes the configuration and query from the client to the server.
-
-```js
-class CustomConnector {
-  constructor(host) {
-    this.host = host;
-  }
-
-  async onSearch(query, options) {
-    const response = await fetch(this.host + "/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        query,
-        options
-      })
-    });
-    return response.json();
-  }
-
-  async onAutocomplete(query, options) {
-    const response = await fetch(this.host + "/autocomplete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        query,
-        options
-      })
-    });
-    return response.json();
-  }
-}
-
-const connector = new CustomConnector("https://my-api-host/");
-
-const config = {
-  alwaysSearchOnInitialLoad: true,
-  apiConnector: connector
-  // ... typical search-ui configuration
-};
-```
-
-Thats it!. You should see the `CustomConnector` executing requests to the server, providing the search state and configuration in the body. The node.js server will use the Elasticsearch connector to perform a search to Elasticsearch and return the results back to the client.
-
-## Customise the Elasticsearch Request Body [api-connectors-elasticsearch-customise-the-elasticsearch-request-body]
-
-Elasticsearch connector allows you to customise the Elasticsearch request body before its performed on Elasticsearch. This is useful if you want to customise the query or options before the request is sent to Elasticsearch.
-
-This is an advanced option, the underlying query may change between versions and reading from / mutating the query is brittle, so please be aware to use this sparingly and let us know what you want to achieve through github issues.
-
-Example below is overriding the `query` section of the Elasticsearch request body.
-
-```js
-const connector = new ElasticsearchAPIConnector(
-  {
-    host: "https://example-host.es.us-central1.gcp.cloud.es.io:9243",
-    index: "national-parks",
-    apiKey: "exampleApiKey"
-  },
-  (requestBody, requestState, queryConfig) => {
-    console.log("postProcess requestBody Call", requestBody); // logging out the requestBody before sending to Elasticsearch
-    if (!requestState.searchTerm) return requestBody;
-
-    // transforming the query before sending to Elasticsearch using the requestState and queryConfig
-    const searchFields = queryConfig.search_fields;
-
-    requestBody.query = {
-      multi_match: {
-        query: requestState.searchTerm,
-        fields: Object.keys(searchFields).map((fieldName) => {
-          const weight = searchFields[fieldName].weight || 1;
-          return `${fieldName}^${weight}`;
-        })
-      }
-    };
-
-    return requestBody;
-  }
-);
-```
