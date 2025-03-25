@@ -217,91 +217,86 @@ export default function App() {
   return (
     <SearchProvider config={config}>
       <WithSearch mapContextToProps={(context) => context}>
-        {({ contextProps }) => {
-          return (
-            <SearchContextProvider.Provider value={contextProps}>
-              <div className="App">
-                <ErrorBoundary>
-                  <Layout
-                    header={
-                      <SearchBox
-                        autocompleteMinimumCharacters={3}
-                        autocompleteResults={{
-                          linkTarget: "_blank",
-                          sectionTitle: "Results",
-                          titleField: "title",
-                          urlField: "nps_link",
-                          shouldTrackClickThrough: true,
-                          clickThroughTags: ["test"]
-                        }}
-                        autocompleteSuggestions={true}
-                        debounceLength={0}
+        {(contextProps) => (
+          <SearchContextProvider.Provider value={contextProps}>
+            <div className="App">
+              <ErrorBoundary>
+                <Layout
+                  header={
+                    <SearchBox
+                      autocompleteMinimumCharacters={3}
+                      autocompleteResults={{
+                        linkTarget: "_blank",
+                        sectionTitle: "Results",
+                        titleField: "title",
+                        urlField: "nps_link",
+                        shouldTrackClickThrough: true,
+                        clickThroughTags: ["test"]
+                      }}
+                      autocompleteSuggestions={true}
+                      debounceLength={0}
+                    />
+                  }
+                  sideContent={
+                    <div>
+                      {config.wasSearched && (
+                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
+                      )}
+                      <Facet
+                        field="states.keyword"
+                        label="States"
+                        filterType="any"
+                        isFilterable={true}
                       />
-                    }
-                    sideContent={
-                      <div>
-                        {config.wasSearched && (
-                          <Sorting
-                            label={"Sort by"}
-                            sortOptions={SORT_OPTIONS}
-                          />
-                        )}
-                        <Facet
-                          field="states.keyword"
-                          label="States"
-                          filterType="any"
-                          isFilterable={true}
-                        />
-                        <Facet
-                          field="world_heritage_site.keyword"
-                          label="World Heritage Site"
-                          view={BooleanFacet}
-                        />
-                        <Facet
-                          field="visitors"
-                          label="Visitors"
-                          view={SingleLinksFacet}
-                        />
-                        <Facet
-                          field="date_established"
-                          label="Date Established"
-                          isFilterable={true}
-                          filterType="any"
-                        />
-                        <Facet
-                          field="location"
-                          label="Distance"
-                          filterType="any"
-                        />
-                        <Facet field="visitors" label="visitors" />
-                        <Facet
-                          field="acres"
-                          label="Acres"
-                          view={SingleSelectFacet}
-                        />
-                      </div>
-                    }
-                    bodyContent={
-                      <Results
-                        titleField="title"
-                        urlField="nps_link"
-                        thumbnailField="image_url"
-                        shouldTrackClickThrough={true}
+                      <Facet
+                        field="world_heritage_site.keyword"
+                        label="World Heritage Site"
+                        view={BooleanFacet}
                       />
-                    }
-                    bodyHeader={
-                      <React.Fragment>
-                        {config.wasSearched && <PagingInfo />}
-                        {config.wasSearched && <ResultsPerPage />}
-                      </React.Fragment>
-                    }
-                    bodyFooter={<Paging />}
-                  />
-                </ErrorBoundary>
-              </div>
-            </SearchContextProvider.Provider>
-          );
-        }}
+                      <Facet
+                        field="visitors"
+                        label="Visitors"
+                        view={SingleLinksFacet}
+                      />
+                      <Facet
+                        field="date_established"
+                        label="Date Established"
+                        isFilterable={true}
+                        filterType="any"
+                      />
+                      <Facet
+                        field="location"
+                        label="Distance"
+                        filterType="any"
+                      />
+                      <Facet field="visitors" label="visitors" />
+                      <Facet
+                        field="acres"
+                        label="Acres"
+                        view={SingleSelectFacet}
+                      />
+                    </div>
+                  }
+                  bodyContent={
+                    <Results
+                      titleField="title"
+                      urlField="nps_link"
+                      thumbnailField="image_url"
+                      shouldTrackClickThrough={true}
+                    />
+                  }
+                  bodyHeader={
+                    <React.Fragment>
+                      {config.wasSearched && <PagingInfo />}
+                      {config.wasSearched && <ResultsPerPage />}
+                    </React.Fragment>
+                  }
+                  bodyFooter={<Paging />}
+                />
+              </ErrorBoundary>
+            </div>
+          </SearchContextProvider.Provider>
+        )}
       </WithSearch>
     </SearchProvider>
   );
