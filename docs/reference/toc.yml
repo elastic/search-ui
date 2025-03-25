@@ -10,6 +10,13 @@ toc:
   - file: tutorials.md
     children:
       - file: tutorials-elasticsearch.md
+        children:
+          - file: tutorials-elasticsearch-setup-cloud.md
+          - file: tutorials-elasticsearch-setup-index.md
+          - file: tutorials-elasticsearch-install-connector.md
+          - file: tutorials-elasticsearch-configure-search-ui.md
+          - file: tutorials-elasticsearch-production-usage.md
+          - file: tutorials-elasticsearch-customise-query.md
       - file: tutorials-app-search.md
       - file: tutorials-workplace-search.md
   - file: basic-usage.md
