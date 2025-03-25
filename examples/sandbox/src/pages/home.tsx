@@ -4,7 +4,6 @@ import {
   MagnifyingGlassIcon,
   CodeIcon,
   LightningBoltIcon,
-  DashboardIcon,
   Link2Icon
 } from "@radix-ui/react-icons";
 import { Tabs } from "radix-ui";

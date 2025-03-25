@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 import Root from "./pages/home";
 import ElasticsearchBasic from "./pages/elasticsearch-basic";
 import ElasticsearchProductionReady from "./pages/elasticsearch-production-ready";
@@ -15,8 +15,11 @@ import EcommerceCategory from "./pages/ecommerce/Category";
 import ListingPage from "./pages/ecommerce/ListingPage";
 
 export default function Router() {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
-    <div className="App">
+    <div className={`${isHomePage ? "App" : "text-black bg-white"}`}>
       <Switch>
         <Route exact path="/" component={Root} />
 
