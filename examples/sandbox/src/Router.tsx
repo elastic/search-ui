@@ -3,7 +3,6 @@ import { Switch, Route } from "react-router-dom";
 import Root from "./pages/home";
 import ElasticsearchBasic from "./pages/elasticsearch-basic";
 import ElasticsearchProductionReady from "./pages/elasticsearch-production-ready";
-import ElasticsearchWithAnalytics from "./pages/elasticsearch-with-analytics";
 import Engines from "./pages/engines";
 import SiteSearch from "./pages/site-search";
 import SearchAsYouType from "./pages/search-as-you-type";
@@ -51,11 +50,6 @@ export default function Router() {
           exact
           path="/search-bar-in-header/search"
           component={SearchBarInHeaderSearch}
-        />
-        <Route
-          exact
-          path="/elasticsearch-with-analytics"
-          component={ElasticsearchWithAnalytics}
         />
 
         {/* Use cases */}

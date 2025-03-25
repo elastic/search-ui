@@ -62,14 +62,6 @@ export default function SearchUISandbox() {
         icon: (
           <LayoutIcon className="h-10 w-10 text-gray-900 dark:text-blue-500" />
         )
-      },
-      {
-        title: "Elasticsearch with analytics",
-        description: "Track and analyze search behavior",
-        href: "/elasticsearch-with-analytics",
-        icon: (
-          <DashboardIcon className="h-10 w-10 text-gray-900 dark:text-blue-500" />
-        )
       }
     ],
     []
