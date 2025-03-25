@@ -49,6 +49,8 @@ const config = {
 };
 ```
 
+For more details, see the [ApiProxyConnector](/reference/api-connectors-elasticsearch.md#api-connectors-elasticsearch-api-proxy-doc-reference)
+
 ## Server Usage [tutorials-elasticsearch-production-usage-server]
 
 On your backend, handle the request using `ElasticsearchAPIConnector` and pass in the request body from the client:
@@ -81,7 +83,7 @@ app.post("/api/autocomplete", async (req, res) => {
 app.listen(3001);
 ```
 
-For other authentication methods, check the [Elasticsearch API connector reference](/reference/api-connectors-elasticsearch.md#api-connectors-elasticsearch).
+For other authentication methods, check the [Elasticsearch API connector reference](/reference/api-connectors-elasticsearch.md#api-connectors-elasticsearch-doc-reference).
 
 ## Summary [tutorials-elasticsearch-production-usage-summary]
 
