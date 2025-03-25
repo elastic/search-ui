@@ -1,61 +1,50 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   SearchBox,
-  SearchBoxContainerProps,
-  SearchBoxContainerContext
+  SearchBoxContainerProps
 } from "@elastic/react-search-ui-views";
+import { useSearch } from "../hooks";
 
-import { withSearch } from "..";
+export const SearchBoxContainer = ({
+  autocompleteMinimumCharacters,
+  autocompleteResults,
+  autocompleteSuggestions,
+  className,
+  autocompleteView,
+  inputProps,
+  inputView,
+  onSelectAutocomplete,
+  shouldClearFilters,
+  onSubmit,
+  searchAsYouType,
+  debounceLength,
+  view,
+  ...rest
+}: SearchBoxContainerProps) => {
+  const {
+    autocompletedResults,
+    autocompletedSuggestions,
+    searchTerm,
+    setSearchTerm,
+    trackAutocompleteClickThrough,
+    trackAutocompleteSuggestionClickThrough
+  } = useSearch();
 
-export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
-  static defaultProps = {
-    autocompleteMinimumCharacters: 0,
-    shouldClearFilters: true
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const handleFocus = () => {
+    setIsFocused(true);
   };
-
-  state = {
-    isFocused: false
+  const handleBlur = () => {
+    setIsFocused(false);
   };
-
-  handleFocus = () => {
-    this.setState({
-      isFocused: true
-    });
-  };
-
-  handleBlur = () => {
-    this.setState({
-      isFocused: false
-    });
-  };
-
-  completeSuggestion = (searchTerm) => {
-    const { shouldClearFilters, setSearchTerm } = this.props;
-    setSearchTerm(searchTerm, {
-      shouldClearFilters
-    });
-  };
-
-  handleSubmit = (e) => {
-    const { shouldClearFilters, searchTerm, setSearchTerm } = this.props;
-
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSearchTerm(searchTerm, {
       shouldClearFilters
     });
   };
 
-  handleChange = (value) => {
-    const {
-      autocompleteMinimumCharacters,
-      autocompleteResults,
-      autocompleteSuggestions,
-      shouldClearFilters,
-      searchAsYouType,
-      setSearchTerm,
-      debounceLength
-    } = this.props;
-
+  const handleChange = (value) => {
     const options = {
       autocompleteMinimumCharacters,
       ...((autocompleteResults ||
@@ -72,13 +61,7 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
     setSearchTerm(value, options);
   };
 
-  handleNotifyAutocompleteSelected = (selection) => {
-    const {
-      autocompleteResults,
-      trackAutocompleteClickThrough,
-      trackAutocompleteSuggestionClickThrough
-    } = this.props;
-
+  const handleNotifyAutocompleteSelected = (selection) => {
     // results
     if (autocompleteResults) {
       const autocompleteResultsConfig =
@@ -104,13 +87,15 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
       }
     }
   };
-
-  defaultOnSelectAutocomplete = (selection) => {
+  const completeSuggestion = (searchTerm) => {
+    setSearchTerm(searchTerm, {
+      shouldClearFilters
+    });
+  };
+  const defaultOnSelectAutocomplete = (selection) => {
     if (!selection) return;
 
-    const { autocompleteResults } = this.props;
-
-    this.handleNotifyAutocompleteSelected(selection);
+    handleNotifyAutocompleteSelected(selection);
     if (!selection.suggestion && typeof autocompleteResults !== "boolean") {
       const url = selection[autocompleteResults.urlField]
         ? selection[autocompleteResults.urlField].raw
@@ -123,105 +108,66 @@ export class SearchBoxContainer extends Component<SearchBoxContainerProps> {
         window.open(url, target);
       }
     } else {
-      this.completeSuggestion(selection.suggestion);
+      completeSuggestion(selection.suggestion);
     }
   };
+  const View = view || SearchBox;
 
-  render() {
-    const { isFocused } = this.state;
-    const {
-      autocompleteMinimumCharacters,
-      autocompleteResults,
-      autocompleteSuggestions,
-      autocompletedResults,
-      autocompletedSuggestions,
-      className,
-      autocompleteView,
-      inputProps,
-      inputView,
-      onSelectAutocomplete,
-      onSubmit,
-      searchTerm,
-      view,
-      ...rest
-    } = this.props;
+  const useAutocomplete =
+    (!!autocompleteResults || !!autocompleteSuggestions) &&
+    searchTerm.length >= autocompleteMinimumCharacters;
+  const autocompletedSuggestionsCount = Object.entries(
+    autocompletedSuggestions
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ).reduce((acc, [_, value]: [any, any]) => acc + value.length, 0);
 
-    const View = view || SearchBox;
-    const useAutocomplete =
-      (!!autocompleteResults || !!autocompleteSuggestions) &&
-      searchTerm.length >= autocompleteMinimumCharacters;
-    const autocompletedSuggestionsCount = Object.entries(
-      autocompletedSuggestions
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ).reduce((acc, [_, value]: [any, any]) => acc + value.length, 0);
-    const allAutocompletedItemsCount =
-      autocompletedSuggestionsCount + autocompletedResults.length;
-
-    let handleOnSelectAutocomplete;
-    if (onSelectAutocomplete) {
-      handleOnSelectAutocomplete = (selection) => {
-        onSelectAutocomplete(
-          selection,
-          {
-            notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
-            completeSuggestion: this.completeSuggestion,
-            autocompleteResults: this.props.autocompleteResults
-          },
-          this.defaultOnSelectAutocomplete
-        );
-      };
-    }
-
-    const viewProps = {
-      allAutocompletedItemsCount: allAutocompletedItemsCount,
-      autocompleteView,
-      autocompleteResults: autocompleteResults,
-      autocompleteSuggestions: autocompleteSuggestions,
-      autocompletedResults: autocompletedResults,
-      autocompletedSuggestions: autocompletedSuggestions,
-      className,
-      autocompletedSuggestionsCount: autocompletedSuggestionsCount,
-      completeSuggestion: this.completeSuggestion,
-      isFocused: isFocused,
-      notifyAutocompleteSelected: this.handleNotifyAutocompleteSelected,
-      onChange: (value) => this.handleChange(value),
-      onSelectAutocomplete:
-        handleOnSelectAutocomplete || this.defaultOnSelectAutocomplete,
-      onSubmit: onSubmit
-        ? (e) => {
-            e.preventDefault();
-            onSubmit(searchTerm);
-          }
-        : this.handleSubmit,
-      useAutocomplete: useAutocomplete,
-      value: searchTerm,
-      inputProps: {
-        onFocus: this.handleFocus,
-        onBlur: this.handleBlur,
-        ...inputProps
-      },
-      inputView,
-      ...rest
+  const allAutocompletedItemsCount =
+    autocompletedSuggestionsCount + autocompletedResults.length;
+  let handleOnSelectAutocomplete;
+  if (onSelectAutocomplete) {
+    handleOnSelectAutocomplete = (selection) => {
+      onSelectAutocomplete(
+        selection,
+        {
+          notifyAutocompleteSelected: handleNotifyAutocompleteSelected,
+          completeSuggestion: completeSuggestion,
+          autocompleteResults: autocompleteResults
+        },
+        defaultOnSelectAutocomplete
+      );
     };
-
-    return <View {...viewProps} />;
   }
-}
-
-export default withSearch<SearchBoxContainerProps, SearchBoxContainerContext>(
-  ({
-    autocompletedResults,
-    autocompletedSuggestions,
-    searchTerm,
-    setSearchTerm,
-    trackAutocompleteClickThrough,
-    trackAutocompleteSuggestionClickThrough
-  }) => ({
-    autocompletedResults,
-    autocompletedSuggestions,
-    searchTerm,
-    setSearchTerm,
-    trackAutocompleteClickThrough,
-    trackAutocompleteSuggestionClickThrough
-  })
-)(SearchBoxContainer);
+  const viewProps = {
+    allAutocompletedItemsCount: allAutocompletedItemsCount,
+    autocompleteView,
+    autocompleteResults: autocompleteResults,
+    autocompleteSuggestions: autocompleteSuggestions,
+    autocompletedResults: autocompletedResults,
+    autocompletedSuggestions: autocompletedSuggestions,
+    className,
+    autocompletedSuggestionsCount: autocompletedSuggestionsCount,
+    completeSuggestion: completeSuggestion,
+    isFocused: isFocused,
+    notifyAutocompleteSelected: handleNotifyAutocompleteSelected,
+    onChange: (value) => handleChange(value),
+    onSelectAutocomplete:
+      handleOnSelectAutocomplete || defaultOnSelectAutocomplete,
+    onSubmit: onSubmit
+      ? (e) => {
+          e.preventDefault();
+          onSubmit(searchTerm);
+        }
+      : handleSubmit,
+    useAutocomplete: useAutocomplete,
+    value: searchTerm,
+    inputProps: {
+      onFocus: handleFocus,
+      onBlur: handleBlur,
+      ...inputProps
+    },
+    inputView,
+    ...rest
+  };
+  return <View {...viewProps} />;
+};
+export default SearchBoxContainer;

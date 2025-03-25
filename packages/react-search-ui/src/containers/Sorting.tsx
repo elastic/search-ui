@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { withSearch } from "..";
+import React from "react";
 import {
   Sorting,
-  SortingContainerContext,
   SortingContainerProps,
   SortingViewProps
 } from "@elastic/react-search-ui-views";
+import { useSearch } from "../hooks";
 
 function findSortOption(sortOptions, sortData) {
   if (sortData.indexOf("|||") === -1) {
@@ -44,43 +43,28 @@ function formatSelectOption(sortOption) {
   };
 }
 
-export class SortingContainer extends Component<SortingContainerProps> {
-  render() {
-    const {
-      className,
-      label,
-      setSort,
-      sortDirection,
-      sortField,
-      sortList,
-      sortOptions,
-      view,
-      ...rest
-    } = this.props;
+export const SortingContainer = ({
+  className,
+  label,
+  sortOptions,
+  view,
+  ...rest
+}: SortingContainerProps) => {
+  const { setSort, sortDirection, sortField, sortList } = useSearch();
+  const View = view || Sorting;
 
-    const View = view || Sorting;
+  const viewProps: SortingViewProps = {
+    className,
+    label,
+    onChange: (o) => {
+      const sortOption = findSortOption(sortOptions, o);
+      setSort(sortOption.value, sortOption.direction);
+    },
+    options: sortOptions.map(formatSelectOption),
+    value: formatValue(sortField, sortDirection, sortList),
+    ...rest
+  };
 
-    const viewProps: SortingViewProps = {
-      className,
-      label,
-      onChange: (o) => {
-        const sortOption = findSortOption(sortOptions, o);
-        setSort(sortOption.value, sortOption.direction);
-      },
-      options: sortOptions.map(formatSelectOption),
-      value: formatValue(sortField, sortDirection, sortList),
-      ...rest
-    };
-
-    return <View {...viewProps} />;
-  }
-}
-
-export default withSearch<SortingContainerProps, SortingContainerContext>(
-  ({ sortDirection, sortField, sortList, setSort }) => ({
-    sortDirection,
-    sortField,
-    sortList,
-    setSort
-  })
-)(SortingContainer);
+  return <View {...viewProps} />;
+};
+export default SortingContainer;
