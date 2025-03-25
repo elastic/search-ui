@@ -10,7 +10,8 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch
+  WithSearch,
+  SearchContextProvider
 } from "@elastic/react-search-ui";
 import { Layout, SingleLinksFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
@@ -24,12 +25,13 @@ export default function App() {
       <Navigation />
       <SearchProvider config={config}>
         <WithSearch
-          mapContextToProps={({ wasSearched }) => ({
+          mapContextToProps={({ context, wasSearched }) => ({
+            context,
             wasSearched
           })}
         >
-          {({ wasSearched }) => {
-            return (
+          {({ wasSearched, contextProps }) => (
+            <SearchContextProvider.Provider value={contextProps}>
               <div className="App">
                 <ErrorBoundary>
                   <Layout
@@ -80,8 +82,8 @@ export default function App() {
                   />
                 </ErrorBoundary>
               </div>
-            );
-          }}
+            </SearchContextProvider.Provider>
+          )}
         </WithSearch>
       </SearchProvider>
     </>

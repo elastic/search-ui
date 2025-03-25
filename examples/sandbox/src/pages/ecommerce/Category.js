@@ -11,7 +11,8 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch
+  WithSearch,
+  SearchContextProvider
 } from "@elastic/react-search-ui";
 import {
   Layout,
@@ -64,9 +65,9 @@ export default function CategoryPage(props) {
       <Navigation />
       <BrowseHeader category={category} />
       <SearchProvider config={categoryPageconfig(category)}>
-        <WithSearch mapContextToProps={() => ({})}>
-          {() => {
-            return (
+        <WithSearch mapContextToProps={(context) => context}>
+          {(contextProps) => (
+            <SearchContextProvider.Provider value={contextProps}>
               <div className="App">
                 <ErrorBoundary>
                   <Layout
@@ -117,8 +118,8 @@ export default function CategoryPage(props) {
                   />
                 </ErrorBoundary>
               </div>
-            );
-          }}
+            </SearchContextProvider.Provider>
+          )}
         </WithSearch>
       </SearchProvider>
     </>

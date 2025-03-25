@@ -1,4 +1,8 @@
-import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
+import {
+  SearchProvider,
+  SearchBox,
+  SearchContextProvider
+} from "@elastic/react-search-ui";
 import { config } from "./config";
 import React from "react";
 
@@ -223,41 +227,49 @@ function Navigation(props) {
             trackUrlState: false
           }}
         >
-          <div className="flex-auto py-2 flex justify-self-start">
-            <SearchBox
-              onSelectAutocomplete={(suggestion, config, defaultHandler) => {
-                // eslint-disable-next-line
-                if (!suggestion.name && suggestion.category) {
-                  window.location.href =
-                    "/ecommerce/category/" + suggestion.suggestion;
-                }
-                defaultHandler(suggestion);
-              }}
-              onSubmit={(searchTerm) => {
-                // eslint-disable-next-line no-debugger
-                window.location.href = "/ecommerce/search?q=" + searchTerm;
-              }}
-              autocompleteResults={{
-                sectionTitle: "Products",
-                titleField: "name",
-                urlField: "url"
-              }}
-              autocompleteSuggestions={{
-                popularQueries: {
-                  sectionTitle: "Popular queries",
-                  queryType: "results",
-                  displayField: "name"
-                },
-                categories: {
-                  sectionTitle: "Categories",
-                  queryType: "results",
-                  displayField: "category"
-                }
-              }}
-              inputView={InputView}
-              autocompleteView={AutocompleteView}
-            />
-          </div>
+          {(contextProps) => (
+            <SearchContextProvider.Provider value={contextProps}>
+              <div className="flex-auto py-2 flex justify-self-start">
+                <SearchBox
+                  onSelectAutocomplete={(
+                    suggestion,
+                    config,
+                    defaultHandler
+                  ) => {
+                    // eslint-disable-next-line
+                    if (!suggestion.name && suggestion.category) {
+                      window.location.href =
+                        "/ecommerce/category/" + suggestion.suggestion;
+                    }
+                    defaultHandler(suggestion);
+                  }}
+                  onSubmit={(searchTerm) => {
+                    // eslint-disable-next-line no-debugger
+                    window.location.href = "/ecommerce/search?q=" + searchTerm;
+                  }}
+                  autocompleteResults={{
+                    sectionTitle: "Products",
+                    titleField: "name",
+                    urlField: "url"
+                  }}
+                  autocompleteSuggestions={{
+                    popularQueries: {
+                      sectionTitle: "Popular queries",
+                      queryType: "results",
+                      displayField: "name"
+                    },
+                    categories: {
+                      sectionTitle: "Categories",
+                      queryType: "results",
+                      displayField: "category"
+                    }
+                  }}
+                  inputView={InputView}
+                  autocompleteView={AutocompleteView}
+                />
+              </div>
+            </SearchContextProvider.Provider>
+          )}
         </SearchProvider>
       </div>
     </div>
