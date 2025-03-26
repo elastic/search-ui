@@ -17,7 +17,11 @@ export const ErrorBoundaryContainer = ({
   view,
   ...rest
 }: ErrorBoundaryContainerProps) => {
-  const { error } = useSearch();
+  const {
+    driver: {
+      state: { error }
+    }
+  } = useSearch();
   const View = view || ErrorBoundary;
 
   const viewProps = {

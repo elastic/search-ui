@@ -14,7 +14,11 @@ export const ResultContainer = ({
   view,
   ...rest
 }: ResultContainerProps) => {
-  const { trackClickThrough } = useSearch();
+  const {
+    driver: {
+      actions: { trackClickThrough }
+    }
+  } = useSearch();
 
   const handleClickLink = (id: string) => {
     if (shouldTrackClickThrough) {

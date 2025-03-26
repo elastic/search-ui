@@ -14,7 +14,12 @@ export function ResultsPerPageContainer({
   view,
   ...rest
 }: ResultsPerPageContainerProps) {
-  const { resultsPerPage, setResultsPerPage } = useSearch();
+  const {
+    driver: {
+      state: { resultsPerPage },
+      actions: { setResultsPerPage }
+    }
+  } = useSearch();
   const View = view || ResultsPerPage;
   const viewProps: ResultsPerPageViewProps = {
     className,

@@ -12,7 +12,13 @@ export function PagingContainer({
   view,
   ...rest
 }: PagingContainerProps) {
-  const { current, resultsPerPage, totalPages, setCurrent } = useSearch();
+  const {
+    driver: {
+      state: { current, resultsPerPage, totalPages },
+      actions: { setCurrent }
+    }
+  } = useSearch();
+
   if (totalPages === 0) return null;
 
   const View: React.ComponentType<PagingViewProps> = view || Paging;

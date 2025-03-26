@@ -22,12 +22,14 @@ export const SearchBoxContainer = ({
   ...rest
 }: SearchBoxContainerProps) => {
   const {
-    autocompletedResults,
-    autocompletedSuggestions,
-    searchTerm,
-    setSearchTerm,
-    trackAutocompleteClickThrough,
-    trackAutocompleteSuggestionClickThrough
+    driver: {
+      state: { autocompletedResults, autocompletedSuggestions, searchTerm },
+      actions: {
+        setSearchTerm,
+        trackAutocompleteClickThrough,
+        trackAutocompleteSuggestionClickThrough
+      }
+    }
   } = useSearch();
 
   const [isFocused, setIsFocused] = useState<boolean>(false);

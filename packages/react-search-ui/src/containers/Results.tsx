@@ -25,7 +25,11 @@ export const ResultsContainer = ({
   view,
   ...rest
 }: ResultsContainerProps) => {
-  const { results } = useSearch();
+  const {
+    driver: {
+      state: { results }
+    }
+  } = useSearch();
   const View = view || Results;
   const ResultView = resultView || Result;
 

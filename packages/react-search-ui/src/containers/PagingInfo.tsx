@@ -11,8 +11,11 @@ export function PagingInfoContainer({
   view,
   ...rest
 }: PagingInfoContainerProps) {
-  const { pagingStart, pagingEnd, resultSearchTerm, totalResults } =
-    useSearch();
+  const {
+    driver: {
+      state: { pagingStart, pagingEnd, resultSearchTerm, totalResults }
+    }
+  } = useSearch();
   const View = view || PagingInfo;
   const viewProps: PagingInfoViewProps = {
     className,

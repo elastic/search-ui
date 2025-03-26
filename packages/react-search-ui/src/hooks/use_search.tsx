@@ -1,15 +1,11 @@
-import { createContext, useContext } from "react";
+import { useContext } from "react";
 
-import type { SearchContextState } from "@elastic/search-ui";
-
-export const SearchContextProvider = createContext<
-  SearchContextState | undefined
->(undefined);
+import SearchContext from "../SearchContext";
 
 export const useSearch = () => {
-  const context = useContext(SearchContextProvider);
+  const context = useContext(SearchContext);
   if (context === undefined) {
-    throw new Error("useSearch must be used within a SearchContextProvider");
+    throw new Error("useSearch must be used within a SearchContext");
   }
   return context;
 };
