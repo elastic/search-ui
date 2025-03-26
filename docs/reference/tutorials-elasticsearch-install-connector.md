@@ -3,7 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-install-connector.html
 ---
 
-# Install Сonnector [tutorials-elasticsearch-install-connector]
+# Install Connector [tutorials-elasticsearch-installing-connector]
 
 ### Setup CRA for Search UI [tutorials-elasticsearch-step-4-setup-cra-for-search-ui]
 

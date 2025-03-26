@@ -3,7 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-setup-cloud.html
 ---
 
-# Setup Elasticsearch [tutorials-elasticsearch-setup-elasticsearch]
+# Setup Elasticsearch [tutorials-elasticsearch-step-1-setup-elasticsearch]
 
 First we need to setup Elasticsearch. The easiest way to do this is to create an Elasticsearch instance via [Elastic Cloud](https://cloud.elastic.co/registration).
 

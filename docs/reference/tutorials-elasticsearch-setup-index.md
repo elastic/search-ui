@@ -20,7 +20,7 @@ PUT /my-example-movies
 
 Elasticsearch will acknowledge our request in the response.
 
-## Mapping Examples [tutorials-elasticsearch-settion-up-an-index-examples-mapping]
+## Mapping Examples [tutorials-elasticsearch-examples]
 
 Next we need to setup the index fields, ready for us to ingest data.
 
@@ -173,7 +173,7 @@ In the above example:
 - we have included `movie_completion` field, which is used to provide suggestion completion functionality. This field is not searchable, but is used to provide autocomplete functionality.
 - we have included a `suggest` field for the title field. This field is searchable, but is used to provide "quick hits" functionality.
 
-## Index Movies Data [tutorials-elasticsearch-settion-up-an-index-index-movies-data]
+## Index Movies Data [tutorials-elasticsearch-step-3-index-movies-data]
 
 Now with our index and mapping file created, we are ready to index some data! We will use the bulk API to index our data.
 

@@ -5,7 +5,7 @@ mapped_pages:
 
 # Configure and Run Search UI [tutorials-elasticsearch-configure-search-ui-and-run]
 
-## Configure Search UI [tutorials-elasticsearch-configure-search-ui]
+## Configure Search UI [tutorials-elasticsearch-step-5-configure-search-ui]
 
 Next lets configure Search UI for our needs! Navigate to the config within app.js and update the following:
 
@@ -170,7 +170,7 @@ and then view the results in the browser at [http://localhost:3000/](http://loca
 :class: screenshot
 :::
 
-## Summary [tutorials-elasticsearch-summary]
+## Summary [tutorials-elasticsearch-next-steps]
 
 Lets recap of the steps we have covered:
 

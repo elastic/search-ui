@@ -3,7 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-customise-request.html
 ---
 
-# Customise Request [tutorials-elasticsearch-customise-request]
+# Customise Request [api-connectors-elasticsearch-customise-the-elasticsearch-request-body]
 
 Elasticsearch connector allows you to customise the Elasticsearch request body before its performed on Elasticsearch. This is useful if you want to customise the query or options before the request is sent to Elasticsearch.
 
