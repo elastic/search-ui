@@ -12,8 +12,7 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch,
-  SearchContextProvider
+  WithSearch
 } from "@elastic/react-search-ui";
 import {
   BooleanFacet,
@@ -237,88 +236,82 @@ export default function App() {
     <SearchProvider config={config}>
       <WithSearch mapContextToProps={(context) => context}>
         {(contextProps) => (
-          <SearchContextProvider.Provider value={contextProps}>
-            <div className="App customization-example">
-              <ErrorBoundary>
-                <Layout
-                  header={
-                    <SearchBox
-                      autocompleteMinimumCharacters={3}
-                      autocompleteResults={{
-                        linkTarget: "_blank",
-                        sectionTitle: "Results",
-                        titleField: "title",
-                        urlField: "nps_link",
-                        shouldTrackClickThrough: true,
-                        clickThroughTags: ["test"]
-                      }}
-                      autocompleteSuggestions={true}
-                      debounceLength={0}
+          <div className="App customization-example">
+            <ErrorBoundary>
+              <Layout
+                header={
+                  <SearchBox
+                    autocompleteMinimumCharacters={3}
+                    autocompleteResults={{
+                      linkTarget: "_blank",
+                      sectionTitle: "Results",
+                      titleField: "title",
+                      urlField: "nps_link",
+                      shouldTrackClickThrough: true,
+                      clickThroughTags: ["test"]
+                    }}
+                    autocompleteSuggestions={true}
+                    debounceLength={0}
+                  />
+                }
+                sideContent={
+                  <div>
+                    <ClearFilters />
+                    <br />
+                    <br />
+                    {contextProps.wasSearched && (
+                      <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
+                    )}
+                    <Facet
+                      field="states"
+                      label="States"
+                      filterType="any"
+                      isFilterable={true}
                     />
-                  }
-                  sideContent={
-                    <div>
-                      <ClearFilters />
-                      <br />
-                      <br />
-                      {contextProps.wasSearched && (
-                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                      )}
-                      <Facet
-                        field="states"
-                        label="States"
-                        filterType="any"
-                        isFilterable={true}
-                      />
-                      <Facet
-                        field="world_heritage_site"
-                        label="World Heritage Site?"
-                        view={BooleanFacet}
-                      />
-                      <Facet
-                        field="visitors"
-                        label="Visitors"
-                        view={SingleLinksFacet}
-                      />
-                      <Facet
-                        field="date_established"
-                        label="Date Established"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="location"
-                        label="Distance"
-                        filterType="any"
-                      />
-                      <Facet
-                        field="acres"
-                        label="Acres"
-                        view={SingleSelectFacet}
-                      />
-                    </div>
-                  }
-                  bodyContent={
-                    <Results
-                      resultView={CustomResultView}
-                      titleField="title"
-                      urlField="nps_link"
-                      thumbnailField="image_url"
-                      shouldTrackClickThrough={true}
+                    <Facet
+                      field="world_heritage_site"
+                      label="World Heritage Site?"
+                      view={BooleanFacet}
                     />
-                  }
-                  bodyHeader={
-                    <>
-                      {contextProps.wasSearched && (
-                        <PagingInfo view={CustomPagingInfoView} />
-                      )}
-                      {contextProps.wasSearched && <ResultsPerPage />}
-                    </>
-                  }
-                  bodyFooter={<Paging />}
-                />
-              </ErrorBoundary>
-            </div>
-          </SearchContextProvider.Provider>
+                    <Facet
+                      field="visitors"
+                      label="Visitors"
+                      view={SingleLinksFacet}
+                    />
+                    <Facet
+                      field="date_established"
+                      label="Date Established"
+                      filterType="any"
+                    />
+                    <Facet field="location" label="Distance" filterType="any" />
+                    <Facet
+                      field="acres"
+                      label="Acres"
+                      view={SingleSelectFacet}
+                    />
+                  </div>
+                }
+                bodyContent={
+                  <Results
+                    resultView={CustomResultView}
+                    titleField="title"
+                    urlField="nps_link"
+                    thumbnailField="image_url"
+                    shouldTrackClickThrough={true}
+                  />
+                }
+                bodyHeader={
+                  <>
+                    {contextProps.wasSearched && (
+                      <PagingInfo view={CustomPagingInfoView} />
+                    )}
+                    {contextProps.wasSearched && <ResultsPerPage />}
+                  </>
+                }
+                bodyFooter={<Paging />}
+              />
+            </ErrorBoundary>
+          </div>
         )}
       </WithSearch>
     </SearchProvider>

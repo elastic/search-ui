@@ -1,9 +1,4 @@
-import {
-  Results,
-  SearchProvider,
-  SearchContextProvider,
-  WithSearch
-} from "@elastic/react-search-ui";
+import { Results, SearchProvider, WithSearch } from "@elastic/react-search-ui";
 import { config } from "./config";
 
 const CustomResultsView = ({ children }) => {
@@ -36,15 +31,13 @@ export default function ProductCarousel(props) {
   return (
     <SearchProvider config={config(props.filters)}>
       <WithSearch mapContextToProps={(context) => context}>
-        {(contextProps) => (
-          <SearchContextProvider.Provider value={contextProps}>
-            <div className="product-carousel mb-10">
-              <h3 className="text-xl leading-8 font-semibold text-slate-700">
-                {props.title}
-              </h3>
-              <Results view={CustomResultsView} resultView={CustomResultView} />
-            </div>
-          </SearchContextProvider.Provider>
+        {() => (
+          <div className="product-carousel mb-10">
+            <h3 className="text-xl leading-8 font-semibold text-slate-700">
+              {props.title}
+            </h3>
+            <Results view={CustomResultsView} resultView={CustomResultView} />
+          </div>
         )}
       </WithSearch>
     </SearchProvider>

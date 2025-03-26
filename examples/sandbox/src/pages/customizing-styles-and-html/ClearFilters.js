@@ -1,7 +1,12 @@
 import { useSearch } from "@elastic/react-search-ui";
 
 export const ClearFilters = () => {
-  const { filters, clearFilters } = useSearch();
+  const {
+    driver: {
+      state: { filters },
+      actions: { clearFilters }
+    }
+  } = useSearch();
 
   return (
     <div>

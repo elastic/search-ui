@@ -5,8 +5,7 @@ import { config } from "./config";
 import {
   SearchProvider,
   SearchBox,
-  WithSearch,
-  SearchContextProvider
+  WithSearch
 } from "@elastic/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
@@ -34,25 +33,23 @@ export default function Header() {
           }}
         >
           <WithSearch mapContextToProps={(context) => context}>
-            {(contextProps) => (
-              <SearchContextProvider.Provider value={contextProps}>
-                <SearchBox
-                  onSubmit={(searchTerm) => {
-                    window.location.href = `${window.location.origin}/search-bar-in-header/search?q=${searchTerm}`;
-                  }}
-                  autocompleteMinimumCharacters={3}
-                  autocompleteResults={{
-                    linkTarget: "_blank",
-                    sectionTitle: "Results",
-                    titleField: "title",
-                    urlField: "nps_link",
-                    shouldTrackClickThrough: true,
-                    clickThroughTags: ["test"]
-                  }}
-                  autocompleteSuggestions={true}
-                  debounceLength={0}
-                />
-              </SearchContextProvider.Provider>
+            {() => (
+              <SearchBox
+                onSubmit={(searchTerm) => {
+                  window.location.href = `${window.location.origin}/search-bar-in-header/search?q=${searchTerm}`;
+                }}
+                autocompleteMinimumCharacters={3}
+                autocompleteResults={{
+                  linkTarget: "_blank",
+                  sectionTitle: "Results",
+                  titleField: "title",
+                  urlField: "nps_link",
+                  shouldTrackClickThrough: true,
+                  clickThroughTags: ["test"]
+                }}
+                autocompleteSuggestions={true}
+                debounceLength={0}
+              />
             )}
           </WithSearch>
         </SearchProvider>

@@ -13,8 +13,7 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch,
-  SearchContextProvider
+  WithSearch
 } from "@elastic/react-search-ui";
 import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
@@ -105,54 +104,52 @@ export default function App() {
     <SearchProvider config={config}>
       <WithSearch mapContextToProps={(context) => context}>
         {(contextProps) => (
-          <SearchContextProvider.Provider value={contextProps}>
-            <div className="App">
-              <ErrorBoundary>
-                <Layout
-                  header={
-                    <SearchBox
-                      debounceLength={0}
-                      autocompleteResults={{
-                        linkTarget: "_blank",
-                        sectionTitle: "Results",
-                        titleField: "name",
-                        urlField: "name"
-                      }}
+          <div className="App">
+            <ErrorBoundary>
+              <Layout
+                header={
+                  <SearchBox
+                    debounceLength={0}
+                    autocompleteResults={{
+                      linkTarget: "_blank",
+                      sectionTitle: "Results",
+                      titleField: "name",
+                      urlField: "name"
+                    }}
+                  />
+                }
+                sideContent={
+                  <div>
+                    {contextProps.wasSearched && (
+                      <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
+                    )}
+                    <Facet
+                      field="color"
+                      label="Color"
+                      filterType="any"
+                      isFilterable={true}
                     />
-                  }
-                  sideContent={
-                    <div>
-                      {contextProps.wasSearched && (
-                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                      )}
-                      <Facet
-                        field="color"
-                        label="Color"
-                        filterType="any"
-                        isFilterable={true}
-                      />
-                      <Facet
-                        field="age"
-                        label="Age"
-                        filterType="any"
-                        isFilterable={true}
-                      />
-                    </div>
-                  }
-                  bodyContent={
-                    <Results titleField="name" shouldTrackClickThrough={true} />
-                  }
-                  bodyHeader={
-                    <React.Fragment>
-                      {contextProps.wasSearched && <PagingInfo />}
-                      {contextProps.wasSearched && <ResultsPerPage />}
-                    </React.Fragment>
-                  }
-                  bodyFooter={<Paging />}
-                />
-              </ErrorBoundary>
-            </div>
-          </SearchContextProvider.Provider>
+                    <Facet
+                      field="age"
+                      label="Age"
+                      filterType="any"
+                      isFilterable={true}
+                    />
+                  </div>
+                }
+                bodyContent={
+                  <Results titleField="name" shouldTrackClickThrough={true} />
+                }
+                bodyHeader={
+                  <React.Fragment>
+                    {contextProps.wasSearched && <PagingInfo />}
+                    {contextProps.wasSearched && <ResultsPerPage />}
+                  </React.Fragment>
+                }
+                bodyFooter={<Paging />}
+              />
+            </ErrorBoundary>
+          </div>
         )}
       </WithSearch>
     </SearchProvider>

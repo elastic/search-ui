@@ -11,8 +11,7 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch,
-  SearchContextProvider
+  WithSearch
 } from "@elastic/react-search-ui";
 import {
   Layout,
@@ -66,59 +65,57 @@ export default function CategoryPage(props) {
       <BrowseHeader category={category} />
       <SearchProvider config={categoryPageconfig(category)}>
         <WithSearch mapContextToProps={(context) => context}>
-          {(contextProps) => (
-            <SearchContextProvider.Provider value={contextProps}>
-              <div className="App">
-                <ErrorBoundary>
-                  <Layout
-                    sideContent={
-                      <>
-                        <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                        <Facet
-                          field="tv_smart_tv"
-                          label="Smart TV"
-                          view={BooleanFacet}
-                        />
-                        <Facet
-                          field="tv_resolution"
-                          label="Resolution"
-                          view={SingleLinksFacet}
-                        />
-                        <Facet
-                          field="tv_size"
-                          label="Diagonal size"
-                          filterType="any"
-                        />
-                        <Facet
-                          field="rating"
-                          label="Rating"
-                          view={SingleLinksFacet}
-                        />
-                        <Facet field="manufacturer" label="Manufacturer" />
-                        <Facet field="price" label="Price" filterType="any" />
-                        <Facet field="shipping" label="Shipping" />
-                      </>
-                    }
-                    bodyContent={
-                      <Results
-                        titleField="name"
-                        urlField="url"
-                        thumbnailField="image"
-                        shouldTrackClickThrough={true}
-                        resultView={CustomResultView}
+          {() => (
+            <div className="App">
+              <ErrorBoundary>
+                <Layout
+                  sideContent={
+                    <>
+                      <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
+                      <Facet
+                        field="tv_smart_tv"
+                        label="Smart TV"
+                        view={BooleanFacet}
                       />
-                    }
-                    bodyHeader={
-                      <>
-                        <PagingInfo />
-                        <ResultsPerPage />
-                      </>
-                    }
-                    bodyFooter={<Paging />}
-                  />
-                </ErrorBoundary>
-              </div>
-            </SearchContextProvider.Provider>
+                      <Facet
+                        field="tv_resolution"
+                        label="Resolution"
+                        view={SingleLinksFacet}
+                      />
+                      <Facet
+                        field="tv_size"
+                        label="Diagonal size"
+                        filterType="any"
+                      />
+                      <Facet
+                        field="rating"
+                        label="Rating"
+                        view={SingleLinksFacet}
+                      />
+                      <Facet field="manufacturer" label="Manufacturer" />
+                      <Facet field="price" label="Price" filterType="any" />
+                      <Facet field="shipping" label="Shipping" />
+                    </>
+                  }
+                  bodyContent={
+                    <Results
+                      titleField="name"
+                      urlField="url"
+                      thumbnailField="image"
+                      shouldTrackClickThrough={true}
+                      resultView={CustomResultView}
+                    />
+                  }
+                  bodyHeader={
+                    <>
+                      <PagingInfo />
+                      <ResultsPerPage />
+                    </>
+                  }
+                  bodyFooter={<Paging />}
+                />
+              </ErrorBoundary>
+            </div>
           )}
         </WithSearch>
       </SearchProvider>
