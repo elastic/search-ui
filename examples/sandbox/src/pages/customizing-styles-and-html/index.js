@@ -261,7 +261,7 @@ export default function App() {
                       <ClearFilters />
                       <br />
                       <br />
-                      {config.wasSearched && (
+                      {contextProps.wasSearched && (
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
@@ -308,10 +308,10 @@ export default function App() {
                   }
                   bodyHeader={
                     <>
-                      {config.wasSearched && (
+                      {contextProps.wasSearched && (
                         <PagingInfo view={CustomPagingInfoView} />
                       )}
-                      {config.wasSearched && <ResultsPerPage />}
+                      {contextProps.wasSearched && <ResultsPerPage />}
                     </>
                   }
                   bodyFooter={<Paging />}

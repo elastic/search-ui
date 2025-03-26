@@ -239,7 +239,7 @@ export default function App() {
                   }
                   sideContent={
                     <div>
-                      {config.wasSearched && (
+                      {contextProps.wasSearched && (
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
@@ -287,8 +287,8 @@ export default function App() {
                   }
                   bodyHeader={
                     <React.Fragment>
-                      {config.wasSearched && <PagingInfo />}
-                      {config.wasSearched && <ResultsPerPage />}
+                      {contextProps.wasSearched && <PagingInfo />}
+                      {contextProps.wasSearched && <ResultsPerPage />}
                     </React.Fragment>
                   }
                   bodyFooter={<Paging />}
