@@ -2,6 +2,10 @@
 
 Use the Analytics Plugin to send analytics events to the Behavioral Analytics Product. Follow the instructions to set up the plugin.
 
+## Deprecation Notice
+
+**Note:** The `Analytics Plugin` package is deprecated and will no longer be supported.
+
 ## Installation
 
 ```bash
