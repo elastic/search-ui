@@ -29,17 +29,9 @@ export type {
   PagingInfoViewProps
 } from "../PagingInfo";
 
-export type {
-  ResultsContainerContext,
-  ResultsContainerProps,
-  ResultsViewProps
-} from "../Results";
+export type { ResultsContainerProps, ResultsViewProps } from "../Results";
 
-export type {
-  ResultContainerContext,
-  ResultContainerProps,
-  ResultViewProps
-} from "../Result";
+export type { ResultContainerProps, ResultViewProps } from "../Result";
 
 export type {
   ResultsPerPageContainerContext,

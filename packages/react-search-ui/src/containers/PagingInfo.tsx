@@ -1,43 +1,29 @@
-import React, { Component } from "react";
-import { withSearch } from "..";
+import React from "react";
 import {
   PagingInfoContainerProps,
   PagingInfo,
-  PagingInfoViewProps,
-  PagingInfoContainerContext
+  PagingInfoViewProps
 } from "@elastic/react-search-ui-views";
+import { useSearch } from "../hooks";
 
-export class PagingInfoContainer extends Component<PagingInfoContainerProps> {
-  render() {
-    const {
-      className,
-      pagingStart,
-      pagingEnd,
-      resultSearchTerm,
-      totalResults,
-      view,
-      ...rest
-    } = this.props;
+export function PagingInfoContainer({
+  className,
+  view,
+  ...rest
+}: PagingInfoContainerProps) {
+  const { pagingStart, pagingEnd, resultSearchTerm, totalResults } =
+    useSearch();
+  const View = view || PagingInfo;
+  const viewProps: PagingInfoViewProps = {
+    className,
+    searchTerm: resultSearchTerm,
+    start: pagingStart,
+    end: pagingEnd,
+    totalResults: totalResults,
+    ...rest
+  };
 
-    const View = view || PagingInfo;
-    const viewProps: PagingInfoViewProps = {
-      className,
-      searchTerm: resultSearchTerm,
-      start: pagingStart,
-      end: pagingEnd,
-      totalResults: totalResults,
-      ...rest
-    };
-
-    return <View {...viewProps} />;
-  }
+  return <View {...viewProps} />;
 }
 
-export default withSearch<PagingInfoContainerProps, PagingInfoContainerContext>(
-  ({ pagingStart, pagingEnd, resultSearchTerm, totalResults }) => ({
-    pagingStart,
-    pagingEnd,
-    resultSearchTerm,
-    totalResults
-  })
-)(PagingInfoContainer);
+export default PagingInfoContainer;
