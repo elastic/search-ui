@@ -2,7 +2,12 @@ import React from "react";
 
 import { config } from "./config";
 
-import { SearchProvider, SearchBox } from "@elastic/react-search-ui";
+import {
+  SearchProvider,
+  SearchBox,
+  WithSearch,
+  SearchContextProvider
+} from "@elastic/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 export default function Header() {
@@ -28,22 +33,28 @@ export default function Header() {
             trackUrlState: false
           }}
         >
-          <SearchBox
-            onSubmit={(searchTerm) => {
-              window.location.href = `${window.location.origin}/search-bar-in-header/search?q=${searchTerm}`;
-            }}
-            autocompleteMinimumCharacters={3}
-            autocompleteResults={{
-              linkTarget: "_blank",
-              sectionTitle: "Results",
-              titleField: "title",
-              urlField: "nps_link",
-              shouldTrackClickThrough: true,
-              clickThroughTags: ["test"]
-            }}
-            autocompleteSuggestions={true}
-            debounceLength={0}
-          />
+          <WithSearch mapContextToProps={(context) => context}>
+            {(contextProps) => (
+              <SearchContextProvider.Provider value={contextProps}>
+                <SearchBox
+                  onSubmit={(searchTerm) => {
+                    window.location.href = `${window.location.origin}/search-bar-in-header/search?q=${searchTerm}`;
+                  }}
+                  autocompleteMinimumCharacters={3}
+                  autocompleteResults={{
+                    linkTarget: "_blank",
+                    sectionTitle: "Results",
+                    titleField: "title",
+                    urlField: "nps_link",
+                    shouldTrackClickThrough: true,
+                    clickThroughTags: ["test"]
+                  }}
+                  autocompleteSuggestions={true}
+                  debounceLength={0}
+                />
+              </SearchContextProvider.Provider>
+            )}
+          </WithSearch>
         </SearchProvider>
       </div>
     </div>

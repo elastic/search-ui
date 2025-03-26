@@ -13,7 +13,8 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch
+  WithSearch,
+  SearchContextProvider
 } from "@elastic/react-search-ui";
 import { Layout } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
@@ -102,13 +103,9 @@ const SORT_OPTIONS = [
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch
-        mapContextToProps={({ wasSearched }) => ({
-          wasSearched
-        })}
-      >
-        {({ wasSearched }) => {
-          return (
+      <WithSearch mapContextToProps={(context) => context}>
+        {(contextProps) => (
+          <SearchContextProvider.Provider value={contextProps}>
             <div className="App">
               <ErrorBoundary>
                 <Layout
@@ -125,7 +122,7 @@ export default function App() {
                   }
                   sideContent={
                     <div>
-                      {wasSearched && (
+                      {contextProps.wasSearched && (
                         <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
                       )}
                       <Facet
@@ -147,16 +144,16 @@ export default function App() {
                   }
                   bodyHeader={
                     <React.Fragment>
-                      {wasSearched && <PagingInfo />}
-                      {wasSearched && <ResultsPerPage />}
+                      {contextProps.wasSearched && <PagingInfo />}
+                      {contextProps.wasSearched && <ResultsPerPage />}
                     </React.Fragment>
                   }
                   bodyFooter={<Paging />}
                 />
               </ErrorBoundary>
             </div>
-          );
-        }}
+          </SearchContextProvider.Provider>
+        )}
       </WithSearch>
     </SearchProvider>
   );
