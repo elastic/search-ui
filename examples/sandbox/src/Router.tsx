@@ -29,11 +29,12 @@ export default function Router() {
           path="/elasticsearch-basic"
           component={ElasticsearchBasic}
         />
-        <Route
+        {/* TODO: Add back in when we have a production-ready connector */}
+        {/* <Route
           exact
           path="/elasticsearch-production-ready"
           component={ElasticsearchProductionReady}
-        />
+        /> */}
         <Route exact path="/site-search" component={SiteSearch} />
         <Route exact path="/engines" component={Engines} />
 
