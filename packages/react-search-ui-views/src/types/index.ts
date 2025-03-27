@@ -93,6 +93,7 @@ export type FacetContainerProps = BaseContainerProps & {
   isFilterable?: boolean;
   field: string;
   label: string;
+  persistent?: boolean;
 } & FacetContainerContext;
 
 // From SO https://stackoverflow.com/a/59071783

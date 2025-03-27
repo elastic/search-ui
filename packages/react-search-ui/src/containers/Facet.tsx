@@ -25,7 +25,8 @@ export class FacetContainer extends Component<
   static defaultProps = {
     filterType: "all",
     isFilterable: false,
-    show: 5
+    show: 5,
+    persistent: false
   };
 
   constructor(props) {
@@ -66,6 +67,7 @@ export class FacetContainer extends Component<
       setFilter,
       view,
       isFilterable,
+      persistent,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       a11yNotify,
       ...rest
@@ -127,10 +129,10 @@ export class FacetContainer extends Component<
         removeFilter(field, value, filterType);
       },
       onChange: (value) => {
-        setFilter(field, value, filterType);
+        setFilter(field, value, filterType, persistent);
       },
       onSelect: (value) => {
-        addFilter(field, value, filterType);
+        addFilter(field, value, filterType, persistent);
       },
       options: facetValues.slice(0, more),
       showMore: facetValues.length > more,

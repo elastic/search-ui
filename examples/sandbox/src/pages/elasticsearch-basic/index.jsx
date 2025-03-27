@@ -250,11 +250,13 @@ export default function App() {
                         label="States"
                         filterType="any"
                         isFilterable={true}
+                        persistent
                       />
                       <Facet
                         field="world_heritage_site.keyword"
                         label="World Heritage Site"
                         view={BooleanFacet}
+                        persistent
                       />
                       <Facet
                         field="visitors"
