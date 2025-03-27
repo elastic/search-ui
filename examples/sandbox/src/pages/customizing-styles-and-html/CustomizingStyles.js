@@ -6,7 +6,8 @@ import {
   PagingInfo,
   ResultsPerPage,
   Paging,
-  Sorting
+  Sorting,
+  useSearch
 } from "@elastic/react-search-ui";
 import {
   BooleanFacet,
@@ -106,7 +107,9 @@ const CustomResultView = ({ result, onClickLink }) => (
     </div>
   </li>
 );
-export const CustomizingStylesApp = ({ contextProps }) => {
+export const CustomizingStylesApp = () => {
+  const contextProps = useSearch();
+
   return (
     <div className="App customization-example">
       <ErrorBoundary>

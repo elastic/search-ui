@@ -50,12 +50,7 @@ export const SortingContainer = ({
   view,
   ...rest
 }: SortingContainerProps) => {
-  const {
-    driver: {
-      state: { sortDirection, sortField, sortList },
-      actions: { setSort }
-    }
-  } = useSearch();
+  const { sortDirection, sortField, sortList, setSort } = useSearch();
 
   const View = view || Sorting;
   const viewProps: SortingViewProps = {

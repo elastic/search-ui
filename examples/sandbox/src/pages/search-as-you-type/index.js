@@ -5,25 +5,10 @@ import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
 
 import moment from "moment";
 
-import {
-  ErrorBoundary,
-  Facet,
-  SearchProvider,
-  SearchBox,
-  Results,
-  PagingInfo,
-  ResultsPerPage,
-  Paging,
-  Sorting,
-  WithSearch
-} from "@elastic/react-search-ui";
-import {
-  BooleanFacet,
-  Layout,
-  SingleLinksFacet,
-  SingleSelectFacet
-} from "@elastic/react-search-ui-views";
+import { SearchProvider } from "@elastic/react-search-ui";
+
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { SearchAsYouType } from "./SearchAsYouType";
 
 const connector = new AppSearchAPIConnector({
   searchKey: "search-nyxkw1fuqex9qjhfvatbqfmw",
@@ -142,130 +127,10 @@ const config = {
   }
 };
 
-const SORT_OPTIONS = [
-  {
-    name: "Relevance",
-    value: []
-  },
-  {
-    name: "Title",
-    value: [
-      {
-        field: "title",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "State",
-    value: [
-      {
-        field: "states",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "State -> Title",
-    value: [
-      {
-        field: "states",
-        direction: "asc"
-      },
-      {
-        field: "title",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "Heritage Site -> State -> Title",
-    value: [
-      {
-        field: "world_heritage_site",
-        direction: "asc"
-      },
-      {
-        field: "states",
-        direction: "asc"
-      },
-      {
-        field: "title",
-        direction: "asc"
-      }
-    ]
-  }
-];
-
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch mapContextToProps={(context) => context}>
-        {(contextProps) => (
-          <div className="App">
-            <ErrorBoundary>
-              <Layout
-                header={
-                  <SearchBox
-                    // Set debounceLength and searchAsYouType props
-                    debounceLength={300}
-                    searchAsYouType={true}
-                  />
-                }
-                sideContent={
-                  <div>
-                    {contextProps.wasSearched && (
-                      <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                    )}
-                    <Facet
-                      field={"states"}
-                      label="States"
-                      filterType="any"
-                      isFilterable={true}
-                    />
-                    <Facet
-                      field={"world_heritage_site"}
-                      label="World Heritage Site"
-                      view={BooleanFacet}
-                    />
-                    <Facet
-                      field="visitors"
-                      label="Visitors"
-                      view={SingleLinksFacet}
-                    />
-                    <Facet
-                      field="date_established"
-                      label="Date Established"
-                      filterType="any"
-                    />
-                    <Facet field="location" label="Distance" filterType="any" />
-                    <Facet
-                      field="acres"
-                      label="Acres"
-                      view={SingleSelectFacet}
-                    />
-                  </div>
-                }
-                bodyContent={
-                  <Results
-                    titleField="title"
-                    urlField="nps_link"
-                    thumbnailField="image_url"
-                    shouldTrackClickThrough={true}
-                  />
-                }
-                bodyHeader={
-                  <React.Fragment>
-                    {contextProps.wasSearched && <PagingInfo />}
-                    {contextProps.wasSearched && <ResultsPerPage />}
-                  </React.Fragment>
-                }
-                bodyFooter={<Paging />}
-              />
-            </ErrorBoundary>
-          </div>
-        )}
-      </WithSearch>
+      <SearchAsYouType />
     </SearchProvider>
   );
 }

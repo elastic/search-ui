@@ -12,12 +12,7 @@ export function PagingContainer({
   view,
   ...rest
 }: PagingContainerProps) {
-  const {
-    driver: {
-      state: { current, resultsPerPage, totalPages },
-      actions: { setCurrent }
-    }
-  } = useSearch();
+  const { current, resultsPerPage, totalPages, setCurrent } = useSearch();
 
   if (totalPages === 0) return null;
 

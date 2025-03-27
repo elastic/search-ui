@@ -126,9 +126,7 @@ const config = {
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch mapContextToProps={(context) => context}>
-        {(contextProps) => <CustomizingStylesApp contextProps={contextProps} />}
-      </WithSearch>
+      <CustomizingStylesApp />
     </SearchProvider>
   );
 }

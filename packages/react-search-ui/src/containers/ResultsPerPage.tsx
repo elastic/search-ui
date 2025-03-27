@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-import { withSearch } from "..";
+import React from "react";
 import {
   ResultsPerPage,
-  ResultsPerPageContainerContext,
   ResultsPerPageContainerProps,
   ResultsPerPageViewProps
 } from "@elastic/react-search-ui-views";
@@ -14,12 +12,7 @@ export function ResultsPerPageContainer({
   view,
   ...rest
 }: ResultsPerPageContainerProps) {
-  const {
-    driver: {
-      state: { resultsPerPage },
-      actions: { setResultsPerPage }
-    }
-  } = useSearch();
+  const { resultsPerPage, setResultsPerPage } = useSearch();
   const View = view || ResultsPerPage;
   const viewProps: ResultsPerPageViewProps = {
     className,

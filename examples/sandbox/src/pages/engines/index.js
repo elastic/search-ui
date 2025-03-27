@@ -3,20 +3,9 @@ import "@elastic/eui/dist/eui_theme_light.css";
 
 import EnginesAPIConnector from "@elastic/search-ui-engines-connector";
 
-import {
-  ErrorBoundary,
-  Facet,
-  SearchProvider,
-  SearchBox,
-  Results,
-  PagingInfo,
-  ResultsPerPage,
-  Paging,
-  Sorting,
-  WithSearch
-} from "@elastic/react-search-ui";
-import { Layout } from "@elastic/react-search-ui-views";
+import { SearchProvider } from "@elastic/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { Engines } from "./Engines";
 
 const connector = new EnginesAPIConnector({
   host: "http://localhost:3002",
@@ -74,84 +63,10 @@ const config = {
   }
 };
 
-const SORT_OPTIONS = [
-  {
-    name: "Relevance",
-    value: []
-  },
-  {
-    name: "Youngest",
-    value: [
-      {
-        field: "age",
-        direction: "asc"
-      }
-    ]
-  },
-  {
-    name: "Oldest",
-    value: [
-      {
-        field: "age",
-        direction: "desc"
-      }
-    ]
-  }
-];
-
 export default function App() {
   return (
     <SearchProvider config={config}>
-      <WithSearch mapContextToProps={(context) => context}>
-        {(contextProps) => (
-          <div className="App">
-            <ErrorBoundary>
-              <Layout
-                header={
-                  <SearchBox
-                    debounceLength={0}
-                    autocompleteResults={{
-                      linkTarget: "_blank",
-                      sectionTitle: "Results",
-                      titleField: "name",
-                      urlField: "name"
-                    }}
-                  />
-                }
-                sideContent={
-                  <div>
-                    {contextProps.wasSearched && (
-                      <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
-                    )}
-                    <Facet
-                      field="color"
-                      label="Color"
-                      filterType="any"
-                      isFilterable={true}
-                    />
-                    <Facet
-                      field="age"
-                      label="Age"
-                      filterType="any"
-                      isFilterable={true}
-                    />
-                  </div>
-                }
-                bodyContent={
-                  <Results titleField="name" shouldTrackClickThrough={true} />
-                }
-                bodyHeader={
-                  <React.Fragment>
-                    {contextProps.wasSearched && <PagingInfo />}
-                    {contextProps.wasSearched && <ResultsPerPage />}
-                  </React.Fragment>
-                }
-                bodyFooter={<Paging />}
-              />
-            </ErrorBoundary>
-          </div>
-        )}
-      </WithSearch>
+      <Engines />
     </SearchProvider>
   );
 }

@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Result,
   Results,
   ResultsContainerProps
 } from "@elastic/react-search-ui-views";
 
-import { withSearch } from "..";
 import { Result as ResultContainer } from ".";
 import { useSearch } from "../hooks";
 
@@ -25,11 +24,8 @@ export const ResultsContainer = ({
   view,
   ...rest
 }: ResultsContainerProps) => {
-  const {
-    driver: {
-      state: { results }
-    }
-  } = useSearch();
+  const { results } = useSearch();
+
   const View = view || Results;
   const ResultView = resultView || Result;
 

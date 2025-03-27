@@ -24,7 +24,6 @@ import {
   RequestState,
   SortDirection
 } from "./types";
-import { SearchDriverActions } from "@elastic/search-ui";
 
 function filterSearchParameters({
   current,
@@ -146,7 +145,6 @@ interface SearchDriver extends actions.SearchDriverActions {
  */
 class SearchDriver {
   state: SearchState = DEFAULT_STATE;
-  actions: SearchDriverActions;
   debug: boolean;
   events: Events;
   plugins: Plugin[];

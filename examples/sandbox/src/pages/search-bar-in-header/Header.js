@@ -2,12 +2,9 @@ import React from "react";
 
 import { config } from "./config";
 
-import {
-  SearchProvider,
-  SearchBox,
-  WithSearch
-} from "@elastic/react-search-ui";
+import { SearchBox } from "@elastic/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
+import { Provider } from "./Provider";
 
 export default function Header() {
   return (
@@ -26,33 +23,29 @@ export default function Header() {
         >
           🚀 Acme Inc.
         </div>
-        <SearchProvider
+        <Provider
           config={{
             ...config,
             trackUrlState: false
           }}
         >
-          <WithSearch mapContextToProps={(context) => context}>
-            {() => (
-              <SearchBox
-                onSubmit={(searchTerm) => {
-                  window.location.href = `${window.location.origin}/search-bar-in-header/search?q=${searchTerm}`;
-                }}
-                autocompleteMinimumCharacters={3}
-                autocompleteResults={{
-                  linkTarget: "_blank",
-                  sectionTitle: "Results",
-                  titleField: "title",
-                  urlField: "nps_link",
-                  shouldTrackClickThrough: true,
-                  clickThroughTags: ["test"]
-                }}
-                autocompleteSuggestions={true}
-                debounceLength={0}
-              />
-            )}
-          </WithSearch>
-        </SearchProvider>
+          <SearchBox
+            onSubmit={(searchTerm) => {
+              window.location.href = `${window.location.origin}/search-bar-in-header/search?q=${searchTerm}`;
+            }}
+            autocompleteMinimumCharacters={3}
+            autocompleteResults={{
+              linkTarget: "_blank",
+              sectionTitle: "Results",
+              titleField: "title",
+              urlField: "nps_link",
+              shouldTrackClickThrough: true,
+              clickThroughTags: ["test"]
+            }}
+            autocompleteSuggestions={true}
+            debounceLength={0}
+          />
+        </Provider>
       </div>
     </div>
   );
