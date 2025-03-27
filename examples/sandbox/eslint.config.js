@@ -33,6 +33,14 @@ export default [
         "warn",
         { allowConstantExport: true }
       ]
-    }
+    },
+    overrides: [
+      {
+        files: ["server/**/*.js"],
+        env: {
+          node: true
+        }
+      }
+    ]
   }
 ];

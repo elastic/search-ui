@@ -24,12 +24,12 @@
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@cfaester/enzyme-adapter-react-18": "^0.8.0",
     "@types/enzyme": "^3.10.11",
     "@types/jest": "^27.4.0",
-    "@types/react": "^17.0.38",
+    "@types/react": "18.3.0",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
     "eslint": "^8.7.0",
@@ -53,8 +53,8 @@
     "yarn": "^1.2.0"
   },
   "resolutions": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react": "18.3.0",
+    "react-dom": "18.3.0"
   },
   "lint-staged": {
     "*": [

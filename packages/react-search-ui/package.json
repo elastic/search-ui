@@ -39,8 +39,8 @@
     "react-dom": ">= 16.8.0 < 19"
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "typescript": "^4.9.3"
   },
   "exports": {

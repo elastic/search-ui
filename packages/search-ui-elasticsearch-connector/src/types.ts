@@ -11,3 +11,13 @@ export type PostProcessRequestBodyFn = (
 export interface CloudHost {
   id: string;
 }
+
+export type ConnectionOptions = {
+  host?: string;
+  cloud?: CloudHost;
+  index: string;
+  apiKey?: string;
+  connectionOptions?: {
+    headers?: Record<string, string>;
+  };
+};
