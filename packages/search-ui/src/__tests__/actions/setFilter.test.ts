@@ -26,13 +26,14 @@ describe("#setFilter", () => {
       initialState = {
         filters: initialFilters
       }
-    }: SubjectArguments = {}
+    }: SubjectArguments = {},
+    persistent
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
     });
 
-    driver.setFilter(name, value, type);
+    driver.setFilter(name, value, type, persistent);
     jest.runAllTimers();
     return updatedStateAfterAction.state;
   }
@@ -156,6 +157,22 @@ describe("#setFilter", () => {
       { field: "test", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "none" },
       { field: "test", values: ["value1"], type: "any" }
+    ]);
+  });
+
+  it("Will add a persistent filter", () => {
+    expect(
+      subject(
+        "test",
+        "value",
+        "any",
+        {
+          initialFilters: [{ field: "test", values: ["value"], type: "all" }]
+        },
+        true
+      ).filters
+    ).toEqual([
+      { field: "test", values: ["value"], type: "all", persistent: true }
     ]);
   });
 });

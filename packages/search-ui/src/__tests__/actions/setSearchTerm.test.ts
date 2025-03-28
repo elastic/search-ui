@@ -99,6 +99,30 @@ describe("#setSearchTerm", () => {
     ]);
   });
 
+  it("Does not clear persistent filters when 'shouldClearFilters' is set to true", () => {
+    const state = subject("test", {
+      initialState: {
+        filters: [
+          {
+            field: "filter1",
+            values: ["value1"],
+            type: "all",
+            persistent: true
+          }
+        ]
+      },
+      shouldClearFilters: false
+    }).state;
+    expect(state.filters).toEqual([
+      {
+        field: "filter1",
+        values: ["value1"],
+        type: "all",
+        persistent: true
+      }
+    ]);
+  });
+
   it("Does not update other Search Parameter values", () => {
     const initialState: RequestState = {
       resultsPerPage: 60,
