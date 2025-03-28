@@ -1,6 +1,5 @@
 import {
   FacetContainerProps,
-  Facets,
   FacetViewProps,
   MultiCheckboxFacet
 } from "@elastic/react-search-ui-views";
@@ -11,7 +10,7 @@ import { accentFold } from "../helpers";
 import { useSearch } from "../hooks";
 const { markSelectedFacetValuesFromFilters } = helpers;
 
-function FacetContainer({
+export function FacetContainer({
   className,
   field,
   filterType = "all",
