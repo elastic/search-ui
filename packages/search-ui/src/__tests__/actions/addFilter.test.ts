@@ -21,17 +21,19 @@ describe("#addFilter", () => {
   });
 
   function subject(
-    name,
-    value,
-    type,
+    {
+      name,
+      value,
+      type,
+      persistent
+    }: { name?; value?; type?; persistent?: boolean },
     {
       initialFilters = [],
       initialState = {
         filters: initialFilters,
         current: null
       }
-    }: SubjectArguments = {},
-    persistent?: boolean
+    }: SubjectArguments = {}
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
@@ -42,16 +44,21 @@ describe("#addFilter", () => {
     return updatedStateAfterAction.state;
   }
 
-  itFetchesResults(() => subject("field", "value", undefined));
+  itFetchesResults(() =>
+    subject({ name: "field", value: "value", type: undefined })
+  );
 
   itUpdatesURLState(URLManager, () => {
-    subject("field", "value", undefined);
+    subject({ name: "field", value: "value", type: undefined });
   });
 
   itResetsCurrent(() =>
-    subject("field", "value", undefined, {
-      initialState: { filters: [], current: 2 }
-    })
+    subject(
+      { name: "field", value: "value", type: undefined },
+      {
+        initialState: { filters: [], current: 2 }
+      }
+    )
   );
 
   it("Does not update other Search Parameter values", () => {
@@ -66,7 +73,10 @@ describe("#addFilter", () => {
       searchTerm: "test"
     } as RequestState;
     const { resultsPerPage, sortField, sortDirection, sortList, searchTerm } =
-      subject("field", "value", undefined, { initialState });
+      subject(
+        { name: "field", value: "value", type: undefined },
+        { initialState }
+      );
     expect({
       resultsPerPage,
       sortField,
@@ -78,9 +88,12 @@ describe("#addFilter", () => {
 
   it("Adds a new filter", () => {
     expect(
-      subject("test", "value", undefined, {
-        initialFilters: [{ field: "initial", values: ["value"], type: "all" }]
-      }).filters
+      subject(
+        { name: "test", value: "value", type: undefined },
+        {
+          initialFilters: [{ field: "initial", values: ["value"], type: "all" }]
+        }
+      ).filters
     ).toEqual([
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "all" }
@@ -95,12 +108,15 @@ describe("#addFilter", () => {
 
   it("Adds an additional filter", () => {
     expect(
-      subject("test", "value2", undefined, {
-        initialFilters: [
-          { field: "initial", values: ["value"], type: "all" },
-          { field: "test", values: ["value"], type: "all" }
-        ]
-      }).filters
+      subject(
+        { name: "test", value: "value2", type: undefined },
+        {
+          initialFilters: [
+            { field: "initial", values: ["value"], type: "all" },
+            { field: "test", values: ["value"], type: "all" }
+          ]
+        }
+      ).filters
     ).toEqual([
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value", "value2"], type: "all" }
@@ -116,12 +132,15 @@ describe("#addFilter", () => {
 
   it("Won't add a duplicate filter", () => {
     expect(
-      subject("test", "value", undefined, {
-        initialFilters: [
-          { field: "initial", values: ["value"], type: "all" },
-          { field: "test", values: ["value"], type: "all" }
-        ]
-      }).filters
+      subject(
+        { name: "test", value: "value", type: undefined },
+        {
+          initialFilters: [
+            { field: "initial", values: ["value"], type: "all" },
+            { field: "test", values: ["value"], type: "all" }
+          ]
+        }
+      ).filters
     ).toEqual([
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "all" }
@@ -131,13 +150,15 @@ describe("#addFilter", () => {
   it("Supports range filters", () => {
     expect(
       subject(
-        "test",
         {
           name: "test",
-          from: 20,
-          to: 100
+          value: {
+            name: "test",
+            from: 20,
+            to: 100
+          },
+          type: undefined
         },
-        undefined,
         {
           initialFilters: [{ field: "initial", values: ["value"], type: "all" }]
         }
@@ -154,20 +175,23 @@ describe("#addFilter", () => {
 
   it("Adds an additional range filter", () => {
     expect(
-      subject("test", { name: "test2", from: 5, to: 6 }, undefined, {
-        initialFilters: [
-          {
-            field: "initial",
-            values: [{ name: "test", from: 20, to: 100 }],
-            type: "all"
-          },
-          {
-            field: "test",
-            values: [{ name: "test", from: 4, to: 5 }],
-            type: "all"
-          }
-        ]
-      }).filters
+      subject(
+        { name: "test", value: { name: "test2", from: 5, to: 6 } },
+        {
+          initialFilters: [
+            {
+              field: "initial",
+              values: [{ name: "test", from: 20, to: 100 }],
+              type: "all"
+            },
+            {
+              field: "test",
+              values: [{ name: "test", from: 4, to: 5 }],
+              type: "all"
+            }
+          ]
+        }
+      ).filters
     ).toEqual([
       {
         field: "initial",
@@ -194,13 +218,15 @@ describe("#addFilter", () => {
   it("Won't add a duplicate range filter", () => {
     expect(
       subject(
-        "test",
         {
           name: "test",
-          from: 20,
-          to: 100
+          value: {
+            name: "test",
+            from: 20,
+            to: 100
+          },
+          type: undefined
         },
-        undefined,
         {
           initialFilters: [
             { field: "initial", values: ["value"], type: "all" },
@@ -223,22 +249,25 @@ describe("#addFilter", () => {
   });
 
   it("Adds an 'any' type filter", () => {
-    expect(subject("test", "value", "any").filters).toEqual([
-      { field: "test", values: ["value"], type: "any" }
-    ]);
+    expect(
+      subject({ name: "test", value: "value", type: "any" }).filters
+    ).toEqual([{ field: "test", values: ["value"], type: "any" }]);
   });
 
   it("Adds a 'none' type filter", () => {
-    expect(subject("test", "value", "none").filters).toEqual([
-      { field: "test", values: ["value"], type: "none" }
-    ]);
+    expect(
+      subject({ name: "test", value: "value", type: "none" }).filters
+    ).toEqual([{ field: "test", values: ["value"], type: "none" }]);
   });
 
   it("Will maintain separate Filter structures for different filter types", () => {
     expect(
-      subject("test", "value", "any", {
-        initialFilters: [{ field: "test", values: ["value"], type: "all" }]
-      }).filters
+      subject(
+        { name: "test", value: "value", type: "any" },
+        {
+          initialFilters: [{ field: "test", values: ["value"], type: "all" }]
+        }
+      ).filters
     ).toEqual([
       { field: "test", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "any" }
@@ -247,13 +276,16 @@ describe("#addFilter", () => {
 
   it("Will add typed filters to the correct existing filter", () => {
     expect(
-      subject("test", "value1", "any", {
-        initialFilters: [
-          { field: "test", values: ["value"], type: "all" },
-          { field: "test", values: ["value"], type: "any" },
-          { field: "test", values: ["value"], type: "none" }
-        ]
-      }).filters
+      subject(
+        { name: "test", value: "value1", type: "any" },
+        {
+          initialFilters: [
+            { field: "test", values: ["value"], type: "all" },
+            { field: "test", values: ["value"], type: "any" },
+            { field: "test", values: ["value"], type: "none" }
+          ]
+        }
+      ).filters
     ).toEqual([
       { field: "test", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "none" },
@@ -264,16 +296,19 @@ describe("#addFilter", () => {
   it("Will add a persistent filter", () => {
     expect(
       subject(
-        "test",
-        "value",
-        "any",
+        {
+          name: "test",
+          value: "value",
+          type: "any",
+          persistent: true
+        },
         {
           initialFilters: [{ field: "test", values: ["value"], type: "all" }]
-        },
-        true
+        }
       ).filters
     ).toEqual([
-      { field: "test", values: ["value"], type: "all", persistent: true }
+      { field: "test", values: ["value"], type: "all" },
+      { field: "test", values: ["value"], type: "any", persistent: true }
     ]);
   });
 });
