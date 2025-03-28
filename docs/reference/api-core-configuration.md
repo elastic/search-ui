@@ -1,5 +1,4 @@
 ---
-navigation_title: "Core API"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-core-configuration.html
 ---
