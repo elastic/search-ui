@@ -13,6 +13,11 @@ export function useSearch<T = SearchContextState>(
   mapContextToProps?: (context: SearchContextState) => T
 ): T {
   const context = useContext(SearchContext);
+
+  if (!context) {
+    throw new Error("useSearch must be used within a SearchProvider");
+  }
+
   const [state, setState] = useState<T>(() =>
     mapContextToProps
       ? mapContextToProps({
