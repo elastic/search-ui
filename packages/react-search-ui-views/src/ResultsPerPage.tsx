@@ -58,7 +58,7 @@ function ResultsPerPage({
   if (selectedValue) {
     selectedOption = wrapOption(selectedValue);
 
-    if (options?.includes(selectedValue)) options = [selectedValue, ...options];
+    if (!options.includes(selectedValue)) options = [selectedValue, ...options];
   }
 
   return (
@@ -72,7 +72,7 @@ function ResultsPerPage({
         classNamePrefix="sui-select"
         value={selectedOption}
         onChange={(o) => onChange(o.value)}
-        options={options?.map(wrapOption)}
+        options={options.map(wrapOption)}
         isSearchable={false}
         styles={setDefaultStyle}
         components={{
