@@ -37,7 +37,7 @@ const SORT_OPTIONS = [
   }
 ];
 export const Engines = () => {
-  const contextProps = useSearch();
+  const { wasSearched } = useSearch();
   return (
     <div className="App">
       <ErrorBoundary>
@@ -55,7 +55,7 @@ export const Engines = () => {
           }
           sideContent={
             <div>
-              {contextProps.wasSearched && (
+              {wasSearched && (
                 <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
               )}
               <Facet
@@ -77,8 +77,8 @@ export const Engines = () => {
           }
           bodyHeader={
             <React.Fragment>
-              {contextProps.wasSearched && <PagingInfo />}
-              {contextProps.wasSearched && <ResultsPerPage />}
+              {wasSearched && <PagingInfo />}
+              {wasSearched && <ResultsPerPage />}
             </React.Fragment>
           }
           bodyFooter={<Paging />}

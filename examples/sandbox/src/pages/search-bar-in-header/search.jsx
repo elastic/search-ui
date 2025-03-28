@@ -79,7 +79,7 @@ const SORT_OPTIONS = [
   }
 ];
 const SearchComponent = () => {
-  const contextProps = useSearch();
+  const { wasSearched } = useSearch();
   return (
     <div className="App">
       <ErrorBoundary>
@@ -102,7 +102,7 @@ const SearchComponent = () => {
           }
           sideContent={
             <div>
-              {contextProps.wasSearched && (
+              {wasSearched && (
                 <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
               )}
               <Facet
@@ -140,8 +140,8 @@ const SearchComponent = () => {
           }
           bodyHeader={
             <React.Fragment>
-              {contextProps.wasSearched && <PagingInfo />}
-              {contextProps.wasSearched && <ResultsPerPage />}
+              {wasSearched && <PagingInfo />}
+              {wasSearched && <ResultsPerPage />}
             </React.Fragment>
           }
           bodyFooter={<Paging />}

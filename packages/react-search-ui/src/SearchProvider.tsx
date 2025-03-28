@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { SearchContextState, SearchDriver } from "@elastic/search-ui";
+import { SearchDriver } from "@elastic/search-ui";
 import SearchContext from "./SearchContext";
 
 import defaultA11yMessages from "./A11yNotifications";

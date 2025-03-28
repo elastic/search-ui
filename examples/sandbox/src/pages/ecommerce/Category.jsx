@@ -5,13 +5,11 @@ import { config, SORT_OPTIONS } from "./config";
 import {
   ErrorBoundary,
   Facet,
-  SearchProvider,
   Results,
   PagingInfo,
   ResultsPerPage,
   Paging,
-  Sorting,
-  WithSearch
+  Sorting
 } from "@elastic/react-search-ui";
 import {
   Layout,

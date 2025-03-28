@@ -108,7 +108,7 @@ const CustomResultView = ({ result, onClickLink }) => (
   </li>
 );
 export const CustomizingStylesApp = () => {
-  const contextProps = useSearch();
+  const { wasSearched } = useSearch();
 
   return (
     <div className="App customization-example">
@@ -134,7 +134,7 @@ export const CustomizingStylesApp = () => {
               <ClearFilters />
               <br />
               <br />
-              {contextProps.wasSearched && (
+              {wasSearched && (
                 <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
               )}
               <Facet
@@ -173,10 +173,8 @@ export const CustomizingStylesApp = () => {
           }
           bodyHeader={
             <>
-              {contextProps.wasSearched && (
-                <PagingInfo view={CustomPagingInfoView} />
-              )}
-              {contextProps.wasSearched && <ResultsPerPage />}
+              {wasSearched && <PagingInfo view={CustomPagingInfoView} />}
+              {wasSearched && <ResultsPerPage />}
             </>
           }
           bodyFooter={<Paging />}

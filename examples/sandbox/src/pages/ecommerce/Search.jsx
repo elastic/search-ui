@@ -4,13 +4,11 @@ import "@elastic/eui/dist/eui_theme_light.css";
 import {
   ErrorBoundary,
   Facet,
-  SearchProvider,
   Results,
   PagingInfo,
   ResultsPerPage,
   Paging,
   Sorting,
-  WithSearch,
   useSearch
 } from "@elastic/react-search-ui";
 import { Layout, SingleLinksFacet } from "@elastic/react-search-ui-views";
@@ -19,6 +17,7 @@ import { config, SORT_OPTIONS } from "./config";
 import { CustomResultView } from "./CustomResultView";
 import Navigation from "./components/Navigation";
 import { Provider } from "./Provider";
+
 const Search = () => {
   const { wasSearched } = useSearch();
   return (

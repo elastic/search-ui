@@ -145,6 +145,7 @@ interface SearchDriver extends actions.SearchDriverActions {
  */
 class SearchDriver {
   state: SearchState = DEFAULT_STATE;
+
   debug: boolean;
   events: Events;
   plugins: Plugin[];

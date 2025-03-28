@@ -72,7 +72,7 @@ const SORT_OPTIONS = [
   }
 ];
 export const SearchAsYouType = () => {
-  const contextProps = useSearch();
+  const { wasSearched } = useSearch();
   return (
     <div className="App">
       <ErrorBoundary>
@@ -86,7 +86,7 @@ export const SearchAsYouType = () => {
           }
           sideContent={
             <div>
-              {contextProps.wasSearched && (
+              {wasSearched && (
                 <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
               )}
               <Facet
@@ -124,8 +124,8 @@ export const SearchAsYouType = () => {
           }
           bodyHeader={
             <React.Fragment>
-              {contextProps.wasSearched && <PagingInfo />}
-              {contextProps.wasSearched && <ResultsPerPage />}
+              {wasSearched && <PagingInfo />}
+              {wasSearched && <ResultsPerPage />}
             </React.Fragment>
           }
           bodyFooter={<Paging />}
