@@ -31,7 +31,7 @@ describe("#addFilter", () => {
         current: null
       }
     }: SubjectArguments = {},
-    persistent
+    persistent?: boolean
   ) {
     const { driver, updatedStateAfterAction } = setupDriver({
       initialState
