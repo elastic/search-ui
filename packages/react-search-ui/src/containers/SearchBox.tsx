@@ -6,7 +6,7 @@ import {
 import { useSearch } from "../hooks";
 
 export const SearchBoxContainer = ({
-  autocompleteMinimumCharacters,
+  autocompleteMinimumCharacters = 0,
   autocompleteResults,
   autocompleteSuggestions,
   className,
@@ -14,7 +14,7 @@ export const SearchBoxContainer = ({
   inputProps,
   inputView,
   onSelectAutocomplete,
-  shouldClearFilters,
+  shouldClearFilters = true,
   onSubmit,
   searchAsYouType,
   debounceLength,

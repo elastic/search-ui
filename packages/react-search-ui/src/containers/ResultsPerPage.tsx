@@ -8,7 +8,7 @@ import { useSearch } from "../hooks";
 
 export function ResultsPerPageContainer({
   className,
-  options,
+  options = [20, 40, 60],
   view,
   ...rest
 }: ResultsPerPageContainerProps) {

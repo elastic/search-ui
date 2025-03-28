@@ -14,9 +14,9 @@ function getRaw(result, value) {
 }
 
 export const ResultsContainer = ({
-  clickThroughTags,
+  clickThroughTags = [],
   resultView,
-  shouldTrackClickThrough,
+  shouldTrackClickThrough = true,
   titleField,
   urlField,
   thumbnailField,

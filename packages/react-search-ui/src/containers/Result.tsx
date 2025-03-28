@@ -9,8 +9,8 @@ import { useSearch } from "../hooks";
 
 export const ResultContainer = ({
   result,
-  shouldTrackClickThrough,
-  clickThroughTags,
+  shouldTrackClickThrough = true,
+  clickThroughTags = [],
   view,
   ...rest
 }: ResultContainerProps) => {
