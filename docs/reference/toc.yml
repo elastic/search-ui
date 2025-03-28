@@ -9,8 +9,15 @@ toc:
       - file: solutions-ecommerce-search-page.md
   - file: tutorials.md
     children:
-      - file: tutorials-app-search.md
       - file: tutorials-elasticsearch.md
+        children:
+          - file: tutorials-elasticsearch-setup-cloud.md
+          - file: tutorials-elasticsearch-setup-index.md
+          - file: tutorials-elasticsearch-install-connector.md
+          - file: tutorials-elasticsearch-configure-search-ui.md
+          - file: tutorials-elasticsearch-production-usage.md
+          - file: tutorials-elasticsearch-customise-query.md
+      - file: tutorials-app-search.md
       - file: tutorials-workplace-search.md
   - file: basic-usage.md
     children:
@@ -46,7 +53,7 @@ toc:
           - file: api-react-components-error-boundary.md
       - file: api-connectors-app-search.md
         children:
+          - file: api-connectors-elasticsearch.md
           - file: api-connectors-site-search.md
           - file: api-connectors-workplace-search.md
-          - file: api-connectors-elasticsearch.md
       - file: api-core-plugins-analytics-plugin.md

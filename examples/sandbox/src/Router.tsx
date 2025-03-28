@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Switch, Route } from "react-router-dom";
-import Root from "./pages/root";
-import Elasticsearch from "./pages/elasticsearch";
+import { Switch, Route, useLocation } from "react-router-dom";
+import Root from "./pages/home";
+import ElasticsearchBasic from "./pages/elasticsearch-basic";
+import ElasticsearchProductionReady from "./pages/elasticsearch-production-ready";
 import Engines from "./pages/engines";
 import SiteSearch from "./pages/site-search";
 import SearchAsYouType from "./pages/search-as-you-type";
@@ -14,13 +15,26 @@ import EcommerceCategory from "./pages/ecommerce/Category";
 import ListingPage from "./pages/ecommerce/ListingPage";
 
 export default function Router() {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
-    <div className="App">
+    <div className={`${isHomePage ? "App" : "text-black bg-white"}`}>
       <Switch>
         <Route exact path="/" component={Root} />
 
         {/* Connectors */}
-        <Route exact path="/elasticsearch" component={Elasticsearch} />
+        <Route
+          exact
+          path="/elasticsearch-basic"
+          component={ElasticsearchBasic}
+        />
+        {/* TODO: Add back in when we have a production-ready connector */}
+        {/* <Route
+          exact
+          path="/elasticsearch-production-ready"
+          component={ElasticsearchProductionReady}
+        /> */}
         <Route exact path="/site-search" component={SiteSearch} />
         <Route exact path="/engines" component={Engines} />
 

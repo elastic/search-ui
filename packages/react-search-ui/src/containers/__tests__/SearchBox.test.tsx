@@ -1,4 +1,5 @@
 import React from "react";
+import { act } from "react-dom/test-utils";
 import { SearchBoxContainer } from "../SearchBox";
 import { shallow, mount } from "enzyme";
 import { SearchBoxViewProps } from "@elastic/react-search-ui-views";
@@ -28,7 +29,7 @@ it("supports a render prop", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("will keep focus prop in sync with view component", () => {
+it("will keep focus prop in sync with view component", async () => {
   let viewProps;
   const View = (props) => {
     viewProps = props;
@@ -39,11 +40,16 @@ it("will keep focus prop in sync with view component", () => {
 
   expect(viewProps.isFocused).toBe(false);
   expect(wrapper.find(View).props().isFocused).toBe(false);
-  viewProps.inputProps.onFocus();
+  await act(() => {
+    viewProps.inputProps.onFocus();
+  });
   wrapper.update();
   expect(wrapper.find(View).props().isFocused).toBe(true);
 
-  viewProps.inputProps.onBlur();
+  await act(() => {
+    viewProps.inputProps.onBlur();
+  });
+
   wrapper.update();
   expect(wrapper.find(View).props().isFocused).toBe(false);
 });
