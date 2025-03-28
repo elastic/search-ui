@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-export */
 
-import { doesStateHaveResponseData } from "../test/helpers";
+import { doesStateHaveResponseData } from "./helpers";
 
 export function itResetsCurrent(fn) {
   const state = fn();

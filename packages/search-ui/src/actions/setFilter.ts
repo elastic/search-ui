@@ -10,11 +10,13 @@ import { FilterType, FilterValue, RequestState } from "../types";
  * @param name String field name to filter on
  * @param value FilterValue to apply
  * @param type String (Optional) type of filter to apply
+ * @param persistent boolean (Optional) whether to preserve the filter on new search
  */
 export default function setFilter(
   name: string,
   value: FilterValue,
-  type: FilterType = "all"
+  type: FilterType = "all",
+  persistent?: boolean
 ) {
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "setFilter", ...arguments);
@@ -32,7 +34,8 @@ export default function setFilter(
       {
         field: name,
         values: filterValue,
-        type
+        type,
+        persistent
       }
     ]
   });
