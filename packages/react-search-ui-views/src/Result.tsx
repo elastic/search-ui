@@ -15,16 +15,15 @@ export type ResultContainerContext = Pick<
   "trackClickThrough"
 >;
 
-export type ResultContainerProps = BaseContainerProps &
-  ResultContainerContext & {
-    view?: React.ComponentType<ResultViewProps>;
-    clickThroughTags?: string[];
-    titleField?: string;
-    urlField?: string;
-    thumbnailField?: string;
-    result: SearchResult;
-    shouldTrackClickThrough?: boolean;
-  };
+export type ResultContainerProps = BaseContainerProps & {
+  view?: React.ComponentType<ResultViewProps>;
+  clickThroughTags?: string[];
+  titleField?: string;
+  urlField?: string;
+  thumbnailField?: string;
+  result: SearchResult;
+  shouldTrackClickThrough?: boolean;
+};
 
 export type ResultViewProps = BaseContainerProps &
   Pick<
