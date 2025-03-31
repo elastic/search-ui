@@ -9,14 +9,14 @@ import {
   ResultsPerPage,
   Paging,
   Sorting,
-  useSearch
+  useSearch,
+  SearchProvider
 } from "@elastic/react-search-ui";
 import { Layout, SingleLinksFacet } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { config, SORT_OPTIONS } from "./config";
 import { CustomResultView } from "./CustomResultView";
 import Navigation from "./components/Navigation";
-import { Provider } from "./Provider";
 
 const Search = () => {
   const { wasSearched } = useSearch();
@@ -70,9 +70,9 @@ export default function App() {
   return (
     <>
       <Navigation />
-      <Provider config={config}>
+      <SearchProvider config={config}>
         <Search />
-      </Provider>
+      </SearchProvider>
     </>
   );
 }

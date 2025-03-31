@@ -1,6 +1,5 @@
-import { SearchBox } from "@elastic/react-search-ui";
+import { SearchBox, SearchProvider } from "@elastic/react-search-ui";
 import { config } from "./config";
-import { Provider } from "../../Provider";
 import React from "react";
 
 function InputView({ getAutocomplete, getInputProps }) {
@@ -218,7 +217,7 @@ function Navigation(props) {
             </a>
           </nav>
         </div>
-        <Provider
+        <SearchProvider
           config={{
             ...config,
             trackUrlState: false
@@ -259,7 +258,7 @@ function Navigation(props) {
               autocompleteView={AutocompleteView}
             />
           </div>
-        </Provider>
+        </SearchProvider>
       </div>
     </div>
   );

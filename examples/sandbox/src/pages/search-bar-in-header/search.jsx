@@ -5,8 +5,7 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 import Header from "./Header";
 
-import { Provider } from "./Provider";
-import { useSearch } from "@elastic/react-search-ui";
+import { useSearch, SearchProvider } from "@elastic/react-search-ui";
 import {
   ErrorBoundary,
   Facet,
@@ -155,9 +154,9 @@ export default function App() {
   return (
     <div>
       <Header />
-      <Provider config={config}>
+      <SearchProvider config={config}>
         <SearchComponent />
-      </Provider>
+      </SearchProvider>
     </div>
   );
 }

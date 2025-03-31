@@ -9,7 +9,8 @@ import {
   PagingInfo,
   ResultsPerPage,
   Paging,
-  Sorting
+  Sorting,
+  SearchProvider
 } from "@elastic/react-search-ui";
 import {
   Layout,
@@ -19,7 +20,6 @@ import {
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { CustomResultView } from "./CustomResultView";
 import Navigation from "./components/Navigation";
-import { Provider } from "./provider";
 
 const categoryPageconfig = (category) => ({
   ...config,
@@ -62,7 +62,7 @@ export default function CategoryPage(props) {
     <>
       <Navigation />
       <BrowseHeader category={category} />
-      <Provider config={categoryPageconfig(category)}>
+      <SearchProvider config={categoryPageconfig(category)}>
         <div className="App">
           <ErrorBoundary>
             <Layout
@@ -113,7 +113,7 @@ export default function CategoryPage(props) {
             />
           </ErrorBoundary>
         </div>
-      </Provider>
+      </SearchProvider>
     </>
   );
 }

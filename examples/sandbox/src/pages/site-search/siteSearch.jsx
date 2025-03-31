@@ -16,6 +16,7 @@ import {
   SingleLinksFacet,
   SingleSelectFacet
 } from "@elastic/react-search-ui-views";
+
 const SORT_OPTIONS = [
   {
     name: "Relevance",

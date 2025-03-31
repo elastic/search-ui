@@ -2,9 +2,8 @@ import React from "react";
 
 import { config } from "./config";
 
-import { SearchBox } from "@elastic/react-search-ui";
+import { SearchBox, SearchProvider } from "@elastic/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
-import { Provider } from "./Provider";
 
 export default function Header() {
   return (
@@ -23,7 +22,7 @@ export default function Header() {
         >
           🚀 Acme Inc.
         </div>
-        <Provider
+        <SearchProvider
           config={{
             ...config,
             trackUrlState: false
@@ -45,7 +44,7 @@ export default function Header() {
             autocompleteSuggestions={true}
             debounceLength={0}
           />
-        </Provider>
+        </SearchProvider>
       </div>
     </div>
   );
