@@ -7,11 +7,11 @@ import {
 } from "@elastic/react-search-ui-views";
 import { useSearch } from "../hooks";
 
-export function PagingContainer({
+const PagingContainer = ({
   className,
   view,
   ...rest
-}: PagingContainerProps) {
+}: PagingContainerProps) => {
   const { current, resultsPerPage, totalPages, setCurrent } = useSearch();
 
   if (totalPages === 0) return null;
@@ -28,5 +28,5 @@ export function PagingContainer({
   };
 
   return <View {...viewProps} />;
-}
+};
 export default PagingContainer;

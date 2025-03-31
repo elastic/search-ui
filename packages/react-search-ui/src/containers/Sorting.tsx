@@ -43,7 +43,7 @@ function formatSelectOption(sortOption) {
   };
 }
 
-export const SortingContainer = ({
+const SortingContainer = ({
   className,
   label,
   sortOptions,

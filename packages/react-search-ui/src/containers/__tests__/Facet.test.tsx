@@ -1,5 +1,5 @@
 import React from "react";
-import { FacetContainer } from "../Facet";
+import FacetContainer from "../Facet";
 import { shallow, ShallowWrapper } from "enzyme";
 import type { Filter } from "@elastic/search-ui";
 import { FacetViewProps } from "@elastic/react-search-ui-views";

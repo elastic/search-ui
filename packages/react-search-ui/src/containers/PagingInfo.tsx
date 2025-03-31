@@ -6,11 +6,11 @@ import {
 } from "@elastic/react-search-ui-views";
 import { useSearch } from "../hooks";
 
-export function PagingInfoContainer({
+const PagingInfoContainer = ({
   className,
   view,
   ...rest
-}: PagingInfoContainerProps) {
+}: PagingInfoContainerProps) => {
   const { pagingStart, pagingEnd, resultSearchTerm, totalResults } =
     useSearch();
   const View = view || PagingInfo;
@@ -24,6 +24,6 @@ export function PagingInfoContainer({
   };
 
   return <View {...viewProps} />;
-}
+};
 
 export default PagingInfoContainer;

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { ErrorBoundaryViewProps } from "@elastic/react-search-ui-views";
-import { ErrorBoundaryContainer } from "../ErrorBoundary";
+import ErrorBoundaryContainer from "../ErrorBoundary";
 import { useSearch } from "../../hooks";
 
 jest.mock("../../hooks", () => ({

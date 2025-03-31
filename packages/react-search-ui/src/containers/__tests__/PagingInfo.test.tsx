@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { PagingInfoContainer } from "../PagingInfo";
+import PagingInfoContainer from "../PagingInfo";
 import { PagingInfoViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
 

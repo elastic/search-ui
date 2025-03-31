@@ -6,12 +6,12 @@ import {
 } from "@elastic/react-search-ui-views";
 import { useSearch } from "../hooks";
 
-export function ResultsPerPageContainer({
+const ResultsPerPageContainer = ({
   className,
   options = [20, 40, 60],
   view,
   ...rest
-}: ResultsPerPageContainerProps) {
+}: ResultsPerPageContainerProps) => {
   const { resultsPerPage, setResultsPerPage } = useSearch();
   const View = view || ResultsPerPage;
   const viewProps: ResultsPerPageViewProps = {
@@ -25,6 +25,6 @@ export function ResultsPerPageContainer({
   };
 
   return <View {...viewProps} />;
-}
+};
 
 export default ResultsPerPageContainer;

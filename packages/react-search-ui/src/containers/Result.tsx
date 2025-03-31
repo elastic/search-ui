@@ -6,7 +6,7 @@ import {
 } from "@elastic/react-search-ui-views";
 import { useSearch } from "../hooks";
 
-export const ResultContainer = ({
+const ResultContainer = ({
   result,
   shouldTrackClickThrough = true,
   clickThroughTags = [],

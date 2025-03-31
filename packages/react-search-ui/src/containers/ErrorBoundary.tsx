@@ -9,7 +9,7 @@ import { useSearch } from "../hooks";
 type ErrorBoundaryContainerProps = BaseContainerProps & {
   view?: React.ComponentType<ErrorBoundaryViewProps>;
 };
-export const ErrorBoundaryContainer = ({
+const ErrorBoundaryContainer = ({
   children,
   className,
   view,

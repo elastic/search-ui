@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ResultsPerPageContainer } from "../ResultsPerPage";
+import ResultsPerPageContainer from "../ResultsPerPage";
 import type { ResultsPerPageViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
 

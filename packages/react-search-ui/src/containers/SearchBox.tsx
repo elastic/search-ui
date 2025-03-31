@@ -5,7 +5,7 @@ import {
 } from "@elastic/react-search-ui-views";
 import { useSearch } from "../hooks";
 
-export const SearchBoxContainer = ({
+const SearchBoxContainer = ({
   autocompleteMinimumCharacters = 0,
   autocompleteResults,
   autocompleteSuggestions,

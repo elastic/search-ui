@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ResultsContainer } from "../Results";
+import ResultsContainer from "../Results";
 import {
   ResultsViewProps,
   ResultViewProps

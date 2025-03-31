@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { PagingContainer } from "../Paging";
+import PagingContainer from "../Paging";
 import { useSearch } from "../../hooks";
 
 jest.mock("../../hooks", () => ({

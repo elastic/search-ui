@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { shallow } from "enzyme";
-import { ResultContainer } from "../Result";
+import ResultContainer from "../Result";
 import { ResultViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
 

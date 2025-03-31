@@ -10,7 +10,7 @@ import { accentFold } from "../helpers";
 import { useSearch } from "../hooks";
 const { markSelectedFacetValuesFromFilters } = helpers;
 
-export function FacetContainer({
+const FacetContainer = ({
   className,
   field,
   filterType = "all",
@@ -19,7 +19,7 @@ export function FacetContainer({
   isFilterable = false,
   show = 5,
   ...rest
-}: FacetContainerProps) {
+}: FacetContainerProps) => {
   const { filters, facets, addFilter, removeFilter, setFilter, a11yNotify } =
     useSearch();
 
@@ -107,6 +107,6 @@ export function FacetContainer({
   };
 
   return <View {...viewProps} />;
-}
+};
 
 export default FacetContainer;

@@ -13,7 +13,7 @@ function getRaw(result, value) {
   return result[value].raw;
 }
 
-export const ResultsContainer = ({
+const ResultsContainer = ({
   clickThroughTags = [],
   resultView,
   shouldTrackClickThrough = true,
