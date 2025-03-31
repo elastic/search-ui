@@ -2,7 +2,6 @@ import type {
   FacetValue,
   FieldValue,
   FilterType,
-  SearchContextState
 } from "@elastic/search-ui";
 
 export interface BaseContainerProps {
@@ -10,10 +9,7 @@ export interface BaseContainerProps {
   className?: string;
 }
 
-export type {
-  ErrorBoundaryContainerContext,
-  ErrorBoundaryViewProps
-} from "../ErrorBoundary";
+export type { ErrorBoundaryViewProps } from "../ErrorBoundary";
 
 export type { SearchBoxAutocompleteViewProps } from "../Autocomplete";
 
@@ -47,11 +43,7 @@ export type {
 
 export type { InputViewProps } from "../SearchInput";
 
-export type {
-  SortingContainerContext,
-  SortingContainerProps,
-  SortingViewProps
-} from "../Sorting";
+export type { SortingContainerProps, SortingViewProps } from "../Sorting";
 
 export type FacetViewProps = {
   className?: string;
@@ -68,16 +60,6 @@ export type FacetViewProps = {
   searchPlaceholder: string;
 };
 
-export type FacetContainerContext = Pick<
-  SearchContextState,
-  | "addFilter"
-  | "removeFilter"
-  | "setFilter"
-  | "a11yNotify"
-  | "filters"
-  | "facets"
->;
-
 export type FacetContainerProps = BaseContainerProps & {
   filterType?: FilterType;
   show?: number;
@@ -85,7 +67,7 @@ export type FacetContainerProps = BaseContainerProps & {
   isFilterable?: boolean;
   field: string;
   label: string;
-} & FacetContainerContext;
+};
 
 // From SO https://stackoverflow.com/a/59071783
 // TS Utility to rename keys in a type

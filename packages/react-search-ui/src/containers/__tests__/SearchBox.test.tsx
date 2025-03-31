@@ -3,6 +3,11 @@ import { act } from "react-dom/test-utils";
 import { SearchBoxContainer } from "../SearchBox";
 import { shallow, mount } from "enzyme";
 import { SearchBoxViewProps } from "@elastic/react-search-ui-views";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
 
 const params = {
   autocompletedResults: [],
@@ -14,18 +19,16 @@ const params = {
 };
 
 beforeEach(() => {
-  params.setSearchTerm = jest.fn();
-  params.trackAutocompleteClickThrough = jest.fn();
-  params.trackAutocompleteSuggestionClickThrough = jest.fn();
+  jest.clearAllMocks();
+
+  (useSearch as jest.Mock).mockReturnValue(params);
 });
 
 it("supports a render prop", () => {
   const render = ({ value }: SearchBoxViewProps) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(
-    <SearchBoxContainer {...params} view={render} />
-  ).dive();
+  const wrapper = shallow(<SearchBoxContainer view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -36,7 +39,7 @@ it("will keep focus prop in sync with view component", async () => {
     return <div />;
   };
 
-  const wrapper = mount(<SearchBoxContainer {...params} view={View} />);
+  const wrapper = mount(<SearchBoxContainer view={View} />);
 
   expect(viewProps.isFocused).toBe(false);
   expect(wrapper.find(View).props().isFocused).toBe(false);
@@ -60,7 +63,6 @@ it("will pass autocompleteView prop through to the view", () => {
 
   shallow(
     <SearchBoxContainer
-      {...params}
       autocompleteView={customAutocompleteView}
       view={(props) => {
         viewProps = props;
@@ -76,19 +78,21 @@ it("will pass autocompleteView prop through to the view", () => {
 describe("autocompletedSuggestionsCount", () => {
   it("will calculate the total count of all suggestions", () => {
     let viewProps;
+    (useSearch as jest.Mock).mockReturnValue({
+      ...params,
+      autocompletedSuggestions: {
+        documents: [
+          { suggestion: "carlsbad" },
+          { suggestion: "carlsbad caverns" },
+          { suggestion: "carolina" }
+        ],
+        other: [],
+        another: [{ suggestion: "carlsbad" }]
+      }
+    });
 
     shallow(
       <SearchBoxContainer
-        {...params}
-        autocompletedSuggestions={{
-          documents: [
-            { suggestion: "carlsbad" },
-            { suggestion: "carlsbad caverns" },
-            { suggestion: "carolina" }
-          ],
-          other: [],
-          another: [{ suggestion: "carlsbad" }]
-        }}
         view={(props) => {
           viewProps = props;
           return <div />;
@@ -101,11 +105,13 @@ describe("autocompletedSuggestionsCount", () => {
 
   it("will calculate the total count of all suggestions when there are none", () => {
     let viewProps;
+    (useSearch as jest.Mock).mockReturnValue({
+      ...params,
+      autocompletedSuggestions: {}
+    });
 
     shallow(
       <SearchBoxContainer
-        {...params}
-        autocompletedSuggestions={{}}
         autocompleteSuggestions={false}
         view={(props) => {
           viewProps = props;
@@ -120,21 +126,23 @@ describe("autocompletedSuggestionsCount", () => {
 
 describe("allAutocompletedItemsCount", () => {
   it("will calculate the total count of all autocomplete items", () => {
+    (useSearch as jest.Mock).mockReturnValue({
+      ...params,
+      autocompletedResults: [{ id: { raw: 1 } }, { id: { raw: 2 } }],
+      autocompletedSuggestions: {
+        documents: [
+          { suggestion: "carlsbad" },
+          { suggestion: "carlsbad caverns" },
+          { suggestion: "carolina" }
+        ],
+        other: [],
+        another: [{ suggestion: "carlsbad" }]
+      }
+    });
     let viewProps;
 
     shallow(
       <SearchBoxContainer
-        {...params}
-        autocompletedResults={[{ id: { raw: 1 } }, { id: { raw: 2 } }]}
-        autocompletedSuggestions={{
-          documents: [
-            { suggestion: "carlsbad" },
-            { suggestion: "carlsbad caverns" },
-            { suggestion: "carolina" }
-          ],
-          other: [],
-          another: [{ suggestion: "carlsbad" }]
-        }}
         view={(props) => {
           viewProps = props;
           return <div />;
@@ -146,15 +154,17 @@ describe("allAutocompletedItemsCount", () => {
   });
 
   it("will calculate the total count of all autocomplete items when there are none", () => {
+    (useSearch as jest.Mock).mockReturnValue({
+      ...params,
+      autocompletedResults: [],
+      autocompletedSuggestions: {}
+    });
     let viewProps;
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={false}
-        autocompletedResults={[]}
         autocompleteSuggestions={false}
-        autocompletedSuggestions={{}}
         view={(props) => {
           viewProps = props;
           return <div />;
@@ -172,7 +182,6 @@ describe("useAutocomplete", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={{
           titleField: "title",
           urlField: "nps_link"
@@ -191,7 +200,6 @@ describe("useAutocomplete", () => {
     let viewProps;
     shallow(
       <SearchBoxContainer
-        {...params}
         view={(props) => {
           viewProps = props;
           return <div />;
@@ -207,7 +215,6 @@ describe("useAutocomplete", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteSuggestions={{
           documents: {
             sectionTitle: "Suggested Queries"
@@ -228,7 +235,6 @@ describe("useAutocomplete", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteMinimumCharacters={4}
         autocompleteSuggestions={{
           documents: {
@@ -252,7 +258,6 @@ describe("shouldClearFilters prop", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         shouldClearFilters={false}
         view={(props) => {
           viewProps = props;
@@ -274,7 +279,6 @@ describe("shouldClearFilters prop", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         shouldClearFilters={false}
         view={(props) => {
           viewProps = props;
@@ -294,7 +298,6 @@ describe("shouldClearFilters prop", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={true}
         shouldClearFilters={false}
         view={(props) => {
@@ -318,7 +321,6 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
   let viewProps;
   shallow(
     <SearchBoxContainer
-      {...params}
       view={(props) => {
         viewProps = props;
         return <div />;
@@ -347,7 +349,6 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
   let viewProps;
   shallow(
     <SearchBoxContainer
-      {...params}
       autocompleteMinimumCharacters={3}
       view={(props) => {
         viewProps = props;
@@ -374,7 +375,6 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
   let viewProps;
   shallow(
     <SearchBoxContainer
-      {...params}
       searchAsYouType={true}
       view={(props) => {
         viewProps = props;
@@ -405,7 +405,6 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   let viewProps;
   shallow(
     <SearchBoxContainer
-      {...params}
       searchAsYouType={true}
       debounceLength={500}
       view={(props) => {
@@ -437,7 +436,6 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   let viewProps;
   shallow(
     <SearchBoxContainer
-      {...params}
       autocompleteResults={{
         titleField: "title",
         urlField: "nps_link"
@@ -472,7 +470,6 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
   let viewProps;
   shallow(
     <SearchBoxContainer
-      {...params}
       autocompleteSuggestions={true}
       debounceLength={500}
       view={(props) => {
@@ -501,12 +498,14 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 });
 
 it("will call back setSearchTerm with refresh: true when form is submitted", () => {
+  (useSearch as jest.Mock).mockReturnValue({
+    ...params,
+    searchTerm: "a term"
+  });
   let viewProps;
 
   shallow(
     <SearchBoxContainer
-      {...params}
-      searchTerm="a term"
       view={(props) => {
         viewProps = props;
         return <div />;
@@ -546,7 +545,6 @@ describe("onSelectAutocomplete", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={true}
         onSelectAutocomplete={customOnSelectAutocomplete}
         view={(props) => {
@@ -570,7 +568,6 @@ describe("onSelectAutocomplete", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={true}
         view={(props) => {
           viewProps = props;
@@ -592,7 +589,6 @@ describe("onSelectAutocomplete", () => {
 
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={true}
         view={(props) => {
           viewProps = props;
@@ -612,7 +608,6 @@ describe("autocomplete clickthroughs", () => {
     let viewProps;
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={true}
         view={(props) => {
           viewProps = props;
@@ -631,7 +626,6 @@ describe("autocomplete clickthroughs", () => {
     let viewProps;
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={{
           shouldTrackClickThrough: false,
           titleField: "title",
@@ -654,7 +648,6 @@ describe("autocomplete clickthroughs", () => {
     let viewProps;
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={true}
         view={(props) => {
           viewProps = props;
@@ -673,7 +666,6 @@ describe("autocomplete clickthroughs", () => {
     let viewProps;
     shallow(
       <SearchBoxContainer
-        {...params}
         autocompleteResults={{
           clickThroughTags: ["whatever"],
           titleField: "title",
@@ -701,7 +693,6 @@ it("passes className through to the view", () => {
   const className = "test-class";
   shallow(
     <SearchBoxContainer
-      {...params}
       className={className}
       view={(props) => {
         viewProps = props;
@@ -717,7 +708,6 @@ it("passes data-foo through to the view", () => {
   const data = "bar";
   shallow(
     <SearchBoxContainer
-      {...params}
       data-foo={data}
       view={(props) => {
         viewProps = props;

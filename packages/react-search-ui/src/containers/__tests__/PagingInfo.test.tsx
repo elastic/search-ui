@@ -2,6 +2,11 @@ import React from "react";
 import { shallow } from "enzyme";
 import { PagingInfoContainer } from "../PagingInfo";
 import { PagingInfoViewProps } from "@elastic/react-search-ui-views";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
 
 const params = {
   pagingStart: 1,
@@ -9,6 +14,12 @@ const params = {
   resultSearchTerm: "test",
   totalResults: 100
 };
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  (useSearch as jest.Mock).mockReturnValue(params);
+});
 
 it("supports a render prop", () => {
   const render = ({ start, end }: PagingInfoViewProps) => {
@@ -19,22 +30,16 @@ it("supports a render prop", () => {
       </div>
     );
   };
-  const wrapper = shallow(
-    <PagingInfoContainer {...params} view={render} />
-  ).dive();
+  const wrapper = shallow(<PagingInfoContainer view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders when it doesn't have any results or a result search term", () => {
-  const wrapper = shallow(
-    <PagingInfoContainer
-      {...{
-        ...params,
-        resultSearchTerm: "",
-        results: []
-      }}
-    />
-  ).dive();
+  (useSearch as jest.Mock).mockReturnValue({
+    ...params,
+    resultSearchTerm: ""
+  });
+  const wrapper = shallow(<PagingInfoContainer />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -43,7 +48,6 @@ it("passes className through to the view", () => {
   const className = "test-class";
   shallow(
     <PagingInfoContainer
-      {...params}
       className={className}
       view={(props) => {
         viewProps = props;
@@ -59,7 +63,6 @@ it("passes data-foo through to the view", () => {
   const data = "bar";
   shallow(
     <PagingInfoContainer
-      {...params}
       data-foo={data}
       view={(props) => {
         viewProps = props;

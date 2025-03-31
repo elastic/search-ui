@@ -1,16 +1,14 @@
 import React from "react";
 import {
   ErrorBoundary,
-  ErrorBoundaryContainerContext,
   ErrorBoundaryViewProps
 } from "@elastic/react-search-ui-views";
 import { BaseContainerProps } from "../types";
 import { useSearch } from "../hooks";
 
-type ErrorBoundaryContainerProps = BaseContainerProps &
-  ErrorBoundaryContainerContext & {
-    view?: React.ComponentType<ErrorBoundaryViewProps>;
-  };
+type ErrorBoundaryContainerProps = BaseContainerProps & {
+  view?: React.ComponentType<ErrorBoundaryViewProps>;
+};
 export const ErrorBoundaryContainer = ({
   children,
   className,

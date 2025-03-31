@@ -20,7 +20,6 @@ export const ResultsContainer = ({
   titleField,
   urlField,
   thumbnailField,
-  results: searchResults,
   view,
   ...rest
 }: ResultsContainerProps) => {

@@ -5,38 +5,46 @@ import {
   ResultsViewProps,
   ResultViewProps
 } from "@elastic/react-search-ui-views";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
+
+const mockResults = [
+  {
+    id: {
+      raw: "id",
+      snippet: "<em>id</em>"
+    },
+    title: {
+      raw: "title",
+      snippet: "<em>title</em>"
+    },
+    url: {
+      raw: "url",
+      snippet: "<em>url</em>"
+    }
+  },
+  {
+    id: {
+      raw: "id",
+      snippet: "<em>id</em>"
+    },
+    title: {
+      raw: "title",
+      snippet: "<em>title</em>"
+    },
+    url: {
+      raw: "url",
+      snippet: "<em>url</em>"
+    }
+  }
+];
+
+(useSearch as jest.Mock).mockReturnValue({ results: mockResults });
 
 const params = {
-  results: [
-    {
-      id: {
-        raw: "id",
-        snippet: "<em>id</em>"
-      },
-      title: {
-        raw: "title",
-        snippet: "<em>title</em>"
-      },
-      url: {
-        raw: "url",
-        snippet: "<em>url</em>"
-      }
-    },
-    {
-      id: {
-        raw: "id",
-        snippet: "<em>id</em>"
-      },
-      title: {
-        raw: "title",
-        snippet: "<em>title</em>"
-      },
-      url: {
-        raw: "url",
-        snippet: "<em>url</em>"
-      }
-    }
-  ],
   titleField: "title",
   urlField: "url"
 };
@@ -63,7 +71,7 @@ it("passes through props to individual Result items", () => {
       clickThroughTags={["whatever"]}
     />
   ).dive();
-  expect(wrapper.find("WithSearch").map((n) => n.props())).toEqual([
+  expect(wrapper.find("ResultContainer").map((n) => n.props())).toEqual([
     {
       result: {
         id: {

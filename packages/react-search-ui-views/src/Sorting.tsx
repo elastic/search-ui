@@ -1,4 +1,3 @@
-import type { SearchContextState } from "@elastic/search-ui";
 import React from "react";
 import Select, { components } from "react-select";
 import { BaseContainerProps } from "./types";
@@ -12,11 +11,6 @@ const setDefaultStyle = {
   indicatorSeparator: () => ({})
 };
 
-export type SortingContainerContext = Pick<
-  SearchContextState,
-  "sortDirection" | "sortField" | "sortList" | "setSort"
->;
-
 export type SortingViewProps = BaseContainerProps &
   Pick<SortingContainerProps, "label"> & {
     onChange: (sortData?: any) => void;
@@ -27,12 +21,11 @@ export type SortingViewProps = BaseContainerProps &
     value: string;
   };
 
-export type SortingContainerProps = BaseContainerProps &
-  SortingContainerContext & {
-    view?: React.ComponentType<SortingViewProps>;
-    label?: string;
-    sortOptions: any;
-  };
+export type SortingContainerProps = BaseContainerProps & {
+  view?: React.ComponentType<SortingViewProps>;
+  label?: string;
+  sortOptions: any;
+};
 
 function Option(props) {
   return <components.Option {...props}>{props.data.label}</components.Option>;
