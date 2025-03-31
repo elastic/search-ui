@@ -17,13 +17,14 @@ export function FacetContainer({
   label,
   view,
   isFilterable = false,
+  show = 5,
   ...rest
 }: FacetContainerProps) {
   const { filters, facets, addFilter, removeFilter, setFilter, a11yNotify } =
     useSearch();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [more, setMore] = useState<number>(5);
+  const [more, setMore] = useState<number>(show);
 
   const handleClickMore = (totalOptions: number) => {
     let visibleOptionsCount = more + 10;

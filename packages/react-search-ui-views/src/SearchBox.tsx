@@ -18,40 +18,32 @@ import {
 
 export type SearchBoxContainerContext = Pick<
   SearchContextState,
-  | "autocompletedResults"
-  | "autocompletedSuggestions"
-  | "searchTerm"
-  | "setSearchTerm"
-  | "trackAutocompleteClickThrough"
-  | "trackAutocompleteSuggestionClickThrough"
+  "autocompletedResults" | "autocompletedSuggestions"
 >;
 
-export type SearchBoxContainerProps = BaseContainerProps &
-  SearchBoxContainerContext & {
-    view?: React.ComponentType<SearchBoxViewProps>;
-    autocompleteView?: React.ComponentType<SearchBoxAutocompleteViewProps>;
-    inputView?: React.ComponentType<InputViewProps>;
-    autocompleteMinimumCharacters?: number;
-    autocompleteResults?: AutocompleteResult | boolean;
-    autocompleteSuggestions?: boolean | AutocompleteSuggestion;
-    shouldClearFilters?: boolean;
-    debounceLength?: number;
-    inputProps?: any;
-    onSelectAutocomplete?: any;
-    onSubmit?: (searchTerm: string) => void;
-    searchAsYouType?: boolean;
-  };
+export type SearchBoxContainerProps = BaseContainerProps & {
+  view?: React.ComponentType<SearchBoxViewProps>;
+  autocompleteView?: React.ComponentType<SearchBoxAutocompleteViewProps>;
+  inputView?: React.ComponentType<InputViewProps>;
+  autocompleteMinimumCharacters?: number;
+  autocompleteResults?: AutocompleteResult | boolean;
+  autocompleteSuggestions?: boolean | AutocompleteSuggestion;
+  shouldClearFilters?: boolean;
+  debounceLength?: number;
+  inputProps?: any;
+  onSelectAutocomplete?: any;
+  onSubmit?: (searchTerm: string) => void;
+  searchAsYouType?: boolean;
+};
 
 export type SearchBoxViewProps = BaseContainerProps &
+  SearchBoxContainerContext &
   Pick<
     SearchBoxContainerProps,
     | "autocompleteView"
     | "inputView"
-    | "autocompleteSuggestions"
     | "autocompleteResults"
     | "autocompleteSuggestions"
-    | "autocompletedResults"
-    | "autocompletedSuggestions"
   > & {
     allAutocompletedItemsCount: number;
     autocompletedSuggestionsCount: any;

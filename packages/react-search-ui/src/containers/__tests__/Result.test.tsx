@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import { shallow } from "enzyme";
 import { ResultContainer } from "../Result";
 import { ResultViewProps } from "@elastic/react-search-ui-views";
+import { useSearch } from "../../hooks";
+
+const mockSearchParams = {
+  trackClickThrough: jest.fn()
+};
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
+
+(useSearch as jest.Mock).mockReturnValue(mockSearchParams);
 
 const params = {
   result: {
@@ -18,13 +29,12 @@ const params = {
       snippet: "<em>url</em>"
     }
   },
-  trackClickThrough: jest.fn(),
   titleField: "title",
   urlField: "url"
 };
 
 beforeEach(() => {
-  params.trackClickThrough = jest.fn();
+  jest.clearAllMocks();
 });
 
 describe("link clicks", () => {
@@ -40,7 +50,7 @@ describe("link clicks", () => {
     const { onClickLink } = viewProps;
     onClickLink();
 
-    const [id] = params.trackClickThrough.mock.calls[0];
+    const [id] = mockSearchParams.trackClickThrough.mock.calls[0];
     expect(id).toEqual("id");
   });
 
@@ -62,7 +72,7 @@ describe("link clicks", () => {
     const { onClickLink } = viewProps;
     onClickLink();
 
-    expect(params.trackClickThrough.mock.calls.length).toEqual(0);
+    expect(mockSearchParams.trackClickThrough.mock.calls.length).toEqual(0);
   });
 
   it("will pass through tags", () => {
@@ -83,7 +93,7 @@ describe("link clicks", () => {
     const { onClickLink } = viewProps;
     onClickLink();
 
-    const [id, tags] = params.trackClickThrough.mock.calls[0];
+    const [id, tags] = mockSearchParams.trackClickThrough.mock.calls[0];
     expect(id).toEqual("id");
     expect(tags).toEqual(["whatever"]);
   });

@@ -2,7 +2,7 @@
 
 exports[`supports a render prop 1`] = `
 <div>
-  <WithSearch
+  <ResultContainer
     clickThroughTags={Array []}
     key="result-id"
     result={
@@ -26,7 +26,7 @@ exports[`supports a render prop 1`] = `
     urlField="url"
     view={[Function]}
   />
-  <WithSearch
+  <ResultContainer
     clickThroughTags={Array []}
     key="result-id"
     result={
