@@ -18,6 +18,7 @@ const FacetContainer = ({
   view,
   isFilterable = false,
   show = 5,
+  persistent = false,
   ...rest
 }: FacetContainerProps) => {
   const { filters, facets, addFilter, removeFilter, setFilter, a11yNotify } =
@@ -90,10 +91,10 @@ const FacetContainer = ({
       removeFilter(field, value, filterType);
     },
     onChange: (value) => {
-      setFilter(field, value, filterType);
+      setFilter(field, value, filterType, persistent);
     },
     onSelect: (value) => {
-      addFilter(field, value, filterType);
+      addFilter(field, value, filterType, persistent);
     },
     options: facetValues.slice(0, more),
     showMore: facetValues.length > more,

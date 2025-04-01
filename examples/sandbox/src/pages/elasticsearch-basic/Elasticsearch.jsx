@@ -103,6 +103,7 @@ export const Elasticsearch = () => {
                 label="States"
                 filterType="any"
                 isFilterable={true}
+                persistent
               />
               <Facet
                 field="world_heritage_site.keyword"
@@ -121,7 +122,7 @@ export const Elasticsearch = () => {
                 filterType="any"
               />
               <Facet field="location" label="Distance" filterType="any" />
-              <Facet field="visitors" label="visitors" />
+              <Facet field="visitors" label="visitors" persistent />
               <Facet field="acres" label="Acres" view={SingleSelectFacet} />
             </div>
           }

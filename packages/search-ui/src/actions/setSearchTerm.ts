@@ -11,6 +11,7 @@
  * results?
  * @param options.refresh Boolean Refresh search results?
  * @param options.debounce Length to debounce API calls
+ * @param options.shouldClearFilters Boolean Clear all filters after search?
  */
 
 type SetSearchTermOptions = {
@@ -40,13 +41,18 @@ export default function setSearchTerm(
   this._setState({ searchTerm });
 
   if (refresh) {
+    // If shouldClearFilters is true, clear all filters except persistent filters
+    const filters = shouldClearFilters
+      ? this.state.filters.filter((filter) => filter.persistent)
+      : this.state.filters;
+
     this.debounceManager.runWithDebounce(
       debounce,
       "_updateSearchResults",
       this._updateSearchResults,
       {
         current: 1,
-        ...(shouldClearFilters && { filters: [] })
+        filters
       }
     );
   }
