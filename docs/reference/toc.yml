@@ -34,13 +34,15 @@ toc:
       - file: guides-nextjs-integration.md
   - file: api-reference.md
     children:
-      - file: api-core-configuration.md
+      - file: api-core-index.md
         children:
+          - file: api-core-configuration.md
           - file: api-core-state.md
           - file: api-core-actions.md
       - file: api-react-search-provider.md
         children:
           - file: api-react-with-search.md
+          - file: api-react-use-search.md
       - file: api-react-components-search-box.md
         children:
           - file: api-react-components-results.md

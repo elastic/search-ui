@@ -18,10 +18,9 @@ export type PagingViewProps = Rename<
   }
 >;
 
-export type PagingContainerProps = BaseContainerProps &
-  PagingContainerContext & {
-    view?: React.ComponentType<PagingViewProps>;
-  };
+export type PagingContainerProps = BaseContainerProps & {
+  view?: React.ComponentType<PagingViewProps>;
+};
 
 function Paging({
   className,

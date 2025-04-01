@@ -40,7 +40,8 @@ This will only result in a single API call.
 addFilter(
   name: string,
   value: FilterValue,
-  type: FilterType = "all"
+  type: FilterType = "all",
+  persistent?: Boolean
 )
 ```
 
@@ -53,8 +54,8 @@ addFilter("states", "Alaska");
 addFilter("isPublished", true);
 addFilter("rating", 1);
 
-addFilter("states", ["Alaska", "California"], "all");
-addFilter("states", ["Alaska", "California"], "any");
+addFilter("states", ["Alaska", "California"], "all", true);
+addFilter("states", ["Alaska", "California"], "any", true);
 
 addFilter("published", {
   name: "published",
@@ -71,11 +72,12 @@ addFilter("rating", {
 
 ### Parameters [api-core-actions-parameters-1]
 
-| Parameters | description                                                                                |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| `name`     | Required. Name of the field                                                                |
-| `value`    | Required. Filter Value. See `FilterValue` type.                                            |
-| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+| Parameters   | description                                                                                |
+| ------------ | ------------------------------------------------------------------------------------------ |
+| `name`       | Required. Name of the field                                                                |
+| `value`      | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`       | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+| `persistent` | Optional. Set true, the facet filter will not be cleared when a new search is performed    |
 
 ## setFilter [api-core-actions-setfilter]
 
@@ -83,7 +85,8 @@ addFilter("rating", {
 setFilter(
   name: string,
   value: FilterValue,
-  type: FilterType = "all"
+  type: FilterType = "all",
+  persistent?: Boolean
 )
 ```
 
@@ -96,8 +99,8 @@ setFilter("states", "Alaska");
 setFilter("isPublished", true);
 setFilter("rating", 1);
 
-setFilter("states", ["Alaska", "California"], "all");
-setFilter("states", ["Alaska", "California"], "any");
+setFilter("states", ["Alaska", "California"], "all", true);
+setFilter("states", ["Alaska", "California"], "any", true);
 
 setFilter("published", {
   name: "published",
@@ -114,11 +117,12 @@ setFilter("rating", {
 
 ### Parameters [api-core-actions-parameters-3]
 
-| Parameters | description                                                                                |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| `name`     | Required. Name of the field                                                                |
-| `value`    | Required. Filter Value. See `FilterValue` type.                                            |
-| `type`     | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+| Parameters   | description                                                                                |
+| ------------ | ------------------------------------------------------------------------------------------ |
+| `name`       | Required. Name of the field                                                                |
+| `value`      | Required. Filter Value. See `FilterValue` type.                                            |
+| `type`       | Optional. Defaults to `all`. How the filter is applied. Can be one of `any`, `all`, `none` |
+| `persistent` | Optional. Set true, the facet filter will not be cleared when a new search is performed    |
 
 ## removeFilter [api-core-actions-removefilter]
 

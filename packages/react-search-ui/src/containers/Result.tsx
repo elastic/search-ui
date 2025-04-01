@@ -1,63 +1,35 @@
 import React from "react";
-import { Component } from "react";
 import {
   Result,
   ResultContainerProps,
-  ResultContainerContext,
   ResultViewProps
 } from "@elastic/react-search-ui-views";
+import { useSearch } from "../hooks";
 
-import { withSearch } from "..";
+const ResultContainer = ({
+  result,
+  shouldTrackClickThrough = true,
+  clickThroughTags = [],
+  view,
+  ...rest
+}: ResultContainerProps) => {
+  const { trackClickThrough } = useSearch();
 
-export class ResultContainer extends Component<ResultContainerProps> {
-  static defaultProps = {
-    clickThroughTags: [],
-    shouldTrackClickThrough: true
-  };
-
-  handleClickLink = (id) => {
-    const { clickThroughTags, shouldTrackClickThrough, trackClickThrough } =
-      this.props;
-
+  const handleClickLink = (id: string) => {
     if (shouldTrackClickThrough) {
       trackClickThrough(id, clickThroughTags);
     }
   };
+  const View = view || Result;
+  const id = result.id.raw;
+  const viewProps: ResultViewProps = {
+    result: result,
+    key: `result-${id}`,
+    onClickLink: () => handleClickLink(id),
+    ...rest
+  };
 
-  render() {
-    const {
-      className,
-      result,
-      titleField,
-      urlField,
-      thumbnailField,
-      view,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      trackClickThrough,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      shouldTrackClickThrough,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      clickThroughTags,
-      ...rest
-    } = this.props;
-    const View = view || Result;
-    const id = result.id.raw;
+  return <View {...viewProps} />;
+};
 
-    const viewProps: ResultViewProps = {
-      className,
-      result: result,
-      key: `result-${id}`,
-      onClickLink: () => this.handleClickLink(id),
-      titleField,
-      urlField,
-      thumbnailField,
-      ...rest
-    };
-
-    return <View {...viewProps} />;
-  }
-}
-
-export default withSearch<ResultContainerProps, ResultContainerContext>(
-  ({ trackClickThrough }) => ({ trackClickThrough })
-)(ResultContainer);
+export default ResultContainer;

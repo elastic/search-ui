@@ -45,6 +45,7 @@ export type Filter = {
   field: string;
   type: FilterType;
   values: FilterValue[];
+  persistent?: boolean;
 };
 
 export type RequestState = {

@@ -1,12 +1,20 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { ErrorBoundaryViewProps } from "@elastic/react-search-ui-views";
-import { ErrorBoundaryContainer } from "../ErrorBoundary";
+import ErrorBoundaryContainer from "../ErrorBoundary";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
+
+(useSearch as jest.Mock).mockReturnValue({
+  error: "I am an error"
+});
 
 describe("Error Boundary", () => {
   const params = {
-    children: <div>Child</div>,
-    error: "I am an error"
+    children: <div>Child</div>
   };
 
   let viewProps;

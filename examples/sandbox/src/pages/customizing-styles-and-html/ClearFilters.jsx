@@ -1,6 +1,8 @@
-import { withSearch } from "@elastic/react-search-ui";
+import { useSearch } from "@elastic/react-search-ui";
 
-function ClearFilters({ filters, clearFilters }) {
+export const ClearFilters = () => {
+  const { filters, clearFilters } = useSearch();
+
   return (
     <div>
       <button onClick={() => clearFilters()}>
@@ -8,9 +10,4 @@ function ClearFilters({ filters, clearFilters }) {
       </button>
     </div>
   );
-}
-
-export default withSearch(({ filters, clearFilters }) => ({
-  filters,
-  clearFilters
-}))(ClearFilters);
+};
