@@ -1,39 +1,29 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ResultsPerPageContainer } from "../ResultsPerPage";
+import ResultsPerPageContainer from "../ResultsPerPage";
 import type { ResultsPerPageViewProps } from "@elastic/react-search-ui-views";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
 
 const params = {
-  results: [{}, {}],
   resultsPerPage: 20,
-  searchTerm: "test",
   setResultsPerPage: jest.fn()
 };
 
 beforeEach(() => {
-  params.setResultsPerPage = jest.fn();
+  jest.clearAllMocks();
+
+  (useSearch as jest.Mock).mockReturnValue(params);
 });
 
 it("supports a render prop", () => {
   const render = ({ value }: ResultsPerPageViewProps) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(
-    <ResultsPerPageContainer {...params} view={render} />
-  ).dive();
-  expect(wrapper).toMatchSnapshot();
-});
-
-it("renders when it doesn't have any results or a search term", () => {
-  const wrapper = shallow(
-    <ResultsPerPageContainer
-      {...{
-        ...params,
-        searchTerm: "",
-        results: []
-      }}
-    />
-  ).dive();
+  const wrapper = shallow(<ResultsPerPageContainer view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -76,9 +66,11 @@ it("passes className through to the view", () => {
 it("renders the component with custom page options", () => {
   const options = [5, 10, 15];
   const resultsPerPage = 10;
-  const wrapper = shallow(
-    <ResultsPerPageContainer {...{ ...params, resultsPerPage, options }} />
-  ).dive();
+  (useSearch as jest.Mock).mockReturnValue({
+    ...params,
+    resultsPerPage
+  });
+  const wrapper = shallow(<ResultsPerPageContainer options={options} />).dive();
 
   expect(wrapper).toMatchSnapshot();
 });
@@ -88,7 +80,6 @@ it("passes data-foo through to the view", () => {
   const data = "bar";
   shallow(
     <ResultsPerPageContainer
-      {...params}
       data-foo={data}
       view={(props) => {
         viewProps = props;

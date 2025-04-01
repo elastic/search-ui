@@ -1,11 +1,4 @@
 import React from "react";
-import { config } from "./config";
-
-import "@elastic/react-search-ui-views/lib/styles/styles.css";
-
-import Header from "./Header";
-
-import { useSearch, SearchProvider } from "@elastic/react-search-ui";
 import {
   ErrorBoundary,
   Facet,
@@ -14,7 +7,8 @@ import {
   PagingInfo,
   ResultsPerPage,
   Paging,
-  Sorting
+  Sorting,
+  useSearch
 } from "@elastic/react-search-ui";
 import {
   BooleanFacet,
@@ -32,7 +26,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -41,7 +35,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       }
     ]
@@ -50,11 +44,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -63,21 +57,22 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: "world_heritage_site",
+        field: "world_heritage_site.keyword",
         direction: "asc"
       },
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
   }
 ];
-const SearchComponent = () => {
+
+export const Elasticsearch = () => {
   const { wasSearched } = useSearch();
   return (
     <div className="App">
@@ -86,7 +81,6 @@ const SearchComponent = () => {
           header={
             <SearchBox
               autocompleteMinimumCharacters={3}
-              //searchAsYouType={true}
               autocompleteResults={{
                 linkTarget: "_blank",
                 sectionTitle: "Results",
@@ -105,14 +99,15 @@ const SearchComponent = () => {
                 <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
               )}
               <Facet
-                field="states"
+                field="states.keyword"
                 label="States"
                 filterType="any"
                 isFilterable={true}
+                persistent
               />
               <Facet
-                field="world_heritage_site"
-                label="World Heritage Site?"
+                field="world_heritage_site.keyword"
+                label="World Heritage Site"
                 view={BooleanFacet}
               />
               <Facet
@@ -123,9 +118,11 @@ const SearchComponent = () => {
               <Facet
                 field="date_established"
                 label="Date Established"
+                isFilterable={true}
                 filterType="any"
               />
               <Facet field="location" label="Distance" filterType="any" />
+              <Facet field="visitors" label="visitors" persistent />
               <Facet field="acres" label="Acres" view={SingleSelectFacet} />
             </div>
           }
@@ -149,14 +146,3 @@ const SearchComponent = () => {
     </div>
   );
 };
-
-export default function App() {
-  return (
-    <div>
-      <Header />
-      <SearchProvider config={config}>
-        <SearchComponent />
-      </SearchProvider>
-    </div>
-  );
-}

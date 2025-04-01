@@ -1,8 +1,13 @@
 import React from "react";
-import { FacetContainer } from "../Facet";
+import FacetContainer from "../Facet";
 import { shallow, ShallowWrapper } from "enzyme";
 import type { Filter } from "@elastic/search-ui";
 import { FacetViewProps } from "@elastic/react-search-ui-views";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
 
 const View = () => <div />;
 
@@ -15,7 +20,10 @@ const filter: Filter = {
 const params = {
   view: View,
   field: "field1",
-  label: "Field 1",
+  label: "Field 1"
+};
+
+const mockSearchParams = {
   filters: [filter],
   facets: {
     field1: [
@@ -49,6 +57,8 @@ const params = {
   a11yNotify: jest.fn()
 };
 
+(useSearch as jest.Mock).mockReturnValue(mockSearchParams);
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
@@ -59,20 +69,49 @@ it("renders correctly", () => {
 });
 
 it("should not render a Facet if there are no facets available", () => {
-  const wrapper = shallow(
-    <FacetContainer
-      {...{
-        ...params,
-        facets: {}
-      }}
-    />
-  );
+  (useSearch as jest.Mock).mockReturnValue({
+    ...mockSearchParams,
+    facets: {}
+  });
+  const wrapper = shallow(<FacetContainer {...params} />);
 
   expect(wrapper.html()).toEqual(null);
 });
 
 describe("values view prop", () => {
   function subject(filterType?) {
+    (useSearch as jest.Mock).mockReturnValue({
+      ...mockSearchParams,
+      filters: [
+        {
+          field: "field2",
+          values: ["field1value1"],
+          type: "none"
+        },
+        {
+          field: "field1",
+          values: ["field1value1", "field1value2"],
+          type: "all"
+        },
+        {
+          field: "field1",
+          values: ["field1value1"],
+          type: "any"
+        }
+      ],
+      facets: {
+        field1: [
+          {
+            field: "field1",
+            data: [
+              { count: 20, value: "field1value1" },
+              { count: 10, value: "field1value2" }
+            ],
+            type: "value"
+          }
+        ]
+      }
+    });
     let viewProps;
     const View = (props) => {
       viewProps = props;
@@ -83,35 +122,6 @@ describe("values view prop", () => {
         {...params}
         field="field1"
         filterType={filterType}
-        filters={[
-          {
-            field: "field2",
-            values: ["field1value1"],
-            type: "none"
-          },
-          {
-            field: "field1",
-            values: ["field1value1", "field1value2"],
-            type: "all"
-          },
-          {
-            field: "field1",
-            values: ["field1value1"],
-            type: "any"
-          }
-        ]}
-        facets={{
-          field1: [
-            {
-              field: "field1",
-              data: [
-                { count: 20, value: "field1value1" },
-                { count: 10, value: "field1value2" }
-              ],
-              type: "value"
-            }
-          ]
-        }}
         view={View}
       />
     ).dive();
@@ -132,38 +142,42 @@ describe("show more", () => {
   let wrapper;
 
   function subject(additionalProps = {}) {
+    (useSearch as jest.Mock).mockReturnValue({
+      ...mockSearchParams,
+      facets: {
+        field1: [
+          {
+            field: "field1",
+            data: [
+              { count: 20, value: "field1value1" },
+              { count: 10, value: "field1value2" },
+              { count: 9, value: "field1value3" },
+              { count: 8, value: "field1value4" },
+              { count: 7, value: "field1value5" },
+              { count: 6, value: "field1value6" },
+              { count: 5, value: "field1value7" },
+              { count: 4, value: "field1value8" },
+              { count: 3, value: "field1value9" },
+              { count: 2, value: "field1value10" },
+              { count: 1, value: "field1value11" },
+              { count: 1, value: "field1value12" },
+              { count: 1, value: "field1value13" },
+              { count: 1, value: "field1value14" },
+              { count: 1, value: "field1value15" },
+              { count: 1, value: "field1value16" },
+              { count: 1, value: "field1value17" }
+            ],
+            type: "value"
+          }
+        ]
+      }
+    });
+
     return shallow(
       <FacetContainer
         {...{
           ...params,
           field: "field1",
-          facets: {
-            field1: [
-              {
-                field: "field1",
-                data: [
-                  { count: 20, value: "field1value1" },
-                  { count: 10, value: "field1value2" },
-                  { count: 9, value: "field1value3" },
-                  { count: 8, value: "field1value4" },
-                  { count: 7, value: "field1value5" },
-                  { count: 6, value: "field1value6" },
-                  { count: 5, value: "field1value7" },
-                  { count: 4, value: "field1value8" },
-                  { count: 3, value: "field1value9" },
-                  { count: 2, value: "field1value10" },
-                  { count: 1, value: "field1value11" },
-                  { count: 1, value: "field1value12" },
-                  { count: 1, value: "field1value13" },
-                  { count: 1, value: "field1value14" },
-                  { count: 1, value: "field1value15" },
-                  { count: 1, value: "field1value16" },
-                  { count: 1, value: "field1value17" }
-                ],
-                type: "value"
-              }
-            ]
-          },
           ...additionalProps
         }}
       />
@@ -193,7 +207,7 @@ describe("show more", () => {
   describe("after a show more click", () => {
     it("a11yNotify to be called with more filters", () => {
       wrapper.find(View).prop("onMoreClick")();
-      expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
+      expect(mockSearchParams.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 15,
         showingAll: false
       });
@@ -211,7 +225,7 @@ describe("show more", () => {
   describe("after more more show more click", () => {
     it("a11yNotify to be called with more filters", () => {
       wrapper.find(View).prop("onMoreClick")();
-      expect(params.a11yNotify).toHaveBeenCalledWith("moreFilters", {
+      expect(mockSearchParams.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 17,
         showingAll: true
       });
@@ -232,7 +246,8 @@ it("will add a filter when a facet value is selected with onSelect", () => {
 
   wrapper.find<FacetViewProps>(View).prop("onSelect")("field1value2");
 
-  const [fieldName, fieldValue, filterType] = params.addFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] =
+    mockSearchParams.addFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
   expect(filterType).toEqual("any");
@@ -243,7 +258,8 @@ it("will overwrite a filter when a facet value is selected with onChange", () =>
 
   wrapper.find<FacetViewProps>(View).prop("onChange")("field1value2");
 
-  const [fieldName, fieldValue, filterType] = params.setFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] =
+    mockSearchParams.setFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
   expect(filterType).toEqual("any");
@@ -254,7 +270,8 @@ it("will remove a filter when a facet value removed", () => {
 
   wrapper.find<FacetViewProps>(View).prop("onRemove")("field1value2");
 
-  const [fieldName, fieldValue, filterType] = params.removeFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] =
+    mockSearchParams.removeFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
   expect(filterType).toEqual("any");
@@ -265,7 +282,8 @@ it("will remove a filter when a facet value removed, defaulting filterType to al
 
   wrapper.find<FacetViewProps>(View).prop("onRemove")("field1value2");
 
-  const [fieldName, fieldValue, filterType] = params.removeFilter.mock.calls[0];
+  const [fieldName, fieldValue, filterType] =
+    mockSearchParams.removeFilter.mock.calls[0];
   expect(fieldName).toEqual("field1");
   expect(fieldValue).toEqual("field1value2");
   expect(filterType).toEqual("all");
@@ -318,21 +336,25 @@ describe("search facets", () => {
   ];
 
   function subject(additionalProps = {}, data = fieldData) {
+    (useSearch as jest.Mock).mockReturnValue({
+      ...mockSearchParams,
+      facets: {
+        field1: [
+          {
+            field,
+            data,
+            type: "value"
+          }
+        ]
+      }
+    });
+
     return shallow(
       <FacetContainer
         {...{
           ...params,
           field,
           label,
-          facets: {
-            field1: [
-              {
-                field,
-                data,
-                type: "value"
-              }
-            ]
-          },
           isFilterable: true,
           ...additionalProps
         }}
@@ -386,6 +408,14 @@ describe("search facets", () => {
       ]);
     });
 
+    it("should not render Facet options if search value not matched", () => {
+      wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
+
+      expect(wrapper.find<FacetViewProps>(View).prop("options").length).toEqual(
+        0
+      );
+    });
+
     it("should ignore case sensitive when matching", () => {
       const data = [
         { count: 20, value: "APPLE" },
@@ -415,14 +445,6 @@ describe("search facets", () => {
         "appointment",
         "entertainMEnt"
       ]);
-    });
-
-    it("should not render Facet options if search value not matched", () => {
-      wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
-
-      expect(wrapper.find<FacetViewProps>(View).prop("options").length).toEqual(
-        0
-      );
     });
   });
 

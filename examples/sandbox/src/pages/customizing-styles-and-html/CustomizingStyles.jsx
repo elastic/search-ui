@@ -1,11 +1,3 @@
-import React from "react";
-import { config } from "./config";
-
-import "@elastic/react-search-ui-views/lib/styles/styles.css";
-
-import Header from "./Header";
-
-import { useSearch, SearchProvider } from "@elastic/react-search-ui";
 import {
   ErrorBoundary,
   Facet,
@@ -14,7 +6,8 @@ import {
   PagingInfo,
   ResultsPerPage,
   Paging,
-  Sorting
+  Sorting,
+  useSearch
 } from "@elastic/react-search-ui";
 import {
   BooleanFacet,
@@ -23,6 +16,11 @@ import {
   SingleLinksFacet
 } from "@elastic/react-search-ui-views";
 
+// This is a custom component we've created.
+import { ClearFilters } from "./ClearFilters";
+// We import custom.css here to override styles defined by the out-of-the-box stylesheet
+// above
+import "./custom.css";
 const SORT_OPTIONS = [
   {
     name: "Relevance",
@@ -77,16 +75,48 @@ const SORT_OPTIONS = [
     ]
   }
 ];
-const SearchComponent = () => {
+
+const CustomPagingInfoView = ({ start, end }) => (
+  <div className="paging-info">
+    <strong>
+      {start} - {end}
+    </strong>
+  </div>
+);
+
+const CustomResultView = ({ result, onClickLink }) => (
+  <li className="sui-result">
+    <div className="sui-result__header">
+      <h3>
+        {/* Maintain onClickLink to correct track click throughs for analytics*/}
+        <a onClick={onClickLink} href={result.nps_link.raw}>
+          {result.title.snippet}
+        </a>
+      </h3>
+    </div>
+    <div className="sui-result__body">
+      {/* use 'raw' values of fields to access values without snippets */}
+      <div className="sui-result__image">
+        <img src={result.image_url.raw} alt="" />
+      </div>
+      {/* Use the 'snippet' property of fields with dangerouslySetInnerHtml to render snippets */}
+      <div
+        className="sui-result__details"
+        dangerouslySetInnerHTML={{ __html: result.description.snippet }}
+      ></div>
+    </div>
+  </li>
+);
+export const CustomizingStylesApp = () => {
   const { wasSearched } = useSearch();
+
   return (
-    <div className="App">
+    <div className="App customization-example">
       <ErrorBoundary>
         <Layout
           header={
             <SearchBox
               autocompleteMinimumCharacters={3}
-              //searchAsYouType={true}
               autocompleteResults={{
                 linkTarget: "_blank",
                 sectionTitle: "Results",
@@ -101,6 +131,9 @@ const SearchComponent = () => {
           }
           sideContent={
             <div>
+              <ClearFilters />
+              <br />
+              <br />
               {wasSearched && (
                 <Sorting label={"Sort by"} sortOptions={SORT_OPTIONS} />
               )}
@@ -131,6 +164,7 @@ const SearchComponent = () => {
           }
           bodyContent={
             <Results
+              resultView={CustomResultView}
               titleField="title"
               urlField="nps_link"
               thumbnailField="image_url"
@@ -138,10 +172,10 @@ const SearchComponent = () => {
             />
           }
           bodyHeader={
-            <React.Fragment>
-              {wasSearched && <PagingInfo />}
+            <>
+              {wasSearched && <PagingInfo view={CustomPagingInfoView} />}
               {wasSearched && <ResultsPerPage />}
-            </React.Fragment>
+            </>
           }
           bodyFooter={<Paging />}
         />
@@ -149,14 +183,3 @@ const SearchComponent = () => {
     </div>
   );
 };
-
-export default function App() {
-  return (
-    <div>
-      <Header />
-      <SearchProvider config={config}>
-        <SearchComponent />
-      </SearchProvider>
-    </div>
-  );
-}

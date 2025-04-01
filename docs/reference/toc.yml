@@ -42,6 +42,7 @@ toc:
       - file: api-react-search-provider.md
         children:
           - file: api-react-with-search.md
+          - file: api-react-use-search.md
       - file: api-react-components-search-box.md
         children:
           - file: api-react-components-results.md

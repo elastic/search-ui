@@ -1,25 +1,18 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { SortingContainer } from "../Sorting";
+import SortingContainer from "../Sorting";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
 
 const params = {
   results: [{}],
   searchTerm: "test",
   setSort: jest.fn(),
   sortDirection: "asc" as const,
-  sortField: "field",
-  sortOptions: [
-    {
-      name: "name",
-      value: "field",
-      direction: "asc" as const
-    },
-    {
-      name: "name",
-      value: "field",
-      direction: "desc" as const
-    }
-  ]
+  sortField: "field"
 };
 
 const sortListParams = {
@@ -33,7 +26,9 @@ const sortListParams = {
       field: "title",
       direction: "desc" as const
     }
-  ],
+  ]
+};
+const props = {
   sortOptions: [
     {
       name: "name",
@@ -44,47 +39,21 @@ const sortListParams = {
       name: "name",
       value: "field",
       direction: "desc" as const
-    },
-    {
-      name: "multiple",
-      value: [
-        {
-          field: "states",
-          direction: "asc" as const
-        },
-        {
-          field: "title",
-          direction: "desc" as const
-        }
-      ]
     }
   ]
 };
 
 beforeEach(() => {
-  params.setSort = jest.fn();
+  jest.clearAllMocks();
+
+  (useSearch as jest.Mock).mockReturnValue(params);
 });
 
 it("supports a render prop", () => {
   const render = ({ value }) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(
-    <SortingContainer {...params} view={render} />
-  ).dive();
-  expect(wrapper).toMatchSnapshot();
-});
-
-it("renders when it doesn't have results or a search term", () => {
-  const wrapper = shallow(
-    <SortingContainer
-      {...{
-        ...params,
-        searchTerm: "",
-        results: []
-      }}
-    />
-  ).dive();
+  const wrapper = shallow(<SortingContainer {...props} view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -93,7 +62,7 @@ it("will call back when sort is changed in view", () => {
 
   shallow(
     <SortingContainer
-      {...params}
+      {...props}
       view={(props) => {
         viewProps = props;
         return <div />;
@@ -111,10 +80,36 @@ it("will call back when sort is changed in view", () => {
 
 it("will call back when sort is changed in view with sortList", () => {
   let viewProps;
+  (useSearch as jest.Mock).mockReturnValue(sortListParams);
 
   shallow(
     <SortingContainer
-      {...sortListParams}
+      {...props}
+      sortOptions={[
+        {
+          name: "name",
+          value: "field",
+          direction: "asc" as const
+        },
+        {
+          name: "name",
+          value: "field",
+          direction: "desc" as const
+        },
+        {
+          name: "multiple",
+          value: [
+            {
+              field: "states",
+              direction: "asc" as const
+            },
+            {
+              field: "title",
+              direction: "desc" as const
+            }
+          ]
+        }
+      ]}
       view={(props) => {
         viewProps = props;
         return <div />;
@@ -141,7 +136,7 @@ it("passes className through to the view", () => {
   const className = "test-class";
   shallow(
     <SortingContainer
-      {...params}
+      {...props}
       className={className}
       view={(props) => {
         viewProps = props;
@@ -157,7 +152,7 @@ it("passes data-foo through to the view", () => {
   const data = "bar";
   shallow(
     <SortingContainer
-      {...params}
+      {...props}
       data-foo={data}
       view={(props) => {
         viewProps = props;
