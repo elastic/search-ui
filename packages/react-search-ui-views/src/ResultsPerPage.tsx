@@ -10,11 +10,10 @@ export type ResultsPerPageContainerContext = Pick<
   "resultsPerPage" | "setResultsPerPage"
 >;
 
-export type ResultsPerPageContainerProps = BaseContainerProps &
-  ResultsPerPageContainerContext & {
-    view?: React.ComponentType<ResultsPerPageViewProps>;
-    options?: number[];
-  };
+export type ResultsPerPageContainerProps = BaseContainerProps & {
+  view?: React.ComponentType<ResultsPerPageViewProps>;
+  options?: number[];
+};
 
 export type ResultsPerPageViewProps = BaseContainerProps &
   Pick<ResultsPerPageContainerProps, "options"> &

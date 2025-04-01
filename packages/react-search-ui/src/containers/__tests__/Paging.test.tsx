@@ -1,6 +1,11 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { PagingContainer } from "../Paging";
+import PagingContainer from "../Paging";
+import { useSearch } from "../../hooks";
+
+jest.mock("../../hooks", () => ({
+  useSearch: jest.fn()
+}));
 
 const params = {
   current: 1,
@@ -10,28 +15,23 @@ const params = {
 };
 
 beforeEach(() => {
-  params.setCurrent = jest.fn();
+  jest.clearAllMocks();
+
+  (useSearch as jest.Mock).mockReturnValue(params);
 });
 
 it("supports a render prop", () => {
   const render = ({ current = 2 }) => {
     return <div>{current}</div>;
   };
-  const wrapper = shallow(<PagingContainer {...params} view={render} />).dive();
+  const wrapper = shallow(<PagingContainer view={render} />).dive();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders empty when there are no results", () => {
   const view = () => <div />;
-  const wrapper = shallow(
-    <PagingContainer
-      {...{
-        ...params,
-        totalPages: 0
-      }}
-      view={view}
-    />
-  );
+  (useSearch as jest.Mock).mockReturnValue({ ...params, totalPages: 0 });
+  const wrapper = shallow(<PagingContainer view={view} />);
   expect(wrapper.find(view).length).toBe(0);
   expect(wrapper.text()).toBe("");
 });
@@ -41,7 +41,6 @@ it("will call back when a the page is changed", () => {
 
   shallow(
     <PagingContainer
-      {...params}
       view={(props) => {
         viewProps = props;
         return <div />;
@@ -61,7 +60,6 @@ it("passes className through to the view", () => {
   const className = "test-class";
   shallow(
     <PagingContainer
-      {...params}
       className={className}
       view={(props) => {
         viewProps = props;
@@ -77,7 +75,6 @@ it("passes data-foo through to the view", () => {
   const data = "bar";
   shallow(
     <PagingContainer
-      {...params}
       data-foo={data}
       view={(props) => {
         viewProps = props;
