@@ -476,13 +476,13 @@ describe("search facets", () => {
 
     wrapper.find<FacetViewProps>(View).prop("onSelect")("field1value2");
 
-    expect(params.addFilter).toHaveBeenCalledWith(
+    expect(mockSearchParams.addFilter).toHaveBeenCalledWith(
       "field1",
       "field1value2",
       "all",
       true
     );
-    expect(params.setFilter).not.toHaveBeenCalled();
+    expect(mockSearchParams.setFilter).not.toHaveBeenCalled();
   });
 
   it("should not clear persistent filters on change", () => {
@@ -492,12 +492,12 @@ describe("search facets", () => {
 
     wrapper.find<FacetViewProps>(View).prop("onChange")("field1value2");
 
-    expect(params.setFilter).toHaveBeenCalledWith(
+    expect(mockSearchParams.setFilter).toHaveBeenCalledWith(
       "field1",
       "field1value2",
       "all",
       true
     );
-    expect(params.addFilter).not.toHaveBeenCalled();
+    expect(mockSearchParams.addFilter).not.toHaveBeenCalled();
   });
 });
