@@ -9,7 +9,7 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { ElasticsearchProdReady } from "./ElasticsearchProdReady";
 
 const connector = new ApiProxyConnector({
-  basePath: "http://localhost:3001/api"
+  basePath: "/api"
 });
 
 const config = {

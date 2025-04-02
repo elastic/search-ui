@@ -15,18 +15,10 @@
   "tasks": {
     "start": {
       "name": "start",
-      "command": "yarn start",
+      "command": "concurrently \"yarn start\" \"node src/pages/elasticsearch-production-ready/server/index.js\"",
       "runAtStart": true,
       "preview": {
         "port": 4173
-      }
-    },
-    "start-api-server": {
-      "name": "Start API Server",
-      "command": "node src/pages/elasticsearch-production-ready/server/index.js",
-      "runAtStart": true,
-      "preview": {
-        "port": 3001
       }
     }
   }
