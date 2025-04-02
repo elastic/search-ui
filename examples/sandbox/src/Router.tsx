@@ -19,7 +19,13 @@ export default function Router() {
   const isHomePage = location.pathname === "/";
 
   return (
-    <div className={`${isHomePage ? "App" : "text-black bg-white"}`}>
+    <div
+      className={`${
+        isHomePage
+          ? "App"
+          : "text-black bg-white w-screen max-w-screen-xl mx-auto"
+      }`}
+    >
       <Switch>
         <Route exact path="/" component={Root} />
 
@@ -29,12 +35,11 @@ export default function Router() {
           path="/elasticsearch-basic"
           component={ElasticsearchBasic}
         />
-        {/* TODO: Add back in when we have a production-ready connector */}
-        {/* <Route
+        <Route
           exact
           path="/elasticsearch-production-ready"
           component={ElasticsearchProductionReady}
-        /> */}
+        />
         <Route exact path="/site-search" component={SiteSearch} />
         <Route exact path="/engines" component={Engines} />
 
