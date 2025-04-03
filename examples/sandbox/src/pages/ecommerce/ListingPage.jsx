@@ -65,7 +65,7 @@ const categoryItems = {
 
 export default () => {
   return (
-    <>
+    <div className="ecommerce-container">
       <Navigation />
       <div className="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-4 grid-cols-2">
         {Object.keys(categoryItems).map((category) => (
@@ -86,6 +86,6 @@ export default () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
