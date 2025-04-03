@@ -4,18 +4,13 @@ import type {
   RequestState,
   ResultSuggestionConfiguration
 } from "@elastic/search-ui";
-import SearchkitModule from "../SearchkitModule";
 import { CloudHost } from "../../types";
 import { fieldResponseMapper } from "../common";
 import { getQueryFields, getResultFields } from "../search/Configuration";
-import type { SearchkitConfig } from "@searchkit/sdk";
-
-const {
-  default: Searchkit,
-  CompletionSuggester,
-  HitsSuggestor,
-  PrefixQuery
-} = SearchkitModule;
+import type { SearchkitConfig } from "../../Request/Request";
+import createRequest from "../../Request/Request";
+import PrefixQuery from "../../query/PrefixQuery";
+import { CompletionSuggester, HitsSuggestor } from "../../suggestors";
 
 interface AutocompleteHandlerConfiguration {
   state: RequestState;
@@ -105,7 +100,7 @@ export default async function handleRequest(
     suggestions: suggestionConfigurations
   };
 
-  const response = await Searchkit(searchkitConfig).executeSuggestions(
+  const response = await createRequest(searchkitConfig).executeSuggestions(
     state.searchTerm
   );
 

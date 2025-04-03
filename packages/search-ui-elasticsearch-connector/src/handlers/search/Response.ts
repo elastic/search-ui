@@ -1,5 +1,5 @@
 import type { ResponseState } from "@elastic/search-ui";
-import type { SearchkitResponse } from "@searchkit/sdk";
+import type { SearchkitResponse } from "../../transformers";
 import { fieldResponseMapper } from "../common";
 
 function SearchResponse(results: SearchkitResponse): ResponseState {

@@ -1,5 +1,5 @@
 import type { AutocompletedResult, SearchResult } from "@elastic/search-ui";
-import type { SearchkitHit } from "@searchkit/sdk";
+import type { SearchkitHit } from "../transformers";
 
 export function fieldResponseMapper(
   item: SearchkitHit
