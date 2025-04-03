@@ -68,11 +68,11 @@ const Search = () => {
 };
 export default function App() {
   return (
-    <>
+    <div className="ecommerce-container">
       <Navigation />
       <SearchProvider config={config}>
         <Search />
       </SearchProvider>
-    </>
+    </div>
   );
 }

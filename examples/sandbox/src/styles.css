@@ -9,19 +9,35 @@
   /* Light theme variables */
   --background: #ffffff;
   --foreground: #213547;
+  --scroll-bar-color: #000;
+  --scroll-bar-background: #fff;
 }
 
 /* Dark theme variables */
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
     --background: #242424;
-    --foreground: rgba(255, 255, 255, 0.87);
+    --foreground: #ffffffde;
+    --scroll-bar-color: #ffffff40;
+    --scroll-bar-background: #0000;
+    --text-secondary: #ffffff40;
   }
 }
 
 body {
-  place-items: center;
   font-family: var(--font-family);
   background-color: var(--background);
   color: var(--foreground);
+  scrollbar-color: var(--scroll-bar-color) var(--scroll-bar-background);
+}
+
+.ExampleApp {
+  background-color: #ffffff;
+  color: #213547;
+  color-scheme: auto;
+}
+
+.sui-layout-main-header {
+  margin-bottom: 1rem;
 }

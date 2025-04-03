@@ -1,1 +1,1 @@
-export { useSearch } from "./use_search";
+export { useSearch } from "./useSearch";
