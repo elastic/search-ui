@@ -14,7 +14,7 @@ Search UI works best with **Elastic App Search** and **Elasticsearch**.
 
 If you’re relatively new to the search problem or Elastic ecosystem, we recommend choosing **[App Search](https://www.elastic.co/enterprise-search/search-applications)**. It solves many search problems out-of-box and is generally simpler to start with, althought it’s not as flexible as Elasticsearch.
 
-On the other hand, if you prefer flexibility over simplicity and already familiar with **[Elasticsearch](https://www.elastic.co/elasticsearch)**, go with it!
+On the other hand, if you prefer flexibility over simplicity and are already familiar with **[Elasticsearch](https://www.elastic.co/elasticsearch)**, go with it!
 
 If you’re still not sure, go with App Search. It’ll help you start quickly, and you can switch to Elasticsearch later if you need to.
 
