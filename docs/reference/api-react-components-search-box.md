@@ -167,7 +167,9 @@ Autocomplete queries can be customized in the `SearchProvider` configuration, us
 
 "Suggestions" can be generated via multiple methods. They can be derived from common terms and phrases inside of documents, or be "popular" queries generated from actual search queries made by users. This will differ depending on the particular Search API you are using.
 
-**Note**: Elastic App Search currently only supports type "documents", and Elastic Site Search and Workplace Search do not support suggestions. This is purely illustrative in case a Connector is used that does support multiple types.
+:::{note}
+Elastic App Search currently only supports type "documents", and Elastic Site Search and Workplace Search do not support suggestions. This is purely illustrative in case a Connector is used that does support multiple types.
+:::
 
 ```jsx
 <SearchProvider

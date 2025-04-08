@@ -9,7 +9,9 @@ Shows a dropdown for selecting the number of results to show per page.
 
 Uses [20, 40, 60] as default options. You can use `options` prop to pass custom options.
 
-**Note:** When passing custom options make sure one of the option values match the current `resultsPerPageProp` value, which is 20 by default. To override `resultsPerPage` default value, use the [initial state](/reference/api-react-search-provider.md#api-react-search-provider-initial-state) property.
+:::{note}
+When passing custom options make sure one of the option values match the current `resultsPerPageProp` value, which is 20 by default. To override `resultsPerPage` default value, use the [initial state](/reference/api-react-search-provider.md#api-react-search-provider-initial-state) property.
+:::
 
 ## Example [api-react-components-results-per-page-example]
 
