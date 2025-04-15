@@ -5,19 +5,15 @@ mapped_pages:
 
 # Product Detail Page [solutions-ecommerce-product-detail-page]
 
-:::{image} images/product-detail-page.png
-:alt: Product detail page
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Product detail page](images/product-detail-page.png)
 
 You can put many things on a product detail page: image, description, specs. They are all describing the product itself.
 
 But a critical piece that often gets overlooked is cross-sell recommendations.
 
-:::{image} images/cross-sell-recommendations.png
-:alt: Cross-sell recommendations
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Cross-sell recommendations](images/cross-sell-recommendations.png)
 
 These are the lists of products located under the product description. They often come under such headings:
 

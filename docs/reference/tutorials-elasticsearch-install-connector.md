@@ -55,10 +55,8 @@ const connector = new ElasticsearchAPIConnector({
 
 If you’re using Elastic Cloud, you can find your cloud id within your deployment’s details.
 
-:::{image} images/copy-cloud-id.jpg
-:alt: copy es endpoint
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![copy es endpoint](images/copy-cloud-id.jpg)
 
 alternatively, if you’re using an on-premise Elasticsearch instance, you can connect via specifying the host.
 

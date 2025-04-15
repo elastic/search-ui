@@ -165,10 +165,8 @@ yarn start
 
 and then view the results in the browser at [http://localhost:3000/](http://localhost:3000/)
 
-:::{image} images/search-ui.jpeg
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/search-ui.jpeg)
 
 ## Summary [tutorials-elasticsearch-next-steps]
 

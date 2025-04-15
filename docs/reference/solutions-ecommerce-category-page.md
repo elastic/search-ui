@@ -7,10 +7,8 @@ mapped_pages:
 
 This is a category page:
 
-:::{image} images/category-page.png
-:alt: Category page
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Category page](images/category-page.png)
 
 At first glance, the category page looks very similar to a search page — they display a list of products and have facets to help users refine the results. But while the search page is made for "searching" the entire catalog by typing a query, the category page is made for "exploring" a small subset of products with the help of filters.
 
@@ -83,10 +81,8 @@ That’s it! The new category page has a good URL and only shows results that ma
 
 ## Facets [solutions-ecommerce-category-page-facets]
 
-:::{image} images/facets.png
-:alt: Facets
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Facets](images/facets.png)
 
 Facets are the essential part of the category page. Since category pages typically don’t have a search box, facets become the primary tool for finding the products.
 
@@ -297,10 +293,8 @@ import { BooleanFacet, SingleLinksFacet } from "@elastic/react-search-ui-views";
 
 And the resulting UI:
 
-:::{image} images/facet-views.png
-:alt: Facet views
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Facet views](images/facet-views.png)
 
 You might need a facet that Search UI doesn’t offer, for example, a dedicated color-picker. With Search UI, you can build a custom facet that will work like a native one. Refer to the [Creating custom components guide](/reference/guides-creating-own-components.md) to learn how.
 
