@@ -13,10 +13,8 @@ First we need to create an index for our data. We can do this simply via the fol
 PUT /my-example-movies
 ```
 
-:::{image} images/create-index.jpeg
-:alt: Create Index
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Create Index](images/create-index.jpeg)
 
 Elasticsearch will acknowledge our request in the response.
 
@@ -157,10 +155,8 @@ PUT /my-example-movies/_mapping
 }
 ```
 
-:::{image} images/update-mapping.jpeg
-:alt: add mapping
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![add mapping](images/update-mapping.jpeg)
 
 Elasticsearch will acknowledge the request in the response.
 
