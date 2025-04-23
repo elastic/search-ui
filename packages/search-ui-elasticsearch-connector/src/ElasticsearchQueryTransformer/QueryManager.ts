@@ -9,6 +9,7 @@ import {
   transformFilter
 } from "./FilterTransform";
 import { Sort, Query, Filter, HighlightFields } from "./types";
+import { SearchRequest } from "../types";
 
 export class QueryManager {
   private filters: Filter[];
@@ -48,7 +49,7 @@ export class QueryManager {
     );
   }
 
-  getQuery() {
+  getQuery(): SearchRequest {
     const query = this.searchQuery || (this.getFilters()?.length ? {} : null);
 
     if (this.getFilters()?.length) {
@@ -79,6 +80,10 @@ export class QueryManager {
 
   getSearchQuery(): unknown {
     return this.searchQuery;
+  }
+
+  getSearchTerm(): string {
+    return this.searchTerm;
   }
 
   setSearchQuery(

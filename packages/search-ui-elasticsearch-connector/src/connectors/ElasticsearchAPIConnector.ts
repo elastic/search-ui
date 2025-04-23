@@ -7,13 +7,10 @@ import type {
   ResponseState
 } from "@elastic/search-ui";
 import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
-import handleSearchRequest from "../handlers/search";
 import handleAutocompleteRequest from "../handlers/autocomplete";
 import { QueryManager } from "../ElasticsearchQueryTransformer/QueryManager";
 import { ApiClientTransporter } from "../ElasticsearchQueryTransformer/ApiClient";
-import { LIB_VERSION } from "../version";
-const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
-const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
+import { transformResponse } from "../handlers/search/Response";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private queryManager: QueryManager;
@@ -45,16 +42,18 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     queryConfig: QueryConfig
   ): Promise<ResponseState> {
     const queryManager = this.getQueryManager(state, queryConfig);
+    let requestBody = queryManager.getQuery();
 
-    return handleSearchRequest(
-      {
+    if (this.postProcessRequestBodyFn) {
+      requestBody = this.postProcessRequestBodyFn(
+        requestBody,
         state,
-        queryConfig,
-        postProcessRequestBodyFn: this.postProcessRequestBodyFn
-      },
-      queryManager,
-      this.apiClient
-    );
+        queryConfig
+      );
+    }
+    const response = await this.apiClient.performRequest(requestBody);
+
+    return transformResponse(response, queryManager);
   }
 
   async onAutocomplete(

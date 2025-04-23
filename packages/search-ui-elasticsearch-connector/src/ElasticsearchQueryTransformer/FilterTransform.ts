@@ -3,11 +3,17 @@ import type {
   FilterValueRange as SearchUIFilterValueRange,
   FilterValue as SearchUIFilterValue,
   FilterType as SearchUIFilterType,
-  FacetConfiguration
+  FacetConfiguration,
+  Facet
 } from "@elastic/search-ui";
 import { isRangeFilter, isValidDateString } from "./utils";
-import type { Filter, FilterValue, FilterValueRange } from "./types";
-import type { QueryDslRangeQuery } from "@elastic/elasticsearch/lib/api/types";
+import type {
+  Filter,
+  FilterValue,
+  FilterValueRange,
+  QueryRangeValue,
+  Aggregation
+} from "./types";
 
 const mapFilterTypeToBoolType: Record<
   SearchUIFilterType,
@@ -20,7 +26,7 @@ const mapFilterTypeToBoolType: Record<
 
 const transformRangeFilterValue = (
   value: SearchUIFilterValueRange
-): QueryDslRangeQuery => ({
+): QueryRangeValue => ({
   ...("from" in value
     ? {
         from: isValidDateString(value.from) ? value.from : Number(value.from)
@@ -185,4 +191,29 @@ export const transformFacetToAggs = (
   }
 
   return {};
+};
+
+export const transformAggsToFacets = (
+  agg: Aggregation,
+  field: string
+): Facet => {
+  if (Array.isArray(agg.buckets)) {
+    return {
+      field,
+      data: agg.buckets.map((entry) => ({
+        value: entry.key,
+        count: entry.doc_count
+      })),
+      type: "value"
+    };
+  } else {
+    return {
+      field,
+      data: Object.entries(agg.buckets).map(([name, bucket]) => ({
+        value: name,
+        count: bucket.doc_count || 0
+      })),
+      type: "value"
+    };
+  }
 };

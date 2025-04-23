@@ -1,6 +1,6 @@
 import { ConnectionOptions } from "../types";
 import { LIB_VERSION } from "../version";
-import { RequestBody } from "./types";
+import { RequestBody, ResponseBody } from "./types";
 import { getHostFromCloud } from "./utils";
 
 const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
@@ -9,7 +9,7 @@ const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERS
 export class ApiClientTransporter {
   constructor(private config: ConnectionOptions) {}
 
-  async performRequest(requestBody: RequestBody): Promise<any> {
+  async performRequest(requestBody: RequestBody): Promise<ResponseBody> {
     if (!fetch)
       throw new Error("Fetch is not supported in this browser / environment");
 

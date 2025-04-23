@@ -1,41 +1,67 @@
 import type { ResponseState } from "@elastic/search-ui";
-import type { SearchkitResponse } from "../../transformers";
-import { fieldResponseMapper } from "../common";
+import { ResponseBody } from "../../ElasticsearchQueryTransformer/types";
+import { QueryManager } from "../../ElasticsearchQueryTransformer/QueryManager";
+import { transformAggsToFacets } from "../../ElasticsearchQueryTransformer/FilterTransform";
 
-function SearchResponse(results: SearchkitResponse): ResponseState {
-  const facets = (results.facets || []).reduce((acc, facet) => {
-    return {
-      ...acc,
-      [facet.identifier]: [
-        {
-          data: facet.entries.map((e) => ({
-            value: e.label,
-            count: e.count
-          })),
-          type: "value"
-        }
-      ]
-    };
-  }, {});
+export const transformResponse = (
+  response: ResponseBody,
+  queryManager: QueryManager
+): ResponseState => {
+  const size = queryManager.getSize();
+  const from = queryManager.getFrom();
+  const pageNumber = Math.floor(from / size);
+  const pageEnd = (pageNumber + 1) * size;
+  const totalHits =
+    typeof response.hits.total === "number"
+      ? response.hits.total
+      : response.hits.total?.value;
+  const totalPages = Math.ceil(totalHits / size);
+  const facets = Object.entries(response.aggregations)
+    .filter(([aggKey]) => aggKey.startsWith("facet_bucket_"))
+    .flatMap(([, facetBucket]) =>
+      Object.entries(facetBucket).filter(
+        ([key]) => key !== "meta" && key !== "doc_count"
+      )
+    )
+    .reduce((acc, [aggKey, aggValue]) => {
+      return {
+        ...acc,
+        [aggKey]: [transformAggsToFacets(aggValue, aggKey)]
+      };
+    }, {});
 
-  const pageEnd = (results.hits.page.pageNumber + 1) * results.hits.page.size;
-
-  const response: ResponseState = {
-    resultSearchTerm: results.summary.query,
-    totalPages: results.hits.page.totalPages,
-    pagingStart:
-      results.summary.total &&
-      results.hits.page.pageNumber * results.hits.page.size + 1,
-    pagingEnd:
-      pageEnd > results.summary.total ? results.summary.total : pageEnd,
+  return {
+    resultSearchTerm: queryManager.getSearchTerm(),
+    totalPages,
+    pagingStart: totalHits && pageNumber * size + 1,
+    pagingEnd: pageEnd > totalHits ? totalHits : pageEnd,
     wasSearched: false,
-    totalResults: results.summary.total,
+    totalResults: totalHits,
     facets,
-    results: results.hits.items.map(fieldResponseMapper),
+    results: response.hits.hits.map(({ _id, _source, highlight = {} }) => {
+      const keys = new Set([
+        ...Object.keys(_source),
+        ...Object.keys(highlight)
+      ]);
+
+      const result = {
+        id: { raw: _id },
+        _meta: {
+          id: _id,
+          rawHit: { _id, _source, highlight }
+        }
+      };
+
+      for (const key of keys) {
+        result[key] = {
+          ...(key in _source && { raw: _source[key] }),
+          ...(key in highlight && { snippet: highlight[key] })
+        };
+      }
+
+      return result;
+    }),
     requestId: null,
     rawResponse: null
   };
-  return response;
-}
-
-export default SearchResponse;
+};
