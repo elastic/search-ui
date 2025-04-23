@@ -1,19 +1,16 @@
-import { QueryDslQueryContainer } from "@elastic/elasticsearch/lib/api/types";
 import type {
-  Filter,
-  FilterValue,
-  FilterValueRange,
-  FilterType
+  Filter as SearchUIFilter,
+  FilterValueRange as SearchUIFilterValueRange,
+  FilterValue as SearchUIFilterValue,
+  FilterType as SearchUIFilterType,
+  FacetConfiguration
 } from "@elastic/search-ui";
 import { isRangeFilter, isValidDateString } from "./utils";
+import type { Filter, FilterValue, FilterValueRange } from "./types";
 import type { QueryDslRangeQuery } from "@elastic/elasticsearch/lib/api/types";
 
-export type BaseFilter = Pick<QueryDslQueryContainer, "bool">;
-export type BaseFilterValue = Pick<QueryDslQueryContainer, "term">;
-export type BaseFilterValueRange = Pick<QueryDslQueryContainer, "range">;
-
 const mapFilterTypeToBoolType: Record<
-  FilterType,
+  SearchUIFilterType,
   "should" | "filter" | "must_not"
 > = {
   any: "should",
@@ -22,7 +19,7 @@ const mapFilterTypeToBoolType: Record<
 };
 
 const transformRangeFilterValue = (
-  value: FilterValueRange
+  value: SearchUIFilterValueRange
 ): QueryDslRangeQuery => ({
   ...("from" in value
     ? {
@@ -36,29 +33,156 @@ const transformRangeFilterValue = (
     : {})
 });
 
-export const buildBaseFilters = (baseFilters: Filter[]): BaseFilter[] =>
-  (baseFilters || []).map<BaseFilter>((filter) => {
-    const boolType = mapFilterTypeToBoolType[filter.type || "all"];
+const transformFilterValue =
+  (field: string) =>
+  (value: SearchUIFilterValue): FilterValue | FilterValueRange => {
+    // TODO: check helpers.isFilterValueRange to use
+    if (isRangeFilter(value)) {
+      return {
+        range: {
+          [field]: transformRangeFilterValue(value)
+        }
+      };
+    }
 
     return {
-      bool: {
-        [boolType]: filter.values.map<BaseFilterValue | BaseFilterValueRange>(
-          (value: FilterValue) => {
-            if (isRangeFilter(value)) {
-              return {
-                range: {
-                  [filter.field]: transformRangeFilterValue(value)
-                }
-              };
-            }
+      term: {
+        [field]: value
+      }
+    };
+  };
 
-            return {
-              term: {
-                [filter.field]: value
-              }
-            };
-          }
+export const transformFilter = (filter: SearchUIFilter): Filter => {
+  const boolType = mapFilterTypeToBoolType[filter.type || "all"];
+
+  return {
+    bool: {
+      [boolType]: filter.values.map<FilterValue | FilterValueRange>(
+        transformFilterValue(filter.field)
+      )
+    }
+  };
+};
+
+export const transformFacet = (
+  filter: SearchUIFilter,
+  facetConfiguration: FacetConfiguration,
+  isDisjunctive: boolean
+): Filter => {
+  const condition = isDisjunctive ? "should" : "must";
+
+  if (facetConfiguration.type === "value") {
+    return {
+      bool: {
+        [condition]: filter.values.map((value) => ({
+          term: { [filter.field]: value }
+        }))
+      }
+    };
+  } else if (
+    facetConfiguration.type === "range" &&
+    !facetConfiguration.center
+  ) {
+    return {
+      bool: {
+        [condition]: filter.values.map((value) => {
+          const range = facetConfiguration.ranges.find(
+            (range) => range.name === value
+          );
+
+          return transformFilterValue(filter.field)(range);
+        })
+      }
+    };
+  } else if (facetConfiguration.type === "range" && facetConfiguration.center) {
+    return {
+      bool: {
+        [condition]: filter.values.map((value) => {
+          const range = facetConfiguration.ranges.find(
+            (range) => range.name === value
+          );
+
+          return {
+            bool: {
+              ...(range.from
+                ? {
+                    must_not: [
+                      {
+                        geo_distance: {
+                          distance: range.from + facetConfiguration.unit,
+                          [filter.field]: facetConfiguration.center
+                        }
+                      }
+                    ]
+                  }
+                : {}),
+              ...(range.to
+                ? {
+                    must: [
+                      {
+                        geo_distance: {
+                          distance: range.to + facetConfiguration.unit,
+                          [filter.field]: facetConfiguration.center
+                        }
+                      }
+                    ]
+                  }
+                : {})
+            }
+          };
+        })
+      }
+    };
+  }
+};
+
+export const transformFacetToAggs = (
+  facetKey: string,
+  facetConfiguration: FacetConfiguration
+) => {
+  if (facetConfiguration.type === "value") {
+    const orderMap = {
+      count: { _count: "desc" },
+      value: { _key: "asc" }
+    };
+
+    return {
+      terms: {
+        field: facetKey,
+        size: facetConfiguration.size || 20,
+        order: orderMap[facetConfiguration.sort || "count"]
+      }
+    };
+  } else if (
+    facetConfiguration.type === "range" &&
+    !facetConfiguration.center
+  ) {
+    return {
+      filters: {
+        filters: facetConfiguration.ranges.reduce(
+          (acc, range) => ({
+            ...acc,
+            [range.name]: transformFilterValue(facetKey)(range)
+          }),
+          {}
         )
       }
     };
-  });
+  } else if (facetConfiguration.type === "range" && facetConfiguration.center) {
+    return {
+      geo_distance: {
+        field: facetKey,
+        origin: facetConfiguration.center,
+        unit: facetConfiguration.unit,
+        keyed: true,
+        ranges: facetConfiguration.ranges.map((range) => ({
+          key: range.name,
+          ...(range.from && { from: Number(range.from) }),
+          ...(range.to && { to: Number(range.to) })
+        }))
+      }
+    };
+  }
+
+  return {};
+};

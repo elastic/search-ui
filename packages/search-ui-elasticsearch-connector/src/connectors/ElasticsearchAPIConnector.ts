@@ -10,9 +10,14 @@ import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
 import handleSearchRequest from "../handlers/search";
 import handleAutocompleteRequest from "../handlers/autocomplete";
 import { QueryManager } from "../ElasticsearchQueryTransformer/QueryManager";
+import { ApiClientTransporter } from "../ElasticsearchQueryTransformer/ApiClient";
+import { LIB_VERSION } from "../version";
+const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
+const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private queryManager: QueryManager;
+  private apiClient: ApiClientTransporter;
 
   constructor(
     private config: ConnectionOptions,
@@ -21,6 +26,8 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     if (!config.host && !config.cloud) {
       throw new Error("Either host or cloud configuration must be provided");
     }
+
+    this.apiClient = new ApiClientTransporter(config);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -43,16 +50,10 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       {
         state,
         queryConfig,
-        cloud: this.config.cloud,
-        host: this.config.host,
-        index: this.config.index,
-        connectionOptions: {
-          apiKey: this.config.apiKey,
-          headers: this.config.connectionOptions?.headers
-        },
         postProcessRequestBodyFn: this.postProcessRequestBodyFn
       },
-      queryManager
+      queryManager,
+      this.apiClient
     );
   }
 
