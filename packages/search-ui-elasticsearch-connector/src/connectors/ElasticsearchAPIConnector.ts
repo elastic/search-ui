@@ -11,6 +11,7 @@ import handleAutocompleteRequest from "../handlers/autocomplete";
 import { QueryManager } from "../ElasticsearchQueryTransformer/QueryManager";
 import { ApiClientTransporter } from "../ElasticsearchQueryTransformer/ApiClient";
 import { transformResponse } from "../handlers/search/Response";
+import { SearchQueryBuilder } from "../ElasticsearchQueryTransformer/SearchQueryBuilder";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private queryManager: QueryManager;
@@ -33,16 +34,12 @@ export default class ElasticsearchAPIConnector implements APIConnector {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onAutocompleteResultClick(): void {}
 
-  getQueryManager(state: RequestState, queryConfig: QueryConfig): QueryManager {
-    return new QueryManager(state, queryConfig);
-  }
-
   async onSearch(
     state: RequestState,
     queryConfig: QueryConfig
   ): Promise<ResponseState> {
-    const queryManager = this.getQueryManager(state, queryConfig);
-    let requestBody = queryManager.getQuery();
+    const queryBuilder = new SearchQueryBuilder(state, queryConfig);
+    let requestBody = queryBuilder.build();
 
     if (this.postProcessRequestBodyFn) {
       requestBody = this.postProcessRequestBodyFn(
@@ -53,23 +50,34 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     }
     const response = await this.apiClient.performRequest(requestBody);
 
-    return transformResponse(response, queryManager);
+    return transformResponse(response, queryBuilder);
   }
 
   async onAutocomplete(
     state: RequestState,
     queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
-    return handleAutocompleteRequest({
-      state,
-      queryConfig,
-      cloud: this.config.cloud,
-      host: this.config.host,
-      index: this.config.index,
-      connectionOptions: {
-        apiKey: this.config.apiKey,
-        headers: this.config.connectionOptions?.headers
-      }
-    });
+    // const queryManager = this.getQueryManager(
+    //   state,
+    //   queryConfig,
+    //   "autocomplete"
+    // );
+
+    // let requestBody = queryManager.getQuery();
+    return handleAutocompleteRequest(
+      {
+        state,
+        queryConfig
+      },
+      this.apiClient
+    );
+  }
+
+  getQueryManager(
+    state: RequestState,
+    queryConfig: QueryConfig,
+    type: "search" | "autocomplete"
+  ): QueryManager {
+    return new QueryManager(state, queryConfig, type);
   }
 }

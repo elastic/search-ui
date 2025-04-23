@@ -1,14 +1,14 @@
 import type { ResponseState } from "@elastic/search-ui";
 import { ResponseBody } from "../../ElasticsearchQueryTransformer/types";
-import { QueryManager } from "../../ElasticsearchQueryTransformer/QueryManager";
+import { BaseQueryBuilder } from "../../ElasticsearchQueryTransformer/BaseQueryBuilder";
 import { transformAggsToFacets } from "../../ElasticsearchQueryTransformer/FilterTransform";
 
 export const transformResponse = (
   response: ResponseBody,
-  queryManager: QueryManager
+  queryBuilder: BaseQueryBuilder
 ): ResponseState => {
-  const size = queryManager.getSize();
-  const from = queryManager.getFrom();
+  const size = queryBuilder.getSize();
+  const from = queryBuilder.getFrom();
   const pageNumber = Math.floor(from / size);
   const pageEnd = (pageNumber + 1) * size;
   const totalHits =
@@ -31,7 +31,7 @@ export const transformResponse = (
     }, {});
 
   return {
-    resultSearchTerm: queryManager.getSearchTerm(),
+    resultSearchTerm: queryBuilder.getSearchTerm(),
     totalPages,
     pagingStart: totalHits && pageNumber * size + 1,
     pagingEnd: pageEnd > totalHits ? totalHits : pageEnd,
