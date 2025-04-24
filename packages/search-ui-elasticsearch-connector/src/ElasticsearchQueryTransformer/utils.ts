@@ -24,16 +24,16 @@ export const isRangeFilter = (
 export const getQueryFields = (
   searchFields: Record<string, SearchFieldConfiguration> = {}
 ): string[] =>
-  Object.entries(searchFields).map(([fieldKey, fieldConfiguration]) => {
-    const weight = `^${fieldConfiguration.weight || 1}`;
-    return fieldKey + weight;
-  });
+  Object.entries(searchFields).map(
+    ([fieldKey, fieldConfiguration]) =>
+      `${fieldKey}^${fieldConfiguration.weight || 1}`
+  );
 
-export function getHostFromCloud(cloud: { id: string }): string {
+export const getHostFromCloud = (cloud: { id: string }): string => {
   const { id } = cloud;
   // the cloud id is `cluster-name:base64encodedurl`
   // the url is a string divided by two '$', the first is the cloud url
   // the second the elasticsearch instance, the third the kibana instance
   const cloudUrls = atob(id.split(":")[1]).split("$");
   return `https://${cloudUrls[1]}.${cloudUrls[0]}`;
-}
+};

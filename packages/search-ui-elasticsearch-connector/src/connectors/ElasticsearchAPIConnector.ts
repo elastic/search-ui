@@ -11,7 +11,7 @@ import handleAutocompleteRequest from "../handlers/autocomplete";
 import { QueryManager } from "../ElasticsearchQueryTransformer/QueryManager";
 import { ApiClientTransporter } from "../ElasticsearchQueryTransformer/ApiClient";
 import { transformResponse } from "../handlers/search/Response";
-import { SearchQueryBuilder } from "../ElasticsearchQueryTransformer/SearchQueryBuilder";
+import { SearchQueryBuilder } from "../queryBuilders/SearchQueryBuilder";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private queryManager: QueryManager;
@@ -48,6 +48,7 @@ export default class ElasticsearchAPIConnector implements APIConnector {
         queryConfig
       );
     }
+
     const response = await this.apiClient.performRequest(requestBody);
 
     return transformResponse(response, queryBuilder);
@@ -71,13 +72,5 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       },
       this.apiClient
     );
-  }
-
-  getQueryManager(
-    state: RequestState,
-    queryConfig: QueryConfig,
-    type: "search" | "autocomplete"
-  ): QueryManager {
-    return new QueryManager(state, queryConfig, type);
   }
 }

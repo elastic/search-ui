@@ -6,8 +6,20 @@ import { getHostFromCloud } from "./utils";
 const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
 const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
 
-export class ApiClientTransporter {
-  constructor(private config: ConnectionOptions) {}
+export interface IApiClientTransporter {
+  headers: Record<string, string>;
+  performRequest(requestBody: RequestBody): Promise<ResponseBody>;
+}
+
+export class ApiClientTransporter implements IApiClientTransporter {
+  headers: Record<string, string>;
+
+  constructor(private config: ConnectionOptions) {
+    this.headers = {
+      "x-elastic-client-meta": metaHeader,
+      ...(this.config.connectionOptions?.headers || {})
+    };
+  }
 
   async performRequest(requestBody: RequestBody): Promise<ResponseBody> {
     if (!fetch)
@@ -28,14 +40,14 @@ export class ApiClientTransporter {
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json",
-        "x-elastic-client-meta": metaHeader,
-        ...(this.config.connectionOptions?.headers || {}),
+        ...this.headers,
         ...(this.config?.apiKey
           ? { Authorization: `ApiKey ${this.config.apiKey}` }
           : {})
       }
     });
     const json = await response.json();
+
     return json;
   }
 }

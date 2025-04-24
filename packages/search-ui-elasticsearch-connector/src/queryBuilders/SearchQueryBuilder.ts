@@ -4,8 +4,9 @@ import {
   transformFacet,
   transformFacetToAggs,
   transformFilter
-} from "./FilterTransform";
+} from "../ElasticsearchQueryTransformer/FilterTransform";
 import { SearchRequest } from "../types";
+import { getQueryFields } from "../ElasticsearchQueryTransformer/utils";
 
 export class SearchQueryBuilder extends BaseQueryBuilder {
   constructor(state: RequestState, private readonly queryConfig: QueryConfig) {
@@ -141,17 +142,13 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
         (f) => !this.queryConfig.facets[f.field] //exclude all filters that are defined as facets
       )
       .map(transformFilter);
-
     const searchQuery = this.state.searchTerm;
 
     if (!searchQuery && !filters?.length) {
       return null;
     }
 
-    const fields = Object.entries(this.queryConfig.search_fields).map(
-      ([fieldKey, fieldConfiguration]) =>
-        `${fieldKey}^${fieldConfiguration.weight || 1}`
-    );
+    const fields = getQueryFields(this.queryConfig.search_fields);
 
     return {
       bool: {

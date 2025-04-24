@@ -197,23 +197,19 @@ export const transformAggsToFacets = (
   agg: Aggregation,
   field: string
 ): Facet => {
-  if (Array.isArray(agg.buckets)) {
-    return {
-      field,
-      data: agg.buckets.map((entry) => ({
+  const data = Array.isArray(agg.buckets)
+    ? agg.buckets.map((entry) => ({
         value: entry.key,
-        count: entry.doc_count
-      })),
-      type: "value"
-    };
-  } else {
-    return {
-      field,
-      data: Object.entries(agg.buckets).map(([name, bucket]) => ({
+        count: entry.doc_count || 0
+      }))
+    : Object.entries(agg.buckets).map(([name, bucket]) => ({
         value: name,
         count: bucket.doc_count || 0
-      })),
-      type: "value"
-    };
-  }
+      }));
+
+  return {
+    field,
+    data,
+    type: "value"
+  };
 };
