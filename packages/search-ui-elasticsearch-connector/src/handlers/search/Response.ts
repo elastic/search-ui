@@ -1,6 +1,6 @@
 import type { ResponseState } from "@elastic/search-ui";
 import { ResponseBody } from "../../ElasticsearchQueryTransformer/types";
-import { BaseQueryBuilder } from "../../ElasticsearchQueryTransformer/BaseQueryBuilder";
+import { BaseQueryBuilder } from "../../queryBuilders/BaseQueryBuilder";
 import { transformAggsToFacets } from "../../ElasticsearchQueryTransformer/FilterTransform";
 
 export const transformResponse = (

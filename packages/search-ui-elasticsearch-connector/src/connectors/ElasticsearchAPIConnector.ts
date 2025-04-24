@@ -8,13 +8,11 @@ import type {
 } from "@elastic/search-ui";
 import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
 import handleAutocompleteRequest from "../handlers/autocomplete";
-import { QueryManager } from "../ElasticsearchQueryTransformer/QueryManager";
-import { ApiClientTransporter } from "../ElasticsearchQueryTransformer/ApiClient";
+import { ApiClientTransporter } from "../transporter/ApiClientTransporter";
 import { transformResponse } from "../handlers/search/Response";
 import { SearchQueryBuilder } from "../queryBuilders/SearchQueryBuilder";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
-  private queryManager: QueryManager;
   private apiClient: ApiClientTransporter;
 
   constructor(
@@ -58,13 +56,6 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     state: RequestState,
     queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
-    // const queryManager = this.getQueryManager(
-    //   state,
-    //   queryConfig,
-    //   "autocomplete"
-    // );
-
-    // let requestBody = queryManager.getQuery();
     return handleAutocompleteRequest(
       {
         state,

@@ -1,7 +1,10 @@
 import { ConnectionOptions } from "../types";
 import { LIB_VERSION } from "../version";
-import { RequestBody, ResponseBody } from "./types";
-import { getHostFromCloud } from "./utils";
+import {
+  RequestBody,
+  ResponseBody
+} from "../ElasticsearchQueryTransformer/types";
+import { getHostFromCloud } from "../ElasticsearchQueryTransformer/utils";
 
 const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
 const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;

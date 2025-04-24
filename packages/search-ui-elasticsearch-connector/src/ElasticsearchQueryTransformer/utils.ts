@@ -1,9 +1,11 @@
 import type {
+  FieldResult,
   FilterValue,
   FilterValueRange,
-  SearchFieldConfiguration
+  SearchFieldConfiguration,
+  AutocompletedResult
 } from "@elastic/search-ui";
-
+import type { SearchHit } from "../types";
 // A naive regex to match elastic date math expressions. Note is can match on invalid start dates like 2020-99-99T99:00:00||+1y/d
 const elasticRelativeDateRegex =
   /^(?:now|\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)?\|\|)(?:[+-]\d[yMwdhHms])?(?:\/[yMwdhHms])?$/;
@@ -36,4 +38,29 @@ export const getHostFromCloud = (cloud: { id: string }): string => {
   // the second the elasticsearch instance, the third the kibana instance
   const cloudUrls = atob(id.split(":")[1]).split("$");
   return `https://${cloudUrls[1]}.${cloudUrls[0]}`;
+};
+
+export const transformHitToFieldResult = ({
+  _id,
+  _source,
+  highlight = {}
+}: SearchHit): Record<string, FieldResult> => {
+  const keys = new Set([...Object.keys(_source), ...Object.keys(highlight)]);
+
+  const result: AutocompletedResult = {
+    id: { raw: _id },
+    _meta: {
+      id: _id,
+      rawHit: { _id, _source, highlight }
+    }
+  };
+
+  for (const key of keys) {
+    result[key] = {
+      ...(key in _source && { raw: _source[key] }),
+      ...(key in highlight && { snippet: highlight[key] })
+    };
+  }
+
+  return result;
 };

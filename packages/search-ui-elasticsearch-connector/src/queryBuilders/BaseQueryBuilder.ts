@@ -3,7 +3,6 @@ import { SearchRequest, SearchSourceFilter } from "../types";
 
 export abstract class BaseQueryBuilder {
   protected query: SearchRequest = {
-    from: 0,
     size: 0,
     _source: {
       includes: []
@@ -28,6 +27,10 @@ export abstract class BaseQueryBuilder {
 
   protected setPagination(current: number, size: number): void {
     this.query.from = (current - 1) * size;
+    this.query.size = size;
+  }
+
+  protected setSize(size: number): void {
     this.query.size = size;
   }
 
