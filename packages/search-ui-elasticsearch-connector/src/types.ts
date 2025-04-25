@@ -1,5 +1,6 @@
 import type { estypes } from "@elastic/elasticsearch";
 import { QueryConfig, RequestState } from "@elastic/search-ui";
+import type { IApiClientTransporter } from "./transporter/ApiClientTransporter";
 
 export type SearchRequest = estypes.SearchRequest;
 export type ResponseBody = estypes.SearchResponseBody<
@@ -27,6 +28,7 @@ export interface CloudHost {
 }
 
 export type ConnectionOptions = {
+  apiClient?: IApiClientTransporter;
   host?: string;
   cloud?: CloudHost;
   index: string;

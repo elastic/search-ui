@@ -25,11 +25,13 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     return this.query;
   }
 
-  private buildSort() {
+  private buildSort(): SearchRequest["sort"] {
     if (this.state.sortList?.length) {
-      return this.state.sortList.map((s) => ({
-        [s.field]: s.direction
-      }));
+      return this.state.sortList
+        .filter((s) => s.direction)
+        .map(({ field, direction }) => ({
+          [field]: direction || "desc"
+        }));
     }
 
     if (this.state.sortField && this.state.sortDirection) {
@@ -62,7 +64,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
       return null;
     }
 
-    const hasSelectedFilters = this.state.filters.some(
+    const hasSelectedFilters = this.state.filters?.some(
       (selectedFilter) =>
         !this.queryConfig.filters?.find(
           (baseFilter) => baseFilter.field === selectedFilter.field
