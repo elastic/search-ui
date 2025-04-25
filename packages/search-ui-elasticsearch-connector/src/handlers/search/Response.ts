@@ -2,11 +2,36 @@ import type { ResponseState } from "@elastic/search-ui";
 import { ResponseBody } from "../../ElasticsearchQueryTransformer/types";
 import { BaseQueryBuilder } from "../../queryBuilders/BaseQueryBuilder";
 import { transformAggsToFacets } from "../../ElasticsearchQueryTransformer/FilterTransform";
+import { transformHitToFieldResult } from "../../ElasticsearchQueryTransformer/utils";
 
 export const transformResponse = (
   response: ResponseBody,
   queryBuilder: BaseQueryBuilder
 ): ResponseState => {
+  const { totalHits, totalPages, pagingStart, pagingEnd } = getPagination(
+    response,
+    queryBuilder
+  );
+  const facets = transformFacets(response);
+
+  return {
+    resultSearchTerm: queryBuilder.getSearchTerm(),
+    totalPages,
+    pagingStart,
+    pagingEnd,
+    wasSearched: false,
+    totalResults: totalHits,
+    facets,
+    results: response.hits.hits.map(transformHitToFieldResult),
+    requestId: null,
+    rawResponse: null
+  };
+};
+
+const getPagination = (
+  response: ResponseBody,
+  queryBuilder: BaseQueryBuilder
+) => {
   const size = queryBuilder.getSize();
   const from = queryBuilder.getFrom();
   const pageNumber = Math.floor(from / size);
@@ -16,7 +41,14 @@ export const transformResponse = (
       ? response.hits.total
       : response.hits.total?.value;
   const totalPages = Math.ceil(totalHits / size);
-  const facets = Object.entries(response.aggregations)
+  const pagingStart = totalHits && pageNumber * size + 1;
+  const pagingEnd = pageEnd > totalHits ? totalHits : pageEnd;
+
+  return { totalHits, totalPages, pagingStart, pagingEnd };
+};
+
+const transformFacets = (response: ResponseBody) => {
+  return Object.entries(response.aggregations)
     .filter(([aggKey]) => aggKey.startsWith("facet_bucket_"))
     .flatMap(([, facetBucket]) =>
       Object.entries(facetBucket).filter(
@@ -29,39 +61,4 @@ export const transformResponse = (
         [aggKey]: [transformAggsToFacets(aggValue, aggKey)]
       };
     }, {});
-
-  return {
-    resultSearchTerm: queryBuilder.getSearchTerm(),
-    totalPages,
-    pagingStart: totalHits && pageNumber * size + 1,
-    pagingEnd: pageEnd > totalHits ? totalHits : pageEnd,
-    wasSearched: false,
-    totalResults: totalHits,
-    facets,
-    results: response.hits.hits.map(({ _id, _source, highlight = {} }) => {
-      const keys = new Set([
-        ...Object.keys(_source),
-        ...Object.keys(highlight)
-      ]);
-
-      const result = {
-        id: { raw: _id },
-        _meta: {
-          id: _id,
-          rawHit: { _id, _source, highlight }
-        }
-      };
-
-      for (const key of keys) {
-        result[key] = {
-          ...(key in _source && { raw: _source[key] }),
-          ...(key in highlight && { snippet: highlight[key] })
-        };
-      }
-
-      return result;
-    }),
-    requestId: null,
-    rawResponse: null
-  };
 };

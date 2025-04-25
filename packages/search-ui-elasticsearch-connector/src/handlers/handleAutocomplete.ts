@@ -4,28 +4,23 @@ import type {
   RequestState
 } from "@elastic/search-ui";
 
-import { ResultsAutocompleteBuilder } from "../../queryBuilders/ResultsAutocompleteBuilder";
-import { SuggestionsAutocompleteBuilder } from "../../queryBuilders/SuggestionsAutocompleteBuilder";
-import { transformHitToFieldResult } from "../../ElasticsearchQueryTransformer/utils";
-import type { ApiClientTransporter } from "../../transporter/ApiClientTransporter";
+import { ResultsAutocompleteBuilder } from "../queryBuilders/ResultsAutocompleteBuilder";
+import { SuggestionsAutocompleteBuilder } from "../queryBuilders/SuggestionsAutocompleteBuilder";
+import { transformHitToFieldResult } from "../ElasticsearchQueryTransformer/utils";
+import type { ApiClientTransporter } from "../transporter/ApiClientTransporter";
 import type { SearchResponse } from "@elastic/elasticsearch/lib/api/types";
-import type { SearchRequest } from "../../types";
-
-interface AutocompleteHandlerConfiguration {
-  state: RequestState;
-  queryConfig: AutocompleteQueryConfig;
-}
+import type { SearchRequest } from "../types";
 
 type SuggestionConfig = {
   eql: SearchRequest;
   handle: (response: SearchResponse) => void;
 };
 
-export default async function handleRequest(
-  configuration: AutocompleteHandlerConfiguration,
+export async function handleAutocomplete(
+  state: RequestState,
+  queryConfig: AutocompleteQueryConfig,
   apiClient: ApiClientTransporter
 ): Promise<AutocompleteResponseState> {
-  const { state, queryConfig } = configuration;
   const suggestionConfigurations: SuggestionConfig[] = [];
   const result: AutocompleteResponseState = {
     autocompletedResults: [],

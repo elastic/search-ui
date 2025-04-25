@@ -7,10 +7,9 @@ import type {
   ResponseState
 } from "@elastic/search-ui";
 import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
-import handleAutocompleteRequest from "../handlers/autocomplete";
 import { ApiClientTransporter } from "../transporter/ApiClientTransporter";
-import { transformResponse } from "../handlers/search/Response";
-import { SearchQueryBuilder } from "../queryBuilders/SearchQueryBuilder";
+import { handleAutocomplete } from "../handlers/handleAutocomplete";
+import { handleSearch } from "../handlers/handleSearch";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private apiClient: ApiClientTransporter;
@@ -36,32 +35,13 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     state: RequestState,
     queryConfig: QueryConfig
   ): Promise<ResponseState> {
-    const queryBuilder = new SearchQueryBuilder(state, queryConfig);
-    let requestBody = queryBuilder.build();
-
-    if (this.postProcessRequestBodyFn) {
-      requestBody = this.postProcessRequestBodyFn(
-        requestBody,
-        state,
-        queryConfig
-      );
-    }
-
-    const response = await this.apiClient.performRequest(requestBody);
-
-    return transformResponse(response, queryBuilder);
+    return handleSearch(state, queryConfig, this.apiClient);
   }
 
   async onAutocomplete(
     state: RequestState,
     queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
-    return handleAutocompleteRequest(
-      {
-        state,
-        queryConfig
-      },
-      this.apiClient
-    );
+    return handleAutocomplete(state, queryConfig, this.apiClient);
   }
 }

@@ -1,8 +1,8 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
 import Searchkit, { SearchkitConfig, SearchkitResponse } from "@searchkit/sdk";
 import type { SearchkitRequest } from "@searchkit/sdk";
-import type { SearchRequest } from "../../../types";
-import handleRequest from "../index";
+import type { SearchRequest } from "../../types";
+import handleRequest from "../search/index";
 
 const mockSearchkitResponse: SearchkitResponse = {
   summary: {

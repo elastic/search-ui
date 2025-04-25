@@ -1,6 +1,6 @@
 import type { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
 import Searchkit from "@searchkit/sdk";
-import handleRequest from "../index";
+import { handleAutocomplete } from "../handleAutocomplete";
 
 const mockSearchkitResponse = [
   {
@@ -102,7 +102,7 @@ const queryConfig: AutocompleteQueryConfig = {
 
 describe("Autocomplete results", () => {
   it("success", async () => {
-    const results = await handleRequest({
+    const results = await handleAutocomplete({
       state,
       queryConfig,
       host: "http://localhost:9200",
@@ -174,16 +174,9 @@ describe("Autocomplete results", () => {
 
   it("should pass cloud configuration to searchkit", async () => {
     (Searchkit as jest.Mock).mockClear();
-    await handleRequest({
+    await handleAutocomplete({
       state,
-      queryConfig,
-      cloud: {
-        id: "cloudId"
-      },
-      index: "test",
-      connectionOptions: {
-        apiKey: "test"
-      }
+      queryConfig
     });
 
     const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
@@ -198,17 +191,9 @@ describe("Autocomplete results", () => {
 
   it("should pass additional headers to searchkit", async () => {
     (Searchkit as jest.Mock).mockClear();
-    await handleRequest({
+    await handleAutocomplete({
       state,
-      queryConfig,
-      host: "http://localhost:9200",
-      index: "test",
-      connectionOptions: {
-        apiKey: "test",
-        headers: {
-          Authorization: "Bearer 123"
-        }
-      }
+      queryConfig
     });
 
     const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
