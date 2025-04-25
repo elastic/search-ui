@@ -1,6 +1,6 @@
 import type { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
 import { BaseQueryBuilder } from "./BaseQueryBuilder";
-import { getQueryFields } from "../ElasticsearchQueryTransformer/utils";
+import { getQueryFields } from "../utils";
 import { SearchRequest } from "../types";
 
 export class AutocompleteQueryBuilder extends BaseQueryBuilder {

@@ -1,6 +1,6 @@
 import { QueryConfig, RequestState, ResponseState } from "@elastic/search-ui";
 import { SearchQueryBuilder } from "../queryBuilders/SearchQueryBuilder";
-import { transformResponse } from "./search/Response";
+import { transformSearchResponse } from "../transformer/responseTransformer";
 import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
 import type { PostProcessRequestBodyFn } from "../types";
 
@@ -19,5 +19,5 @@ export async function handleSearch(
 
   const response = await apiClient.performRequest(requestBody);
 
-  return transformResponse(response, queryBuilder);
+  return transformSearchResponse(response, queryBuilder);
 }

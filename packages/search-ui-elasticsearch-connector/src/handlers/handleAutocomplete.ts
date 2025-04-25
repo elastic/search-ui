@@ -6,8 +6,8 @@ import type {
 
 import { ResultsAutocompleteBuilder } from "../queryBuilders/ResultsAutocompleteBuilder";
 import { SuggestionsAutocompleteBuilder } from "../queryBuilders/SuggestionsAutocompleteBuilder";
-import { transformHitToFieldResult } from "../ElasticsearchQueryTransformer/utils";
-import type { ApiClientTransporter } from "../transporter/ApiClientTransporter";
+import { transformHitToFieldResult } from "../transformer/responseTransformer";
+import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
 import type { SearchResponse } from "@elastic/elasticsearch/lib/api/types";
 import type { SearchRequest } from "../types";
 
@@ -19,7 +19,7 @@ type SuggestionConfig = {
 export async function handleAutocomplete(
   state: RequestState,
   queryConfig: AutocompleteQueryConfig,
-  apiClient: ApiClientTransporter
+  apiClient: IApiClientTransporter
 ): Promise<AutocompleteResponseState> {
   const suggestionConfigurations: SuggestionConfig[] = [];
   const result: AutocompleteResponseState = {
@@ -83,7 +83,10 @@ export async function handleAutocomplete(
     ([type, configuration]) => {
       if (configuration.queryType === "results") {
         suggestionConfigurations.push(buildResultConfig(configuration, type));
-      } else {
+      } else if (
+        !configuration.queryType ||
+        configuration.queryType === "suggestions"
+      ) {
         suggestionConfigurations.push(
           buildSuggestionConfig(configuration, type)
         );
@@ -92,10 +95,9 @@ export async function handleAutocomplete(
   );
 
   await Promise.all(
-    suggestionConfigurations.map(async ({ eql, handle }) => {
-      const response = await apiClient.performRequest(eql);
-      handle(response);
-    })
+    suggestionConfigurations.map(({ eql, handle }) =>
+      apiClient.performRequest(eql).then(handle)
+    )
   );
 
   return result;

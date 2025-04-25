@@ -1,17 +1,14 @@
 import { ConnectionOptions } from "../types";
 import { LIB_VERSION } from "../version";
-import {
-  RequestBody,
-  ResponseBody
-} from "../ElasticsearchQueryTransformer/types";
-import { getHostFromCloud } from "../ElasticsearchQueryTransformer/utils";
+import { getHostFromCloud } from "../utils";
+import type { SearchRequest, ResponseBody } from "../types";
 
 const jsVersion = typeof window !== "undefined" ? "browser" : process.version;
 const metaHeader = `ent=${LIB_VERSION}-es-connector,js=${jsVersion},t=${LIB_VERSION}-es-connector,ft=universal`;
 
 export interface IApiClientTransporter {
   headers: Record<string, string>;
-  performRequest(requestBody: RequestBody): Promise<ResponseBody>;
+  performRequest(searchRequest: SearchRequest): Promise<ResponseBody>;
 }
 
 export class ApiClientTransporter implements IApiClientTransporter {
@@ -24,7 +21,7 @@ export class ApiClientTransporter implements IApiClientTransporter {
     };
   }
 
-  async performRequest(requestBody: RequestBody): Promise<ResponseBody> {
+  async performRequest(searchRequest: SearchRequest): Promise<ResponseBody> {
     if (!fetch)
       throw new Error("Fetch is not supported in this browser / environment");
 
@@ -40,7 +37,7 @@ export class ApiClientTransporter implements IApiClientTransporter {
 
     const response = await fetch(host + "/" + this.config.index + "/_search", {
       method: "POST",
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify(searchRequest),
       headers: {
         "Content-Type": "application/json",
         ...this.headers,

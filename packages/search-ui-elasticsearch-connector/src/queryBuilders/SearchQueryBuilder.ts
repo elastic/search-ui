@@ -4,9 +4,9 @@ import {
   transformFacet,
   transformFacetToAggs,
   transformFilter
-} from "../ElasticsearchQueryTransformer/FilterTransform";
+} from "../transformer/filterTransformer";
 import { SearchRequest } from "../types";
-import { getQueryFields } from "../ElasticsearchQueryTransformer/utils";
+import { getQueryFields } from "../utils";
 
 export class SearchQueryBuilder extends BaseQueryBuilder {
   constructor(state: RequestState, private readonly queryConfig: QueryConfig) {

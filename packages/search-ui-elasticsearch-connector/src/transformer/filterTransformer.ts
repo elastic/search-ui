@@ -3,17 +3,15 @@ import type {
   FilterValueRange as SearchUIFilterValueRange,
   FilterValue as SearchUIFilterValue,
   FilterType as SearchUIFilterType,
-  FacetConfiguration,
-  Facet
+  FacetConfiguration
 } from "@elastic/search-ui";
-import { isRangeFilter, isValidDateString } from "./utils";
+import { isRangeFilter, isValidDateString } from "../utils";
 import type {
   Filter,
   FilterValue,
   FilterValueRange,
-  QueryRangeValue,
-  Aggregation
-} from "./types";
+  QueryRangeValue
+} from "../types";
 
 const mapFilterTypeToBoolType: Record<
   SearchUIFilterType,
@@ -42,7 +40,6 @@ const transformRangeFilterValue = (
 const transformFilterValue =
   (field: string) =>
   (value: SearchUIFilterValue): FilterValue | FilterValueRange => {
-    // TODO: check helpers.isFilterValueRange to use
     if (isRangeFilter(value)) {
       return {
         range: {
@@ -191,25 +188,4 @@ export const transformFacetToAggs = (
   }
 
   return {};
-};
-
-export const transformAggsToFacets = (
-  agg: Aggregation,
-  field: string
-): Facet => {
-  const data = Array.isArray(agg.buckets)
-    ? agg.buckets.map((entry) => ({
-        value: entry.key,
-        count: entry.doc_count || 0
-      }))
-    : Object.entries(agg.buckets).map(([name, bucket]) => ({
-        value: name,
-        count: bucket.doc_count || 0
-      }));
-
-  return {
-    field,
-    data,
-    type: "value"
-  };
 };
