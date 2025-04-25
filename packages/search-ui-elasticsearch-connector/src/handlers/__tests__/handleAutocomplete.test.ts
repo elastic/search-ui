@@ -1,209 +1,223 @@
 import type { AutocompleteQueryConfig, RequestState } from "@elastic/search-ui";
-import Searchkit from "@searchkit/sdk";
+import type { ResponseBody } from "../../types";
 import { handleAutocomplete } from "../handleAutocomplete";
+import { IApiClientTransporter } from "../../transporter/ApiClientTransporter";
 
-const mockSearchkitResponse = [
-  {
-    identifier: "suggestions-completion-results",
-    suggestions: ["sweaters", "sweatpants"]
+const mockResponse: ResponseBody = {
+  took: 1,
+  timed_out: false,
+  _shards: {
+    total: 1,
+    successful: 1,
+    skipped: 0,
+    failed: 0
   },
-  {
-    identifier: "suggestions-hits-popularQueries",
+  hits: {
+    total: { value: 1, relation: "eq" },
     hits: [
       {
-        id: "acadia",
-        fields: {
-          query: "hello"
+        _index: "test",
+        _id: "1",
+        _source: {
+          title: "Test Title",
+          description: "Test Description"
         },
         highlight: {
-          query: "hello"
-        },
-        rawHit: {
-          _id: "test"
+          title: ["<em>Test</em> Title"]
         }
       }
     ]
   },
-  {
-    identifier: "hits-suggestions",
-    hits: [
+  suggest: {
+    suggest: [
       {
-        id: "test",
-        fields: {
-          title: "hello",
-          description: "test"
-        },
-        highlight: {
-          title: "hello"
-        },
-        rawHit: {
-          _id: "test"
-        }
+        length: 1,
+        offset: 0,
+        text: "test",
+        options: [{ text: "sweaters" }, { text: "sweatpants" }]
       }
     ]
   }
-];
-
-jest.mock("@searchkit/sdk", () => {
-  const originalModule = jest.requireActual("@searchkit/sdk");
-  return {
-    __esModule: true, // Use it when dealing with esModules
-    ...originalModule,
-    default: jest.fn((config) => {
-      const sk = originalModule.default(config);
-      sk.executeSuggestions = jest.fn(() => mockSearchkitResponse);
-      return sk;
-    })
-  };
-});
-
-const state: RequestState = {
-  searchTerm: "test"
 };
-const queryConfig: AutocompleteQueryConfig = {
-  results: {
-    resultsPerPage: 5,
-    search_fields: {
-      title: {
-        weight: 2
-      }
-    },
-    result_fields: {
-      title: {
-        snippet: {
-          size: 100,
-          fallback: true
+
+class MockApiClientTransporter implements IApiClientTransporter {
+  headers: Record<string, string> = {};
+
+  async performRequest(): Promise<ResponseBody> {
+    return mockResponse;
+  }
+}
+
+describe("Autocomplete results", () => {
+  let apiClient: MockApiClientTransporter;
+
+  beforeEach(() => {
+    apiClient = new MockApiClientTransporter();
+  });
+
+  const state: RequestState = {
+    searchTerm: "test"
+  };
+
+  const queryConfig: AutocompleteQueryConfig = {
+    results: {
+      resultsPerPage: 5,
+      search_fields: {
+        title: {
+          weight: 2
         }
       },
-      nps_link: {
-        raw: {}
-      }
-    }
-  },
-  suggestions: {
-    types: {
-      results: {
-        fields: ["title"]
-      },
-      popularQueries: {
-        queryType: "results",
-        search_fields: {
-          title: {}
+      result_fields: {
+        title: {
+          snippet: {
+            size: 100,
+            fallback: true
+          }
         },
-        result_fields: {
-          title: {
-            raw: {}
+        nps_link: {
+          raw: {}
+        }
+      }
+    },
+    suggestions: {
+      types: {
+        documents: {
+          fields: ["title"]
+        },
+        popularQueries: {
+          queryType: "results",
+          search_fields: {
+            title: {}
+          },
+          result_fields: {
+            title: {
+              raw: {}
+            }
           }
         }
       }
     }
-  }
-};
+  };
 
-describe("Autocomplete results", () => {
-  it("success", async () => {
-    const results = await handleAutocomplete({
+  it("should return autocomplete results", async () => {
+    const results = await handleAutocomplete(state, queryConfig, apiClient);
+
+    expect(results).toEqual({
+      autocompletedResults: [
+        {
+          id: { raw: "1" },
+          title: {
+            raw: "Test Title",
+            snippet: ["<em>Test</em> Title"]
+          },
+          description: { raw: "Test Description" },
+          _meta: {
+            id: "1",
+            rawHit: {
+              _id: "1",
+              _index: "test",
+              _source: {
+                title: "Test Title",
+                description: "Test Description"
+              },
+              highlight: {
+                title: ["<em>Test</em> Title"]
+              }
+            }
+          }
+        }
+      ],
+      autocompletedSuggestions: {
+        documents: [{ suggestion: "sweaters" }, { suggestion: "sweatpants" }],
+        popularQueries: [
+          {
+            queryType: "results",
+            result: {
+              id: { raw: "1" },
+              title: {
+                raw: "Test Title",
+                snippet: ["<em>Test</em> Title"]
+              },
+              description: { raw: "Test Description" },
+              _meta: {
+                id: "1",
+                rawHit: {
+                  _id: "1",
+                  _index: "test",
+                  _source: {
+                    title: "Test Title",
+                    description: "Test Description"
+                  },
+                  highlight: {
+                    title: ["<em>Test</em> Title"]
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      autocompletedResultsRequestId: "",
+      autocompletedSuggestionsRequestId: ""
+    });
+  });
+
+  it("should handle empty results", async () => {
+    class EmptyResponseApiClient extends MockApiClientTransporter {
+      async performRequest(): Promise<ResponseBody> {
+        return {
+          took: 1,
+          timed_out: false,
+          _shards: {
+            total: 1,
+            successful: 1,
+            skipped: 0,
+            failed: 0
+          },
+          hits: {
+            total: { value: 0, relation: "eq" },
+            hits: []
+          },
+          suggest: {
+            suggest: [
+              {
+                length: 1,
+                offset: 0,
+                text: "test",
+                options: []
+              }
+            ]
+          }
+        };
+      }
+    }
+
+    const results = await handleAutocomplete(
       state,
       queryConfig,
-      host: "http://localhost:9200",
-      index: "test",
-      connectionOptions: {
-        apiKey: "test"
-      }
+      new EmptyResponseApiClient()
+    );
+
+    expect(results).toEqual({
+      autocompletedResults: [],
+      autocompletedSuggestions: {
+        documents: [],
+        popularQueries: []
+      },
+      autocompletedResultsRequestId: "",
+      autocompletedSuggestionsRequestId: ""
     });
-
-    const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
-      .value;
-    expect(searchkitRequestInstance.executeSuggestions).toBeCalledWith("test");
-
-    expect(results).toMatchInlineSnapshot(`
-      Object {
-        "autocompletedResults": Array [
-          Object {
-            "_meta": Object {
-              "id": "test",
-              "rawHit": Object {
-                "_id": "test",
-              },
-            },
-            "description": Object {
-              "raw": "test",
-            },
-            "id": Object {
-              "raw": "test",
-            },
-            "title": Object {
-              "raw": "hello",
-              "snippet": "hello",
-            },
-          },
-        ],
-        "autocompletedSuggestions": Object {
-          "popularQueries": Array [
-            Object {
-              "queryType": "results",
-              "result": Object {
-                "_meta": Object {
-                  "id": "test",
-                  "rawHit": Object {
-                    "_id": "test",
-                  },
-                },
-                "id": Object {
-                  "raw": "acadia",
-                },
-                "query": Object {
-                  "raw": "hello",
-                  "snippet": "hello",
-                },
-              },
-            },
-          ],
-          "results": Array [
-            Object {
-              "suggestion": "sweaters",
-            },
-            Object {
-              "suggestion": "sweatpants",
-            },
-          ],
-        },
-      }
-    `);
   });
 
-  it("should pass cloud configuration to searchkit", async () => {
-    (Searchkit as jest.Mock).mockClear();
-    await handleAutocomplete({
-      state,
-      queryConfig
-    });
-
-    const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
-      .value;
-
-    expect(searchkitRequestInstance.config.cloud).toEqual({
-      id: "cloudId"
-    });
-
-    expect(searchkitRequestInstance.config.host).toBeUndefined();
-  });
-
-  it("should pass additional headers to searchkit", async () => {
-    (Searchkit as jest.Mock).mockClear();
-    await handleAutocomplete({
-      state,
-      queryConfig
-    });
-
-    const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
-      .value;
-
-    expect(searchkitRequestInstance.config.connectionOptions).toEqual({
-      apiKey: "test",
-      headers: {
-        Authorization: "Bearer 123"
+  it("should handle search errors", async () => {
+    class ErrorApiClient extends MockApiClientTransporter {
+      async performRequest(): Promise<ResponseBody> {
+        throw new Error("Search failed");
       }
-    });
+    }
+
+    await expect(
+      handleAutocomplete(state, queryConfig, new ErrorApiClient())
+    ).rejects.toThrow("Search failed");
   });
 });

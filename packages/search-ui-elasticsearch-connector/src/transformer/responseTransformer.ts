@@ -31,18 +31,17 @@ export const transformSearchResponse = (
   };
 };
 
-export const transformHitToFieldResult = ({
-  _id,
-  _source,
-  highlight = {}
-}: SearchHit): Record<string, FieldResult> => {
+export const transformHitToFieldResult = (
+  hit: SearchHit
+): Record<string, FieldResult> => {
+  const { _id, _source, highlight = {} } = hit;
   const keys = new Set([...Object.keys(_source), ...Object.keys(highlight)]);
 
   const result: AutocompletedResult = {
     id: { raw: _id },
     _meta: {
       id: _id,
-      rawHit: { _id, _source, highlight }
+      rawHit: hit
     }
   };
 

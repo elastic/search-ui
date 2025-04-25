@@ -107,13 +107,14 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
           aggs: {},
           filter: {
             bool: {
-              must: this.state.filters.map((filter) =>
-                transformFacet(
-                  filter,
-                  this.queryConfig.facets[filter.field],
-                  this.queryConfig.disjunctiveFacets?.includes(filter.field)
-                )
-              )
+              must:
+                this.state.filters?.map((filter) =>
+                  transformFacet(
+                    filter,
+                    this.queryConfig.facets[filter.field],
+                    this.queryConfig.disjunctiveFacets?.includes(filter.field)
+                  )
+                ) || []
             }
           }
         }
@@ -123,7 +124,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
 
   private buildPostFilter() {
     const postFilter = this.state.filters
-      .filter((filter) => this.queryConfig.facets[filter.field])
+      ?.filter((filter) => this.queryConfig.facets[filter.field])
       .map((filter) =>
         transformFacet(
           filter,
@@ -132,7 +133,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
         )
       );
 
-    return postFilter.length ? { bool: { must: postFilter } } : null;
+    return postFilter?.length ? { bool: { must: postFilter } } : null;
   }
 
   private buildQuery(): SearchRequest["query"] | null {
