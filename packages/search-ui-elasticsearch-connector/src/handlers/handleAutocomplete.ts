@@ -1,7 +1,10 @@
-import type {
+import {
   AutocompleteQueryConfig,
   AutocompleteResponseState,
-  RequestState
+  QueryConfig,
+  RequestState,
+  ResultSuggestionConfiguration,
+  SuggestionConfiguration
 } from "@elastic/search-ui";
 
 import { ResultsAutocompleteBuilder } from "../queryBuilders/ResultsAutocompleteBuilder";
@@ -29,11 +32,16 @@ export async function handleAutocomplete(
     autocompletedSuggestionsRequestId: ""
   };
 
-  const buildResultConfig = (config: any, type?: string): SuggestionConfig => {
+  const buildResultConfig = (
+    config: QueryConfig | ResultSuggestionConfiguration,
+    type?: string
+  ): SuggestionConfig => {
     const builder = new ResultsAutocompleteBuilder(
       state,
       config,
-      config.resultsPerPage || queryConfig.suggestions?.size || 5
+      (config as QueryConfig).resultsPerPage ||
+        queryConfig.suggestions?.size ||
+        5
     );
 
     return {
@@ -42,7 +50,7 @@ export async function handleAutocomplete(
         const hits = response.hits.hits.map(transformHitToFieldResult);
         if (type) {
           result.autocompletedSuggestions[type] = hits.map((hit) => ({
-            queryType: config.queryType,
+            queryType: (config as ResultSuggestionConfiguration).queryType,
             result: hit
           }));
         } else {
@@ -53,7 +61,7 @@ export async function handleAutocomplete(
   };
 
   const buildSuggestionConfig = (
-    config: any,
+    config: SuggestionConfiguration,
     type: string
   ): SuggestionConfig => {
     const builder = new SuggestionsAutocompleteBuilder(
