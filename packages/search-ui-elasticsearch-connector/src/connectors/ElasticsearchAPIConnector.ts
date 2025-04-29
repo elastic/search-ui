@@ -21,7 +21,7 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     config: ConnectionOptions,
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {
-    if (!config.apiClient || (!config.host && !config.cloud)) {
+    if (!config.apiClient && !config.host && !config.cloud) {
       throw new Error("Either host or cloud configuration must be provided");
     }
 
