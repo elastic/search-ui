@@ -140,11 +140,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     const filters = [
       ...(this.state.filters || []),
       ...(this.queryConfig.filters || [])
-    ]
-      .filter(
-        (f) => !this.queryConfig.facets[f.field] //exclude all filters that are defined as facets
-      )
-      .map(transformFilter);
+    ].map(transformFilter);
     const searchQuery = this.state.searchTerm;
 
     if (!searchQuery && !filters?.length) {
