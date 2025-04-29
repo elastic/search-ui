@@ -59,3 +59,4 @@ toc:
           - file: api-connectors-site-search.md
           - file: api-connectors-workplace-search.md
       - file: api-core-plugins-analytics-plugin.md
+  - file: known-issues.md

@@ -135,10 +135,8 @@ Once the grouping is enabled, the variants will be available via the `_group` fi
 
 ## Sorting [solutions-ecommerce-search-page-sorting]
 
-:::{image} images/sorting.png
-:alt: Sorting component
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Sorting component](images/sorting.png)
 
 Adding sorting is simple — just use our `<Sorting/>` component, like so:
 

@@ -7,10 +7,8 @@ mapped_pages:
 
 Search UI allows you to analyze the performance and track errors on your search page by using [Elastic Real User Monitoring](https://www.elastic.co/observability/real-user-monitoring) (RUM).
 
-:::{image} images/dashboard.png
-:alt: RUM dashboard
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![RUM dashboard](images/dashboard.png)
 
 APM RUM captures the following information:
 
@@ -50,10 +48,8 @@ The setup process consists of three steps:
    - If you already have Integrations server enabled, go to the next step.
    - If don’t — click "Add capacity" and choose the size of the server.
 
-:::{image} images/integrations-server.png
-:alt: Integrations Server
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Integrations Server](images/integrations-server.png)
 
 ### Checking server status [guides-analyzing-performance-checking-server-status]
 
@@ -62,10 +58,8 @@ The setup process consists of three steps:
 3. On the Observability overview page, find and click the button "Install RUM Agent".
 4. In the tab "Elastic APM in Fleet" find "Check APM Server status" button and click it. You should see a confirmation that APM Server is working.
 
-:::{image} images/server-status.png
-:alt: Server status
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Server status](images/server-status.png)
 
 ### Adding APM RUM to your application [guides-analyzing-performance-adding-apm-rum-to-your-application]
 
@@ -76,10 +70,8 @@ The setup process consists of three steps:
 5. Add the APM RUM dependency to your application: `npm install @elastic/apm-rum`.
 6. Check that the events are sent by opening your browser dev tools and looking at the network tab. You should see the events request being sent after each search request.
 
-:::{image} images/events-request.png
-:alt: Server status
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Server status](images/events-request.png)
 
 If you’re using Search UI in a React application, it’s recommended to also use the React integraton of APM RUM for more detailed analysis. Follow this guide for setting it up: [apm-agent-rum-js://reference/react-integration.md](apm-agent-rum-js://reference/react-integration.md)
 

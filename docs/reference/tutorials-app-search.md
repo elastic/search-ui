@@ -22,15 +22,11 @@ First we need to setup App Search, which is a part of [Elastic Enterprise Search
 
 Once your deployment has been created, navigate to Enterprise Search in Kibana. You should be able to see a link to Enterprise Search from the home menu.
 
-:::{image} images/kibana-home.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/kibana-home.png)
 
-:::{image} images/ent-search-home.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/ent-search-home.png)
 
 In the next step, we’ll navigate to App Search and create an engine that will hold our US national parks documents.
 
@@ -38,19 +34,15 @@ In the next step, we’ll navigate to App Search and create an engine that will 
 
 Select "Try a sample engine", which creates a engine loaded with useful sample data. The sample engine will be pre-loaded with the US national parks dataset that we’ll need for our search experience. Easy!
 
-:::{image} images/create-engine.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/create-engine.png)
 
 ### Configure Schema [tutorials-app-search-configure-schema]
 
 Once our sample engine has been created, the next step is to inspect our engine’s schema. By default, App Search will choose the field type "text" for each field, but we can manually configure the field types to match the type of data each field represents — text, date, geolocation, or number. **For the sample engine, the fields have been pre-configured for us.**
 
-:::{image} images/configure-schema.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/configure-schema.png)
 
 If you inspect the schema, you’ll notice that a number of fields have been changed from their default `text` field type:
 
@@ -69,10 +61,8 @@ API keys are used to access the engine. By default, there are two key types avai
 - private-key: This is the key that is used to read and write to the engine.
 - search-key: This is the key that has read only access to the engine.
 
-:::{image} images/credentials.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/credentials.png)
 
 For this example, we are going to use the search-key. By default the search-key has been created. To use it, we must copy the key. Keep this key safe, we will be using it later on.
 
@@ -212,10 +202,8 @@ yarn start
 
 You should now have a working, basic search experience that looks similar to the example below:
 
-:::{image} images/initial-cra.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/initial-cra.png)
 
 ## Configure Search UI [tutorials-app-search-configure-search-ui]
 
@@ -418,10 +406,8 @@ disjunctiveFacets: ["states"],
 
 You should be able to see the results of your search like below:
 
-:::{image} images/completed-ui.png
-:alt: search-ui
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui](images/completed-ui.png)
 
 ## Next Steps [tutorials-app-search-next-steps]
 

@@ -11,10 +11,8 @@ In this example, we show a carousel of products within the "TVs" category using 
 
 You can adjust the number of results returned via the `resultsPerPage` configuration.
 
-:::{image} images/carousel.png
-:alt: carousel
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![carousel](images/carousel.png)
 
 :::::::{tab-set}
 

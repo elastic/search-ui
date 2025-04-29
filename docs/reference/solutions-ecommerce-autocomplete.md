@@ -7,17 +7,13 @@ mapped_pages:
 
 When you start typing in a search box on ecommerce sites like Amazon or Best Buy, you might have seen a dropdown showing suggestions to try next. This is called autocomplete.
 
-:::{image} images/query-suggestions-amazon.png
-:alt: Search suggestions on Amazon
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Search suggestions on Amazon](images/query-suggestions-amazon.png)
 
 On some of the more popular ecommerce sites, you may see suggestions in the form of search suggestions, product categories, and products.
 
-:::{image} images/federated-search-products.png
-:alt: Multiple Search Suggestions
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Multiple Search Suggestions](images/federated-search-products.png)
 
 This article will discuss how to implement an autocomplete search box that provides multiple options on your ecommerce site.
 
@@ -99,10 +95,8 @@ Term Suggestions help the customer quickly type in the search term. The suggesti
 
 To configure the SearchBox to provide suggestions based on keywords, you need to pass a `config` object to the `SearchProvider` component and configure the `Searchbox autocompleteSuggestions` to be true.
 
-:::{image} images/query-suggestions-es-shop.png
-:alt: Search suggestions with Search UI
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Search suggestions with Search UI](images/query-suggestions-es-shop.png)
 
 Example Code
 
@@ -146,10 +140,8 @@ const config = {
 
 With this feature, products will be presented as suggestions to the customer. When the customer clicks on the product suggestion, they will be navigated straight to the product’s detail page.
 
-:::{image} images/query-results-es-shop.png
-:alt: Search suggestions with Search UI
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Search suggestions with Search UI](images/query-results-es-shop.png)
 
 First, we specify the `autocompleteQuery.results` configuration:
 
@@ -338,10 +330,8 @@ const config = {
 :::::::
 Now, when you type `was` in the SearchBox, the autocomplete view will display the popular queries:
 
-:::{image} images/query-suggestions-popular-queries.png
-:alt: Suggestions from another index
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Suggestions from another index](images/query-suggestions-popular-queries.png)
 
 If you want to display more fields from the index, you can use the `result_fields` configuration and implement a custom `autocompleteView` to display these fields.
 
@@ -349,10 +339,8 @@ If you want to display more fields from the index, you can use the `result_field
 
 Combining the suggestion configurations above allows you to display suggestions from multiple sources simultaneously.
 
-:::{image} images/query-suggestions-multiple-sources.png
-:alt: Suggestions from multiple sources
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![Suggestions from multiple sources](images/query-suggestions-multiple-sources.png)
 
 To do this, extend the `autocompleteQuery` configuration to specify multiple sources. For example, in the screenshot above, we customized the `autocompleteView` CSS to display the popular queries and the results from the `autocompleteSuggestions` configuration side by side and hide the section titles.
 
