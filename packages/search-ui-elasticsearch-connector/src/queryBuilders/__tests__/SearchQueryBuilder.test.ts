@@ -274,4 +274,213 @@ describe("SearchQueryBuilder", () => {
       }
     ]);
   });
+
+  describe("aggregations", () => {
+    it("should handle range facet", () => {
+      const rangeConfig: SearchQuery = {
+        ...queryConfig,
+        facets: {
+          price: {
+            type: "range",
+            ranges: [
+              { name: "0-100", from: 0, to: 100 } as FilterValueRange,
+              { name: "100-200", from: 100, to: 200 } as FilterValueRange
+            ]
+          }
+        }
+      };
+
+      const builder = new SearchQueryBuilder(state, rangeConfig);
+      const query = builder.build();
+
+      expect(query.aggs).toEqual({
+        facet_bucket_all: {
+          aggs: {
+            price: {
+              filters: {
+                filters: {
+                  "0-100": { range: { price: { from: 0, to: 100 } } },
+                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                }
+              }
+            }
+          },
+          filter: {
+            bool: {
+              must: []
+            }
+          }
+        }
+      });
+    });
+
+    it("should handle geo distance facet", () => {
+      const geoConfig: SearchQuery = {
+        ...queryConfig,
+        facets: {
+          location: {
+            type: "range",
+            center: "0,0",
+            unit: "km",
+            ranges: [
+              { name: "0-1km", from: 0, to: 1 } as FilterValueRange,
+              { name: "1-2km", from: 1, to: 2 } as FilterValueRange
+            ]
+          }
+        }
+      };
+
+      const builder = new SearchQueryBuilder(state, geoConfig);
+      const query = builder.build();
+
+      expect(query.aggs).toEqual({
+        facet_bucket_all: {
+          aggs: {
+            location: {
+              geo_distance: {
+                field: "location",
+                origin: "0,0",
+                unit: "km",
+                keyed: true,
+                ranges: [
+                  { key: "0-1km", to: 1 },
+                  { key: "1-2km", from: 1, to: 2 }
+                ]
+              }
+            }
+          },
+          filter: {
+            bool: {
+              must: []
+            }
+          }
+        }
+      });
+    });
+
+    it("should handle multiple facets", () => {
+      const multiFacetConfig: SearchQuery = {
+        ...queryConfig,
+        facets: {
+          "category.keyword": { type: "value" },
+          price: {
+            type: "range",
+            ranges: [
+              { name: "0-100", from: 0, to: 100 } as FilterValueRange,
+              { name: "100-200", from: 100, to: 200 } as FilterValueRange
+            ]
+          }
+        }
+      };
+
+      const builder = new SearchQueryBuilder(state, multiFacetConfig);
+      const query = builder.build();
+
+      expect(query.aggs).toEqual({
+        facet_bucket_all: {
+          aggs: {
+            "category.keyword": {
+              terms: {
+                field: "category.keyword",
+                order: { _count: "desc" },
+                size: 20
+              }
+            },
+            price: {
+              filters: {
+                filters: {
+                  "0-100": { range: { price: { from: 0, to: 100 } } },
+                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                }
+              }
+            }
+          },
+          filter: {
+            bool: {
+              must: []
+            }
+          }
+        }
+      });
+    });
+
+    it("should handle custom facet size", () => {
+      const customSizeConfig: SearchQuery = {
+        ...queryConfig,
+        facets: {
+          "category.keyword": { type: "value", size: 50 }
+        }
+      };
+
+      const builder = new SearchQueryBuilder(state, customSizeConfig);
+      const query = builder.build();
+
+      expect(
+        query.aggs.facet_bucket_all.aggs["category.keyword"].terms.size
+      ).toBe(50);
+    });
+
+    it("should handle facet sorting", () => {
+      const sortedConfig: SearchQuery = {
+        ...queryConfig,
+        facets: {
+          "category.keyword": { type: "value", sort: "value" }
+        }
+      };
+
+      const builder = new SearchQueryBuilder(state, sortedConfig);
+      const query = builder.build();
+
+      expect(
+        query.aggs.facet_bucket_all.aggs["category.keyword"].terms.order
+      ).toEqual({ _key: "asc" });
+    });
+
+    it("should handle disjunctive facets", () => {
+      const disjunctiveConfig: SearchQuery = {
+        ...queryConfig,
+        disjunctiveFacets: ["category.keyword", "price"],
+        facets: {
+          "category.keyword": { type: "value" },
+          price: {
+            type: "range",
+            ranges: [
+              { name: "0-100", from: 0, to: 100 } as FilterValueRange,
+              { name: "100-200", from: 100, to: 200 } as FilterValueRange
+            ]
+          }
+        }
+      };
+
+      const builder = new SearchQueryBuilder(state, disjunctiveConfig);
+      const query = builder.build();
+
+      expect(query.aggs).toEqual({
+        facet_bucket_all: {
+          aggs: {
+            "category.keyword": {
+              terms: {
+                field: "category.keyword",
+                order: { _count: "desc" },
+                size: 20
+              }
+            },
+            price: {
+              filters: {
+                filters: {
+                  "0-100": { range: { price: { from: 0, to: 100 } } },
+                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                }
+              }
+            }
+          },
+          filter: {
+            bool: {
+              must: []
+            }
+          }
+        }
+      });
+    });
+  });
 });
