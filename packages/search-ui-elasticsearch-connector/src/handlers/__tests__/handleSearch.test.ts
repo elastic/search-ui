@@ -160,6 +160,7 @@ describe("Search results", () => {
               "id": "test",
               "rawHit": Object {
                 "_id": "test",
+                "_index": "test",
                 "_source": Object {
                   "description": "test",
                   "title": "hello",
