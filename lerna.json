@@ -6,7 +6,13 @@
   "command": {
     "publish": {
       "npmClient": "npm",
-      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/src/test/**"],
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.md",
+        "**/src/test/**",
+        "packages/search-ui-workplace-search-connector/**",
+        "packages/search-ui-app-search-connector/**"
+      ],
       "registry": "https://registry.npmjs.org/",
       "message": "Release: %s"
     },
