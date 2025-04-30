@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@elastic/react-search-ui-views": "^1.23.1",
-    "@elastic/search-ui": "^1.23.0"
+    "@elastic/search-ui": "^1.23.1"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 < 19",

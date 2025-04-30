@@ -49,7 +49,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@elastic/search-ui": "^1.23.0",
+    "@elastic/search-ui": "^1.23.1",
     "downshift": "^3.2.10",
     "rc-pagination": "^4.0.4",
     "react-select": "^5.0.0"
