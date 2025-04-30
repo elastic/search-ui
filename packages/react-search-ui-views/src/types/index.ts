@@ -1,8 +1,4 @@
-import type {
-  FacetValue,
-  FieldValue,
-  FilterType,
-} from "@elastic/search-ui";
+import type { FacetValue, FieldValue, FilterType } from "@elastic/search-ui";
 
 export interface BaseContainerProps {
   children?: React.ReactNode;

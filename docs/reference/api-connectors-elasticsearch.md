@@ -77,6 +77,8 @@ The `ApiProxyConnector` is used when you want to proxy search requests through y
 It sends `onSearch` and `onAutocomplete` requests to your API, which is expected to forward them to Elasticsearch using `ElasticsearchAPIConnector`.
 
 ```js
+import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector/api-proxy";
+// OR
 import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ApiProxyConnector({
@@ -158,9 +160,9 @@ setFilter("visitors", {
 });
 ```
 
-#### Applying a range to a field that isn’t a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
+#### Applying a range to a field that isn't a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
 
-If the field isn’t a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
+If the field isn't a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
 
 ```js
 setFilter("precio", {
