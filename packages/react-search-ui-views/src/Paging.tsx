@@ -1,6 +1,6 @@
 import React from "react";
 import RCPagination from "rc-pagination";
-import enUsLocale from "rc-pagination/lib/locale/en_US";
+import enUsLocale from "rc-pagination/lib/locale/en_US.js";
 
 import { appendClassName } from "./view-helpers";
 import type { SearchContextState } from "@elastic/search-ui";
