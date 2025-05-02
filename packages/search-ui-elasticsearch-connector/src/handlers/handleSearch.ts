@@ -4,12 +4,12 @@ import { transformSearchResponse } from "../transformer/responseTransformer";
 import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
 import type { PostProcessRequestBodyFn } from "../types";
 
-export async function handleSearch(
+export const handleSearch = async (
   state: RequestState,
   queryConfig: QueryConfig,
   apiClient: IApiClientTransporter,
   postProcessRequestBodyFn?: PostProcessRequestBodyFn
-): Promise<ResponseState> {
+): Promise<ResponseState> => {
   const queryBuilder = new SearchQueryBuilder(state, queryConfig);
   let requestBody = queryBuilder.build();
 
@@ -20,4 +20,4 @@ export async function handleSearch(
   const response = await apiClient.performRequest(requestBody);
 
   return transformSearchResponse(response, queryBuilder);
-}
+};

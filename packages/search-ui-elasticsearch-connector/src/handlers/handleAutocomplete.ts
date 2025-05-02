@@ -19,11 +19,16 @@ type SuggestionConfig = {
   handler: (response: SearchResponse) => void;
 };
 
-export async function handleAutocomplete(
+const isResultSuggestionConfiguration = (
+  config: QueryConfig | ResultSuggestionConfiguration | SuggestionConfiguration
+): config is ResultSuggestionConfiguration =>
+  "queryType" in config && config.queryType === "results";
+
+export const handleAutocomplete = async (
   state: RequestState,
   queryConfig: AutocompleteQueryConfig,
   apiClient: IApiClientTransporter
-): Promise<AutocompleteResponseState> {
+): Promise<AutocompleteResponseState> => {
   const suggestionConfigurations: SuggestionConfig[] = [];
   const result: AutocompleteResponseState = {
     autocompletedResults: [],
@@ -46,9 +51,9 @@ export async function handleAutocomplete(
       searchRequest: builder.build(),
       handler(response) {
         const hits = response.hits.hits.map(transformHitToFieldResult);
-        if (type) {
+        if (type && isResultSuggestionConfiguration(config)) {
           result.autocompletedSuggestions[type] = hits.map((hit) => ({
-            queryType: (config as ResultSuggestionConfiguration).queryType,
+            queryType: config.queryType,
             result: hit
           }));
         } else {
@@ -87,7 +92,7 @@ export async function handleAutocomplete(
 
   Object.entries(queryConfig.suggestions?.types || {}).forEach(
     ([type, configuration]) => {
-      if (configuration.queryType === "results") {
+      if (isResultSuggestionConfiguration(configuration)) {
         suggestionConfigurations.push(buildResultConfig(configuration, type));
       } else if (
         !configuration.queryType ||
@@ -107,4 +112,4 @@ export async function handleAutocomplete(
   );
 
   return result;
-}
+};
