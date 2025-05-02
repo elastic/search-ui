@@ -15,8 +15,8 @@ import type { SearchResponse } from "@elastic/elasticsearch/lib/api/types";
 import type { SearchRequest } from "../types";
 
 type SuggestionConfig = {
-  eql: SearchRequest;
-  handle: (response: SearchResponse) => void;
+  searchRequest: SearchRequest;
+  handler: (response: SearchResponse) => void;
 };
 
 export async function handleAutocomplete(
@@ -43,8 +43,8 @@ export async function handleAutocomplete(
     );
 
     return {
-      eql: builder.build(),
-      handle(response) {
+      searchRequest: builder.build(),
+      handler(response) {
         const hits = response.hits.hits.map(transformHitToFieldResult);
         if (type) {
           result.autocompletedSuggestions[type] = hits.map((hit) => ({
@@ -69,8 +69,8 @@ export async function handleAutocomplete(
     );
 
     return {
-      eql: builder.build(),
-      handle(response) {
+      searchRequest: builder.build(),
+      handler(response) {
         const options = response.suggest.suggest[0].options;
         const suggestions = Array.isArray(options)
           ? options.map(({ text }) => ({ suggestion: text }))
@@ -101,8 +101,8 @@ export async function handleAutocomplete(
   );
 
   await Promise.all(
-    suggestionConfigurations.map(({ eql, handle }) =>
-      apiClient.performRequest(eql).then(handle)
+    suggestionConfigurations.map(({ searchRequest, handler }) =>
+      apiClient.performRequest(searchRequest).then(handler)
     )
   );
 
