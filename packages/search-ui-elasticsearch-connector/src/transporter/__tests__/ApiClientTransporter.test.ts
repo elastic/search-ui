@@ -88,9 +88,7 @@ describe("ApiClientTransporter", () => {
 
   it("should use cloud host when cloud config is provided", async () => {
     const cloudConfig = {
-      id: "test-cloud-id",
-      username: "test-user",
-      password: "test-password"
+      id: "test-cloud-id:additionalParam"
     };
 
     (getHostFromCloud as jest.Mock).mockReturnValue("https://cloud-host.com");
@@ -112,15 +110,21 @@ describe("ApiClientTransporter", () => {
     );
   });
 
-  it("should throw error when neither host nor cloud is provided", async () => {
-    const transporter = createTransporter({
-      host: undefined,
-      cloud: undefined
-    });
+  it("should throw error when cloud id has wrong format", () => {
+    expect(() =>
+      createTransporter({
+        cloud: { id: "test-cloud-id" }
+      })
+    ).toThrow("Invalid cloud ID format");
+  });
 
-    await expect(
-      transporter.performRequest({ query: { match_all: {} } })
-    ).rejects.toThrow("Host or cloud is required");
+  it("should throw error when neither host nor cloud is provided", () => {
+    expect(() =>
+      createTransporter({
+        host: undefined,
+        cloud: undefined
+      })
+    ).toThrow("Either host or cloud configuration must be provided");
   });
 
   it("should throw error when fetch is not available", async () => {

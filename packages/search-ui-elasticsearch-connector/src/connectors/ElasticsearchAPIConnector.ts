@@ -22,7 +22,9 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {
     if (!config.apiClient && !config.host && !config.cloud) {
-      throw new Error("Either host or cloud configuration must be provided");
+      throw new Error(
+        "Either host or cloud configuration or custom apiClient must be provided"
+      );
     }
 
     this.apiClient = config.apiClient || new ApiClientTransporter(config);
@@ -38,7 +40,12 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     state: RequestState,
     queryConfig: QueryConfig
   ): Promise<ResponseState> {
-    return handleSearch(state, queryConfig, this.apiClient, this.postProcessRequestBodyFn);
+    return handleSearch(
+      state,
+      queryConfig,
+      this.apiClient,
+      this.postProcessRequestBodyFn
+    );
   }
 
   async onAutocomplete(

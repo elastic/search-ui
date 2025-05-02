@@ -1,5 +1,9 @@
 module.exports = {
-  preset: "ts-jest/presets/js-with-ts-esm",
+  displayName: "browser",
   testPathIgnorePatterns: ["./lib"],
-  testEnvironment: "jsdom"
+  testEnvironment: "jsdom",
+  testMatch: ["**/__tests__/**/*.test.ts"],
+  transform: {
+    "^.+\\.tsx?$": "ts-jest"
+  }
 };

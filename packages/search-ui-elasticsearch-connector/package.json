@@ -22,7 +22,8 @@
   },
   "scripts": {
     "test-ci": "jest --runInBand",
-    "test": "jest",
+    "test": "jest && yarn test:node",
+    "test:node": "jest --config jest.node.config.js",
     "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
     "build": "tsup",
     "watch": "yarn build --watch",

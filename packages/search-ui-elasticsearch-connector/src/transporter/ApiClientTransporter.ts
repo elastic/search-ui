@@ -15,19 +15,45 @@ export class ApiClientTransporter implements IApiClientTransporter {
   headers: Record<string, string>;
 
   constructor(private config: ConnectionOptions) {
+    this.validateConfig();
+
     this.headers = {
       "x-elastic-client-meta": metaHeader,
       ...(this.config.connectionOptions?.headers || {})
     };
   }
 
+  private validateConfig(): void {
+    if (!this.config.index) {
+      throw new Error("Index name is required");
+    }
+
+    if (!this.config.host && !this.config.cloud) {
+      throw new Error("Either host or cloud configuration must be provided");
+    }
+
+    if (this.config.host) {
+      try {
+        new URL(this.config.host);
+      } catch (e) {
+        throw new Error("Invalid host URL format");
+      }
+    }
+
+    if (this.config.cloud) {
+      if (!this.config.cloud.id) {
+        throw new Error("Cloud ID is required");
+      }
+
+      if (!this.config.cloud.id.includes(":")) {
+        throw new Error("Invalid cloud ID format");
+      }
+    }
+  }
+
   async performRequest(searchRequest: SearchRequest): Promise<ResponseBody> {
     if (!fetch)
       throw new Error("Fetch is not supported in this browser / environment");
-
-    if (!this.config.host && !this.config.cloud) {
-      throw new Error("Host or cloud is required");
-    }
 
     let host = this.config.host;
 
@@ -35,7 +61,9 @@ export class ApiClientTransporter implements IApiClientTransporter {
       host = getHostFromCloud(this.config.cloud);
     }
 
-    const response = await fetch(host + "/" + this.config.index + "/_search", {
+    const searchUrl = new URL(`/${this.config.index}/_search`, host);
+
+    const response = await fetch(searchUrl.href, {
       method: "POST",
       body: JSON.stringify(searchRequest),
       headers: {

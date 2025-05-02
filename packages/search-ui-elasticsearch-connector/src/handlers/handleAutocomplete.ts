@@ -39,9 +39,7 @@ export async function handleAutocomplete(
     const builder = new ResultsAutocompleteBuilder(
       state,
       config,
-      (config as QueryConfig).resultsPerPage ||
-        queryConfig.suggestions?.size ||
-        5
+      config.resultsPerPage || queryConfig.suggestions?.size || 5
     );
 
     return {
