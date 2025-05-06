@@ -120,6 +120,7 @@ export type SuggestionConfiguration = {
 };
 
 export type ResultSuggestionConfiguration = {
+  resultsPerPage?: number;
   result_fields?: Record<string, FieldConfiguration>;
   search_fields?: Record<string, SearchFieldConfiguration>;
   index?: string;

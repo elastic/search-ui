@@ -22,12 +22,22 @@ The connector uses the same Search UI configuration that other connectors use.
 
 You must specify either the cloud id or on-premise host url for the Elasticsearch connector.
 
-```js
+```ts
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
+import type { IApiClientTransporter } from "@elastic/search-ui-elasticsearch-connector";
+
+class CustomApiClientTransporter implements IApiClientTransporter {
+  performRequest(searchRequest) {
+    // Custom implementation
+    return response;
+  }
+}
+
+const customApiClient = new CustomApiClientTransporter();
 
 const connector = new ElasticsearchAPIConnector(
   {
-    // Either specify the cloud id or host to connect to elasticsearch
+    // Either specify the cloud id or host or apiClient to connect to elasticsearch
     cloud: {
       id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
     },
@@ -41,7 +51,11 @@ const connector = new ElasticsearchAPIConnector(
       headers: {
         "x-custom-header": "value" // Optional. Specify custom headers to send with the request
       }
-    }
+    },
+    // Optional. Custom API client implementation.
+    // If not provided, a default ApiClientTransporter will be used.
+    // This allows you to customize how requests are made to Elasticsearch.
+    apiClient: customApiClient
   },
   (requestBody, requestState, queryConfig) => {
     // Optional: modify the query before sending to Elasticsearch
@@ -62,13 +76,14 @@ const connector = new ElasticsearchAPIConnector(
 
 **Config**
 
-| Param             | Type   | Description                                                                                                                                                                                                                |
-| ----------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| cloud             | object | **Required if `host` not provided.** Object type. The cloud id for the deployment within elastic cloud.                                                                                                                    |
-| host              | string | **Required if `cloud` not provided.** String type. The host url to the Elasticsearch instance                                                                                                                              |
-| index             | string | **Required.** String type. The search index name                                                                                                                                                                           |
-| apiKey            | string | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](/reference/tutorials-elasticsearch-production-usage.md#api-connectors-elasticsearch-connection-and-authentication) |
-| connectionOptions | object | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                                                                       |
+| Param             | Type   | Description                                                                                                                                                                                                                                                                                                                                            |
+| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| cloud             | object | **Required if `host` or custom `apiClient` not provided.** Object type. The cloud id for the deployment within elastic cloud. Format: `{ id: 'cloud:id' }`. You can find your cloud id in the Elastic Cloud deployment overview page.                                                                                                                                        |
+| host              | string | **Required if `cloud` or custom `apiClient` not provided.** String type. The host url to the Elasticsearch instance                                                                                                                                                                                                                                                          |
+| index             | string | **Required.** String type. The search index name                                                                                                                                                                                                                                                                                                       |
+| apiKey            | string | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](/reference/tutorials-elasticsearch-production-usage.md#api-connectors-elasticsearch-connection-and-authentication)                                                                                                                             |
+| connectionOptions | object | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                                                                                                                                                                                                   |
+| apiClient         | object | **Optional.** Custom API client implementation. If not provided, a default ApiClientTransporter will be used. This allows you to customize how requests are made to Elasticsearch. The object must implement the `IApiClientTransporter` interface with a `performRequest` method that takes a search request and returns a promise with the response. |
 
 ## ApiProxyConnector [api-connectors-elasticsearch-api-proxy-doc-reference]
 

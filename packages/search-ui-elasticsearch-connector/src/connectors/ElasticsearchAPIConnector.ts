@@ -7,17 +7,27 @@ import type {
   ResponseState
 } from "@elastic/search-ui";
 import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
-import handleSearchRequest from "../handlers/search";
-import handleAutocompleteRequest from "../handlers/autocomplete";
+import {
+  ApiClientTransporter,
+  type IApiClientTransporter
+} from "../transporter/ApiClientTransporter";
+import { handleAutocomplete } from "../handlers/handleAutocomplete";
+import { handleSearch } from "../handlers/handleSearch";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
+  private apiClient: IApiClientTransporter;
+
   constructor(
-    private config: ConnectionOptions,
+    config: ConnectionOptions,
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {
-    if (!config.host && !config.cloud) {
-      throw new Error("Either host or cloud configuration must be provided");
+    if (!config.apiClient && !config.host && !config.cloud) {
+      throw new Error(
+        "Either host or cloud configuration or custom apiClient must be provided"
+      );
     }
+
+    this.apiClient = config.apiClient || new ApiClientTransporter(config);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -30,34 +40,18 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     state: RequestState,
     queryConfig: QueryConfig
   ): Promise<ResponseState> {
-    return handleSearchRequest({
+    return handleSearch(
       state,
       queryConfig,
-      cloud: this.config.cloud,
-      host: this.config.host,
-      index: this.config.index,
-      connectionOptions: {
-        apiKey: this.config.apiKey,
-        headers: this.config.connectionOptions?.headers
-      },
-      postProcessRequestBodyFn: this.postProcessRequestBodyFn
-    });
+      this.apiClient,
+      this.postProcessRequestBodyFn
+    );
   }
 
   async onAutocomplete(
     state: RequestState,
     queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
-    return handleAutocompleteRequest({
-      state,
-      queryConfig,
-      cloud: this.config.cloud,
-      host: this.config.host,
-      index: this.config.index,
-      connectionOptions: {
-        apiKey: this.config.apiKey,
-        headers: this.config.connectionOptions?.headers
-      }
-    });
+    return handleAutocomplete(state, queryConfig, this.apiClient);
   }
 }
