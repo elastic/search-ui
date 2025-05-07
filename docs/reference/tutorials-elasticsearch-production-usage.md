@@ -36,8 +36,7 @@ You can restrict access to indices by using an API key. We **recommend** you cre
 To proxy search requests through your server, use the `ApiProxyConnector`. This connector sends search and autocomplete requests to your backend, where the real Elasticsearch query is executed.
 
 ```js
-import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
-
+import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector/api-proxy";
 const connector = new ApiProxyConnector({
   basePath: "http://localhost:3001/api" // ⚠️ Replace with your server URL in production
   // fetchOptions: {} // Optional: Add headers or credentials here if needed

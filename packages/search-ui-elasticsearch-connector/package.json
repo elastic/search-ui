@@ -45,6 +45,11 @@
       "import": "./lib/index.mjs",
       "require": "./lib/index.js"
     },
+    "./api-proxy": {
+      "types": "./lib/api-proxy.d.ts",
+      "import": "./lib/api-proxy.mjs",
+      "require": "./lib/api-proxy.js"
+    },
     "./package": "./package.json",
     "./package.json": "./package.json"
   }

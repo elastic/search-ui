@@ -92,7 +92,9 @@ The `ApiProxyConnector` is used when you want to proxy search requests through y
 It sends `onSearch` and `onAutocomplete` requests to your API, which is expected to forward them to Elasticsearch using `ElasticsearchAPIConnector`.
 
 ```js
-import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
+import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector/api-proxy";
+// Alternatively:
+// import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ApiProxyConnector({
   basePath: "/api", // Base path for your proxy server
