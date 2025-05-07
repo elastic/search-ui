@@ -93,8 +93,8 @@ It sends `onSearch` and `onAutocomplete` requests to your API, which is expected
 
 ```js
 import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector/api-proxy";
-// OR
-import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
+// Alternatively:
+// import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
 
 const connector = new ApiProxyConnector({
   basePath: "/api", // Base path for your proxy server
