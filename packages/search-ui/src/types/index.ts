@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { SearchDriverActions } from "..";
+import type { SearchDriverActions } from "..";
 
 export type SortOption = {
   field: string;
