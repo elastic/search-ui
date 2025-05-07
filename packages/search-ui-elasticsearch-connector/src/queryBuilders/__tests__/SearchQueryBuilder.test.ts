@@ -1,5 +1,5 @@
 import { SearchQueryBuilder } from "../SearchQueryBuilder";
-import {
+import type {
   FilterValueRange,
   RequestState,
   SearchQuery

@@ -1,5 +1,5 @@
 import type { estypes } from "@elastic/elasticsearch";
-import { QueryConfig, RequestState } from "@elastic/search-ui";
+import type { QueryConfig, RequestState } from "@elastic/search-ui";
 import type { IApiClientTransporter } from "./transporter/ApiClientTransporter";
 
 export type SearchRequest = estypes.SearchRequest;
