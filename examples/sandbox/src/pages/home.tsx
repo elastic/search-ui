@@ -16,13 +16,12 @@ import { useMemo } from "react";
 export default function SearchUISandbox() {
   const apiCards = useMemo(
     () => [
-      // TODO: Add back in when we have a production-ready connector
-      // {
-      //   title: "Elasticsearch Connector",
-      //   description: "Production-ready, Proxy connector",
-      //   href: "/elasticsearch-production-ready",
-      //   recommended: true
-      // },
+      {
+        title: "Elasticsearch Connector",
+        description: "Production-ready, Proxy connector",
+        href: "/elasticsearch-production-ready",
+        recommended: true
+      },
       {
         title: "Elasticsearch Connector (Basic)",
         description: "Browser-only implementation",

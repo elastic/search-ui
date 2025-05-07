@@ -3,11 +3,11 @@
 import * as React from "react";
 import Navigation from "./components/Navigation";
 import ProductCarousel from "./components/ProductCarousel";
-import "./styles.css";
+import "./styles.scss";
 
 export default function Ecommerce() {
   return (
-    <>
+    <div className="ecommerce-container">
       <Navigation />
       <div className="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <ProductCarousel
@@ -19,6 +19,6 @@ export default function Ecommerce() {
           filters={[{ field: "parent_category", values: ["Monitors"] }]}
         />
       </div>
-    </>
+    </div>
   );
 }

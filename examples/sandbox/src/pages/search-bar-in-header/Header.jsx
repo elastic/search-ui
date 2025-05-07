@@ -20,7 +20,7 @@ export default function Header() {
             fontSize: "40px"
           }}
         >
-          🚀 Acme Inc.
+          🌲 National Parks
         </div>
         <SearchProvider
           config={{

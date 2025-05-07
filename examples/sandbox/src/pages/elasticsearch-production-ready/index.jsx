@@ -1,4 +1,3 @@
-import React from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
 
 import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector/api-proxy";
@@ -6,10 +5,15 @@ import moment from "moment";
 
 import { SearchProvider } from "@elastic/react-search-ui";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
-import { ElasticsearchProdReady } from "./elasticsearchProdReady";
+import { ElasticsearchProdReady } from "./ElasticsearchProdReady";
+
+const isSandbox = import.meta.env.VITE_IS_SANDBOX === "true";
+const apiHost = isSandbox
+  ? window.location.origin.replace("4173", "3001")
+  : "http://localhost:3001";
 
 const connector = new ApiProxyConnector({
-  basePath: "http://localhost:3001/api"
+  basePath: `${apiHost}/api`
 });
 
 const config = {
