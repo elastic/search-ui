@@ -28,17 +28,13 @@ Notice here we are only giving read privileges for this api key. You will need t
 }
 ```
 
-:::{image} images/api-keys.jpeg
-:alt: creating api key
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![creating api key](images/api-keys.jpeg)
 
 Once saved, you are presented with the api-key. Copy this and keep it safe. We will need to use this further down in the tutorial.
 
-:::{image} images/api-key-view.jpeg
-:alt: copy api key
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![copy api key](images/api-key-view.jpeg)
 
 ## Enabling CORS [tutorials-elasticsearch-enabling-cors]
 
@@ -46,10 +42,8 @@ If you’re going to be accessing Elasticsearch directly from a browser and the 
 
 CORS is a browser mechanism which enables controlled access to resources located outside of the current domain. In order for the browser to make requests to Elasticsearch, CORS configuration headers need to specified in the Elasticsearch configuration.
 
-:::{image} images/edit-settings.png
-:alt: edit-deployment-settings
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![edit-deployment-settings](images/edit-settings.png)
 
 You can do this in cloud by going to the deployment settings for your Elasticsearch instance, click "Edit user settings and plugins" and under "user settings", add the CORS configuration below:
 
@@ -61,9 +55,7 @@ http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
 http.cors.allow-headers: X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept, x-elastic-client-meta
 ```
 
-:::{image} images/cors-settings.png
-:alt: edit-deployment-settings
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![edit-deployment-settings](images/cors-settings.png)
 
 then save. Your Elasticsearch instance will be restarted and the CORS configuration will be active.

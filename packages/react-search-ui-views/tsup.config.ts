@@ -7,6 +7,7 @@ import autoprefixer from "autoprefixer";
 
 export default {
   ...baseConfig,
+  external: ["react", "react-dom"],
   async onSuccess() {
     /* eslint-disable no-console */
     console.log("🚀 Compiling SCSS...");

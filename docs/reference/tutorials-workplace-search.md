@@ -111,10 +111,8 @@ You can get both values on the API Keys page in Workplace Search:
 - `kibanaBase` — from the url,
 - `enterpriseSearchBase` — from the Endpoint panel.
 
-:::{image} images/endpoints.png
-:alt: endpoints
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![endpoints](images/endpoints.png)
 
 ### `redirectUri` [tutorials-workplace-search-redirecturi]
 
@@ -130,10 +128,8 @@ To get a clientId, you need to create a new OAuth application in Workplace Searc
 4. Save changes.
 5. Copy the `Client id` from the Credentials section.
 
-:::{image} images/oauth-application.png
-:alt: oauth-application
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![oauth-application](images/oauth-application.png)
 
 After finishing these steps, you should have a configuration that looks something like this:
 
@@ -154,17 +150,13 @@ You should now be able to authorize.
 
 Click on the "Log in" link in the Search UI and authorize the application to search your data.
 
-:::{image} images/authorize.png
-:alt: authorize
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![authorize](images/authorize.png)
 
 Once you click the Authorize button, you should be redirected back to your application and see the search results.
 
-:::{image} images/search-ui-results.png
-:alt: search-ui-results
-:class: screenshot
-:::
+% TO DO: Use `:class: screenshot`
+![search-ui-results](images/search-ui-results.png)
 
 Congratulations! You have successfully connected to Workplace Search.
 
