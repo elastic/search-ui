@@ -1,6 +1,7 @@
 import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-const connector = new AppSearchAPIConnector({
+const connector1 = new AppSearchAPIConnector({
   searchKey: "search-nyxkw1fuqex9qjhfvatbqfmw",
   engineName: "best-buy",
   endpointBase: "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io",

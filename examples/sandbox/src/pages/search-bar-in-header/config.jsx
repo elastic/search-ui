@@ -1,10 +1,10 @@
 import moment from "moment";
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-const connector = new AppSearchAPIConnector({
-  searchKey: "search-nyxkw1fuqex9qjhfvatbqfmw",
-  engineName: "national-parks",
-  endpointBase: "https://search-ui-sandbox.ent.us-central1.gcp.cloud.es.io"
+const connector = new ElasticSearchAPIConnector({
+  host: "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
+  index: "national-parks",
+  apiKey: "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
 });
 
 export const config = {
@@ -33,10 +33,15 @@ export const config = {
         }
       }
     },
-    disjunctiveFacets: ["acres", "states", "date_established", "location"],
+    disjunctiveFacets: [
+      "acres",
+      "states.keyword",
+      "date_established",
+      "location"
+    ],
     facets: {
-      world_heritage_site: { type: "value" },
-      states: { type: "value", size: 30 },
+      "world_heritage_site.keyword": { type: "value" },
+      "states.keyword": { type: "value", size: 30, sort: "count" },
       acres: {
         type: "range",
         ranges: [
@@ -59,7 +64,6 @@ export const config = {
       },
       date_established: {
         type: "range",
-
         ranges: [
           {
             from: moment().subtract(50, "years").toISOString(),
