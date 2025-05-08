@@ -83,7 +83,11 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
             filter: {
               bool: {
                 must: this.state.filters
-                  .filter((filter) => filter.field !== facetKey)
+                  .filter(
+                    (filter) =>
+                      filter.field !== facetKey &&
+                      this.queryConfig.facets[filter.field]
+                  )
                   .map((filter) =>
                     transformFacet(
                       filter,
@@ -107,14 +111,15 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
           aggs: {},
           filter: {
             bool: {
-              must:
-                this.state.filters?.map((filter) =>
+              must: (this.state.filters || [])
+                .filter((filter) => this.queryConfig.facets[filter.field])
+                .map((filter) =>
                   transformFacet(
                     filter,
                     this.queryConfig.facets[filter.field],
                     this.queryConfig.disjunctiveFacets?.includes(filter.field)
                   )
-                ) || []
+                )
             }
           }
         }
@@ -137,10 +142,10 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
   }
 
   private buildQuery(): SearchRequest["query"] | null {
-    const filters = [
-      ...(this.state.filters || []),
-      ...(this.queryConfig.filters || [])
-    ].map(transformFilter);
+    const filters = (this.state.filters || [])
+      .filter((filter) => !this.queryConfig.facets[filter.field]) // remove filters that are also facets
+      .concat(this.queryConfig.filters || []) // add filters from the config and do filter even if they are facets
+      .map(transformFilter);
     const searchQuery = this.state.searchTerm;
 
     if (!searchQuery && !filters?.length) {

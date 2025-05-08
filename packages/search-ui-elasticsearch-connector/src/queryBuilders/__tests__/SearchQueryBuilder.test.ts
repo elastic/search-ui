@@ -483,4 +483,86 @@ describe("SearchQueryBuilder", () => {
       });
     });
   });
+
+  describe("buildQuery", () => {
+    it("should not add filters that are also facets", () => {
+      const stateWithFilters: RequestState = {
+        ...state,
+        searchTerm: "",
+        filters: [
+          { type: "all", field: "category.keyword", values: ["electronics"] }
+        ]
+      };
+      queryConfig.filters = [];
+      const builder = new SearchQueryBuilder(stateWithFilters, queryConfig);
+      const query = builder.build();
+
+      expect(query.query).toBeUndefined();
+    });
+
+    it("should combine state filters and base filters when search term is empty", () => {
+      const stateWithFilters: RequestState = {
+        ...state,
+        searchTerm: "",
+        filters: [
+          {
+            type: "all",
+            field: "brand.keyword",
+            values: ["apple"]
+          },
+          {
+            type: "all",
+            field: "category.keyword",
+            values: ["phones"]
+          }
+        ]
+      };
+
+      const configWithFilters: SearchQuery = {
+        ...queryConfig,
+        filters: [
+          {
+            type: "all",
+            field: "category.keyword",
+            values: ["electronics"]
+          }
+        ]
+      };
+
+      const builder = new SearchQueryBuilder(
+        stateWithFilters,
+        configWithFilters
+      );
+      const query = builder.build();
+
+      expect(query.query).toEqual({
+        bool: {
+          filter: [
+            {
+              bool: {
+                filter: [
+                  {
+                    term: {
+                      "brand.keyword": "apple"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              bool: {
+                filter: [
+                  {
+                    term: {
+                      "category.keyword": "electronics"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      });
+    });
+  });
 });
