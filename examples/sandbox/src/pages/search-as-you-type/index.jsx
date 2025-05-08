@@ -123,7 +123,7 @@ const config = {
     suggestions: {
       types: {
         documents: {
-          fields: ["title"]
+          fields: ["parks_completion"]
         }
       },
       size: 4
