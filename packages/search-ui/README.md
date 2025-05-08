@@ -9,20 +9,20 @@ any other framework. Instead of working with components as you do in React, you 
 
 You'll get all of the benefit of Search UI, just with no view. The view is up to you.
 
-## Usage
+## Usage with Elasticsearch Connector
 
 ```shell
-npm install --save @elastic/search-ui
+npm install --save @elastic/search-ui @elastic/search-ui-elasticsearch-connector
 ```
 
 ```js
 import { SearchDriver } from "@elastic/search-ui";
-import AppSearchAPIConnector from "@elastic/search-ui-app-search-connector";
+import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 
-const connector = new AppSearchAPIConnector({
-  searchKey: "search-371auk61r2bwqtdzocdgutmg",
-  engineName: "search-ui-examples",
-  hostIdentifier: "host-2376rb"
+const connector = new ElasticSearchAPIConnector({
+  host: "https://your-elasticsearch-host:9243",
+  index: "your-index",
+  apiKey: "your-api-key" // Optional
 });
 
 const config = {
