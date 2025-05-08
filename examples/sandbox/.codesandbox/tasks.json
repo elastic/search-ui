@@ -1,5 +1,4 @@
 {
-  // These tasks will run in order when initializing your CodeSandbox project.
   "setupTasks": [
     {
       "name": "Install Dependencies",
@@ -7,26 +6,16 @@
     },
     {
       "name": "Build App",
-      "command": "yarn build"
+      "command": "VITE_IS_SANDBOX=true yarn build"
     }
   ],
-
-  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
   "tasks": {
     "start": {
       "name": "start",
-      "command": "yarn start",
+      "command": "VITE_IS_SANDBOX=true yarn start & node src/pages/elasticsearch-production-ready/server/index.js",
       "runAtStart": true,
       "preview": {
         "port": 4173
-      }
-    },
-    "start-api-server": {
-      "name": "Start API Server",
-      "command": "node src/pages/elasticsearch-production-ready/server/index.js",
-      "runAtStart": true,
-      "preview": {
-        "port": 3001
       }
     }
   }

@@ -59,7 +59,7 @@ const BrowseHeader = ({ category }) => {
 export default function CategoryPage(props) {
   const category = props?.match?.params.category;
   return (
-    <>
+    <div className="ecommerce-container">
       <Navigation />
       <BrowseHeader category={category} />
       <SearchProvider config={categoryPageconfig(category)}>
@@ -114,6 +114,6 @@ export default function CategoryPage(props) {
           </ErrorBoundary>
         </div>
       </SearchProvider>
-    </>
+    </div>
   );
 }

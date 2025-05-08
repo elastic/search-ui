@@ -7,19 +7,19 @@ import type {
   AutocompleteResponseState
 } from "@elastic/search-ui";
 
-interface APIProxyConnectorOptions {
+interface ApiProxyConnectorOptions {
   basePath?: string;
   fetchOptions?: RequestInit;
 }
 
-export default class APIProxyConnector implements APIConnector {
+export default class ApiProxyConnector implements APIConnector {
   private readonly basePath: string;
   private readonly fetchOptions: RequestInit;
 
   constructor({
     basePath = "/api",
     fetchOptions = {}
-  }: APIProxyConnectorOptions = {}) {
+  }: ApiProxyConnectorOptions = {}) {
     this.basePath = basePath;
     this.fetchOptions = fetchOptions;
   }
