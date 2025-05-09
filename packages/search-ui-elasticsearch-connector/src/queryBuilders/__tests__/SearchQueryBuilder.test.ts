@@ -83,34 +83,41 @@ describe("SearchQueryBuilder", () => {
               }
             }
           ],
-          should: [
+          must: [
             {
-              multi_match: {
-                fields: [],
-                operator: "and",
-                query: "test",
-                type: "best_fields"
-              }
-            },
-            {
-              multi_match: {
-                fields: [],
-                query: "test",
-                type: "cross_fields"
-              }
-            },
-            {
-              multi_match: {
-                fields: [],
-                query: "test",
-                type: "phrase"
-              }
-            },
-            {
-              multi_match: {
-                fields: [],
-                query: "test",
-                type: "phrase_prefix"
+              bool: {
+                minimum_should_match: 1,
+                should: [
+                  {
+                    multi_match: {
+                      fields: [],
+                      operator: "and",
+                      query: "test",
+                      type: "best_fields"
+                    }
+                  },
+                  {
+                    multi_match: {
+                      fields: [],
+                      query: "test",
+                      type: "cross_fields"
+                    }
+                  },
+                  {
+                    multi_match: {
+                      fields: [],
+                      query: "test",
+                      type: "phrase"
+                    }
+                  },
+                  {
+                    multi_match: {
+                      fields: [],
+                      query: "test",
+                      type: "phrase_prefix"
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -182,7 +189,7 @@ describe("SearchQueryBuilder", () => {
     const builder = new SearchQueryBuilder(state, customConfig);
     const query = builder.build();
 
-    expect(query.query.bool.should).toEqual([
+    expect(query.query.bool.must[0].bool.should).toEqual([
       {
         multi_match: {
           fields: ["title^2", "description^1"],
