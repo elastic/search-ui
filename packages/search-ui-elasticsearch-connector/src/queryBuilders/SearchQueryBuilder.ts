@@ -152,6 +152,52 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     return {
       bool: {
         ...(filters?.length && { filter: filters }),
+        ...(searchQuery && {
+          must: [
+            {
+              bool: {
+                minimum_should_match: 1,
+                should: [
+                  {
+                    multi_match: {
+                      query: searchQuery,
+                      fields: fields,
+                      type: "best_fields",
+                      operator: "and"
+                    }
+                  },
+                  {
+                    multi_match: {
+                      query: searchQuery,
+                      fields: fields,
+                      type: "cross_fields"
+                    }
+                  },
+                  {
+                    multi_match: {
+                      query: searchQuery,
+                      fields: fields,
+                      type: "phrase"
+                    }
+                  },
+                  {
+                    multi_match: {
+                      query: searchQuery,
+                      fields: fields,
+                      type: "phrase_prefix"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        })
+      }
+    };
+
+    return {
+      bool: {
+        ...(filters?.length && { filter: filters }),
         ...(searchQuery
           ? {
               should: [
