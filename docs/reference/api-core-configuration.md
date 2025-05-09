@@ -281,10 +281,12 @@ results: {
 },
 ```
 
-| field           | description                                                                                                                           |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                    |
-| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as [result fields](#api-core-configuration-result_fields) |
+| field           | description                                                                                                                                  |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `filters`       | Optional. List of filters. Use same configuration as [filters](#api-core-configuration-filters-global-filters)                               |
+| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                           |
+| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as [result fields](#api-core-configuration-result_fields)        |
+| `search_fields` | Optional. Fields which should be searched for autocomplete. Use same configuration as [search fields](#api-core-configuration-search_fields) |
 
 ### Suggestions [api-core-configuration-suggestions]
 
