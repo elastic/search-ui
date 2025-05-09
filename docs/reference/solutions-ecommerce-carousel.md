@@ -5,6 +5,10 @@ mapped_pages:
 
 # Product Carousels [solutions-ecommerce-carousel]
 
+:::{warning}
+This example uses the App Search connector, which is now deprecated and will no longer be supported. Please use [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).
+:::
+
 Carousels can be used to show groups of products into a row and are typically used to show products within a specific category or tag, like "most popular", "best rated" and "on sale".
 
 In this example, we show a carousel of products within the "TVs" category using the `Results` component and overriding the `view`.

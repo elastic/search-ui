@@ -51,8 +51,10 @@ export abstract class BaseQueryBuilder {
     }
   }
 
-  protected setAggregations(aggregations: SearchRequest["aggs"]): void {
-    this.query.aggs = aggregations;
+  protected setAggregations(aggregations: SearchRequest["aggs"] | null): void {
+    if (aggregations) {
+      this.query.aggs = aggregations;
+    }
   }
 
   protected setPostFilter(postFilter: SearchRequest["post_filter"]): void {

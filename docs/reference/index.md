@@ -75,9 +75,9 @@ Yes! Absolutely.
 
 Check out the [Build Your Own Component Guide](/reference/guides-creating-own-components.md).
 
-### Does Search UI only work with App Search? [overview-does-search-ui-only-work-with-app-search]
+### Does Search UI only work with Elasticsearch? [overview-does-search-ui-only-work-with-app-search]
 
-Nope! We do have two first party connectors: Site Search and App Search.
+Nope! We do have some first party connectors: Site Search and Elasticsearch Connector.
 
 But Search UI is headless. You can use _any_ Search API.
 

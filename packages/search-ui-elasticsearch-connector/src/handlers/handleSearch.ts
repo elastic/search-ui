@@ -1,4 +1,8 @@
-import { QueryConfig, RequestState, ResponseState } from "@elastic/search-ui";
+import type {
+  QueryConfig,
+  RequestState,
+  ResponseState
+} from "@elastic/search-ui";
 import { SearchQueryBuilder } from "../queryBuilders/SearchQueryBuilder";
 import { transformSearchResponse } from "../transformer/responseTransformer";
 import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
