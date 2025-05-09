@@ -15,7 +15,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
 
   build() {
     this.setPagination(this.state.current, this.state.resultsPerPage);
-    this.setSourceFields(Object.keys(this.queryConfig.result_fields));
+    this.setSourceFields(Object.keys(this.queryConfig.result_fields || {}));
     this.setSort(this.buildSort());
     this.setHighlight(this.buildHighlight());
     this.setAggregations(this.buildAggregations());
@@ -43,7 +43,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
 
   private buildHighlight() {
     const highlightFields = Object.entries(
-      this.queryConfig.result_fields
+      this.queryConfig.result_fields || {}
     ).reduce((acc, [fieldKey, fieldConfiguration]) => {
       if (fieldConfiguration.snippet) {
         acc[fieldKey] = {};
