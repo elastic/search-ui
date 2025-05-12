@@ -5,6 +5,10 @@ mapped_pages:
 
 # Search Page [solutions-ecommerce-search-page]
 
+:::{warning}
+This example uses the App Search connector, which is now deprecated and will no longer be supported. Please use [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).
+:::
+
 The most important part of the search page is the relevance of the displayed results.
 
 There are many ways to improve the relevance. In this article we’ll cover:

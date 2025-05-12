@@ -8,7 +8,7 @@ mapped_pages:
 ::::{admonition} Deprecation Notice
 :class: important
 
-Workplace Search connector for Search UI is deprecated and will no longer be supported. Please migrate to [Elasticsearch Connector](/reference/tutorials-elasticsearch.md) for continued support.
+Workplace Search connector for Search UI is deprecated and will no longer be supported. Please migrate to [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md) for continued support.
 
 ::::
 

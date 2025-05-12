@@ -9,11 +9,21 @@
   border: 1px solid red;
 }
 
-.customization-example .sui-result__title,
-.customization-example .sui-result__title-link {
-  color: red;
+.customization-example .sui-result__header {
+  color: #ff0000cc;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .customization-example .sui-facet-view-more {
   color: red;
+}
+
+.customization-example .sui-result__details {
+  color: #000000af;
+  font-size: 14px;
+}
+
+.customization-example .sui-result + .sui-result {
+  margin-top: 8px;
 }
