@@ -32,7 +32,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -41,7 +41,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       }
     ]
@@ -50,11 +50,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -63,15 +63,15 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: "world_heritage_site",
+        field: "world_heritage_site.keyword",
         direction: "asc"
       },
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]

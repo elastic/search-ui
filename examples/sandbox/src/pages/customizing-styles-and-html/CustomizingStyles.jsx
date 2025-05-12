@@ -30,7 +30,7 @@ const SORT_OPTIONS = [
     name: "Title",
     value: [
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -39,7 +39,7 @@ const SORT_OPTIONS = [
     name: "State",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       }
     ]
@@ -48,11 +48,11 @@ const SORT_OPTIONS = [
     name: "State -> Title",
     value: [
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -61,15 +61,15 @@ const SORT_OPTIONS = [
     name: "Heritage Site -> State -> Title",
     value: [
       {
-        field: "world_heritage_site",
+        field: "world_heritage_site.keyword",
         direction: "asc"
       },
       {
-        field: "states",
+        field: "states.keyword",
         direction: "asc"
       },
       {
-        field: "title",
+        field: "title.keyword",
         direction: "asc"
       }
     ]
@@ -84,29 +84,31 @@ const CustomPagingInfoView = ({ start, end }) => (
   </div>
 );
 
-const CustomResultView = ({ result, onClickLink }) => (
-  <li className="sui-result">
-    <div className="sui-result__header">
-      <h3>
-        {/* Maintain onClickLink to correct track click throughs for analytics*/}
-        <a onClick={onClickLink} href={result.nps_link.raw}>
-          {result.title.snippet}
-        </a>
-      </h3>
-    </div>
-    <div className="sui-result__body">
-      {/* use 'raw' values of fields to access values without snippets */}
-      <div className="sui-result__image">
-        <img src={result.image_url.raw} alt="" />
+const CustomResultView = ({ result, onClickLink }) => {
+  return (
+    <li className="sui-result">
+      <div className="sui-result__header">
+        <h3>
+          {/* Maintain onClickLink to correct track click throughs for analytics*/}
+          <a onClick={onClickLink} href={result.nps_link.raw}>
+            {result.title.raw}
+          </a>
+        </h3>
       </div>
-      {/* Use the 'snippet' property of fields with dangerouslySetInnerHtml to render snippets */}
-      <div
-        className="sui-result__details"
-        dangerouslySetInnerHTML={{ __html: result.description.snippet }}
-      ></div>
-    </div>
-  </li>
-);
+      <div className="sui-result__body">
+        {/* use 'raw' values of fields to access values without snippets */}
+        <div className="sui-result__image">
+          <img src={result.image_url.raw} alt="" />
+        </div>
+        {/* Use the 'snippet' property of fields with dangerouslySetInnerHtml to render snippets */}
+        <div
+          className="sui-result__details"
+          dangerouslySetInnerHTML={{ __html: result.description.raw }}
+        ></div>
+      </div>
+    </li>
+  );
+};
 export const CustomizingStylesApp = () => {
   const { wasSearched } = useSearch();
 

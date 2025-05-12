@@ -178,7 +178,7 @@ A raw field defaults to the full field with no character limit outside of max do
 
 A snippet field defaults to 100 characters. A custom range must be between 20-1000 characters.
 
-Only text fields provide these two options, as they are functions of the deep full-text search capabilities of App Search.
+Only text fields provide these two options.
 
 #### Raw [api-core-configuration-raw]
 
