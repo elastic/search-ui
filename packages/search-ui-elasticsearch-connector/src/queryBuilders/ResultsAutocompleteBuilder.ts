@@ -5,13 +5,14 @@ import type {
 import { BaseQueryBuilder } from "./BaseQueryBuilder";
 import { getQueryFields } from "../utils";
 import { SearchRequest } from "../types";
+import { transformFilter } from "../transformer/filterTransformer";
 
 export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
   constructor(
     state: RequestState,
     private readonly configuration: Pick<
       ResultSuggestionConfiguration,
-      "result_fields" | "search_fields"
+      "result_fields" | "search_fields" | "filters"
     >,
     private readonly size: number = 5
   ) {
@@ -43,7 +44,9 @@ export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
   }
 
   private buildQuery(): SearchRequest["query"] | null {
-    if (!this.state.searchTerm) {
+    const filters = (this.configuration.filters || []).map(transformFilter);
+
+    if (!this.state.searchTerm && !filters?.length) {
       return null;
     }
 
@@ -51,15 +54,18 @@ export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
 
     return {
       bool: {
-        must: [
-          {
-            multi_match: {
-              query: this.state.searchTerm,
-              type: "bool_prefix",
-              fields
+        ...(filters?.length && { filter: filters }),
+        ...(this.state.searchTerm && {
+          must: [
+            {
+              multi_match: {
+                query: this.state.searchTerm,
+                type: "bool_prefix",
+                fields
+              }
             }
-          }
-        ]
+          ]
+        })
       }
     };
   }
