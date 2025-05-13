@@ -15,6 +15,7 @@ The first thing you want to consider before implementing your search is the back
 ### ⚠️ Deprecated connectors
 
 The following connectors are no longer recommended for use in new projects:
+
 - [Elastic App Search](/reference/api-connectors-app-search.md)
 - [Elastic Workplace Search](/reference/api-connectors-workplace-search.md)
 

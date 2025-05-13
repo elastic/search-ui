@@ -17,7 +17,7 @@ On the screenshot above, we are only exploring the "Women’s Athletic Shoes" se
 In this article, we will talk about how to implement a product category page with Search UI.
 
 :::{tip}
-See the category page demo in action in [CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce%2Fcategory%2FTVs&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js).
+See the category page demo in action in [CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce%2Fcategory%2FTVs&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.jsx).
 :::
 
 ## Applying Filters to the Category Page [solutions-ecommerce-category-page-applying-filters-to-the-category-page]
