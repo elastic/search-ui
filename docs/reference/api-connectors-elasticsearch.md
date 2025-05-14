@@ -78,8 +78,8 @@ const connector = new ElasticsearchAPIConnector(
 
 | Param             | Type   | Description                                                                                                                                                                                                                                                                                                                                            |
 | ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| cloud             | object | **Required if `host` or custom `apiClient` not provided.** Object type. The cloud id for the deployment within elastic cloud. Format: `{ id: 'cloud:id' }`. You can find your cloud id in the Elastic Cloud deployment overview page.                                                                                                                                        |
-| host              | string | **Required if `cloud` or custom `apiClient` not provided.** String type. The host url to the Elasticsearch instance                                                                                                                                                                                                                                                          |
+| cloud             | object | **Required if `host` or custom `apiClient` not provided.** Object type. The cloud id for the deployment within elastic cloud. Format: `{ id: 'cloud:id' }`. You can find your cloud id in the Elastic Cloud deployment overview page.                                                                                                                  |
+| host              | string | **Required if `cloud` or custom `apiClient` not provided.** String type. The host url to the Elasticsearch instance                                                                                                                                                                                                                                    |
 | index             | string | **Required.** String type. The search index name                                                                                                                                                                                                                                                                                                       |
 | apiKey            | string | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](/reference/tutorials-elasticsearch-production-usage.md#api-connectors-elasticsearch-connection-and-authentication)                                                                                                                             |
 | connectionOptions | object | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                                                                                                                                                                                                   |
@@ -189,7 +189,23 @@ setFilter("precio", {
 
 ### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
 
-Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
+You can use the `none` filter type to exclude documents that match certain values (works as a must_not filter in Elasticsearch).
+
+#### Example
+
+```js
+searchQuery: {
+  filters: [
+    {
+      type: "none", // Exclude documents where brand.keyword is "apple"
+      field: "brand.keyword",
+      values: ["apple"]
+    }
+  ];
+}
+```
+
+This filter will exclude all documents where the field `brand.keyword` is equal to `"apple"`.
 
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
