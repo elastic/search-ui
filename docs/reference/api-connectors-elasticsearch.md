@@ -189,7 +189,23 @@ setFilter("precio", {
 
 ### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
 
-Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
+You can use the `none` filter type to exclude documents that match certain values (works as a must_not filter in Elasticsearch).
+
+#### Example
+
+```js
+searchQuery: {
+  filters: [
+    {
+      type: "none", // Exclude documents where brand.keyword is "apple"
+      field: "brand.keyword",
+      values: ["apple"]
+    }
+  ];
+}
+```
+
+This filter will exclude all documents where the field `brand.keyword` is equal to `"apple"`.
 
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
