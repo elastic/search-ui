@@ -23,5 +23,5 @@ export const handleSearch = async (
 
   const response = await apiClient.performRequest(requestBody);
 
-  return transformSearchResponse(response, queryBuilder);
+  return transformSearchResponse(response, queryBuilder, queryConfig);
 };

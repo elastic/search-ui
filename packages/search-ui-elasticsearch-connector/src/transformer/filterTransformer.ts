@@ -89,9 +89,15 @@ export const transformFacet = (
     return {
       bool: {
         [condition]: filter.values.map((value) => {
-          const range = facetConfiguration.ranges.find(
-            (range) => range.name === value
-          );
+          const range = isRangeFilter(value)
+            ? value
+            : // Keep to be backward compatible with passing range name as a string and get from and to from facet configuration.
+              // TODO: Remove this in future versions.
+              facetConfiguration.ranges.find((range) =>
+                typeof value === "object" && "name" in value
+                  ? range.name === value.name
+                  : range.name === value
+              );
 
           return transformFilterValue(filter.field)(range);
         })

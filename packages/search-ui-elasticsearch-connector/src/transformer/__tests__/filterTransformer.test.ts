@@ -165,6 +165,33 @@ describe("filterTransformer", () => {
       });
     });
 
+    it("should transform range facet with custom range values", () => {
+      const filter: SearchUIFilter = {
+        field: "price",
+        values: [{ from: 50, to: 150, name: "base" }, { name: "100-200" }],
+        type: "all"
+      };
+
+      const facetConfig: FacetConfiguration = {
+        type: "range",
+        ranges: [
+          { name: "0-100", from: 0, to: 100 },
+          { name: "100-200", from: 100, to: 200 }
+        ]
+      };
+
+      const result = transformFacet(filter, facetConfig, false);
+
+      expect(result).toEqual({
+        bool: {
+          must: [
+            { range: { price: { from: 50, to: 150 } } },
+            { range: { price: { from: 100, to: 200 } } }
+          ]
+        }
+      });
+    });
+
     it("should transform geo distance facet", () => {
       const filter: SearchUIFilter = {
         field: "location",
