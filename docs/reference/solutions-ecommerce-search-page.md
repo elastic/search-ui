@@ -61,7 +61,7 @@ You might have several products that are essentially the same but have one diffe
 If you have such products in your store, consider combining them into a single result. That will prevents users from being overwhelmed by the number of options.
 
 :::{tip}
-[Try the demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce%2Fcategory%2FTVs&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js).
+[Try the demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce%2Fcategory%2FTVs&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.jsx).
 :::
 
 To implement this in Search UI, you’ll need to do the following:
@@ -180,7 +180,7 @@ Consider adding some of these if they apply to your data:
 - Newest first
 
 :::{tip}
-Check out sorting in action in our [CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce%2Fsearch&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js).
+Check out sorting in action in our [CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce%2Fsearch&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.jsx).
 :::
 
 ## Related Articles [solutions-ecommerce-search-page-related-articles]

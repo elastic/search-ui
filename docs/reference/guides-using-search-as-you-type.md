@@ -14,7 +14,7 @@ To implement this in Search UI, you’ll need to add a `searchAsYouType={{true}}
 It’s a good idea to add a debounce time — the Search UI will wait for users to finish typing before issuing the request. You can do it by adding a `debounceLength={{300}}` prop to `<SearchBox/>` component.
 
 :::{tip}
-See how search-as-you-type works in our [CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fsearch-as-you-type&module=%2Fsrc%2Fpages%2Fsearch-as-you-type%2Findex.js).
+See how search-as-you-type works in our [CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fsearch-as-you-type&module=%2Fsrc%2Fpages%2Fsearch-as-you-type%2Findex.jsx).
 :::
 
 Related documentation:
