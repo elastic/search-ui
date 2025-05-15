@@ -20,7 +20,7 @@ This article will discuss how to implement an autocomplete search box that provi
 Search UI can be used to provide different types of suggestions from multiple sources. For example, depending on your use case, you can display query suggestions, products from the product catalog, and a list of popular queries at the same time.
 
 :::{tip}
-Test out the examples from this article in our [interactive CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js) - try searching for "monitor" to see it in action!
+Test out the examples from this article in our [interactive CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.jsx) - try searching for "monitor" to see it in action!
 :::
 
 ## Before you begin [solutions-ecommerce-autocomplete-before-you-begin]

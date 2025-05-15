@@ -9,7 +9,7 @@ mapped_pages:
 In this guide we’ll customize some styles of the Search UI, modify the default HTML of one of the Search UI components, and also create a completely new Result component.
 
 :::{tip}
-See this code in action in our [live CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fcustomizing-styles-and-html&module=%2Fsrc%2Fpages%2Fcustomizing-styles-and-html%2Findex.js).
+See this code in action in our [live CodeSandbox demo](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fcustomizing-styles-and-html&module=%2Fsrc%2Fpages%2Fcustomizing-styles-and-html%2Findex.jsx).
 :::
 
 ## Customizing styles [guides-customizing-styles-and-html-customizing-styles]
