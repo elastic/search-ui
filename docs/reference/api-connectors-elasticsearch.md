@@ -140,57 +140,6 @@ And respond with the standard Search UI response types:
 
 For a full working example with server setup, see the Using in [Production guide](/reference/tutorials-elasticsearch-production-usage.md) or jump to the [CodeSandbox](https://codesandbox.io/p/sandbox/github/elastic/search-ui/tree/main/examples/sandbox?file=/src/pages/elasticsearch-production-ready/index.jsx).
 
-## Differences between App Search and Elasticsearch connector [api-connectors-elasticsearch-differences-between-app-search-and-elasticsearch-connector]
-
-### Applying Filters to Range Facets [api-connectors-elasticsearch-applying-filters-to-range-facets]
-
-Elasticsearch connector differs in the way filters can be applied to facets. Currently its not possible to apply an explicit range filter to range facets. Elasticsearch connector uses the name thats been given to the option to apply the filter. It uses this name to match the option and creates a the range filter query for the option.
-
-#### Example Facet Configuration [api-connectors-elasticsearch-example-facet-configuration]
-
-```js
-{
-  visitors: {
-    type: "range",
-    ranges: [
-      { from: 0, to: 10000, name: "0 - 10000" },
-      { from: 10001, to: 100000, name: "10001 - 100000" },
-      { from: 100001, to: 500000, name: "100001 - 500000" },
-      { from: 500001, to: 1000000, name: "500001 - 1000000" },
-      { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
-      { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
-      { from: 10000001, name: "10000001+" }
-    ]
-  }
-}
-```
-
-#### How to apply the filter [api-connectors-elasticsearch-how-to-apply-the-filter]
-
-```js
-setFilter("visitors", {
-  name: "10001 - 100000", // name of the option
-  from: 10001, // both from and to will be ignored
-  to: 100000
-});
-```
-
-#### Applying a range to a field that isn't a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
-
-If the field isn't a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
-
-```js
-setFilter("precio", {
-  name: "precio",
-  from: rangePrices[0],
-  to: rangePrices[1]
-});
-```
-
-### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
-
-Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
-
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
 Search UI supports autocomplete functionality to suggest search terms that provide results. The autocomplete functionality is built on top of the Elasticsearch `suggest` and `bool prefix query` API.
