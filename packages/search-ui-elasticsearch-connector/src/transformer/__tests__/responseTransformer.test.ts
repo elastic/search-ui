@@ -4,6 +4,7 @@ import {
 } from "../responseTransformer";
 import { BaseQueryBuilder } from "../../queryBuilders/BaseQueryBuilder";
 import type { ResponseBody, SearchHit } from "../../types";
+import type { FilterValueRange, SearchQuery } from "@elastic/search-ui";
 
 class MockQueryBuilder extends BaseQueryBuilder {
   getSearchTerm(): string {
@@ -24,6 +25,15 @@ class MockQueryBuilder extends BaseQueryBuilder {
 }
 
 describe("responseTransformer", () => {
+  const queryConfig: SearchQuery = {
+    facets: {
+      category: { type: "value" },
+      price: {
+        type: "range",
+        ranges: [{ name: "0-100", from: 0, to: 100 } as FilterValueRange]
+      }
+    }
+  };
   describe("transformSearchResponse", () => {
     it("should transform search response with hits", () => {
       const response: ResponseBody = {
@@ -68,7 +78,11 @@ describe("responseTransformer", () => {
         current: 1,
         resultsPerPage: 10
       });
-      const result = transformSearchResponse(response, queryBuilder);
+      const result = transformSearchResponse(
+        response,
+        queryBuilder,
+        queryConfig
+      );
 
       expect(result).toEqual({
         resultSearchTerm: "test",
@@ -140,7 +154,7 @@ describe("responseTransformer", () => {
         current: 1,
         resultsPerPage: 10
       });
-      const result = transformSearchResponse(response, queryBuilder);
+      const result = transformSearchResponse(response, queryBuilder, {});
 
       expect(result).toEqual({
         resultSearchTerm: "test",
@@ -184,7 +198,7 @@ describe("responseTransformer", () => {
         current: 1,
         resultsPerPage: 10
       });
-      const result = transformSearchResponse(response, queryBuilder);
+      const result = transformSearchResponse(response, queryBuilder, {});
 
       expect(result).toEqual({
         resultSearchTerm: "test",
@@ -197,6 +211,64 @@ describe("responseTransformer", () => {
         results: [],
         requestId: null,
         rawResponse: null
+      });
+    });
+
+    it("should transform range facets correctly", () => {
+      const response: ResponseBody = {
+        took: 1,
+        timed_out: false,
+        _shards: {
+          total: 1,
+          successful: 1,
+          skipped: 0,
+          failed: 0
+        },
+        hits: {
+          total: { value: 100, relation: "eq" },
+          hits: []
+        },
+        aggregations: {
+          facet_bucket_price: {
+            price: {
+              buckets: {
+                "0-100": { doc_count: 50 },
+                "100-200": { doc_count: 30 }
+              }
+            }
+          }
+        }
+      };
+
+      const queryBuilder = new MockQueryBuilder({
+        searchTerm: "test",
+        current: 1,
+        resultsPerPage: 10
+      });
+
+      const result = transformSearchResponse(
+        response,
+        queryBuilder,
+        queryConfig
+      );
+
+      expect(result.facets).toEqual({
+        price: [
+          {
+            field: "price",
+            type: "value",
+            data: [
+              {
+                value: { name: "0-100", from: 0, to: 100 },
+                count: 50
+              },
+              {
+                value: { name: "100-200" },
+                count: 30
+              }
+            ]
+          }
+        ]
       });
     });
   });
