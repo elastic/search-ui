@@ -25,6 +25,7 @@ searchQuery: {
   facets: {
     states: { type: "value", size: 30 },
   }
+  fuzziness: true,
   disjunctiveFacets: ["states"], // Array of field names to use for disjunctive searches
   disjunctiveFacetsAnalyticsTags: ["Ignore"],
   conditionalFacets: {},
@@ -167,6 +168,25 @@ Query time Weights take precedence over Engine level values.
 
 All fields specified within the search relevance section will be used for searching if not specified.
 
+### Fuzziness [api-core-configuration-fuzziness]
+
+::::{important}
+**Supported only by the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md#api-connectors-elasticsearch-fuzziness).**
+This setting has no effect in other connectors.
+::::
+
+**Type:** `boolean`
+**Default:** `false`
+
+`fuzziness` enables typo tolerance in search results by allowing small differences between the user’s search term and indexed terms. This makes search more forgiving to mistakes or misspellings.
+
+When set to `true`, the connector automatically applies typo-tolerant matching based on the edit distance between terms. For example, the following types of variations are considered:
+
+- **Character substitution**: "**b**ox" → "**f**ox"
+- **Character removal**: "**b**lack" → "lack"
+- **Character insertion**: "sic" → "sic**k**"
+- **Character transposition**: "**ac**t" → "**ca**t"
+
 ### result_fields [api-core-configuration-result_fields]
 
 Select from two ways to render text field values:
@@ -248,6 +268,7 @@ This is the configuration that provide relevant query suggestions for incomplete
 autocompleteQuery: {
   // performs a prefix search on the query
   results: {
+    fuzziness: true, // enables typo tolerance in autocomplete results
     resultsPerPage: 5, // number of results to display. Default is 5.
     result_fields: {
       // Add snippet highlighting within autocomplete suggestions
@@ -274,6 +295,7 @@ autocompleteQuery: {
 ```js
 results: {
   resultsPerPage: 5,
+  fuzziness: true, // enables typo tolerance in autocomplete results
   result_fields: {
     title: { snippet: { size: 100, fallback: true }},
     nps_link: { raw: {} }
@@ -281,12 +303,13 @@ results: {
 },
 ```
 
-| field           | description                                                                                                                                  |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `filters`       | Optional. List of filters. Use same configuration as [filters](#api-core-configuration-filters-global-filters)                               |
-| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                           |
-| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as [result fields](#api-core-configuration-result_fields)        |
-| `search_fields` | Optional. Fields which should be searched for autocomplete. Use same configuration as [search fields](#api-core-configuration-search_fields) |
+| field           | description                                                                                                                                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `filters`       | Optional. List of filters. Use same configuration as [filters](#api-core-configuration-filters-global-filters)                                                                                                     |
+| `resultPerPage` | Optional. Number type. Number of results suggested                                                                                                                                                                 |
+| `fuzziness`     | Optional. Boolean. When set to `true`, enables typo tolerance in autocomplete results. Only supported by the **Elasticsearch Connector**. Use same configuration as [fuzziness](#api-core-configuration-fuzziness) |
+| `result_fields` | Optional. To specify the fields for each result hit. Use same configuration as [result fields](#api-core-configuration-result_fields)                                                                              |
+| `search_fields` | Optional. Fields which should be searched for autocomplete. Use same configuration as [search fields](#api-core-configuration-search_fields)                                                                       |
 
 ### Suggestions [api-core-configuration-suggestions]
 
