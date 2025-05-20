@@ -263,16 +263,16 @@ describe("SearchQueryBuilder", () => {
             {
               range: {
                 price: {
-                  from: 10,
-                  to: 20
+                  gte: 10,
+                  lte: 20
                 }
               }
             },
             {
               range: {
                 price: {
-                  from: 30,
-                  to: 40
+                  gte: 30,
+                  lte: 40
                 }
               }
             }
@@ -306,8 +306,8 @@ describe("SearchQueryBuilder", () => {
             price: {
               filters: {
                 filters: {
-                  "0-100": { range: { price: { from: 0, to: 100 } } },
-                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                  "0-100": { range: { price: { gte: 0, lte: 100 } } },
+                  "100-200": { range: { price: { gte: 100, lte: 200 } } }
                 }
               }
             }
@@ -396,8 +396,8 @@ describe("SearchQueryBuilder", () => {
             price: {
               filters: {
                 filters: {
-                  "0-100": { range: { price: { from: 0, to: 100 } } },
-                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                  "0-100": { range: { price: { gte: 0, lte: 100 } } },
+                  "100-200": { range: { price: { gte: 100, lte: 200 } } }
                 }
               }
             }
@@ -475,8 +475,8 @@ describe("SearchQueryBuilder", () => {
             price: {
               filters: {
                 filters: {
-                  "0-100": { range: { price: { from: 0, to: 100 } } },
-                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                  "0-100": { range: { price: { gte: 0, lte: 100 } } },
+                  "100-200": { range: { price: { gte: 100, lte: 200 } } }
                 }
               }
             }
