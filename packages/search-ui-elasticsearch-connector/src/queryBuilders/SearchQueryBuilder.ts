@@ -5,11 +5,15 @@ import {
   transformFacetToAggs,
   transformFilter
 } from "../transformer/filterTransformer";
-import { SearchRequest } from "../types";
-import { getQueryFields } from "../utils";
+import { RequestModifiers, SearchRequest } from "../types";
+import { deepMergeObjects, getQueryFields, mergeObjects } from "../utils";
 
 export class SearchQueryBuilder extends BaseQueryBuilder {
-  constructor(state: RequestState, private readonly queryConfig: QueryConfig) {
+  constructor(
+    state: RequestState,
+    private readonly queryConfig: QueryConfig,
+    private readonly getQueryFn?: RequestModifiers["getQueryFn"]
+  ) {
     super(state);
   }
 
@@ -142,76 +146,39 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
   }
 
   private buildQuery(): SearchRequest["query"] | null {
-    const filters = (this.state.filters || [])
-      .filter((filter) => !this.queryConfig.facets[filter.field]) // remove filters that are also facets
-      .concat(this.queryConfig.filters || []) // add filters from the config and do filter even if they are facets
-      .map(transformFilter);
+    const filtersDsl = this.buildQueryDslFilters();
+    const searchDsl = this.buildSearchDslQuery();
+
+    return deepMergeObjects(searchDsl as Record<string, unknown>, filtersDsl);
+  }
+
+  private buildSearchDslQuery() {
     const searchQuery = this.state.searchTerm;
 
-    if (!searchQuery && !filters?.length) {
+    if (!searchQuery) {
       return null;
+    }
+
+    if (this.getQueryFn) {
+      return this.getQueryFn(this.state, this.queryConfig);
     }
 
     const fields = getQueryFields(this.queryConfig.search_fields);
 
     return {
       bool: {
-        ...(filters?.length && { filter: filters }),
-        ...(searchQuery && {
-          must: [
-            {
-              bool: {
-                minimum_should_match: 1,
-                should: [
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "best_fields",
-                      operator: "and"
-                    }
-                  },
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "cross_fields"
-                    }
-                  },
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "phrase"
-                    }
-                  },
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "phrase_prefix"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        })
-      }
-    };
-
-    return {
-      bool: {
-        ...(filters?.length && { filter: filters }),
-        ...(searchQuery
-          ? {
+        must: [
+          {
+            bool: {
+              minimum_should_match: 1,
               should: [
                 {
                   multi_match: {
                     query: searchQuery,
                     fields: fields,
                     type: "best_fields",
-                    operator: "and"
+                    operator: "and",
+                    fuzziness: this.queryConfig.fuzziness ? "AUTO" : undefined
                   }
                 },
                 {
@@ -237,8 +204,24 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
                 }
               ]
             }
-          : {})
+          }
+        ]
       }
+    };
+  }
+
+  private buildQueryDslFilters() {
+    const filters = (this.state.filters || [])
+      .filter((filter) => !this.queryConfig.facets[filter.field]) // remove filters that are also facets
+      .concat(this.queryConfig.filters || []) // add filters from the config and do filter even if they are facets
+      .map(transformFilter);
+
+    if (!filters.length) {
+      return null;
+    }
+
+    return {
+      bool: { filter: filters }
     };
   }
 }
