@@ -6,7 +6,7 @@ import {
   transformFilter
 } from "../transformer/filterTransformer";
 import { RequestModifiers, SearchRequest } from "../types";
-import { deepMergeObjects, getQueryFields, mergeObjects } from "../utils";
+import { deepMergeObjects, getQueryFields } from "../utils";
 
 export class SearchQueryBuilder extends BaseQueryBuilder {
   constructor(

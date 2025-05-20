@@ -23,19 +23,22 @@ export const handleSearch = async (
 ): Promise<ResponseState> => {
   const queryBuilder = new SearchQueryBuilder(state, queryConfig, getQueryFn);
   let requestBody = queryBuilder.build();
-  const next = async (requestBody: SearchRequest) => {
-    return await apiClient.performRequest(requestBody);
+  const next = async (body: SearchRequest) => {
+    return await apiClient.performRequest(body);
   };
   let response;
 
-  if (beforeSearchCall) {
-    response = await beforeSearchCall(requestBody, state, queryConfig, next);
-  } else if (postProcessRequestBodyFn) {
+  if (postProcessRequestBodyFn) {
     requestBody = postProcessRequestBodyFn(requestBody, state, queryConfig);
 
     response = await apiClient.performRequest(requestBody);
+  } else if (beforeSearchCall) {
+    response = await beforeSearchCall(
+      { requestBody, requestState: state, queryConfig },
+      next
+    );
   } else {
-    response = await apiClient.performRequest(requestBody);
+    response = await next(requestBody);
   }
 
   return transformSearchResponse(response, queryBuilder);

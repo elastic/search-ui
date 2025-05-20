@@ -6,7 +6,12 @@ import type {
   RequestState,
   ResponseState
 } from "@elastic/search-ui";
-import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
+import {
+  PostProcessRequestBodyFn,
+  ConnectionOptions,
+  RequestModifiers,
+  SearchQueryHook
+} from "../types";
 import {
   ApiClientTransporter,
   type IApiClientTransporter
@@ -16,9 +21,16 @@ import { handleSearch } from "../handlers/handleSearch";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private apiClient: IApiClientTransporter;
+  private beforeSearchCall?: SearchQueryHook;
+  private getQueryFn?: RequestModifiers["getQueryFn"];
+  private beforeAutocompleteResultsCall?: SearchQueryHook;
+  private beforeAutocompleteSuggestionsCall?: SearchQueryHook;
 
   constructor(
-    config: ConnectionOptions,
+    config: ConnectionOptions & RequestModifiers,
+    /**
+     * @deprecated Use `config.beforeSearchCall` instead
+     */
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {
     if (!config.apiClient && !config.host && !config.cloud) {
@@ -27,7 +39,18 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       );
     }
 
+    if (postProcessRequestBodyFn) {
+      console.warn(
+        "[Search UI] `postProcessRequestBodyFn` is deprecated. Please use `beforeSearchCall` instead."
+      );
+    }
+
     this.apiClient = config.apiClient || new ApiClientTransporter(config);
+    this.beforeSearchCall = config.beforeSearchCall;
+    this.getQueryFn = config.getQueryFn;
+    this.beforeAutocompleteResultsCall = config.beforeAutocompleteResultsCall;
+    this.beforeAutocompleteSuggestionsCall =
+      config.beforeAutocompleteSuggestionsCall;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -44,6 +67,8 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       state,
       queryConfig,
       this.apiClient,
+      this.beforeSearchCall,
+      this.getQueryFn,
       this.postProcessRequestBodyFn
     );
   }

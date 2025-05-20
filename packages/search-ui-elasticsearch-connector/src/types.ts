@@ -23,6 +23,15 @@ export type PostProcessRequestBodyFn = (
   queryConfig: QueryConfig
 ) => SearchRequest;
 
+export type SearchQueryHook = (
+  params: {
+    requestBody: SearchRequest;
+    requestState: RequestState;
+    queryConfig: QueryConfig;
+  },
+  next: (newQueryOptions: SearchRequest) => Promise<ResponseBody>
+) => Promise<ResponseBody>;
+
 export interface CloudHost {
   id: string;
 }
@@ -36,4 +45,11 @@ export type ConnectionOptions = {
   connectionOptions?: {
     headers?: Record<string, string>;
   };
+};
+
+export type RequestModifiers = {
+  beforeSearchCall?: SearchQueryHook;
+  beforeAutocompleteResultsCall?: SearchQueryHook;
+  beforeAutocompleteSuggestionsCall?: SearchQueryHook;
+  getQueryFn?: (state: RequestState, queryConfig: QueryConfig) => SearchRequest;
 };
