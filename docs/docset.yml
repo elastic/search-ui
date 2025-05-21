@@ -1,4 +1,6 @@
 project: "Search UI docs"
+products:
+  - id: search-ui
 exclude:
   - README.md
 cross_links:
