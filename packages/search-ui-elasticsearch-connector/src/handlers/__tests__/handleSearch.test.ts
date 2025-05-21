@@ -109,6 +109,8 @@ describe("Search results", () => {
       state,
       queryConfig,
       apiClient,
+      undefined,
+      undefined,
       postProcessRequestBodyFn
     );
 
@@ -308,5 +310,40 @@ describe("Search results", () => {
 
     expect(results.pagingStart).toBe(6);
     expect(results.pagingEnd).toBe(10);
+  });
+
+  it("should modify request body using custom beforeSearchCall", async () => {
+    const modifiedRequestBody = {
+      query: {
+        match_all: {}
+      }
+    };
+
+    const mockPerformRequest = jest.fn().mockResolvedValue(mockResponse);
+    const customApiClient = {
+      ...apiClient,
+      performRequest: mockPerformRequest
+    };
+
+    const customBeforeSearchCall = jest.fn(({ requestBody }, next) => {
+      return next(modifiedRequestBody);
+    });
+
+    await handleSearch(
+      state,
+      queryConfig,
+      customApiClient,
+      customBeforeSearchCall
+    );
+
+    expect(customBeforeSearchCall).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requestBody: expect.any(Object),
+        requestState: state,
+        queryConfig
+      }),
+      expect.any(Function)
+    );
+    expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
   });
 });

@@ -220,4 +220,86 @@ describe("Autocomplete results", () => {
       handleAutocomplete(state, queryConfig, new ErrorApiClient())
     ).rejects.toThrow("Search failed");
   });
+
+  describe("beforeAutocomplete hooks", () => {
+    it("should modify suggestions request using onBeforeAutocompleteSuggestionsCall", async () => {
+      const modifiedRequestBody = {
+        suggest: {
+          suggest: {
+            text: "test",
+            completion: {
+              field: "title"
+            }
+          }
+        }
+      };
+
+      const mockPerformRequest = jest.fn().mockResolvedValue(mockResponse);
+      const customApiClient = {
+        ...apiClient,
+        performRequest: mockPerformRequest
+      };
+
+      const customBeforeSuggestionsCall = jest.fn(({ requestBody }, next) => {
+        return next(modifiedRequestBody);
+      });
+
+      const results = await handleAutocomplete(
+        state,
+        queryConfig,
+        customApiClient,
+        customBeforeSuggestionsCall
+      );
+
+      expect(customBeforeSuggestionsCall).toHaveBeenCalledWith(
+        expect.objectContaining({
+          requestBody: expect.any(Object),
+          requestState: state,
+          queryConfig
+        }),
+        expect.any(Function)
+      );
+      expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
+      expect(results.autocompletedSuggestions.documents).toHaveLength(2);
+    });
+
+    it("should modify results request using onBeforeAutocompleteResultsCall", async () => {
+      const modifiedRequestBody = {
+        query: {
+          match: {
+            title: "test"
+          }
+        }
+      };
+
+      const mockPerformRequest = jest.fn().mockResolvedValue(mockResponse);
+      const customApiClient = {
+        ...apiClient,
+        performRequest: mockPerformRequest
+      };
+
+      const customBeforeResultsCall = jest.fn(({ requestBody }, next) => {
+        return next(modifiedRequestBody);
+      });
+
+      const results = await handleAutocomplete(
+        state,
+        queryConfig,
+        customApiClient,
+        undefined,
+        customBeforeResultsCall
+      );
+
+      expect(customBeforeResultsCall).toHaveBeenCalledWith(
+        expect.objectContaining({
+          requestBody: expect.any(Object),
+          requestState: state,
+          queryConfig
+        }),
+        expect.any(Function)
+      );
+      expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
+      expect(results.autocompletedResults).toHaveLength(1);
+    });
+  });
 });

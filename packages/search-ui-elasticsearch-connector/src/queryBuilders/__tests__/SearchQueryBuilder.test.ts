@@ -263,16 +263,16 @@ describe("SearchQueryBuilder", () => {
             {
               range: {
                 price: {
-                  from: 10,
-                  to: 20
+                  gte: 10,
+                  lte: 20
                 }
               }
             },
             {
               range: {
                 price: {
-                  from: 30,
-                  to: 40
+                  gte: 30,
+                  lte: 40
                 }
               }
             }
@@ -306,8 +306,8 @@ describe("SearchQueryBuilder", () => {
             price: {
               filters: {
                 filters: {
-                  "0-100": { range: { price: { from: 0, to: 100 } } },
-                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                  "0-100": { range: { price: { gte: 0, lte: 100 } } },
+                  "100-200": { range: { price: { gte: 100, lte: 200 } } }
                 }
               }
             }
@@ -396,8 +396,8 @@ describe("SearchQueryBuilder", () => {
             price: {
               filters: {
                 filters: {
-                  "0-100": { range: { price: { from: 0, to: 100 } } },
-                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                  "0-100": { range: { price: { gte: 0, lte: 100 } } },
+                  "100-200": { range: { price: { gte: 100, lte: 200 } } }
                 }
               }
             }
@@ -475,8 +475,8 @@ describe("SearchQueryBuilder", () => {
             price: {
               filters: {
                 filters: {
-                  "0-100": { range: { price: { from: 0, to: 100 } } },
-                  "100-200": { range: { price: { from: 100, to: 200 } } }
+                  "0-100": { range: { price: { gte: 0, lte: 100 } } },
+                  "100-200": { range: { price: { gte: 100, lte: 200 } } }
                 }
               }
             }
@@ -565,6 +565,108 @@ describe("SearchQueryBuilder", () => {
                     }
                   }
                 ]
+              }
+            }
+          ]
+        }
+      });
+    });
+  });
+
+  describe("getQueryFn", () => {
+    it("should use custom query function when provided", () => {
+      const customQuery = {
+        bool: {
+          match: {
+            title: {
+              query: "test",
+              boost: 2
+            }
+          }
+        }
+      };
+
+      const getQueryFn = jest.fn().mockReturnValue(customQuery);
+      const builder = new SearchQueryBuilder(state, queryConfig, getQueryFn);
+      const query = builder.build();
+
+      expect(getQueryFn).toHaveBeenCalledWith(state, queryConfig);
+      expect(query.query).toEqual({
+        bool: {
+          filter: [
+            {
+              bool: {
+                filter: [
+                  {
+                    term: {
+                      "category.keyword": "electronics"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          match: {
+            title: {
+              boost: 2,
+              query: "test"
+            }
+          }
+        }
+      });
+    });
+
+    it("should combine custom query with filters", () => {
+      const customQuery = {
+        bool: {
+          must: [
+            {
+              match: {
+                title: "test"
+              }
+            }
+          ]
+        }
+      };
+
+      const getQueryFn = jest.fn().mockReturnValue(customQuery);
+      const stateWithFilters: RequestState = {
+        ...state,
+        filters: [
+          {
+            type: "all",
+            field: "category.keyword",
+            values: ["electronics"]
+          }
+        ]
+      };
+
+      const builder = new SearchQueryBuilder(
+        stateWithFilters,
+        queryConfig,
+        getQueryFn
+      );
+      const query = builder.build();
+
+      expect(query.query).toEqual({
+        bool: {
+          filter: [
+            {
+              bool: {
+                filter: [
+                  {
+                    term: {
+                      "category.keyword": "electronics"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          must: [
+            {
+              match: {
+                title: "test"
               }
             }
           ]
