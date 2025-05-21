@@ -133,25 +133,9 @@ describe("Autocomplete results", () => {
           {
             queryType: "results",
             result: {
-              id: { raw: "1" },
               title: {
                 raw: "Test Title",
                 snippet: ["<em>Test</em> Title"]
-              },
-              description: { raw: "Test Description" },
-              _meta: {
-                id: "1",
-                rawHit: {
-                  _id: "1",
-                  _index: "test",
-                  _source: {
-                    title: "Test Title",
-                    description: "Test Description"
-                  },
-                  highlight: {
-                    title: ["<em>Test</em> Title"]
-                  }
-                }
               }
             }
           }
