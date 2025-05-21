@@ -500,8 +500,14 @@ describe("SearchQueryBuilder", () => {
           { type: "all", field: "category.keyword", values: ["electronics"] }
         ]
       };
-      queryConfig.filters = [];
-      const builder = new SearchQueryBuilder(stateWithFilters, queryConfig);
+      const configWithoutFilters = {
+        ...queryConfig,
+        filters: []
+      };
+      const builder = new SearchQueryBuilder(
+        stateWithFilters,
+        configWithoutFilters
+      );
       const query = builder.build();
 
       expect(query.query).toBeUndefined();
