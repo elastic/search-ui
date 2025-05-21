@@ -6,7 +6,11 @@ import type {
 import { SearchQueryBuilder } from "../queryBuilders/SearchQueryBuilder";
 import { transformSearchResponse } from "../transformer/responseTransformer";
 import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
-import type { PostProcessRequestBodyFn, RequestModifiers } from "../types";
+import type {
+  PostProcessRequestBodyFn,
+  RequestModifiers,
+  SearchRequest
+} from "../types";
 
 export const handleSearch = async (
   state: RequestState,
@@ -30,7 +34,7 @@ export const handleSearch = async (
   } else {
     response = await beforeSearchCall(
       { requestBody, requestState: state, queryConfig },
-      (requestBody: RequestState) => apiClient.performRequest(requestBody)
+      (requestBody: SearchRequest) => apiClient.performRequest(requestBody)
     );
   }
 

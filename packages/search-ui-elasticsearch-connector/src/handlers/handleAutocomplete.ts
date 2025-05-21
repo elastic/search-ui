@@ -11,7 +11,7 @@ import { ResultsAutocompleteBuilder } from "../queryBuilders/ResultsAutocomplete
 import { SuggestionsAutocompleteBuilder } from "../queryBuilders/SuggestionsAutocompleteBuilder";
 import { transformHitToFieldResult } from "../transformer/responseTransformer";
 import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
-import type { SearchQueryHook } from "../types";
+import type { SearchQueryHook, SearchRequest } from "../types";
 
 const isResultSuggestionConfiguration = (
   config: QueryConfig | ResultSuggestionConfiguration | SuggestionConfiguration
@@ -34,7 +34,7 @@ export const handleAutocomplete = async (
     autocompletedResultsRequestId: "",
     autocompletedSuggestionsRequestId: ""
   };
-  const next = (requestBody: RequestState) =>
+  const next = (requestBody: SearchRequest) =>
     apiClient.performRequest(requestBody);
 
   const buildResultHandler = (
