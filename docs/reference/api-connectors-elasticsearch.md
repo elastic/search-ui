@@ -35,35 +35,33 @@ class CustomApiClientTransporter implements IApiClientTransporter {
 
 const customApiClient = new CustomApiClientTransporter();
 
-const connector = new ElasticsearchAPIConnector(
-  {
-    // Either specify the cloud id or host or apiClient to connect to elasticsearch
-    cloud: {
-      id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
-    },
-    host: "http://localhost:9200", // host url for the Elasticsearch instance
-    index: "<index-name>", // index name where the search documents are contained
-    apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-    // This key will be visible to everyone so ensure its setup with restricted privileges.
-    // See Authentication section for more details.
-    connectionOptions: {
-      // Optional connection options.
-      headers: {
-        "x-custom-header": "value" // Optional. Specify custom headers to send with the request
-      }
-    },
-    // Optional. Custom API client implementation.
-    // If not provided, a default ApiClientTransporter will be used.
-    // This allows you to customize how requests are made to Elasticsearch.
-    apiClient: customApiClient
-  }
-);
+const connector = new ElasticsearchAPIConnector({
+  // Either specify the cloud id or host or apiClient to connect to elasticsearch
+  cloud: {
+    id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
+  },
+  host: "http://localhost:9200", // host url for the Elasticsearch instance
+  index: "<index-name>", // index name where the search documents are contained
+  apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+  // This key will be visible to everyone so ensure its setup with restricted privileges.
+  // See Authentication section for more details.
+  connectionOptions: {
+    // Optional connection options.
+    headers: {
+      "x-custom-header": "value" // Optional. Specify custom headers to send with the request
+    }
+  },
+  // Optional. Custom API client implementation.
+  // If not provided, a default ApiClientTransporter will be used.
+  // This allows you to customize how requests are made to Elasticsearch.
+  apiClient: customApiClient
+});
 ```
 
 **Constructor Parameters**
 
-| Argument | Type   | Description                                         |
-| -------- | ------ | --------------------------------------------------- |
+| Argument | Type   | Description                                                          |
+| -------- | ------ | -------------------------------------------------------------------- |
 | config   | object | Elasticsearch connection and modification options (see table below). |
 
 **Config**
@@ -155,7 +153,7 @@ These hooks can be used for:
 
 ### Custom Query Builder
 
-You can completely customize the query generation using the `getQueryFn` hook. The hook has the following type signature:
+You can completely customize the query generation using the `getQueryFn` hook. The hook is called only when there is a search query, so you don't need to handle empty search terms. The hook has the following type signature:
 
 ```ts
 type GetQueryFn = (
@@ -175,6 +173,23 @@ Example usage:
 ::::{tab-set}
 :group: query-examples
 
+:::{tab-item} Semantic Search
+:sync: semantic
+
+```ts
+const connector = new ElasticsearchAPIConnector({
+  // ... other config options ...
+  getQueryFn: (state, config) => ({
+    semantic: {
+      field: "inference_field",
+      query: state.searchTerm
+    }
+  })
+});
+```
+
+:::
+
 :::{tab-item} KNN Search
 :sync: knn
 
@@ -190,24 +205,7 @@ const connector = new ElasticsearchAPIConnector({
       k: 10,
       num_candidates: 100
     }
-  });
-});
-```
-
-:::
-
-:::{tab-item} Semantic Search
-:sync: semantic
-
-```ts
-const connector = new ElasticsearchAPIConnector({
-  // ... other config options ...
-  getQueryFn: (state, config) => ({
-    semantic: {
-      field: "inference_field",
-      query: state.searchTerm
-    }
-  });
+  })
 });
 ```
 
@@ -225,7 +223,7 @@ const connector = new ElasticsearchAPIConnector({
       inference_id: ".elser-2-elasticsearch",
       query: state.searchTerm
     }
-  });
+  })
 });
 ```
 
@@ -244,7 +242,7 @@ const connector = new ElasticsearchAPIConnector({
       type: "best_fields",
       fuzziness: "AUTO"
     }
-  });
+  })
 });
 ```
 
@@ -256,7 +254,7 @@ The `getQueryFn` allows you to:
 
 - Override the default query generation logic
 - Implement custom multi_match, match, term and other DSL queries
-- Use KNN and text_expansion queries for semantic search
+- Use semantic search, KNN and text_expansion queries for AI-powered search
 
 ::::{admonition} Note
 :class: important
