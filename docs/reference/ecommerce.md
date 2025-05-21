@@ -19,7 +19,7 @@ Below you can see a demo of an ecommerce store built with Search UI. We’re goi
 :::{tip}
 The full code for this demo is available in the [Search UI repo](https://github.com/elastic/search-ui/tree/main/examples/sandbox), using the code located under `examples/sandbox/src/pages/ecommerce`.
 
-You can also [try the ecommerce demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js).
+You can also [try the ecommerce demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.jsx).
 :::
 
 ## Related Articles [solutions-ecommerce-related-articles]

@@ -10,10 +10,10 @@ navigation_title: "Troubleshooting"
 % Use the following template to add entries to this page.
 
 % :::{dropdown} Title of known issue
-% **Details** 
+% **Details**
 % On [Month/Day/Year], a known issue was discovered that [description of known issue].
 
-% **Workaround** 
+% **Workaround**
 % Workaround description.
 
 % **Resolved**
@@ -21,4 +21,4 @@ navigation_title: "Troubleshooting"
 
 :::
 
-* When using the **Elasticsearch connector** Search UI does not render nested objects.
+- When using the **Elasticsearch connector** Search UI does not render nested objects.

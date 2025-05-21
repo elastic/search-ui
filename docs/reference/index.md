@@ -20,16 +20,14 @@ A JavaScript library for the fast development of modern, engaging search experie
 
 ### Connectors [overview-connectors]
 
-- [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/elasticsearch&file=/src/pages/elasticsearch/index.js)
-- [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/site-search&file=/src/pages/site-search/index.js)
-- ⚠️ DEPRECATED [Elastic App Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/app-search&file=/src/pages/app-search/index.js)
-- ⚠️ DEPRECATED [Elastic Workplace Search](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/workplace-search&file=/src/pages/workplace-search/index.js)
+- [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/elasticsearch&file=/src/pages/elasticsearch/index.jsx)
+- [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/site-search&file=/src/pages/site-search/index.jsx)
 
 ### Examples [overview-examples]
 
-- [Search as you type](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/search-as-you-type&file=/src/pages/search-as-you-type/index.js)
-- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/search-bar-in-header&file=/src/pages/search-bar-in-header/index.js)
-- [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/customizing-styles-and-html&file=/src/pages/customizing-styles-and-html/index.js)
+- [Search as you type](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/search-as-you-type&file=/src/pages/search-as-you-type/index.jsx)
+- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/search-bar-in-header&file=/src/pages/search-bar-in-header/index.jsx)
+- [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/customizing-styles-and-html&file=/src/pages/customizing-styles-and-html/index.jsx)
 
 ## Get Started 🌟 [overview-get-started]
 

@@ -67,7 +67,7 @@ export const config = () => ({
 :::::::
 
 :::{tip}
-[Try the demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.js).
+[Try the demo in CodeSandbox](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fecommerce&module=%2Fsrc%2Fpages%2Fecommerce%2Findex.jsx).
 :::
 
 - [Creating Components](/reference/guides-creating-own-components.md): Build your own components for Search UI.

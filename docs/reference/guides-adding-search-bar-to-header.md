@@ -20,7 +20,7 @@ To implement this with Search UI use the `<SearchBar>` component and add `onSubm
 Once the redirect happens, Search UI will pick up the query from the URL and display the results.
 
 :::{tip}
-View this implementation in our [CodeSandbox example](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fsearch-bar-in-header&module=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.js).
+View this implementation in our [CodeSandbox example](https://codesandbox.io/embed/github/elastic/search-ui/tree/main/examples/sandbox?autoresize=1&fontsize=12&initialpath=%2Fsearch-bar-in-header&module=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.jsx).
 :::
 
 Related documentation:
