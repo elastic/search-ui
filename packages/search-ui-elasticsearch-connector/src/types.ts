@@ -1,5 +1,9 @@
 import type { estypes } from "@elastic/elasticsearch";
-import type { QueryConfig, RequestState } from "@elastic/search-ui";
+import type {
+  AutocompleteQueryConfig,
+  QueryConfig,
+  RequestState
+} from "@elastic/search-ui";
 import type { IApiClientTransporter } from "./transporter/ApiClientTransporter";
 
 export type SearchRequest = estypes.SearchRequest;
@@ -23,11 +27,11 @@ export type PostProcessRequestBodyFn = (
   queryConfig: QueryConfig
 ) => SearchRequest;
 
-export type SearchQueryHook = (
+export type SearchQueryHook<T> = (
   params: {
     requestBody: SearchRequest;
     requestState: RequestState;
-    queryConfig: QueryConfig;
+    queryConfig: T;
   },
   next: (newQueryOptions: SearchRequest) => Promise<ResponseBody>
 ) => Promise<ResponseBody>;
@@ -48,8 +52,8 @@ export type ConnectionOptions = {
 };
 
 export type RequestModifiers = {
-  beforeSearchCall?: SearchQueryHook;
-  beforeAutocompleteResultsCall?: SearchQueryHook;
-  beforeAutocompleteSuggestionsCall?: SearchQueryHook;
+  beforeSearchCall?: SearchQueryHook<QueryConfig>;
+  beforeAutocompleteResultsCall?: SearchQueryHook<AutocompleteQueryConfig>;
+  beforeAutocompleteSuggestionsCall?: SearchQueryHook<AutocompleteQueryConfig>;
   getQueryFn?: (state: RequestState, queryConfig: QueryConfig) => SearchRequest;
 };

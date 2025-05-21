@@ -9,8 +9,7 @@ import type {
 import {
   PostProcessRequestBodyFn,
   ConnectionOptions,
-  RequestModifiers,
-  SearchQueryHook
+  RequestModifiers
 } from "../types";
 import {
   ApiClientTransporter,
@@ -21,10 +20,10 @@ import { handleSearch } from "../handlers/handleSearch";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private apiClient: IApiClientTransporter;
-  private beforeSearchCall?: SearchQueryHook;
+  private beforeSearchCall?: RequestModifiers["beforeSearchCall"];
   private getQueryFn?: RequestModifiers["getQueryFn"];
-  private beforeAutocompleteResultsCall?: SearchQueryHook;
-  private beforeAutocompleteSuggestionsCall?: SearchQueryHook;
+  private beforeAutocompleteResultsCall?: RequestModifiers["beforeAutocompleteResultsCall"];
+  private beforeAutocompleteSuggestionsCall?: RequestModifiers["beforeAutocompleteSuggestionsCall"];
 
   constructor(
     config: ConnectionOptions & RequestModifiers,
@@ -77,6 +76,12 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     state: RequestState,
     queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
-    return handleAutocomplete(state, queryConfig, this.apiClient);
+    return handleAutocomplete(
+      state,
+      queryConfig,
+      this.apiClient,
+      this.beforeAutocompleteSuggestionsCall,
+      this.beforeAutocompleteResultsCall
+    );
   }
 }
