@@ -1,34 +1,39 @@
 import React from "react";
-import { shallow } from "enzyme";
-
+import { render, screen, fireEvent } from "@testing-library/react";
 import LayoutSidebar from "../../layouts/LayoutSidebar";
 
 it("renders correctly", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <LayoutSidebar className="sui-layout-sidebar">Hello world!</LayoutSidebar>
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 it("renders toggled class based on state", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <LayoutSidebar className="sui-layout-sidebar">Hello world!</LayoutSidebar>
   );
-  wrapper.setState({ isSidebarToggled: true });
 
-  expect(wrapper.find(".sui-layout-sidebar--toggled")).toHaveLength(1);
+  const toggleButton = screen.getByText("Show Filters");
+  fireEvent.click(toggleButton);
+
+  const sidebar = container.querySelector(".sui-layout-sidebar");
+  expect(sidebar).toHaveClass("sui-layout-sidebar--toggled");
 });
 
 it("updates isSidebarToggled state on button click", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <LayoutSidebar className="sui-layout-sidebar">Hello world!</LayoutSidebar>
   );
-  expect(wrapper.state("isSidebarToggled")).toEqual(false);
-  const buttons = wrapper.find(".sui-layout-sidebar-toggle");
 
-  buttons.first().simulate("click");
-  expect(wrapper.state("isSidebarToggled")).toEqual(true);
+  const toggleButton = screen.getByText("Show Filters");
+  const sidebar = container.querySelector(".sui-layout-sidebar");
 
-  buttons.last().simulate("click");
-  expect(wrapper.state("isSidebarToggled")).toEqual(false);
+  expect(sidebar).not.toHaveClass("sui-layout-sidebar--toggled");
+
+  fireEvent.click(toggleButton);
+  expect(sidebar).toHaveClass("sui-layout-sidebar--toggled");
+
+  fireEvent.click(toggleButton);
+  expect(sidebar).not.toHaveClass("sui-layout-sidebar--toggled");
 });

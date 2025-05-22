@@ -1,6 +1,6 @@
 import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import BooleanFacet from "../BooleanFacet";
-import { shallow, mount } from "enzyme";
 import { FacetViewProps } from "../types";
 
 const params: FacetViewProps = {
@@ -28,28 +28,29 @@ afterEach(() => {
 });
 
 it("renders", () => {
-  const wrapper = shallow(<BooleanFacet {...params} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<BooleanFacet {...params} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <BooleanFacet className={customClassName} {...params} />
   );
-  const { className } = wrapper.props();
-  expect(className.includes(customClassName)).toBe(true);
+  expect(container.firstChild).toHaveClass(customClassName);
 });
 
 it("onChange is called on click", () => {
-  const wrapper = mount(<BooleanFacet {...params} />);
+  render(<BooleanFacet {...params} />);
 
-  wrapper.find("input").simulate("change");
+  const checkbox = screen.getByRole("checkbox");
+  fireEvent.click(checkbox);
+
   expect(params.onChange).toHaveBeenCalledTimes(1);
 });
 
 it("onRemove is called on click", () => {
-  const wrapper = mount(
+  render(
     <BooleanFacet
       {...{
         ...params,
@@ -58,12 +59,14 @@ it("onRemove is called on click", () => {
     />
   );
 
-  wrapper.find("input").simulate("change");
+  const checkbox = screen.getByRole("checkbox");
+  fireEvent.click(checkbox);
+
   expect(params.onRemove).toHaveBeenCalledTimes(1);
 });
 
 it("onRemove is called on click when value is number", () => {
-  const wrapper = mount(
+  render(
     <BooleanFacet
       {...{
         ...params,
@@ -72,12 +75,15 @@ it("onRemove is called on click when value is number", () => {
     />
   );
 
-  wrapper.find("input").simulate("change");
+  const checkbox = screen.getByRole("checkbox");
+  fireEvent.click(checkbox);
+
   expect(params.onRemove).toHaveBeenCalledTimes(1);
 });
 
 it("will not render when there are no true options", () => {
-  params.options = [];
-  const wrapper = shallow(<BooleanFacet {...params} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(
+    <BooleanFacet {...{ ...params, options: [] }} />
+  );
+  expect(container).toMatchSnapshot();
 });

@@ -1,48 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<fieldset
-  className="sui-facet"
->
-  <legend
-    className="sui-facet__title"
+<div>
+  <fieldset
+    class="sui-facet"
   >
-    A Facet
-  </legend>
-  <div
-    className="sui-boolean-facet"
-  >
-    <div
-      className="sui-boolean-facet__option-input-wrapper"
+    <legend
+      class="sui-facet__title"
     >
-      <label
-        className="sui-boolean-facet__option-label"
+      A Facet
+    </legend>
+    <div
+      class="sui-boolean-facet"
+    >
+      <div
+        class="sui-boolean-facet__option-input-wrapper"
       >
-        <div
-          className="sui-boolean-facet__option-input-wrapper"
+        <label
+          class="sui-boolean-facet__option-label"
         >
-          <input
-            checked={false}
-            className="sui-boolean-facet__checkbox"
-            data-transaction-name="facet - A Facet"
-            onChange={[Function]}
-            type="checkbox"
-          />
-          <span
-            className="sui-boolean-facet__input-text"
+          <div
+            class="sui-boolean-facet__option-input-wrapper"
           >
-            A Facet
+            <input
+              class="sui-boolean-facet__checkbox"
+              data-transaction-name="facet - A Facet"
+              type="checkbox"
+            />
+            <span
+              class="sui-boolean-facet__input-text"
+            >
+              A Facet
+            </span>
+          </div>
+          <span
+            class="sui-boolean-facet__option-count"
+          >
+            10
           </span>
-        </div>
-        <span
-          className="sui-boolean-facet__option-count"
-        >
-          10
-        </span>
-      </label>
+        </label>
+      </div>
     </div>
-  </div>
-</fieldset>
+  </fieldset>
+</div>
 `;
 
-exports[`will not render when there are no true options 1`] = `""`;
+exports[`will not render when there are no true options 1`] = `<div />`;

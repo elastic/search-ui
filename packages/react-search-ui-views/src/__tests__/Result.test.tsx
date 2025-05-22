@@ -1,7 +1,6 @@
 import React from "react";
+import { render, fireEvent } from "@testing-library/react";
 import Result from "../Result";
-import { shallow } from "enzyme";
-import { ResultViewProps } from "../Result";
 
 const TITLE_FIELD = "title";
 const URL_FIELD = "url";
@@ -9,18 +8,18 @@ const TITLE_RESULT_VALUE = "Title";
 const URL_RESULT_VALUE = "http://www.example.com";
 const ARBITRARY_FIELD = { _meta: "data" };
 
-const requiredProps: ResultViewProps = {
+const requiredProps = {
   result: { field: { raw: "value" } },
-  onClickLink: () => ({})
+  onClickLink: jest.fn()
 };
 
 it("renders correctly when there is not a URL or title", () => {
-  const wrapper = shallow(<Result {...requiredProps} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<Result {...requiredProps} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders correctly when there is a title", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result
       {...{
         ...requiredProps,
@@ -32,18 +31,22 @@ it("renders correctly when there is a title", () => {
       }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  expect(container.querySelector(".sui-result__title")).toHaveTextContent(
+    TITLE_RESULT_VALUE
+  );
 });
 
 it("renders correctly when there is a titleField but it is not defined in result", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result {...{ ...requiredProps, titleField: TITLE_FIELD }} />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  expect(container.querySelector(".sui-result__title")).not.toBeInTheDocument();
 });
 
 it("renders correctly when there is a URL", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result
       {...{
         ...requiredProps,
@@ -55,18 +58,23 @@ it("renders correctly when there is a URL", () => {
       }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  const link = container.querySelector(".sui-result__title-link");
+  expect(link).toHaveAttribute("href", URL_RESULT_VALUE);
 });
 
 it("renders correctly when there is a urlField but it is not defined in result", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result {...{ ...requiredProps, urlField: URL_FIELD }} />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  expect(
+    container.querySelector(".sui-result__title-link")
+  ).not.toBeInTheDocument();
 });
 
 it("renders correctly when there is a title and url", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result
       {...{
         ...requiredProps,
@@ -80,11 +88,14 @@ it("renders correctly when there is a title and url", () => {
       }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  const link = container.querySelector(".sui-result__title-link");
+  expect(link).toHaveAttribute("href", URL_RESULT_VALUE);
+  expect(link).toHaveTextContent(TITLE_RESULT_VALUE);
 });
 
 it("filters out arbitrary fields from results, and does not render them", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result
       {...{
         ...requiredProps,
@@ -95,20 +106,22 @@ it("filters out arbitrary fields from results, and does not render them", () => 
       }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  expect(container.querySelector(".sui-result__key")).not.toHaveTextContent(
+    "_meta"
+  );
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <Result className={customClassName} {...requiredProps} />
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-result test-class");
+  expect(container.firstChild).toHaveClass("sui-result", "test-class");
 });
 
 it("renders correctly when there is a malicious URL", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Result
       {...{
         ...requiredProps,
@@ -120,5 +133,28 @@ it("renders correctly when there is a malicious URL", () => {
       }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
+  expect(
+    container.querySelector(".sui-result__title-link")
+  ).not.toBeInTheDocument();
+});
+
+it("calls onClickLink when clicking on the link", () => {
+  const { container } = render(
+    <Result
+      {...{
+        ...requiredProps,
+        result: {
+          ...requiredProps.result,
+          [TITLE_FIELD]: { raw: TITLE_RESULT_VALUE },
+          [URL_FIELD]: { raw: URL_RESULT_VALUE }
+        },
+        titleField: TITLE_FIELD,
+        urlField: URL_FIELD
+      }}
+    />
+  );
+  const link = container.querySelector(".sui-result__title-link");
+  fireEvent.click(link);
+  expect(requiredProps.onClickLink).toHaveBeenCalled();
 });

@@ -1,11 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ul
-  className="sui-results-container"
->
-  <div>
-    Children
-  </div>
-</ul>
+<div>
+  <ul
+    class="sui-results-container"
+  >
+    <div>
+      Children
+    </div>
+  </ul>
+</div>
 `;

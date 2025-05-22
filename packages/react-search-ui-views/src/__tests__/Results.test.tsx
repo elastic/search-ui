@@ -1,23 +1,25 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import Results from "../Results";
-import { shallow } from "enzyme";
 
 it("renders correctly", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Results>
       <div>Children</div>
     </Results>
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <Results className={customClassName}>
       <div>Children</div>
     </Results>
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-results-container test-class");
+  expect(container.firstChild).toHaveClass(
+    "sui-results-container",
+    "test-class"
+  );
 });

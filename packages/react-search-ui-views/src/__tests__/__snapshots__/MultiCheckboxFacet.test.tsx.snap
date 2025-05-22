@@ -1,265 +1,250 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<fieldset
-  className="sui-facet"
->
-  <legend
-    className="sui-facet__title"
+<div>
+  <fieldset
+    class="sui-facet"
   >
-    A Facet
-  </legend>
-  <div
-    className="sui-multi-checkbox-facet"
-  >
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A FacetfieldValue1"
-      key="fieldValue1"
+    <legend
+      class="sui-facet__title"
     >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
-      >
-        <input
-          checked={false}
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A FacetfieldValue1"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <span
-          className="sui-multi-checkbox-facet__input-text"
-        >
-          fieldValue1
-        </span>
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
-      >
-        10
-      </span>
-    </label>
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A FacetfieldValue2"
-      key="fieldValue2"
+      A Facet
+    </legend>
+    <div
+      class="sui-multi-checkbox-facet"
     >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A FacetfieldValue1"
       >
-        <input
-          checked={true}
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A FacetfieldValue2"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <span
-          className="sui-multi-checkbox-facet__input-text"
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
         >
-          fieldValue2
+          <input
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A FacetfieldValue1"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          >
+            fieldValue1
+          </span>
+        </div>
+        <span
+          class="sui-multi-checkbox-facet__option-count"
+        >
+          10
         </span>
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
+      </label>
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A FacetfieldValue2"
       >
-        5
-      </span>
-    </label>
-  </div>
-  <button
-    aria-label="Show more options"
-    className="sui-facet-view-more"
-    onClick={[MockFunction]}
-    type="button"
-  >
-    + More
-  </button>
-</fieldset>
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
+        >
+          <input
+            checked=""
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A FacetfieldValue2"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          >
+            fieldValue2
+          </span>
+        </div>
+        <span
+          class="sui-multi-checkbox-facet__option-count"
+        >
+          5
+        </span>
+      </label>
+    </div>
+    <button
+      aria-label="Show more options"
+      class="sui-facet-view-more"
+      type="button"
+    >
+      + More
+    </button>
+  </fieldset>
+</div>
 `;
 
 exports[`renders falsey values correctly 1`] = `
-<fieldset
-  className="sui-facet"
->
-  <legend
-    className="sui-facet__title"
+<div>
+  <fieldset
+    class="sui-facet"
   >
-    A Facet
-  </legend>
-  <div
-    className="sui-multi-checkbox-facet"
-  >
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A Facet0"
-      key="0"
+    <legend
+      class="sui-facet__title"
     >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
+      A Facet
+    </legend>
+    <div
+      class="sui-multi-checkbox-facet"
+    >
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A Facet0"
       >
-        <input
-          checked={false}
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A Facet0"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <span
-          className="sui-multi-checkbox-facet__input-text"
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
         >
-          0
-        </span>
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
-      >
-        10
-      </span>
-    </label>
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A Facetfalse"
-      key="false"
-    >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
-      >
-        <input
-          checked={false}
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A Facetfalse"
-          onChange={[Function]}
-          type="checkbox"
-        />
+          <input
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A Facet0"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          >
+            0
+          </span>
+        </div>
         <span
-          className="sui-multi-checkbox-facet__input-text"
+          class="sui-multi-checkbox-facet__option-count"
         >
-          false
+          10
         </span>
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
+      </label>
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A Facetfalse"
       >
-        20
-      </span>
-    </label>
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A Facet"
-      key=""
-    >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
-      >
-        <input
-          checked={false}
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A Facet"
-          onChange={[Function]}
-          type="checkbox"
-        />
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
+        >
+          <input
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A Facetfalse"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          >
+            false
+          </span>
+        </div>
         <span
-          className="sui-multi-checkbox-facet__input-text"
-        />
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
+          class="sui-multi-checkbox-facet__option-count"
+        >
+          20
+        </span>
+      </label>
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A Facet"
       >
-        30
-      </span>
-    </label>
-  </div>
-  <button
-    aria-label="Show more options"
-    className="sui-facet-view-more"
-    onClick={[MockFunction]}
-    type="button"
-  >
-    + More
-  </button>
-</fieldset>
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
+        >
+          <input
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A Facet"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          />
+        </div>
+        <span
+          class="sui-multi-checkbox-facet__option-count"
+        >
+          30
+        </span>
+      </label>
+    </div>
+    <button
+      aria-label="Show more options"
+      class="sui-facet-view-more"
+      type="button"
+    >
+      + More
+    </button>
+  </fieldset>
+</div>
 `;
 
 exports[`renders range filters 1`] = `
-<fieldset
-  className="sui-facet"
->
-  <legend
-    className="sui-facet__title"
+<div>
+  <fieldset
+    class="sui-facet"
   >
-    A Facet
-  </legend>
-  <div
-    className="sui-multi-checkbox-facet"
-  >
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A FacetThe first option"
-      key="The first option"
+    <legend
+      class="sui-facet__title"
     >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
-      >
-        <input
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A FacetThe first option"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <span
-          className="sui-multi-checkbox-facet__input-text"
-        >
-          The first option
-        </span>
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
-      >
-        1
-      </span>
-    </label>
-    <label
-      className="sui-multi-checkbox-facet__option-label"
-      htmlFor="example_facet_A FacetThe second option"
-      key="The second option"
+      A Facet
+    </legend>
+    <div
+      class="sui-multi-checkbox-facet"
     >
-      <div
-        className="sui-multi-checkbox-facet__option-input-wrapper"
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A FacetThe first option"
       >
-        <input
-          className="sui-multi-checkbox-facet__checkbox"
-          data-transaction-name="facet - A Facet"
-          id="example_facet_A FacetThe second option"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <span
-          className="sui-multi-checkbox-facet__input-text"
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
         >
-          The second option
+          <input
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A FacetThe first option"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          >
+            The first option
+          </span>
+        </div>
+        <span
+          class="sui-multi-checkbox-facet__option-count"
+        >
+          1
         </span>
-      </div>
-      <span
-        className="sui-multi-checkbox-facet__option-count"
+      </label>
+      <label
+        class="sui-multi-checkbox-facet__option-label"
+        for="example_facet_A FacetThe second option"
       >
-        11
-      </span>
-    </label>
-  </div>
-  <button
-    aria-label="Show more options"
-    className="sui-facet-view-more"
-    onClick={[MockFunction]}
-    type="button"
-  >
-    + More
-  </button>
-</fieldset>
+        <div
+          class="sui-multi-checkbox-facet__option-input-wrapper"
+        >
+          <input
+            class="sui-multi-checkbox-facet__checkbox"
+            data-transaction-name="facet - A Facet"
+            id="example_facet_A FacetThe second option"
+            type="checkbox"
+          />
+          <span
+            class="sui-multi-checkbox-facet__input-text"
+          >
+            The second option
+          </span>
+        </div>
+        <span
+          class="sui-multi-checkbox-facet__option-count"
+        >
+          11
+        </span>
+      </label>
+    </div>
+    <button
+      aria-label="Show more options"
+      class="sui-facet-view-more"
+      type="button"
+    >
+      + More
+    </button>
+  </fieldset>
+</div>
 `;

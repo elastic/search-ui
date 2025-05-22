@@ -1,6 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import SingleLinksFacet from "../SingleLinksFacet";
-import { shallow } from "enzyme";
 import { FacetViewProps } from "../types";
 
 const params: FacetViewProps = {
@@ -21,12 +21,12 @@ const params: FacetViewProps = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<SingleLinksFacet {...params} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<SingleLinksFacet {...params} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders falsey values correctly", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <SingleLinksFacet
       {...params}
       options={[
@@ -48,12 +48,12 @@ it("renders falsey values correctly", () => {
       ]}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 describe("determining selected option", () => {
   it("will correctly determine which of the options is selected", () => {
-    const wrapper = shallow(
+    const { container } = render(
       <SingleLinksFacet
         {...params}
         options={[
@@ -62,13 +62,13 @@ describe("determining selected option", () => {
         ]}
       />
     );
-    expect(wrapper.find("li").length).toBe(1);
-    expect(wrapper.find("li").text()).toBe("1 (Remove)");
+    const listItems = container.querySelectorAll("li");
+    expect(listItems).toHaveLength(1);
+    expect(listItems[0]).toHaveTextContent("1 (Remove)");
   });
 
-  // This shouldn't ever happen, but if it does, it should use the first selected value
   it("will used the first selected option when multiple options are selected", () => {
-    const wrapper = shallow(
+    const { container } = render(
       <SingleLinksFacet
         {...params}
         options={[
@@ -77,12 +77,13 @@ describe("determining selected option", () => {
         ]}
       />
     );
-    expect(wrapper.find("li").length).toBe(1);
-    expect(wrapper.find("li").text()).toBe("1 (Remove)");
+    const listItems = container.querySelectorAll("li");
+    expect(listItems).toHaveLength(1);
+    expect(listItems[0]).toHaveTextContent("1 (Remove)");
   });
 
   it("will correctly determine when no value is selected", () => {
-    const wrapper = shallow(
+    const { container } = render(
       <SingleLinksFacet
         {...params}
         options={[
@@ -91,15 +92,14 @@ describe("determining selected option", () => {
         ]}
       />
     );
-    expect(wrapper.find("li").length).toBe(2);
+    expect(container.querySelectorAll("li")).toHaveLength(2);
   });
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <SingleLinksFacet {...params} className={customClassName} />
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-facet test-class");
+  expect(container.firstChild).toHaveClass("sui-facet", "test-class");
 });
