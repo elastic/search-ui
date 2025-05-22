@@ -1,5 +1,5 @@
 import React from "react";
-import Select, { components } from "react-select";
+import Select, { components, OptionProps } from "react-select";
 import { BaseContainerProps } from "./types";
 
 import { appendClassName } from "./view-helpers";
@@ -27,7 +27,11 @@ export type SortingContainerProps = BaseContainerProps & {
   sortOptions: any;
 };
 
-function Option(props) {
+interface OptionDataProps {
+  label: string;
+}
+
+function Option(props: OptionProps<OptionDataProps>) {
   return <components.Option {...props}>{props.data.label}</components.Option>;
 }
 

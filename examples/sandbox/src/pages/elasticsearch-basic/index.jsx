@@ -1,6 +1,3 @@
-import React from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
-
 import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import moment from "moment";
 import { Elasticsearch } from "./Elasticsearch";

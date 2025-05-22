@@ -55,7 +55,7 @@ function withSearch<TProps, TContext>(
   }
 
   return function (Component: React.ComponentType<any>) {
-    class WithSearch extends React.PureComponent<Omit<TProps, keyof TContext>> {
+    return class extends React.PureComponent<Omit<TProps, keyof TContext>> {
       static contextType = SearchContext;
       declare context: React.ContextType<typeof SearchContext>;
       mounted: boolean;
@@ -106,9 +106,9 @@ function withSearch<TProps, TContext>(
 
         return <Component {...this.state} {...rest} />;
       }
-    }
-
-    return WithSearch;
+    } as unknown as React.ComponentType<
+      Omit<TProps, keyof TContext> & withSearchProps<TContext>
+    >;
   };
 }
 

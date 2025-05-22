@@ -1,18 +1,17 @@
 import React from "react";
 import Select, { components } from "react-select";
+import type { OptionProps } from "react-select";
 
 import { FacetViewProps } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
-interface OptionProps {
-  data: {
-    label: string;
-    count: number;
-  };
+interface OptionDataProps {
+  label: string;
+  count: number;
 }
 
-function Option(props: OptionProps) {
+function Option(props: OptionProps<OptionDataProps>) {
   return (
     <components.Option {...props}>
       <span className="sui-select__option-label">{props.data.label}</span>
