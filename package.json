@@ -49,7 +49,7 @@
     "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=18",
+    "node": ">=20.18",
     "yarn": "^1.2.0"
   },
   "resolutions": {
