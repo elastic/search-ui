@@ -1,6 +1,5 @@
 /* eslint-disable jest/no-focused-tests */
-import React from "react";
-import { act } from "react-dom/test-utils";
+import React, { act } from "react";
 import { mount } from "enzyme";
 
 import { SearchContext } from "..";

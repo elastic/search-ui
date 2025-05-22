@@ -134,7 +134,7 @@ describe("SearchProvider", () => {
         <WithSearch
           mapContextToProps={({ searchTerm, setSearchTerm }) => ({
             searchTerm,
-            setSearchTerm
+            setSearchTerm,
           })}
         >
           {({ searchTerm, setSearchTerm }) => (

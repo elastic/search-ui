@@ -1,5 +1,4 @@
-import React from "react";
-import { act } from "react-dom/test-utils";
+import React, { act } from "react";
 import SearchBoxContainer from "../SearchBox";
 import { shallow, mount } from "enzyme";
 import { SearchBoxViewProps } from "@elastic/react-search-ui-views";
