@@ -489,6 +489,106 @@ describe("SearchQueryBuilder", () => {
         }
       });
     });
+
+    it("should handle must, must_not, and should filters in aggregations", () => {
+      const stateWithFilters: RequestState = {
+        searchTerm: "",
+        resultsPerPage: 10,
+        current: 1,
+        filters: [
+          { type: "all", field: "category.keyword", values: ["electronics"] }, // must
+          { type: "none", field: "brand.keyword", values: ["apple"] }, // must_not
+          { type: "any", field: "color.keyword", values: ["red", "blue"] } // should
+        ]
+      };
+      const config: SearchQuery = {
+        result_fields: { title: { snippet: { size: 100, fallback: true } } },
+        facets: {
+          "category.keyword": { type: "value" },
+          "brand.keyword": { type: "value" },
+          "color.keyword": { type: "value" }
+        }
+      };
+      const builder = new SearchQueryBuilder(stateWithFilters, config);
+      const aggs = builder.build().aggs;
+      expect(aggs).toEqual({
+        facet_bucket_all: {
+          aggs: {
+            "brand.keyword": {
+              terms: {
+                field: "brand.keyword",
+                order: {
+                  _count: "desc"
+                },
+                size: 20
+              }
+            },
+            "category.keyword": {
+              terms: {
+                field: "category.keyword",
+                order: {
+                  _count: "desc"
+                },
+                size: 20
+              }
+            },
+            "color.keyword": {
+              terms: {
+                field: "color.keyword",
+                order: {
+                  _count: "desc"
+                },
+                size: 20
+              }
+            }
+          },
+          filter: {
+            bool: {
+              must: [
+                {
+                  bool: {
+                    filter: [
+                      {
+                        term: {
+                          "category.keyword": "electronics"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  bool: {
+                    must_not: [
+                      {
+                        term: {
+                          "brand.keyword": "apple"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  bool: {
+                    should: [
+                      {
+                        term: {
+                          "color.keyword": "red"
+                        }
+                      },
+                      {
+                        term: {
+                          "color.keyword": "blue"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      });
+    });
   });
 
   describe("buildQuery", () => {
@@ -575,6 +675,64 @@ describe("SearchQueryBuilder", () => {
             }
           ]
         }
+      });
+    });
+
+    describe("fuzziness", () => {
+      it("should not add fuzziness when not configured", () => {
+        const builder = new SearchQueryBuilder(state, queryConfig);
+        const query = builder.build();
+
+        expect(
+          query.query.bool.must[0].bool.should[0].multi_match.fuzziness
+        ).toBeUndefined();
+      });
+
+      it("should add AUTO fuzziness when configured", () => {
+        const configWithFuzziness: SearchQuery = {
+          ...queryConfig,
+          fuzziness: true
+        };
+
+        const builder = new SearchQueryBuilder(state, configWithFuzziness);
+        const query = builder.build();
+
+        expect(
+          query.query.bool.must[0].bool.should[0].multi_match.fuzziness
+        ).toBe("AUTO");
+
+        expect(query.query.bool.must[0].bool.should).toEqual([
+          {
+            multi_match: {
+              fields: [],
+              fuzziness: "AUTO",
+              operator: "and",
+              query: "test",
+              type: "best_fields"
+            }
+          },
+          {
+            multi_match: {
+              fields: [],
+              query: "test",
+              type: "cross_fields"
+            }
+          },
+          {
+            multi_match: {
+              fields: [],
+              query: "test",
+              type: "phrase"
+            }
+          },
+          {
+            multi_match: {
+              fields: [],
+              query: "test",
+              type: "phrase_prefix"
+            }
+          }
+        ]);
       });
     });
   });

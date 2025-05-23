@@ -54,16 +54,16 @@ describe("Search - Response", () => {
     const response: ResponseState = SearchResponse(searchkitResponse);
 
     expect(response).toMatchInlineSnapshot(`
-      Object {
-        "facets": Object {
-          "test": Array [
-            Object {
-              "data": Array [
-                Object {
+      {
+        "facets": {
+          "test": [
+            {
+              "data": [
+                {
                   "count": 10,
                   "value": "labeltest",
                 },
-                Object {
+                {
                   "count": 20,
                   "value": "label2",
                 },
@@ -77,24 +77,24 @@ describe("Search - Response", () => {
         "rawResponse": null,
         "requestId": null,
         "resultSearchTerm": "test",
-        "results": Array [
-          Object {
-            "_meta": Object {
+        "results": [
+          {
+            "_meta": {
               "id": "test",
-              "rawHit": Object {
+              "rawHit": {
                 "_id": "test",
               },
             },
-            "description": Object {
+            "description": {
               "raw": "test",
             },
-            "fieldOnlyHighlight": Object {
+            "fieldOnlyHighlight": {
               "snippet": "test",
             },
-            "id": Object {
+            "id": {
               "raw": "test",
             },
-            "title": Object {
+            "title": {
               "raw": "hello",
               "snippet": "hello",
             },

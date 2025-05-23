@@ -1,6 +1,3 @@
-import React from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
-
 import ElasticSearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
 import moment from "moment";
 import { Elasticsearch } from "./Elasticsearch";
@@ -27,6 +24,7 @@ const config = {
       description: {},
       states: {}
     },
+    fuzziness: true,
     result_fields: {
       visitors: { raw: {} },
       world_heritage_site: { raw: {} },
@@ -113,8 +111,16 @@ const config = {
   },
   autocompleteQuery: {
     results: {
+      fuzziness: true,
       search_fields: {
         parks_search_as_you_type: {}
+      },
+      search_fields: {
+        title: {
+          weight: 3
+        },
+        description: {},
+        states: {}
       },
       resultsPerPage: 5,
       result_fields: {

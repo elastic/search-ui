@@ -2,53 +2,149 @@
 
 exports[`supports a render prop 1`] = `
 <div>
-  <ResultContainer
-    clickThroughTags={Array []}
-    key="result-id"
-    result={
-      Object {
-        "id": Object {
-          "raw": "id",
-          "snippet": "<em>id</em>",
-        },
-        "title": Object {
-          "raw": "title",
-          "snippet": "<em>title</em>",
-        },
-        "url": Object {
-          "raw": "url",
-          "snippet": "<em>url</em>",
-        },
-      }
-    }
-    shouldTrackClickThrough={true}
-    titleField="title"
-    urlField="url"
-    view={[Function]}
-  />
-  <ResultContainer
-    clickThroughTags={Array []}
-    key="result-id"
-    result={
-      Object {
-        "id": Object {
-          "raw": "id",
-          "snippet": "<em>id</em>",
-        },
-        "title": Object {
-          "raw": "title",
-          "snippet": "<em>title</em>",
-        },
-        "url": Object {
-          "raw": "url",
-          "snippet": "<em>url</em>",
-        },
-      }
-    }
-    shouldTrackClickThrough={true}
-    titleField="title"
-    urlField="url"
-    view={[Function]}
-  />
+  <div>
+    <li
+      class="sui-result"
+    >
+      <div
+        class="sui-result__header"
+      >
+        <a
+          class="sui-result__title sui-result__title-link"
+          href="url"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <em>
+            title
+          </em>
+        </a>
+      </div>
+      <div
+        class="sui-result__body"
+      >
+        <ul
+          class="sui-result__details"
+        >
+          <li>
+            <span
+              class="sui-result__key"
+            >
+              id
+            </span>
+             
+            <span
+              class="sui-result__value"
+            >
+              <em>
+                id
+              </em>
+            </span>
+          </li>
+          <li>
+            <span
+              class="sui-result__key"
+            >
+              title
+            </span>
+             
+            <span
+              class="sui-result__value"
+            >
+              <em>
+                title
+              </em>
+            </span>
+          </li>
+          <li>
+            <span
+              class="sui-result__key"
+            >
+              url
+            </span>
+             
+            <span
+              class="sui-result__value"
+            >
+              <em>
+                url
+              </em>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li
+      class="sui-result"
+    >
+      <div
+        class="sui-result__header"
+      >
+        <a
+          class="sui-result__title sui-result__title-link"
+          href="url"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <em>
+            title
+          </em>
+        </a>
+      </div>
+      <div
+        class="sui-result__body"
+      >
+        <ul
+          class="sui-result__details"
+        >
+          <li>
+            <span
+              class="sui-result__key"
+            >
+              id
+            </span>
+             
+            <span
+              class="sui-result__value"
+            >
+              <em>
+                id
+              </em>
+            </span>
+          </li>
+          <li>
+            <span
+              class="sui-result__key"
+            >
+              title
+            </span>
+             
+            <span
+              class="sui-result__value"
+            >
+              <em>
+                title
+              </em>
+            </span>
+          </li>
+          <li>
+            <span
+              class="sui-result__key"
+            >
+              url
+            </span>
+             
+            <span
+              class="sui-result__value"
+            >
+              <em>
+                url
+              </em>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </div>
 </div>
 `;

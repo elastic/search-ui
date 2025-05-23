@@ -366,7 +366,23 @@ setFilter("precio", {
 
 ### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
 
-Currently the None filter type is not supported. If this is a feature thats needed, please mention it in this [issue](https://github.com/elastic/search-ui/issues/783).
+You can use the `none` filter type to exclude documents that match certain values (works as a must_not filter in Elasticsearch).
+
+#### Example
+
+```js
+searchQuery: {
+  filters: [
+    {
+      type: "none", // Exclude documents where brand.keyword is "apple"
+      field: "brand.keyword",
+      values: ["apple"]
+    }
+  ];
+}
+```
+
+This filter will exclude all documents where the field `brand.keyword` is equal to `"apple"`.
 
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
@@ -425,3 +441,11 @@ Below is an example of the mappings for the above example. `title_suggest` is a 
 ```
 
 With a combination of this configuration + the [Searchbox](/reference/api-react-components-search-box.md) component with autocomplete configuration, your users will be able to see suggestions as they type within the search box.
+
+## Fuzziness [api-connectors-elasticsearch-fuzziness]
+
+The Elasticsearch Connector supports typo tolerance through Elasticsearch's `fuzziness` setting. This is enabled by setting `fuzziness: true` in the `searchQuery` configuration (or in `autocomplete` query configurations that follow the same structure).
+
+When enabled, `fuzziness: true` is internally translated to `fuzziness: "AUTO"` in Elasticsearch `multi_match` queries. The `AUTO` mode automatically adjusts the allowed edit distance based on the length of the search term, enabling effective fuzzy matching for both short and long inputs.
+
+For more details, refer to the [Elasticsearch Fuzzy Query documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-fuzzy-query.html).

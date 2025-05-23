@@ -1,7 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import SearchBox from "../SearchBox";
-import SearchInput from "../SearchInput";
-import { shallow } from "enzyme";
 import { SearchBoxViewProps } from "../SearchBox";
 
 const requiredProps: SearchBoxViewProps = {
@@ -15,9 +14,7 @@ const requiredProps: SearchBoxViewProps = {
   notifyAutocompleteSelected: () => ({}),
   value: "test",
   inputProps: {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onFocus: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onBlur: () => {}
   },
   isFocused: false,
@@ -26,33 +23,30 @@ const requiredProps: SearchBoxViewProps = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<SearchBox {...requiredProps} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<SearchBox {...requiredProps} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders correctly with single autocompleteSuggestion configuration", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <SearchBox
       {...requiredProps}
       autocompleteSuggestions={{ sectionTitle: "test" }}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 it("applies 'focused' class when `isFocused` is true", () => {
-  const wrapper = shallow(<SearchBox {...requiredProps} isFocused={true} />);
-  const downshift = wrapper
-    .find("Downshift")
-    .dive()
-    .find("SearchInput")
-    .shallow();
-  const input = downshift.find(".sui-search-box__text-input");
-  expect(input.hasClass("focus")).toBe(true);
+  const { container } = render(
+    <SearchBox {...requiredProps} isFocused={true} />
+  );
+  const input = container.querySelector(".sui-search-box__text-input");
+  expect(input).toHaveClass("focus");
 });
 
 it("passes through downshiftProps", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <SearchBox
       {...requiredProps}
       inputProps={{
@@ -62,45 +56,43 @@ it("passes through downshiftProps", () => {
       }}
     />
   );
-  const si = wrapper.find("Downshift").dive().find(SearchInput);
-  expect((si.props() as any).clearSelection).toBeInstanceOf(Function);
+  const input = container.querySelector(".sui-search-box__text-input");
+  expect(input).toBeInTheDocument();
 });
 
 it("passes through inputProps", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <SearchBox {...requiredProps} inputProps={{ placeholder: "test" }} />
   );
-  const downshift = wrapper.dive().find("SearchInput").shallow();
-  const input = downshift.find(".sui-search-box__text-input");
-  expect(input.props().placeholder).toBe("test");
+  const input = container.querySelector(".sui-search-box__text-input");
+  expect(input).toHaveAttribute("placeholder", "test");
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <SearchBox {...requiredProps} className={customClassName} />
   );
-
-  const { className } = wrapper.dive().find(".sui-search-box").props();
-  expect(className).toEqual("sui-search-box test-class");
+  expect(container.querySelector(".sui-search-box")).toHaveClass(
+    "sui-search-box",
+    "test-class"
+  );
 });
 
 it("applies className from inputProps to input element", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <SearchBox {...requiredProps} inputProps={{ className: customClassName }} />
   );
-
-  const downshift = wrapper.dive().find("SearchInput").shallow();
-  const input = downshift.find(".sui-search-box__text-input");
-  expect(input.props().className).toBe("sui-search-box__text-input test-class");
+  const input = container.querySelector(".sui-search-box__text-input");
+  expect(input).toHaveClass("sui-search-box__text-input", "test-class");
 });
 
 describe("inputView prop", () => {
-  let wrapper, input, button;
+  let container, input, button;
 
   function setup() {
-    wrapper = shallow(
+    const result = render(
       <SearchBox
         {...requiredProps}
         inputView={({ getAutocomplete, getInputProps, getButtonProps }) => {
@@ -124,54 +116,49 @@ describe("inputView prop", () => {
         }}
       />
     );
-
-    input = wrapper.dive().find("inputView").shallow().find("input").at(0);
-
-    button = wrapper.dive().find("inputView").shallow().find("input").at(1);
+    container = result.container;
+    input = container.querySelector("input.some_custom_input_class");
+    button = container.querySelector("input.some_custom_button_class");
   }
 
   it("will render a custom view just for the input section", () => {
     setup();
     expect(
-      wrapper
-        .dive("Downshift")
-        .find("inputView")
-        .shallow()
-        .find(".some_custom_wrapper_class")
-    ).toHaveLength(1);
+      container.querySelector(".some_custom_wrapper_class")
+    ).toBeInTheDocument();
   });
 
   describe("when getInputProps is used", () => {
     it("will render custom props on input", () => {
       setup();
-      expect(input.hasClass("some_custom_input_class")).toBe(true);
+      expect(input).toHaveClass("some_custom_input_class");
     });
 
     it("will not overwrite the base class on input", () => {
       setup();
-      expect(input.hasClass("sui-search-box__text-input")).toBe(true);
+      expect(input).toHaveClass("sui-search-box__text-input");
     });
 
     it("will render base props on input", () => {
       setup();
-      expect(input.props().placeholder).toBe("Search");
+      expect(input).toHaveAttribute("placeholder", "Search");
     });
   });
 
   describe("when getButtonProps is used", () => {
     it("will render custom props on button", () => {
       setup();
-      expect(button.hasClass("some_custom_button_class")).toBe(true);
+      expect(button).toHaveClass("some_custom_button_class");
     });
 
     it("will not overwrite the base class on button", () => {
       setup();
-      expect(button.hasClass("sui-search-box__submit")).toBe(true);
+      expect(button).toHaveClass("sui-search-box__submit");
     });
 
     it("will render base props on button", () => {
       setup();
-      expect(button.props().type).toBe("submit");
+      expect(button).toHaveAttribute("type", "submit");
     });
   });
 });

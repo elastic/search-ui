@@ -124,6 +124,7 @@ export type ResultSuggestionConfiguration = {
   resultsPerPage?: number;
   result_fields?: Record<string, FieldConfiguration>;
   search_fields?: Record<string, SearchFieldConfiguration>;
+  fuzziness?: boolean;
   index?: string;
   queryType: "results";
 };
@@ -162,6 +163,7 @@ export type SearchQuery = {
   conditionalFacets?: Record<string, ConditionalRule>;
   filters?: Filter[];
   facets?: Record<string, FacetConfiguration>;
+  fuzziness?: boolean;
   disjunctiveFacets?: string[];
   disjunctiveFacetsAnalyticsTags?: string[];
   result_fields?: Record<string, FieldConfiguration>;

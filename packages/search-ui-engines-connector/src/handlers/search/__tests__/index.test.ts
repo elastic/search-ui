@@ -135,16 +135,16 @@ describe("Search results", () => {
     );
 
     expect(results).toMatchInlineSnapshot(`
-      Object {
-        "facets": Object {
-          "another_field.keyword": Array [
-            Object {
-              "data": Array [
-                Object {
+      {
+        "facets": {
+          "another_field.keyword": [
+            {
+              "data": [
+                {
                   "count": 10,
                   "value": "label1",
                 },
-                Object {
+                {
                   "count": 20,
                   "value": "label2",
                 },
@@ -152,14 +152,14 @@ describe("Search results", () => {
               "type": "value",
             },
           ],
-          "world_heritage_site.keyword": Array [
-            Object {
-              "data": Array [
-                Object {
+          "world_heritage_site.keyword": [
+            {
+              "data": [
+                {
                   "count": 10,
                   "value": "label3",
                 },
-                Object {
+                {
                   "count": 20,
                   "value": "label4",
                 },
@@ -173,21 +173,21 @@ describe("Search results", () => {
         "rawResponse": null,
         "requestId": null,
         "resultSearchTerm": "test",
-        "results": Array [
-          Object {
-            "_meta": Object {
+        "results": [
+          {
+            "_meta": {
               "id": "test",
-              "rawHit": Object {
+              "rawHit": {
                 "_id": "test",
               },
             },
-            "description": Object {
+            "description": {
               "raw": "test",
             },
-            "id": Object {
+            "id": {
               "raw": "test",
             },
-            "title": Object {
+            "title": {
               "raw": "hello",
               "snippet": "hello",
             },

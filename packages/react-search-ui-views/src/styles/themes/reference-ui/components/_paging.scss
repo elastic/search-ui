@@ -1,4 +1,7 @@
-@import "../../../../../../../node_modules/rc-pagination/assets/index";
+@use "../modules/variables" as *;
+@use "../modules/mixins" as *;
+@use "../../../../../../../node_modules/rc-pagination/assets/index";
+
 @include block("paging") {
   font-size: 12px;
 

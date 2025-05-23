@@ -1,5 +1,3 @@
-import React from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
 import { config, SORT_OPTIONS } from "./config";
 
 import {

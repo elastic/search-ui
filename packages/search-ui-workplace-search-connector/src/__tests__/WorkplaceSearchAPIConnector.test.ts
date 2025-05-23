@@ -17,6 +17,7 @@ import { LIB_VERSION } from "../version";
 jest.mock("../responseAdapter");
 
 beforeEach(() => {
+  console.warn = jest.fn();
   localStorage.clear();
   window.location.hash = "";
 
@@ -83,7 +84,7 @@ describe("WorkplaceSearchAPIConnector", () => {
       subject();
       const { body } = getLastFetchCall();
       expect(body).toMatchInlineSnapshot(`
-        Object {
+        {
           "content_source_id": "621581b6174a804659f9dc16",
           "document_id": "11111",
           "event": "search-ui-result-click",
@@ -114,7 +115,7 @@ describe("WorkplaceSearchAPIConnector", () => {
       subject();
       const { body } = getLastFetchCall();
       expect(body).toMatchInlineSnapshot(`
-        Object {
+        {
           "content_source_id": "621581b6174a804659f9dc16",
           "document_id": "11111",
           "event": "search-ui-autocomplete-result-click",
@@ -198,13 +199,13 @@ describe("WorkplaceSearchAPIConnector", () => {
 
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-        Object {
-          "page": Object {
+        {
+          "page": {
             "current": 2,
             "size": 40,
           },
           "query": "searchTerm",
-          "sort": Object {
+          "sort": {
             "foo": "desc",
           },
         }
@@ -226,14 +227,14 @@ describe("WorkplaceSearchAPIConnector", () => {
 
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-        Object {
-          "facets": Object {
-            "states": Object {
+        {
+          "facets": {
+            "states": {
               "size": 30,
               "type": "value",
             },
           },
-          "page": Object {
+          "page": {
             "current": 1,
             "size": 20,
           },
@@ -259,8 +260,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-        Object {
-          "page": Object {
+        {
+          "page": {
             "current": 1,
             "size": 20,
           },
@@ -310,24 +311,24 @@ describe("WorkplaceSearchAPIConnector", () => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
 
       expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-        Object {
-          "filters": Object {
-            "all": Array [
-              Object {
-                "all": Array [
-                  Object {
+        {
+          "filters": {
+            "all": [
+              {
+                "all": [
+                  {
                     "date_made": "yesterday",
                   },
                 ],
               },
             ],
           },
-          "page": Object {
+          "page": {
             "current": 2,
             "size": 5,
           },
           "query": "searchTerm",
-          "sort": Object {
+          "sort": {
             "title": "asc",
           },
         }
@@ -376,8 +377,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-        Object {
-          "page": Object {
+        {
+          "page": {
             "current": 2,
             "size": 5,
           },
@@ -425,8 +426,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-          Object {
-            "page": Object {},
+          {
+            "page": {},
             "query": "searchTerm",
           }
         `);
@@ -449,14 +450,14 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-          Object {
-            "facets": Object {
-              "states": Object {
+          {
+            "facets": {
+              "states": {
                 "size": 30,
                 "type": "value",
               },
             },
-            "page": Object {},
+            "page": {},
             "query": "searchTerm",
           }
         `);
@@ -479,8 +480,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-          Object {
-            "page": Object {},
+          {
+            "page": {},
             "query": "searchTerm",
           }
         `);
@@ -526,24 +527,24 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-          Object {
-            "filters": Object {
-              "all": Array [
-                Object {
-                  "all": Array [
-                    Object {
+          {
+            "filters": {
+              "all": [
+                {
+                  "all": [
+                    {
                       "date_made": "yesterday",
                     },
                   ],
                 },
               ],
             },
-            "page": Object {
+            "page": {
               "current": 2,
               "size": 5,
             },
             "query": "searchTerm",
-            "sort": Object {
+            "sort": {
               "title": "asc",
             },
           }
@@ -585,8 +586,8 @@ describe("WorkplaceSearchAPIConnector", () => {
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(getLastFetchCall().body).toMatchInlineSnapshot(`
-          Object {
-            "page": Object {
+          {
+            "page": {
               "size": 5,
             },
             "query": "searchTerm",
@@ -614,8 +615,8 @@ describe("WorkplaceSearchAPIConnector", () => {
         });
 
         expect(autocompletedState).toMatchInlineSnapshot(`
-          Object {
-            "autocompletedResults": Array [],
+          {
+            "autocompletedResults": [],
             "autocompletedResultsRequestId": "W6qPJzEBS0eoUnVG4FZTnw",
           }
         `);

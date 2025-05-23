@@ -1,6 +1,3 @@
-import React from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
-
 import SiteSearchAPIConnector from "@elastic/search-ui-site-search-connector";
 
 import moment from "moment";

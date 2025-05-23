@@ -33,7 +33,7 @@
     "url": "https://github.com/elastic/search-ui/issues"
   },
   "devDependencies": {
-    "typescript": "^4.9.3"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.17.1",

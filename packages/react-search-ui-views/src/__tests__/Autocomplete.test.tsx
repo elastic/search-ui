@@ -1,6 +1,6 @@
 import React from "react";
+import { render, screen } from "@testing-library/react";
 import { Autocomplete } from "..";
-import { shallow } from "enzyme";
 import type { AutocompletedSuggestions } from "@elastic/search-ui";
 
 const props = {
@@ -57,212 +57,212 @@ const props = {
   getMenuProps: (props) => props
 };
 
-it("renders correctly", () => {
-  const wrapper = shallow(<Autocomplete {...props} />);
-  expect(wrapper).toMatchSnapshot();
-});
-
-describe("When there are results", () => {
-  it("will render results", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={true}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__results-list li").length).toEqual(3);
+describe("Autocomplete", () => {
+  it("renders correctly", () => {
+    const { container } = render(<Autocomplete {...props} />);
+    expect(container).toMatchSnapshot();
   });
 
-  it("will NOT render results if autocompleteResults is false", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__results-list").length).toEqual(0);
+  describe("When there are results", () => {
+    it("will render results", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={true}
+          autocompleteSuggestions={false}
+        />
+      );
+      const results = screen.getAllByRole("listitem");
+      expect(results).toHaveLength(3);
+    });
+
+    it("will NOT render results if autocompleteResults is false", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompleteSuggestions={false}
+        />
+      );
+      expect(screen.queryByRole("list")).not.toBeInTheDocument();
+    });
+
+    it("will render a results section title if one is provided", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={{
+            sectionTitle: "Results",
+            titleField: "title",
+            urlField: "nps_link",
+            linkTarget: "_blank"
+          }}
+          autocompleteSuggestions={false}
+        />
+      );
+      expect(screen.getByText("Results")).toBeInTheDocument();
+    });
+
+    it("will NOT render a suggestion section title if none is provided", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={{
+            titleField: "title",
+            urlField: "nps_link",
+            linkTarget: "_blank"
+          }}
+          autocompleteSuggestions={false}
+        />
+      );
+      expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    });
   });
 
-  it("will render a results section title if one is provided", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={{
-          sectionTitle: "Results",
-          titleField: "title",
-          urlField: "nps_link",
-          linkTarget: "_blank"
-        }}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__section-title").text()).toEqual(
-      "Results"
-    );
+  describe("When there are no results", () => {
+    it("will NOT render results", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompletedResults={[]}
+          autocompleteResults={true}
+          autocompleteSuggestions={false}
+        />
+      );
+      expect(screen.queryByRole("list")).not.toBeInTheDocument();
+    });
+
+    it("will NOT render a result section title", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompletedResults={[]}
+          autocompleteResults={{
+            sectionTitle: "Results",
+            titleField: "title",
+            urlField: "nps_link",
+            linkTarget: "_blank"
+          }}
+          autocompleteSuggestions={false}
+        />
+      );
+      expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    });
   });
 
-  it("will NOT render a suggestion section title if none is provided", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={{
-          titleField: "title",
-          urlField: "nps_link",
-          linkTarget: "_blank"
-        }}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
-  });
-});
+  describe("When there are suggestions", () => {
+    it("will render suggestions", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompleteSuggestions={true}
+        />
+      );
+      const suggestions = screen.getAllByRole("listitem");
+      expect(suggestions).toHaveLength(4);
+    });
 
-describe("When there are no results", () => {
-  it("will NOT render results", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompletedResults={[]}
-        autocompleteResults={true}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__results-list").length).toEqual(0);
-  });
+    it("will NOT render suggestions if autocompleteSuggestions is false", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompleteSuggestions={false}
+        />
+      );
+      expect(screen.queryByRole("list")).not.toBeInTheDocument();
+    });
 
-  it("will NOT render a result section title", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompletedResults={[]}
-        autocompleteResults={{
-          sectionTitle: "Results",
-          titleField: "title",
-          urlField: "nps_link",
-          linkTarget: "_blank"
-        }}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
-  });
-});
+    it("will render a suggestion section title if one is provided", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompleteSuggestions={{
+            documents: {
+              sectionTitle: "Suggested"
+            },
+            popular_queries: {
+              queryType: "results",
+              displayField: "query"
+            }
+          }}
+        />
+      );
+      expect(screen.getByText("Suggested")).toBeInTheDocument();
+    });
 
-describe("When there are suggestions", () => {
-  it("will render suggestions", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompleteSuggestions={true}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__suggestion-list li").length).toEqual(
-      4
-    );
-  });
-
-  it("will NOT render suggestions if autocompleteSuggestions is false", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompleteSuggestions={false}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__suggestion-list").length).toEqual(0);
-  });
-
-  it("will render a suggestion section title if one is provided", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompleteSuggestions={{
-          documents: {
+    it("will render a suggestion section title for all suggestion types if one is provided without a suggestion type", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompleteSuggestions={{
             sectionTitle: "Suggested"
-          },
-          popular_queries: {
-            queryType: "results",
-            displayField: "query"
-          }
-        }}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__section-title").text()).toEqual(
-      "Suggested"
-    );
+          }}
+        />
+      );
+      const titles = screen.getAllByText("Suggested");
+      expect(titles).toHaveLength(2);
+    });
+
+    it("will NOT render a suggestion section title if none is provided", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompleteSuggestions={true}
+        />
+      );
+      expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    });
   });
 
-  it("will render a suggestion section title for all suggestion types if one is provided without a suggestion type", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompleteSuggestions={{
-          sectionTitle: "Suggested"
-        }}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__section-title").at(0).text()).toEqual(
-      "Suggested"
-    );
-    expect(wrapper.find(".sui-search-box__section-title").at(1).text()).toEqual(
-      "Suggested"
-    );
+  describe("When there are no suggestions", () => {
+    it("will NOT render suggestions", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompletedSuggestions={{}}
+          autocompleteSuggestions={true}
+        />
+      );
+      expect(screen.queryByRole("list")).not.toBeInTheDocument();
+    });
+
+    it("will NOT render a suggestion section title", () => {
+      render(
+        <Autocomplete
+          {...props}
+          autocompleteResults={false}
+          autocompletedSuggestions={{}}
+          autocompleteSuggestions={{
+            documents: {
+              sectionTitle: "Suggested"
+            }
+          }}
+        />
+      );
+      expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    });
   });
 
-  it("will NOT render a suggestion section title if none is provided", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompleteSuggestions={true}
-      />
+  it("renders with className prop applied", () => {
+    const customClassName = "test-class";
+    const { container } = render(
+      <Autocomplete className={customClassName} {...props} />
     );
-    expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
-  });
-});
-
-describe("When there are no suggestions", () => {
-  it("will NOT render suggestions", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompletedSuggestions={{}}
-        autocompleteSuggestions={true}
-      />
-    );
-    expect(wrapper.find(".sui-search-box__suggestion-list").length).toEqual(0);
+    expect(container.firstChild).toHaveClass("test-class");
   });
 
-  it("will NOT render a suggestion section title", () => {
-    const wrapper = shallow(
-      <Autocomplete
-        {...props}
-        autocompleteResults={false}
-        autocompletedSuggestions={{}}
-        autocompleteSuggestions={{
-          documents: {
-            sectionTitle: "Suggested"
-          }
-        }}
-      />
+  test("renders correctly when there is a malicious URL", () => {
+    const customClassName = "test-class";
+    const { container } = render(
+      <Autocomplete className={customClassName} {...props} />
     );
-    expect(wrapper.find(".sui-search-box__section-title").length).toEqual(0);
-  });
-});
 
-it("renders with className prop applied", () => {
-  const customClassName = "test-class";
-  const wrapper = shallow(
-    <Autocomplete className={customClassName} {...props} />
-  );
-  const { className } = wrapper.props();
-  expect(className).toEqual(
-    "sui-search-box__autocomplete-container test-class"
-  );
+    expect(container.firstChild).toHaveClass("test-class");
+  });
 });

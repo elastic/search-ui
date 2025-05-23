@@ -103,11 +103,11 @@ describe("filterTransformer", () => {
         type: "value"
       };
 
-      const result = transformFacet(filter, facetConfig, false);
+      const result = transformFacet(filter, facetConfig);
 
       expect(result).toEqual({
         bool: {
-          must: [
+          filter: [
             { term: { category: "electronics" } },
             { term: { category: "books" } }
           ]
@@ -119,14 +119,14 @@ describe("filterTransformer", () => {
       const filter: SearchUIFilter = {
         field: "category",
         values: ["electronics", "books"],
-        type: "all"
+        type: "any"
       };
 
       const facetConfig: FacetConfiguration = {
         type: "value"
       };
 
-      const result = transformFacet(filter, facetConfig, true);
+      const result = transformFacet(filter, facetConfig);
 
       expect(result).toEqual({
         bool: {
@@ -153,11 +153,11 @@ describe("filterTransformer", () => {
         ]
       };
 
-      const result = transformFacet(filter, facetConfig, false);
+      const result = transformFacet(filter, facetConfig);
 
       expect(result).toEqual({
         bool: {
-          must: [
+          filter: [
             { range: { price: { gte: 0, lte: 100 } } },
             { range: { price: { gte: 100, lte: 200 } } }
           ]
@@ -169,7 +169,7 @@ describe("filterTransformer", () => {
       const filter: SearchUIFilter = {
         field: "location",
         values: ["0-1km", "1-2km"],
-        type: "all"
+        type: "none"
       };
 
       const facetConfig: FacetConfiguration = {
@@ -183,11 +183,11 @@ describe("filterTransformer", () => {
         ]
       };
 
-      const result = transformFacet(filter, facetConfig, false);
+      const result = transformFacet(filter, facetConfig);
 
       expect(result).toEqual({
         bool: {
-          must: [
+          must_not: [
             {
               bool: {
                 must: [

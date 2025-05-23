@@ -1,89 +1,149 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly when there is a value 1`] = `
-<div
-  className="sui-sorting"
->
-  <ForwardRef
-    className="sui-select"
-    classNamePrefix="sui-select"
-    components={
-      Object {
-        "Option": [Function],
-      }
-    }
-    isSearchable={false}
-    onChange={[Function]}
-    options={
-      Array [
-        Object {
-          "label": "Name ASC",
-          "value": "name|||asc",
-        },
-        Object {
-          "label": "Name DESC",
-          "value": "name|||desc",
-        },
-      ]
-    }
-    styles={
-      Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={
-      Object {
-        "label": "Name DESC",
-        "value": "name|||desc",
-      }
-    }
-  />
+<div>
+  <div
+    class="sui-sorting"
+  >
+    <div
+      class="sui-select css-b62m3t-container"
+    >
+      <span
+        class="css-1f43avz-a11yText-A11yText"
+        id="react-select-2-live-region"
+      />
+      <span
+        aria-atomic="false"
+        aria-live="polite"
+        aria-relevant="additions text"
+        class="css-1f43avz-a11yText-A11yText"
+        role="log"
+      />
+      <div
+        class="sui-select__control css-0"
+      >
+        <div
+          class="sui-select__value-container sui-select__value-container--has-value css-hlgwow"
+        >
+          <div
+            class="sui-select__single-value css-1dimb5e-singleValue"
+          >
+            Name DESC
+          </div>
+          <input
+            aria-activedescendant=""
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-readonly="true"
+            class="css-1s80ejz-dummyInput-DummyInput"
+            id="react-select-2-input"
+            inputmode="none"
+            role="combobox"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          class="sui-select__indicators css-1wy0on6"
+        >
+          <span
+            class="sui-select__indicator-separator css-0"
+          />
+          <div
+            aria-hidden="true"
+            class="sui-select__indicator sui-select__dropdown-indicator css-0"
+          >
+            <svg
+              aria-hidden="true"
+              class="css-tj5bde-Svg"
+              focusable="false"
+              height="20"
+              viewBox="0 0 20 20"
+              width="20"
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`renders correctly when there is not a value 1`] = `
-<div
-  className="sui-sorting"
->
-  <ForwardRef
-    className="sui-select"
-    classNamePrefix="sui-select"
-    components={
-      Object {
-        "Option": [Function],
-      }
-    }
-    isSearchable={false}
-    onChange={[Function]}
-    options={
-      Array [
-        Object {
-          "label": "Name ASC",
-          "value": "name|||asc",
-        },
-        Object {
-          "label": "Name DESC",
-          "value": "name|||desc",
-        },
-      ]
-    }
-    styles={
-      Object {
-        "control": [Function],
-        "dropdownIndicator": [Function],
-        "indicatorSeparator": [Function],
-        "option": [Function],
-      }
-    }
-    value={
-      Object {
-        "label": "Name ASC",
-        "value": "name|||asc",
-      }
-    }
-  />
+<div>
+  <div
+    class="sui-sorting"
+  >
+    <div
+      class="sui-select css-b62m3t-container"
+    >
+      <span
+        class="css-1f43avz-a11yText-A11yText"
+        id="react-select-3-live-region"
+      />
+      <span
+        aria-atomic="false"
+        aria-live="polite"
+        aria-relevant="additions text"
+        class="css-1f43avz-a11yText-A11yText"
+        role="log"
+      />
+      <div
+        class="sui-select__control css-0"
+      >
+        <div
+          class="sui-select__value-container sui-select__value-container--has-value css-hlgwow"
+        >
+          <div
+            class="sui-select__single-value css-1dimb5e-singleValue"
+          >
+            Name ASC
+          </div>
+          <input
+            aria-activedescendant=""
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-readonly="true"
+            class="css-1s80ejz-dummyInput-DummyInput"
+            id="react-select-3-input"
+            inputmode="none"
+            role="combobox"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          class="sui-select__indicators css-1wy0on6"
+        >
+          <span
+            class="sui-select__indicator-separator css-0"
+          />
+          <div
+            aria-hidden="true"
+            class="sui-select__indicator sui-select__dropdown-indicator css-0"
+          >
+            <svg
+              aria-hidden="true"
+              class="css-tj5bde-Svg"
+              focusable="false"
+              height="20"
+              viewBox="0 0 20 20"
+              width="20"
+            >
+              <path
+                d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

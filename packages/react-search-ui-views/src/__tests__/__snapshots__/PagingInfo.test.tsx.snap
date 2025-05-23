@@ -1,25 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
-  className="sui-paging-info"
->
-  Showing
-   
-  <strong>
-    0
-     - 
-    20
-  </strong>
-   
-  out of 
-  <strong>
-    1000
-  </strong>
-   
-  for: 
-  <em>
-    grok
-  </em>
+<div>
+  <div
+    class="sui-paging-info"
+  >
+    Showing
+     
+    <strong>
+      0
+       - 
+      20
+    </strong>
+     
+    out of 
+    <strong>
+      1000
+    </strong>
+     
+    for: 
+    <em>
+      grok
+    </em>
+  </div>
 </div>
 `;

@@ -2,6 +2,8 @@
 
 exports[`Error Boundary supports a render prop 1`] = `
 <div>
-  I am an error
+  <div>
+    I am an error
+  </div>
 </div>
 `;

@@ -83,6 +83,7 @@ const params: AppSearchAPIConnectorParams = {
 };
 
 beforeEach(() => {
+  console.warn = jest.fn();
   mockClient.search = jest
     .fn()
     .mockReturnValue({ then: (cb) => cb(resultList) });

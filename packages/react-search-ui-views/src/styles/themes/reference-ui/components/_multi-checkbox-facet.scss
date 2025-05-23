@@ -1,3 +1,6 @@
+@use "../modules/variables" as *;
+@use "../modules/mixins" as *;
+
 @include block("multi-checkbox-facet") {
   color: $facetLinkColor;
   font-size: 13px;

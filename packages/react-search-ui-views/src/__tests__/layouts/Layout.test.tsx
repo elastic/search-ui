@@ -1,9 +1,9 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import { Layout } from "../..";
-import { shallow } from "enzyme";
 
 it("renders correctly", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Layout
       header={<div>Header</div>}
       sideContent={
@@ -16,11 +16,11 @@ it("renders correctly", () => {
       bodyFooter={<div>Body Footer</div>}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 it("will accept children instead of bodyContent", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <Layout
       header={<div>Header</div>}
       sideContent={
@@ -34,11 +34,10 @@ it("will accept children instead of bodyContent", () => {
       <div>Body Content</div>
     </Layout>
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
-  const wrapper = shallow(<Layout className="test-class" />);
-
-  expect(wrapper.hasClass("test-class")).toBeTruthy();
+  const { container } = render(<Layout className="test-class" />);
+  expect(container.firstChild).toHaveClass("test-class");
 });

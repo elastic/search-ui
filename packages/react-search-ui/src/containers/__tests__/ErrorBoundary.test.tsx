@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import { ErrorBoundaryViewProps } from "@elastic/react-search-ui-views";
 import ErrorBoundaryContainer from "../ErrorBoundary";
 import { useSearch } from "../../hooks";
@@ -31,36 +31,36 @@ describe("Error Boundary", () => {
   });
 
   it("supports a render prop", () => {
-    const render = ({ error }) => {
+    const renderProp = ({ error }) => {
       return <div>{error}</div>;
     };
-    const wrapper = shallow(
-      <ErrorBoundaryContainer {...params} view={render} />
-    ).dive();
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <ErrorBoundaryContainer {...params} view={renderProp} />
+    );
+    expect(container).toMatchSnapshot();
   });
 
   it("passes className through to the view", () => {
     const className = "test-class";
-    shallow(
+    render(
       <ErrorBoundaryContainer
         {...params}
         className={className}
         view={viewComponent}
       />
-    ).dive();
+    );
     expect(viewProps.className).toEqual(className);
   });
 
   it("passes data-foo through to the view", () => {
     const data = "bar";
-    shallow(
+    render(
       <ErrorBoundaryContainer
         {...params}
         data-foo={data}
         view={viewComponent}
       />
-    ).dive();
+    );
     expect(viewProps["data-foo"]).toEqual(data);
   });
 });
