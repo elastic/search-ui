@@ -6,7 +6,11 @@ import type {
   RequestState,
   ResponseState
 } from "@elastic/search-ui";
-import { PostProcessRequestBodyFn, ConnectionOptions } from "../types";
+import {
+  PostProcessRequestBodyFn,
+  ConnectionOptions,
+  RequestModifiers
+} from "../types";
 import {
   ApiClientTransporter,
   type IApiClientTransporter
@@ -16,9 +20,16 @@ import { handleSearch } from "../handlers/handleSearch";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private apiClient: IApiClientTransporter;
+  private interceptSearchRequest?: RequestModifiers["interceptSearchRequest"];
+  private getQueryFn?: RequestModifiers["getQueryFn"];
+  private interceptAutocompleteResultsRequest?: RequestModifiers["interceptAutocompleteResultsRequest"];
+  private interceptAutocompleteSuggestionsRequest?: RequestModifiers["interceptAutocompleteSuggestionsRequest"];
 
   constructor(
-    config: ConnectionOptions,
+    config: ConnectionOptions & RequestModifiers,
+    /**
+     * @deprecated Use `config.interceptSearchRequest` instead
+     */
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {
     if (!config.apiClient && !config.host && !config.cloud) {
@@ -27,7 +38,19 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       );
     }
 
+    if (postProcessRequestBodyFn) {
+      console.warn(
+        "[Search UI] `postProcessRequestBodyFn` is deprecated. Please use `interceptSearchRequest` instead."
+      );
+    }
+
     this.apiClient = config.apiClient || new ApiClientTransporter(config);
+    this.interceptSearchRequest = config.interceptSearchRequest;
+    this.getQueryFn = config.getQueryFn;
+    this.interceptAutocompleteResultsRequest =
+      config.interceptAutocompleteResultsRequest;
+    this.interceptAutocompleteSuggestionsRequest =
+      config.interceptAutocompleteSuggestionsRequest;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -44,6 +67,8 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       state,
       queryConfig,
       this.apiClient,
+      this.interceptSearchRequest,
+      this.getQueryFn,
       this.postProcessRequestBodyFn
     );
   }
@@ -52,6 +77,12 @@ export default class ElasticsearchAPIConnector implements APIConnector {
     state: RequestState,
     queryConfig: AutocompleteQueryConfig
   ): Promise<AutocompleteResponseState> {
-    return handleAutocomplete(state, queryConfig, this.apiClient);
+    return handleAutocomplete(
+      state,
+      queryConfig,
+      this.apiClient,
+      this.interceptAutocompleteSuggestionsRequest,
+      this.interceptAutocompleteResultsRequest
+    );
   }
 }

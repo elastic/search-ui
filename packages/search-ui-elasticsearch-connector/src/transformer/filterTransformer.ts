@@ -27,12 +27,12 @@ const transformRangeFilterValue = (
 ): QueryRangeValue => ({
   ...("from" in value
     ? {
-        from: isValidDateString(value.from) ? value.from : Number(value.from)
+        gte: isValidDateString(value.from) ? value.from : Number(value.from)
       }
     : {}),
   ...("to" in value
     ? {
-        to: isValidDateString(value.to) ? value.to : Number(value.to)
+        lte: isValidDateString(value.to) ? value.to : Number(value.to)
       }
     : {})
 });
