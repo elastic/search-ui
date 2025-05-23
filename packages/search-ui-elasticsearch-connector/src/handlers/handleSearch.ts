@@ -38,5 +38,5 @@ export const handleSearch = async (
     );
   }
 
-  return transformSearchResponse(response, queryBuilder);
+  return transformSearchResponse(response, queryBuilder, queryConfig);
 };
