@@ -284,11 +284,19 @@ describe("Search results", () => {
         data: [
           {
             count: 10,
-            value: "0-100"
+            value: {
+              from: 0,
+              name: "0-100",
+              to: 100
+            }
           },
           {
             count: 20,
-            value: "100-200"
+            value: {
+              from: 100,
+              name: "100-200",
+              to: 200
+            }
           }
         ],
         field: "price_range.keyword",

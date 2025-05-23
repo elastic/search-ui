@@ -2,20 +2,23 @@ import type {
   FieldResult,
   ResponseState,
   AutocompletedResult,
-  Facet
+  Facet,
+  QueryConfig,
+  FacetConfiguration
 } from "@elastic/search-ui";
 import { BaseQueryBuilder } from "../queryBuilders/BaseQueryBuilder";
 import type { Aggregation, SearchHit, ResponseBody } from "../types";
 
 export const transformSearchResponse = (
   response: ResponseBody,
-  queryBuilder: BaseQueryBuilder
+  queryBuilder: BaseQueryBuilder,
+  queryConfig: QueryConfig
 ): ResponseState => {
   const { totalResults, totalPages, pagingStart, pagingEnd } = getPagination(
     response,
     queryBuilder
   );
-  const facets = transformToFacets(response);
+  const facets = transformToFacets(response, queryConfig);
 
   return {
     resultSearchTerm: queryBuilder.getSearchTerm(),
@@ -77,7 +80,10 @@ const getPagination = (
   return { totalResults, totalPages, pagingStart, pagingEnd };
 };
 
-const transformToFacets = (response: ResponseBody): ResponseState["facets"] => {
+const transformToFacets = (
+  response: ResponseBody,
+  queryConfig: QueryConfig
+): ResponseState["facets"] => {
   return Object.entries(response.aggregations)
     .filter(([aggKey]) => aggKey.startsWith("facet_bucket_"))
     .flatMap(([, facetBucket]) =>
@@ -88,19 +94,30 @@ const transformToFacets = (response: ResponseBody): ResponseState["facets"] => {
     .reduce((acc, [aggKey, aggValue]) => {
       return {
         ...acc,
-        [aggKey]: [transformAggToFacet(aggValue, aggKey)]
+        [aggKey]: [
+          transformAggToFacet(aggValue, aggKey, queryConfig.facets[aggKey])
+        ]
       };
     }, {});
 };
 
-const transformAggToFacet = (agg: Aggregation, field: string): Facet => {
+const transformAggToFacet = (
+  agg: Aggregation,
+  field: string,
+  facet: FacetConfiguration
+): Facet => {
+  const buildRangeValue = (name: string) => ({
+    name,
+    ...(facet.ranges.find((range) => range.name === name) || {})
+  });
+
   const data = Array.isArray(agg.buckets)
     ? agg.buckets.map((entry) => ({
-        value: entry.key,
+        value: facet.type === "range" ? buildRangeValue(entry.key) : entry.key,
         count: entry.doc_count || 0
       }))
     : Object.entries(agg.buckets).map(([name, bucket]) => ({
-        value: name,
+        value: facet.type === "range" ? buildRangeValue(name) : name,
         count: bucket.doc_count || 0
       }));
 

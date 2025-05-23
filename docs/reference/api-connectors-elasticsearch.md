@@ -140,12 +140,6 @@ And respond with the standard Search UI response types:
 
 For a full working example with server setup, see the Using in [Production guide](/reference/tutorials-elasticsearch-production-usage.md) or jump to the [CodeSandbox](https://codesandbox.io/p/sandbox/github/elastic/search-ui/tree/main/examples/sandbox?file=/src/pages/elasticsearch-production-ready/index.jsx).
 
-## Differences between App Search and Elasticsearch connector [api-connectors-elasticsearch-differences-between-app-search-and-elasticsearch-connector]
-
-### Applying Filters to Range Facets [api-connectors-elasticsearch-applying-filters-to-range-facets]
-
-Elasticsearch connector differs in the way filters can be applied to facets. Currently its not possible to apply an explicit range filter to range facets. Elasticsearch connector uses the name thats been given to the option to apply the filter. It uses this name to match the option and creates a the range filter query for the option.
-
 #### Example Facet Configuration [api-connectors-elasticsearch-example-facet-configuration]
 
 ```js
