@@ -571,5 +571,63 @@ describe("SearchQueryBuilder", () => {
         }
       });
     });
+
+    describe("fuzziness", () => {
+      it("should not add fuzziness when not configured", () => {
+        const builder = new SearchQueryBuilder(state, queryConfig);
+        const query = builder.build();
+
+        expect(
+          query.query.bool.must[0].bool.should[0].multi_match.fuzziness
+        ).toBeUndefined();
+      });
+
+      it("should add AUTO fuzziness when configured", () => {
+        const configWithFuzziness: SearchQuery = {
+          ...queryConfig,
+          fuzziness: true
+        };
+
+        const builder = new SearchQueryBuilder(state, configWithFuzziness);
+        const query = builder.build();
+
+        expect(
+          query.query.bool.must[0].bool.should[0].multi_match.fuzziness
+        ).toBe("AUTO");
+
+        expect(query.query.bool.must[0].bool.should).toEqual([
+          {
+            multi_match: {
+              fields: [],
+              fuzziness: "AUTO",
+              operator: "and",
+              query: "test",
+              type: "best_fields"
+            }
+          },
+          {
+            multi_match: {
+              fields: [],
+              query: "test",
+              type: "cross_fields"
+            }
+          },
+          {
+            multi_match: {
+              fields: [],
+              query: "test",
+              type: "phrase"
+            }
+          },
+          {
+            multi_match: {
+              fields: [],
+              query: "test",
+              type: "phrase_prefix"
+            }
+          }
+        ]);
+      });
+    });
   });
 });

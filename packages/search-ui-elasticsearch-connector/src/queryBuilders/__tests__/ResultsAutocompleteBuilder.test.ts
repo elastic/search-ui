@@ -100,4 +100,39 @@ describe("ResultsAutocompleteBuilder", () => {
       type: "bool_prefix"
     });
   });
+
+  describe("fuzziness", () => {
+    it("should not add fuzziness when not configured", () => {
+      const builder = new ResultsAutocompleteBuilder(state, config, 5);
+      const query = builder.build();
+
+      expect(query.query.bool.must[0].multi_match.fuzziness).toBeUndefined();
+    });
+
+    it("should add AUTO fuzziness when configured", () => {
+      const configWithFuzziness = {
+        ...config,
+        fuzziness: true
+      };
+
+      const builder = new ResultsAutocompleteBuilder(
+        state,
+        configWithFuzziness,
+        5
+      );
+      const query = builder.build();
+
+      expect(query.query.bool.must[0].multi_match.fuzziness).toBe("AUTO");
+      expect(query.query.bool.must).toEqual([
+        {
+          multi_match: {
+            fields: ["title^2"],
+            fuzziness: "AUTO",
+            query: "test",
+            type: "bool_prefix"
+          }
+        }
+      ]);
+    });
+  });
 });
