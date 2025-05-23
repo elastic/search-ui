@@ -12,7 +12,7 @@ export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
     state: RequestState,
     private readonly configuration: Pick<
       ResultSuggestionConfiguration,
-      "result_fields" | "search_fields" | "filters"
+      "result_fields" | "search_fields" | "filters" | "fuzziness"
     >,
     private readonly size: number = 5
   ) {
@@ -61,7 +61,8 @@ export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
               multi_match: {
                 query: this.state.searchTerm,
                 type: "bool_prefix",
-                fields
+                fields,
+                fuzziness: this.configuration.fuzziness ? `AUTO` : undefined
               }
             }
           ]
