@@ -45,7 +45,7 @@
     "postcss-cli": "^8.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "sass": "^1.49.9",
+    "sass": "^1.89.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {

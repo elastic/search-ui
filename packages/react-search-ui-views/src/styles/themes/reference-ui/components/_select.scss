@@ -1,3 +1,6 @@
+@use "../modules/variables" as *;
+@use "../modules/mixins" as *;
+
 // Search Select
 @include block("select") {
   @include themeTypography;
