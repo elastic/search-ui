@@ -168,7 +168,10 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
                       query: searchQuery,
                       fields: fields,
                       type: "best_fields",
-                      operator: "and"
+                      operator: "and",
+                      fuzziness: this.queryConfig.fuzziness
+                        ? "AUTO"
+                        : undefined
                     }
                   },
                   {

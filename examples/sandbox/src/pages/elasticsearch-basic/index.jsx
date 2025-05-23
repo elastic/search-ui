@@ -27,6 +27,7 @@ const config = {
       description: {},
       states: {}
     },
+    fuzziness: true,
     result_fields: {
       visitors: { raw: {} },
       world_heritage_site: { raw: {} },
@@ -113,8 +114,16 @@ const config = {
   },
   autocompleteQuery: {
     results: {
+      fuzziness: true,
       search_fields: {
         parks_search_as_you_type: {}
+      },
+      search_fields: {
+        title: {
+          weight: 3
+        },
+        description: {},
+        states: {}
       },
       resultsPerPage: 5,
       result_fields: {
