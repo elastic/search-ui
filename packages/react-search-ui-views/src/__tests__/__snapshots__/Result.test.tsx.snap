@@ -34,57 +34,49 @@ exports[`filters out arbitrary fields from results, and does not render them 1`]
 `;
 
 exports[`renders correctly when there is a URL 1`] = `
-<li
-  className="sui-result"
->
-  <div
-    className="sui-result__header"
-  />
-  <div
-    className="sui-result__body"
+<div>
+  <li
+    class="sui-result"
   >
-    <ul
-      className="sui-result__details"
+    <div
+      class="sui-result__header"
+    />
+    <div
+      class="sui-result__body"
     >
-      <li
-        key="field"
+      <ul
+        class="sui-result__details"
       >
-        <span
-          className="sui-result__key"
-        >
-          field
-        </span>
-         
-        <span
-          className="sui-result__value"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "value",
-            }
-          }
-        />
-      </li>
-      <li
-        key="url"
-      >
-        <span
-          className="sui-result__key"
-        >
-          url
-        </span>
-         
-        <span
-          className="sui-result__value"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "http://www.example.com",
-            }
-          }
-        />
-      </li>
-    </ul>
-  </div>
-</li>
+        <li>
+          <span
+            class="sui-result__key"
+          >
+            field
+          </span>
+           
+          <span
+            class="sui-result__value"
+          >
+            value
+          </span>
+        </li>
+        <li>
+          <span
+            class="sui-result__key"
+          >
+            url
+          </span>
+           
+          <span
+            class="sui-result__value"
+          >
+            http://www.example.com
+          </span>
+        </li>
+      </ul>
+    </div>
+  </li>
+</div>
 `;
 
 exports[`renders correctly when there is a malicious URL 1`] = `

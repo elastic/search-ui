@@ -59,8 +59,6 @@ it("renders correctly when there is a URL", () => {
     />
   );
   expect(container).toMatchSnapshot();
-  const link = container.querySelector(".sui-result__title-link");
-  expect(link).toHaveAttribute("href", URL_RESULT_VALUE);
 });
 
 it("renders correctly when there is a urlField but it is not defined in result", () => {

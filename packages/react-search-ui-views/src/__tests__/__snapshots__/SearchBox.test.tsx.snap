@@ -41,7 +41,7 @@ exports[`renders correctly with single autocompleteSuggestion configuration 1`] 
   <form
     aria-expanded="false"
     aria-haspopup="listbox"
-    aria-labelledby="downshift-0-label"
+    aria-labelledby="downshift-1-label"
     role="combobox"
   >
     <div
@@ -52,11 +52,11 @@ exports[`renders correctly with single autocompleteSuggestion configuration 1`] 
       >
         <input
           aria-autocomplete="list"
-          aria-labelledby="downshift-0-label"
+          aria-labelledby="downshift-1-label"
           autocomplete="off"
           class="sui-search-box__text-input "
           data-transaction-name="search input"
-          id="downshift-0-input"
+          id="downshift-1-input"
           placeholder="Search"
           value="test"
         />

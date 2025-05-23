@@ -84,7 +84,7 @@ exports[`renders correctly when there is not a value 1`] = `
     >
       <span
         class="css-1f43avz-a11yText-A11yText"
-        id="react-select-2-live-region"
+        id="react-select-3-live-region"
       />
       <span
         aria-atomic="false"
@@ -111,7 +111,7 @@ exports[`renders correctly when there is not a value 1`] = `
             aria-haspopup="true"
             aria-readonly="true"
             class="css-1s80ejz-dummyInput-DummyInput"
-            id="react-select-2-input"
+            id="react-select-3-input"
             inputmode="none"
             role="combobox"
             tabindex="0"
