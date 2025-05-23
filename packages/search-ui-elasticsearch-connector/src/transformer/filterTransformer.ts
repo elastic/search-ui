@@ -55,8 +55,11 @@ const transformFilterValue =
     };
   };
 
+export const getBoolTypeByFilterType = (type: SearchUIFilter["type"] = "all") =>
+  mapFilterTypeToBoolType[type];
+
 export const transformFilter = (filter: SearchUIFilter): Filter => {
-  const boolType = mapFilterTypeToBoolType[filter.type || "all"];
+  const boolType = getBoolTypeByFilterType(filter.type);
 
   return {
     bool: {
@@ -69,26 +72,19 @@ export const transformFilter = (filter: SearchUIFilter): Filter => {
 
 export const transformFacet = (
   filter: SearchUIFilter,
-  facetConfiguration: FacetConfiguration,
-  isDisjunctive: boolean
+  facetConfiguration: FacetConfiguration
 ): Filter => {
-  const condition = isDisjunctive ? "should" : "must";
+  const boolType = getBoolTypeByFilterType(filter.type);
 
   if (facetConfiguration.type === "value") {
-    return {
-      bool: {
-        [condition]: filter.values.map((value) => ({
-          term: { [filter.field]: value }
-        }))
-      }
-    };
+    return transformFilter(filter);
   } else if (
     facetConfiguration.type === "range" &&
     !facetConfiguration.center
   ) {
     return {
       bool: {
-        [condition]: filter.values.map((value) => {
+        [boolType]: filter.values.map((value) => {
           const range = facetConfiguration.ranges.find(
             (range) => range.name === value
           );
@@ -100,7 +96,7 @@ export const transformFacet = (
   } else if (facetConfiguration.type === "range" && facetConfiguration.center) {
     return {
       bool: {
-        [condition]: filter.values.map((value) => {
+        [boolType]: filter.values.map((value) => {
           const range = facetConfiguration.ranges.find(
             (range) => range.name === value
           );
