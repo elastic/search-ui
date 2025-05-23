@@ -180,11 +180,11 @@ describe("filterTransformer", () => {
         ]
       };
 
-      const result = transformFacet(filter, facetConfig, false);
+      const result = transformFacet(filter, facetConfig);
 
       expect(result).toEqual({
         bool: {
-          must: [
+          filter: [
             { range: { price: { from: 50, to: 150 } } },
             { range: { price: { from: 100, to: 200 } } }
           ]
