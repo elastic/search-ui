@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
 import ResultsPerPageContainer from "../ResultsPerPage";
 import type { ResultsPerPageViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
@@ -20,17 +20,17 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  const render = ({ value }: ResultsPerPageViewProps) => {
+  const renderProp = ({ value }: ResultsPerPageViewProps) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<ResultsPerPageContainer view={render} />).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<ResultsPerPageContainer view={renderProp} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("will call back when a selection is made in the view", () => {
   let viewProps;
 
-  shallow(
+  render(
     <ResultsPerPageContainer
       {...params}
       view={(props) => {
@@ -38,7 +38,7 @@ it("will call back when a selection is made in the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   const { onChange } = viewProps;
   onChange(40);
@@ -50,7 +50,7 @@ it("will call back when a selection is made in the view", () => {
 it("passes className through to the view", () => {
   let viewProps;
   const className = "test-class";
-  shallow(
+  render(
     <ResultsPerPageContainer
       {...params}
       className={className}
@@ -59,7 +59,7 @@ it("passes className through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps.className).toEqual(className);
 });
 
@@ -70,15 +70,14 @@ it("renders the component with custom page options", () => {
     ...params,
     resultsPerPage
   });
-  const wrapper = shallow(<ResultsPerPageContainer options={options} />).dive();
-
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<ResultsPerPageContainer options={options} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  shallow(
+  render(
     <ResultsPerPageContainer
       data-foo={data}
       view={(props) => {
@@ -86,6 +85,6 @@ it("passes data-foo through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps["data-foo"]).toEqual(data);
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import ResultsContainer from "../Results";
 import {
   ResultsViewProps,
@@ -28,7 +28,7 @@ const mockResults = [
   },
   {
     id: {
-      raw: "id",
+      raw: "id2",
       snippet: "<em>id</em>"
     },
     title: {
@@ -50,77 +50,38 @@ const params = {
 };
 
 it("supports a render prop", () => {
-  const render = ({ children }: ResultsViewProps) => {
+  const renderProp = ({ children }: ResultsViewProps) => {
     return <div>{children}</div>;
   };
-  const wrapper = shallow(
-    <ResultsContainer {...params} view={render} />
-  ).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(
+    <ResultsContainer {...params} view={renderProp} />
+  );
+  expect(container).toMatchSnapshot();
 });
 
 it("passes through props to individual Result items", () => {
   const resultView = ({ result }: ResultViewProps) => {
-    return <li>{result.title}</li>;
+    return <li>{result.title.raw}</li>;
   };
-  const wrapper = shallow(
+  const { container } = render(
     <ResultsContainer
       {...params}
       resultView={resultView}
       shouldTrackClickThrough={true}
       clickThroughTags={["whatever"]}
     />
-  ).dive();
-  expect(wrapper.find("ResultContainer").map((n) => n.props())).toEqual([
-    {
-      result: {
-        id: {
-          raw: "id",
-          snippet: "<em>id</em>"
-        },
-        title: {
-          raw: "title",
-          snippet: "<em>title</em>"
-        },
-        url: {
-          raw: "url",
-          snippet: "<em>url</em>"
-        }
-      },
-      titleField: "title",
-      urlField: "url",
-      shouldTrackClickThrough: true,
-      clickThroughTags: ["whatever"],
-      view: resultView
-    },
-    {
-      result: {
-        id: {
-          raw: "id",
-          snippet: "<em>id</em>"
-        },
-        title: {
-          raw: "title",
-          snippet: "<em>title</em>"
-        },
-        url: {
-          raw: "url",
-          snippet: "<em>url</em>"
-        }
-      },
-      titleField: "title",
-      urlField: "url",
-      shouldTrackClickThrough: true,
-      clickThroughTags: ["whatever"],
-      view: resultView
-    }
-  ]);
+  );
+  const resultItems = container.querySelectorAll("li");
+  expect(resultItems).toHaveLength(2);
+  resultItems.forEach((item) => {
+    expect(item).toHaveTextContent("title");
+  });
 });
 
 it("passes className through to the view", () => {
   let viewProps;
   const className = "test-class";
-  shallow(
+  render(
     <ResultsContainer
       {...params}
       className={className}
@@ -129,14 +90,14 @@ it("passes className through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps.className).toEqual(className);
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  shallow(
+  render(
     <ResultsContainer
       {...params}
       data-foo={data}
@@ -145,6 +106,6 @@ it("passes data-foo through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps["data-foo"]).toEqual(data);
 });

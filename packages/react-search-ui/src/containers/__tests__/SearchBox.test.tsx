@@ -1,6 +1,6 @@
 import React, { act } from "react";
+import { render } from "@testing-library/react";
 import SearchBoxContainer from "../SearchBox";
-import { shallow, mount } from "enzyme";
 import { SearchBoxViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
 
@@ -24,11 +24,11 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  const render = ({ value }: SearchBoxViewProps) => {
+  const renderProp = ({ value }: SearchBoxViewProps) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<SearchBoxContainer view={render} />).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<SearchBoxContainer view={renderProp} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("will keep focus prop in sync with view component", async () => {
@@ -38,29 +38,30 @@ it("will keep focus prop in sync with view component", async () => {
     return <div />;
   };
 
-  const wrapper = mount(<SearchBoxContainer view={View} />);
+  const { rerender } = render(<SearchBoxContainer view={View} />);
 
   expect(viewProps.isFocused).toBe(false);
-  expect(wrapper.find(View).props().isFocused).toBe(false);
-  await act(() => {
+
+  await act(async () => {
     viewProps.inputProps.onFocus();
   });
-  wrapper.update();
-  expect(wrapper.find(View).props().isFocused).toBe(true);
 
-  await act(() => {
+  rerender(<SearchBoxContainer view={View} />);
+  expect(viewProps.isFocused).toBe(true);
+
+  await act(async () => {
     viewProps.inputProps.onBlur();
   });
 
-  wrapper.update();
-  expect(wrapper.find(View).props().isFocused).toBe(false);
+  rerender(<SearchBoxContainer view={View} />);
+  expect(viewProps.isFocused).toBe(false);
 });
 
 it("will pass autocompleteView prop through to the view", () => {
   let viewProps;
   const customAutocompleteView = () => <div />;
 
-  shallow(
+  render(
     <SearchBoxContainer
       autocompleteView={customAutocompleteView}
       view={(props) => {
@@ -68,7 +69,7 @@ it("will pass autocompleteView prop through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   const { autocompleteView } = viewProps;
   expect(autocompleteView).toEqual(customAutocompleteView);
@@ -90,14 +91,14 @@ describe("autocompletedSuggestionsCount", () => {
       }
     });
 
-    shallow(
+    render(
       <SearchBoxContainer
         view={(props) => {
           viewProps = props;
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.autocompletedSuggestionsCount).toBe(4);
   });
@@ -109,7 +110,7 @@ describe("autocompletedSuggestionsCount", () => {
       autocompletedSuggestions: {}
     });
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteSuggestions={false}
         view={(props) => {
@@ -117,7 +118,7 @@ describe("autocompletedSuggestionsCount", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.autocompletedSuggestionsCount).toBe(0);
   });
@@ -140,14 +141,14 @@ describe("allAutocompletedItemsCount", () => {
     });
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         view={(props) => {
           viewProps = props;
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.allAutocompletedItemsCount).toBe(6);
   });
@@ -160,7 +161,7 @@ describe("allAutocompletedItemsCount", () => {
     });
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={false}
         autocompleteSuggestions={false}
@@ -169,7 +170,7 @@ describe("allAutocompletedItemsCount", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.allAutocompletedItemsCount).toBe(0);
   });
@@ -179,7 +180,7 @@ describe("useAutocomplete", () => {
   it("will be true if autocompleteResults configuration has been provided", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={{
           titleField: "title",
@@ -190,21 +191,21 @@ describe("useAutocomplete", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(true);
   });
 
   it("will be false if no autocomplete config has been provided", () => {
     let viewProps;
-    shallow(
+    render(
       <SearchBoxContainer
         view={(props) => {
           viewProps = props;
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(false);
   });
@@ -212,7 +213,7 @@ describe("useAutocomplete", () => {
   it("will be true if autocompleteSuggestions configuration has been provided", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteSuggestions={{
           documents: {
@@ -224,7 +225,7 @@ describe("useAutocomplete", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new term");
     expect(viewProps.useAutocomplete).toBe(true);
   });
@@ -232,7 +233,7 @@ describe("useAutocomplete", () => {
   it("will be false if autocompleteMinimumCharacters is below threshold", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteMinimumCharacters={4}
         autocompleteSuggestions={{
@@ -245,7 +246,7 @@ describe("useAutocomplete", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     viewProps.onChange("new");
     expect(viewProps.useAutocomplete).toBe(true);
   });
@@ -255,7 +256,7 @@ describe("shouldClearFilters prop", () => {
   it("will be passed through to setSearchTerm on submit", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         shouldClearFilters={false}
         view={(props) => {
@@ -263,7 +264,7 @@ describe("shouldClearFilters prop", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
 
     const { onSubmit } = viewProps;
     onSubmit({
@@ -276,7 +277,7 @@ describe("shouldClearFilters prop", () => {
   it("will be passed through to setSearchTerm on change", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         shouldClearFilters={false}
         view={(props) => {
@@ -284,7 +285,7 @@ describe("shouldClearFilters prop", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
 
     const { onChange } = viewProps;
     onChange("new term");
@@ -295,7 +296,7 @@ describe("shouldClearFilters prop", () => {
   it("will call setSearchTerm if no onSelectAutocomplete is specified and a suggestion is selected", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={true}
         shouldClearFilters={false}
@@ -304,7 +305,7 @@ describe("shouldClearFilters prop", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
 
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete({
@@ -318,14 +319,14 @@ describe("shouldClearFilters prop", () => {
 
 it("will call back to setSearchTerm with refresh: false when input is changed", () => {
   let viewProps;
-  shallow(
+  render(
     <SearchBoxContainer
       view={(props) => {
         viewProps = props;
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   expect(viewProps.value).toBe("test");
 
@@ -346,7 +347,7 @@ it("will call back to setSearchTerm with refresh: false when input is changed", 
 
 it("will call back to setSearchTerm with autocompleteMinimumCharacters setting", () => {
   let viewProps;
-  shallow(
+  render(
     <SearchBoxContainer
       autocompleteMinimumCharacters={3}
       view={(props) => {
@@ -354,7 +355,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
         return <div />;
       }}
     />
-  ).dive();
+  );
   viewProps.onChange("new term");
 
   const call = params.setSearchTerm.mock.calls[0];
@@ -372,7 +373,7 @@ it("will call back to setSearchTerm with autocompleteMinimumCharacters setting",
 
 it("will call back to setSearchTerm with refresh: true when input is changed and searchAsYouType is true", () => {
   let viewProps;
-  shallow(
+  render(
     <SearchBoxContainer
       searchAsYouType={true}
       view={(props) => {
@@ -380,7 +381,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   expect(viewProps.value).toBe("test");
 
@@ -402,7 +403,7 @@ it("will call back to setSearchTerm with refresh: true when input is changed and
 
 it("will call back to setSearchTerm with a specific debounce when input is changed and searchAsYouType is true and a debounce is provided", () => {
   let viewProps;
-  shallow(
+  render(
     <SearchBoxContainer
       searchAsYouType={true}
       debounceLength={500}
@@ -411,7 +412,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   expect(viewProps.value).toBe("test");
 
@@ -433,7 +434,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 
 it("will call back to setSearchTerm with a specific debounce when input is changed and autocompleteResults is true and a debounce is provided", () => {
   let viewProps;
-  shallow(
+  render(
     <SearchBoxContainer
       autocompleteResults={{
         titleField: "title",
@@ -445,7 +446,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   expect(viewProps.value).toBe("test");
 
@@ -467,7 +468,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
 
 it("will call back to setSearchTerm with a specific debounce when input is changed and autocompleteSuggestions is true and a debounce is provided", () => {
   let viewProps;
-  shallow(
+  render(
     <SearchBoxContainer
       autocompleteSuggestions={true}
       debounceLength={500}
@@ -476,7 +477,7 @@ it("will call back to setSearchTerm with a specific debounce when input is chang
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   expect(viewProps.value).toBe("test");
 
@@ -503,14 +504,14 @@ it("will call back setSearchTerm with refresh: true when form is submitted", () 
   });
   let viewProps;
 
-  shallow(
+  render(
     <SearchBoxContainer
       view={(props) => {
         viewProps = props;
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   viewProps.onSubmit({
     preventDefault: jest.fn()
@@ -542,7 +543,7 @@ describe("onSelectAutocomplete", () => {
       passedDefaultOnSelectAutocomplete = defaultOnSelectAutocomplete;
     };
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={true}
         onSelectAutocomplete={customOnSelectAutocomplete}
@@ -551,7 +552,7 @@ describe("onSelectAutocomplete", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete("bird");
 
@@ -565,7 +566,7 @@ describe("onSelectAutocomplete", () => {
   it("will call setSearchTerm if the default onSelectAutomplete is triggered with a suggestion", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={true}
         view={(props) => {
@@ -573,7 +574,7 @@ describe("onSelectAutocomplete", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete({
       suggestion: "bird"
@@ -586,7 +587,7 @@ describe("onSelectAutocomplete", () => {
   it("will do nothing if the default onSelectAutocomplete is triggered without a selection", () => {
     let viewProps;
 
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={true}
         view={(props) => {
@@ -594,7 +595,7 @@ describe("onSelectAutocomplete", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { onSelectAutocomplete } = viewProps;
     onSelectAutocomplete();
 
@@ -605,7 +606,7 @@ describe("onSelectAutocomplete", () => {
 describe("autocomplete clickthroughs", () => {
   it("will call back to trackAutocompleteClickThrough when an autocomplete item is selected in the view", () => {
     let viewProps;
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={true}
         view={(props) => {
@@ -613,7 +614,7 @@ describe("autocomplete clickthroughs", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
@@ -623,7 +624,7 @@ describe("autocomplete clickthroughs", () => {
 
   it("will not call back when shouldTrackClickThrough is false", () => {
     let viewProps;
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={{
           shouldTrackClickThrough: false,
@@ -635,7 +636,7 @@ describe("autocomplete clickthroughs", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
@@ -645,7 +646,7 @@ describe("autocomplete clickthroughs", () => {
 
   it("will not call back when the selected item is a suggestion", () => {
     let viewProps;
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={true}
         view={(props) => {
@@ -653,7 +654,7 @@ describe("autocomplete clickthroughs", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       suggestion: "bike"
@@ -663,7 +664,7 @@ describe("autocomplete clickthroughs", () => {
 
   it("will pass through tags", () => {
     let viewProps;
-    shallow(
+    render(
       <SearchBoxContainer
         autocompleteResults={{
           clickThroughTags: ["whatever"],
@@ -675,7 +676,7 @@ describe("autocomplete clickthroughs", () => {
           return <div />;
         }}
       />
-    ).dive();
+    );
     const { notifyAutocompleteSelected } = viewProps;
     notifyAutocompleteSelected({
       id: { raw: "123" }
@@ -690,7 +691,7 @@ describe("autocomplete clickthroughs", () => {
 it("passes className through to the view", () => {
   let viewProps;
   const className = "test-class";
-  shallow(
+  render(
     <SearchBoxContainer
       className={className}
       view={(props) => {
@@ -698,14 +699,14 @@ it("passes className through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps.className).toEqual(className);
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  shallow(
+  render(
     <SearchBoxContainer
       data-foo={data}
       view={(props) => {
@@ -713,6 +714,6 @@ it("passes data-foo through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps["data-foo"]).toEqual(data);
 });
