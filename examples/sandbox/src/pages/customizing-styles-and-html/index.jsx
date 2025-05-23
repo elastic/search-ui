@@ -1,4 +1,3 @@
-import React from "react";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 
 import moment from "moment";

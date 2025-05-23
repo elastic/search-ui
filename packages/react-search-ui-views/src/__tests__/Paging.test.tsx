@@ -1,7 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import Paging from "../Paging";
-import { shallow } from "enzyme";
-import { PagingViewProps } from "../Paging";
 
 const params = {
   current: 1,
@@ -11,15 +10,18 @@ const params = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Paging {...params} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<Paging {...params} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow<typeof Paging>(
+  const { container } = render(
     <Paging className={customClassName} {...params} />
   );
-  const { className } = wrapper.dive().props() as PagingViewProps;
-  expect(className).toEqual("rc-pagination sui-paging test-class");
+  expect(container.firstChild).toHaveClass(
+    "rc-pagination",
+    "sui-paging",
+    "test-class"
+  );
 });

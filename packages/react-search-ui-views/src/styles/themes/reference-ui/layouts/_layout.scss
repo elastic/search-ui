@@ -1,3 +1,6 @@
+@use "../modules/variables" as *;
+@use "../modules/mixins" as *;
+
 @include block("layout") {
   width: 100%;
   display: flex;

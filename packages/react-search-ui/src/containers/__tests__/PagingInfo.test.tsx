@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import PagingInfoContainer from "../PagingInfo";
 import { PagingInfoViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
@@ -22,7 +22,7 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  const render = ({ start, end }: PagingInfoViewProps) => {
+  const renderProp = ({ start, end }: PagingInfoViewProps) => {
     return (
       <div>
         {start}
@@ -30,8 +30,8 @@ it("supports a render prop", () => {
       </div>
     );
   };
-  const wrapper = shallow(<PagingInfoContainer view={render} />).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<PagingInfoContainer view={renderProp} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders when it doesn't have any results or a result search term", () => {
@@ -39,14 +39,14 @@ it("renders when it doesn't have any results or a result search term", () => {
     ...params,
     resultSearchTerm: ""
   });
-  const wrapper = shallow(<PagingInfoContainer />).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<PagingInfoContainer />);
+  expect(container).toMatchSnapshot();
 });
 
 it("passes className through to the view", () => {
   let viewProps: PagingInfoViewProps;
   const className = "test-class";
-  shallow(
+  render(
     <PagingInfoContainer
       className={className}
       view={(props) => {
@@ -54,14 +54,14 @@ it("passes className through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps.className).toEqual(className);
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  shallow(
+  render(
     <PagingInfoContainer
       data-foo={data}
       view={(props) => {
@@ -69,6 +69,6 @@ it("passes data-foo through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps["data-foo"]).toEqual(data);
 });

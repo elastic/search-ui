@@ -1,6 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import PagingInfo from "../PagingInfo";
-import { shallow } from "enzyme";
 
 const props = {
   end: 20,
@@ -10,15 +10,14 @@ const props = {
 };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<PagingInfo {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<PagingInfo {...props} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <PagingInfo className={customClassName} {...props} />
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-paging-info test-class");
+  expect(container.firstChild).toHaveClass("sui-paging-info", "test-class");
 });

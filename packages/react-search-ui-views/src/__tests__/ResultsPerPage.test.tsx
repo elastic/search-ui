@@ -1,6 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import ResultsPerPage from "../ResultsPerPage";
-import { shallow } from "enzyme";
 
 const requiredProps = {
   onChange: () => ({}),
@@ -8,20 +8,24 @@ const requiredProps = {
 };
 
 it("renders correctly when there is a selected value", () => {
-  const wrapper = shallow(<ResultsPerPage {...requiredProps} value={40} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(
+    <ResultsPerPage {...requiredProps} value={40} />
+  );
+  expect(container).toMatchSnapshot();
 });
 
 it("renders correctly when there is not a selected value", () => {
-  const wrapper = shallow(<ResultsPerPage {...requiredProps} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<ResultsPerPage {...requiredProps} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <ResultsPerPage {...requiredProps} className={customClassName} />
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-results-per-page test-class");
+  expect(container.firstChild).toHaveClass(
+    "sui-results-per-page",
+    "test-class"
+  );
 });

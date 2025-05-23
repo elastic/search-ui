@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render, screen } from "@testing-library/react";
 
 import { SearchProvider, WithSearch } from "../";
 import type { APIConnector } from "@elastic/search-ui";
@@ -26,7 +26,7 @@ describe("WithSearch", () => {
   };
 
   it("exposes state and actions to components", () => {
-    const wrapper = mount(
+    render(
       <SearchProvider
         config={{
           apiConnector: mockApiConnector,
@@ -43,12 +43,12 @@ describe("WithSearch", () => {
         </WithSearch>
       </SearchProvider>
     );
-    expect(wrapper.text()).toEqual("test");
+    expect(screen.getByText("test")).toBeInTheDocument();
   });
 
   describe("mapContextToProps", () => {
     function setup(mapContextToProps) {
-      return mount(
+      return render(
         <SearchProvider
           config={{
             apiConnector: mockApiConnector,
@@ -78,16 +78,16 @@ describe("WithSearch", () => {
       const mapContextToProps = ({ resultsPerPage }) => ({
         resultsPerPage
       });
-      const wrapper = setup(mapContextToProps);
-      expect(wrapper.text()).toEqual("90");
+      setup(mapContextToProps);
+      expect(screen.getByText("90")).toBeInTheDocument();
     });
 
     it("can inject actions", () => {
       const mapContextToProps = ({ setResultsPerPage }) => ({
         setResultsPerPage
       });
-      const wrapper = setup(mapContextToProps);
-      expect(wrapper.text()).toEqual("function");
+      setup(mapContextToProps);
+      expect(screen.getByText("function")).toBeInTheDocument();
     });
   });
 });

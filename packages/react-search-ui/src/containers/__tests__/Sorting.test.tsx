@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import SortingContainer from "../Sorting";
 import { useSearch } from "../../hooks";
 
@@ -50,17 +50,19 @@ beforeEach(() => {
 });
 
 it("supports a render prop", () => {
-  const render = ({ value }) => {
+  const renderProp = ({ value }) => {
     return <div>{value}</div>;
   };
-  const wrapper = shallow(<SortingContainer {...props} view={render} />).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(
+    <SortingContainer {...props} view={renderProp} />
+  );
+  expect(container).toMatchSnapshot();
 });
 
 it("will call back when sort is changed in view", () => {
   let viewProps;
 
-  shallow(
+  render(
     <SortingContainer
       {...props}
       view={(props) => {
@@ -68,7 +70,7 @@ it("will call back when sort is changed in view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   const { onChange } = viewProps;
   onChange("field|||desc");
@@ -82,7 +84,7 @@ it("will call back when sort is changed in view with sortList", () => {
   let viewProps;
   (useSearch as jest.Mock).mockReturnValue(sortListParams);
 
-  shallow(
+  render(
     <SortingContainer
       {...props}
       sortOptions={[
@@ -115,7 +117,7 @@ it("will call back when sort is changed in view with sortList", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
 
   const { onChange } = viewProps;
   onChange(
@@ -134,7 +136,7 @@ it("will call back when sort is changed in view with sortList", () => {
 it("passes className through to the view", () => {
   let viewProps;
   const className = "test-class";
-  shallow(
+  render(
     <SortingContainer
       {...props}
       className={className}
@@ -143,14 +145,14 @@ it("passes className through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps.className).toEqual(className);
 });
 
 it("passes data-foo through to the view", () => {
   let viewProps;
   const data = "bar";
-  shallow(
+  render(
     <SortingContainer
       {...props}
       data-foo={data}
@@ -159,6 +161,6 @@ it("passes data-foo through to the view", () => {
         return <div />;
       }}
     />
-  ).dive();
+  );
   expect(viewProps["data-foo"]).toEqual(data);
 });

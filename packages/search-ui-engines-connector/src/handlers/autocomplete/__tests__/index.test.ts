@@ -118,53 +118,53 @@ describe("Autocomplete results", () => {
     expect(searchkitRequestInstance.executeSuggestions).toBeCalledWith("test");
 
     expect(results).toMatchInlineSnapshot(`
-      Object {
-        "autocompletedResults": Array [
-          Object {
-            "_meta": Object {
+      {
+        "autocompletedResults": [
+          {
+            "_meta": {
               "id": "test",
-              "rawHit": Object {
+              "rawHit": {
                 "_id": "test",
               },
             },
-            "description": Object {
+            "description": {
               "raw": "test",
             },
-            "id": Object {
+            "id": {
               "raw": "test",
             },
-            "title": Object {
+            "title": {
               "raw": "hello",
               "snippet": "hello",
             },
           },
         ],
-        "autocompletedSuggestions": Object {
-          "popularQueries": Array [
-            Object {
+        "autocompletedSuggestions": {
+          "popularQueries": [
+            {
               "queryType": "results",
-              "result": Object {
-                "_meta": Object {
+              "result": {
+                "_meta": {
                   "id": "test",
-                  "rawHit": Object {
+                  "rawHit": {
                     "_id": "test",
                   },
                 },
-                "id": Object {
+                "id": {
                   "raw": "acadia",
                 },
-                "query": Object {
+                "query": {
                   "raw": "hello",
                   "snippet": "hello",
                 },
               },
             },
           ],
-          "results": Array [
-            Object {
+          "results": [
+            {
               "suggestion": "sweaters",
             },
-            Object {
+            {
               "suggestion": "sweatpants",
             },
           ],

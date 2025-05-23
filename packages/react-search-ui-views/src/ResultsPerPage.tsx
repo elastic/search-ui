@@ -1,6 +1,7 @@
 import type { SearchContextState } from "@elastic/search-ui";
-import React from "react";
+import React, { ReactElement } from "react";
 import Select, { components } from "react-select";
+import type { OptionProps } from "react-select";
 import { BaseContainerProps, Rename } from "./types";
 
 import { appendClassName } from "./view-helpers";
@@ -41,7 +42,14 @@ const setDefaultStyle = {
 
 const wrapOption = (option) => ({ label: option, value: option });
 
-function Option(props) {
+interface OptionDataProps {
+  label: string;
+  count: number;
+}
+
+function Option(props: OptionProps<OptionDataProps>): ReactElement {
+  props.innerProps["data-transaction-name"] = `results per page`;
+
   return <components.Option {...props}>{props.data.label}</components.Option>;
 }
 
@@ -74,12 +82,7 @@ function ResultsPerPage({
         options={options.map(wrapOption)}
         isSearchable={false}
         styles={setDefaultStyle}
-        components={{
-          Option: (props) => {
-            props.innerProps["data-transaction-name"] = `results per page`;
-            return Option(props);
-          }
-        }}
+        components={{ Option }}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render, screen } from "@testing-library/react";
 
 import { SearchProvider, WithSearch } from "../";
 import { APIConnector, SearchDriver } from "@elastic/search-ui";
@@ -32,14 +32,14 @@ function getMocks() {
 describe("SearchProvider", () => {
   it("will clean up searchDriver on unmount", () => {
     const { driver, apiConnector } = getMocks();
-    const wrapper = mount(
+    const { unmount } = render(
       <SearchProvider driver={driver} config={{ apiConnector }}>
         <div></div>
       </SearchProvider>
     );
     expect(driver.tearDown).not.toHaveBeenCalled();
 
-    wrapper.unmount();
+    unmount();
     expect(driver.tearDown).toHaveBeenCalled();
   });
 
@@ -50,7 +50,7 @@ describe("SearchProvider", () => {
     const updatedSearchQueryConfig = {};
 
     const { driver, apiConnector } = getMocks();
-    const wrapper = mount(
+    const { rerender } = render(
       <SearchProvider
         driver={driver}
         config={{
@@ -63,10 +63,17 @@ describe("SearchProvider", () => {
     );
     expect(driver.setSearchQuery).not.toHaveBeenCalled();
 
-    wrapper.setProps({
-      driver,
-      config: { searchQuery: updatedSearchQueryConfig }
-    });
+    rerender(
+      <SearchProvider
+        driver={driver}
+        config={{
+          apiConnector: apiConnector,
+          searchQuery: updatedSearchQueryConfig
+        }}
+      >
+        <div>test</div>
+      </SearchProvider>
+    );
 
     expect(driver.setSearchQuery).toHaveBeenCalledWith(
       updatedSearchQueryConfig
@@ -81,7 +88,7 @@ describe("SearchProvider", () => {
     const updatedAutocompleteQueryConfig = {};
 
     const { driver, apiConnector } = getMocks();
-    const wrapper = mount(
+    const { rerender } = render(
       <SearchProvider
         driver={driver}
         config={{
@@ -94,10 +101,17 @@ describe("SearchProvider", () => {
     );
     expect(driver.setAutocompleteQuery).not.toHaveBeenCalled();
 
-    wrapper.setProps({
-      driver,
-      config: { autocompleteQuery: updatedAutocompleteQueryConfig }
-    });
+    rerender(
+      <SearchProvider
+        driver={driver}
+        config={{
+          apiConnector: apiConnector,
+          autocompleteQuery: updatedAutocompleteQueryConfig
+        }}
+      >
+        <div>test</div>
+      </SearchProvider>
+    );
 
     expect(driver.setAutocompleteQuery).toHaveBeenCalledWith(
       updatedAutocompleteQueryConfig
@@ -108,7 +122,7 @@ describe("SearchProvider", () => {
   it("exposes state and actions to components", () => {
     const { apiConnector } = getMocks();
 
-    const wrapper = mount(
+    render(
       <SearchProvider
         config={{
           apiConnector: apiConnector,
@@ -147,6 +161,6 @@ describe("SearchProvider", () => {
       </SearchProvider>
     );
 
-    expect(wrapper.text()).toEqual("testfunction");
+    expect(screen.getByText("testfunction")).toBeInTheDocument();
   });
 });

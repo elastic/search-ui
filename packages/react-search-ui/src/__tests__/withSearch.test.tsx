@@ -1,7 +1,5 @@
-/* eslint-disable jest/no-focused-tests */
-import React from "react";
-import { act } from "react-dom/test-utils";
-import { mount } from "enzyme";
+import React, { act } from "react";
+import { render, screen } from "@testing-library/react";
 
 import { SearchContext } from "..";
 import { withSearch } from "..";
@@ -52,31 +50,25 @@ describe("withSearch", () => {
         return <div>{searchTerm}</div>;
       });
 
-      const wrapper = mount(
+      return render(
         <SearchContext.Provider value={{ driver: mockDriver }}>
           <Component />
         </SearchContext.Provider>
       );
-
-      return {
-        wrapper,
-        Component
-      };
     }
 
     it("will subscribe to state updates", async () => {
-      const { wrapper } = setup((c) => c);
+      setup((c) => c);
 
       await act(() => {
         mockDriver.getActions().setSearchTerm("New Term");
       });
-      wrapper.update();
 
-      expect(wrapper.text()).toEqual("New Term");
+      expect(screen.getByText("New Term")).toBeInTheDocument();
     });
 
     it("will maintain action properties on state updates when mapContextToProps parameter is passed", async () => {
-      const { wrapper } = setup(({ searchTerm, setSearchTerm }) => ({
+      setup(({ searchTerm, setSearchTerm }) => ({
         searchTerm,
         setSearchTerm
       }));
@@ -84,20 +76,19 @@ describe("withSearch", () => {
       await act(() => {
         mockDriver.getActions().setSearchTerm("New Term");
       });
-      wrapper.update();
 
-      expect(wrapper.text()).toEqual("New Term");
+      expect(screen.getByText("New Term")).toBeInTheDocument();
     });
 
     it("will unsubsribe on unmount", () => {
       console.error = jest.fn();
 
-      const { wrapper } = setup(({ searchTerm, setSearchTerm }) => ({
+      const { unmount } = setup(({ searchTerm, setSearchTerm }) => ({
         searchTerm,
         setSearchTerm
       }));
       expect(mockDriver.subscriptions).toHaveLength(1);
-      wrapper.unmount();
+      unmount();
       expect(
         mockDriver.unsubscribeToStateChanges as jest.Mock
       ).toHaveBeenCalledTimes(1);
@@ -132,7 +123,7 @@ describe("withSearch", () => {
         );
       });
 
-      return mount(
+      return render(
         <SearchContext.Provider value={{ driver: mockDriver }}>
           <Component prop1="prop 1 value" />
         </SearchContext.Provider>
@@ -140,27 +131,23 @@ describe("withSearch", () => {
     }
 
     it("will inject specified state", () => {
-      const element = setup(({ searchTerm }) => ({ searchTerm }));
-
-      expect(element.text()).toEqual("a search term");
+      setup(({ searchTerm }) => ({ searchTerm }));
+      expect(screen.getByText("a search term")).toBeInTheDocument();
     });
 
     it("will inject a specified action", () => {
-      const element = setup(({ setSearchTerm }) => ({ setSearchTerm }));
-
-      expect(element.text()).toEqual("mockConstructor");
+      setup(({ setSearchTerm }) => ({ setSearchTerm }));
+      expect(screen.getByText("mockConstructor")).toBeInTheDocument();
     });
 
     it("will not inject an  unspecified state", () => {
-      const element = setup(({ resultSearchTerm }) => ({ resultSearchTerm }));
-
-      expect(element.text()).toEqual("another search term");
+      setup(({ resultSearchTerm }) => ({ resultSearchTerm }));
+      expect(screen.getByText("another search term")).toBeInTheDocument();
     });
 
     it("will inject arbitrary state", () => {
-      const element = setup(() => ({ clap: "your hands" }));
-
-      expect(element.text()).toEqual("your hands");
+      setup(() => ({ clap: "your hands" }));
+      expect(screen.getByText("your hands")).toBeInTheDocument();
     });
 
     it("will error if nothing is passed", () => {
@@ -168,19 +155,17 @@ describe("withSearch", () => {
     });
 
     it("will inject nothing if the function injects nothing", () => {
-      const element = setup(() => ({}));
-
-      expect(element.text()).toEqual("");
+      const { container } = setup(() => ({}));
+      expect(container.innerHTML).toBe("<div></div>");
     });
 
     it("accepts the current props as a second parameter", () => {
-      const element = setup((_, { prop1 }) => ({ searchTerm: prop1 }));
-
-      expect(element.text()).toEqual("prop 1 value");
+      setup((_, { prop1 }) => ({ searchTerm: prop1 }));
+      expect(screen.getByText("prop 1 value")).toBeInTheDocument();
     });
 
     it("will use mapContextToProps on state update", async () => {
-      const element = setup(({ searchTerm }) => ({
+      setup(({ searchTerm }) => ({
         searchTerm: searchTerm + " (updated)"
       }));
 
@@ -188,7 +173,9 @@ describe("withSearch", () => {
         mockDriver.getActions().setSearchTerm("a new search term");
       });
 
-      expect(element.text()).toEqual("a new search term (updated)");
+      expect(
+        screen.getByText("a new search term (updated)")
+      ).toBeInTheDocument();
     });
   });
 
@@ -205,7 +192,7 @@ describe("withSearch", () => {
         }
       );
 
-      return mount(
+      return render(
         <SearchContext.Provider value={{ driver: mockDriver }}>
           <Component mapContextToProps={mapContextToProps} />
         </SearchContext.Provider>
@@ -213,7 +200,7 @@ describe("withSearch", () => {
     }
 
     it("should allow a component level prop that overrides mapContextToProps from setup", () => {
-      const element = setup(
+      setup(
         () => {
           return {
             clap: "your hands"
@@ -225,11 +212,13 @@ describe("withSearch", () => {
           };
         }
       );
-      expect(element.text()).toEqual("a search term is now modified");
+      expect(
+        screen.getByText("a search term is now modified")
+      ).toBeInTheDocument();
     });
 
     it("will use the mapContextToProps override on state update", async () => {
-      const element = setup(
+      setup(
         () => ({}),
         ({ searchTerm }) => ({
           searchTerm: searchTerm + " (updated)"
@@ -240,7 +229,9 @@ describe("withSearch", () => {
         mockDriver.getActions().setSearchTerm("a new search term");
       });
 
-      expect(element.text()).toEqual("a new search term (updated)");
+      expect(
+        screen.getByText("a new search term (updated)")
+      ).toBeInTheDocument();
     });
   });
 });

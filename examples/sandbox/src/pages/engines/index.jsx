@@ -1,6 +1,3 @@
-import React from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
-
 import EnginesAPIConnector from "@elastic/search-ui-engines-connector";
 
 import { SearchProvider } from "@elastic/react-search-ui";

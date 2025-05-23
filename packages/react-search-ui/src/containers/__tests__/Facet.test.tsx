@@ -1,8 +1,13 @@
-import React from "react";
+import React, { act } from "react";
+import {
+  render,
+  waitFor,
+  screen,
+  cleanup,
+  RenderResult
+} from "@testing-library/react";
 import FacetContainer from "../Facet";
-import { shallow, ShallowWrapper } from "enzyme";
 import type { Filter } from "@elastic/search-ui";
-import { FacetViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
 
 jest.mock("../../hooks", () => ({
@@ -64,8 +69,8 @@ beforeEach(() => {
 });
 
 it("renders correctly", () => {
-  const wrapper = shallow(<FacetContainer {...params} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<FacetContainer {...params} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("should not render a Facet if there are no facets available", () => {
@@ -73,9 +78,8 @@ it("should not render a Facet if there are no facets available", () => {
     ...mockSearchParams,
     facets: {}
   });
-  const wrapper = shallow(<FacetContainer {...params} />);
-
-  expect(wrapper.html()).toEqual(null);
+  const { container } = render(<FacetContainer {...params} />);
+  expect(container).toBeEmptyDOMElement();
 });
 
 describe("values view prop", () => {
@@ -117,16 +121,17 @@ describe("values view prop", () => {
       viewProps = props;
       return <div />;
     };
-    shallow(
+    render(
       <FacetContainer
         {...params}
         field="field1"
         filterType={filterType}
         view={View}
       />
-    ).dive();
+    );
     return viewProps;
   }
+
   it("should correctly calculated the selected facet options", () => {
     const { values } = subject();
     expect(values).toEqual(["field1value1", "field1value2"]);
@@ -139,9 +144,12 @@ describe("values view prop", () => {
 });
 
 describe("show more", () => {
-  let wrapper;
+  let viewProps;
+  let renderResults: RenderResult;
 
   function subject(additionalProps = {}) {
+    renderResults?.unmount();
+
     (useSearch as jest.Mock).mockReturnValue({
       ...mockSearchParams,
       facets: {
@@ -173,78 +181,112 @@ describe("show more", () => {
       }
     });
 
-    return shallow(
+    const View = (props) => {
+      viewProps = props;
+      return <div data-testid="options-count">{props.options.length}</div>;
+    };
+
+    renderResults = render(
       <FacetContainer
         {...{
           ...params,
           field: "field1",
+          view: View,
           ...additionalProps
         }}
       />
     );
   }
 
-  beforeAll(() => {
-    wrapper = subject();
+  beforeEach(() => {
+    subject();
   });
 
   it("should limit options to 5 initially", () => {
-    expect(wrapper.find(View).prop("options").length).toEqual(5);
+    expect(screen.getByTestId("options-count")).toHaveTextContent("5");
   });
 
   it("should start at more than 5 initially if a show prop is passed", () => {
     const initialCount = 10;
-    const newWrapper = subject({ show: initialCount });
-    expect(newWrapper.find(View).prop<[]>("options").length).toEqual(
-      initialCount
+
+    subject({ show: initialCount });
+
+    expect(screen.getByTestId("options-count")).toHaveTextContent(
+      initialCount.toString()
     );
   });
 
   it("should have a show more button", () => {
-    expect(wrapper.find(View).prop("showMore")).toEqual(true);
+    expect(viewProps.showMore).toEqual(true);
   });
 
   describe("after a show more click", () => {
-    it("a11yNotify to be called with more filters", () => {
-      wrapper.find(View).prop("onMoreClick")();
+    beforeEach(async () => {
+      await act(async () => {
+        viewProps.onMoreClick();
+      });
+    });
+
+    it("a11yNotify to be called with more filters", async () => {
       expect(mockSearchParams.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 15,
         showingAll: false
       });
     });
 
-    it("should have 10 more options", () => {
-      expect(wrapper.find(View).prop("options").length).toEqual(15);
+    it("should have 10 more options", async () => {
+      await waitFor(() => {
+        expect(screen.getByTestId("options-count")).toHaveTextContent("15");
+      });
     });
 
     it("should still have a show more button", () => {
-      expect(wrapper.find(View).prop("showMore")).toEqual(true);
+      expect(viewProps.showMore).toEqual(true);
     });
   });
 
   describe("after more more show more click", () => {
+    beforeEach(async () => {
+      await act(async () => {
+        viewProps.onMoreClick();
+      });
+
+      await screen.findByText("15");
+
+      await act(async () => {
+        viewProps.onMoreClick();
+      });
+    });
+
     it("a11yNotify to be called with more filters", () => {
-      wrapper.find(View).prop("onMoreClick")();
       expect(mockSearchParams.a11yNotify).toHaveBeenCalledWith("moreFilters", {
         visibleOptionsCount: 17,
         showingAll: true
       });
     });
 
-    it("should be showing all options", () => {
-      expect(wrapper.find(View).prop("options").length).toEqual(17);
+    it("should be showing all options", async () => {
+      await waitFor(() => {
+        expect(screen.getByTestId("options-count")).toHaveTextContent("17");
+      });
     });
 
     it("should hide the show more button", () => {
-      expect(wrapper.find(View).prop("showMore")).toEqual(false);
+      expect(viewProps.showMore).toEqual(false);
     });
   });
 });
 
 it("will add a filter when a facet value is selected with onSelect", () => {
-  const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
+  let viewProps;
+  const View = (props) => {
+    viewProps = props;
+    return <div />;
+  };
 
-  wrapper.find<FacetViewProps>(View).prop("onSelect")("field1value2");
+  render(<FacetContainer {...params} filterType="any" view={View} />);
+
+  viewProps.onSelect("field1value2");
 
   const [fieldName, fieldValue, filterType] =
     mockSearchParams.addFilter.mock.calls[0];
@@ -254,9 +296,15 @@ it("will add a filter when a facet value is selected with onSelect", () => {
 });
 
 it("will overwrite a filter when a facet value is selected with onChange", () => {
-  const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
+  let viewProps;
+  const View = (props) => {
+    viewProps = props;
+    return <div />;
+  };
 
-  wrapper.find<FacetViewProps>(View).prop("onChange")("field1value2");
+  render(<FacetContainer {...params} filterType="any" view={View} />);
+
+  viewProps.onChange("field1value2");
 
   const [fieldName, fieldValue, filterType] =
     mockSearchParams.setFilter.mock.calls[0];
@@ -266,9 +314,15 @@ it("will overwrite a filter when a facet value is selected with onChange", () =>
 });
 
 it("will remove a filter when a facet value removed", () => {
-  const wrapper = shallow(<FacetContainer {...params} filterType="any" />);
+  let viewProps;
+  const View = (props) => {
+    viewProps = props;
+    return <div />;
+  };
 
-  wrapper.find<FacetViewProps>(View).prop("onRemove")("field1value2");
+  render(<FacetContainer {...params} filterType="any" view={View} />);
+
+  viewProps.onRemove("field1value2");
 
   const [fieldName, fieldValue, filterType] =
     mockSearchParams.removeFilter.mock.calls[0];
@@ -278,9 +332,15 @@ it("will remove a filter when a facet value removed", () => {
 });
 
 it("will remove a filter when a facet value removed, defaulting filterType to all", () => {
-  const wrapper = shallow(<FacetContainer {...params} />);
+  let viewProps;
+  const View = (props) => {
+    viewProps = props;
+    return <div />;
+  };
 
-  wrapper.find<FacetViewProps>(View).prop("onRemove")("field1value2");
+  render(<FacetContainer {...params} view={View} />);
+
+  viewProps.onRemove("field1value2");
 
   const [fieldName, fieldValue, filterType] =
     mockSearchParams.removeFilter.mock.calls[0];
@@ -296,9 +356,7 @@ it("passes className through to the view", () => {
     viewProps = props;
     return <div />;
   };
-  shallow(
-    <FacetContainer {...params} className={className} view={View} />
-  ).dive();
+  render(<FacetContainer {...params} className={className} view={View} />);
   expect(viewProps.className).toEqual(className);
 });
 
@@ -309,12 +367,12 @@ it("passes data-foo through to the view", () => {
     viewProps = props;
     return <div />;
   };
-  shallow(<FacetContainer {...params} data-foo={data} view={View} />).dive();
+  render(<FacetContainer {...params} data-foo={data} view={View} />);
   expect(viewProps["data-foo"]).toEqual(data);
 });
 
 describe("search facets", () => {
-  let wrapper: ShallowWrapper;
+  let viewProps;
   const field = "field1";
   const label = "field label";
   const fieldData = [
@@ -349,40 +407,44 @@ describe("search facets", () => {
       }
     });
 
-    return shallow(
+    const View = (props) => {
+      viewProps = props;
+      return <div />;
+    };
+
+    return render(
       <FacetContainer
         {...{
           ...params,
           field,
           label,
           isFilterable: true,
+          view: View,
           ...additionalProps
         }}
       />
     );
   }
 
-  beforeAll(() => {
-    wrapper = subject();
+  beforeEach(() => {
+    subject();
   });
 
   it("should have a search input", () => {
-    expect(wrapper.find(View).prop("showSearch")).toEqual(true);
+    expect(viewProps.showSearch).toEqual(true);
   });
 
   it("should use the field name as a search input placeholder", () => {
-    expect(wrapper.find(View).prop("searchPlaceholder")).toBe(
-      `Filter ${label}`
-    );
+    expect(viewProps.searchPlaceholder).toBe(`Filter ${label}`);
   });
 
   describe("after a search is performed", () => {
-    it("should match Facet options that have an object value with name property", () => {
-      wrapper.find<FacetViewProps>(View).prop("onSearch")("0 to");
+    it("should match Facet options that have an object value with name property", async () => {
+      await act(async () => {
+        viewProps.onSearch("0 to");
+      });
 
-      const filteredOptions = wrapper
-        .find<FacetViewProps>(View)
-        .prop("options");
+      const filteredOptions = viewProps.options;
 
       expect(filteredOptions.length).toEqual(1);
       expect(filteredOptions.map((opt) => opt.value)).toEqual([
@@ -394,12 +456,12 @@ describe("search facets", () => {
       ]);
     });
 
-    it("should match Facet options with/without accented characters", () => {
-      wrapper.find<FacetViewProps>(View).prop("onSearch")("ra");
+    it("should match Facet options with/without accented characters", async () => {
+      await act(async () => {
+        viewProps.onSearch("ra");
+      });
 
-      const filteredOptions = wrapper
-        .find<FacetViewProps>(View)
-        .prop("options");
+      const filteredOptions = viewProps.options;
 
       expect(filteredOptions.length).toEqual(2);
       expect(filteredOptions.map((opt) => opt.value)).toEqual([
@@ -408,26 +470,28 @@ describe("search facets", () => {
       ]);
     });
 
-    it("should not render Facet options if search value not matched", () => {
-      wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
+    it("should not render Facet options if search value not matched", async () => {
+      await act(async () => {
+        viewProps.onSearch("MENT");
+      });
 
-      expect(wrapper.find<FacetViewProps>(View).prop("options").length).toEqual(
-        0
-      );
+      expect(viewProps.options.length).toEqual(0);
     });
 
-    it("should ignore case sensitive when matching", () => {
+    it("should ignore case sensitive when matching", async () => {
       const data = [
         { count: 20, value: "APPLE" },
         { count: 10, value: "appointment" },
         { count: 9, value: "entertainMEnt" }
       ];
-      const wrapper = subject({}, data);
+      subject({}, data);
 
       // action => lowercase
-      wrapper.find<FacetViewProps>(View).prop("onSearch")("app");
+      await act(async () => {
+        viewProps.onSearch("app");
+      });
 
-      const options1 = wrapper.find<FacetViewProps>(View).prop("options");
+      const options1 = viewProps.options;
 
       expect(options1.length).toEqual(2);
       expect(options1.map((opt) => opt.value)).toEqual([
@@ -436,9 +500,11 @@ describe("search facets", () => {
       ]);
 
       // action => uppercase
-      wrapper.find<FacetViewProps>(View).prop("onSearch")("MENT");
+      await act(async () => {
+        viewProps.onSearch("MENT");
+      });
 
-      const options2 = wrapper.find<FacetViewProps>(View).prop("options");
+      const options2 = viewProps.options;
 
       expect(options1.length).toEqual(2);
       expect(options2.map((opt) => opt.value)).toEqual([
@@ -448,33 +514,35 @@ describe("search facets", () => {
     });
   });
 
-  it("should not render Facet options if data value is not string", () => {
+  it("should not render Facet options if data value is not string", async () => {
     const data = [
       { count: 20, value: { a: 1, b: 1 } },
       { count: 10, value: [1, 2] },
       { count: 9, value: 123 },
       { count: 8, value: null }
     ];
-    const wrapper = subject({}, data);
+    subject({}, data);
 
-    wrapper.find<FacetViewProps>(View).prop("onSearch")("app");
-    const options = wrapper.find<FacetViewProps>(View).prop("options");
+    await act(async () => {
+      viewProps.onSearch("app");
+    });
+    const options = viewProps.options;
 
     expect(options.length).toEqual(0);
   });
 
   it("should hide the search input", () => {
-    const newWrapper = subject({ isFilterable: false });
+    subject({ isFilterable: false });
 
-    expect(newWrapper.find(View).prop("showSearch")).toEqual(false);
+    expect(viewProps.showSearch).toEqual(false);
   });
 
   it("should not clear persistent filters on select", () => {
-    const wrapper = subject({
+    subject({
       persistent: true
     });
 
-    wrapper.find<FacetViewProps>(View).prop("onSelect")("field1value2");
+    viewProps.onSelect("field1value2");
 
     expect(mockSearchParams.addFilter).toHaveBeenCalledWith(
       "field1",
@@ -486,11 +554,11 @@ describe("search facets", () => {
   });
 
   it("should not clear persistent filters on change", () => {
-    const wrapper = subject({
+    subject({
       persistent: true
     });
 
-    wrapper.find<FacetViewProps>(View).prop("onChange")("field1value2");
+    viewProps.onChange("field1value2");
 
     expect(mockSearchParams.setFilter).toHaveBeenCalledWith(
       "field1",

@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`#getStateFromURL will correctly handle multiple instances of the same parameter 1`] = `
-Object {
-  "filters": Array [
-    Object {
-      "dependencies": Array [
+{
+  "filters": [
+    {
+      "dependencies": [
         "underscore",
         "another",
       ],
     },
-    Object {
-      "keywords": Array [
+    {
+      "keywords": [
         "node",
       ],
     },
@@ -23,34 +23,34 @@ Object {
 `;
 
 exports[`#getStateFromURL will ignore unrecognized parameters 1`] = `
-Object {
+{
   "searchTerm": "test",
 }
 `;
 
 exports[`#getStateFromURL will parse range filter types 1`] = `
-Object {
-  "filters": Array [
-    Object {
-      "date": Array [
-        Object {
+{
+  "filters": [
+    {
+      "date": [
+        {
           "from": 12,
           "to": 4000,
         },
-        Object {
+        {
           "to": 4000,
         },
       ],
     },
-    Object {
-      "cost": Array [
-        Object {
+    {
+      "cost": [
+        {
           "from": 50,
         },
       ],
     },
-    Object {
-      "keywords": Array [
+    {
+      "keywords": [
         "node",
       ],
     },
@@ -59,12 +59,12 @@ Object {
 `;
 
 exports[`#getStateFromURL will parse sortList items 1`] = `
-Object {
-  "sortList": Array [
-    Object {
+{
+  "sortList": [
+    {
       "states": "asc",
     },
-    Object {
+    {
       "title": "asc",
     },
   ],
@@ -72,15 +72,15 @@ Object {
 `;
 
 exports[`#getStateFromURL will parse the current state from the URL 1`] = `
-Object {
-  "filters": Array [
-    Object {
-      "dependencies": Array [
+{
+  "filters": [
+    {
+      "dependencies": [
         "underscore",
       ],
     },
-    Object {
-      "keywords": Array [
+    {
+      "keywords": [
         "node",
       ],
     },

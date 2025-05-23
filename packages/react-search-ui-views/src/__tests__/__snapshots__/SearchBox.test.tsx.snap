@@ -1,52 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Downshift
-  defaultHighlightedIndex={null}
-  defaultIsOpen={false}
-  environment={[Window]}
-  getA11yStatusMessage={[Function]}
-  inputValue="test"
-  itemToString={[Function]}
-  onChange={[MockFunction]}
-  onInputValueChange={[Function]}
-  onOuterClick={[Function]}
-  onSelect={[Function]}
-  onStateChange={[Function]}
-  onUserAction={[Function]}
-  scrollIntoView={[Function]}
-  selectedItemChanged={[Function]}
-  stateReducer={[Function]}
-  suppressRefError={false}
->
-  <Component />
-</Downshift>
+<div>
+  <form
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-labelledby="downshift-0-label"
+    role="combobox"
+  >
+    <div
+      class="sui-search-box"
+    >
+      <div
+        class="sui-search-box__wrapper"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-labelledby="downshift-0-label"
+          autocomplete="off"
+          class="sui-search-box__text-input "
+          data-transaction-name="search input"
+          id="downshift-0-input"
+          placeholder="Search"
+          value="test"
+        />
+      </div>
+      <input
+        class="button sui-search-box__submit"
+        data-transaction-name="search submit"
+        type="submit"
+        value="Search"
+      />
+    </div>
+  </form>
+</div>
 `;
 
 exports[`renders correctly with single autocompleteSuggestion configuration 1`] = `
-<Downshift
-  autocompleteSuggestions={
-    Object {
-      "sectionTitle": "test",
-    }
-  }
-  defaultHighlightedIndex={null}
-  defaultIsOpen={false}
-  environment={[Window]}
-  getA11yStatusMessage={[Function]}
-  inputValue="test"
-  itemToString={[Function]}
-  onChange={[MockFunction]}
-  onInputValueChange={[Function]}
-  onOuterClick={[Function]}
-  onSelect={[Function]}
-  onStateChange={[Function]}
-  onUserAction={[Function]}
-  scrollIntoView={[Function]}
-  selectedItemChanged={[Function]}
-  stateReducer={[Function]}
-  suppressRefError={false}
->
-  <Component />
-</Downshift>
+<div>
+  <form
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-labelledby="downshift-1-label"
+    role="combobox"
+  >
+    <div
+      class="sui-search-box"
+    >
+      <div
+        class="sui-search-box__wrapper"
+      >
+        <input
+          aria-autocomplete="list"
+          aria-labelledby="downshift-1-label"
+          autocomplete="off"
+          class="sui-search-box__text-input "
+          data-transaction-name="search input"
+          id="downshift-1-input"
+          placeholder="Search"
+          value="test"
+        />
+      </div>
+      <input
+        class="button sui-search-box__submit"
+        data-transaction-name="search submit"
+        type="submit"
+        value="Search"
+      />
+    </div>
+  </form>
+</div>
 `;

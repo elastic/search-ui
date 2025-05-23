@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render, screen } from "@testing-library/react";
 
 import { SearchContext } from "..";
 import { SearchDriver } from "@elastic/search-ui";
@@ -11,7 +11,7 @@ it("Should be a context", () => {
 
   searchDriver.state.searchTerm = "a search term";
 
-  const value = mount(
+  render(
     <SearchContext.Provider value={{ driver: searchDriver }}>
       <SearchContext.Consumer>
         {({ driver }) => <div>{driver.state.searchTerm}</div>}
@@ -19,5 +19,5 @@ it("Should be a context", () => {
     </SearchContext.Provider>
   );
 
-  expect(value.text()).toBe("a search term");
+  expect(screen.getByText("a search term")).toBeInTheDocument();
 });

@@ -1,57 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`#onAutocomplete will correctly format an API response 1`] = `
-Object {
-  "autocompletedResults": Array [
-    Object {
-      "acres": Object {
+{
+  "autocompletedResults": [
+    {
+      "acres": {
         "raw": 49057.36,
       },
-      "external_id": Object {
+      "external_id": {
         "raw": "9000",
       },
-      "id": Object {
+      "id": {
         "raw": "5beb474f8db2315427beecc7",
       },
-      "nps_link": Object {
+      "nps_link": {
         "raw": "https://www.nps.gov/acad/index.htm",
       },
-      "states": Object {
-        "raw": Array [
+      "states": {
+        "raw": [
           "Maine",
         ],
       },
-      "title": Object {
+      "title": {
         "raw": "Acadia",
         "snippet": "<em>Acadia</em>",
       },
-      "updated_at": Object {
+      "updated_at": {
         "raw": "2018-11-13T21:51:11+00:00",
       },
     },
-    Object {
-      "acres": Object {
+    {
+      "acres": {
         "raw": 49057.36,
       },
-      "external_id": Object {
+      "external_id": {
         "raw": "0",
       },
-      "id": Object {
+      "id": {
         "raw": "5beb47b8a1f2532eb09be102",
       },
-      "nps_link": Object {
+      "nps_link": {
         "raw": "https://www.nps.gov/acad/index.htm",
       },
-      "states": Object {
-        "raw": Array [
+      "states": {
+        "raw": [
           "Maine",
         ],
       },
-      "title": Object {
+      "title": {
         "raw": "Acadia",
         "snippet": "<em>Acadia</em>",
       },
-      "updated_at": Object {
+      "updated_at": {
         "raw": "2018-11-13T21:52:56+00:00",
       },
     },
@@ -60,12 +60,12 @@ Object {
 `;
 
 exports[`#onSearch will correctly format an API response 1`] = `
-Object {
-  "facets": Object {
-    "states": Array [
-      Object {
-        "data": Array [
-          Object {
+{
+  "facets": {
+    "states": [
+      {
+        "data": [
+          {
             "count": 2,
             "value": "Maine",
           },
@@ -75,13 +75,13 @@ Object {
       },
     ],
   },
-  "rawResponse": Object {
-    "errors": Object {},
-    "info": Object {
-      "national-parks": Object {
+  "rawResponse": {
+    "errors": {},
+    "info": {
+      "national-parks": {
         "current_page": 1,
-        "facets": Object {
-          "states": Object {
+        "facets": {
+          "states": {
             "Maine": 2,
           },
         },
@@ -92,9 +92,9 @@ Object {
       },
     },
     "record_count": 2,
-    "records": Object {
-      "national-parks": Array [
-        Object {
+    "records": {
+      "national-parks": [
+        {
           "_explanation": null,
           "_index": "5beb4099c9f929367efa5b7d",
           "_score": 0.7048211,
@@ -102,19 +102,19 @@ Object {
           "_version": null,
           "acres": 49057.36,
           "external_id": "9000",
-          "highlight": Object {
+          "highlight": {
             "title": "<em>Acadia</em>",
           },
           "id": "5beb474f8db2315427beecc7",
           "nps_link": "https://www.nps.gov/acad/index.htm",
           "sort": null,
-          "states": Array [
+          "states": [
             "Maine",
           ],
           "title": "Acadia",
           "updated_at": "2018-11-13T21:51:11+00:00",
         },
-        Object {
+        {
           "_explanation": null,
           "_index": "5beb4099c9f929367efa5b7d",
           "_score": 0.7048211,
@@ -122,13 +122,13 @@ Object {
           "_version": null,
           "acres": 49057.36,
           "external_id": "0",
-          "highlight": Object {
+          "highlight": {
             "title": "<em>Acadia</em>",
           },
           "id": "5beb47b8a1f2532eb09be102",
           "nps_link": "https://www.nps.gov/acad/index.htm",
           "sort": null,
-          "states": Array [
+          "states": [
             "Maine",
           ],
           "title": "Acadia",
@@ -138,56 +138,56 @@ Object {
     },
   },
   "requestId": "",
-  "results": Array [
-    Object {
-      "acres": Object {
+  "results": [
+    {
+      "acres": {
         "raw": 49057.36,
       },
-      "external_id": Object {
+      "external_id": {
         "raw": "9000",
       },
-      "id": Object {
+      "id": {
         "raw": "5beb474f8db2315427beecc7",
       },
-      "nps_link": Object {
+      "nps_link": {
         "raw": "https://www.nps.gov/acad/index.htm",
       },
-      "states": Object {
-        "raw": Array [
+      "states": {
+        "raw": [
           "Maine",
         ],
       },
-      "title": Object {
+      "title": {
         "raw": "Acadia",
         "snippet": "<em>Acadia</em>",
       },
-      "updated_at": Object {
+      "updated_at": {
         "raw": "2018-11-13T21:51:11+00:00",
       },
     },
-    Object {
-      "acres": Object {
+    {
+      "acres": {
         "raw": 49057.36,
       },
-      "external_id": Object {
+      "external_id": {
         "raw": "0",
       },
-      "id": Object {
+      "id": {
         "raw": "5beb47b8a1f2532eb09be102",
       },
-      "nps_link": Object {
+      "nps_link": {
         "raw": "https://www.nps.gov/acad/index.htm",
       },
-      "states": Object {
-        "raw": Array [
+      "states": {
+        "raw": [
           "Maine",
         ],
       },
-      "title": Object {
+      "title": {
         "raw": "Acadia",
         "snippet": "<em>Acadia</em>",
       },
-      "updated_at": Object {
+      "updated_at": {
         "raw": "2018-11-13T21:52:56+00:00",
       },
     },

@@ -1,6 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import SingleSelectFacet from "../SingleSelectFacet";
-import { shallow, render } from "enzyme";
 import { FacetViewProps } from "../types";
 
 const params: FacetViewProps = {
@@ -37,12 +37,12 @@ const params: FacetViewProps = {
 };
 
 it("renders", () => {
-  const wrapper = shallow(<SingleSelectFacet {...params} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<SingleSelectFacet {...params} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders falsey values correctly", () => {
-  const wrapper = shallow(
+  const { container } = render(
     <SingleSelectFacet
       {...params}
       options={[
@@ -64,42 +64,47 @@ it("renders falsey values correctly", () => {
       ]}
     />
   );
-  expect(wrapper).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 describe("determining selected option", () => {
   it("will correctly determine which of the options is selected", () => {
-    const wrapper = render(<SingleSelectFacet {...params} />);
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
+    const { container } = render(<SingleSelectFacet {...params} />);
+    expect(
+      container.querySelector(".sui-select__single-value")
+    ).toHaveTextContent("Range 1");
   });
 
   // This shouldn't ever happen, but if it does, it should use the first selected value
   it("will used the first selected option when multiple options are selected", () => {
-    const wrapper = render(
+    const { container } = render(
       <SingleSelectFacet
         {...params}
         options={params.options.map((o) => ({ ...o, selected: true }))}
       />
     );
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual("Range 1");
+    expect(
+      container.querySelector(".sui-select__single-value")
+    ).toHaveTextContent("Range 1");
   });
 
   it("will correctly determine when no value is selected", () => {
-    const wrapper = render(
+    const { container } = render(
       <SingleSelectFacet
         {...params}
         options={params.options.map((o) => ({ ...o, selected: false }))}
       />
     );
-    expect(wrapper.find(".sui-select__single-value").text()).toEqual("");
+    expect(
+      container.querySelector(".sui-select__placeholder")
+    ).toHaveTextContent("Select...");
   });
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <SingleSelectFacet {...params} className={customClassName} />
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-facet test-class");
+  expect(container.firstChild).toHaveClass("sui-facet", "test-class");
 });
