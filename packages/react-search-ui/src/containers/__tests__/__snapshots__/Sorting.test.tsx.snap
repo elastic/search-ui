@@ -2,6 +2,8 @@
 
 exports[`supports a render prop 1`] = `
 <div>
-  field|||asc
+  <div>
+    field|||asc
+  </div>
 </div>
 `;

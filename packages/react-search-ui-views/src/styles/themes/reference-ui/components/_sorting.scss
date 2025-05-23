@@ -1,3 +1,6 @@
+@use "../modules/variables" as *;
+@use "../modules/mixins" as *;
+
 @include block("sorting") {
   @include themeTypography;
   display: inline-block;

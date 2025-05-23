@@ -140,6 +140,67 @@ And respond with the standard Search UI response types:
 
 For a full working example with server setup, see the Using in [Production guide](/reference/tutorials-elasticsearch-production-usage.md) or jump to the [CodeSandbox](https://codesandbox.io/p/sandbox/github/elastic/search-ui/tree/main/examples/sandbox?file=/src/pages/elasticsearch-production-ready/index.jsx).
 
+#### Example Facet Configuration [api-connectors-elasticsearch-example-facet-configuration]
+
+```js
+{
+  visitors: {
+    type: "range",
+    ranges: [
+      { from: 0, to: 10000, name: "0 - 10000" },
+      { from: 10001, to: 100000, name: "10001 - 100000" },
+      { from: 100001, to: 500000, name: "100001 - 500000" },
+      { from: 500001, to: 1000000, name: "500001 - 1000000" },
+      { from: 1000001, to: 5000000, name: "1000001 - 5000000" },
+      { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
+      { from: 10000001, name: "10000001+" }
+    ]
+  }
+}
+```
+
+#### How to apply the filter [api-connectors-elasticsearch-how-to-apply-the-filter]
+
+```js
+setFilter("visitors", {
+  name: "10001 - 100000", // name of the option
+  from: 10001, // both from and to will be ignored
+  to: 100000
+});
+```
+
+#### Applying a range to a field that isn't a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
+
+If the field isn't a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
+
+```js
+setFilter("precio", {
+  name: "precio",
+  from: rangePrices[0],
+  to: rangePrices[1]
+});
+```
+
+### _None_ Filter Type [api-connectors-elasticsearch-none-filter-type]
+
+You can use the `none` filter type to exclude documents that match certain values (works as a must_not filter in Elasticsearch).
+
+#### Example
+
+```js
+searchQuery: {
+  filters: [
+    {
+      type: "none", // Exclude documents where brand.keyword is "apple"
+      field: "brand.keyword",
+      values: ["apple"]
+    }
+  ];
+}
+```
+
+This filter will exclude all documents where the field `brand.keyword` is equal to `"apple"`.
+
 ## Autocomplete [api-connectors-elasticsearch-autocomplete]
 
 Search UI supports autocomplete functionality to suggest search terms that provide results. The autocomplete functionality is built on top of the Elasticsearch `suggest` and `bool prefix query` API.

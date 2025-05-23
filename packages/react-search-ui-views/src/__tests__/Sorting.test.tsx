@@ -1,6 +1,6 @@
 import React from "react";
+import { render } from "@testing-library/react";
 import Sorting from "../Sorting";
-import { shallow } from "enzyme";
 import { SortingViewProps } from "../Sorting";
 
 const requiredProps: SortingViewProps = {
@@ -13,20 +13,21 @@ const requiredProps: SortingViewProps = {
 };
 
 it("renders correctly when there is a value", () => {
-  const wrapper = shallow(<Sorting {...requiredProps} value={"name|||desc"} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(
+    <Sorting {...requiredProps} value={"name|||desc"} />
+  );
+  expect(container).toMatchSnapshot();
 });
 
 it("renders correctly when there is not a value", () => {
-  const wrapper = shallow(<Sorting {...requiredProps} />);
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(<Sorting {...requiredProps} />);
+  expect(container).toMatchSnapshot();
 });
 
 it("renders with className prop applied", () => {
   const customClassName = "test-class";
-  const wrapper = shallow(
+  const { container } = render(
     <Sorting {...requiredProps} className={customClassName} />
   );
-  const { className } = wrapper.props();
-  expect(className).toEqual("sui-sorting test-class");
+  expect(container.firstChild).toHaveClass("sui-sorting", "test-class");
 });

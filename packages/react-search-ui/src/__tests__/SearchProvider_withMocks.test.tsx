@@ -15,7 +15,7 @@ jest.mock("react", () => {
 
 const useStateMock = useState as jest.Mock;
 
-import { mount } from "enzyme";
+import { render } from "@testing-library/react";
 
 import { SearchProvider } from "../";
 
@@ -32,7 +32,7 @@ describe("SearchProvider", () => {
 
   describe("merges default and custom a11yNotificationMessages", () => {
     const getA11yNotificationMessages = (a11yNotificationMessages) => {
-      mount(
+      render(
         <SearchProvider
           config={{ apiConnector: null, a11yNotificationMessages }}
         >

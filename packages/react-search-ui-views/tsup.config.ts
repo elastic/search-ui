@@ -1,7 +1,7 @@
-import baseConfig from "../../tsup.config.ts";
+import baseConfig from "../../tsup.config";
 import fs from "fs/promises";
 import path from "path";
-import sass from "sass";
+import * as sass from "sass";
 import postcss from "postcss";
 import autoprefixer from "autoprefixer";
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import ResultContainer from "../Result";
 import { ResultViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";
@@ -45,7 +45,7 @@ describe("link clicks", () => {
       return <div />;
     };
 
-    shallow(<ResultContainer {...params} view={View} />).dive();
+    render(<ResultContainer {...params} view={View} />);
 
     const { onClickLink } = viewProps;
     onClickLink();
@@ -61,13 +61,13 @@ describe("link clicks", () => {
       return <div />;
     };
 
-    shallow(
+    render(
       <ResultContainer
         {...params}
         shouldTrackClickThrough={false}
         view={View}
       />
-    ).dive();
+    );
 
     const { onClickLink } = viewProps;
     onClickLink();
@@ -82,13 +82,13 @@ describe("link clicks", () => {
       return <div />;
     };
 
-    shallow(
+    render(
       <ResultContainer
         {...params}
         clickThroughTags={["whatever"]}
         view={View}
       />
-    ).dive();
+    );
 
     const { onClickLink } = viewProps;
     onClickLink();
@@ -106,9 +106,7 @@ it("passes className through to the view", () => {
     return <div />;
   };
   const className = "test-class";
-  shallow(
-    <ResultContainer {...params} className={className} view={View} />
-  ).dive();
+  render(<ResultContainer {...params} className={className} view={View} />);
   expect(viewProps.className).toEqual(className);
 });
 
@@ -119,16 +117,18 @@ it("passes data-foo through to the view", () => {
     return <div />;
   };
   const data = "bar";
-  shallow(<ResultContainer {...params} data-foo={data} view={View} />).dive();
+  render(<ResultContainer {...params} data-foo={data} view={View} />);
   expect(viewProps["data-foo"]).toEqual(data);
 });
 
 it("supports a render prop", () => {
-  const render = ({ children }: ResultViewProps) => {
+  const renderProp = ({ children }: ResultViewProps) => {
     return <div>{children}</div>;
   };
-  const wrapper = shallow(<ResultContainer {...params} view={render} />).dive();
-  expect(wrapper).toMatchSnapshot();
+  const { container } = render(
+    <ResultContainer {...params} view={renderProp} />
+  );
+  expect(container).toMatchSnapshot();
 });
 
 describe("hooks support", () => {
@@ -139,12 +139,12 @@ describe("hooks support", () => {
 
   it("should allow hook to be used within a custom view component", () => {
     expect(() => {
-      shallow(<ResultContainer {...params} view={MyResultView} />);
+      render(<ResultContainer {...params} view={MyResultView} />);
     }).not.toThrow();
 
-    const wrapper = shallow(
+    const { container } = render(
       <ResultContainer {...params} view={MyResultView} />
-    ).dive();
-    expect(wrapper.find("div").text()).toBe("0");
+    );
+    expect(container.textContent).toBe("0");
   });
 });

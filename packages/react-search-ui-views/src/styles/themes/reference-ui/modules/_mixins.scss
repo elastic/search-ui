@@ -1,3 +1,5 @@
+@use "./variables" as *;
+
 // Block
 @mixin block($block) {
   .sui-#{$block} {

@@ -1,5 +1,3 @@
-import "@elastic/eui/dist/eui_theme_light.css";
-
 import { ApiProxyConnector } from "@elastic/search-ui-elasticsearch-connector";
 import moment from "moment";
 

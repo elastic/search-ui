@@ -2,6 +2,8 @@
 
 exports[`supports a render prop 1`] = `
 <div>
-  1
+  <div>
+    1
+  </div>
 </div>
 `;

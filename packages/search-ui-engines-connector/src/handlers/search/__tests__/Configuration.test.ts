@@ -93,61 +93,61 @@ describe("Search - Configuration", () => {
     };
 
     expect(buildBaseFilters(queryConfig.filters)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "bool": Object {
-            "should": Array [
-              Object {
-                "term": Object {
+      [
+        {
+          "bool": {
+            "should": [
+              {
+                "term": {
                   "provider.id.keyword": "00000174-b680-e5d9-b8fb-15ae80000000",
                 },
               },
-              Object {
-                "term": Object {
+              {
+                "term": {
                   "provider.id.keyword": "0000014d-91eb-0b07-8ac7-287f80000000",
                 },
               },
             ],
           },
         },
-        Object {
-          "bool": Object {
-            "must_not": Array [
-              Object {
-                "term": Object {
+        {
+          "bool": {
+            "must_not": [
+              {
+                "term": {
                   "kind.keyword": "Instrument",
                 },
               },
-              Object {
-                "term": Object {
+              {
+                "term": {
                   "kind.keyword": "Watercraft",
                 },
               },
             ],
           },
         },
-        Object {
-          "bool": Object {
-            "filter": Array [
-              Object {
-                "term": Object {
+        {
+          "bool": {
+            "filter": [
+              {
+                "term": {
                   "attribute_facets.keyword": "Part of Collection",
                 },
               },
-              Object {
-                "term": Object {
+              {
+                "term": {
                   "attribute_facets.keyword": "Access Restriction(s)",
                 },
               },
             ],
           },
         },
-        Object {
-          "bool": Object {
-            "filter": Array [
-              Object {
-                "range": Object {
-                  "rangeFilterExample": Object {
+        {
+          "bool": {
+            "filter": [
+              {
+                "range": {
+                  "rangeFilterExample": {
                     "from": 0,
                     "to": 1000,
                   },

@@ -1,3 +1,6 @@
+@use "../modules/variables" as *;
+@use "../modules/mixins" as *;
+
 @include block("single-option-facet") {
   font-size: 13px;
   margin: $sizeS 0;

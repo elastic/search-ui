@@ -1,3 +1,21 @@
+@use "modules/variables";
+@use "modules/mixins";
+@use "layouts/layout";
+@use "components/error-boundary";
+@use "components/facets";
+@use "components/multi-checkbox-facet";
+@use "components/boolean-facet";
+@use "components/single-links-facet";
+@use "components/paging";
+@use "components/paging-info";
+@use "components/result";
+@use "components/results-container";
+@use "components/results-per-page";
+@use "components/search-box";
+@use "components/sorting";
+@use "components/select";
+
+
 html {
   box-sizing: border-box;
 }
@@ -6,20 +24,3 @@ html {
 *:after {
   box-sizing: inherit;
 }
-
-@import "modules/variables";
-@import "modules/mixins";
-@import "layouts/layout";
-@import "components/error-boundary";
-@import "components/facets";
-@import "components/multi-checkbox-facet";
-@import "components/boolean-facet";
-@import "components/single-links-facet";
-@import "components/paging";
-@import "components/paging-info";
-@import "components/result";
-@import "components/results-container";
-@import "components/results-per-page";
-@import "components/search-box";
-@import "components/sorting";
-@import "components/select";

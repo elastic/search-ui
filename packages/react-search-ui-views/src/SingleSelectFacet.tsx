@@ -1,12 +1,17 @@
-import PropTypes from "prop-types";
 import React from "react";
 import Select, { components } from "react-select";
+import type { OptionProps } from "react-select";
 
 import { FacetViewProps } from "./types";
 import { getFilterValueDisplay } from "./view-helpers";
 import { appendClassName } from "./view-helpers";
 
-function Option(props) {
+interface OptionDataProps {
+  label: string;
+  count: number;
+}
+
+function Option(props: OptionProps<OptionDataProps>) {
   return (
     <components.Option {...props}>
       <span className="sui-select__option-label">{props.data.label}</span>
@@ -16,10 +21,6 @@ function Option(props) {
     </components.Option>
   );
 }
-
-Option.propTypes = {
-  data: PropTypes.object.isRequired
-};
 
 function toSelectBoxOption(filterValue) {
   return {
