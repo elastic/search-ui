@@ -9,16 +9,16 @@ Elasticsearch connector allows you to customise the Elasticsearch request body b
 
 This is an advanced option, the underlying query may change between versions and reading from / mutating the query is brittle, so please be aware to use this sparingly and let us know what you want to achieve through github issues.
 
-## Using beforeSearchCall Hook
+## Using interceptSearchRequest Hook
 
-The `beforeSearchCall` hook allows you to modify the entire request body before it's sent to Elasticsearch. This is useful when you need to modify multiple parts of the request or add custom fields.
+The `interceptSearchRequest` hook allows you to modify the entire request body before it's sent to Elasticsearch. This is useful when you need to modify multiple parts of the request or add custom fields.
 
 ```js
 const connector = new ElasticsearchAPIConnector({
   host: "https://example-host.es.us-central1.gcp.cloud.es.io:9243",
   index: "national-parks",
   apiKey: "exampleApiKey",
-  beforeSearchCall: async (
+  interceptSearchRequest: async (
     { requestBody, requestState, queryConfig },
     next
   ) => {

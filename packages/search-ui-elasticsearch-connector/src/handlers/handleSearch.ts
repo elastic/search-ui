@@ -16,7 +16,7 @@ export const handleSearch = async (
   state: RequestState,
   queryConfig: QueryConfig,
   apiClient: IApiClientTransporter,
-  beforeSearchCall: RequestModifiers["beforeSearchCall"] = (
+  interceptSearchRequest: RequestModifiers["interceptSearchRequest"] = (
     { requestBody },
     next
   ) => next(requestBody),
@@ -32,7 +32,7 @@ export const handleSearch = async (
 
     response = await apiClient.performRequest(requestBody);
   } else {
-    response = await beforeSearchCall(
+    response = await interceptSearchRequest(
       { requestBody, requestState: state, queryConfig },
       (requestBody: SearchRequest) => apiClient.performRequest(requestBody)
     );

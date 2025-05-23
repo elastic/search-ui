@@ -74,9 +74,9 @@ const connector = new ElasticsearchAPIConnector({
 | apiKey                            | string   | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](/reference/tutorials-elasticsearch-production-usage.md#api-connectors-elasticsearch-connection-and-authentication)                                                                                                                             |
 | connectionOptions                 | object   | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                                                                                                                                                                                                   |
 | apiClient                         | object   | **Optional.** Custom API client implementation. If not provided, a default ApiClientTransporter will be used. This allows you to customize how requests are made to Elasticsearch. The object must implement the `IApiClientTransporter` interface with a `performRequest` method that takes a search request and returns a promise with the response. |
-| beforeSearchCall                  | function | **Optional.** Hook to intercept and modify search requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                                  |
-| beforeAutocompleteResultsCall     | function | **Optional.** Hook to intercept and modify autocomplete results requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                    |
-| beforeAutocompleteSuggestionsCall | function | **Optional.** Hook to intercept and modify autocomplete suggestions requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                |
+| interceptSearchRequest                  | function | **Optional.** Hook to intercept and modify search requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                                  |
+| interceptAutocompleteResultsRequest     | function | **Optional.** Hook to intercept and modify autocomplete results requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                    |
+| interceptAutocompleteSuggestionsRequest | function | **Optional.** Hook to intercept and modify autocomplete suggestions requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                |
 | getQueryFn                        | function | **Optional.** Function to completely override query generation. See [Custom Query Builder](#custom-query-builder) for details.                                                                                                                                                                                                                         |
 
 ### Request Lifecycle Hooks
@@ -106,7 +106,7 @@ The hooks can be configured in the connector config options:
 ```ts
 const connector = new ElasticsearchAPIConnector({
   // ... other config options ...
-  beforeSearchCall: async (
+  interceptSearchRequest: async (
     { requestBody, requestState, queryConfig },
     next
   ) => {
@@ -115,7 +115,7 @@ const connector = new ElasticsearchAPIConnector({
     console.log("Search response:", response);
     return response;
   },
-  beforeAutocompleteResultsCall: async (
+  interceptAutocompleteResultsRequest: async (
     { requestBody, requestState, queryConfig },
     next
   ) => {
@@ -124,7 +124,7 @@ const connector = new ElasticsearchAPIConnector({
     console.log("Autocomplete results response:", response);
     return response;
   },
-  beforeAutocompleteSuggestionsCall: async (
+  interceptAutocompleteSuggestionsRequest: async (
     { requestBody, requestState, queryConfig },
     next
   ) => {

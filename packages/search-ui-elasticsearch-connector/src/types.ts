@@ -52,8 +52,8 @@ export type ConnectionOptions = {
 };
 
 export type RequestModifiers = {
-  beforeSearchCall?: SearchQueryHook<QueryConfig>;
-  beforeAutocompleteResultsCall?: SearchQueryHook<AutocompleteQueryConfig>;
-  beforeAutocompleteSuggestionsCall?: SearchQueryHook<AutocompleteQueryConfig>;
+  interceptSearchRequest?: SearchQueryHook<QueryConfig>;
+  interceptAutocompleteResultsRequest?: SearchQueryHook<AutocompleteQueryConfig>;
+  interceptAutocompleteSuggestionsRequest?: SearchQueryHook<AutocompleteQueryConfig>;
   getQueryFn?: (state: RequestState, queryConfig: QueryConfig) => SearchRequest;
 };

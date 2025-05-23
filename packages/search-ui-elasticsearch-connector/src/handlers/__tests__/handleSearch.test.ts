@@ -312,7 +312,7 @@ describe("Search results", () => {
     expect(results.pagingEnd).toBe(10);
   });
 
-  it("should modify request body using custom beforeSearchCall", async () => {
+  it("should modify request body using custom interceptSearchRequest", async () => {
     const modifiedRequestBody = {
       query: {
         match_all: {}
@@ -325,7 +325,7 @@ describe("Search results", () => {
       performRequest: mockPerformRequest
     };
 
-    const customBeforeSearchCall = jest.fn(({ requestBody }, next) => {
+    const customInterceptSearchRequest = jest.fn(({ requestBody }, next) => {
       return next(modifiedRequestBody);
     });
 
@@ -333,10 +333,10 @@ describe("Search results", () => {
       state,
       queryConfig,
       customApiClient,
-      customBeforeSearchCall
+      customInterceptSearchRequest
     );
 
-    expect(customBeforeSearchCall).toHaveBeenCalledWith(
+    expect(customInterceptSearchRequest).toHaveBeenCalledWith(
       expect.objectContaining({
         requestBody: expect.any(Object),
         requestState: state,

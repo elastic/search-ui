@@ -206,7 +206,7 @@ describe("Autocomplete results", () => {
   });
 
   describe("beforeAutocomplete hooks", () => {
-    it("should modify suggestions request using onBeforeAutocompleteSuggestionsCall", async () => {
+    it("should modify suggestions request using interceptAutocompleteSuggestionsRequest", async () => {
       const modifiedRequestBody = {
         suggest: {
           suggest: {
@@ -247,7 +247,7 @@ describe("Autocomplete results", () => {
       expect(results.autocompletedSuggestions.documents).toHaveLength(2);
     });
 
-    it("should modify results request using onBeforeAutocompleteResultsCall", async () => {
+    it("should modify results request using interceptAutocompleteResultsRequest", async () => {
       const modifiedRequestBody = {
         query: {
           match: {

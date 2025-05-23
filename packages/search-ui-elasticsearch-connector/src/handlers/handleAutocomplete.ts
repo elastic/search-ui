@@ -24,8 +24,8 @@ export const handleAutocomplete = async (
   state: RequestState,
   queryConfig: AutocompleteQueryConfig,
   apiClient: IApiClientTransporter,
-  onBeforeAutocompleteSuggestionsCall: SearchQueryHook<AutocompleteQueryConfig> = defaultHook,
-  onBeforeAutocompleteResultsCall: SearchQueryHook<AutocompleteQueryConfig> = defaultHook
+  interceptAutocompleteSuggestionsRequest: SearchQueryHook<AutocompleteQueryConfig> = defaultHook,
+  interceptAutocompleteResultsRequest: SearchQueryHook<AutocompleteQueryConfig> = defaultHook
 ): Promise<AutocompleteResponseState> => {
   const suggestionTasks: Promise<void>[] = [];
   const result: AutocompleteResponseState = {
@@ -50,7 +50,7 @@ export const handleAutocomplete = async (
     const request = builder.build();
 
     suggestionTasks.push(
-      onBeforeAutocompleteResultsCall(
+      interceptAutocompleteResultsRequest(
         { requestBody: request, requestState: state, queryConfig },
         next
       ).then((response) => {
@@ -86,7 +86,7 @@ export const handleAutocomplete = async (
     const request = builder.build();
 
     suggestionTasks.push(
-      onBeforeAutocompleteSuggestionsCall(
+      interceptAutocompleteSuggestionsRequest(
         { requestBody: request, requestState: state, queryConfig },
         next
       ).then((response) => {

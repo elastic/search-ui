@@ -20,15 +20,15 @@ import { handleSearch } from "../handlers/handleSearch";
 
 export default class ElasticsearchAPIConnector implements APIConnector {
   private apiClient: IApiClientTransporter;
-  private beforeSearchCall?: RequestModifiers["beforeSearchCall"];
+  private interceptSearchRequest?: RequestModifiers["interceptSearchRequest"];
   private getQueryFn?: RequestModifiers["getQueryFn"];
-  private beforeAutocompleteResultsCall?: RequestModifiers["beforeAutocompleteResultsCall"];
-  private beforeAutocompleteSuggestionsCall?: RequestModifiers["beforeAutocompleteSuggestionsCall"];
+  private interceptAutocompleteResultsRequest?: RequestModifiers["interceptAutocompleteResultsRequest"];
+  private interceptAutocompleteSuggestionsRequest?: RequestModifiers["interceptAutocompleteSuggestionsRequest"];
 
   constructor(
     config: ConnectionOptions & RequestModifiers,
     /**
-     * @deprecated Use `config.beforeSearchCall` instead
+     * @deprecated Use `config.interceptSearchRequest` instead
      */
     private postProcessRequestBodyFn?: PostProcessRequestBodyFn
   ) {
@@ -40,16 +40,17 @@ export default class ElasticsearchAPIConnector implements APIConnector {
 
     if (postProcessRequestBodyFn) {
       console.warn(
-        "[Search UI] `postProcessRequestBodyFn` is deprecated. Please use `beforeSearchCall` instead."
+        "[Search UI] `postProcessRequestBodyFn` is deprecated. Please use `interceptSearchRequest` instead."
       );
     }
 
     this.apiClient = config.apiClient || new ApiClientTransporter(config);
-    this.beforeSearchCall = config.beforeSearchCall;
+    this.interceptSearchRequest = config.interceptSearchRequest;
     this.getQueryFn = config.getQueryFn;
-    this.beforeAutocompleteResultsCall = config.beforeAutocompleteResultsCall;
-    this.beforeAutocompleteSuggestionsCall =
-      config.beforeAutocompleteSuggestionsCall;
+    this.interceptAutocompleteResultsRequest =
+      config.interceptAutocompleteResultsRequest;
+    this.interceptAutocompleteSuggestionsRequest =
+      config.interceptAutocompleteSuggestionsRequest;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -66,7 +67,7 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       state,
       queryConfig,
       this.apiClient,
-      this.beforeSearchCall,
+      this.interceptSearchRequest,
       this.getQueryFn,
       this.postProcessRequestBodyFn
     );
@@ -80,8 +81,8 @@ export default class ElasticsearchAPIConnector implements APIConnector {
       state,
       queryConfig,
       this.apiClient,
-      this.beforeAutocompleteSuggestionsCall,
-      this.beforeAutocompleteResultsCall
+      this.interceptAutocompleteSuggestionsRequest,
+      this.interceptAutocompleteResultsRequest
     );
   }
 }
