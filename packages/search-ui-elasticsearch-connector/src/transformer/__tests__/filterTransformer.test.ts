@@ -83,8 +83,8 @@ describe("filterTransformer", () => {
       expect(result).toEqual({
         bool: {
           filter: [
-            { range: { price: { from: 10, to: 20 } } },
-            { range: { price: { from: 30, to: 40 } } }
+            { range: { price: { gte: 10, lte: 20 } } },
+            { range: { price: { gte: 30, lte: 40 } } }
           ]
         }
       });
@@ -158,8 +158,8 @@ describe("filterTransformer", () => {
       expect(result).toEqual({
         bool: {
           filter: [
-            { range: { price: { from: 0, to: 100 } } },
-            { range: { price: { from: 100, to: 200 } } }
+            { range: { price: { gte: 0, lte: 100 } } },
+            { range: { price: { gte: 100, lte: 200 } } }
           ]
         }
       });
@@ -185,8 +185,8 @@ describe("filterTransformer", () => {
       expect(result).toEqual({
         bool: {
           filter: [
-            { range: { price: { from: 50, to: 150 } } },
-            { range: { price: { from: 100, to: 200 } } }
+            { range: { price: { gte: 50, lte: 150 } } },
+            { range: { price: { gte: 100, lte: 200 } } }
           ]
         }
       });
@@ -286,8 +286,8 @@ describe("filterTransformer", () => {
       expect(result).toEqual({
         filters: {
           filters: {
-            "0-100": { range: { price: { from: 0, to: 100 } } },
-            "100-200": { range: { price: { from: 100, to: 200 } } }
+            "0-100": { range: { price: { gte: 0, lte: 100 } } },
+            "100-200": { range: { price: { gte: 100, lte: 200 } } }
           }
         }
       });
