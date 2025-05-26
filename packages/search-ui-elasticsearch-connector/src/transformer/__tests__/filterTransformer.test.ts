@@ -185,8 +185,8 @@ describe("filterTransformer", () => {
       expect(result).toEqual({
         bool: {
           filter: [
-            { range: { price: { from: 50, to: 150 } } },
-            { range: { price: { from: 100, to: 200 } } }
+            { range: { price: { gte: 50, lte: 150 } } },
+            { range: { price: { gte: 100, lte: 200 } } }
           ]
         }
       });
