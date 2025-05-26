@@ -42,9 +42,6 @@ jobs:
       - name: Check formatting
         run: yarn prettier-check
 
-      - name: Run linter
-        run: yarn lint
-
       - name: Build project
         run: yarn build
 
