@@ -1,6 +1,9 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-setup-cloud.html
+applies_to:
+  stack:
+  serverless:
 ---
 
 # Setup Elasticsearch [tutorials-elasticsearch-step-1-setup-elasticsearch]

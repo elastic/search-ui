@@ -2,6 +2,9 @@
 navigation_title: "Connectors API"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-connectors-app-search.html
+applies_to:
+  stack:
+  serverless:
 ---
 
 # App Search Connector [api-connectors-app-search]

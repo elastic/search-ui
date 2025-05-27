@@ -2,6 +2,9 @@
 navigation_title: "Plugins"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-core-plugins-analytics-plugin.html
+applies_to:
+  stack:
+  serverless:
 ---
 
 # Analytics Plugin [api-core-plugins-analytics-plugin]

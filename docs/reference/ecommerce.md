@@ -2,6 +2,9 @@
 navigation_title: "Ecommerce"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/solutions-ecommerce.html
+applies_to:
+  stack:
+  serverless:
 ---
 
 # Overview [solutions-ecommerce]

@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-workplace-search.html
+applies_to:
+  stack:
 ---
 
 # Search UI with Workplace Search [tutorials-workplace-search]
