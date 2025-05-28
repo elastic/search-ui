@@ -41,7 +41,7 @@
     "husky": ">=6",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "lerna": "^5.6.0",
+    "lerna": "^8.2.2",
     "lint-staged": ">=10",
     "prettier": "^3.5.3",
     "ts-jest": "^29.3.4",
