@@ -17,7 +17,8 @@
     text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
     color: rgb(255, 255, 255);
     border: none;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset,
+    box-shadow:
+      rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset,
       rgba(59, 69, 79, 0.05) 0px 1px 0px;
     background: linear-gradient(rgb(45, 160, 250), rgb(49, 88, 238))
       rgb(47, 124, 244);
@@ -25,7 +26,8 @@
     border-radius: $borderRadius;
 
     &:hover {
-      box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
+      box-shadow:
+        rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
         rgba(59, 69, 79, 0.3) 0px 2px 4px;
       background: linear-gradient(rgb(60, 171, 255), rgb(64, 99, 240))
         rgb(61, 132, 247);

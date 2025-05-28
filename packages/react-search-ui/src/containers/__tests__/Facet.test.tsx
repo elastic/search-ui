@@ -1,11 +1,5 @@
 import React, { act } from "react";
-import {
-  render,
-  waitFor,
-  screen,
-  cleanup,
-  RenderResult
-} from "@testing-library/react";
+import { render, waitFor, screen, RenderResult } from "@testing-library/react";
 import FacetContainer from "../Facet";
 import type { Filter } from "@elastic/search-ui";
 import { useSearch } from "../../hooks";

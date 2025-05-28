@@ -195,7 +195,7 @@ describe("filterTransformer", () => {
     it("should transform geo distance facet", () => {
       const filter: SearchUIFilter = {
         field: "location",
-        values: ["0-1km", "1-2km"],
+        values: ["0-1km", { name: "1-2km", from: 1, to: 2 }],
         type: "none"
       };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import ResultsPerPageContainer from "../ResultsPerPage";
 import type { ResultsPerPageViewProps } from "@elastic/react-search-ui-views";
 import { useSearch } from "../../hooks";

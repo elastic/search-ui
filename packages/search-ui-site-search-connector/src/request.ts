@@ -24,7 +24,7 @@ export default async function request(
   let json;
   try {
     json = await response.json();
-  } catch (error) {
+  } catch {
     // Nothing to do here, certain responses won't have json
   }
 

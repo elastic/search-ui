@@ -54,7 +54,7 @@ describe("#trackAutocompleteClickThrough", () => {
     expect(tags).toEqual(["test"]);
     expect(requestId).toEqual("6789");
     expect(result._meta.content_source_id).toEqual("621581b6174a804659f9dc16");
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       currentPage: 1,
       documentId: "park_great-smoky-mountains",
       filters: [],

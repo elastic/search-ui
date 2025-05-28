@@ -35,55 +35,232 @@ class CustomApiClientTransporter implements IApiClientTransporter {
 
 const customApiClient = new CustomApiClientTransporter();
 
-const connector = new ElasticsearchAPIConnector(
-  {
-    // Either specify the cloud id or host or apiClient to connect to elasticsearch
-    cloud: {
-      id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
-    },
-    host: "http://localhost:9200", // host url for the Elasticsearch instance
-    index: "<index-name>", // index name where the search documents are contained
-    apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
-    // This key will be visible to everyone so ensure its setup with restricted privileges.
-    // See Authentication section for more details.
-    connectionOptions: {
-      // Optional connection options.
-      headers: {
-        "x-custom-header": "value" // Optional. Specify custom headers to send with the request
-      }
-    },
-    // Optional. Custom API client implementation.
-    // If not provided, a default ApiClientTransporter will be used.
-    // This allows you to customize how requests are made to Elasticsearch.
-    apiClient: customApiClient
+const connector = new ElasticsearchAPIConnector({
+  // Either specify the cloud id or host or apiClient to connect to elasticsearch
+  cloud: {
+    id: "<elastic-cloud-id>" // cloud id found under your cloud deployment overview page
   },
-  (requestBody, requestState, queryConfig) => {
-    // Optional: modify the query before sending to Elasticsearch
-    return {
-      ...requestBody,
-      custom_field: "value"
-    };
-  }
-);
+  host: "http://localhost:9200", // host url for the Elasticsearch instance
+  index: "<index-name>", // index name where the search documents are contained
+  apiKey: "<api-key>", // Optional. apiKey used to authorize a connection to Elasticsearch instance.
+  // This key will be visible to everyone so ensure its setup with restricted privileges.
+  // See Authentication section for more details.
+  connectionOptions: {
+    // Optional connection options.
+    headers: {
+      "x-custom-header": "value" // Optional. Specify custom headers to send with the request
+    }
+  },
+  // Optional. Custom API client implementation.
+  // If not provided, a default ApiClientTransporter will be used.
+  // This allows you to customize how requests are made to Elasticsearch.
+  apiClient: customApiClient
+});
 ```
 
 **Constructor Parameters**
 
-| Argument                  | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| config                    | object   | Elasticsearch connection options (see table below).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| postProcessRequestBodyFn? | function | **Optional** function to customize the Elasticsearch request body.<br>**Params:**<br>`requestBody` - [Search API Request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)<br>`requestState` - [RequestState](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L50)<br>`queryConfig` - [QueryConfig](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L188)<br>**Return:**<br>`requestBody` - [Search API Request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html) |
+| Argument | Type   | Description                                                          |
+| -------- | ------ | -------------------------------------------------------------------- |
+| config   | object | Elasticsearch connection and modification options (see table below). |
 
 **Config**
 
-| Param             | Type   | Description                                                                                                                                                                                                                                                                                                                                            |
-| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| cloud             | object | **Required if `host` or custom `apiClient` not provided.** Object type. The cloud id for the deployment within elastic cloud. Format: `{ id: 'cloud:id' }`. You can find your cloud id in the Elastic Cloud deployment overview page.                                                                                                                  |
-| host              | string | **Required if `cloud` or custom `apiClient` not provided.** String type. The host url to the Elasticsearch instance                                                                                                                                                                                                                                    |
-| index             | string | **Required.** String type. The search index name                                                                                                                                                                                                                                                                                                       |
-| apiKey            | string | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](/reference/tutorials-elasticsearch-production-usage.md#api-connectors-elasticsearch-connection-and-authentication)                                                                                                                             |
-| connectionOptions | object | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                                                                                                                                                                                                   |
-| apiClient         | object | **Optional.** Custom API client implementation. If not provided, a default ApiClientTransporter will be used. This allows you to customize how requests are made to Elasticsearch. The object must implement the `IApiClientTransporter` interface with a `performRequest` method that takes a search request and returns a promise with the response. |
+| Param                                   | Type     | Description                                                                                                                                                                                                                                                                                                                                            |
+| --------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| cloud                                   | object   | **Required if `host` or custom `apiClient` not provided.** Object type. The cloud id for the deployment within elastic cloud. Format: `{ id: 'cloud:id' }`. You can find your cloud id in the Elastic Cloud deployment overview page.                                                                                                                  |
+| host                                    | string   | **Required if `cloud` or custom `apiClient` not provided.** String type. The host url to the Elasticsearch instance                                                                                                                                                                                                                                    |
+| index                                   | string   | **Required.** String type. The search index name                                                                                                                                                                                                                                                                                                       |
+| apiKey                                  | string   | **Optional.** a credential used to access the Elasticsearch instance. See [Connection & Authentication](/reference/tutorials-elasticsearch-production-usage.md#api-connectors-elasticsearch-connection-and-authentication)                                                                                                                             |
+| connectionOptions                       | object   | **Optional.** Object containing `headers` dictionary of header name to header value.                                                                                                                                                                                                                                                                   |
+| apiClient                               | object   | **Optional.** Custom API client implementation. If not provided, a default ApiClientTransporter will be used. This allows you to customize how requests are made to Elasticsearch. The object must implement the `IApiClientTransporter` interface with a `performRequest` method that takes a search request and returns a promise with the response. |
+| interceptSearchRequest                  | function | **Optional.** Hook to intercept and modify search requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                                  |
+| interceptAutocompleteResultsRequest     | function | **Optional.** Hook to intercept and modify autocomplete results requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                    |
+| interceptAutocompleteSuggestionsRequest | function | **Optional.** Hook to intercept and modify autocomplete suggestions requests before they are sent. See [Request Lifecycle Hooks](#request-lifecycle-hooks) for details.                                                                                                                                                                                |
+| getQueryFn                              | function | **Optional.** Function to completely override query generation. See [Custom Query Builder](#custom-query-builder) for details.                                                                                                                                                                                                                         |
+
+### Request Lifecycle Hooks
+
+The connector provides hooks to intercept and modify requests at different stages of the search lifecycle. Each hook has the following type signature:
+
+```ts
+type SearchQueryHook<T> = (
+  params: {
+    requestBody: SearchRequest;
+    requestState: RequestState;
+    queryConfig: T;
+  },
+  next: (newQueryOptions: SearchRequest) => Promise<ResponseBody>
+) => Promise<ResponseBody>;
+```
+
+Where:
+
+- `RequestState` contains the current search ui state ([RequestState](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L51))
+- `queryConfig` is either [QueryConfig](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L188) for search requests or [AutocompleteQueryConfig](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L136) for autocomplete requests
+- `SearchRequest` is the Elasticsearch request body ([Search API Request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html))
+- `ResponseBody` is the Elasticsearch response ([Search API Response](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html))
+
+The hooks can be configured in the connector config options:
+
+```ts
+const connector = new ElasticsearchAPIConnector({
+  // ... other config options ...
+  interceptSearchRequest: async (
+    { requestBody, requestState, queryConfig },
+    next
+  ) => {
+    console.log("Search request:", requestBody);
+    const response = await next(requestBody);
+    console.log("Search response:", response);
+    return response;
+  },
+  interceptAutocompleteResultsRequest: async (
+    { requestBody, requestState, queryConfig },
+    next
+  ) => {
+    console.log("Autocomplete results request:", requestBody);
+    const response = await next(requestBody);
+    console.log("Autocomplete results response:", response);
+    return response;
+  },
+  interceptAutocompleteSuggestionsRequest: async (
+    { requestBody, requestState, queryConfig },
+    next
+  ) => {
+    console.log("Autocomplete suggestions request:", requestBody);
+    const response = await next(requestBody);
+    console.log("Autocomplete suggestions response:", response);
+    return response;
+  }
+});
+```
+
+Each hook **must** call `next(requestBody)` with the request body and return its result. This is required because:
+
+1. The `next` function is responsible for actually sending the request to Elasticsearch
+2. Without calling `next`, the request will never reach Elasticsearch
+3. The response from `next` contains the search results that need to be returned to the UI
+
+You can modify the request body before passing it to `next`, but you must always call `next` and return its result.
+
+These hooks can be used for:
+
+- Request/response logging
+- Injecting custom fields
+- Dynamically modifying requests based on state
+- A/B testing and fallbacks (e.g., KNN fallback)
+
+### Custom Query Builder
+
+You can completely customize the query generation using the `getQueryFn` hook. The hook is called only when there is a search query, so you don't need to handle empty search terms. The hook has the following type signature:
+
+```ts
+type GetQueryFn = (
+  state: RequestState,
+  queryConfig: QueryConfig
+) => SearchRequest["query"];
+```
+
+Where:
+
+- `RequestState` - [RequestState](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L51) - search UI state
+- `QueryConfig` - [QueryConfig](https://github.com/elastic/search-ui/blob/main/packages/search-ui/src/types/index.ts#L191) - search configuration
+- `SearchRequest["query"]` - [Query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html) - query part of the Elasticsearch request body
+
+Example usage:
+
+::::{tab-set}
+:group: query-examples
+
+:::{tab-item} Semantic Search
+:sync: semantic
+
+```ts
+const connector = new ElasticsearchAPIConnector({
+  // ... other config options ...
+  getQueryFn: (state, config) => ({
+    semantic: {
+      field: "inference_field",
+      query: state.searchTerm
+    }
+  })
+});
+```
+
+:::
+
+:::{tab-item} KNN Search
+:sync: knn
+
+```ts
+const connector = new ElasticsearchAPIConnector({
+  // ... other config options ...
+  getQueryFn: (state, config) => ({
+    knn: {
+      field: "embedding",
+      query_vector: [
+        /* embedding array */
+      ],
+      k: 10,
+      num_candidates: 100
+    }
+  })
+});
+```
+
+:::
+
+:::{tab-item} Sparse Vector
+:sync: sparse
+
+```ts
+const connector = new ElasticsearchAPIConnector({
+  // ... other config options ...
+  getQueryFn: (state, config) => ({
+    sparse_vector: {
+      field: "description_semantic",
+      inference_id: ".elser-2-elasticsearch",
+      query: state.searchTerm
+    }
+  })
+});
+```
+
+:::
+
+:::{tab-item} Multi Match
+:sync: multi-match
+
+```ts
+const connector = new ElasticsearchAPIConnector({
+  // ... other config options ...
+  getQueryFn: (state, config) => ({
+    multi_match: {
+      query: state.searchTerm,
+      fields: ["title^3", "description"],
+      type: "best_fields",
+      fuzziness: "AUTO"
+    }
+  })
+});
+```
+
+:::
+
+::::
+
+The `getQueryFn` allows you to:
+
+- Override the default query generation logic
+- Implement custom multi_match, match, term and other DSL queries
+- Use semantic search, KNN and text_expansion queries for AI-powered search
+
+::::{admonition} Note
+:class: important
+
+This hook only replaces the query part of the request body. Filters are still added separately and automatically mixed in.
+::::
 
 ## ApiProxyConnector [api-connectors-elasticsearch-api-proxy-doc-reference]
 

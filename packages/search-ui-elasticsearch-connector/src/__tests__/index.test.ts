@@ -6,7 +6,7 @@ describe("elasticsearch connector interface", () => {
       new ElasticsearchAPIConnector({
         index: "test"
       });
-    }).toThrowError(
+    }).toThrow(
       "Either host or cloud configuration or custom apiClient must be provided"
     );
   });
