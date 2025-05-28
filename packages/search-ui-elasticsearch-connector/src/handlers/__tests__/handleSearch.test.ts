@@ -1,5 +1,5 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
-import type { ResponseBody, SearchRequest } from "../../types";
+import type { ResponseBody } from "../../types";
 import { handleSearch } from "../handleSearch";
 import { IApiClientTransporter } from "../../transporter/ApiClientTransporter";
 
@@ -51,7 +51,7 @@ const mockResponse: ResponseBody = {
 class MockApiClientTransporter implements IApiClientTransporter {
   headers: Record<string, string> = {};
 
-  async performRequest(searchRequest: SearchRequest): Promise<ResponseBody> {
+  async performRequest(): Promise<ResponseBody> {
     return mockResponse;
   }
 }
@@ -333,7 +333,7 @@ describe("Search results", () => {
       performRequest: mockPerformRequest
     };
 
-    const customInterceptSearchRequest = jest.fn(({ requestBody }, next) => {
+    const customInterceptSearchRequest = jest.fn((_, next) => {
       return next(modifiedRequestBody);
     });
 

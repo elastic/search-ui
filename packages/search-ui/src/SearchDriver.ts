@@ -135,10 +135,6 @@ export type SearchDriverOptions = {
 
 export type SubscriptionHandler = (state: SearchState) => void;
 
-interface SearchDriver extends actions.SearchDriverActions {
-  actions: actions.SearchDriverActions;
-}
-
 /*
  * The Driver is a framework agnostic search state manager that is capable
  * syncing state to the url.
@@ -146,6 +142,7 @@ interface SearchDriver extends actions.SearchDriverActions {
 class SearchDriver {
   state: SearchState = DEFAULT_STATE;
 
+  actions: actions.SearchDriverActions;
   debug: boolean;
   events: Events;
   plugins: Plugin[];

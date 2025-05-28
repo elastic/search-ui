@@ -95,7 +95,7 @@ describe("withSearch", () => {
 
       expect(mockDriver.subscriptions).toHaveLength(0);
       mockDriver.getActions().setSearchTerm("New Term");
-      expect(console.error).not.toBeCalled();
+      expect(console.error).not.toHaveBeenCalled();
     });
   });
 
@@ -181,16 +181,17 @@ describe("withSearch", () => {
 
   describe("mapContextToProps override", () => {
     function setup(initialMapContextToProps, mapContextToProps) {
-      const Component = withSearch(initialMapContextToProps)(
-        ({ clap, searchTerm }) => {
-          return (
-            <div>
-              {searchTerm}
-              {clap}
-            </div>
-          );
-        }
-      );
+      const Component = withSearch(initialMapContextToProps)(({
+        clap,
+        searchTerm
+      }) => {
+        return (
+          <div>
+            {searchTerm}
+            {clap}
+          </div>
+        );
+      });
 
       return render(
         <SearchContext.Provider value={{ driver: mockDriver }}>

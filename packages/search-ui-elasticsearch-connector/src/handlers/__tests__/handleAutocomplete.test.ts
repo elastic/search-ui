@@ -224,7 +224,7 @@ describe("Autocomplete results", () => {
         performRequest: mockPerformRequest
       };
 
-      const customBeforeSuggestionsCall = jest.fn(({ requestBody }, next) => {
+      const customBeforeSuggestionsCall = jest.fn((_, next) => {
         return next(modifiedRequestBody);
       });
 
@@ -262,7 +262,7 @@ describe("Autocomplete results", () => {
         performRequest: mockPerformRequest
       };
 
-      const customBeforeResultsCall = jest.fn(({ requestBody }, next) => {
+      const customBeforeResultsCall = jest.fn((_, next) => {
         return next(modifiedRequestBody);
       });
 

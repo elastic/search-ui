@@ -29,7 +29,7 @@ describe("#trackAutocompleteSuggestionClickThrough", () => {
 
   it("Calls events plugin with correct parameters", () => {
     subject();
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       position: 1,
       query: "terms",
       suggestion: "search terms",

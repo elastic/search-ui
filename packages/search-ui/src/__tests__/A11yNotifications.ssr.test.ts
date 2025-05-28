@@ -7,5 +7,5 @@ it("does not crash or create errors in server-side rendered apps", () => {
   expect(getLiveRegion()).toBeNull();
   expect(() => {
     announceToScreenReader("test");
-  }).not.toThrowError();
+  }).not.toThrow();
 });

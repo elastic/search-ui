@@ -470,7 +470,7 @@ describe("tearDown", () => {
       (MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls
         .length
     ).toBe(1);
-    expect(MockedCancelByName).toBeCalledWith("pushStateToURL");
+    expect(MockedCancelByName).toHaveBeenCalledWith("pushStateToURL");
   });
 });
 
@@ -520,7 +520,7 @@ describe("_updateSearchResults", () => {
     expect(stateAfterCreation.totalResults).toEqual(1000);
     expect(stateAfterCreation.pagingStart).toEqual(21);
     expect(stateAfterCreation.pagingEnd).toEqual(40);
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       currentPage: 1,
       query: "test",
       resultsPerPage: 20,
@@ -847,7 +847,7 @@ describe("Request sequencing", () => {
         routingOptions: routingOptions
       });
 
-      expect(MockedURLManager).toBeCalledWith(routingOptions);
+      expect(MockedURLManager).toHaveBeenCalledWith(routingOptions);
     });
   });
 

@@ -98,7 +98,7 @@ describe("#addFilter", () => {
       { field: "initial", values: ["value"], type: "all" },
       { field: "test", values: ["value"], type: "all" }
     ]);
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterSelected",
@@ -122,7 +122,7 @@ describe("#addFilter", () => {
       { field: "test", values: ["value", "value2"], type: "all" }
     ]);
 
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterSelected",
@@ -207,7 +207,7 @@ describe("#addFilter", () => {
         type: "all"
       }
     ]);
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterSelected",

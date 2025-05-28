@@ -1,4 +1,3 @@
-import type { SearchResult } from "@elastic/search-ui";
 import React from "react";
 import { BaseContainerProps } from "./types";
 import { ResultViewProps } from "./Result";

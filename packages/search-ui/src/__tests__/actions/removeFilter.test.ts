@@ -92,7 +92,7 @@ describe("#removeFilter", () => {
         type: "all"
       }
     ]);
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterRemoved",
@@ -114,7 +114,7 @@ describe("#removeFilter", () => {
       }).filters
     ).toEqual([{ field: "initial", values: ["value"], type: "all" }]);
 
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterRemoved",
@@ -175,7 +175,7 @@ describe("#removeFilter", () => {
       }
     ]);
 
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterRemoved",
@@ -221,7 +221,7 @@ describe("#removeFilter", () => {
       }
     ]);
 
-    expect(mockPlugin.subscribe).toBeCalledWith({
+    expect(mockPlugin.subscribe).toHaveBeenCalledWith({
       field: "test",
       query: "",
       type: "FacetFilterRemoved",
