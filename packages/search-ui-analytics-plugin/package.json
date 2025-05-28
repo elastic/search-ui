@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-analytics-plugin",
-  "version": "1.23.1",
+  "version": "1.24.0",
   "description": "⚠️ DEPRECATED. Behavorial Analytics middleware plugin",
   "license": "Apache-2.0",
   "main": "lib/index.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@elastic/behavioral-analytics-tracker-core": "^2.0.5",
-    "@elastic/search-ui": "^1.23.1"
+    "@elastic/search-ui": "1.24.0"
   },
   "exports": {
     ".": {
