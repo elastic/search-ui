@@ -115,7 +115,9 @@ describe("Autocomplete results", () => {
 
     const searchkitRequestInstance = (Searchkit as jest.Mock).mock.results[0]
       .value;
-    expect(searchkitRequestInstance.executeSuggestions).toBeCalledWith("test");
+    expect(searchkitRequestInstance.executeSuggestions).toHaveBeenCalledWith(
+      "test"
+    );
 
     expect(results).toMatchInlineSnapshot(`
       {

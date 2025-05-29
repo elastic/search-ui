@@ -102,40 +102,44 @@ export const transformFacet = (
   } else if (facetConfiguration.type === "range" && facetConfiguration.center) {
     return {
       bool: {
-        [boolType]: filter.values.map((value) => {
-          const range = facetConfiguration.ranges.find(
-            (range) => range.name === value
-          );
+        [boolType]: (filter.values as SearchUIFilterValueRange[]).map(
+          (value) => {
+            const range = facetConfiguration.ranges.find((range) =>
+              typeof value === "object" && "name" in value
+                ? range.name === value.name
+                : range.name === value
+            );
 
-          return {
-            bool: {
-              ...(range.from
-                ? {
-                    must_not: [
-                      {
-                        geo_distance: {
-                          distance: range.from + facetConfiguration.unit,
-                          [filter.field]: facetConfiguration.center
+            return {
+              bool: {
+                ...(range.from
+                  ? {
+                      must_not: [
+                        {
+                          geo_distance: {
+                            distance: range.from + facetConfiguration.unit,
+                            [filter.field]: facetConfiguration.center
+                          }
                         }
-                      }
-                    ]
-                  }
-                : {}),
-              ...(range.to
-                ? {
-                    must: [
-                      {
-                        geo_distance: {
-                          distance: range.to + facetConfiguration.unit,
-                          [filter.field]: facetConfiguration.center
+                      ]
+                    }
+                  : {}),
+                ...(range.to
+                  ? {
+                      must: [
+                        {
+                          geo_distance: {
+                            distance: range.to + facetConfiguration.unit,
+                            [filter.field]: facetConfiguration.center
+                          }
                         }
-                      }
-                    ]
-                  }
-                : {})
-            }
-          };
-        })
+                      ]
+                    }
+                  : {})
+              }
+            };
+          }
+        )
       }
     };
   }

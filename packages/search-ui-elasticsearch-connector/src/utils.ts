@@ -47,3 +47,42 @@ export const getHostFromCloud = (cloud: { id: string }): string => {
   const cloudUrls = decodeBase64(id.split(":")[1]).split("$");
   return `https://${cloudUrls[1]}.${cloudUrls[0]}`;
 };
+
+export const deepMergeObjects = (
+  target: Record<string, unknown> | null,
+  source: Record<string, unknown> | null
+): Record<string, unknown> => {
+  if (!target && !source) {
+    return null;
+  }
+
+  if (!target || Object.keys(target).length === 0) {
+    return { ...source };
+  }
+
+  if (!source || Object.keys(source).length === 0) {
+    return { ...target };
+  }
+
+  const result = { ...target };
+
+  for (const key in source) {
+    if (source[key] && typeof source[key] === "object") {
+      if (Array.isArray(source[key])) {
+        result[key] = [
+          ...(Array.isArray(result[key]) ? (result[key] as unknown[]) : []),
+          ...(source[key] as unknown[])
+        ];
+      } else {
+        result[key] = deepMergeObjects(
+          (result[key] as Record<string, unknown>) || {},
+          source[key] as Record<string, unknown>
+        );
+      }
+    } else {
+      result[key] = source[key];
+    }
+  }
+
+  return result;
+};

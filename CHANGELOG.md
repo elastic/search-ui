@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.24.0] - 2025-05-28
+
+### ✨ Added
+
+- Replaced Searchkit SDK with a new internal `ApiClient` architecture for the Elasticsearch Connector. This significantly improves maintainability, customizability, and bundle size. [#1143](https://github.com/elastic/search-ui/pull/1143)
+- Added support for filters in Autocomplete results. [#1150](https://github.com/elastic/search-ui/pull/1150)
+- Introduced new advanced query customization options via `getQueryFn` and `interceptSearchRequest`, `interceptAutocompleteResultsRequest`, `interceptAutocompleteSuggestionsRequest` hooks. [#1161](https://github.com/elastic/search-ui/pull/1161)
+- Added support for `fuzziness: true` in `searchQuery` and `autocomplete`, enabling typo-tolerant matching. [#1159](https://github.com/elastic/search-ui/pull/1159)
+- Added support for range filters in the Elasticsearch Connector. [#1157](https://github.com/elastic/search-ui/pull/1157)
+- Introduced a dedicated entry point for `ApiProxyConnector` to optimize bundle usage. [#1146](https://github.com/elastic/search-ui/pull/1146)
+
+### 🧱 Changed
+
+- **React 19 Support:** Upgraded `react` and `react-dom` peer dependencies to version 19. [#1162](https://github.com/elastic/search-ui/pull/1162)
+
+### 🐛 Fixed
+
+- Fixed issue where queries with no matches would still return results from filters — filters are now applied in conjunction with matching queries. [#1151](https://github.com/elastic/search-ui/pull/1151)
+- Fixed incorrect behavior for facet filter types (`none`, `any`, `all`) in the Elasticsearch Connector. [#1153](https://github.com/elastic/search-ui/pull/1153)
+
+### 🧹 Removed
+
+- Fully removed the `searchkit` dependency from the Elasticsearch Connector. [#1143](https://github.com/elastic/search-ui/pull/1143)
+- Deprecated `postProcessRequestBodyFn` in favor of new `interceptSearchRequest`, `interceptAutocompleteResultsRequest`, `interceptAutocompleteSuggestionsRequest` hooks. [#1161](https://github.com/elastic/search-ui/pull/1161)
+
+### 🛠 Internal
+
+- Migrated CI from CircleCI to GitHub Actions.
+- Updated internal dev tooling: TypeScript, Jest, Replaced Enzyme with React Testing Library, ESLint, Prettier. [#1162](https://github.com/elastic/search-ui/pull/1162)
+- Minified production bundles using `tsup`, excluded source maps from production output. [#1148](https://github.com/elastic/search-ui/pull/1148)
+- Improved docs for Elasticsearch Connector, de-emphasized App Search and Workplace Search connectors. [#1149](https://github.com/elastic/search-ui/pull/1149)
+
+---
+
 ## [1.23.0] - 2025-04-01
 
 ### ✨ Added

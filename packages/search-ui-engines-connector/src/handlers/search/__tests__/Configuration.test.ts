@@ -291,7 +291,7 @@ describe("Search - Configuration", () => {
         identifier: "date.keyword",
         label: "date.keyword"
       });
-      expect(Filter).toBeCalledTimes(2);
+      expect(Filter).toHaveBeenCalledTimes(2);
     });
 
     it("works without facet configuration", () => {

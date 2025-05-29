@@ -123,7 +123,7 @@ describe("Search results", () => {
     });
 
     const instance: SearchkitRequest = searchkitMock.mock.results[0].value;
-    expect(instance.execute).toBeCalledWith(
+    expect(instance.execute).toHaveBeenCalledWith(
       { facets: true, hits: { from: 0, includeRawHit: true, size: 10 } },
       [
         {

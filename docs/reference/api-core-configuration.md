@@ -409,9 +409,8 @@ Explicitly providing a Handler will override the Handler provided by the Connect
         requestState,
         queryConfig
       );
-      const otherServiceResponse = await callSomeOtherService(
-        queryForOtherService
-      );
+      const otherServiceResponse =
+        await callSomeOtherService(queryForOtherService);
       return transformOtherServiceResponseToSearchUIState(otherServiceResponse);
     }
   }}

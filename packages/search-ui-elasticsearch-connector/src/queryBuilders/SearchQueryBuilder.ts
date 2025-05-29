@@ -5,11 +5,15 @@ import {
   transformFacetToAggs,
   transformFilter
 } from "../transformer/filterTransformer";
-import { SearchRequest } from "../types";
-import { getQueryFields } from "../utils";
+import { RequestModifiers, SearchRequest } from "../types";
+import { deepMergeObjects, getQueryFields } from "../utils";
 
 export class SearchQueryBuilder extends BaseQueryBuilder {
-  constructor(state: RequestState, private readonly queryConfig: QueryConfig) {
+  constructor(
+    state: RequestState,
+    private readonly queryConfig: QueryConfig,
+    private readonly getQueryFn?: RequestModifiers["getQueryFn"]
+  ) {
     super(state);
   }
 
@@ -125,62 +129,79 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
   }
 
   private buildQuery(): SearchRequest["query"] | null {
-    const queryFilters = this.getQueryFilters().map(transformFilter);
+    const filtersDsl = this.buildQueryDslFilters();
+    const searchDsl = this.buildSearchDslQuery();
+
+    return deepMergeObjects(searchDsl as Record<string, unknown>, filtersDsl);
+  }
+
+  private buildSearchDslQuery() {
     const searchQuery = this.state.searchTerm;
 
-    if (!searchQuery && !queryFilters?.length) {
+    if (!searchQuery) {
       return null;
+    }
+
+    if (this.getQueryFn) {
+      return this.getQueryFn(this.state, this.queryConfig);
     }
 
     const fields = getQueryFields(this.queryConfig.search_fields);
 
     return {
       bool: {
-        ...(queryFilters?.length && { filter: queryFilters }),
-        ...(searchQuery && {
-          must: [
-            {
-              bool: {
-                minimum_should_match: 1,
-                should: [
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "best_fields",
-                      operator: "and",
-                      fuzziness: this.queryConfig.fuzziness
-                        ? "AUTO"
-                        : undefined
-                    }
-                  },
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "cross_fields"
-                    }
-                  },
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "phrase"
-                    }
-                  },
-                  {
-                    multi_match: {
-                      query: searchQuery,
-                      fields: fields,
-                      type: "phrase_prefix"
-                    }
+        must: [
+          {
+            bool: {
+              minimum_should_match: 1,
+              should: [
+                {
+                  multi_match: {
+                    query: searchQuery,
+                    fields: fields,
+                    type: "best_fields",
+                    operator: "and",
+                    fuzziness: this.queryConfig.fuzziness ? "AUTO" : undefined
                   }
-                ]
-              }
+                },
+                {
+                  multi_match: {
+                    query: searchQuery,
+                    fields: fields,
+                    type: "cross_fields"
+                  }
+                },
+                {
+                  multi_match: {
+                    query: searchQuery,
+                    fields: fields,
+                    type: "phrase"
+                  }
+                },
+                {
+                  multi_match: {
+                    query: searchQuery,
+                    fields: fields,
+                    type: "phrase_prefix"
+                  }
+                }
+              ]
             }
-          ]
-        })
+          }
+        ]
       }
+    };
+  }
+
+  private buildQueryDslFilters() {
+    const filters = this.getQueryFilters().map(transformFilter);
+
+    if (!filters.length) {
+      return null;
+    }
+
+    return {
+      bool: { filter: filters }
     };
   }
 

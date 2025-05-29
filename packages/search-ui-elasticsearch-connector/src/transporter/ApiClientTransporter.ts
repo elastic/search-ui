@@ -35,7 +35,7 @@ export class ApiClientTransporter implements IApiClientTransporter {
     if (this.config.host) {
       try {
         new URL(this.config.host);
-      } catch (e) {
+      } catch {
         throw new Error("Invalid host URL format");
       }
     }

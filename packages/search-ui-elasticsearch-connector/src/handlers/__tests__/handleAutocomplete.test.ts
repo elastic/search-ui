@@ -133,25 +133,9 @@ describe("Autocomplete results", () => {
           {
             queryType: "results",
             result: {
-              id: { raw: "1" },
               title: {
                 raw: "Test Title",
                 snippet: ["<em>Test</em> Title"]
-              },
-              description: { raw: "Test Description" },
-              _meta: {
-                id: "1",
-                rawHit: {
-                  _id: "1",
-                  _index: "test",
-                  _source: {
-                    title: "Test Title",
-                    description: "Test Description"
-                  },
-                  highlight: {
-                    title: ["<em>Test</em> Title"]
-                  }
-                }
               }
             }
           }
@@ -219,5 +203,87 @@ describe("Autocomplete results", () => {
     await expect(
       handleAutocomplete(state, queryConfig, new ErrorApiClient())
     ).rejects.toThrow("Search failed");
+  });
+
+  describe("beforeAutocomplete hooks", () => {
+    it("should modify suggestions request using interceptAutocompleteSuggestionsRequest", async () => {
+      const modifiedRequestBody = {
+        suggest: {
+          suggest: {
+            text: "test",
+            completion: {
+              field: "title"
+            }
+          }
+        }
+      };
+
+      const mockPerformRequest = jest.fn().mockResolvedValue(mockResponse);
+      const customApiClient = {
+        ...apiClient,
+        performRequest: mockPerformRequest
+      };
+
+      const customBeforeSuggestionsCall = jest.fn((_, next) => {
+        return next(modifiedRequestBody);
+      });
+
+      const results = await handleAutocomplete(
+        state,
+        queryConfig,
+        customApiClient,
+        customBeforeSuggestionsCall
+      );
+
+      expect(customBeforeSuggestionsCall).toHaveBeenCalledWith(
+        expect.objectContaining({
+          requestBody: expect.any(Object),
+          requestState: state,
+          queryConfig
+        }),
+        expect.any(Function)
+      );
+      expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
+      expect(results.autocompletedSuggestions.documents).toHaveLength(2);
+    });
+
+    it("should modify results request using interceptAutocompleteResultsRequest", async () => {
+      const modifiedRequestBody = {
+        query: {
+          match: {
+            title: "test"
+          }
+        }
+      };
+
+      const mockPerformRequest = jest.fn().mockResolvedValue(mockResponse);
+      const customApiClient = {
+        ...apiClient,
+        performRequest: mockPerformRequest
+      };
+
+      const customBeforeResultsCall = jest.fn((_, next) => {
+        return next(modifiedRequestBody);
+      });
+
+      const results = await handleAutocomplete(
+        state,
+        queryConfig,
+        customApiClient,
+        undefined,
+        customBeforeResultsCall
+      );
+
+      expect(customBeforeResultsCall).toHaveBeenCalledWith(
+        expect.objectContaining({
+          requestBody: expect.any(Object),
+          requestState: state,
+          queryConfig
+        }),
+        expect.any(Function)
+      );
+      expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
+      expect(results.autocompletedResults).toHaveLength(1);
+    });
   });
 });

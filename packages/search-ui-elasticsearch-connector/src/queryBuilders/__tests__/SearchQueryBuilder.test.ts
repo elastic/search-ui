@@ -600,8 +600,14 @@ describe("SearchQueryBuilder", () => {
           { type: "all", field: "category.keyword", values: ["electronics"] }
         ]
       };
-      queryConfig.filters = [];
-      const builder = new SearchQueryBuilder(stateWithFilters, queryConfig);
+      const configWithoutFilters = {
+        ...queryConfig,
+        filters: []
+      };
+      const builder = new SearchQueryBuilder(
+        stateWithFilters,
+        configWithoutFilters
+      );
       const query = builder.build();
 
       expect(query.query).toBeUndefined();
@@ -727,6 +733,108 @@ describe("SearchQueryBuilder", () => {
             }
           }
         ]);
+      });
+    });
+  });
+
+  describe("getQueryFn", () => {
+    it("should use custom query function when provided", () => {
+      const customQuery = {
+        bool: {
+          match: {
+            title: {
+              query: "test",
+              boost: 2
+            }
+          }
+        }
+      };
+
+      const getQueryFn = jest.fn().mockReturnValue(customQuery);
+      const builder = new SearchQueryBuilder(state, queryConfig, getQueryFn);
+      const query = builder.build();
+
+      expect(getQueryFn).toHaveBeenCalledWith(state, queryConfig);
+      expect(query.query).toEqual({
+        bool: {
+          filter: [
+            {
+              bool: {
+                filter: [
+                  {
+                    term: {
+                      "category.keyword": "electronics"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          match: {
+            title: {
+              boost: 2,
+              query: "test"
+            }
+          }
+        }
+      });
+    });
+
+    it("should combine custom query with filters", () => {
+      const customQuery = {
+        bool: {
+          must: [
+            {
+              match: {
+                title: "test"
+              }
+            }
+          ]
+        }
+      };
+
+      const getQueryFn = jest.fn().mockReturnValue(customQuery);
+      const stateWithFilters: RequestState = {
+        ...state,
+        filters: [
+          {
+            type: "all",
+            field: "category.keyword",
+            values: ["electronics"]
+          }
+        ]
+      };
+
+      const builder = new SearchQueryBuilder(
+        stateWithFilters,
+        queryConfig,
+        getQueryFn
+      );
+      const query = builder.build();
+
+      expect(query.query).toEqual({
+        bool: {
+          filter: [
+            {
+              bool: {
+                filter: [
+                  {
+                    term: {
+                      "category.keyword": "electronics"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          must: [
+            {
+              match: {
+                title: "test"
+              }
+            }
+          ]
+        }
       });
     });
   });

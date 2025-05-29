@@ -1,5 +1,5 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
-import type { ResponseBody, SearchRequest } from "../../types";
+import type { ResponseBody } from "../../types";
 import { handleSearch } from "../handleSearch";
 import { IApiClientTransporter } from "../../transporter/ApiClientTransporter";
 
@@ -51,7 +51,7 @@ const mockResponse: ResponseBody = {
 class MockApiClientTransporter implements IApiClientTransporter {
   headers: Record<string, string> = {};
 
-  async performRequest(searchRequest: SearchRequest): Promise<ResponseBody> {
+  async performRequest(): Promise<ResponseBody> {
     return mockResponse;
   }
 }
@@ -109,6 +109,8 @@ describe("Search results", () => {
       state,
       queryConfig,
       apiClient,
+      undefined,
+      undefined,
       postProcessRequestBodyFn
     );
 
@@ -316,5 +318,40 @@ describe("Search results", () => {
 
     expect(results.pagingStart).toBe(6);
     expect(results.pagingEnd).toBe(10);
+  });
+
+  it("should modify request body using custom interceptSearchRequest", async () => {
+    const modifiedRequestBody = {
+      query: {
+        match_all: {}
+      }
+    };
+
+    const mockPerformRequest = jest.fn().mockResolvedValue(mockResponse);
+    const customApiClient = {
+      ...apiClient,
+      performRequest: mockPerformRequest
+    };
+
+    const customInterceptSearchRequest = jest.fn((_, next) => {
+      return next(modifiedRequestBody);
+    });
+
+    await handleSearch(
+      state,
+      queryConfig,
+      customApiClient,
+      customInterceptSearchRequest
+    );
+
+    expect(customInterceptSearchRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requestBody: expect.any(Object),
+        requestState: state,
+        queryConfig
+      }),
+      expect.any(Function)
+    );
+    expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
   });
 });

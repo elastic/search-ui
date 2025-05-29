@@ -178,7 +178,7 @@ reset();
 Clear all filters.
 
 ```js
-clearFilters((except: string[] = []));
+clearFilters(((except: string[]) = []));
 ```
 
 ### Examples [api-core-actions-examples-6]

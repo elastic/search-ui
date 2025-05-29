@@ -17,7 +17,7 @@ export default function getUrlSanitizer(
       // Attempts to parse a URL as relative
       parsedUrl = new URLParser(url, currentLocation);
       // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch {}
 
     return VALID_PROTOCOLS.includes(parsedUrl.protocol) ? url : "";
   };
