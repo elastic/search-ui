@@ -3,7 +3,6 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-debugging.html
 applies_to:
   stack:
-  serverless:
 ---
 
 # Debugging [guides-debugging]

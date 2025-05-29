@@ -5,7 +5,6 @@ mapped_pages:
 navigation_title: "Troubleshooting"
 applies_to:
   stack:
-  serverless:
 ---
 
 # Search known issues [search-known-issues]

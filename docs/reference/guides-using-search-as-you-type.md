@@ -3,7 +3,6 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-using-search-as-you-type.html
 applies_to:
   stack:
-  serverless:
 ---
 
 # Using search-as-you-type [guides-using-search-as-you-type]

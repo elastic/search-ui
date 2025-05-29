@@ -3,7 +3,6 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-customise-request.html
 applies_to:
   stack:
-  serverless:
 ---
 
 # Customise Request [api-connectors-elasticsearch-customise-the-elasticsearch-request-body]

@@ -3,7 +3,6 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-production-usage.html
 applies_to:
   stack:
-  serverless:
 ---
 
 # Using in Production [tutorials-elasticsearch-production-usage]

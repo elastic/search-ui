@@ -4,7 +4,6 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-components-search-box.html
 applies_to:
   stack:
-  serverless:
 ---
 
 # SearchBox [api-react-components-search-box]

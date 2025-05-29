@@ -3,7 +3,6 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-with-search.html
 applies_to:
   stack:
-  serverless:
 ---
 
 # WithSearch & withSearch [api-react-with-search]
