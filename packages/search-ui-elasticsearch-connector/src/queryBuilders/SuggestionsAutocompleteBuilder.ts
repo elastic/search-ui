@@ -19,7 +19,7 @@ export class SuggestionsAutocompleteBuilder extends BaseQueryBuilder {
     return this.query;
   }
 
-  private setSuggest(query: SearchRequest["suggest"]): void {
+  private setSuggest(query: SearchRequest["suggest"] | null): void {
     if (query) {
       this.query.suggest = query;
     }
