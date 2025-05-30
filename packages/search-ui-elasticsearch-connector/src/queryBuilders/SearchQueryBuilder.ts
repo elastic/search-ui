@@ -1,4 +1,8 @@
-import type { QueryConfig, RequestState } from "@elastic/search-ui";
+import type {
+  Filter as SearchUIFilter,
+  QueryConfig,
+  RequestState
+} from "@elastic/search-ui";
 import { BaseQueryBuilder } from "./BaseQueryBuilder";
 import {
   transformFacet,
@@ -45,10 +49,10 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     return "_score";
   }
 
-  private buildHighlight() {
+  private buildHighlight(): SearchRequest["highlight"] | null {
     const highlightFields = Object.entries(
       this.queryConfig.result_fields || {}
-    ).reduce((acc, [fieldKey, fieldConfiguration]) => {
+    ).reduce<Record<string, object>>((acc, [fieldKey, fieldConfiguration]) => {
       if (fieldConfiguration.snippet) {
         acc[fieldKey] = {};
       }
@@ -60,7 +64,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
       : null;
   }
 
-  private buildAggregations() {
+  private buildAggregations(): SearchRequest["aggs"] | null {
     if (
       !this.queryConfig.facets ||
       !Object.keys(this.queryConfig.facets).length
@@ -80,6 +84,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
         const isDisjunctive =
           this.queryConfig.disjunctiveFacets?.includes(facetKey);
         if (isDisjunctive && hasSelectedFilters) {
+          // @ts-expect-error - key is dynamically generated
           acc[`facet_bucket_${facetKey}`] = {
             aggs: {
               [facetKey]: transformFacetToAggs(facetKey, facetConfiguration)
@@ -91,7 +96,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
                   .map((filter) =>
                     transformFacet(
                       filter,
-                      this.queryConfig.facets[filter.field]
+                      this.queryConfig.facets?.[filter.field]
                     )
                   )
               }
@@ -108,22 +113,18 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
       {
         facet_bucket_all: {
           aggs: {},
-          filter: {
-            bool: {
-              must: this.getFacetFilters().map((filter) =>
-                transformFacet(filter, this.queryConfig.facets[filter.field])
-              )
-            }
-          }
+          filter: this.buildPostFilter() || { bool: { must: [] } }
         }
       }
     );
   }
 
-  private buildPostFilter() {
-    const postFilter = this.getFacetFilters().map((filter) =>
-      transformFacet(filter, this.queryConfig.facets[filter.field])
-    );
+  private buildPostFilter(): SearchRequest["post_filter"] | null {
+    const postFilter = this.getFacetFilters()
+      .map((filter) =>
+        transformFacet(filter, this.queryConfig.facets?.[filter.field])
+      )
+      .filter((filter) => !!filter);
 
     return postFilter?.length ? { bool: { must: postFilter } } : null;
   }
@@ -205,16 +206,16 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     };
   }
 
-  private getFacetFilters() {
+  private getFacetFilters(): SearchUIFilter[] {
     return (this.state.filters || []).filter(
-      (filter) => this.queryConfig.facets[filter.field]
+      (filter) => this.queryConfig.facets?.[filter.field]
     );
   }
 
-  private getQueryFilters() {
+  private getQueryFilters(): SearchUIFilter[] {
     // Exclude facet filters from query filters for aggs, but always include base filters (even if they are facets).
     return (this.state.filters || [])
-      .filter((filter) => !this.queryConfig.facets[filter.field])
+      .filter((filter) => !this.queryConfig.facets?.[filter.field])
       .concat(this.queryConfig.filters || []);
   }
 }

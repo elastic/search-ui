@@ -29,7 +29,7 @@ export const transformSearchResponse = (
     totalResults,
     facets,
     results: response.hits.hits.map(transformHitToFieldResult),
-    requestId: null,
+    requestId: "",
     rawResponse: null
   };
 };
@@ -37,7 +37,7 @@ export const transformSearchResponse = (
 export const transformHitToFieldResult = (
   hit: SearchHit
 ): Record<string, FieldResult> => {
-  const { _id, _source, highlight = {} } = hit;
+  const { _id, _source = {}, highlight = {} } = hit;
   const keys = new Set([...Object.keys(_source), ...Object.keys(highlight)]);
 
   const result: AutocompletedResult = {
@@ -70,9 +70,9 @@ const getPagination = (
   const pageNumber = Math.floor(from / size);
   const pageEnd = (pageNumber + 1) * size;
   const totalResults =
-    typeof response.hits.total === "number"
-      ? response.hits.total
-      : response.hits.total?.value;
+    typeof response.hits.total === "object"
+      ? response.hits.total.value
+      : response.hits.total || 0;
   const totalPages = Math.ceil(totalResults / size);
   const pagingStart = totalResults && pageNumber * size + 1;
   const pagingEnd = pageEnd > totalResults ? totalResults : pageEnd;
@@ -84,18 +84,22 @@ const transformToFacets = (
   response: ResponseBody,
   queryConfig: QueryConfig
 ): ResponseState["facets"] => {
-  return Object.entries(response.aggregations)
+  return Object.entries(response.aggregations || {})
     .filter(([aggKey]) => aggKey.startsWith("facet_bucket_"))
     .flatMap(([, facetBucket]) =>
-      Object.entries(facetBucket).filter(
+      Object.entries(facetBucket || {}).filter(
         ([key]) => key !== "meta" && key !== "doc_count"
       )
     )
     .reduce((acc, [aggKey, aggValue]) => {
+      if (!queryConfig.facets?.[aggKey]) {
+        return acc;
+      }
+
       return {
         ...acc,
         [aggKey]: [
-          transformAggToFacet(aggValue, aggKey, queryConfig.facets[aggKey])
+          transformAggToFacet(aggValue, aggKey, queryConfig.facets?.[aggKey])
         ]
       };
     }, {});
@@ -108,12 +112,15 @@ const transformAggToFacet = (
 ): Facet => {
   const buildRangeValue = (name: string) => ({
     name,
-    ...(facet.ranges.find((range) => range.name === name) || {})
+    ...(facet.ranges?.find((range) => range.name === name) || {})
   });
 
   const data = Array.isArray(agg.buckets)
     ? agg.buckets.map((entry) => ({
-        value: facet.type === "range" ? buildRangeValue(entry.key) : entry.key,
+        value:
+          facet.type === "range"
+            ? buildRangeValue((entry as { key: string }).key)
+            : (entry as { key: string }).key,
         count: entry.doc_count || 0
       }))
     : Object.entries(agg.buckets).map(([name, bucket]) => ({

@@ -296,7 +296,7 @@ class SearchDriver {
    */
   private _updateAutocomplete = (
     searchTerm: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     { autocompleteResults, autocompleteSuggestions }: any = {}
   ) => {
     const requestId = this.autocompleteRequestSequencer.next();
@@ -499,6 +499,10 @@ class SearchDriver {
           }
         },
         (error) => {
+          if (this.debug) {
+            console.error(error);
+          }
+
           if (error.message === INVALID_CREDENTIALS) {
             // The connector should have invalidated the credentials in its state by now
             // Getting the latest state from the connector

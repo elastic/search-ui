@@ -154,7 +154,7 @@ describe("Search results", () => {
         "pagingEnd": 10,
         "pagingStart": 1,
         "rawResponse": null,
-        "requestId": null,
+        "requestId": "",
         "resultSearchTerm": "test",
         "results": [
           {

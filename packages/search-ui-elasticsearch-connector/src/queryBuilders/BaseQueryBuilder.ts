@@ -14,20 +14,25 @@ export abstract class BaseQueryBuilder {
   abstract build(): SearchRequest;
 
   getSize(): number {
-    return this.query.size;
+    return this.query.size || 0;
   }
 
   getFrom(): number {
-    return this.query.from;
+    return this.query.from || 0;
   }
 
   getSearchTerm(): string {
-    return this.state.searchTerm;
+    return this.state.searchTerm || "";
   }
 
-  protected setPagination(current: number, size: number): void {
-    this.query.from = (current - 1) * size;
-    this.query.size = size;
+  protected setPagination(
+    current: number | undefined,
+    size: number | undefined
+  ): void {
+    if (current && size) {
+      this.query.from = (current - 1) * (size || 0);
+      this.query.size = size;
+    }
   }
 
   protected setSize(size: number): void {
@@ -45,7 +50,7 @@ export abstract class BaseQueryBuilder {
   /**
    * {@link https://www.elastic.co/guide/en/elasticsearch/reference/current/highlighting.html}
    */
-  protected setHighlight(highlight: SearchRequest["highlight"]): void {
+  protected setHighlight(highlight: SearchRequest["highlight"] | null): void {
     if (highlight) {
       this.query.highlight = highlight;
     }
@@ -57,7 +62,9 @@ export abstract class BaseQueryBuilder {
     }
   }
 
-  protected setPostFilter(postFilter: SearchRequest["post_filter"]): void {
+  protected setPostFilter(
+    postFilter: SearchRequest["post_filter"] | null
+  ): void {
     if (postFilter) {
       this.query.post_filter = postFilter;
     }
