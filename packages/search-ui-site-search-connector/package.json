@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-site-search-connector",
-  "version": "1.24.0",
+  "version": "1.24.1",
   "description": "A Search UI connector for Elastic's Site Search Service",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -34,7 +34,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.24.0"
+    "@elastic/search-ui": "1.24.1"
   },
   "exports": {
     ".": {
