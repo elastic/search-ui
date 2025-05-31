@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/solutions-ecommerce-product-detail-page.html
+applies_to:
+  stack:
 ---
 
 # Product Detail Page [solutions-ecommerce-product-detail-page]

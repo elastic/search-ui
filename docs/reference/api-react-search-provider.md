@@ -2,6 +2,8 @@
 navigation_title: "React API"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-search-provider.html
+applies_to:
+  stack:
 ---
 
 # SearchProvider [api-react-search-provider]

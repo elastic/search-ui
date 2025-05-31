@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-setup-index.html
+applies_to:
+  stack:
 ---
 
 # Setup an Index [tutorials-elasticsearch-setting-up-an-index]

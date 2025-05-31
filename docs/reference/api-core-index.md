@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-core-index.html
+applies_to:
+  stack:
 ---
 
 # Core API

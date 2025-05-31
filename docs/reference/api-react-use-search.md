@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-use-search.html
+applies_to:
+  stack:
 ---
 
 # useSearch hook [api-react-use-search]

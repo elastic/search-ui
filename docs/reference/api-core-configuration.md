@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-core-configuration.html
+applies_to:
+  stack:
 ---
 
 # Configuration [api-core-configuration]

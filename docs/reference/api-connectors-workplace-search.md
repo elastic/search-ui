@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-connectors-workplace-search.html
+applies_to:
+  stack:
 ---
 
 # Workplace Search Connector [api-connectors-workplace-search]
