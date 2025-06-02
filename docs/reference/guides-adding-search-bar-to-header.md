@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-adding-search-bar-to-header.html
+applies_to:
+  stack:
 ---
 
 # Adding search bar to header [guides-adding-search-bar-to-header]

@@ -3,6 +3,8 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/known-issues.html
 
 navigation_title: "Troubleshooting"
+applies_to:
+  stack:
 ---
 
 # Search known issues [search-known-issues]

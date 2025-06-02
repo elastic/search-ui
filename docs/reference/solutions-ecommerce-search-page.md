@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/solutions-ecommerce-search-page.html
+applies_to:
+  stack:
 ---
 
 # Search Page [solutions-ecommerce-search-page]

@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-components-sorting.html
+applies_to:
+  stack:
 ---
 
 # Sorting [api-react-components-sorting]

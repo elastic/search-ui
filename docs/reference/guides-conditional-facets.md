@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-conditional-facets.html
+applies_to:
+  stack:
 ---
 
 # Conditional Facets [guides-conditional-facets]

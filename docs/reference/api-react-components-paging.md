@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-components-paging.html
+applies_to:
+  stack:
 ---
 
 # Paging [api-react-components-paging]

@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-changing-component-behavior.html
+applies_to:
+  stack:
 ---
 
 # Changing component behavior [guides-changing-component-behavior]

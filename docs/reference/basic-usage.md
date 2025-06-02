@@ -2,6 +2,8 @@
 navigation_title: "Basic usage"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-customizing-styles-and-html.html
+applies_to:
+  stack:
 ---
 
 # Customizing Styles and HTML [guides-customizing-styles-and-html]

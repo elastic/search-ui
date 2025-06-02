@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-install-connector.html
+applies_to:
+  stack:
 ---
 
 # Install Connector [tutorials-elasticsearch-installing-connector]

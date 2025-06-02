@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/solutions-ecommerce-category-page.html
+applies_to:
+  stack:
 ---
 
 # Category Page [solutions-ecommerce-category-page]

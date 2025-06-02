@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-components-results-per-page.html
+applies_to:
+  stack:
 ---
 
 # ResultsPerPage [api-react-components-results-per-page]

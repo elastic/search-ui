@@ -2,6 +2,8 @@
 navigation_title: "Tutorials"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-connectors.html
+applies_to:
+  stack:
 ---
 
 # Which connector to choose? [tutorials-connectors]

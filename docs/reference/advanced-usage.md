@@ -2,6 +2,8 @@
 navigation_title: "Advanced usage"
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-using-with-vue-js.html
+applies_to:
+  stack:
 ---
 
 # Using with Vue.js [guides-using-with-vue-js]

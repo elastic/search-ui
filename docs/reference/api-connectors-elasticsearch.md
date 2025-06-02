@@ -1,6 +1,8 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-connectors-elasticsearch.html
+applies_to:
+  stack:
 ---
 
 # Elasticsearch Connector [api-connectors-elasticsearch]
