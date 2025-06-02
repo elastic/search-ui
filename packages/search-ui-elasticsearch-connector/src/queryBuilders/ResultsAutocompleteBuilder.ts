@@ -30,8 +30,8 @@ export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
 
   private buildHighlight() {
     const highlightFields = Object.entries(
-      this.configuration.result_fields
-    ).reduce((acc, [fieldKey, fieldConfiguration]) => {
+      this.configuration.result_fields || {}
+    ).reduce<Record<string, object>>((acc, [fieldKey, fieldConfiguration]) => {
       if (fieldConfiguration.snippet) {
         acc[fieldKey] = {};
       }

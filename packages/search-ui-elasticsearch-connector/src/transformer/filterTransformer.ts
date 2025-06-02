@@ -72,8 +72,14 @@ export const transformFilter = (filter: SearchUIFilter): Filter => {
 
 export const transformFacet = (
   filter: SearchUIFilter,
-  facetConfiguration: FacetConfiguration
-): Filter => {
+  facetConfiguration: FacetConfiguration | undefined
+): Filter | undefined => {
+  if (!facetConfiguration) {
+    throw new Error(
+      `Facet configuration for ${filter.field} not found in facet configuration`
+    );
+  }
+
   const boolType = getBoolTypeByFilterType(filter.type);
 
   if (facetConfiguration.type === "value") {
@@ -89,11 +95,17 @@ export const transformFacet = (
             ? value
             : // Keep to be backward compatible with passing range name as a string and get from and to from facet configuration.
               // TODO: Remove this in future versions.
-              facetConfiguration.ranges.find((range) =>
+              facetConfiguration.ranges?.find((range) =>
                 typeof value === "object" && "name" in value
                   ? range.name === value.name
                   : range.name === value
               );
+
+          if (!range) {
+            throw new Error(
+              `Range for ${filter.field} with value ${value} not found in facet configuration`
+            );
+          }
 
           return transformFilterValue(filter.field)(range);
         })
@@ -104,7 +116,7 @@ export const transformFacet = (
       bool: {
         [boolType]: (filter.values as SearchUIFilterValueRange[]).map(
           (value) => {
-            const range = facetConfiguration.ranges.find((range) =>
+            const range = facetConfiguration.ranges?.find((range) =>
               typeof value === "object" && "name" in value
                 ? range.name === value.name
                 : range.name === value
@@ -112,24 +124,24 @@ export const transformFacet = (
 
             return {
               bool: {
-                ...(range.from
+                ...(range?.from
                   ? {
                       must_not: [
                         {
                           geo_distance: {
-                            distance: range.from + facetConfiguration.unit,
+                            distance: range.from + facetConfiguration.unit!,
                             [filter.field]: facetConfiguration.center
                           }
                         }
                       ]
                     }
                   : {}),
-                ...(range.to
+                ...(range?.to
                   ? {
                       must: [
                         {
                           geo_distance: {
-                            distance: range.to + facetConfiguration.unit,
+                            distance: range.to + facetConfiguration.unit!,
                             [filter.field]: facetConfiguration.center
                           }
                         }
@@ -168,7 +180,7 @@ export const transformFacetToAggs = (
   ) {
     return {
       filters: {
-        filters: facetConfiguration.ranges.reduce(
+        filters: facetConfiguration.ranges?.reduce(
           (acc, range) => ({
             ...acc,
             [range.name]: transformFilterValue(facetKey)(range)
@@ -184,7 +196,7 @@ export const transformFacetToAggs = (
         origin: facetConfiguration.center,
         unit: facetConfiguration.unit,
         keyed: true,
-        ranges: facetConfiguration.ranges.map((range) => ({
+        ranges: facetConfiguration.ranges?.map((range) => ({
           key: range.name,
           ...(range.from && { from: Number(range.from) }),
           ...(range.to && { to: Number(range.to) })

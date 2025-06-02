@@ -51,7 +51,7 @@ export const getHostFromCloud = (cloud: { id: string }): string => {
 export const deepMergeObjects = (
   target: Record<string, unknown> | null,
   source: Record<string, unknown> | null
-): Record<string, unknown> => {
+): Record<string, unknown> | null => {
   if (!target && !source) {
     return null;
   }

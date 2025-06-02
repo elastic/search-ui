@@ -11,14 +11,17 @@ import { ResultsAutocompleteBuilder } from "../queryBuilders/ResultsAutocomplete
 import { SuggestionsAutocompleteBuilder } from "../queryBuilders/SuggestionsAutocompleteBuilder";
 import { transformHitToFieldResult } from "../transformer/responseTransformer";
 import type { IApiClientTransporter } from "../transporter/ApiClientTransporter";
-import type { SearchQueryHook, SearchRequest } from "../types";
+import type { ResponseBody, SearchQueryHook, SearchRequest } from "../types";
 
 const isResultSuggestionConfiguration = (
   config: QueryConfig | ResultSuggestionConfiguration | SuggestionConfiguration
 ): config is ResultSuggestionConfiguration =>
   "queryType" in config && config.queryType === "results";
 
-const defaultHook = ({ requestBody }, next) => next(requestBody);
+const defaultHook = (
+  { requestBody }: { requestBody: SearchRequest },
+  next: (requestBody: SearchRequest) => Promise<ResponseBody>
+) => next(requestBody);
 
 export const handleAutocomplete = async (
   state: RequestState,
@@ -90,10 +93,10 @@ export const handleAutocomplete = async (
         { requestBody: request, requestState: state, queryConfig },
         next
       ).then((response) => {
-        const options = response.suggest.suggest[0].options;
+        const options = response.suggest?.suggest[0]?.options;
         const suggestions = Array.isArray(options)
           ? options.map(({ text }) => ({ suggestion: text }))
-          : [{ suggestion: options.text }];
+          : [{ suggestion: options?.text }];
 
         result.autocompletedSuggestions[type] = suggestions;
       })

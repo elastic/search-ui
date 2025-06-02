@@ -1,8 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
     "outDir": "lib"
   },
-  "exclude": ["node_modules", "lib"],
+  "exclude": ["node_modules", "lib", "**/__tests__/**"],
   "include": ["src/**/*.ts", "src/**/*.js"]
 }

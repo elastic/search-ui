@@ -1,6 +1,6 @@
 {
   "name": "@elastic/search-ui-app-search-connector",
-  "version": "1.24.0",
+  "version": "1.24.1",
   "description": "⚠️ DEPRECATED. Please use '@elastic/search-ui-elasticsearch-connector'.",
   "homepage": "https://docs.elastic.co/search-ui",
   "license": "Apache-2.0",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@elastic/app-search-javascript": "^8.1.2",
-    "@elastic/search-ui": "1.24.0"
+    "@elastic/search-ui": "1.24.1"
   },
   "exports": {
     ".": {
