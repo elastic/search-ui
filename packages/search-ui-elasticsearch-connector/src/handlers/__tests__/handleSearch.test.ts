@@ -153,7 +153,67 @@ describe("Search results", () => {
         },
         "pagingEnd": 10,
         "pagingStart": 1,
-        "rawResponse": null,
+        "rawResponse": {
+          "_shards": {
+            "failed": 0,
+            "skipped": 0,
+            "successful": 1,
+            "total": 1,
+          },
+          "aggregations": {
+            "facet_bucket_another_field.keyword": {
+              "another_field.keyword": {
+                "buckets": [
+                  {
+                    "doc_count": 10,
+                    "key": "label1",
+                  },
+                  {
+                    "doc_count": 20,
+                    "key": "label2",
+                  },
+                ],
+              },
+            },
+            "facet_bucket_world_heritage_site.keyword": {
+              "world_heritage_site.keyword": {
+                "buckets": [
+                  {
+                    "doc_count": 10,
+                    "key": "label3",
+                  },
+                  {
+                    "doc_count": 20,
+                    "key": "label4",
+                  },
+                ],
+              },
+            },
+          },
+          "hits": {
+            "hits": [
+              {
+                "_id": "test",
+                "_index": "test",
+                "_source": {
+                  "description": "test",
+                  "title": "hello",
+                },
+                "highlight": {
+                  "title": [
+                    "hello",
+                  ],
+                },
+              },
+            ],
+            "total": {
+              "relation": "eq",
+              "value": 100,
+            },
+          },
+          "timed_out": false,
+          "took": 1,
+        },
         "requestId": "",
         "resultSearchTerm": "test",
         "results": [
