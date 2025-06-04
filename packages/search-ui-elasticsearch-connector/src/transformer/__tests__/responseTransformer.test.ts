@@ -128,7 +128,7 @@ describe("responseTransformer", () => {
           }
         ],
         requestId: "",
-        rawResponse: null
+        rawResponse: response
       });
     });
 
@@ -166,7 +166,7 @@ describe("responseTransformer", () => {
         facets: {},
         results: [],
         requestId: "",
-        rawResponse: null
+        rawResponse: response
       });
     });
 
@@ -210,7 +210,7 @@ describe("responseTransformer", () => {
         facets: {},
         results: [],
         requestId: "",
-        rawResponse: null
+        rawResponse: response
       });
     });
 
