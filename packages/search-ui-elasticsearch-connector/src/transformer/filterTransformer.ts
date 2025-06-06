@@ -3,7 +3,8 @@ import type {
   FilterValueRange as SearchUIFilterValueRange,
   FilterValue as SearchUIFilterValue,
   FilterType as SearchUIFilterType,
-  FacetConfiguration
+  FacetConfiguration,
+  FacetSortOption
 } from "@elastic/search-ui";
 import { isRangeFilter, isValidDateString } from "../utils";
 import type {
@@ -161,17 +162,14 @@ export const transformFacetToAggs = (
   facetKey: string,
   facetConfiguration: FacetConfiguration
 ) => {
-  if (facetConfiguration.type === "value") {
-    const orderMap = {
-      count: { _count: "desc" },
-      value: { _key: "asc" }
-    };
+  const field = facetConfiguration.field || facetKey;
 
+  if (facetConfiguration.type === "value") {
     return {
       terms: {
-        field: facetKey,
+        field,
         size: facetConfiguration.size || 20,
-        order: orderMap[facetConfiguration.sort || "count"]
+        order: getOrder(facetConfiguration.sort)
       }
     };
   } else if (
@@ -183,7 +181,7 @@ export const transformFacetToAggs = (
         filters: facetConfiguration.ranges?.reduce(
           (acc, range) => ({
             ...acc,
-            [range.name]: transformFilterValue(facetKey)(range)
+            [range.name]: transformFilterValue(field)(range)
           }),
           {}
         )
@@ -192,7 +190,7 @@ export const transformFacetToAggs = (
   } else if (facetConfiguration.type === "range" && facetConfiguration.center) {
     return {
       geo_distance: {
-        field: facetKey,
+        field,
         origin: facetConfiguration.center,
         unit: facetConfiguration.unit,
         keyed: true,
@@ -206,4 +204,16 @@ export const transformFacetToAggs = (
   }
 
   return {};
+};
+
+const getOrder = (sort: FacetSortOption | undefined) => {
+  if (!sort) {
+    return { _count: "desc" };
+  }
+
+  if (sort.orderBy === "count") {
+    return { _count: sort.direction || "desc" };
+  }
+
+  return { _key: sort.direction || "asc" };
 };

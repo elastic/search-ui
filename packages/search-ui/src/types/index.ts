@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import type { SearchDriverActions } from "..";
 
 export type SortOption = {
@@ -153,7 +151,8 @@ export type FacetConfiguration = {
   ranges?: FilterValueRange[];
   center?: string;
   unit?: string;
-  sort?: "count" | "value";
+  sort?: FacetSortOption;
+  field?: string;
 };
 
 export type ConditionalRule = (state: { filters: Filter[] }) => boolean;
@@ -291,3 +290,8 @@ export type Event =
   | ResultSelectedEvent
   | FacetFilterSelectedEvent
   | FacetFilterRemovedEvent;
+
+export type FacetSortOption = {
+  orderBy: "count" | "value";
+  direction?: SortDirection;
+};

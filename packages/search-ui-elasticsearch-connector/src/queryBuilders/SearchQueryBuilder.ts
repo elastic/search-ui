@@ -1,7 +1,8 @@
 import type {
   Filter as SearchUIFilter,
   QueryConfig,
-  RequestState
+  RequestState,
+  FacetConfiguration
 } from "@elastic/search-ui";
 import { BaseQueryBuilder } from "./BaseQueryBuilder";
 import {
@@ -81,6 +82,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
 
     return Object.entries(this.queryConfig.facets).reduce(
       (acc, [facetKey, facetConfiguration]) => {
+        const facetField = facetConfiguration.field || facetKey;
         const isDisjunctive =
           this.queryConfig.disjunctiveFacets?.includes(facetKey);
         if (isDisjunctive && hasSelectedFilters) {
@@ -92,12 +94,9 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
             filter: {
               bool: {
                 must: this.getFacetFilters()
-                  .filter((filter) => filter.field !== facetKey)
+                  .filter((filter) => filter.field !== facetField)
                   .map((filter) =>
-                    transformFacet(
-                      filter,
-                      this.queryConfig.facets?.[filter.field]
-                    )
+                    transformFacet(filter, this.getFacet(filter))
                   )
               }
             }
@@ -121,9 +120,7 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
 
   private buildPostFilter(): SearchRequest["post_filter"] | null {
     const postFilter = this.getFacetFilters()
-      .map((filter) =>
-        transformFacet(filter, this.queryConfig.facets?.[filter.field])
-      )
+      .map((filter) => transformFacet(filter, this.getFacet(filter)))
       .filter((filter) => !!filter);
 
     return postFilter?.length ? { bool: { must: postFilter } } : null;
@@ -207,15 +204,22 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
   }
 
   private getFacetFilters(): SearchUIFilter[] {
-    return (this.state.filters || []).filter(
-      (filter) => this.queryConfig.facets?.[filter.field]
-    );
+    return (this.state.filters || []).filter((filter) => this.getFacet(filter));
   }
 
   private getQueryFilters(): SearchUIFilter[] {
     // Exclude facet filters from query filters for aggs, but always include base filters (even if they are facets).
     return (this.state.filters || [])
-      .filter((filter) => !this.queryConfig.facets?.[filter.field])
+      .filter((filter) => !this.getFacet(filter))
       .concat(this.queryConfig.filters || []);
+  }
+
+  private getFacet(filter: SearchUIFilter): FacetConfiguration | undefined {
+    return (
+      this.queryConfig.facets?.[filter.field] ||
+      Object.values(this.queryConfig.facets || {}).find(
+        (facet) => facet.field === filter.field
+      )
+    );
   }
 }

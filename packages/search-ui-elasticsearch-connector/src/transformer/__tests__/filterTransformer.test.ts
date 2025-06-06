@@ -258,7 +258,8 @@ describe("filterTransformer", () => {
       const facetConfig: FacetConfiguration = {
         type: "value",
         size: 10,
-        sort: "count"
+        sort: { orderBy: "count" },
+        field: "category"
       };
 
       const result = transformFacetToAggs("category", facetConfig);

@@ -22,9 +22,9 @@ describe("SearchQueryBuilder", () => {
       }
     },
     facets: {
-      "category.keyword": { type: "value" }
+      categoryKeyword: { type: "value", field: "category.keyword" }
     },
-    disjunctiveFacets: ["category.keyword"],
+    disjunctiveFacets: ["categoryKeyword"],
     filters: [
       {
         type: "all",
@@ -45,7 +45,7 @@ describe("SearchQueryBuilder", () => {
       aggs: {
         facet_bucket_all: {
           aggs: {
-            "category.keyword": {
+            categoryKeyword: {
               terms: {
                 field: "category.keyword",
                 order: {
@@ -142,7 +142,7 @@ describe("SearchQueryBuilder", () => {
       aggs: {
         facet_bucket_all: {
           aggs: {
-            "category.keyword": {
+            categoryKeyword: {
               terms: {
                 field: "category.keyword",
                 order: { _count: "desc" },
