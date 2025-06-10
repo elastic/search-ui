@@ -4,6 +4,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-architecture.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Architecture [api-architecture]

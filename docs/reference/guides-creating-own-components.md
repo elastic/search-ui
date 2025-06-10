@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-creating-your-own-components.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Creating Components [guides-creating-your-own-components]

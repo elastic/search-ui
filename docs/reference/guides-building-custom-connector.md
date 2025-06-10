@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-building-a-custom-connector.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Building a custom connector [guides-building-a-custom-connector]

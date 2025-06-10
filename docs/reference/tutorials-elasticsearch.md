@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Search UI with Elasticsearch [tutorials-elasticsearch]

@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-nextjs-integration.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # NextJS Integration [guides-nextjs-integration]
