@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/overview.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Search UI
@@ -37,6 +38,13 @@ yarn add @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui-vi
 ```
 
 ### Tutorials 📘 [overview-tutorials]
+
+:::{note}
+
+Search UI can connect to Serverless using a backend proxy. In this setup, the frontend uses the `ApiProxyConnector` to send requests to your backend, which then forwards them to Elasticsearch. Direct browser connections to Serverless are not supported due to CORS restrictions.
+
+[See our guide for using Search UI in production](./tutorials-elasticsearch-production-usage.md) for a full example of this setup.
+:::
 
 Get started quickly with Search UI and your favorite Elastic product by following one of the tutorials below:
 
