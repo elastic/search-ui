@@ -23,7 +23,7 @@ As a headless library, Search UI separates logic from presentation. It provides 
 ### Examples [overview-examples]
 
 - [Search as you type](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsearch-as-you-type%2Findex.jsx)
-- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.jsx&from-embed=&initialpath=%2Fsearch-bar-in-header)
+- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.jsx)
 - [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fcustomizing-styles-and-html%2Findex.jsx)
 
 ## Get Started 🌟 [overview-get-started]
