@@ -12,7 +12,7 @@ Search UI is a JavaScript library for building modern, customizable search exper
 
 As a headless library, Search UI separates logic from presentation. It provides search state and actions you can use with React, vanilla JavaScript, or other frameworks like Vue.
 
-## Live demos 👀 [overview-live-demos]
+## Live demos [overview-live-demos]
 
 ### Connectors [overview-connectors]
 
@@ -26,7 +26,7 @@ As a headless library, Search UI separates logic from presentation. It provides 
 - [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.jsx)
 - [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fcustomizing-styles-and-html%2Findex.jsx)
 
-## Get Started 🌟 [overview-get-started]
+## Get Started [overview-get-started]
 
 ### Installation [overview-installation]
 
@@ -51,7 +51,7 @@ Get started quickly with Search UI and your favorite Elastic product by followin
 - ⚠️ DEPRECATED [Elastic App Search](./tutorials-app-search.md)
 - ⚠️ DEPRECATED [Elastic Workplace Search](./tutorials-workplace-search.md)
 
-## [Ecommerce 📦](./ecommerce.md)
+## [Ecommerce](./ecommerce.md)
 
 Guides for implementing ecommerce use cases using Search UI components.
 
@@ -61,7 +61,7 @@ Guides for implementing ecommerce use cases using Search UI components.
 - [Product Detail Page](./solutions-ecommerce-product-detail-page.md): Enrich product pages with cross-sell suggestions and related items.
 - [Search Page](./solutions-ecommerce-search-page.md): Show full search results with options for sorting, filters, and variants.
 
-## [Basic usage ⚙️](./basic-usage.md)
+## [Basic usage](./basic-usage.md)
 
 Quick-start guides for common Search UI tasks like styling, header placement, search behavior, and debugging.
 
@@ -69,7 +69,7 @@ Quick-start guides for common Search UI tasks like styling, header placement, se
 - [Adding a search bar to a header](./guides-adding-search-bar-to-header.md): Place a search bar in the site header and redirect queries to a results page.
 - [Debugging](./guides-debugging.md): Enable debug mode to inspect actions and state changes in the browser console.
 
-## [Advanced usage 🛠️](./advanced-usage.md)
+## [Advanced usage](./advanced-usage.md)
 
 Learn how to customize component behavior, build your own UI components, connect to any backend, and integrate Search UI with frameworks like Vue and Next.js.
 
@@ -79,7 +79,7 @@ Learn how to customize component behavior, build your own UI components, connect
 - [Building a custom connector](./guides-building-custom-connector.md): Use Search UI with any backend by implementing a connector.
 - [Next.js integration](./guides-nextjs-integration.md): Use Search UI with server-side rendering in Next.js apps.
 
-## [API reference 📚](./api-reference.md)
+## [API reference](./api-reference.md)
 
 ### [Core API](./api-core-index.md)
 
@@ -96,7 +96,7 @@ React-specific utilities for accessing and interacting with the Core API.
 - [WithSearch & withSearch](./api-react-with-search.md)
 - [useSearch hook](./api-react-use-search.md)
 
-## [React components 🧩](./api-react-components-search-box.md)
+## [React components](./api-react-components-search-box.md)
 
 Search UI includes a set of ready-to-use React components for building your search interface. This section documents each component's API and customization options.
 
@@ -109,7 +109,7 @@ Search UI includes a set of ready-to-use React components for building your sear
 - [PagingInfo](./api-react-components-paging-info.md)
 - [ErrorBoundary](./api-react-components-error-boundary.md)
 
-## Connectors API 🔌
+## Connectors API
 
 Built-in connectors let Search UI talk to Elastic backends. This section documents how to configure each connector, including usage examples and integration details.
 
@@ -118,15 +118,15 @@ Built-in connectors let Search UI talk to Elastic backends. This section documen
 - ⚠️ DEPRECATED [Workplace Search Connector](./api-connectors-workplace-search.md): Legacy connector for Elastic Workplace Search.
 - ⚠️ DEPRECATED [App Search Connector](./api-connectors-app-search.md): Legacy connector for Elastic App Search.
 
-## Plugins 🧪
+## Plugins
 
 - ⚠️ DEPRECATED [Analytics Plugin](./api-core-plugins-analytics-plugin.md): Track user behavior and send events to Elastic Behavioral Analytics.
 
-## Known issues 🛠️
+## Known issues
 
 - [Known issues](./known-issues.md)
 
-## License 📗 [overview-license]
+## License [overview-license]
 
 [Apache-2.0](https://github.com/elastic/search-ui/blob/main/LICENSE.txt) © [Elastic](https://github.com/elastic)
 
