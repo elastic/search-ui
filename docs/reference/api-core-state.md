@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-core-state.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # State [api-core-state]

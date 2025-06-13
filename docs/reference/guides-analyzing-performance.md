@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/guides-analyzing-performance.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Analyzing performance [guides-analyzing-performance]

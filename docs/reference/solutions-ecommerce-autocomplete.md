@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/solutions-ecommerce-autocomplete.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Autocomplete [solutions-ecommerce-autocomplete]
