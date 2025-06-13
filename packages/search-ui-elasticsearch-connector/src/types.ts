@@ -13,6 +13,7 @@ export type ResponseBody = estypes.SearchResponseBody<
 >;
 export type SearchSourceFilter = estypes.SearchSourceFilter;
 export type SearchHit = estypes.SearchHit<Record<string, unknown>>;
+export type Query = estypes.QueryDslQueryContainer;
 export type Filter = Pick<estypes.QueryDslQueryContainer, "bool">;
 export type FilterValue = Pick<estypes.QueryDslQueryContainer, "term">;
 export type FilterValueRange = Pick<estypes.QueryDslQueryContainer, "range">;
@@ -55,5 +56,5 @@ export type RequestModifiers = {
   interceptSearchRequest?: SearchQueryHook<QueryConfig>;
   interceptAutocompleteResultsRequest?: SearchQueryHook<AutocompleteQueryConfig>;
   interceptAutocompleteSuggestionsRequest?: SearchQueryHook<AutocompleteQueryConfig>;
-  getQueryFn?: (state: RequestState, queryConfig: QueryConfig) => SearchRequest;
+  getQueryFn?: (state: RequestState, queryConfig: QueryConfig) => Query;
 };
