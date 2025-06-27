@@ -574,6 +574,7 @@ class SearchDriver {
     this.subscriptions = [];
     this.URLManager && this.URLManager.tearDown();
     this.debounceManager.cancelByName("pushStateToURL");
+    this.searchRequestSequencer.lastCompleted = Infinity
   }
 
   /**
