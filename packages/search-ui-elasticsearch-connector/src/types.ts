@@ -56,5 +56,8 @@ export type RequestModifiers = {
   interceptSearchRequest?: SearchQueryHook<QueryConfig>;
   interceptAutocompleteResultsRequest?: SearchQueryHook<AutocompleteQueryConfig>;
   interceptAutocompleteSuggestionsRequest?: SearchQueryHook<AutocompleteQueryConfig>;
-  getQueryFn?: (state: RequestState, queryConfig: QueryConfig) => Query;
+  getQueryFn?: (
+    state: RequestState,
+    queryConfig: QueryConfig
+  ) => Query | Promise<Query>;
 };

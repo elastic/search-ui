@@ -12,9 +12,9 @@ describe("SuggestionsAutocompleteBuilder", () => {
     queryType: "suggestions"
   };
 
-  it("should build suggestions autocomplete query", () => {
+  it("should build suggestions autocomplete query", async () => {
     const builder = new SuggestionsAutocompleteBuilder(state, config, 5);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query).toEqual({
       size: 0,
@@ -37,28 +37,28 @@ describe("SuggestionsAutocompleteBuilder", () => {
     });
   });
 
-  it("should handle empty search term", () => {
+  it("should handle empty search term", async () => {
     const emptyState: RequestState = {
       ...state,
       searchTerm: ""
     };
 
     const builder = new SuggestionsAutocompleteBuilder(emptyState, config, 5);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query.suggest).toBeUndefined();
   });
 
-  it("should handle custom size", () => {
+  it("should handle custom size", async () => {
     const builder = new SuggestionsAutocompleteBuilder(state, config, 10);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(
       (query.suggest.suggest as SearchFieldSuggester).completion.size
     ).toBe(10);
   });
 
-  it("should handle multiple fields", () => {
+  it("should handle multiple fields", async () => {
     const multiFieldConfig: SuggestionConfiguration = {
       ...config,
       fields: ["title", "description"]
@@ -69,7 +69,7 @@ describe("SuggestionsAutocompleteBuilder", () => {
       multiFieldConfig,
       5
     );
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query).toEqual({
       size: 0,
