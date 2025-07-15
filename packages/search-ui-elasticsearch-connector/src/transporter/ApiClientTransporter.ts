@@ -61,7 +61,7 @@ export class ApiClientTransporter implements IApiClientTransporter {
       host = getHostFromCloud(this.config.cloud);
     }
 
-    const searchUrl = new URL(`/${this.config.index}/_search`, host);
+    const searchUrl = new URL(`${this.config.index}/_search`, host);
 
     const response = await fetch(searchUrl.href, {
       method: "POST",
