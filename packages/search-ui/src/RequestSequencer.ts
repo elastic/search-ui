@@ -29,4 +29,10 @@ export default class RequestSequencer {
   completed(request: RequestSequence): void {
     this.lastCompleted = request;
   }
+
+  tearDown(): void {
+    // Set to current maximum requestSequence so that current requests are rejected as old,
+    // but new requests can still be executed
+    this.lastCompleted = this.requestSequence + 1;
+  }
 }
