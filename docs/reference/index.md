@@ -3,35 +3,30 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/overview.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Search UI
 
-A JavaScript library for the fast development of modern, engaging search experiences with [Elastic](https://www.elastic.co/). Get up and running quickly without re-inventing the wheel.
+Search UI is a JavaScript library for building modern, customizable search experiences using Elastic as a backend. Maintained by the Elastic team, it helps you implement search interfaces with minimal boilerplate.
 
-## Features 👍 [overview-features]
+As a headless library, Search UI separates logic from presentation. It provides search state and actions you can use with React, vanilla JavaScript, or other frameworks like Vue.
 
-- **You know, for search** - Maintained by [Elastic](https://elastic.co), the team behind Elasticsearch.
-- **Speedy Implementation** - Build a complete search experience with a few lines of code.
-- **Customizable** - Tune the components, markup, styles, and behaviors to your liking.
-- **Smart URLs** - Searches, paging, filtering, and more, are captured in the URL for direct result linking.
-- **Flexible front-end** - Not just for React. Use with any JavaScript library, even vanilla JavaScript.
-- **Flexible back-end** - Use it with Elasticsearch, Elastic Enterprise Search, or any other search API.
-
-## Live demos 👀 [overview-live-demos]
+## Live demos [overview-live-demos]
 
 ### Connectors [overview-connectors]
 
-- [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/elasticsearch&file=/src/pages/elasticsearch/index.jsx)
-- [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/site-search&file=/src/pages/site-search/index.jsx)
+- [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Felasticsearch-basic%2Findex.jsx): Browser-only implementation
+- [Elasticsearch](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Felasticsearch-production-ready%2Findex.jsx): Production-ready implementation, using proxy connector
+- [Elastic Site Search (Swiftype)](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsite-search%2Findex.jsx)
 
 ### Examples [overview-examples]
 
-- [Search as you type](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/search-as-you-type&file=/src/pages/search-as-you-type/index.jsx)
-- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/search-bar-in-header&file=/src/pages/search-bar-in-header/index.jsx)
-- [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?from-embed=&initialpath=/customizing-styles-and-html&file=/src/pages/customizing-styles-and-html/index.jsx)
+- [Search as you type](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsearch-as-you-type%2Findex.jsx)
+- [Search bar in header](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fsearch-bar-in-header%2Findex.jsx)
+- [Customizing Styles and Components](https://codesandbox.io/s/github/elastic/search-ui/tree/main/examples/sandbox?file=%2Fsrc%2Fpages%2Fcustomizing-styles-and-html%2Findex.jsx)
 
-## Get Started 🌟 [overview-get-started]
+## Get Started [overview-get-started]
 
 ### Installation [overview-installation]
 
@@ -41,73 +36,97 @@ npm install @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui
 yarn add @elastic/search-ui @elastic/react-search-ui @elastic/react-search-ui-views
 ```
 
-### Tutorials [overview-tutorials]
+### Tutorials 📘 [overview-tutorials]
+
+:::{note}
+
+Search UI can connect to Serverless using a backend proxy. In this setup, the frontend uses the `ApiProxyConnector` to send requests to your backend, which then forwards them to Elasticsearch. Direct browser connections to Serverless are not supported due to CORS restrictions.
+
+[See our guide for using Search UI in production](./tutorials-elasticsearch-production-usage.md) for a full example of this setup.
+:::
 
 Get started quickly with Search UI and your favorite Elastic product by following one of the tutorials below:
 
-- [Elasticsearch](/reference/tutorials-elasticsearch.md)
-- ⚠️ DEPRECATED [Elastic App Search](/reference/tutorials-app-search.md)
-- ⚠️ DEPRECATED [Elastic Workplace Search](/reference/tutorials-workplace-search.md)
+- [Elasticsearch](./tutorials-elasticsearch.md)
+- ⚠️ DEPRECATED [Elastic App Search](./tutorials-app-search.md)
+- ⚠️ DEPRECATED [Elastic Workplace Search](./tutorials-workplace-search.md)
 
-## Use Cases 🛠️ [overview-use-cases]
+## [Ecommerce](./ecommerce.md)
 
-### Ecommerce [overview-ecommerce]
+Guides for implementing ecommerce use cases using Search UI components.
 
-Search UI works great in the ecommerce use-case. Check out our [ecommerce guide](/reference/ecommerce.md) that includes demo and code examples, as well as general guidance for ecommerce search.
+- [Autocomplete](./solutions-ecommerce-autocomplete.md): Add real-time query and product suggestions to your search box.
+- [Product Carousels](./solutions-ecommerce-carousel.md): Display horizontal lists of products, like 'Best Rated' or 'On Sale'.
+- [Category Page](./solutions-ecommerce-category-page.md): Filter and explore products in a specific category using facets.
+- [Product Detail Page](./solutions-ecommerce-product-detail-page.md): Enrich product pages with cross-sell suggestions and related items.
+- [Search Page](./solutions-ecommerce-search-page.md): Show full search results with options for sorting, filters, and variants.
 
-## FAQ 🔮 [overview-faq]
+## [Basic usage](./basic-usage.md)
 
-### Is Search UI only for React? [overview-is-search-ui-only-for-react]
+Quick-start guides for common Search UI tasks like styling, header placement, search behavior, and debugging.
 
-Search UI is "headless". You can use vanilla JavaScript or write support for it into any JavaScript framework.
+- [Using search-as-you-type](./guides-using-search-as-you-type.md): Trigger a search request with each keystroke using the `searchAsYouType` prop.
+- [Adding a search bar to a header](./guides-adding-search-bar-to-header.md): Place a search bar in the site header and redirect queries to a results page.
+- [Debugging](./guides-debugging.md): Enable debug mode to inspect actions and state changes in the browser console.
 
-[Read about the search-ui package](https://github.com/elastic/search-ui/tree/main/packages/search-ui) for more information, or check out the [Vue.js Example](https://github.com/elastic/vue-search-ui-demo).
+## [Advanced usage](./advanced-usage.md)
 
-### Can I use my own styles? [overview-can-i-use-my-own-styles]
+Learn how to customize component behavior, build your own UI components, connect to any backend, and integrate Search UI with frameworks like Vue and Next.js.
 
-You can!
+- [Conditional Facets](./guides-conditional-facets.md): Show or hide facets based on selected filters.
+- [Changing component behavior](./guides-changing-component-behavior.md): Override default logic using `mapContextToProps` or custom props.
+- [Analyzing performance](./guides-analyzing-performance.md): Measure and analyze your search experience’s performance using browser and React profiling tools.
+- [Building a custom connector](./guides-building-custom-connector.md): Use Search UI with any backend by implementing a connector.
+- [Next.js integration](./guides-nextjs-integration.md): Use Search UI with server-side rendering in Next.js apps.
 
-Read the [Custom Styles and Layout Guide](/reference/basic-usage.md) to learn more, or check out the [Seattle Indies Expo Demo](https://github.com/elastic/seattle-indies-expo-search).
+## [API reference](./api-reference.md)
 
-### Can I build my own Components? [overview-can-i-build-my-own-components]
+### [Core API](./api-core-index.md)
 
-Yes! Absolutely.
+Configuration, state, and actions that power the search experience.
 
-Check out the [Build Your Own Component Guide](/reference/guides-creating-own-components.md).
+- [Configuration](./api-core-configuration.md)
+- [State](./api-core-state.md)
+- [Actions](./api-core-actions.md)
 
-### Does Search UI only work with Elasticsearch? [overview-does-search-ui-only-work-with-app-search]
+### [React API](./api-react-search-provider.md)
 
-Nope! We do have some first party connectors: Site Search and Elasticsearch Connector.
+React-specific utilities for accessing and interacting with the Core API.
 
-But Search UI is headless. You can use _any_ Search API.
+- [WithSearch & withSearch](./api-react-with-search.md)
+- [useSearch hook](./api-react-use-search.md)
 
-Read the [Building a custom connector](/reference/guides-building-custom-connector.md) to learn more about building your own connector for your API.
+## [React components](./api-react-components-search-box.md)
 
-### How do I use this with Elasticsearch? [overview-how-do-i-use-this-with-elasticsearch]
+Search UI includes a set of ready-to-use React components for building your search interface. This section documents each component's API and customization options.
 
-Read the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md) docs.
+- [Results](./api-react-components-results.md)
+- [Result](./api-react-components-result.md)
+- [ResultsPerPage](./api-react-components-results-per-page.md)
+- [Facet](./api-react-components-facet.md)
+- [Sorting](./api-react-components-sorting.md)
+- [Paging](./api-react-components-paging.md)
+- [PagingInfo](./api-react-components-paging-info.md)
+- [ErrorBoundary](./api-react-components-error-boundary.md)
 
-### Where do I report issues with the Search UI? [overview-where-do-i-report-issues-with-the-search-ui]
+## Connectors API
 
-If something is not working as expected, please open an [issue](https://github.com/elastic/search-ui/issues/new).
+Built-in connectors let Search UI talk to Elastic backends. This section documents how to configure each connector, including usage examples and integration details.
 
-### Where can I go to get help? [overview-where-can-i-go-to-get-help]
+- [Elasticsearch Connector](./api-connectors-elasticsearch.md): Connect directly to Elasticsearch indices using cloud or self-managed instances.
+- [Site Search Connector](./api-connectors-site-search.md): Use Elastic Site Search as a backend. Note: Some advanced Search UI features are not supported.
+- ⚠️ DEPRECATED [Workplace Search Connector](./api-connectors-workplace-search.md): Legacy connector for Elastic Workplace Search.
+- ⚠️ DEPRECATED [App Search Connector](./api-connectors-app-search.md): Legacy connector for Elastic App Search.
 
-The Enterprise Search team at Elastic maintains this library and are happy to help. Try posting your question to the [Elastic Enterprise Search](https://discuss.elastic.co/c/enterprise-search/84) discuss forums. Be sure to mention that you’re using Search UI and also let us know what backend your using; whether it’s App Search, Site Search, Elasticsearch, or something else entirely.
+## Plugins
 
-## Contribute 🚀 [overview-contribute]
+- ⚠️ DEPRECATED [Analytics Plugin](./api-core-plugins-analytics-plugin.md): Track user behavior and send events to Elastic Behavioral Analytics.
 
-We welcome contributors to the project. Before you begin, a couple notes…​
+## Known issues
 
-- Read the [Search UI Contributor’s Guide](https://github.com/elastic/search-ui/blob/main/CONTRIBUTING.md).
-- Prior to opening a pull request, please:
+- [Known issues](./known-issues.md)
 
-  - Create an issue to [discuss the scope of your proposal](https://github.com/elastic/search-ui/issues).
-  - Sign the [Contributor License Agreement](https://www.elastic.co/contributor-agreement/). We are not asking you to assign copyright to us, but to give us the right to distribute your code without restriction. We ask this of all contributors in order to assure our users of the origin and continuing existence of the code. You only need to sign the CLA once.
-
-- Please write simple code and concise documentation, when appropriate.
-
-## License 📗 [overview-license]
+## License [overview-license]
 
 [Apache-2.0](https://github.com/elastic/search-ui/blob/main/LICENSE.txt) © [Elastic](https://github.com/elastic)
 

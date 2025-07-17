@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-components-result.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Result [api-react-components-result]

@@ -3,6 +3,7 @@ mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/tutorials-elasticsearch-configure-search-ui.html
 applies_to:
   stack:
+  serverless:
 ---
 
 # Configure and Run Search UI [tutorials-elasticsearch-configure-search-ui-and-run]
