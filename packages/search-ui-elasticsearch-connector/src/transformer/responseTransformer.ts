@@ -30,7 +30,7 @@ export const transformSearchResponse = (
     facets,
     results: response.hits.hits.map(transformHitToFieldResult),
     requestId: "",
-    rawResponse: null
+    rawResponse: response
   };
 };
 
