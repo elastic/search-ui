@@ -11,7 +11,7 @@ export class SuggestionsAutocompleteBuilder extends BaseQueryBuilder {
     super(state);
   }
 
-  build() {
+  async build() {
     this.setSize(0);
     this.setSourceFields([]);
     this.setSuggest(this.buildSuggestion());

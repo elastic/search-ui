@@ -34,9 +34,9 @@ describe("SearchQueryBuilder", () => {
     ]
   };
 
-  it("should build search query", () => {
+  it("should build search query", async () => {
     const builder = new SearchQueryBuilder(state, queryConfig);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query).toEqual({
       _source: {
@@ -128,14 +128,14 @@ describe("SearchQueryBuilder", () => {
     });
   });
 
-  it("should handle empty search term", () => {
+  it("should handle empty search term", async () => {
     const emptyState: RequestState = {
       ...state,
       searchTerm: ""
     };
 
     const builder = new SearchQueryBuilder(emptyState, queryConfig);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query).toEqual({
       _source: { includes: ["title"] },
@@ -177,7 +177,7 @@ describe("SearchQueryBuilder", () => {
     });
   });
 
-  it("should handle custom search fields", () => {
+  it("should handle custom search fields", async () => {
     const customConfig: SearchQuery = {
       ...queryConfig,
       search_fields: {
@@ -187,7 +187,7 @@ describe("SearchQueryBuilder", () => {
     };
 
     const builder = new SearchQueryBuilder(state, customConfig);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query.query.bool.must[0].bool.should).toEqual([
       {
@@ -222,7 +222,7 @@ describe("SearchQueryBuilder", () => {
     ]);
   });
 
-  it("should handle multiple filters", () => {
+  it("should handle multiple filters", async () => {
     const multiFilterConfig: SearchQuery = {
       ...queryConfig,
       filters: [
@@ -243,7 +243,7 @@ describe("SearchQueryBuilder", () => {
     };
 
     const builder = new SearchQueryBuilder(state, multiFilterConfig);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query.query.bool.filter).toEqual([
       {
@@ -283,7 +283,7 @@ describe("SearchQueryBuilder", () => {
   });
 
   describe("aggregations", () => {
-    it("should handle range facet", () => {
+    it("should handle range facet", async () => {
       const rangeConfig: SearchQuery = {
         ...queryConfig,
         facets: {
@@ -298,7 +298,7 @@ describe("SearchQueryBuilder", () => {
       };
 
       const builder = new SearchQueryBuilder(state, rangeConfig);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.aggs).toEqual({
         facet_bucket_all: {
@@ -321,7 +321,7 @@ describe("SearchQueryBuilder", () => {
       });
     });
 
-    it("should handle geo distance facet", () => {
+    it("should handle geo distance facet", async () => {
       const geoConfig: SearchQuery = {
         ...queryConfig,
         facets: {
@@ -338,7 +338,7 @@ describe("SearchQueryBuilder", () => {
       };
 
       const builder = new SearchQueryBuilder(state, geoConfig);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.aggs).toEqual({
         facet_bucket_all: {
@@ -365,7 +365,7 @@ describe("SearchQueryBuilder", () => {
       });
     });
 
-    it("should handle multiple facets", () => {
+    it("should handle multiple facets", async () => {
       const multiFacetConfig: SearchQuery = {
         ...queryConfig,
         facets: {
@@ -381,7 +381,7 @@ describe("SearchQueryBuilder", () => {
       };
 
       const builder = new SearchQueryBuilder(state, multiFacetConfig);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.aggs).toEqual({
         facet_bucket_all: {
@@ -411,7 +411,7 @@ describe("SearchQueryBuilder", () => {
       });
     });
 
-    it("should handle custom facet size", () => {
+    it("should handle custom facet size", async () => {
       const customSizeConfig: SearchQuery = {
         ...queryConfig,
         facets: {
@@ -420,14 +420,14 @@ describe("SearchQueryBuilder", () => {
       };
 
       const builder = new SearchQueryBuilder(state, customSizeConfig);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(
         query.aggs.facet_bucket_all.aggs["category.keyword"].terms.size
       ).toBe(50);
     });
 
-    it("should handle facet sorting", () => {
+    it("should handle facet sorting", async () => {
       const sortedConfig: SearchQuery = {
         ...queryConfig,
         facets: {
@@ -436,14 +436,14 @@ describe("SearchQueryBuilder", () => {
       };
 
       const builder = new SearchQueryBuilder(state, sortedConfig);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(
         query.aggs.facet_bucket_all.aggs["category.keyword"].terms.order
       ).toEqual({ _key: "asc" });
     });
 
-    it("should handle disjunctive facets", () => {
+    it("should handle disjunctive facets", async () => {
       const disjunctiveConfig: SearchQuery = {
         ...queryConfig,
         disjunctiveFacets: ["category.keyword", "price"],
@@ -460,7 +460,7 @@ describe("SearchQueryBuilder", () => {
       };
 
       const builder = new SearchQueryBuilder(state, disjunctiveConfig);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.aggs).toEqual({
         facet_bucket_all: {
@@ -490,7 +490,7 @@ describe("SearchQueryBuilder", () => {
       });
     });
 
-    it("should handle must, must_not, and should filters in aggregations", () => {
+    it("should handle must, must_not, and should filters in aggregations", async () => {
       const stateWithFilters: RequestState = {
         searchTerm: "",
         resultsPerPage: 10,
@@ -510,7 +510,7 @@ describe("SearchQueryBuilder", () => {
         }
       };
       const builder = new SearchQueryBuilder(stateWithFilters, config);
-      const aggs = builder.build().aggs;
+      const aggs = (await builder.build()).aggs;
       expect(aggs).toEqual({
         facet_bucket_all: {
           aggs: {
@@ -592,7 +592,7 @@ describe("SearchQueryBuilder", () => {
   });
 
   describe("buildQuery", () => {
-    it("should not add filters that are also facets", () => {
+    it("should not add filters that are also facets", async () => {
       const stateWithFilters: RequestState = {
         ...state,
         searchTerm: "",
@@ -608,12 +608,12 @@ describe("SearchQueryBuilder", () => {
         stateWithFilters,
         configWithoutFilters
       );
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.query).toBeUndefined();
     });
 
-    it("should combine state filters and base filters when search term is empty", () => {
+    it("should combine state filters and base filters when search term is empty", async () => {
       const stateWithFilters: RequestState = {
         ...state,
         searchTerm: "",
@@ -646,7 +646,7 @@ describe("SearchQueryBuilder", () => {
         stateWithFilters,
         configWithFilters
       );
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.query).toEqual({
         bool: {
@@ -679,23 +679,23 @@ describe("SearchQueryBuilder", () => {
     });
 
     describe("fuzziness", () => {
-      it("should not add fuzziness when not configured", () => {
+      it("should not add fuzziness when not configured", async () => {
         const builder = new SearchQueryBuilder(state, queryConfig);
-        const query = builder.build();
+        const query = await builder.build();
 
         expect(
           query.query.bool.must[0].bool.should[0].multi_match.fuzziness
         ).toBeUndefined();
       });
 
-      it("should add AUTO fuzziness when configured", () => {
+      it("should add AUTO fuzziness when configured", async () => {
         const configWithFuzziness: SearchQuery = {
           ...queryConfig,
           fuzziness: true
         };
 
         const builder = new SearchQueryBuilder(state, configWithFuzziness);
-        const query = builder.build();
+        const query = await builder.build();
 
         expect(
           query.query.bool.must[0].bool.should[0].multi_match.fuzziness
@@ -738,7 +738,7 @@ describe("SearchQueryBuilder", () => {
   });
 
   describe("getQueryFn", () => {
-    it("should use custom query function when provided", () => {
+    it("should use custom query function when provided", async () => {
       const customQuery = {
         bool: {
           match: {
@@ -752,7 +752,7 @@ describe("SearchQueryBuilder", () => {
 
       const getQueryFn = jest.fn().mockReturnValue(customQuery);
       const builder = new SearchQueryBuilder(state, queryConfig, getQueryFn);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(getQueryFn).toHaveBeenCalledWith(state, queryConfig);
       expect(query.query).toEqual({
@@ -780,7 +780,7 @@ describe("SearchQueryBuilder", () => {
       });
     });
 
-    it("should combine custom query with filters", () => {
+    it("should combine custom query with filters", async () => {
       const customQuery = {
         bool: {
           must: [
@@ -810,7 +810,7 @@ describe("SearchQueryBuilder", () => {
         queryConfig,
         getQueryFn
       );
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.query).toEqual({
         bool: {

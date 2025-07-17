@@ -19,7 +19,7 @@ export class ResultsAutocompleteBuilder extends BaseQueryBuilder {
     super(state);
   }
 
-  build() {
+  async build() {
     this.setSize(this.size);
     this.setSourceFields(Object.keys(this.configuration.result_fields || {}));
     this.setHighlight(this.buildHighlight());
