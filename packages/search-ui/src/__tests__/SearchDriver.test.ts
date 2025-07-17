@@ -466,6 +466,8 @@ describe("tearDown", () => {
     driver.setSearchTerm("test");
     expect(called1).toBe(false); // Did not call, unsubscribed
     expect(called2).toBe(false); // Did not call, unsubscribed
+    expect(driver.searchRequestSequencer.lastCompleted).toBe(Infinity);
+
     expect(
       (MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls
         .length
