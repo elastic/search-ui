@@ -178,4 +178,38 @@ describe("ApiClientTransporter", () => {
 
     expect(response).toEqual(mockResponse);
   });
+
+  it("should handle basic host URLs without paths", async () => {
+    const transporter = createTransporter({
+      host: "https://elasticsearch.example.com:9200"
+    });
+
+    mockFetch.mockResolvedValueOnce({
+      json: () => Promise.resolve(mockResponse)
+    });
+
+    await transporter.performRequest({ query: { match_all: {} } });
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      "https://elasticsearch.example.com:9200/test-index/_search",
+      expect.any(Object)
+    );
+  });
+
+  it("should handle hosts with paths (reverse proxy scenarios)", async () => {
+    const transporter = createTransporter({
+      host: "https://some-host.com/apps/elastic/"
+    });
+
+    mockFetch.mockResolvedValueOnce({
+      json: () => Promise.resolve(mockResponse)
+    });
+
+    await transporter.performRequest({ query: { match_all: {} } });
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      "https://some-host.com/apps/elastic/test-index/_search",
+      expect.any(Object)
+    );
+  });
 });
