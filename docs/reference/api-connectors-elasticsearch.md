@@ -320,7 +320,34 @@ And respond with the standard Search UI response types:
 
 For a full working example with server setup, see the Using in [Production guide](/reference/tutorials-elasticsearch-production-usage.md) or jump to the [CodeSandbox](https://codesandbox.io/p/sandbox/github/elastic/search-ui/tree/main/examples/sandbox?file=/src/pages/elasticsearch-production-ready/index.jsx).
 
-#### Example Facet Configuration [api-connectors-elasticsearch-example-facet-configuration]
+## Facets [api-connectors-elasticsearch-facets]
+
+### Additional Facet Properties [api-connectors-elasticsearch-additional-facet-properties]
+
+The Elasticsearch Connector supports additional facet properties that are not available in other connectors:
+
+**For value facets:**
+
+- `direction` - Sort direction when `sort` is set to "value". Either "asc" or "desc". Defaults to "asc".
+- `include` - Regex pattern or array of values to include in facet results. Can be used to filter facet values.
+- `exclude` - Regex pattern or array of values to exclude from facet results. Can be used to filter out unwanted facet values.
+
+**Examples:**
+
+```js
+facets: {
+  states: {
+    type: "value",
+    size: 50,
+    sort: "value",
+    direction: "desc", // Sort alphabetically in descending order
+    include: "North\\s+\\w+", // Only include states starting with "North"
+    exclude: ["Alaska", "Hawaii"] // Exclude specific states
+  }
+}
+```
+
+### Example Facet Configuration [api-connectors-elasticsearch-example-facet-configuration]
 
 ```js
 {
@@ -335,11 +362,21 @@ For a full working example with server setup, see the Using in [Production guide
       { from: 5000001, to: 10000000, name: "5000001 - 10000000" },
       { from: 10000001, name: "10000001+" }
     ]
+  },
+  states: {
+    type: "value",
+    size: 30,
+    sort: "value",
+    direction: "desc", // Sort direction for value facets
+    include: "North\\s+\\w+", // Regex pattern to include specific values
+    exclude: ["excluded_state"] // Array of values to exclude
   }
 }
 ```
 
-#### How to apply the filter [api-connectors-elasticsearch-how-to-apply-the-filter]
+## Filters [api-connector-elasticsearch-filters]
+
+### How to apply the filter [api-connectors-elasticsearch-how-to-apply-the-filter]
 
 ```js
 setFilter("visitors", {
@@ -349,7 +386,7 @@ setFilter("visitors", {
 });
 ```
 
-#### Applying a range to a field that isn't a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
+### Applying a range filter to a field that isn't a facet [api-connectors-elasticsearch-applying-a-range-to-a-field-that-isnt-a-facet]
 
 If the field isn't a facet, you will be able to apply filters to the search using `value`, `numeric range` and `date range`, depending on the field type.
 
