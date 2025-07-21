@@ -40,17 +40,17 @@ export const handleAutocomplete = async (
   const next = (requestBody: SearchRequest) =>
     apiClient.performRequest(requestBody);
 
-  const buildResultHandler = (
+  const buildResultHandler = async (
     config: QueryConfig | ResultSuggestionConfiguration,
     type?: string
-  ): void => {
+  ) => {
     const builder = new ResultsAutocompleteBuilder(
       state,
       config,
       config.resultsPerPage || queryConfig.suggestions?.size || 5
     );
 
-    const request = builder.build();
+    const request = await builder.build();
 
     suggestionTasks.push(
       interceptAutocompleteResultsRequest(
@@ -76,17 +76,17 @@ export const handleAutocomplete = async (
     );
   };
 
-  const buildSuggestionHandler = (
+  const buildSuggestionHandler = async (
     config: SuggestionConfiguration,
     type: string
-  ): void => {
+  ) => {
     const builder = new SuggestionsAutocompleteBuilder(
       state,
       config,
       queryConfig.suggestions?.size || 5
     );
 
-    const request = builder.build();
+    const request = await builder.build();
 
     suggestionTasks.push(
       interceptAutocompleteSuggestionsRequest(
@@ -104,21 +104,21 @@ export const handleAutocomplete = async (
   };
 
   if (queryConfig.results) {
-    buildResultHandler(queryConfig.results);
+    await buildResultHandler(queryConfig.results);
   }
 
-  Object.entries(queryConfig.suggestions?.types || {}).forEach(
-    ([type, configuration]) => {
-      if (isResultSuggestionConfiguration(configuration)) {
-        buildResultHandler(configuration, type);
-      } else if (
-        !configuration.queryType ||
-        configuration.queryType === "suggestions"
-      ) {
-        buildSuggestionHandler(configuration, type);
-      }
+  for (const [type, configuration] of Object.entries(
+    queryConfig.suggestions?.types || {}
+  )) {
+    if (isResultSuggestionConfiguration(configuration)) {
+      await buildResultHandler(configuration, type);
+    } else if (
+      !configuration.queryType ||
+      configuration.queryType === "suggestions"
+    ) {
+      await buildSuggestionHandler(configuration, type);
     }
-  );
+  }
 
   await Promise.all(suggestionTasks);
 
