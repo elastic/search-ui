@@ -11,7 +11,7 @@ export abstract class BaseQueryBuilder {
 
   constructor(protected readonly state: RequestState) {}
 
-  abstract build(): SearchRequest;
+  abstract build(): Promise<SearchRequest>;
 
   getSize(): number {
     return this.query.size || 0;

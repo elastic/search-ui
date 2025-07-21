@@ -128,7 +128,51 @@ describe("responseTransformer", () => {
           }
         ],
         requestId: "",
-        rawResponse: null
+        rawResponse: {
+          _shards: {
+            failed: 0,
+            skipped: 0,
+            successful: 1,
+            total: 1
+          },
+          aggregations: {
+            facet_bucket_category: {
+              category: {
+                buckets: [
+                  {
+                    doc_count: 10,
+                    key: "electronics"
+                  },
+                  {
+                    doc_count: 20,
+                    key: "books"
+                  }
+                ]
+              }
+            }
+          },
+          hits: {
+            hits: [
+              {
+                _id: "1",
+                _index: "test",
+                _source: {
+                  description: "Test Description",
+                  title: "Test Title"
+                },
+                highlight: {
+                  title: ["<em>Test</em> Title"]
+                }
+              }
+            ],
+            total: {
+              relation: "eq",
+              value: 100
+            }
+          },
+          timed_out: false,
+          took: 1
+        }
       });
     });
 
@@ -166,7 +210,24 @@ describe("responseTransformer", () => {
         facets: {},
         results: [],
         requestId: "",
-        rawResponse: null
+        rawResponse: {
+          _shards: {
+            failed: 0,
+            skipped: 0,
+            successful: 1,
+            total: 1
+          },
+          aggregations: {},
+          hits: {
+            hits: [],
+            total: {
+              relation: "eq",
+              value: 0
+            }
+          },
+          timed_out: false,
+          took: 1
+        }
       });
     });
 
@@ -210,7 +271,24 @@ describe("responseTransformer", () => {
         facets: {},
         results: [],
         requestId: "",
-        rawResponse: null
+        rawResponse: {
+          _shards: {
+            failed: 0,
+            skipped: 0,
+            successful: 1,
+            total: 1
+          },
+          aggregations: {},
+          hits: {
+            hits: [],
+            total: {
+              relation: "eq",
+              value: 25
+            }
+          },
+          timed_out: false,
+          took: 1
+        }
       });
     });
 

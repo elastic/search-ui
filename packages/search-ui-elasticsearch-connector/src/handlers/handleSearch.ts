@@ -24,7 +24,7 @@ export const handleSearch = async (
   postProcessRequestBodyFn?: PostProcessRequestBodyFn
 ): Promise<ResponseState> => {
   const queryBuilder = new SearchQueryBuilder(state, queryConfig, getQueryFn);
-  let requestBody = queryBuilder.build();
+  let requestBody = await queryBuilder.build();
   let response;
 
   if (postProcessRequestBodyFn) {

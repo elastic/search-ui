@@ -454,6 +454,7 @@ describe("tearDown", () => {
     driver.subscribeToStateChanges(sub1);
     driver.subscribeToStateChanges(sub2);
     driver.setSearchTerm("test");
+    jest.spyOn(driver.searchRequestSequencer, "tearDown");
     expect(called1).toBe(true);
     expect(called2).toBe(true);
     expect(
@@ -466,6 +467,9 @@ describe("tearDown", () => {
     driver.setSearchTerm("test");
     expect(called1).toBe(false); // Did not call, unsubscribed
     expect(called2).toBe(false); // Did not call, unsubscribed
+    expect(driver.searchRequestSequencer.tearDown).toHaveBeenCalled();
+    expect(driver.searchRequestSequencer.lastCompleted).toBe(1);
+
     expect(
       (MockedURLManager.mock.instances[0].tearDown as jest.Mock).mock.calls
         .length

@@ -1,6 +1,9 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-connectors-site-search.html
+applies_to:
+  stack:
+  serverless:
 ---
 
 # Site Search Connector [api-connectors-site-search]

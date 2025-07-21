@@ -1,6 +1,9 @@
 ---
 mapped_pages:
   - https://www.elastic.co/guide/en/search-ui/current/api-react-components-error-boundary.html
+applies_to:
+  stack:
+  serverless:
 ---
 
 # ErrorBoundary [api-react-components-error-boundary]
