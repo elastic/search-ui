@@ -113,9 +113,6 @@ const config = {
     results: {
       fuzziness: true,
       search_fields: {
-        parks_search_as_you_type: {}
-      },
-      search_fields: {
         title: {
           weight: 3
         },
