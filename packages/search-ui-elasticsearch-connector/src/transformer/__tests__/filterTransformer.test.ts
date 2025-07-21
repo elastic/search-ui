@@ -355,7 +355,7 @@ describe("filterTransformer", () => {
       const result = transformFacetToAggs("category", facetConfig);
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        "Sorting by count and direction descending is not supported. Direction will be ignored."
+        "Sorting by count and direction ascending is not supported due to Elasticsearch warnings. Direction will be ignored."
       );
       expect(result).toEqual({
         terms: {
