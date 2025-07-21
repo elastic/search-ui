@@ -21,14 +21,14 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     super(state);
   }
 
-  build() {
+  async build() {
     this.setPagination(this.state.current, this.state.resultsPerPage);
     this.setSourceFields(Object.keys(this.queryConfig.result_fields || {}));
     this.setSort(this.buildSort());
     this.setHighlight(this.buildHighlight());
     this.setAggregations(this.buildAggregations());
     this.setPostFilter(this.buildPostFilter());
-    this.setQuery(this.buildQuery());
+    this.setQuery(await this.buildQuery());
 
     return this.query;
   }
@@ -129,14 +129,14 @@ export class SearchQueryBuilder extends BaseQueryBuilder {
     return postFilter?.length ? { bool: { must: postFilter } } : null;
   }
 
-  private buildQuery(): SearchRequest["query"] | null {
+  private async buildQuery(): Promise<SearchRequest["query"] | null> {
     const filtersDsl = this.buildQueryDslFilters();
-    const searchDsl = this.buildSearchDslQuery();
+    const searchDsl = await this.buildSearchDslQuery();
 
     return deepMergeObjects(searchDsl as Record<string, unknown>, filtersDsl);
   }
 
-  private buildSearchDslQuery() {
+  private async buildSearchDslQuery() {
     const searchQuery = this.state.searchTerm;
 
     if (!searchQuery) {

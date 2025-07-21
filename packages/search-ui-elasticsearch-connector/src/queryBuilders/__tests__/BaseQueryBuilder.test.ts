@@ -15,7 +15,7 @@ describe("BaseQueryBuilder", () => {
       return 0;
     }
 
-    build() {
+    async build() {
       return {};
     }
   }

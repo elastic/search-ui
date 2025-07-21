@@ -23,9 +23,9 @@ describe("ResultsAutocompleteBuilder", () => {
     }
   };
 
-  it("should build results autocomplete query", () => {
+  it("should build results autocomplete query", async () => {
     const builder = new ResultsAutocompleteBuilder(state, config, 5);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query).toEqual({
       size: 5,
@@ -53,14 +53,14 @@ describe("ResultsAutocompleteBuilder", () => {
     });
   });
 
-  it("should handle empty search term", () => {
+  it("should handle empty search term", async () => {
     const emptyState: RequestState = {
       ...state,
       searchTerm: ""
     };
 
     const builder = new ResultsAutocompleteBuilder(emptyState, config, 5);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query).toEqual({
       _source: {
@@ -75,14 +75,14 @@ describe("ResultsAutocompleteBuilder", () => {
     });
   });
 
-  it("should handle custom size", () => {
+  it("should handle custom size", async () => {
     const builder = new ResultsAutocompleteBuilder(state, config, 10);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query.size).toBe(10);
   });
 
-  it("should handle multiple search fields", () => {
+  it("should handle multiple search fields", async () => {
     const multiFieldConfig = {
       ...config,
       search_fields: {
@@ -92,7 +92,7 @@ describe("ResultsAutocompleteBuilder", () => {
     };
 
     const builder = new ResultsAutocompleteBuilder(state, multiFieldConfig, 5);
-    const query = builder.build();
+    const query = await builder.build();
 
     expect(query.query.bool.must[0].multi_match).toEqual({
       query: "test",
@@ -102,14 +102,14 @@ describe("ResultsAutocompleteBuilder", () => {
   });
 
   describe("fuzziness", () => {
-    it("should not add fuzziness when not configured", () => {
+    it("should not add fuzziness when not configured", async () => {
       const builder = new ResultsAutocompleteBuilder(state, config, 5);
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.query.bool.must[0].multi_match.fuzziness).toBeUndefined();
     });
 
-    it("should add AUTO fuzziness when configured", () => {
+    it("should add AUTO fuzziness when configured", async () => {
       const configWithFuzziness = {
         ...config,
         fuzziness: true
@@ -120,7 +120,7 @@ describe("ResultsAutocompleteBuilder", () => {
         configWithFuzziness,
         5
       );
-      const query = builder.build();
+      const query = await builder.build();
 
       expect(query.query.bool.must[0].multi_match.fuzziness).toBe("AUTO");
       expect(query.query.bool.must).toEqual([
