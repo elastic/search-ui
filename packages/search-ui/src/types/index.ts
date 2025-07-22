@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import type { SearchDriverActions } from "..";
 
 export type SortOption = {
@@ -154,6 +152,9 @@ export type FacetConfiguration = {
   center?: string;
   unit?: string;
   sort?: "count" | "value";
+  direction?: "asc" | "desc";
+  include?: string | string[];
+  exclude?: string | string[];
 };
 
 export type ConditionalRule = (state: { filters: Filter[] }) => boolean;

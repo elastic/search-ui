@@ -164,14 +164,25 @@ export const transformFacetToAggs = (
   if (facetConfiguration.type === "value") {
     const orderMap = {
       count: { _count: "desc" },
-      value: { _key: "asc" }
+      value: { _key: facetConfiguration.direction || "asc" }
     };
+
+    if (
+      facetConfiguration.direction !== "desc" &&
+      facetConfiguration.sort === "count"
+    ) {
+      console.warn(
+        "Sorting by count and direction ascending is not supported due to Elasticsearch warnings. Direction will be ignored."
+      );
+    }
 
     return {
       terms: {
         field: facetKey,
         size: facetConfiguration.size || 20,
-        order: orderMap[facetConfiguration.sort || "count"]
+        order: orderMap[facetConfiguration.sort || "count"],
+        include: facetConfiguration.include,
+        exclude: facetConfiguration.exclude
       }
     };
   } else if (

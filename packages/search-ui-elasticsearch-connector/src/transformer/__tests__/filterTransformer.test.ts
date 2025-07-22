@@ -319,5 +319,53 @@ describe("filterTransformer", () => {
         }
       });
     });
+
+    it("should transform value facet with parameters", () => {
+      const facetConfig: FacetConfiguration = {
+        type: "value",
+        sort: "value",
+        direction: "desc",
+        size: 30,
+        include: "electronics.*",
+        exclude: "books.*"
+      };
+
+      const result = transformFacetToAggs("category", facetConfig);
+
+      expect(result).toEqual({
+        terms: {
+          field: "category",
+          size: 30,
+          order: { _key: "desc" },
+          include: "electronics.*",
+          exclude: "books.*"
+        }
+      });
+    });
+
+    it("should show warning when sort is count and direction is not desc", () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+
+      const facetConfig: FacetConfiguration = {
+        type: "value",
+        sort: "count",
+        direction: "asc"
+      };
+
+      const result = transformFacetToAggs("category", facetConfig);
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Sorting by count and direction ascending is not supported due to Elasticsearch warnings. Direction will be ignored."
+      );
+      expect(result).toEqual({
+        terms: {
+          field: "category",
+          size: 20,
+          order: { _count: "desc" }
+        }
+      });
+
+      consoleSpy.mockRestore();
+    });
   });
 });
