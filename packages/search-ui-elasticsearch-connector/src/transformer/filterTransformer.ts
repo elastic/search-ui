@@ -163,18 +163,9 @@ export const transformFacetToAggs = (
 ) => {
   if (facetConfiguration.type === "value") {
     const orderMap = {
-      count: { _count: "desc" },
+      count: { _count: facetConfiguration.direction || "desc" },
       value: { _key: facetConfiguration.direction || "asc" }
     };
-
-    if (
-      facetConfiguration.direction !== "desc" &&
-      facetConfiguration.sort === "count"
-    ) {
-      console.warn(
-        "Sorting by count and direction ascending is not supported due to Elasticsearch warnings. Direction will be ignored."
-      );
-    }
 
     return {
       terms: {
