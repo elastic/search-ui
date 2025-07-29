@@ -328,7 +328,7 @@ The Elasticsearch Connector supports additional facet properties that are not av
 
 **For value facets:**
 
-- `direction` - Sort direction when `sort` is set to "value". Either "asc" or "desc". Defaults to "asc".
+- `direction` - Sort direction for facet. Either "asc" or "desc". Defaults to "asc". **Note:** When using sort by "count" with ascending direction the results may be inaccurate.
 - `include` - Regex pattern or array of values to include in facet results. Can be used to filter facet values.
 - `exclude` - Regex pattern or array of values to exclude from facet results. Can be used to filter out unwanted facet values.
 
@@ -367,7 +367,7 @@ facets: {
     type: "value",
     size: 30,
     sort: "value",
-    direction: "desc", // Sort direction for value facets
+    direction: "desc", // Sort direction for facet
     include: "North\\s+\\w+", // Regex pattern to include specific values
     exclude: ["excluded_state"] // Array of values to exclude
   }

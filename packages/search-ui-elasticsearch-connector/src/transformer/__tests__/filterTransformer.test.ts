@@ -343,7 +343,7 @@ describe("filterTransformer", () => {
       });
     });
 
-    it("should show warning when sort is count and direction is not desc", () => {
+    it("should transform value facet with count sort and direction asc", () => {
       const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
 
       const facetConfig: FacetConfiguration = {
@@ -354,14 +354,11 @@ describe("filterTransformer", () => {
 
       const result = transformFacetToAggs("category", facetConfig);
 
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Sorting by count and direction ascending is not supported due to Elasticsearch warnings. Direction will be ignored."
-      );
       expect(result).toEqual({
         terms: {
           field: "category",
           size: 20,
-          order: { _count: "desc" }
+          order: { _count: "asc" }
         }
       });
 

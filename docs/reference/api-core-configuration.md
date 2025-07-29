@@ -134,24 +134,24 @@ Tells Search UI to fetch facet data that can be used with Facet Components.
   }
 ```
 
-| field       | type         | description                                                                                                                                                                                                       |
-| ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`      | string       | **Required.** Type of facet. Either "value" or "range".                                                                                                                                                           |
-| `size`      | number       | **Optional.** Number of facet values to return. Defaults to 20.                                                                                                                                                   |
-| `sort`      | string       | **Optional.** Sort order for facet values. Either "count" or "value". Defaults to "count".                                                                                                                        |
-| `ranges`    | array        | **Required for range facets.** Array of range objects with `from`, `to`, and `name` properties.                                                                                                                   |
-| `center`    | string       | **Required for geo range facets.** Center point coordinates (e.g., "37.7749, -122.4194").                                                                                                                         |
-| `unit`      | string       | **Required for geo range facets.** Distance unit (e.g., "mi", "km").                                                                                                                                              |
-| `direction` | string       | **Optional.** **Only available in the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).** Sort direction for value facets when `sort` is "value". Either "asc" or "desc". Defaults to "asc". |
-| `include`   | string/array | **Optional.** **Only available in the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).** Regex pattern or array of values to include in facet results.                                      |
-| `exclude`   | string/array | **Optional.** **Only available in the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).** Regex pattern or array of values to exclude from facet results.                                    |
+| field       | type         | description                                                                                                                                                                                                                                                                      |
+| ----------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`      | string       | **Required.** Type of facet. Either "value" or "range".                                                                                                                                                                                                                          |
+| `size`      | number       | **Optional.** Number of facet values to return. Defaults to 20.                                                                                                                                                                                                                  |
+| `sort`      | string       | **Optional.** Sort order for facet values. Either "count" or "value". Defaults to "count".                                                                                                                                                                                       |
+| `ranges`    | array        | **Required for range facets.** Array of range objects with `from`, `to`, and `name` properties.                                                                                                                                                                                  |
+| `center`    | string       | **Required for geo range facets.** Center point coordinates (e.g., "37.7749, -122.4194").                                                                                                                                                                                        |
+| `unit`      | string       | **Required for geo range facets.** Distance unit (e.g., "mi", "km").                                                                                                                                                                                                             |
+| `direction` | string       | **Optional.** **Only available in the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).** Sort direction for facet. Either "asc" or "desc". Defaults to "asc". **Note:** When using sort by "count" with ascending direction the results may be inaccurate. |
+| `include`   | string/array | **Optional.** **Only available in the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).** Regex pattern or array of values to include in facet results.                                                                                                     |
+| `exclude`   | string/array | **Optional.** **Only available in the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md).** Regex pattern or array of values to exclude from facet results.                                                                                                   |
 
 ::::{important}
 **Elasticsearch Connector Only Properties**
 
 The following facet properties are only supported by the [Elasticsearch Connector](/reference/api-connectors-elasticsearch.md):
 
-- `direction` - Sort direction for value facets
+- `direction` - Sort direction for facet values. **Note:** When using sort by "count" with ascending direction the results may be inaccurate.
 - `include` - Regex pattern or array of values to include in facet results
 - `exclude` - Regex pattern or array of values to exclude from facet results
 
