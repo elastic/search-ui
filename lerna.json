@@ -1,5 +1,13 @@
 {
-  "packages": ["examples/*", "packages/*"],
+  "packages": [
+    "examples/*",
+    "packages/search-ui",
+    "packages/react-search-ui",
+    "packages/react-search-ui-views",
+    "packages/search-ui-elasticsearch-connector",
+    "packages/search-ui-engines-connector",
+    "packages/search-ui-site-search-connector"
+  ],
   "version": "1.24.1",
   "npmClient": "yarn",
   "command": {
@@ -10,7 +18,8 @@
         "**/*.md",
         "**/src/test/**",
         "packages/search-ui-workplace-search-connector/**",
-        "packages/search-ui-app-search-connector/**"
+        "packages/search-ui-app-search-connector/**",
+        "packages/search-ui-analytics-plugin/**"
       ],
       "registry": "https://registry.npmjs.org/",
       "message": "Release: %s"
