@@ -10,7 +10,7 @@
     "elasticsearch",
     "vue"
   ],
-  "version": "1.24.1",
+  "version": "1.24.2",
   "private": true,
   "scripts": {
     "dev": "vite",

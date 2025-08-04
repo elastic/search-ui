@@ -8,7 +8,7 @@
     "packages/search-ui-engines-connector",
     "packages/search-ui-site-search-connector"
   ],
-  "version": "1.24.1",
+  "version": "1.24.2",
   "npmClient": "yarn",
   "command": {
     "publish": {
