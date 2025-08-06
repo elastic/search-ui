@@ -19,11 +19,11 @@ We **strongly recommend** proxying requests through your backend using `ApiProxy
 See [Using in Production](/reference/tutorials-elasticsearch-production-usage.md) for best practices.
 ::::
 
-Search UI provides a way to connect to Elasticsearch directly without needing Enterprise Search. This is useful for when you dont need the features of Enterprise Search, such as relevance tuning.
+Search UI provides a built-in connector for querying Elasticsearch directly using its native APIs. This gives you full control over your search implementation, including query customization, autocomplete, facets, and filters.
 
 The connector uses the same Search UI configuration that other connectors use.
 
-You must specify either the cloud id or on-premise host url for the Elasticsearch connector.
+You must specify either the **Cloud ID** or an **on-premise host URL** for the Elasticsearch connector.
 
 ```ts
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector";
