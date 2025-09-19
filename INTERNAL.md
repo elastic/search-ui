@@ -73,7 +73,7 @@ option for this.
 1. In project you'll need to install all dependencies explicitly with the canary tag from npm:
 
    ```
-   npm install --save @elastic/react-search-ui@canary @elastic/search-ui-app-search-connector@canary @elastic/react-search-ui-views@canary search-ui-views@canary
+   npm install --save @elastic/react-search-ui@canary @elastic/search-ui-app-search-connector@canary @elastic/react-search-ui-views@canary
    ```
 
 1. To check your changes, simply push them to the `canary` branch, then visit https://codesandbox.io/s/github/elastic/search-ui/tree/canary/examples/sandbox
