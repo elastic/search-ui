@@ -75,5 +75,5 @@ The `getQueryFn` hook only replaces the query part of the request body. Filters 
 ::::{admonition} Note
 :class: important
 
-This example uses Elasticsearch's built-in semantic search. Make sure you have configured the inference pipeline and the field is properly mapped in your index. See [](docs-content://solutions/search/semantic-search) documentation for setup instructions.
+This example uses Elasticsearch's built-in semantic search. Make sure you have configured the inference pipeline and the field is properly mapped in your index. See [](docs-content://solutions/search/semantic-search.md) documentation for setup instructions.
 ::::
