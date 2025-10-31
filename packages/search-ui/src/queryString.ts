@@ -1,4 +1,4 @@
-import queryString from "qs";
+import queryString from "neoqs/legacy";
 import preserveTypesEncoder from "./preserveTypesEncoder";
 
 export default {
