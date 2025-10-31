@@ -7,7 +7,7 @@ import { Engines } from "./Engines";
 const connector = new EnginesAPIConnector({
   host: "http://localhost:3002",
   engineName: "puggles",
-  apiKey: "WnRHcE9wb0Jzb241b2hqX1lTcnM6X0syVXBuQXVUTjZwSlRTbFNyTVlDUQ=="
+  apiKey: "QTJDMHhJVUJENHg5WEJWcXlrWVQ6dXFlcF9QRWdRWHl2Rm9iSndka1Rndw=="
 });
 
 const config = {
