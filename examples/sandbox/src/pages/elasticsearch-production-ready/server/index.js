@@ -13,7 +13,7 @@ const connector = new ElasticsearchAPIConnector({
   index: process.env.ELASTICSEARCH_INDEX || "national-parks",
   apiKey:
     process.env.ELASTICSEARCH_API_KEY ||
-    "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
+    "WnRHcE9wb0Jzb241b2hqX1lTcnM6X0syVXBuQXVUTjZwSlRTbFNyTVlDUQ=="
 });
 
 app.use(cors());
@@ -48,7 +48,6 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res) => {
-  // eslint-disable-next-line no-console
   console.error("Server error:", err.stack);
   res
     .status(500)

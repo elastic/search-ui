@@ -7,7 +7,7 @@ import "@elastic/react-search-ui-views/lib/styles/styles.css";
 const connector = new ElasticSearchAPIConnector({
   host: "https://search-ui-sandbox.es.us-central1.gcp.cloud.es.io:9243",
   index: "national-parks",
-  apiKey: "SlUzdWE0QUJmN3VmYVF2Q0F6c0I6TklyWHFIZ3lTbHF6Yzc2eEtyeWFNdw=="
+  apiKey: "WnRHcE9wb0Jzb241b2hqX1lTcnM6X0syVXBuQXVUTjZwSlRTbFNyTVlDUQ=="
 });
 
 const config = {
