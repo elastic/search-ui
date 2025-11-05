@@ -1,5 +1,5 @@
 import type { RequestState, SearchQuery } from "@elastic/search-ui";
-import type { ResponseBody } from "../../types";
+import type { ResponseBody, SearchResponseWithError } from "../../types";
 import { handleSearch } from "../handleSearch";
 import { IApiClientTransporter } from "../../transporter/ApiClientTransporter";
 
@@ -413,5 +413,203 @@ describe("Search results", () => {
       expect.any(Function)
     );
     expect(mockPerformRequest).toHaveBeenCalledWith(modifiedRequestBody);
+  });
+
+  describe("Elasticsearch error handling", () => {
+    it("should throw error with root_cause reason when available", async () => {
+      const errorResponse: SearchResponseWithError = {
+        ...mockResponse,
+        error: {
+          root_cause: [
+            {
+              type: "query_shard_exception",
+              reason:
+                "failed to create query: field:[test] was indexed without position data; cannot run PhraseQuery",
+              index_uuid: "index_uuid",
+              index: "index"
+            }
+          ],
+          type: "search_phase_execution_exception",
+          reason: "all shards failed",
+          phase: "query",
+          grouped: true,
+          failed_shards: [
+            {
+              shard: 0,
+              index: "index",
+              node: "node",
+              reason: {
+                type: "query_shard_exception",
+                reason:
+                  "failed to create query: field:[test] was indexed without position data; cannot run PhraseQuery",
+                index_uuid: "index_uuid",
+                index: "index",
+                caused_by: {
+                  type: "illegal_state_exception",
+                  reason:
+                    "field:[test] was indexed without position data; cannot run PhraseQuery"
+                }
+              }
+            }
+          ]
+        }
+      };
+
+      class ElasticsearchErrorApiClient extends MockApiClientTransporter {
+        async performRequest(): Promise<SearchResponseWithError> {
+          return errorResponse;
+        }
+      }
+
+      const errorPromise = handleSearch(
+        state,
+        queryConfig,
+        new ElasticsearchErrorApiClient()
+      );
+
+      await expect(errorPromise).rejects.toThrow(
+        "failed to create query: field:[test] was indexed without position data; cannot run PhraseQuery"
+      );
+
+      await expect(errorPromise).rejects.toMatchObject({
+        elasticsearchError: errorResponse.error
+      });
+
+      const error = await errorPromise.catch((e) => e);
+      expect(error.elasticsearchError.root_cause).toHaveLength(1);
+      expect(error.elasticsearchError.root_cause?.[0].type).toBe(
+        "query_shard_exception"
+      );
+      expect(error.elasticsearchError.failed_shards).toHaveLength(1);
+      expect(error.elasticsearchError.failed_shards?.[0].shard).toBe(0);
+    });
+
+    it("should fall back to main error reason when root_cause is not available", async () => {
+      const errorResponse: SearchResponseWithError = {
+        ...mockResponse,
+        error: {
+          type: "parsing_exception",
+          reason: "Unknown query [invalid_query]"
+        }
+      };
+
+      class ElasticsearchErrorApiClient extends MockApiClientTransporter {
+        async performRequest(): Promise<SearchResponseWithError> {
+          return errorResponse;
+        }
+      }
+
+      const errorPromise = handleSearch(
+        state,
+        queryConfig,
+        new ElasticsearchErrorApiClient()
+      );
+
+      await expect(errorPromise).rejects.toThrow(
+        "Unknown query [invalid_query]"
+      );
+
+      await expect(errorPromise).rejects.toMatchObject({
+        elasticsearchError: errorResponse.error
+      });
+
+      const error = await errorPromise.catch((e) => e);
+      expect(error.elasticsearchError.type).toBe("parsing_exception");
+    });
+
+    it("should use default error message when no reason is available", async () => {
+      const errorResponse: SearchResponseWithError = {
+        ...mockResponse,
+        error: {
+          type: "unknown_exception"
+        } as any
+      };
+
+      class ElasticsearchErrorApiClient extends MockApiClientTransporter {
+        async performRequest(): Promise<SearchResponseWithError> {
+          return errorResponse;
+        }
+      }
+
+      const errorPromise = handleSearch(
+        state,
+        queryConfig,
+        new ElasticsearchErrorApiClient()
+      );
+
+      await expect(errorPromise).rejects.toThrow("Elasticsearch search failed");
+
+      await expect(errorPromise).rejects.toMatchObject({
+        elasticsearchError: errorResponse.error
+      });
+    });
+
+    it("should handle complex nested error structure", async () => {
+      const complexErrorResponse: SearchResponseWithError = {
+        ...mockResponse,
+        error: {
+          root_cause: [
+            {
+              type: "query_shard_exception",
+              reason: "failed to create query",
+              index_uuid: "abc123",
+              index: "test_index",
+              caused_by: {
+                type: "illegal_state_exception",
+                reason: "field was indexed without position data"
+              }
+            }
+          ],
+          type: "search_phase_execution_exception",
+          reason: "all shards failed",
+          phase: "query",
+          grouped: true,
+          failed_shards: [
+            {
+              shard: 0,
+              index: "test_index",
+              node: "node1",
+              reason: {
+                type: "query_shard_exception",
+                reason: "failed to create query",
+                index_uuid: "abc123",
+                index: "test_index"
+              }
+            },
+            {
+              shard: 1,
+              index: "test_index",
+              node: "node2",
+              reason: {
+                type: "query_shard_exception",
+                reason: "failed to create query",
+                index_uuid: "abc123",
+                index: "test_index"
+              }
+            }
+          ]
+        }
+      };
+
+      class ComplexErrorApiClient extends MockApiClientTransporter {
+        async performRequest(): Promise<SearchResponseWithError> {
+          return complexErrorResponse;
+        }
+      }
+
+      const errorPromise = handleSearch(
+        state,
+        queryConfig,
+        new ComplexErrorApiClient()
+      );
+
+      await expect(errorPromise).rejects.toThrow("failed to create query");
+
+      const error = await errorPromise.catch((e) => e);
+      expect(error.elasticsearchError.failed_shards).toHaveLength(2);
+      expect(error.elasticsearchError.root_cause?.[0].caused_by?.type).toBe(
+        "illegal_state_exception"
+      );
+    });
   });
 });
