@@ -61,3 +61,31 @@ export type RequestModifiers = {
     queryConfig: QueryConfig
   ) => Query | Promise<Query>;
 };
+
+export interface ElasticsearchErrorCause {
+  type: string;
+  reason: string;
+  index_uuid?: string;
+  index?: string;
+  caused_by?: ElasticsearchErrorCause;
+}
+
+export interface ElasticsearchFailedShard {
+  shard: number;
+  index: string;
+  node: string;
+  reason: ElasticsearchErrorCause;
+}
+
+export interface ElasticsearchError {
+  root_cause?: ElasticsearchErrorCause[];
+  type: string;
+  reason: string;
+  phase?: string;
+  grouped?: boolean;
+  failed_shards?: ElasticsearchFailedShard[];
+}
+
+export interface SearchResponseWithError extends ResponseBody {
+  error?: ElasticsearchError;
+}
