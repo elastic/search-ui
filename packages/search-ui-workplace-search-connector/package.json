@@ -39,8 +39,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@elastic/search-ui": "1.24.1",
-    "query-string": "^7.1.1"
+    "@elastic/search-ui": "1.24.1"
   },
   "exports": {
     ".": {

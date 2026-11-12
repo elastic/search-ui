@@ -1,4 +1,3 @@
-import queryString from "query-string";
 import { adaptResponse } from "./responseAdapter";
 import { adaptRequest } from "./requestAdapters";
 import buildResponseAdapterOptions from "./buildResponseAdapterOptions";
@@ -159,10 +158,11 @@ class WorkplaceSearchAPIConnector implements APIConnector {
     // 3) Returning from OAuth: the new accessToken is in the URL, the old one is not relevant anymore
 
     // First, we get the accessToken from the URL
-    const parsedUrlHash = queryString.parse(window.location.hash);
-    const accessTokenFromUrl = Array.isArray(parsedUrlHash.access_token)
-      ? "" // we don't expect multiple access tokens
-      : parsedUrlHash.access_token;
+    const accessTokensFromUrl = new URLSearchParams(
+      window.location.hash.replace(/^#/, "")
+    ).getAll("access_token");
+    const accessTokenFromUrl =
+      accessTokensFromUrl.length === 1 ? accessTokensFromUrl[0] : ""; // we don't expect multiple access tokens
     // TODO: maybe clear the URL afterwards?
 
     // If access_token is in url, that means we're returning from OAuth, so we add new accessToken to localStorage
