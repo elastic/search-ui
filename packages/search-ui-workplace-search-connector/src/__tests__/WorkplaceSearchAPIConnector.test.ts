@@ -166,6 +166,26 @@ describe("WorkplaceSearchAPIConnector", () => {
       await subject();
       expect(fetch).toHaveBeenCalledTimes(1);
     });
+
+    it("will use the url access token with other hash params and encoded characters", async () => {
+      window.location.hash = "#state=abc&access_token=fake%2Btoken%20x&b=1";
+      localStorage.clear();
+
+      await subject();
+      expect(localStorage.getItem("SearchUIWorkplaceSearchAccessToken")).toBe(
+        "fake+token x"
+      );
+    });
+
+    it("will ignore the url access token if it appears more than once", async () => {
+      window.location.hash = "access_token=one&access_token=two";
+      localStorage.clear();
+
+      await subject();
+      expect(
+        localStorage.getItem("SearchUIWorkplaceSearchAccessToken")
+      ).toBeNull();
+    });
   });
 
   describe("onSearch", () => {
